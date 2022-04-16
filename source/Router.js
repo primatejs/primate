@@ -14,9 +14,14 @@ export default {
   "get": (path, callback) => push("get", path, callback),
   "post": (path, callback) => push("post", path, callback),
   "alias": (key, value) => aliases.push({key, value}),
-  "process": async request => {
-    const {pathname, method} = request;
-    request.path = pathname.split("/").filter(path => path !== "");
+  "process": async original_request => {
+    const {method} = original_request;
+    const url = new URL(`https://primatejs.com${original_request.pathname}`);
+    const {pathname, searchParams} = url;
+    const params = Object.fromEntries(searchParams);
+    const request = {...original_request, pathname, params,
+      "path": pathname.split("/").filter(path => path !== ""),
+    };
     const verb = find(method, pathname, () => http404``);
     return verb(await find("map", pathname, _ => _)(request));
   },
