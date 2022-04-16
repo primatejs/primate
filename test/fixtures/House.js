@@ -1,0 +1,2 @@
+import House from "./domains/House.js";
+export default () => House;

@@ -1,0 +1,7 @@
+{
+  "type":  "Must be an array",
+  "length": "Must be $1 items in length",
+  "min": "Must be at least $1 items in length",
+  "max": "Must be at most $1 items in length",
+  "between": "Must be between $1 and $2 items in length"
+}

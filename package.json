@@ -1,0 +1,28 @@
+{
+  "name": "primate",
+  "version": "0.6.0",
+  "author": "Primate core team <core@primatejs.com>",
+  "homepage": "https://primatejs.com",
+  "bugs": "https://github.com/primatejs/primate/issues",
+  "repository": "https://github.com/primatejs/primate",
+  "description": "Server-client framework",
+  "license": "BSD-3-Clause",
+  "scripts": {
+    "copy": "rm -rf output && mkdir output && cp source/* output -a",
+    "instrument": "nyc instrument source ./output",
+    "debris": "node --experimental-json-modules node_modules/debris debris.json",
+    "coverage": "npm run instrument && nyc npm run debris",
+    "test": "npm run copy && npm run debris"
+  },
+  "devDependencies": {
+    "debris": "^0.2.2",
+    "eslint": "^8.13.0",
+    "eslint-plugin-json": "^3.1.0",
+    "nyc": "^15.1.0"
+  },
+  "type": "module",
+  "exports": "./source/exports.js",
+  "engines": {
+    "node": ">=17.9.0"
+  }
+}

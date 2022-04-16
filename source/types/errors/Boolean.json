@@ -1,0 +1,5 @@
+{
+  "type": "Must be a boolean",
+  "true": "Must be true",
+  "false": "Must be false"
+}

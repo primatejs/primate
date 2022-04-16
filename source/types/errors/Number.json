@@ -1,0 +1,9 @@
+{
+  "type": "Must be a number",
+  "integer": "Must be an integer",
+  "positive": "Must be a positive number",
+  "negative": "Must be a negative number",
+  "between": "Must be between $1 and $2",
+  "min": "Must be at least $1",
+  "max": "Must be at most $1"
+}

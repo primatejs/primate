@@ -1,0 +1,11 @@
+{
+  "type": "Must be a string",
+  "length": "Must be $1 characters in length",
+  "min": "Must be at least $1 characters in length",
+  "max": "Must be at most $1 characters in length",
+  "between": "Must be between $1 and $2 characters in length",
+  "lowercase": "Must be lowercase",
+  "uppercase": "Must be uppercase",
+  "alphanumeric": "Must be alphanumeric",
+  "regex": "Must adhere to the regular expression pattern '$1'"
+}
