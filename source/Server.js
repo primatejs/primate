@@ -46,7 +46,7 @@ export default class Server {
       }
 
       const data = Buffer.concat(buffers).toString();
-      const payload = Object.fromEntries(data
+      const payload = Object.fromEntries(decodeURI(data).replaceAll("+", " ")
         .split("&")
         .map(part => part.split("="))
         .filter(([, value]) => value !== ""));
