@@ -89,7 +89,7 @@ export default class Node {
     }
   }
 
-  as_tag() {
+  async render() {
     let tag = "<" + this.tag_name;
     for (const [key, value] of Object.entries(this.attributes)) {
       if (value === undefined) {
@@ -109,18 +109,14 @@ export default class Node {
     } else {
       tag += ">";
       for (const child of this.children) {
-        tag += child.as_tag();
+        tag += await child.render();
       }
       if (this.text) {
-        tag += this.text;
+        tag += await this.text;
       }
       tag += "</" + this.tag_name + ">";
     }
     return tag;
-  }
-
-  render() {
-    return this.as_tag();
   }
 
   compose(components) {
@@ -144,11 +140,11 @@ export default class Node {
     }
   }
 
-  expand() {
+  async expand() {
     if (this.attributes["data-for"] !== undefined) {
       const key = this.attributes["data-for"];
       delete this.attributes["data-for"];
-      const value = this.data[key];
+      const value = await this.data[key];
       const arr = Array.isArray(value) ? value : [value];
       const newparent = new Node();
       for (const val of arr) {
@@ -177,7 +173,7 @@ export default class Node {
       }
     }
     for (let i = 0; i < this.children.length; i++) {
-      this.children[i] = this.children[i].expand();
+      this.children[i] = await this.children[i].expand();
     }
     return this;
   }

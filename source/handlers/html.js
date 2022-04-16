@@ -15,11 +15,11 @@ if (await File.exists(path)) {
 
 export default async (strings, ...keys) => {
   const awaited_keys = await Promise.all(keys);
-  const body = Parser.parse(strings
+  const body = await (await Parser.parse(strings
     .slice(0, last)
     .map((string, i) => `${string}$${i}`)
     .join("") + strings[strings.length+last], awaited_keys)
-    .unfold(components)
+    .unfold(components))
     .render();
   const code = 200;
   const headers = {"Content-Type": "text/html"};
