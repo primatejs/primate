@@ -4,7 +4,6 @@ import File from "./File.js";
 import Directory from "./Directory.js";
 import Router from "./Router.js";
 import Server from "./Server.js";
-import cache from "./cache.js";
 import log from "./log.js";
 import package_json from "../package.json" assert {"type": "json"};
 
@@ -12,18 +11,6 @@ export default class App {
   constructor(conf) {
     this.conf = conf;
     this.Bundler = Bundler;
-  }
-
-  get routes() {
-    return cache(this, "routes", async () => {
-      try {
-        const path = `${this.conf.root}/routes.json`;
-        return (await import(path, {"assert": {"type": "json"}})).default;
-      } catch (error) {
-        // local routes.json not required
-        return [];
-      }
-    });
   }
 
   async run() {

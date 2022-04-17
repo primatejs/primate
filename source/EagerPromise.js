@@ -10,14 +10,12 @@ const handler = {
       return promise[property].bind(promise);
     }
 
-    return EagerPromise.resolve(promise.then(result => {
-      if (property === "bind") {
-        return result;
-      }
-      return inconstructible_function(result[property])
+    return EagerPromise.resolve(promise.then(result => property === "bind"
+      ? result
+      : inconstructible_function(result[property])
         ? result[property].bind(result)
-        : result[property];
-    }));
+        : result[property]
+    ));
   },
   "apply": (target, that, args) =>
     EagerPromise.resolve(target[$promise].then(result =>
