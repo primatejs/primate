@@ -164,9 +164,8 @@ export default class Node {
               this.text = fulfilled;
             }
             break;
-          case "data-href":
-            fulfill(this.attributes[attribute], this.data);
-            this.attributes.href = fulfilled;
+          default:
+            this.attributes[attribute.slice(5)] = fulfilled;
             break;
         }
         delete this.attributes[attribute];
