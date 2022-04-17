@@ -17,8 +17,8 @@ npm install primate
 * Built-in support for sessions with secure cookies
 * Input verification using data domains
 * Many different data store modules: In-Memory (built-in),
-[File][primate-store-file], [JSON][primate-store-json],
-[MongoDB][primate-store-mongodb]
+[File][primate-file-store], [JSON][primate-json-store],
+[MongoDB][primate-mongodb-store]
 * Easy modelling of`1:1`, `1:n` and `n:m` relationships
 * Minimally opinionated with sane, overrideable defaults
 * No dependencies
@@ -34,6 +34,6 @@ BSD-3-Clause
 [getting-started]: https://primatejs.com/getting-started
 [source-code]: https://github.com/primatejs/primate
 [issues]: https://github.com/primatejs/primate/issues
-[primate-store-file]: https://npmjs.com/primate-store-file
-[primate-store-json]: https://npmjs.com/primate-store-json
-[primate-store-mongodb]: https://npmjs.com/primate-store-mongodb
+[primate-file-store]: https://npmjs.com/primate-file-store
+[primate-json-store]: https://npmjs.com/primate-json-store
+[primate-mongodb-store]: https://npmjs.com/primate-mongodb-store
