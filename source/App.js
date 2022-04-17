@@ -10,7 +10,6 @@ import package_json from "../package.json" assert {"type": "json"};
 export default class App {
   constructor(conf) {
     this.conf = conf;
-    this.Bundler = Bundler;
   }
 
   async run() {
@@ -20,7 +19,7 @@ export default class App {
     for (const route of routes) {
       await import(`${this.conf.paths.routes}/${route}`);
     }
-    await new this.Bundler(this.conf).bundle();
+    await new Bundler(this.conf).bundle();
 
     const conf = {"router": Router,
       "serve_from": this.conf.paths.public,
@@ -32,12 +31,6 @@ export default class App {
     };
     this.server = new Server(conf);
     await this.server.run();
-
-    const {port, host} = this.conf.http;
-    this.server.listen(port, host);
-  }
-
-  stop() {
-    this.server.close();
+    this.server.listen();
   }
 }
