@@ -8,7 +8,6 @@ export {default as File} from "./File.js";
 export {default as EagerPromise, eager} from "./EagerPromise.js" ;
 
 export {default as Domain} from "./domain/Domain.js";
-export {default as domains} from "./domain/domains.js";
 export {default as Storeable} from "./types/Storeable.js";
 
 export * from "./errors.js";
@@ -22,7 +21,9 @@ export {default as extend_object} from "./extend_object.js";
 export {default as sanitize} from "./sanitize.js";
 
 export {default as html} from "./handlers/html.js";
+export {default as json} from "./handlers/json.js";
 export {default as redirect} from "./handlers/redirect.js";
+
 export {default as router} from "./Router.js";
 
 const app = new App(conf());

@@ -86,14 +86,13 @@ export default class Server {
     const res = await this.conf.router.process(request2);
     const {body, code, headers} = res;
 
-    const result = this.conf.index.replace("<body>", () => `<body>${body}`);
     for (const [key, value] of Object.entries(headers)) {
       response.setHeader(key, value);
     }
     response.setHeader("Content-Security-Policy", this.csp);
     response.setHeader("Referrer-Policy", "same-origin");
     response.writeHead(code);
-    response.end(result);
+    response.end(body);
   }
 
   listen(port, host) {

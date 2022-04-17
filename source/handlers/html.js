@@ -1,10 +1,11 @@
 import Parser from "./DOM/Parser.js";
-import conf from "../conf.js";
+import _conf from "../conf.js";
 import Directory from "../Directory.js";
 import File from "../File.js";
+const conf = _conf();
 
 const last = -1;
-const {paths: {"components": path}} = conf();
+const {paths: {"components": path}} = conf;
 const components = {};
 if (await File.exists(path)) {
   const names = await Directory.list(path);
@@ -13,14 +14,20 @@ if (await File.exists(path)) {
   }
 }
 
+let index;
+
 export default async (strings, ...keys) => {
+  if (index === undefined) {
+    index = await File.read(`${conf.paths.static}/${conf.files.index}`);
+  }
   const awaited_keys = await Promise.all(keys);
-  const body = await (await Parser.parse(strings
+  const rendered = await (await Parser.parse(strings
     .slice(0, last)
     .map((string, i) => `${string}$${i}`)
     .join("") + strings[strings.length+last], awaited_keys)
     .unfold(components))
     .render();
+  const body = index.replace("<body>", () => `<body>${rendered}`);
   const code = 200;
   const headers = {"Content-Type": "text/html"};
   return {code, body, headers};

@@ -20,9 +20,9 @@ export default class App {
     for (const route of routes) {
       await import(`${this.conf.paths.routes}/${route}`);
     }
-    const index = await new this.Bundler(this.conf).bundle();
+    await new this.Bundler(this.conf).bundle();
 
-    const conf = {index, "router": Router,
+    const conf = {"router": Router,
       "serve_from": this.conf.paths.public,
       "http": {
         ...this.conf.http,

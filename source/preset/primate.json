@@ -1,9 +1,6 @@
 {
   "base": "/",
   "debug": false,
-  "defaults": {
-    "context": "guest"
-  },
   "files": {
     "index": "index.html"
   },
@@ -24,7 +21,6 @@
     "same-site": "Strict"
   },
   "paths": {
-    "domains": "domains",
     "public": "public",
     "static": "static",
     "routes": "routes",

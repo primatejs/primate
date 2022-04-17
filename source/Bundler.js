@@ -34,10 +34,7 @@ export default class Bundler {
     // copy static files to public
     await this.copy_with_preset("static", paths.public);
 
-    // read index.html from public, then remove it (we serve it dynamically)
-    const index_html = await File.read(`${paths.public}/${this.index}`);
+    // remove index.html from public (we serve it dynamically)
     await File.remove(`${paths.public}/${this.index}`);
-
-    return index_html;
   }
 }
