@@ -7,8 +7,76 @@ expressive code.
 ## Installing
 
 ```
-npm install primate
+$ npm install primate
 ```
+
+## Quick start
+
+Lay out your app
+
+```
+$ mkdir -p primate-app/{routes,components,ssl} && cd primate-app
+```
+
+Create a route for `/`
+
+```
+// routes/site.js
+
+import {router, html} from "primate";
+
+router.get("/", () => html`<site-index date=${new Date()} />`);
+```
+
+Create component for your route
+
+```
+// components/site-index.html
+
+Today's date is <span data-value="date"></span>.
+```
+
+Generate SSL key/certificate
+
+```
+openssl req -x509 -out ssl/default.crt -keyout ssl/default.key -newkey rsa:2048 -nodes -sha256 -batch
+```
+
+Add an entry file
+
+```
+// app.js
+
+import {app} from "primate";
+app.run();
+```
+
+Create and start script and enable ES modules
+
+```
+// package.json
+
+{
+  "scripts": {
+    "start": "node --experimental-json-modules app.js"
+  },
+  "type": "module"
+}
+```
+
+Install Primate
+
+```
+$ npm install primate
+```
+
+Run app
+
+```
+$ npm start
+```
+
+Visit `https://localhost:9999`
 
 ## Highlights
 
@@ -23,9 +91,9 @@ npm install primate
 * Minimally opinionated with sane, overrideable defaults
 * No dependencies
 
-## Getting started
+## Resources
 
-See the [getting started][getting-started] guide.
+* [Getting started guide]
 
 ## License
 
