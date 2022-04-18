@@ -44,6 +44,6 @@ const last = -1;
 const eager = async (strings, ...keys) =>
   (await Promise.all(strings.slice(0, last).map(async (string, i) =>
     strings[i] + await keys[i]
-  ))).join("") + strings[strings.length+last];
+  ))).join("") + strings.at(last);
 
 export {eager};
