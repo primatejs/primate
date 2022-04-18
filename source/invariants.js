@@ -25,7 +25,7 @@ const is = {
 const {defined} = is;
 
 const maybe = Object.keys(is).reduce((aggregator, property) => {
-  aggregator[property] = value => nullish(value) || is[property](value);
+  aggregator[property] = (...args) => nullish(args[0]) || is[property](...args);
   return aggregator;
 }, {});
 
