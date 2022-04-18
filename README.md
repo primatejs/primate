@@ -14,13 +14,13 @@ $ npm install primate
 
 Lay out your app
 
-```
+```sh
 $ mkdir -p primate-app/{routes,components,ssl} && cd primate-app
 ```
 
 Create a route for `/`
 
-```
+```js
 // routes/site.js
 
 import {router, html} from "primate";
@@ -28,34 +28,30 @@ import {router, html} from "primate";
 router.get("/", () => html`<site-index date=${new Date()} />`);
 ```
 
-Create component for your route
+Create a component for your route (in `components/site-index.html`)
 
-```
-// components/site-index.html
-
+```html
 Today's date is <span data-value="date"></span>.
 ```
 
 Generate SSL key/certificate
 
-```
+```sh
 openssl req -x509 -out ssl/default.crt -keyout ssl/default.key -newkey rsa:2048 -nodes -sha256 -batch
 ```
 
 Add an entry file
 
-```
+```js
 // app.js
 
 import {app} from "primate";
 app.run();
 ```
 
-Create and start script and enable ES modules
+Create a start script and enable ES modules (in `package.json`)
 
-```
-// package.json
-
+```json
 {
   "scripts": {
     "start": "node --experimental-json-modules app.js"
@@ -66,13 +62,13 @@ Create and start script and enable ES modules
 
 Install Primate
 
-```
+```sh
 $ npm install primate
 ```
 
 Run app
 
-```
+```sh
 $ npm start
 ```
 
@@ -93,7 +89,7 @@ Visit `https://localhost:9999`
 
 ## Resources
 
-* [Getting started guide]
+* [Getting started guide][getting-started]
 
 ## License
 
