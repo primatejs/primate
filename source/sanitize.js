@@ -1,10 +1,8 @@
-export default (payload = {}) => Object.keys(payload)
-  .map(key => ({key, "value": payload[key].toString().trim()}))
-  .map(datum => {
-    datum.value = datum.value === "" ? undefined : datum.value;
-    return datum;
-  })
-  .reduce((data, {key, value}) => {
-    data[key] = value;
-    return data;
-  }, {});
+import {is} from "./invariants.js";
+import map_entries from "./map_entries.js";
+
+export default (dirty = {}) => is.object(dirty)
+  && map_entries(dirty, (key, value) => {
+    const trimmed = value.toString().trim();
+    return [key, trimmed === "" ? undefined : trimmed];
+  });

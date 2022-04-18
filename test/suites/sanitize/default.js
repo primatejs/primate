@@ -22,4 +22,8 @@ test.case("removes empty strings", (assert, sanitize) => {
   assert(sanitize(input)).equals(output);
 });
 
+test.case("first param not object", (assert, sanitize) => {
+  assert(() => sanitize(null)).throws("must be object");
+});
+
 export default test;
