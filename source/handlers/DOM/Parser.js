@@ -74,12 +74,19 @@ export default class Parser {
     }
   }
 
+  try_create_text_node() {
+    if (this.buffer.length > 0) {
+      const child = new Node(this.node, "span");
+      child.text = this.buffer;
+      this.buffer = "";
+    }
+  }
+
   // currently outside of a tag
   process_not_reading_tag() {
     // encountered '<'
     if (this.current === "<") {
-      this.node.text = this.buffer;
-      this.buffer = "";
+      this.try_create_text_node();
       // mark as inside tag
       this.reading_tag = true;
       if (this.next === "/") {
@@ -111,6 +118,8 @@ export default class Parser {
     if (this.balance !== 0) {
       throw Error(`unbalanced DOM tree: ${this.balance}`);
     }
+    // anything left at the end could be potentially a text node
+    this.try_create_text_node();
     return this.tree;
   }
 
