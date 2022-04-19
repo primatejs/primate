@@ -1,5 +1,4 @@
 import {constructible, nullish} from "./attributes.js";
-import map_entries from "./map_entries.js";
 
 const errored = error => {
   if (typeof error === "function") {

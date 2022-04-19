@@ -1,4 +1,4 @@
-import {resolve} from "path";
+import {Path} from "runtime-compat";
 const preset = "../preset/stores";
 
 export default class Store {
@@ -21,7 +21,7 @@ export default class Store {
   static async get(directory, file) {
     let store;
     try {
-      store = await import(resolve(`${directory}/${file}`));
+      store = await import(Path.resolve(`${directory}/${file}`));
     } catch(error) {
       store = await import(`${preset}/${file}`);
     }

@@ -1,10 +1,10 @@
+import {Crypto} from "runtime-compat";
 import Field from "./Field.js";
 import {PredicateError} from "../errors.js";
 import EagerPromise from "../EagerPromise.js";
 import Store from "../store/Store.js";
 import cache from "../cache.js";
 import DomainType from "../types/Domain.js";
-import {random} from "../crypto.js";
 
 const length = 12;
 
@@ -23,7 +23,7 @@ export default class Domain {
     this.define("_id", {
       "type": String,
       "predicates": ["unique"],
-      "in": value => value ?? random(length).toString("hex"),
+      "in": value => value ?? Crypto.random(length).toString("hex"),
     });
     return new Proxy(this, {"get": (target, property, receiver) =>
       Reflect.get(target, property, receiver) ?? target.#proxy(property),

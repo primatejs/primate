@@ -14,6 +14,9 @@
     "coverage": "npm run instrument && nyc npm run debris",
     "test": "npm run copy && npm run debris"
   },
+  "dependencies": {
+    "runtime-compat": "^0.1.0"
+  },
   "devDependencies": {
     "debris": "^0.2.2",
     "eslint": "^8.13.0",

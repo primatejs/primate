@@ -1,6 +1,5 @@
+import {File} from "runtime-compat";
 import Parser from "./DOM/Parser.js";
-import Directory from "../Directory.js";
-import File from "../File.js";
 import {index} from "../Bundler.js";
 import _conf from "../conf.js";
 const conf = _conf();
@@ -9,7 +8,7 @@ const last = -1;
 const {"paths": {"components": path}} = conf;
 const components = {};
 if (await File.exists(path)) {
-  const names = await Directory.list(path);
+  const names = await File.list(path);
   for (const name of names) {
     components[name.slice(0, -5)] = await File.read(`${path}/${name}`);
   }

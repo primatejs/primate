@@ -1,9 +1,7 @@
-import {dirname} from "path";
-import {fileURLToPath} from "url";
-import File from "./File.js";
+import {Path, File} from "runtime-compat";
 
-const meta_url = fileURLToPath(import.meta.url);
-const directory = dirname(meta_url);
+const meta_url = new Path(import.meta.url).path;
+const directory = Path.dirname(meta_url);
 const preset = `${directory}/preset`;
 
 export default class Bundler {
@@ -22,7 +20,7 @@ export default class Bundler {
 
     // copy any user code over it, not recreating the folder
     try {
-      await File.copy(paths[subdirectory], to, false);
+      await File.copy(paths[subdirectory], to);
     } catch(error) {
       // directory doesn't exist
     }
