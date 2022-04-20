@@ -110,8 +110,6 @@ permissions.
 * [Routes](#routes)
 * [Handlers](#handlers)
 * [Components](#components)
-* [Domains](#domains)
-* [Verification](#verification)
 
 ## Routes
 
