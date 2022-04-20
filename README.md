@@ -1,8 +1,8 @@
-# Primate, A JavaScript Framework
+# Primate, a cross-runtime framework
 
-A full-stack Javascript framework, Primate relieves you of dealing with
-repetitive, error-prone tasks and lets you concentrate on writing effective,
-expressive code.
+Primate is a full-stack cross-runtime Javascript framework (Node.js and Deno).
+It relieves you of dealing with repetitive, error-prone tasks and lets you
+concentrate on writing effective, expressive code.
 
 ## Highlights
 
@@ -15,9 +15,11 @@ expressive code.
 [MongoDB][primate-mongodb-store]
 * Easy modelling of`1:1`, `1:n` and `n:m` relationships
 * Minimally opinionated with sane, overrideable defaults
-* No dependencies
+* Supports both Node.js and Deno
 
 ## Getting started
+
+### Prepare
 
 Lay out your app
 
@@ -56,6 +58,8 @@ import {app} from "primate";
 app.run();
 ```
 
+### Run on Node.js
+
 Create a start script and enable ES modules (in `package.json`)
 
 ```json
@@ -79,7 +83,27 @@ Run app
 $ npm start
 ```
 
-Visit `https://localhost:9999`
+### Run on Deno
+
+Create an import map file (`import-map.json`)
+
+```json
+{
+  "imports": {
+    "runtime-compat": "https://deno.land/x/runtime_compat/exports.js",
+    "primate": "https:/deno.land/x/primate/exports.js"
+  }
+}
+```
+
+Run app
+
+```
+deno run --import-map=import-map.json app.js
+```
+
+You will typically need the `allow-read`, `allow-write` and `allow-net`
+permissions.
 
 ## Table of Contents
 
