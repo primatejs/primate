@@ -29,6 +29,11 @@ export default class Bundler {
   async bundle() {
     const {paths} = this.conf;
 
+    // remove public directory in case exists
+    await File.remove(paths.public);
+    // create public directory
+    await File.create(paths.public);
+
     // copy static files to public
     await this.copy_with_preset("static", paths.public);
 
