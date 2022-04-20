@@ -13,7 +13,7 @@ export default class App {
     log.reset("Primate").yellow(package_json.version);
     const routes = await File.list(this.conf.paths.routes);
     for (const route of routes) {
-      await import(Path.resolve(`${this.conf.paths.routes}/${route}`));
+      await import(`file://${this.conf.paths.routes}/${route}`);
     }
     await new Bundler(this.conf).bundle();
 
