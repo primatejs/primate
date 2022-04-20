@@ -40,7 +40,7 @@ router.get("/", () => html`<site-index date=${new Date()} />`);
 Create a component for your route (in `components/site-index.html`)
 
 ```html
-Today's date is <span data-value="date"></span>.
+Today's date is <span data-value="${date}"></span>.
 ```
 
 Generate SSL key/certificate
@@ -257,10 +257,10 @@ router.post("/user/edit/_id", request => {
 <form method="post">
   <h1>Edit user</h1>
   <p>
-    <input name="user.name" data-value="user.name"></textarea>
+    <input name="user.name" data-value="${user.name}"></textarea>
   </p>
   <p>
-    <input name="user.email" data-value="user.email"></textarea>
+    <input name="user.email" data-value="${user.email}"></textarea>
   </p>
   <input type="submit" value="Save user" />
 </form>
@@ -272,13 +272,13 @@ You can use the special attribute `data-for` to group objects.
 
 ```html
 <!-- components/edit-user.html -->
-<form data-for="user" method="post">
+<form data-for="${user}" method="post">
   <h1>Edit user</h1>
   <p>
-    <input name="name" data-value="name" />
+    <input name="name" data-value="${name}" />
   </p>
   <p>
-    <input name="email" data-value="email" />
+    <input name="email" data-value="${email}" />
   </p>
   <input type="submit" value="Save user" />
 </form>
@@ -303,9 +303,9 @@ router.get("/users", request => {
 
 ```html
 <!-- in components/user-index.html -->
-<div data-for="users">
-  User <span data-value="name"></span>
-  Email <span data-value="email"></span>
+<div data-for="${users}">
+  User <span data-value="${name}"></span>
+  Email <span data-value="${email}"></span>
 </div>
 ```
 
