@@ -30,12 +30,12 @@ export default class Server {
         response.setHeader("Set-Cookie", `${cookie}; SameSite=${same_site}`);
       }
       response.session = session;
-      const body = await request.body;
-      const payload = Object.fromEntries(decodeURI(body).replaceAll("+", " ")
+      const text = await request.text();
+      const payload = Object.fromEntries(decodeURI(text).replaceAll("+", " ")
         .split("&")
         .map(part => part.split("="))
         .filter(([, value]) => value !== ""));
-      const {pathname, search} = new URL(`https://1${request.url}`);
+      const {pathname, search} = request.url;
       return this.try(pathname + search, request, response, payload);
     });
   }
