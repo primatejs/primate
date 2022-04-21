@@ -2,6 +2,7 @@ import Parser from "./Parser.js";
 
 const replacement_regex = /^\$([0-9]*)$/;
 const data_regex = /\${([^}]*)}/g;
+const attributes_regex = /([-a-z]*="[^"]+")/g;
 const replace = (attribute, source) => {
   if (attribute.includes(".")) {
     const index = attribute.indexOf(".");
@@ -18,16 +19,17 @@ const fulfill = (attribute, source) => {
   if (source === undefined) {
     return undefined;
   }
-  let value;
+  let value = attribute;
   const matches = [...attribute.matchAll(data_regex)];
   if (matches.length > 0) {
     for (const match of matches) {
       const [key] = match;
       const new_value = replace(match[1], source);
+      if (attribute === key) {
+        return new_value;
+      }
       value = attribute.replace(key, new_value);
     }
-  } else {
-    value = replace(attribute, source);
   }
   return value;
 };
@@ -43,7 +45,8 @@ export default class Node {
     this.#data = data;
     this.attributes = {};
     if (content !== undefined) {
-      const [tag_name, ...attributes] = content.split(" ");
+      const [tag_name] = content.split(" ");
+      const attributes = content.match(attributes_regex) ?? [];
       this.tag_name = tag_name;
       for (const attribute of attributes
         .map(a => a.replaceAll("\"", ""))
@@ -144,7 +147,7 @@ export default class Node {
     if (this.attributes["data-for"] !== undefined) {
       const key = this.attributes["data-for"];
       delete this.attributes["data-for"];
-      const value = await this.data[key];
+      const value = await fulfill(key, this.data);
       const arr = Array.isArray(value) ? value : [value];
       const newparent = new Node();
       for (const val of arr) {

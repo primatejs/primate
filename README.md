@@ -34,7 +34,7 @@ Create a route for `/`
 
 import {router, html} from "primate";
 
-router.get("/", () => html`<site-index date=${new Date()} />`);
+router.get("/", () => html`<site-index date="${new Date()}" />`);
 ```
 
 Create a component for your route (in `components/site-index.html`)
