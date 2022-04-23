@@ -144,9 +144,9 @@ export default class Node {
   }
 
   async expand() {
-    if (this.attributes["data-for"] !== undefined) {
-      const key = this.attributes["data-for"];
-      delete this.attributes["data-for"];
+    if (this.attributes["for"] !== undefined) {
+      const key = this.attributes["for"];
+      delete this.attributes["for"];
       const value = await fulfill(key, this.data);
       const arr = Array.isArray(value) ? value : [value];
       const newparent = new Node();
@@ -157,21 +157,19 @@ export default class Node {
       return newparent.expand();
     }
     for (const attribute in this.attributes) {
-      if (attribute.startsWith("data-")) {
-        const fulfilled = fulfill(this.attributes[attribute], this.data);
-        switch(attribute) {
-          case "data-value":
-            if (this.tag_name === "input") {
-              this.attributes.value = fulfilled;
-            } else {
-              this.text = fulfilled;
-            }
-            break;
-          default:
-            this.attributes[attribute.slice(5)] = fulfilled;
-            break;
-        }
-        delete this.attributes[attribute];
+      const fulfilled = fulfill(this.attributes[attribute], this.data);
+      console.log("attribute", attribute, fulfilled);
+      switch(attribute) {
+        case "value":
+          if (this.tag_name === "input") {
+            this.attributes.value = fulfilled;
+          } else {
+            this.text = fulfilled;
+          }
+          break;
+        default:
+          this.attributes[attribute] = fulfilled;
+          break;
       }
     }
     for (let i = 0; i < this.children.length; i++) {

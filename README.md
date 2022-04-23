@@ -40,7 +40,7 @@ router.get("/", () => html`<site-index date="${new Date()}" />`);
 Create a component for your route (in `components/site-index.html`)
 
 ```html
-Today's date is <span data-value="${date}"></span>.
+Today's date is <span value="${date}"></span>.
 ```
 
 Generate SSL key/certificate
@@ -226,8 +226,8 @@ Redirects to `url`. Returns an HTTP 302 response.
 
 ## Components
 
-Create HTML components in the `components` directory. Use `data`-attributes to
-show data within your component.
+Create HTML components in the `components` directory. Use attributes to expose
+passed data within your component.
 
 ```js
 // in routes/user.js
@@ -261,28 +261,28 @@ router.post("/user/edit/_id", request => {
 <form method="post">
   <h1>Edit user</h1>
   <p>
-    <input name="user.name" data-value="${user.name}"></textarea>
+    <input name="user.name" value="${user.name}"></textarea>
   </p>
   <p>
-    <input name="user.email" data-value="${user.email}"></textarea>
+    <input name="user.email" value="${user.email}"></textarea>
   </p>
   <input type="submit" value="Save user" />
 </form>
 ```
 
-### Grouping objects with `data-for`
+### Grouping objects with `for`
 
-You can use the special attribute `data-for` to group objects.
+You can use the special attribute `for` to group objects.
 
 ```html
 <!-- components/edit-user.html -->
-<form data-for="${user}" method="post">
+<form for="${user}" method="post">
   <h1>Edit user</h1>
   <p>
-    <input name="name" data-value="${name}" />
+    <input name="name" value="${name}" />
   </p>
   <p>
-    <input name="email" data-value="${email}" />
+    <input name="email" value="${email}" />
   </p>
   <input type="submit" value="Save user" />
 </form>
@@ -290,7 +290,7 @@ You can use the special attribute `data-for` to group objects.
 
 ### Expanding arrays
 
-`data-for` can also be used to expand arrays.
+`for` can also be used to expand arrays.
 
 ```js
 // in routes/user.js
@@ -307,9 +307,9 @@ router.get("/users", request => {
 
 ```html
 <!-- in components/user-index.html -->
-<div data-for="${users}">
-  User <span data-value="${name}"></span>
-  Email <span data-value="${email}"></span>
+<div for="${users}">
+  User <span value="${name}"></span>
+  Email <span value="${email}"></span>
 </div>
 ```
 
