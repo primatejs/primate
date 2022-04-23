@@ -1,8 +1,7 @@
-# Primate, a cross-runtime framework
+# Primate 
 
-Primate is a full-stack cross-runtime Javascript framework (Node.js and Deno).
-It relieves you of dealing with repetitive, error-prone tasks and lets you
-concentrate on writing effective, expressive code.
+A full-stack Javascript framework with data verification and server-side HTML
+rendering.
 
 ## Highlights
 
