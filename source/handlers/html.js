@@ -16,11 +16,11 @@ if (await File.exists(path)) {
 
 export default async (strings, ...keys) => {
   const awaited_keys = await Promise.all(keys);
-  const rendered = await (await Parser.parse(strings
+  const rendered = await (await (await Parser.parse(strings
     .slice(0, last)
     .map((string, i) => `${string}$${i}`)
     .join("") + strings[strings.length+last], awaited_keys)
-    .unfold(components))
+    .unfold(components)))
     .render();
   const body = (await index(conf)).replace("<body>", () => `<body>${rendered}`);
   const code = 200;

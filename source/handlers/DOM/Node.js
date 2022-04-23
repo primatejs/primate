@@ -67,11 +67,7 @@ export default class Node {
   }
 
   get data() {
-    if (this.#data !== undefined) {
-      return this.#data;
-    } else {
-      return this.parent?.data;
-    }
+    return this.#data ?? this.parent?.data;
   }
 
   set data(value) {
@@ -122,13 +118,13 @@ export default class Node {
     return tag;
   }
 
-  compose(components) {
+  async compose(components) {
     if (components[this.tag_name]) {
-      return Parser.parse(components[this.tag_name], this.attributes);
+      return Parser.parse(components[this.tag_name], this.attributes)
+        .compose(components);
     }
-    for (let i = 0; i < this.children.length; i++) {
-      this.children[i] = this.children[i].compose(components);
-    }
+    this.children = await Promise.all(this.children.map(child =>
+      child.compose(components)));
     return this;
   }
 
@@ -139,7 +135,7 @@ export default class Node {
       cloned.attributes[attribute] = this.attributes[attribute];
     }
     for (const child of this.children) {
-      child.clone(cloned);
+      child.clone(cloned, child.data !== this.data ? child.data : undefined);
     }
   }
 
@@ -158,7 +154,6 @@ export default class Node {
     }
     for (const attribute in this.attributes) {
       const fulfilled = fulfill(this.attributes[attribute], this.data);
-      console.log("attribute", attribute, fulfilled);
       switch(attribute) {
         case "value":
           if (this.tag_name === "input") {
@@ -178,7 +173,7 @@ export default class Node {
     return this;
   }
 
-  unfold(components) {
-    return this.compose(components).expand();
+  async unfold(components) {
+    return (await this.compose(components)).expand();
   }
 }
