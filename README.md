@@ -193,13 +193,15 @@ router.map("/user/edit/_id", request => {
 
 router.get("/user/edit/_id", request => {
   // show user edit form
-  return html`<user-edit user=${request.user} />`
+  return html`<user-edit user="${request.user}" />`
 });
 
 router.post("/user/edit/_id", request => {
   const {user} = request;
   // verify form and save / show errors
-  return await user.save() ? redirect`/users` : html`<user-edit user=${user} />`
+  return await user.save()
+    ? redirect`/users`
+    : html`<user-edit user="${user}" />`
 });
 ```
 
@@ -241,14 +243,16 @@ router.map("/user/edit/_id", request => {
 
 router.get("/user/edit/_id", request => {
   // show user edit form
-  return html`<user-edit user=${request.user} />`
+  return html`<user-edit user="${request.user}" />`
 });
 
 router.post("/user/edit/_id", request => {
   const {user, payload} = request;
   // verify form and save / show errors
   // this assumes `user` has a method `save` to verify data
-  return await user.save(payload) ? redirect`/users` : html`<user-edit user=${user} />`
+  return await user.save(payload)
+    ? redirect`/users`
+    : html`<user-edit user="${user}" />`
 });
 ```
 
@@ -297,7 +301,7 @@ router.get("/users", request => {
    {"name": "Donald", "email": "donald@was.here"},
    {"name": "Ryan", "email": "ryan@was.here"},
   ];
-  return html`<user-index users=${users} />`;
+  return html`<user-index users="${users}" />`;
 });
 ```
 
