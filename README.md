@@ -208,7 +208,7 @@ router.post("/user/edit/_id", request => {
 
 Handlers are tagged template functions usually associated with data.
 
-### ``html`<component-name attribute=${value} />` ``
+### ``html`<component-name attribute="${value}" />` ``
 
 Compiles and serves a component from the `components` directory and with the
 specified attributes and their values. Returns an HTTP 200 response with the
@@ -260,10 +260,10 @@ router.post("/user/edit/_id", request => {
 <form method="post">
   <h1>Edit user</h1>
   <p>
-    <input name="user.name" value="${user.name}"></textarea>
+    <input name="name" value="${user.name}"></textarea>
   </p>
   <p>
-    <input name="user.email" value="${user.email}"></textarea>
+    <input name="email" value="${user.email}"></textarea>
   </p>
   <input type="submit" value="Save user" />
 </form>
