@@ -20,6 +20,9 @@ export {default as sanitize} from "./source/sanitize.js";
 export {default as html} from "./source/handlers/html.js";
 export {default as json} from "./source/handlers/json.js";
 export {default as redirect} from "./source/handlers/redirect.js";
+export {http404} from "./source/handlers/http.js";
+
+export {default as DOMParser} from "./source/handlers/DOM/Parser.js";
 
 export {default as router} from "./source/Router.js";
 
