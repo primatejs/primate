@@ -59,7 +59,8 @@ app.run();
 
 ### Run on Node.js
 
-Create a start script and enable ES modules (in `package.json`)
+Create a start script in `package.json` to use JSON modules, which are required.
+Optionally add `{"type": "module"}` to treat `js` files as ES modules.
 
 ```json
 {
@@ -192,7 +193,7 @@ router.map("/user/edit/_id", request => {
 
 router.get("/user/edit/_id", request => {
   // show user edit form
-  return html`<user-edit user="${request.user}" />`
+  return html`<user-edit user="${request.user}" />`;
 });
 
 router.post("/user/edit/_id", request => {
@@ -200,7 +201,7 @@ router.post("/user/edit/_id", request => {
   // verify form and save / show errors
   return await user.save()
     ? redirect`/users`
-    : html`<user-edit user="${user}" />`
+    : html`<user-edit user="${user}" />`;
 });
 ```
 
@@ -242,7 +243,7 @@ router.map("/user/edit/_id", request => {
 
 router.get("/user/edit/_id", request => {
   // show user edit form
-  return html`<user-edit user="${request.user}" />`
+  return html`<user-edit user="${request.user}" />`;
 });
 
 router.post("/user/edit/_id", request => {
@@ -251,7 +252,7 @@ router.post("/user/edit/_id", request => {
   // this assumes `user` has a method `save` to verify data
   return await user.save(payload)
     ? redirect`/users`
-    : html`<user-edit user="${user}" />`
+    : html`<user-edit user="${user}" />`;
 });
 ```
 
