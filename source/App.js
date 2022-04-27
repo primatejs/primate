@@ -1,5 +1,5 @@
 import {Path, File, log} from "runtime-compat";
-import Bundler from "./Bundler.js";
+import {default as Bundler, index} from "./Bundler.js";
 import Router from "./Router.js";
 import Server from "./Server.js";
 import package_json from "../package.json" assert {"type": "json"};
@@ -16,6 +16,7 @@ export default class App {
       await import(`file://${this.conf.paths.routes}/${route}`);
     }
     await new Bundler(this.conf).bundle();
+    this.index = await index(this.conf);
 
     const conf = {"router": Router,
       "serve_from": this.conf.paths.public,

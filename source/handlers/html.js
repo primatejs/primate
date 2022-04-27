@@ -4,7 +4,6 @@ import {index} from "../Bundler.js";
 import _conf from "../conf.js";
 const conf = _conf();
 
-const last = -1;
 const {"paths": {"components": path}} = conf;
 const components = {};
 if (await File.exists(path)) {
@@ -14,16 +13,16 @@ if (await File.exists(path)) {
   }
 }
 
+const last = -1;
 export default async (strings, ...keys) => {
-  const awaited_keys = await Promise.all(keys);
-  const rendered = await (await (await Parser.parse(strings
+  const html = await (await (await Parser.parse(strings
     .slice(0, last)
     .map((string, i) => `${string}$${i}`)
-    .join("") + strings[strings.length+last], awaited_keys)
+    .join("") + strings[strings.length + last], await Promise.all(keys))
     .unfold(components)))
     .render();
-  const body = (await index(conf)).replace("<body>", () => `<body>${rendered}`);
+  const body = (await index(conf)).replace("<body>", () => `<body>${html}`);
   const code = 200;
   const headers = {"Content-Type": "text/html"};
-  return {code, body, headers};
+  return {body, code, headers};
 };

@@ -19,7 +19,7 @@ export default {
     const url = new URL(`https://primatejs.com${original_request.pathname}`);
     const {pathname, searchParams} = url;
     const params = Object.fromEntries(searchParams);
-    const verb = find(method, pathname, () => ({"handler": http404``}));
+    const verb = find(method, pathname, {"handler": http404``});
     const path = pathname.split("/").filter(path => path !== "");
     Object.entries(verb.path.exec(pathname)?.groups ?? [])
       .filter(([key]) => path[key] === undefined)

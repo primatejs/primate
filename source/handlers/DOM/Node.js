@@ -3,19 +3,19 @@ import Parser from "./Parser.js";
 const replacement_regex = /^\$([0-9]*)$/;
 const data_regex = /\${([^}]*)}/g;
 const attributes_regex = /([-a-z]*="[^"]+")/g;
-const replace = (attribute, source) => {
+const replace = async (attribute, source) => {
   if (attribute.includes(".")) {
     const index = attribute.indexOf(".");
     const left = attribute.slice(0, index);
     const rest = attribute.slice(index+1);
     if (source[left] !== undefined) {
-      return replace(rest, source[left]);
+      return await replace(rest, source[left]);
     }
   } else {
     return source[attribute];
   }
 };
-const fulfill = (attribute, source) => {
+const fulfill = async (attribute, source) => {
   if (source === undefined) {
     return undefined;
   }
@@ -24,7 +24,7 @@ const fulfill = (attribute, source) => {
   if (matches.length > 0) {
     for (const match of matches) {
       const [key] = match;
-      const new_value = replace(match[1], source);
+      const new_value = await replace(match[1], source);
       if (attribute === key) {
         return new_value;
       }
@@ -153,7 +153,7 @@ export default class Node {
       return newparent.expand();
     }
     for (const attribute in this.attributes) {
-      const fulfilled = fulfill(this.attributes[attribute], this.data);
+      const fulfilled = await fulfill(this.attributes[attribute], this.data);
       switch(attribute) {
         case "value":
           if (this.tag_name === "input") {
