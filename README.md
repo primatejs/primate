@@ -1,7 +1,7 @@
 # Primate 
 
-A full-stack Javascript framework with data verification and server-side HTML
-rendering.
+A full-stack Javascript framework with data verification and server-side
+rendering (via web components, [React][primate-react] or [Vue][primate-vue]).
 
 ## Highlights
 
@@ -327,3 +327,5 @@ BSD-3-Clause
 [primate-file-store]: https://npmjs.com/primate-file-store
 [primate-json-store]: https://npmjs.com/primate-json-store
 [primate-mongodb-store]: https://npmjs.com/primate-mongodb-store
+[primate-react]: https://github.com/primatejs/primate-react
+[primate-vue]: https://github.com/primatejs/primate-vue
