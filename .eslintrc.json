@@ -134,7 +134,7 @@
     "prefer-rest-params": ["error"],
     "prefer-spread": ["error"],
     "prefer-template": ["error"],
-    "quote-props": ["error"],
+    "quote-props": ["error", "as-needed"],
     "require-await": ["error"],
     "require-unicode-regexp": ["error"],
     "spaced-comment": ["error"],
@@ -165,6 +165,7 @@
     "no-whitespace-before-property": ["error"],
     "object-curly-spacing": ["error", "never"],
     "quotes": ["error", "double"],
+    "space-infix-ops": ["error"],
     "semi": ["error", "always"],
     "wrap-iife": ["error"]
   }

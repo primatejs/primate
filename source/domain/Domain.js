@@ -21,11 +21,11 @@ export default class Domain {
   constructor(document) {
     const errors = {};
     this.define("_id", {
-      "type": String,
-      "predicates": ["unique"],
-      "in": value => value ?? Crypto.random(length).toString("hex"),
+      type: String,
+      predicates: ["unique"],
+      in: value => value ?? Crypto.random(length).toString("hex"),
     });
-    return new Proxy(this, {"get": (target, property, receiver) =>
+    return new Proxy(this, {get: (target, property, receiver) =>
       Reflect.get(target, property, receiver) ?? target.#proxy(property),
     }).set({...document, errors});
   }
@@ -117,7 +117,7 @@ export default class Domain {
   async serialize() {
     const {properties, fields} = this;
     return (await Promise.all(properties.map(async property =>
-      ({property, "value": await fields[property].serialize(this[property])}))))
+      ({property, value: await fields[property].serialize(this[property])}))))
       .filter(({value}) => value !== undefined)
       .reduce((document, {property, value}) => {
         document[property] = value;
@@ -131,8 +131,7 @@ export default class Domain {
     return new this(Object.keys(serialized)
       .filter(property => fields[property] !== undefined)
       .map(property =>
-        ({property,
-        "value": fields[property].deserialize(serialized[property])}))
+        ({property, value: fields[property].deserialize(serialized[property])}))
       .reduce((document, {property, value}) => {
         document[property] = value;
         return document;
@@ -163,7 +162,7 @@ export default class Domain {
     this.set(delta);
     const {fields} = this;
     this.errors = (await Promise.all(Object.keys(fields).map(async property =>
-      ({property, "value": await fields[property].verify(property, this)}))))
+      ({property, value: await fields[property].verify(property, this)}))))
       .filter(result => typeof result.value === "string")
       .reduce((errors, result) => {
         errors[result.property] = result.value;
@@ -181,7 +180,7 @@ export default class Domain {
     const verified = await this.verify(delta);
     if (verified) {
       const document = await this.serialize();
-      await this.store.save(this.collection, {"_id": document._id}, document);
+      await this.store.save(this.collection, {_id: document._id}, document);
       const cache = this.Class.cache;
       if (cache[this.collection]?.[document._id] !== undefined) {
         delete cache[this.collection][document._id];

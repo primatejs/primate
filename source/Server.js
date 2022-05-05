@@ -21,7 +21,7 @@ export default class Server {
     const {http} = this.conf;
     const {csp, "same-site": same_site = "Strict"} = http;
     this.csp = Object.keys(csp).reduce((policy_string, key) =>
-      policy_string + `${key} ${csp[key]};`, "");
+      `${policy_string}${key} ${csp[key]};`, "");
 
     this.server = new WebServer(http, async (request, response) => {
       const session = await Session.get(request.headers.cookie);
@@ -66,7 +66,7 @@ export default class Server {
   }
 
   async serve_route(pathname, request, response, payload) {
-    const req = {pathname, "method": request.method.toLowerCase(), payload};
+    const req = {pathname, method: request.method.toLowerCase(), payload};
     let result;
     try {
       result = await this.conf.router.process(req);

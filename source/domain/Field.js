@@ -16,14 +16,14 @@ const as_array = field => ({"type": field[0], "predicates": field.slice(1)});
 
 const as_object = field => field instanceof Array ? as_array(field) : field;
 
-const as_function = field => ({"in": field,
-  "type": field(undefined, {}).constructor});
+const as_function = field => ({in: field,
+  type: field(undefined, {}).constructor});
 
 const as_non_constructible =
   field => typeof field === "function" ? as_function(field) : as_object(field);
 
 const parse = field => constructible(field)
-  ? {"type": field}
+  ? {type: field}
   : as_non_constructible(field);
 
 export default class Field {
@@ -31,7 +31,7 @@ export default class Field {
     defined(property, "`property` required");
     this.property = property;
     this.definition = parse(definition);
-    this.options = options ?? {"transient": false, "optional": false};
+    this.options = options ?? {transient: false, optional: false};
     is.constructible(this.Type);
     is.subclass(this.type, Storeable);
     maybe.array(this.definition.predicates);
@@ -40,8 +40,8 @@ export default class Field {
   static resolve(name) {
     defined(name, "`name` required");
     const options = {
-      "optional": name.includes("?"),
-      "transient": name.includes("~"),
+      optional: name.includes("?"),
+      transient: name.includes("~"),
     };
     const property = name.replaceAll("~", "").replaceAll("?", "");
     return {options, property};

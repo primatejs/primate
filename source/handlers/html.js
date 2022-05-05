@@ -4,7 +4,7 @@ import {index} from "../Bundler.js";
 import _conf from "../conf.js";
 const conf = _conf();
 
-const {"paths": {"components": path}} = conf;
+const {paths: {components: path}} = conf;
 const components = {};
 if (await File.exists(path)) {
   const names = await File.list(path);

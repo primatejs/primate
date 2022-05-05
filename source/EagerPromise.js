@@ -3,7 +3,7 @@ import {inconstructible_function} from "./attributes.js";
 const $promise = Symbol("#promise");
 
 const handler = {
-  "get": (target, property) => {
+  get(target, property) {
     const promise = target[$promise];
 
     if (["then", "catch"].includes(property)) {
@@ -17,10 +17,11 @@ const handler = {
         : result[property]
     ));
   },
-  "apply": (target, that, args) =>
-    EagerPromise.resolve(target[$promise].then(result =>
+  apply(target, that, args) {
+    return EagerPromise.resolve(target[$promise].then(result =>
       typeof result === "function" ? result.apply(that, args) : result
-    )),
+    ));
+  },
 };
 
 export default class EagerPromise {

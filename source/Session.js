@@ -7,12 +7,12 @@ export default class Session extends Domain {
   static get fields() {
     return {
       "?data": Object,
-      "created": value => value ?? new Date(),
+      created: value => value ?? new Date(),
     };
   }
 
   static async get(cookie_header) {
-    const session = await Session.touch({"_id": extract_id(cookie_header)});
+    const session = await Session.touch({_id: extract_id(cookie_header)});
     await session.save();
     if (session.new) {
       session.has_cookie = false;

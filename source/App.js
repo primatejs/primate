@@ -18,14 +18,14 @@ export default class App {
     await new Bundler(this.conf).bundle();
     this.index = await index(this.conf);
 
-    const conf = {"router": Router,
-      "serve_from": this.conf.paths.public,
-      "http": {
+    const conf = {router: Router,
+      serve_from: this.conf.paths.public,
+      http: {
         ...this.conf.http,
-        "key": File.read_sync(Path.resolve(this.conf.http.ssl.key)),
-        "cert": File.read_sync(Path.resolve(this.conf.http.ssl.cert)),
-        "keyFile": Path.resolve(this.conf.http.ssl.key),
-        "certFile": Path.resolve(this.conf.http.ssl.cert),
+        key: File.read_sync(Path.resolve(this.conf.http.ssl.key)),
+        cert: File.read_sync(Path.resolve(this.conf.http.ssl.cert)),
+        keyFile: Path.resolve(this.conf.http.ssl.key),
+        certFile: Path.resolve(this.conf.http.ssl.cert),
       },
     };
     this.server = new Server(conf);
