@@ -1,2 +1,2 @@
-import {eager} from "../../output/exports.js";
+import {eager} from "../../exports.js";
 export default () => eager;

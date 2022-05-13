@@ -7,18 +7,11 @@
   "repository": "https://github.com/primatejs/primate",
   "description": "Cross-runtime JavaScript framework",
   "license": "BSD-3-Clause",
-  "scripts": {
-    "copy": "rm -rf output && mkdir output && cp source/* output -a",
-    "instrument": "nyc instrument source ./output",
-    "debris": "node --experimental-json-modules node_modules/debris debris.json",
-    "coverage": "npm run instrument && nyc npm run debris",
-    "test": "npm run copy && npm run debris"
-  },
   "dependencies": {
     "runtime-compat": "^0.1.6"
   },
   "devDependencies": {
-    "debris": "^0.2.2",
+    "debris": "^0.3.0",
     "eslint": "^8.15.0",
     "eslint-plugin-json": "^3.1.0",
     "nyc": "^15.1.0"

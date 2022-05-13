@@ -1,2 +1,2 @@
-import map_entries from "../../output/map_entries.js";
+import map_entries from "../../source/map_entries.js";
 export default () => map_entries;

@@ -1,2 +1,2 @@
-import {Storeable} from "../../output/exports.js";
+import {Storeable} from "../../exports.js";
 export default () => Storeable;

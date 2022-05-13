@@ -1,2 +1,2 @@
-import * as types from "../../output/types.js";
+import * as types from "../../source/types.js";
 export default () => types;

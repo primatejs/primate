@@ -1,2 +1,2 @@
-import {EagerPromise} from "../../output/exports.js";
+import {EagerPromise} from "../../exports.js";
 export default () => EagerPromise;

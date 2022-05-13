@@ -1,2 +1,2 @@
-import {maybe} from "../../output/exports.js";
+import {maybe} from "../../exports.js";
 export default () => maybe;

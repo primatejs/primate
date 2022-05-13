@@ -1,2 +1,2 @@
-import {MemoryStore} from "../../output/exports.js";
+import {MemoryStore} from "../../exports.js";
 export default () => MemoryStore;

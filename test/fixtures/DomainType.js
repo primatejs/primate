@@ -1,2 +1,2 @@
-import {default as DomainType} from "../../output/types/Domain.js";
+import {default as DomainType} from "../../source/types/Domain.js";
 export default () => DomainType;
