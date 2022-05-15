@@ -33,8 +33,7 @@ export default class Server {
       const text = await request.text();
       const payload = Object.fromEntries(decodeURI(text).replaceAll("+", " ")
         .split("&")
-        .map(part => part.split("="))
-        .filter(([, value]) => value !== ""));
+        .map(part => part.split("=")));
       const {pathname, search} = request.url;
       return this.try(pathname + search, request, response, payload);
     });

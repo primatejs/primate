@@ -168,7 +168,6 @@ export default class Domain {
         errors[result.property] = result.value;
         return errors;
       }, {});
-
     return Object.keys(this.errors).length === 0;
   }
 

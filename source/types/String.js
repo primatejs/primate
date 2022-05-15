@@ -2,6 +2,10 @@ import PrimitiveType from "./Primitive.js";
 import errors from "./errors/String.json" assert {"type": "json"};
 
 export default class StringType extends PrimitiveType {
+  static coerce(value) {
+    return value?.trim() === "" ? undefined : super.coerce(value);
+  }
+
   static get type() {
     return "string";
   }

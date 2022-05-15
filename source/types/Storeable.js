@@ -1,13 +1,25 @@
 import {PredicateError} from "../errors.js";
 
 export default class Storeable {
-  static async verify(property, document, predicates, type) {
-    document[property] = this.coerce(document[property]);
-    if (!await this.is(document[property], type)) {
-      throw new PredicateError(this.type_error(type));
+  static verify_undefined(optional) {
+    if (!optional) {
+      throw new PredicateError("Must not be empty");
     }
-    await Promise.all(predicates.map(predicate =>
+  }
+
+  static async verify_defined(property, document, type) {
+    if (!await this.is(document[property], type.Type)) {
+      throw new PredicateError(this.type_error(type.Type));
+    }
+    await Promise.all(type.predicates.map(predicate =>
       predicate.check(property, document, this)));
+  }
+
+  static async verify(property, document, type) {
+    document[property] = this.coerce(document[property]);
+    return document[property] === undefined
+      ? this.verify_undefined(type.options.optional)
+      : await this.verify_defined(property, document, type);
   }
 
   static type_error() {

@@ -80,13 +80,10 @@ export default class Field {
     return in_function !== undefined ? in_function(value, document) : value;
   }
 
-  verify_undefined() {
-    return this.options.optional ? true : "Must not be empty";
-  }
-
-  async verify_defined(property, document) {
+  async verify(property, document) {
+    document[property] = await this.in(property, document);
     try {
-      await this.type.verify(property, document, this.predicates, this.Type);
+      await this.type.verify(property, document, this);
       return true;
     } catch (error) {
       if (error instanceof PredicateError) {
@@ -94,13 +91,6 @@ export default class Field {
       }
       throw error;
     }
-  }
-
-  async verify(property, document) {
-    document[property] = await this.in(property, document);
-    return document[property] === undefined
-      ? this.verify_undefined()
-      : this.verify_defined(property, document);
   }
 
   serialize(value) {
