@@ -1,4 +1,6 @@
-import {Path, File, WebServer, log} from "runtime-compat";
+import {log} from "runtime-compat";
+import {Path, File} from "runtime-compat/filesystem";
+import {WebServer} from "runtime-compat/web";
 import Session from "./Session.js";
 import codes from "./http-codes.json" assert {"type": "json"};
 import mimes from "./mimes.json" assert {"type": "json"};

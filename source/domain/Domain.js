@@ -1,4 +1,4 @@
-import {Crypto} from "runtime-compat";
+import Crypto from "runtime-compat/crypto";
 import Field from "./Field.js";
 import {PredicateError} from "../errors.js";
 import EagerPromise from "../EagerPromise.js";

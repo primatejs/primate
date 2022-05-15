@@ -1,4 +1,4 @@
-import {File} from "runtime-compat";
+import {File} from "runtime-compat/filesystem";
 import Parser from "./DOM/Parser.js";
 import {index} from "../Bundler.js";
 import _conf from "../conf.js";

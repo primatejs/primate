@@ -1,4 +1,4 @@
-import {Path, File} from "runtime-compat";
+import {Path, File} from "runtime-compat/filesystem";
 
 const meta_url = new Path(import.meta.url).path;
 const directory = Path.dirname(meta_url);

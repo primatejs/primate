@@ -1,4 +1,4 @@
-import {Path} from "runtime-compat";
+import {Path} from "runtime-compat/filesystem";
 const preset = "../preset/stores";
 
 export default class Store {

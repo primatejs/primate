@@ -1,4 +1,5 @@
-import {Path, File, log} from "runtime-compat";
+import {log} from "runtime-compat";
+import {Path, File} from "runtime-compat/filesystem";
 import {default as Bundler, index} from "./Bundler.js";
 import Router from "./Router.js";
 import Server from "./Server.js";

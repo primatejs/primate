@@ -1,4 +1,4 @@
-import {Path, File} from "runtime-compat";
+import {Path, File} from "runtime-compat/filesystem";
 import cache from "./cache.js";
 import extend_object from "./extend_object.js";
 import primate_json from "./preset/primate.json" assert {"type": "json" };
