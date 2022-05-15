@@ -15,7 +15,6 @@ export {default as MemoryStore} from "./source/store/Memory.js";
 export {default as Store} from "./source/store/Store.js";
 
 export {default as extend_object} from "./source/extend_object.js";
-export {default as sanitize} from "./source/sanitize.js";
 
 export {default as html} from "./source/handlers/html.js";
 export {default as json} from "./source/handlers/json.js";
