@@ -9,8 +9,8 @@ import {http404} from "./handlers/http.js";
 const regex = /\.([a-z1-9]*)$/u;
 const mime = filename => mimes[filename.match(regex)[1]] ?? mimes.binary;
 
-const stream = (from, response) => {
-  response.setStatus(codes.OK);
+const stream = (from, {response}) => {
+  response.writeHead(codes.OK);
   return from.pipe(response).on("close", () => response.end());
 };
 
