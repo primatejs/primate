@@ -6,14 +6,14 @@ const open_and_close_tag = "open_and_close_tag";
 const last_index = -1;
 
 export default class Parser {
-  constructor(html, data) {
+  constructor(html, data, children) {
     this.html = html;
     this.index = 0;
     this.result = [];
     this.buffer = "";
     this.balance = 0;
     this.reading_tag = false;
-    this.node = new Node(undefined, undefined, data);
+    this.node = new Node(undefined, undefined, data, children);
     this.tree = this.node;
   }
 
@@ -129,7 +129,7 @@ export default class Parser {
     return this.return_checked();
   }
 
-  static parse(html, data) {
-    return new Parser(html, data).parse();
+  static parse(html, data, children) {
+    return new Parser(html, data, children).parse();
   }
 }

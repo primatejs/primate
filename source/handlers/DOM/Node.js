@@ -36,13 +36,15 @@ const fulfill = async (attribute, source) => {
 
 export default class Node {
   #data;
+  #slottables;
 
-  constructor(parent, content = "div", data) {
+  constructor(parent, content = "div", data, slottables) {
     if (parent !== undefined) {
       this.parent = parent;
       this.parent.attach(this);
     }
     this.#data = data;
+    this.#slottables = slottables;
     this.attributes = {};
     if (content !== undefined) {
       const [tag_name] = content.split(" ");
@@ -72,6 +74,14 @@ export default class Node {
 
   set data(value) {
     this.#data = value;
+  }
+
+  get slottables() {
+    return this.#slottables ?? this.parent?.slottables;
+  }
+
+  set slottables(value) {
+    this.#slottables = value;
   }
 
   attach(child) {
@@ -120,8 +130,13 @@ export default class Node {
 
   async compose(components) {
     if (components[this.tag_name]) {
-      return Parser.parse(components[this.tag_name], this.attributes)
+      return Parser.parse(components[this.tag_name], this.attributes, this.children)
         .compose(components);
+    }
+    if (this.tag_name === "slot" && this.slottables.length > 0) {
+      const slottable = this.slottables.shift();
+      slottable.parent = this.parent;
+      return slottable;
     }
     this.children = await Promise.all(this.children.map(child =>
       child.compose(components)));
