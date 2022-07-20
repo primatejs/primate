@@ -10,11 +10,11 @@
   "dependencies": {
     "dyndef": "^0.1.0",
     "polyad": "^0.1.2",
-    "runtime-compat": "^0.2.0"
+    "runtime-compat": "^0.3.0"
   },
   "devDependencies": {
-    "debris": "^0.3.1",
-    "eslint": "^8.15.0",
+    "debris": "^0.4.0",
+    "eslint": "^8.20.0",
     "eslint-plugin-json": "^3.1.0",
     "nyc": "^15.1.0"
   },
