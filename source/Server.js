@@ -5,11 +5,13 @@ import Session from "./Session.js";
 import codes from "./http-codes.json" assert {"type": "json"};
 import mimes from "./mimes.json" assert {"type": "json"};
 import {http404} from "./handlers/http.js";
+import _conf from "./conf.js";
+const conf = _conf();
 
 const regex = /\.([a-z1-9]*)$/u;
 const mime = filename => mimes[filename.match(regex)[1]] ?? mimes.binary;
 
-const stream = (from, {response}) => {
+const stream = (from, response) => {
   response.writeHead(codes.OK);
   return from.pipe(response).on("close", () => response.end());
 };
@@ -32,11 +34,11 @@ export default class Server {
         response.setHeader("Set-Cookie", `${cookie}; SameSite=${same_site}`);
       }
       response.session = session;
-      const text = await request.text();
-      const payload = Object.fromEntries(decodeURI(text).replaceAll("+", " ")
+      const body = await request.body;
+      const payload = Object.fromEntries(decodeURI(body).replaceAll("+", " ")
         .split("&")
         .map(part => part.split("=")));
-      const {pathname, search} = request.url;
+      const {pathname, search} = new URL(`https://example.com${request.url}`);
       return this.try(pathname + search, request, response, payload);
     });
   }
@@ -46,15 +48,14 @@ export default class Server {
       await this.serve(url, request, response, payload);
     } catch (error) {
       console.log(error);
-      response.setStatus(codes.InternalServerError);
+      response.writeHead(codes.InternalServerError);
       response.end();
     }
   }
 
-  async serve_file(url, filename, file, response) {
+  async serve_file(filename, file, response) {
     response.setHeader("Content-Type", mime(filename));
     response.setHeader("Etag", await file.modified);
-    //await response.session.log("green", url);
     return stream(file.read_stream, response);
   }
 
@@ -62,7 +63,7 @@ export default class Server {
     const filename = Path.join(this.conf.serve_from, url);
     const file = await new File(filename);
     return await file.is_file
-      ? this.serve_file(url, filename, file, response, payload)
+      ? this.serve_file(filename, file, response)
       : this.serve_route(url, request, response, payload);
   }
 
@@ -81,9 +82,13 @@ export default class Server {
     const {body, code} = result;
     response.setHeader("Content-Security-Policy", this.csp);
     response.setHeader("Referrer-Policy", "same-origin");
-    response.setStatus(code);
-    response.setBody(body);
-    response.end();
+    response.writeHead(code);
+    if (body !== undefined)  {
+      const _b = this.conf.index.replace("<body>", () => `<body>${body}`);
+      response.end(_b);
+    } else {
+      response.end();
+    }
   }
 
   listen() {

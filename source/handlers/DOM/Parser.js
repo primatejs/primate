@@ -6,23 +6,19 @@ const open_and_close_tag = "open_and_close_tag";
 const last_index = -1;
 
 export default class Parser {
-  constructor(html, data, children) {
-    this.html = html;
+  constructor(html, data, slottables) {
+    this.html = html.replace(/[\n\t\r]/gu, "");
     this.index = 0;
     this.result = [];
     this.buffer = "";
     this.balance = 0;
     this.reading_tag = false;
-    this.node = new Node(undefined, undefined, data, children);
-    this.tree = this.node;
-  }
-
-  remove_whitespace() {
-    this.html = this.html.replace(/[\n\t\r]/gu, "");
+    this.tree = new Node(undefined, "div", data, slottables);
+    this.node = this.tree;
   }
 
   get previous() {
-    return this.at(this.index+last_index);
+    return this.at(this.index + last_index);
   }
 
   get current() {
@@ -30,7 +26,7 @@ export default class Parser {
   }
 
   get next() {
-    return this.at(this.index+1);
+    return this.at(this.index + 1);
   }
 
   at(index) {
@@ -70,14 +66,14 @@ export default class Parser {
       // empty buffer
       this.buffer = "";
     } else {
+      // add to buffer
       this.buffer += this.current;
     }
   }
 
   try_create_text_node() {
     if (this.buffer.length > 0) {
-      const child = new Node(this.node, "span");
-      child.text = this.buffer;
+      this.node.text = this.buffer;
       this.buffer = "";
     }
   }
@@ -118,18 +114,15 @@ export default class Parser {
     if (this.balance !== 0) {
       throw Error(`unbalanced DOM tree: ${this.balance}`);
     }
-    // anything left at the end could be potentially a text node
-    this.try_create_text_node();
     return this.tree;
   }
 
   parse() {
-    this.remove_whitespace();
-    do {} while (this.read());
+    while (this.read());
     return this.return_checked();
   }
 
-  static parse(html, data, children) {
-    return new Parser(html, data, children).parse();
+  static parse(html, data, slottables) {
+    return new Parser(html, data, slottables).parse();
   }
 }
