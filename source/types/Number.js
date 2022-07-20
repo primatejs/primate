@@ -1,5 +1,5 @@
+import {numeric} from "dyndef";
 import PrimitiveType from "./Primitive.js";
-import {numeric} from "../attributes.js";
 import errors from "./errors/Number.json" assert {"type": "json"};
 
 export default class NumberType extends PrimitiveType {

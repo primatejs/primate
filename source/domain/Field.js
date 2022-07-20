@@ -4,8 +4,7 @@ import {PredicateError} from "../errors.js";
 import Storeable from "../types/Storeable.js";
 import * as types from "../types.js";
 import cache from "../cache.js";
-import {constructible} from "../attributes.js";
-import {defined, is, maybe} from "../invariants.js";
+import {constructible, defined, is, maybe} from "dyndef";
 
 const builtins = Object.values(types).reduce((aggregate, Type) => {
   aggregate[Type.instance] = Type;

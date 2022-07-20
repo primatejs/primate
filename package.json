@@ -8,6 +8,8 @@
   "description": "Cross-runtime JavaScript framework",
   "license": "BSD-3-Clause",
   "dependencies": {
+    "dyndef": "^0.1.0",
+    "polyad": "^0.1.2",
     "runtime-compat": "^0.2.0"
   },
   "devDependencies": {

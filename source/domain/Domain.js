@@ -1,7 +1,7 @@
 import Crypto from "runtime-compat/crypto";
+import {Eager} from "polyad";
 import Field from "./Field.js";
 import {PredicateError} from "../errors.js";
-import EagerPromise from "../EagerPromise.js";
 import Store from "../store/Store.js";
 import cache from "../cache.js";
 import DomainType from "../types/Domain.js";
@@ -46,7 +46,7 @@ export default class Domain {
   }
 
   static get store() {
-    return EagerPromise.resolve(cache(this, "store", () =>
+    return Eager.resolve(cache(this, "store", () =>
       Store.get(this.stores_directory, this.store_file)
     ));
   }
@@ -216,14 +216,14 @@ export default class Domain {
   }
 
   static by_id(_id) {
-    return new EagerPromise(async resolve => {
+    return new Eager(async resolve => {
       const result = await this.store.find(this.collection, {"_id": await _id});
       resolve(result.length > 0 ? this.deserialize(result[0]) : undefined);
     });
   }
 
   static first(criteria, options) {
-    return new EagerPromise(async resolve => {
+    return new Eager(async resolve => {
       const result = await this.store.one(this.collection, criteria, options);
       resolve(result === undefined ? undefined : this.deserialize(result));
     });

@@ -1,6 +1,6 @@
+import {is} from "dyndef";
 import Domain from "./Domain.js";
 import Storeable from "../types/Storeable.js";
-import {is} from "../invariants.js";
 
 export default class Predicate {
   constructor(definition) {
