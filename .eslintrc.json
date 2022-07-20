@@ -135,7 +135,6 @@
     "prefer-spread": ["error"],
     "prefer-template": ["error"],
     "quote-props": ["error", "as-needed"],
-    "require-await": ["error"],
     "require-unicode-regexp": ["error"],
     "spaced-comment": ["error"],
     "strict": ["error"],
