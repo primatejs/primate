@@ -5,8 +5,6 @@ import Session from "./Session.js";
 import codes from "./http-codes.json" assert {"type": "json"};
 import mimes from "./mimes.json" assert {"type": "json"};
 import {http404} from "./handlers/http.js";
-import _conf from "./conf.js";
-const conf = _conf();
 
 const regex = /\.([a-z1-9]*)$/u;
 const mime = filename => mimes[filename.match(regex)[1]] ?? mimes.binary;
@@ -60,7 +58,7 @@ export default class Server {
   }
 
   async serve(url, request, response, payload) {
-    const filename = Path.join(this.conf.serve_from, url);
+    const filename = new Path(this.conf.serve_from, url);
     const file = await new File(filename);
     return await file.is_file
       ? this.serve_file(filename, file, response)

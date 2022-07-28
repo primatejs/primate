@@ -11,7 +11,7 @@ const builtins = Object.values(types).reduce((aggregate, Type) => {
   return aggregate;
 }, {});
 
-const as_array = field => ({"type": field[0], "predicates": field.slice(1)});
+const as_array = field => ({type: field[0], predicates: field.slice(1)});
 
 const as_object = field => field instanceof Array ? as_array(field) : field;
 
@@ -31,9 +31,9 @@ export default class Field {
     this.property = property;
     this.definition = parse(definition);
     this.options = options ?? {transient: false, optional: false};
-    is.constructible(this.Type);
-    is.subclass(this.type, Storeable);
-    maybe.array(this.definition.predicates);
+    is(this.Type).constructible();
+    is(this.type).subclass(Storeable);
+    maybe(this.definition.predicates).array();
   }
 
   static resolve(name) {
@@ -75,8 +75,7 @@ export default class Field {
 
   in(property, document) {
     const value = document[property];
-    const in_function = this.definition.in;
-    return in_function !== undefined ? in_function(value, document) : value;
+    return this.definition.in?.(value, document) ?? value;
   }
 
   async verify(property, document) {
