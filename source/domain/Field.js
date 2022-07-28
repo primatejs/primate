@@ -2,7 +2,7 @@ import DomainType from "../types/Domain.js";
 import Predicate from "./Predicate.js";
 import {PredicateError} from "../errors.js";
 import Storeable from "../types/Storeable.js";
-import * as types from "../types.js";
+import * as types from "../types/types.js";
 import cache from "../cache.js";
 import {constructible, defined, is, maybe} from "dyndef";
 

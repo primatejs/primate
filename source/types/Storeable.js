@@ -27,7 +27,7 @@ export default class Storeable {
   }
 
   static is() {
-    throw new Error("must be implemented");
+    throw new Error("Must be implemented");
   }
 
   static async has(name, value, params) {
