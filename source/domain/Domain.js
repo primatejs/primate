@@ -3,7 +3,7 @@ import {Eager} from "polyad";
 import Field from "./Field.js";
 import {PredicateError} from "../errors.js";
 import Store from "../store/Store.js";
-import cache from "../cache.js";
+import cache_module from "../cache.js";
 import DomainType from "../types/Domain.js";
 
 const length = 12;
@@ -40,13 +40,13 @@ export default class Domain {
 
   static get _fields() {
     // initialize programmatic defines
-    cache(this, "initialized", () => {new this();});
+    cache_module(this, "initialized", () => {new this();});
     Object.keys(this.fields).map(name => this.define(name, this.fields[name]));
-    return cache(this, "fields", () => ({}));
+    return cache_module(this, "fields", () => ({}));
   }
 
   static get store() {
-    return Eager.resolve(cache(this, "store", () =>
+    return Eager.resolve(cache_module(this, "store", () =>
       Store.get(this.stores_directory, this.store_file)
     ));
   }
@@ -68,7 +68,7 @@ export default class Domain {
   }
 
   static define(name, definition) {
-    const fields = cache(this, "fields", () => ({}));
+    const fields = cache_module(this, "fields", () => ({}));
     const {property, options} = Field.resolve(name);
     if (fields[property] === undefined) {
       fields[property] = new Field(property, definition, options);
@@ -180,7 +180,7 @@ export default class Domain {
     if (verified) {
       const document = await this.serialize();
       await this.store.save(this.collection, {_id: document._id}, document);
-      const cache = this.Class.cache;
+      const {cache} = this.Class;
       if (cache[this.collection]?.[document._id] !== undefined) {
         delete cache[this.collection][document._id];
       }

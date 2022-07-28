@@ -1,6 +1,6 @@
 import {boolish} from "dyndef";
 import PrimitiveType from "./Primitive.js";
-import errors from "./errors/Boolean.json" assert {"type": "json"};
+import errors from "./errors/Boolean.json" assert {type: "json"};
 
 export default class BooleanType extends PrimitiveType {
   static get type() {
