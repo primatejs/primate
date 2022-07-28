@@ -9,8 +9,15 @@
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
   },
+  "parser": "@babel/eslint-parser",
   "parserOptions": {
-    "sourceType": "module"
+    "requireConfigFile": false,
+    "sourceType": "module",
+    "babelOptions": {
+      "plugins": [
+        "@babel/plugin-syntax-import-assertions"
+      ]
+    }
   },
   "rules": {
     "array-callback-return": ["error"],
