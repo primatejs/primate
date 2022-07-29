@@ -1,4 +1,4 @@
-import {Domain} from "../../../exports.js";
+import {Domain} from "../../exports.js";
 
 export default class MemoryDomain extends Domain {
   static get store() {

@@ -1,4 +1,4 @@
-import html from "../../source/handlers/html.js";
+import html from "../source/handlers/html.js";
 const obj = {
   "parent-tag": "<pt></pt>",
   "parent-tag-with-attribute": "<ptwa value=\"${foo}\"></ptwa>",

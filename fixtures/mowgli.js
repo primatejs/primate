@@ -1,5 +1,5 @@
 import Person from "./domains/Person.js";
-import {MemoryStore} from "../../exports.js";
+import {MemoryStore} from "../exports.js";
 
 export default () => {
   Person._store = new MemoryStore();
