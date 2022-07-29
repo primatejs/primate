@@ -4,9 +4,9 @@ const test = new Test();
 
 const w = content => `<div>${content}</div>`;
 
-test.refix(({html}) => html);
+test.fix(({html}) => html);
 
-test.reassert((assert, html) => async (template, expected) =>
+test.reassert(assert => async (template, expected) =>
   assert((await template).body).equals(`<div>${expected}</div>`));
 
 test.case("tag", (assert, html) => assert(html`<div></div>`, "<div></div>"));
