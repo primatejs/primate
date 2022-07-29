@@ -21,7 +21,7 @@ export default class Store {
   static async get(directory, file) {
     let store;
     try {
-      store = await import(Path.resolve(`${directory}/${file}`));
+      store = await import(Path.resolve(`${directory}/${file}`).path);
     } catch(error) {
       store = await import(`${preset}/${file}`);
     }

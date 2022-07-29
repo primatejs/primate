@@ -8,9 +8,9 @@
   "description": "Cross-runtime JavaScript framework",
   "license": "BSD-3-Clause",
   "dependencies": {
-    "dyndef": "^0.2.4",
+    "dyndef": "^0.2.5",
     "polyad": "^0.2.2",
-    "runtime-compat": "^0.6.0"
+    "runtime-compat": "^0.7.1"
   },
   "devDependencies": {
     "@babel/core": "^7.18.9",
