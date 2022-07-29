@@ -4,8 +4,8 @@ import House from "./House.js";
 export default class Animal extends MemoryDomain {
   static get fields() {
     return {
-      "name": [String, "unique"],
-      "male": Boolean,
+      name: [String, "unique"],
+      male: Boolean,
       "?likes": Array,
       "?house_id": House,
     };

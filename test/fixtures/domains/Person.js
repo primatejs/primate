@@ -5,13 +5,13 @@ import LocalHouse from "./LocalHouse.js";
 export default class Person extends Animal {
   static get fields() {
     return {
-      "name": [String, "unique", "length:6"],
+      name: [String, "unique", "length:6"],
       "?age": [Number, "positive"],
-      "male": Boolean,
-      "fictional": value => value ?? true,
-      "created": value => value ?? new Date(),
+      male: Boolean,
+      fictional: value => value ?? true,
+      created: value => value ?? new Date(),
       "?likes": [String, "between:5:8"],
-      "likes": {
+      likes: {
         "type": String,
         "predicates": ["between:5:8"],
         "in": value => value ?? "jungle",
