@@ -8,7 +8,7 @@ const qualify = (root, paths) =>
   Object.keys(paths).reduce((sofar, key) => {
     const value = paths[key];
     sofar[key] = typeof value === "string"
-      ? Path.join(root, value)
+      ? new Path(root, value)
       : qualify(`${root}/${key}`, value);
     return sofar;
   }, {});
@@ -16,7 +16,7 @@ const qualify = (root, paths) =>
 export default (file = "primate.json") => cache("conf", file, () => {
   const root = Path.resolve();
   const conf = Either
-    .try(() => extend(json, JSON.parse(File.read_sync(Path.join(root, file)))))
+    .try(() => extend(json, JSON.parse(File.read_sync(new Path(root, file)))))
     .match({left: () => json})
     .get();
   const paths = qualify(root, conf.paths);
