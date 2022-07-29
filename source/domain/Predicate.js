@@ -15,7 +15,7 @@ export default class Predicate {
     is(document).instance(Domain);
     const {name, params} = this;
     if (document[name] === undefined) {
-      is.subclass(Type, Storeable);
+      is(Type).subclass(Storeable);
       await Type.has(name, document[property], params);
     } else {
       await document[name](property, ...params);
