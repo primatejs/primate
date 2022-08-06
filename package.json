@@ -20,6 +20,10 @@
     "eslint": "^8.21.0",
     "eslint-plugin-json": "^3.1.0"
   },
+  "scripts": {
+    "build-readme": "npx embedme --source-root examples --strip-embed-comment --stdout README.template.md > README.md",
+    "test": "npx debris"
+  },
   "type": "module",
   "exports": "./exports.js",
   "engines": {

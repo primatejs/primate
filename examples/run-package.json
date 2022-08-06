@@ -1,0 +1,6 @@
+{
+  "scripts": {
+    "start": "node --experimental-json-modules app.js"
+  },
+  "type": "module"
+}

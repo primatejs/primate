@@ -22,39 +22,31 @@ rendering (via web components, [React][primate-react] or [Vue][primate-vue]).
 Lay out your app
 
 ```sh
-mkdir -p primate-app/{routes,components,ssl} && cd primate-app
-
+# scripts/lay-out-app.sh
 ```
 
 Create a route for `/`
 
 ```js
-import {router, html} from "primate";
-
-router.get("/", () => html`<site-index date="${new Date()}" />`);
-
+// routes/site.js
 ```
 
 Create a component for your route (in `components/site-index.html`)
 
 ```html
-Today's date is <span value="${date}"></span>.
-
+<!-- components/site-index.html -->
 ```
 
 Generate SSL key/certificate
 
 ```sh
-openssl req -x509 -out ssl/default.crt -keyout ssl/default.key -newkey rsa:2048 -nodes -sha256 -batch
-
+# scripts/generate-ssl.sh
 ```
 
 Add an entry file
 
 ```js
-import {app} from "primate";
-app.run();
-
+// app.js
 ```
 
 ### Run
@@ -74,15 +66,13 @@ Optionally add `{"type": "module"}` to treat `js` files as ES modules.
 Install Primate
 
 ```sh
-npm install primate
-
+# scripts/install.sh
 ```
 
 Run app
 
 ```sh
-npm start
-
+# scripts/run.sh
 ```
 
 ## Table of Contents
@@ -103,11 +93,7 @@ Routes are tied to a pathname and execute their callback when the pathname is
 encountered.
 
 ```js
-import {router, json} from "primate";
-
-// on matching the exact pathname /, returns {"foo": "bar"} as JSON
-router.get("/", () => json`${{foo: "bar"}}`);
-
+// routes/some-file.js
 ```
 
 All routes must return a template function handler. See the
@@ -120,14 +106,7 @@ The callback has one parameter, the request data.
 The request contains the `path`, a `/` separated array of the pathname.
 
 ```js
-import {router, json} from "primate";
-
-router.get("/site/login", request => json`${{path: request.path}}`);
-// accessing /site/login -> {"path":["site","login"]}
-
-// or get `path` via destructuring
-router.get("/site/login", ({path}) => json`${{path}}`);
-
+// routes/request.js
 ```
 
 The HTTP request's body is available under `request.payload`. 
@@ -137,12 +116,7 @@ The HTTP request's body is available under `request.payload`.
 All routes are treated as regular expressions.
 
 ```js
-import {router, json} from "primate";
-
-router.get("/user/view/([0-9])+", request => json`${{path: request.path}}`);
-// accessing /user/view/1234 -> {"path":["site","login","1234"]}
-// accessing /user/view/abcd -> error 404
-
+// routes/regular-expressions.js
 ```
 
 ### `router.alias(from, to)`
@@ -151,14 +125,7 @@ To reuse certain parts of a pathname you can define aliases which will be
 applied before matching.
 
 ```js
-import {router, json} from "primate";
-
-router.alias("_id", "([0-9])+");
-
-router.get("/user/view/_id", request => json`${{path: request.path}}`);
-
-router.get("/user/edit/_id", request => json`${{path: request.path}}`);
-
+// routes/aliases.js
 ```
 
 ### `router.map(pathname, request => ...)`
@@ -167,29 +134,7 @@ You can reuse functionality across the same path but different HTTP verbs. This
 function has the same signature as `router[get|post]`.
 
 ```js
-import {router, html, redirect} from "primate";
-
-router.alias("_id", "([0-9])+");
-
-router.map("/user/edit/_id", request => {
-  const user = {name: "Donald"};
-  // return original request and user
-  return {...request, user};
-});
-
-router.get("/user/edit/_id", request => {
-  // show user edit form
-  return html`<user-edit user="${request.user}" />`;
-});
-
-router.post("/user/edit/_id", async request => {
-  const {user} = request;
-  // verify form and save / show errors
-  return await user.save()
-    ? redirect`/users`
-    : html`<user-edit user="${user}" />`;
-});
-
+// routes/mapping.js
 ```
 
 ## Handlers
@@ -217,44 +162,11 @@ Create HTML components in the `components` directory. Use attributes to expose
 passed data within your component.
 
 ```js
-import {router, html, redirect} from "primate";
-
-router.alias("_id", "([0-9])+");
-
-router.map("/user/edit/_id", request => {
-  const user = {name: "Donald", email: "donald@was.here"};
-  // return original request and user
-  return {...request, user};
-});
-
-router.get("/user/edit/_id", request => {
-  // show user edit form
-  return html`<user-edit user="${request.user}" />`;
-});
-
-router.post("/user/edit/_id", async request => {
-  const {user, payload} = request;
-  // verify form and save / show errors
-  // this assumes `user` has a method `save` to verify data
-  return await user.save(payload)
-    ? redirect`/users`
-    : html`<user-edit user="${user}" />`;
-});
-
+// routes/user.js
 ```
 
 ```html
-<form method="post">
-  <h1>Edit user</h1>
-  <p>
-    <input name="name" value="${user.name}"></textarea>
-  </p>
-  <p>
-    <input name="email" value="${user.email}"></textarea>
-  </p>
-  <input type="submit" value="Save user" />
-</form>
-
+<!-- components/edit-user.html -->
 ```
 
 ### Grouping objects with `for`
@@ -262,17 +174,7 @@ router.post("/user/edit/_id", async request => {
 You can use the special attribute `for` to group objects.
 
 ```html
-<form for="${user}" method="post">
-  <h1>Edit user</h1>
-  <p>
-    <input name="name" value="${name}" />
-  </p>
-  <p>
-    <input name="email" value="${email}" />
-  </p>
-  <input type="submit" value="Save user" />
-</form>
-
+<!-- components/edit-user-for.html -->
 ```
 
 ### Expanding arrays
@@ -280,24 +182,11 @@ You can use the special attribute `for` to group objects.
 `for` can also be used to expand arrays.
 
 ```js
-import {router, html} from "primate";
-
-router.get("/users", () => {
-  const users = [
-   {name: "Donald", email: "donald@was.here"},
-   {name: "Ryan", email: "ryan@was.here"},
-  ];
-  return html`<user-index users="${users}" />`;
-});
-
+// routes/user-expand-arrays.js
 ```
 
 ```html
-<div for="${users}">
-  User <span value="${name}"></span>
-  Email <span value="${email}"></span>
-</div>
-
+<!-- components/user-index.html -->
 ```
 
 ## Resources
