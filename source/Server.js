@@ -1,5 +1,5 @@
 import {log} from "runtime-compat";
-import {Path, File} from "runtime-compat/filesystem";
+import {Path} from "runtime-compat/filesystem";
 import {WebServer} from "runtime-compat/web";
 import Session from "./Session.js";
 import codes from "./http-codes.json" assert {"type": "json"};
@@ -59,8 +59,8 @@ export default class Server {
 
   async serve(url, request, response, payload) {
     const filename = new Path(this.conf.serve_from, url);
-    const file = await new File(filename);
-    return await file.is_file
+    const {file} = filename;
+    return await file.isFile
       ? this.serve_file(filename, file, response)
       : this.serve_route(url, request, response, payload);
   }

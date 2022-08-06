@@ -8,16 +8,16 @@
   "description": "Cross-runtime JavaScript framework",
   "license": "BSD-3-Clause",
   "dependencies": {
-    "dyndef": "^0.2.5",
+    "dyndef": "^0.3.0",
     "polyad": "^0.2.2",
-    "runtime-compat": "^0.7.1"
+    "runtime-compat": "^0.9.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.18.9",
+    "@babel/core": "^7.18.10",
     "@babel/eslint-parser": "^7.18.9",
     "@babel/plugin-syntax-import-assertions": "^7.18.6",
     "debris": "^0.7.1",
-    "eslint": "^8.20.0",
+    "eslint": "^8.21.0",
     "eslint-plugin-json": "^3.1.0"
   },
   "type": "module",

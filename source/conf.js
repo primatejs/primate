@@ -1,4 +1,4 @@
-import {Path, File} from "runtime-compat/filesystem";
+import {Path} from "runtime-compat/filesystem";
 import {Either} from "polyad";
 import cache from "./cache.js";
 import extend from "./extend_object.js";
@@ -13,10 +13,10 @@ const qualify = (root, paths) =>
     return sofar;
   }, {});
 
-export default (file = "primate.json") => cache("conf", file, () => {
+export default (filename = "primate.json") => cache("conf", filename, () => {
   const root = Path.resolve();
   const conf = Either
-    .try(() => extend(json, JSON.parse(File.read_sync(new Path(root, file)))))
+    .try(() => extend(json, JSON.parse(root.join(filename).file.readSync())))
     .match({left: () => json})
     .get();
   const paths = qualify(root, conf.paths);

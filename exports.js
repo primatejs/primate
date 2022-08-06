@@ -1,4 +1,4 @@
-import {File} from "runtime-compat/filesystem";
+import {File, Path} from "runtime-compat/filesystem";
 
 import _conf from "./source/conf.js";
 const conf = _conf();
@@ -19,11 +19,10 @@ export {default as extend_object} from "./source/extend_object.js";
 
 import _html from "./source/handlers/html.js";
 const {paths: {components: path}} = conf;
-const ending = -5;
-const load_file = async name =>
-  [name.slice(0, ending), await File.read(`${path}/${name}`)];
-const components = await File.exists(path)
-  ? Object.fromEntries(await Promise.all((await File.list(path)).map(load_file)))
+const loadFile = async file => [new Path(file.path).base, await file.read()];
+const components = await path.file.exists
+  ? Object.fromEntries(await Promise.all((
+    await File.collect(path, ".html")).map(loadFile)))
   : {};
 export const html = _html(components);
 
