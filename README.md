@@ -14,7 +14,6 @@ rendering (via web components, [React][primate-react] or [Vue][primate-vue]).
 [MongoDB][primate-mongodb-store]
 * Easy modelling of`1:1`, `1:n` and `n:m` relationships
 * Minimally opinionated with sane, overrideable defaults
-* Supports both Node.js and Deno
 
 ## Getting started
 
@@ -57,7 +56,7 @@ import {app} from "primate";
 app.run();
 ```
 
-### Run on Node.js
+### Run
 
 Create a start script in `package.json` to use JSON modules, which are required.
 Optionally add `{"type": "module"}` to treat `js` files as ES modules.
@@ -82,28 +81,6 @@ Run app
 ```sh
 $ npm start
 ```
-
-### Run on Deno
-
-Create an import map file (`import-map.json`)
-
-```json
-{
-  "imports": {
-    "runtime-compat": "https://deno.land/x/runtime_compat/exports.js",
-    "primate": "https:/deno.land/x/primate/exports.js"
-  }
-}
-```
-
-Run app
-
-```
-deno run --import-map=import-map.json app.js
-```
-
-You will typically need the `allow-read`, `allow-write` and `allow-net`
-permissions.
 
 ## Table of Contents
 
