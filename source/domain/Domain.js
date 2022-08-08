@@ -171,7 +171,7 @@ export default class Domain {
     return Object.keys(this.errors).length === 0;
   }
 
-  save(delta) {
+  async save(delta) {
     return this.new ? this.insert(delta) : this.update(delta);
   }
 
@@ -189,7 +189,7 @@ export default class Domain {
     return verified;
   }
 
-  insert(delta) {
+  async insert(delta) {
     delete this._id;
     return this.savewith(delta, () => this.inserted());
   }
@@ -207,17 +207,17 @@ export default class Domain {
     return this;
   }
 
-  delete() {
-    return this.store.delete(this.collection, {"_id": this._id});
+  async delete() {
+    return this.store.delete(this.collection, {_id: this._id});
   }
 
-  static delete(criteria) {
+  static async delete(criteria) {
     return this.store.delete(this.collection, criteria);
   }
 
   static by_id(_id) {
     return new Eager(async resolve => {
-      const result = await this.store.find(this.collection, {"_id": await _id});
+      const result = await this.store.find(this.collection, {_id: await _id});
       resolve(result.length > 0 ? this.deserialize(result[0]) : undefined);
     });
   }
@@ -259,7 +259,7 @@ export default class Domain {
   static async unique(criteria, _id) {
     const one = await this.count({...criteria, _id});
     const count = await this.count(criteria);
-    return count-one === 0;
+    return count - one === 0;
   }
 
   async unique(property) {
@@ -277,7 +277,7 @@ export default class Domain {
     }
   }
 
-  static insert(document) {
+  static async insert(document) {
     return new this(document).save();
   }
 }
