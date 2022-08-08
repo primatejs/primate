@@ -1,1 +1,1 @@
-npm start
+npm install primate && node --experimental-json-modules app.js

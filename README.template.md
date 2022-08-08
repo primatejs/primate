@@ -17,8 +17,6 @@ rendering (via web components, [React][primate-react] or [Vue][primate-vue]).
 
 ## Getting started
 
-### Prepare
-
 Lay out your app
 
 ```sh
@@ -49,27 +47,7 @@ Add an entry file
 // app.js
 ```
 
-### Run
-
-Create a start script in `package.json` to use JSON modules, which are required.
-Optionally add `{"type": "module"}` to treat `js` files as ES modules.
-
-```json
-{
-  "scripts": {
-    "start": "node --experimental-json-modules app.js"
-  },
-  "type": "module"
-}
-```
-
-Install Primate
-
-```sh
-# scripts/install.sh
-```
-
-Run app
+Install Primate and run
 
 ```sh
 # scripts/run.sh

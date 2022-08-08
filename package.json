@@ -5,7 +5,7 @@
   "homepage": "https://primatejs.com",
   "bugs": "https://github.com/primatejs/primate/issues",
   "repository": "https://github.com/primatejs/primate",
-  "description": "Cross-runtime JavaScript framework",
+  "description": "A primal JavaScript framework",
   "license": "BSD-3-Clause",
   "dependencies": {
     "dyndef": "^0.3.0",

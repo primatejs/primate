@@ -1,7 +1,7 @@
 # Primate 
 
-A full-stack Javascript framework with data verification and server-side
-rendering (via web components, [React][primate-react] or [Vue][primate-vue]).
+Full-stack Javascript framework with data verification and server-side
+rendering (either HTML, [React][primate-react] or [Vue][primate-vue]).
 
 ## Highlights
 
@@ -9,15 +9,13 @@ rendering (via web components, [React][primate-react] or [Vue][primate-vue]).
 * Secure by default with HTTPS, hash-verified scripts and a strong CSP
 * Built-in support for sessions with secure cookies
 * Input verification using data domains
-* Many different data store modules: In-Memory (built-in),
+* Several data stores available: In-Memory (built-in),
 [File][primate-file-store], [JSON][primate-json-store],
 [MongoDB][primate-mongodb-store]
 * Easy modelling of`1:1`, `1:n` and `n:m` relationships
 * Minimally opinionated with sane, overrideable defaults
 
 ## Getting started
-
-### Prepare
 
 Lay out your app
 
@@ -57,31 +55,10 @@ app.run();
 
 ```
 
-### Run
-
-Create a start script in `package.json` to use JSON modules, which are required.
-Optionally add `{"type": "module"}` to treat `js` files as ES modules.
-
-```json
-{
-  "scripts": {
-    "start": "node --experimental-json-modules app.js"
-  },
-  "type": "module"
-}
-```
-
-Install Primate
+Install Primate and run
 
 ```sh
-npm install primate
-
-```
-
-Run app
-
-```sh
-npm start
+npm install primate && node --experimental-json-modules app.js
 
 ```
 
