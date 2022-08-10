@@ -135,23 +135,19 @@ export default class Node {
 
   async compose(components) {
     if (components[this.tag]) {
-      const result = Parser.parse(components[this.tag], this.attributes, this.children, this.data);
-      // remove old tag
-      this.parent.remove(this);
+      const result = Parser.parse(components[this.tag], this.attributes, this.children, this.tag);
       // add children of parsed content to this parents children
       await result.compose(components);
-      this.parent.attach(result);
+      this.parent.replace(this, result);
     }
     // replace slot with a slottable
     if (this.tag === "slot" && this.slottables.length > 0) {
       let slottable = this.slottables.shift();
       const data = slottable.data;
       if (components[slottable.tag]) {
-        slottable = Parser.parse(components[slottable.tag], slottable.attributes, slottable.children);
+        slottable = Parser.parse(components[slottable.tag], slottable.attributes, slottable.children, slottable.tag);
       }
-//      await slottable.compose(components);
-      this.parent.remove(this);
-      this.parent.attach(slottable);
+      this.parent.replace(this, slottable);
       slottable.data = data;
     }
     await Promise.all(this.children.map(child => child.compose(components)));

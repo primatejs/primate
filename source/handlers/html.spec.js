@@ -2,8 +2,6 @@ import {Test} from "debris";
 
 const test = new Test();
 
-const w = content => `<div>${content}</div>`;
-
 test.fix(({html}) => html);
 
 test.reassert(assert => async (template, expected) =>
@@ -22,43 +20,82 @@ test.case("tag with attributes and data", async (assert, html) => {
 });
 
 test.case("custom tag", async (assert, html) => {
-  await assert(html`<parent-tag />`, "<div><pt></pt></div>");
-  await assert(html`<parent-tag></parent-tag>`, "<div><pt></pt></div>");
+  const expected = "<div class=\"custom-tag\"><ct></ct></div>";
+  await assert(html`<custom-tag />`, expected);
+  await assert(html`<custom-tag></custom-tag>`, expected);
 });
 
-test.case("custom tag with attributes", async (assert, html) => {
+test.case("custom tag with attribute", async (assert, html) => {
   const foo = "bar";
-  await assert(html`<parent-tag-with-attribute foo="${foo}"/>`,
-    w("<ptwa>bar</ptwa>"));
-  await assert(html`<parent-tag-with-attribute foo="bar"/>`,
-    w("<ptwa>bar</ptwa>"));
-  const foo_object = {bar: "baz"};
-  await assert(html`<parent-tag-with-object-attribute foo="${foo_object}"/>`,
-    w("<ptwoa>baz</ptwoa>"));
+  const tag = "<cwa>bar</cwa>";
+  const result = `<div class="custom-with-attribute">${tag}</div>`;
+  await assert(html`<custom-with-attribute foo="${foo}"/>`, result);
+  await assert(html`<custom-with-attribute foo="bar"/>`, result);
+});
+
+test.case("custom tag with object attribute", async (assert, html) => {
+  const foo = {bar: "baz"};
+  const tag = "<cwoa>baz</cwoa>";
+  const result = `<div class="custom-with-object-attribute">${tag}</div>`;
+  await assert(html`<custom-with-object-attribute foo="${foo}"/>`, result);
+});
+
+test.case("slot before custom tag", async (assert, html) => {
+  const child = "<div>test</div>";
+  const ct = "<div class=\"custom-tag\"><ct></ct></div>";
+
+  const result = `<div class="slot-before-custom">${child}${ct}</div>`;
+  await assert(html`<slot-before-custom><div>test</div></slot-before-custom>`,
+    result);
+});
+
+test.case("slot after custom tag", async (assert, html) => {
+  const child = "<div>test</div>";
+  const ct = "<div class=\"custom-tag\"><ct></ct></div>";
+
+  const result = `<div class="custom-before-slot">${ct}${child}</div>`;
+  await assert(html`<custom-before-slot><div>test</div></slot-before-custom>`,
+    result);
 });
 
 // test.case("custom tag with slot (text)")
 
-test.case("custom tag with slot (tag)", (assert, html) =>
-  assert(html`<parent-tag-with-slot><span>test</span></parent-tag-with-slot>`,
-    w("<ptws><span>test</span></ptws>")));
+test.case("custom tag with slot (tag)", async (assert, html) => {
+  const input = html`<custom-with-slot><span>test</span></custom-with-slot>`;
+  const cws = "<cws><span>test</span></cws>";
+  const result = `<div class="custom-with-slot">${cws}</div>`;
 
-test.case("custom tag in custom tag (slotted)", (assert, html) =>
-  assert(html`<parent-tag-with-slot><parent-tag></parent-tag></parent-tag-with-slot>`,
-    w("<ptws><div><pt></pt></div></ptws>")));
+  await assert(input, result);
+});
+
+test.case("custom tag in custom tag (slotted)", async (assert, html) => {
+  const input = html`<custom-with-slot><custom-tag /></custom-with-slot>`;
+  const ct = "<ct></ct>";
+  const cws = `<cws><div class="custom-tag">${ct}</div></cws>`;
+  const result = `<div class="custom-with-slot">${cws}</div>`;
+
+  await assert(input, result);
+});
 
 test.case("for with object", (assert, html) => {
   const foo = {bar: "baz"};
-  return assert(html`<for-with-object foo="${foo}" />`,
-    w(w("<fwo><span>baz</span></fwo>")));
+  const input = html`<for-with-object foo="${foo}" />`;
+  const fwo = "<div><fwo><span>baz</span></fwo></div>";
+  const result = `<div class="for-with-object">${fwo}</div>`;
+
+  return assert(input, result);
 });
 
 test.case("for with array", (assert, html) => {
   const foo = [{bar: "baz"}, {bar: "baz2"}];
-  return assert(html`<for-with-object foo="${foo}"></for-with-object>`,
-    w(w("<fwo><span>baz</span></fwo><fwo><span>baz2</span></fwo>")));
+  const input = html`<for-with-object foo="${foo}"></for-with-object>`;
+  const fwo = "<fwo><span>baz</span></fwo>";
+  const fwo2 = "<fwo><span>baz2</span></fwo>";
+  const result = `<div class="for-with-object"><div>${fwo}${fwo2}</div></div>`;
+
+  return assert(input, result);
 });
 
-test.case("shadowed attribute", (assert, html) => {});
+// test.case("shadowed attribute", (assert, html) => {});
 
 export default test;

@@ -6,14 +6,18 @@ const open_and_close_tag = "open_and_close_tag";
 const last_index = -1;
 
 export default class Parser {
-  constructor(html, data, slottables) {
+  constructor(html, data, slottables, name) {
     this.html = html.replace(/[\n\t\r]/gu, "");
     this.index = 0;
     this.result = [];
     this.buffer = "";
     this.balance = 0;
     this.reading_tag = false;
-    this.tree = new Node(undefined, "div", data, slottables);
+    if (name === undefined) {
+      this.tree = new Node(undefined, "div", data, slottables);
+    } else {
+      this.tree = new Node(undefined, `div class="${name}"`, data, slottables);
+    }
     this.node = this.tree;
   }
 
@@ -122,7 +126,7 @@ export default class Parser {
     return this.return_checked();
   }
 
-  static parse(html, data, slottables) {
-    return new Parser(html, data, slottables).parse();
+  static parse(html, data, slottables, name) {
+    return new Parser(html, data, slottables, name).parse();
   }
 }
