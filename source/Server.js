@@ -52,9 +52,9 @@ export default class Server {
   }
 
   async serve_file(filename, file, response) {
-    response.setHeader("Content-Type", mime(filename));
+    response.setHeader("Content-Type", mime(filename.name));
     response.setHeader("Etag", await file.modified);
-    return stream(file.read_stream, response);
+    return stream(file.stream, response);
   }
 
   async serve(url, request, response, payload) {
