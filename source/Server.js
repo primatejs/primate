@@ -32,12 +32,17 @@ export default class Server {
         response.setHeader("Set-Cookie", `${cookie}; SameSite=${same_site}`);
       }
       response.session = session;
-      const body = await request.body;
-      const payload = Object.fromEntries(decodeURI(body).replaceAll("+", " ")
-        .split("&")
-        .map(part => part.split("=")));
-      const {pathname, search} = new URL(`https://example.com${request.url}`);
-      return this.try(pathname + search, request, response, payload);
+      let body = "";
+      request.on("data", chunk => {
+        body += chunk;
+      });
+      request.on("end", () => {
+        const payload = Object.fromEntries(decodeURI(body).replaceAll("+", " ")
+          .split("&")
+          .map(part => part.split("=")));
+        const {pathname, search} = new URL(`https://example.com${request.url}`);
+        this.try(pathname + search, request, response, payload);
+      });
     });
   }
 
