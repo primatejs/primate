@@ -2,14 +2,14 @@ import Parser from "./Parser.js";
 
 const replacement_regex = /^\$([0-9]*)$/;
 const data_regex = /\${([^}]*)}/g;
-const attributes_regex = /([-a-z]*="[^"]+")/g;
+const attributes_regex = /([-a-zA-Z]*="[^"]+")/g;
 const replace = async (attribute, source) => {
   if (attribute.includes(".")) {
     const index = attribute.indexOf(".");
     const left = attribute.slice(0, index);
-    const rest = attribute.slice(index+1);
+    const rest = attribute.slice(index + 1);
     if (source[left] !== undefined) {
-      return await replace(rest, source[left]);
+      return replace(rest, source[left]);
     }
   } else {
     return source[attribute];
@@ -46,7 +46,7 @@ export default class Node {
     this.#data = data;
     this.#slottables = slottables;
     this.attributes = {};
-    this.tag = content.split(" ")[0];
+    [this.tag] = content.split(" ");
     const attributes = content.match(attributes_regex) ?? [];
     for (const attribute of attributes
       .map(a => a.replaceAll("\"", ""))
