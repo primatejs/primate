@@ -147,6 +147,7 @@ export default class Node {
       if (components[slottable.tag]) {
         slottable = Parser.parse(components[slottable.tag], slottable.attributes, slottable.children, slottable.tag);
       }
+      await slottable.compose(components);
       this.parent.replace(this, slottable);
       slottable.data = data;
     }

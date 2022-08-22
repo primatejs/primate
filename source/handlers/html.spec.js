@@ -77,6 +77,15 @@ test.case("custom tag in custom tag (slotted)", async (assert, html) => {
   await assert(input, result);
 });
 
+test.case("custom tag in custom tag (slotted) in tag", async (assert, html) => {
+  const input = html`<custom-with-slot><p><custom-tag/></p></custom-with-slot>`;
+  const ct = "<ct></ct>";
+  const cws = `<cws><p><div class="custom-tag">${ct}</div></p></cws>`;
+  const result = `<div class="custom-with-slot">${cws}</div>`;
+
+  await assert(input, result);
+});
+
 test.case("for with object", (assert, html) => {
   const foo = {bar: "baz"};
   const input = html`<for-with-object foo="${foo}" />`;
