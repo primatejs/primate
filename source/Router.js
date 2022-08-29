@@ -13,7 +13,7 @@ const isJSON = data => {
   try {
     JSON.parse(data);
     return true;
-  } catch () {
+  } catch (error) {
     return false;
   }
 }
