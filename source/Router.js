@@ -18,7 +18,7 @@ const isJSON = data => {
   }
 }
 
-const guessHandler = isJSON(object) ? json`${object}` : http404``;
+const guessHandler = object => isJSON(object) ? json`${object}` : http404``;
 
 export default {
   map: (path, callback) => push("map", path, callback),
