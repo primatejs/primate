@@ -1,4 +1,5 @@
-import {http404} from "./handlers/http.js";
+import http404 from "./handlers/http.js";
+import json from "./handlers/json.js";
 
 const aliases = [];
 const routes = [];
