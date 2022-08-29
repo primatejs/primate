@@ -10,5 +10,6 @@ export default async (strings, ...keys) => {
       .map((string, i) => string + awaited_keys[i])
       .join("") + strings[strings.length + last],
   };
-  return {code, headers};
+  const type = Symbol.for("handler");
+  return {code, headers, type};
 };

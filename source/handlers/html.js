@@ -11,5 +11,6 @@ export default components => async (strings, ...keys) => {
     .render();
   const code = 200;
   const headers = {"Content-Type": "text/html"};
-  return {body, code, headers};
+  const type = Symbol.for("handler");
+  return {body, code, headers, type};
 };

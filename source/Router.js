@@ -1,4 +1,5 @@
 import {http404} from "./handlers/http.js";
+import json from "./handlers/json.js";
 
 const aliases = [];
 const routes = [];
@@ -8,6 +9,17 @@ const push = (type, path, handler) =>
   routes.push({type, path: new RegExp(`^${dealias(path)}$`, "u"), handler});
 const find = (type, path, fallback = {handler: r => r}) => routes.find(route =>
   route.type === type && route.path.test(path)) ?? fallback;
+
+const isJSON = data => {
+  try {
+    JSON.parse(data);
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
+const guessHandler = object => isJSON(object) ? json`${object}` : http404``;
 
 export default {
   map: (path, callback) => push("map", path, callback),
@@ -26,6 +38,8 @@ export default {
       .forEach(([key, value]) => Object.defineProperty(path, key, {value}));
 
     const request = {...original_request, pathname, params, path};
-    return verb.handler(await find("map", pathname).handler(request));
-  },
+    const result = await verb.handler(await find("map", pathname).handler(request));
+    
+    return result.type === Symbol.for("handler") ? result : guessHandler(result);
+  }
 };
