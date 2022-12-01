@@ -13,6 +13,7 @@ export default class Parser {
     this.buffer = "";
     this.balance = 0;
     this.reading_tag = false;
+
     if (name === undefined) {
       this.tree = new Node(undefined, "div", data, slottables);
     } else {
@@ -38,6 +39,7 @@ export default class Parser {
   }
 
   open_tag() {
+    console.log("openTag`", this.buffer, "`");
     this.node = new Node(this.node, this.buffer);
   }
 

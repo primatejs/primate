@@ -36,14 +36,14 @@ router.get("/", () => html`<site-index date="${new Date()}" />`);
 Create a component for your route (in `components/site-index.html`)
 
 ```html
-Today's date is <span value="${date}"></span>.
+Today's date is ${date}.
 
 ```
 
 Generate SSL key/certificate
 
 ```sh
-openssl req -x509 -out ssl/default.crt -keyout ssl/default.key -newkey rsa:2048 -nodes -sha256 -batch
+openssl req -x509 -out ssl/app.crt -keyout ssl/app.key -newkey rsa:2048 -nodes -sha256 -batch
 
 ```
 
@@ -74,7 +74,7 @@ Create routes in the `routes` directory by importing and using the `router`
 singleton. You can group your routes across several files or keep them
 in one file.
 
-### `router[get|post](pathname, request => ...)`
+### `router[delete|get|post|put](pathname, request => ...)`
 
 Routes are tied to a pathname and execute their callback when the pathname is 
 encountered.
@@ -82,14 +82,16 @@ encountered.
 ```js
 import {router, json} from "primate";
 
-// on matching the exact pathname /, returns {"foo": "bar"} as JSON
+// on matching the exact pathname /, returns {foo: "bar"} as JSON
 router.get("/", () => json`${{foo: "bar"}}`);
 
+// you can also have Primate figure out the handler on its own, in this case
+`json`
+router.get("/", () => ({foo: "bar"}));
 ```
 
 All routes must return a template function handler. See the
 [section on handlers for common handlers](#handlers).
-
 The callback has one parameter, the request data.
 
 ### The `request` object
@@ -100,11 +102,10 @@ The request contains the `path`, a `/` separated array of the pathname.
 import {router, json} from "primate";
 
 router.get("/site/login", request => json`${{path: request.path}}`);
-// accessing /site/login -> {"path":["site","login"]}
+// accessing /site/login -> {path:["site","login"]}
 
 // or get `path` via destructuring
 router.get("/site/login", ({path}) => json`${{path}}`);
-
 ```
 
 The HTTP request's body is available under `request.payload`. 
@@ -117,9 +118,8 @@ All routes are treated as regular expressions.
 import {router, json} from "primate";
 
 router.get("/user/view/([0-9])+", request => json`${{path: request.path}}`);
-// accessing /user/view/1234 -> {"path":["site","login","1234"]}
+// accessing /user/view/1234 -> {path:["site","login","1234"]}
 // accessing /user/view/abcd -> error 404
-
 ```
 
 ### `router.alias(from, to)`
@@ -141,7 +141,7 @@ router.get("/user/edit/_id", request => json`${{path: request.path}}`);
 ### `router.map(pathname, request => ...)`
 
 You can reuse functionality across the same path but different HTTP verbs. This
-function has the same signature as `router[get|post]`.
+function has the same signature as `router.get` and other HTTP verbs.
 
 ```js
 import {router, html, redirect} from "primate";
@@ -231,7 +231,6 @@ router.post("/user/edit/_id", async request => {
   </p>
   <input type="submit" value="Save user" />
 </form>
-
 ```
 
 ### Grouping objects with `for`
@@ -249,7 +248,6 @@ You can use the special attribute `for` to group objects.
   </p>
   <input type="submit" value="Save user" />
 </form>
-
 ```
 
 ### Expanding arrays
@@ -271,8 +269,8 @@ router.get("/users", () => {
 
 ```html
 <div for="${users}">
-  User <span value="${name}"></span>
-  Email <span value="${email}"></span>
+  User: ${name}
+  Email: ${email}
 </div>
 
 ```

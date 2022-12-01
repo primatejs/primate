@@ -19,6 +19,10 @@ test.case("tag with attributes and data", async (assert, html) => {
   await assert(html`<div title="${key}"></div>`, "<div title=\"value\"></div>");
 });
 
+test.case("text node only", async (assert, html) => {
+  await assert(html`"test"`, "test");
+});
+
 test.case("custom tag", async (assert, html) => {
   const expected = "<div class=\"custom-tag\"><ct></ct></div>";
   await assert(html`<custom-tag />`, expected);
@@ -57,8 +61,6 @@ test.case("slot after custom tag", async (assert, html) => {
   await assert(html`<custom-before-slot><div>test</div></slot-before-custom>`,
     result);
 });
-
-// test.case("custom tag with slot (text)")
 
 test.case("custom tag with slot (tag)", async (assert, html) => {
   const input = html`<custom-with-slot><span>test</span></custom-with-slot>`;
