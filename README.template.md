@@ -173,7 +173,7 @@ You can use the special attribute `for` to group objects.
 
 ## License
 
-BSD-3-Clause
+MIT
 
 [getting-started]: https://primatejs.com/getting-started
 [source-code]: https://github.com/primatejs/primate

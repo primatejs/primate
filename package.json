@@ -1,12 +1,12 @@
 {
   "name": "primate",
   "version": "0.8.1",
-  "author": "Primate core team <core@primatejs.com>",
+  "author": "Terrablue <terrablue@proton.me>",
   "homepage": "https://primatejs.com",
   "bugs": "https://github.com/primatejs/primate/issues",
   "repository": "https://github.com/primatejs/primate",
   "description": "A primal JavaScript framework",
-  "license": "BSD-3-Clause",
+  "license": "MIT",
   "dependencies": {
     "dyndef": "^0.3.0",
     "polyad": "^0.2.2",
@@ -20,8 +20,7 @@
     "eslint-plugin-json": "^3.1.0"
   },
   "scripts": {
-    "build-readme": "npx embedme --source-root examples --strip-embed-comment --stdout README.template.md > README.md",
-    "test": "npx debris"
+    "build-readme": "npx embedme --source-root examples --strip-embed-comment --stdout README.template.md > README.md"
   },
   "type": "module",
   "exports": "./exports.js",

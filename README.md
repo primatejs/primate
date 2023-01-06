@@ -281,7 +281,7 @@ router.get("/users", () => {
 
 ## License
 
-BSD-3-Clause
+MIT
 
 [getting-started]: https://primatejs.com/getting-started
 [source-code]: https://github.com/primatejs/primate
