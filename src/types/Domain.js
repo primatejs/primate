@@ -1,6 +1,6 @@
-import Storeable from "./Storeable.js";
+import Storable from "./Storable.js";
 
-export default class DomainType extends Storeable {
+export default class DomainType extends Storable {
   static type_error({name}) {
     return `Must be a ${name}`;
   }

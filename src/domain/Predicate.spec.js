@@ -22,7 +22,7 @@ export default test => {
   test.case("check: native predicates must have type", (assert, {mowgli}) => {
     const predicate = new Predicate("length:6");
     assert(() => predicate.check("name", mowgli))
-      .throws("`undefined` must subclass Storeable");
+      .throws("`undefined` must subclass Storable");
     assert(() => predicate.check("name", mowgli, types.StringType)).not_throws();
   });
 

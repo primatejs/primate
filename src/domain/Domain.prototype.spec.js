@@ -1,6 +1,5 @@
 export default test => {
   test.case("delete: deletes if _id found", async (assert, {baloo, Animal}) => {
-    console.log("Animal", Animal);
     await baloo.save();
     const found_baloo = await Animal.one(baloo._id);
     assert(found_baloo._id).equals(baloo._id);
@@ -58,7 +57,7 @@ export default test => {
     assert(await Empty.one(empty._id)).equals(empty);
   });
 
-  test.case("save: serializes storeables", async (assert, {mowgli, Person}) => {
+  test.case("save: serializes storables", async (assert, {mowgli, Person}) => {
     mowgli.local_house = {name: "Jungle", location: "Asia"};
     await mowgli.save();
 

@@ -1,6 +1,6 @@
 import {is} from "dyndef";
 import Domain from "./Domain.js";
-import Storeable from "../types/Storeable.js";
+import Storable from "../types/Storable.js";
 
 export default class Predicate {
   constructor(definition) {
@@ -15,7 +15,7 @@ export default class Predicate {
     is(document).instance(Domain);
     const {name, params} = this;
     if (document[name] === undefined) {
-      is(Type).subclass(Storeable);
+      is(Type).subclass(Storable);
       await Type.has(name, document[property], params);
     } else {
       await document[name](property, ...params);

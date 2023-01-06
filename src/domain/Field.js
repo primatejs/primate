@@ -1,7 +1,7 @@
 import DomainType from "../types/Domain.js";
 import Predicate from "./Predicate.js";
 import {PredicateError} from "../errors.js";
-import Storeable from "../types/Storeable.js";
+import Storable from "../types/Storable.js";
 import * as types from "../types/types.js";
 import cache from "../cache.js";
 import {constructible, defined, is, maybe} from "dyndef";
@@ -32,7 +32,7 @@ export default class Field {
     this.definition = parse(definition);
     this.options = options ?? {transient: false, optional: false};
     is(this.Type).constructible();
-    is(this.type).subclass(Storeable);
+    is(this.type).subclass(Storable);
     maybe(this.definition.predicates).array();
   }
 

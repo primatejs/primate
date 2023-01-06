@@ -1,5 +1,5 @@
 import Field from "./Field.js";
-import Storeable from "../types/Storeable.js";
+import Storable from "../types/Storable.js";
 import DomainType from "../types/Domain.js";
 
 export default test => {
@@ -8,10 +8,10 @@ export default test => {
     assert(field.custom).equals(DomainType);
   });
 
-  test.case("custom: returns a Storeable", assert => {
-    const StoreableHouse = class extends Storeable {};
-    const field = new Field("house_id", StoreableHouse);
-    assert(field.custom).equals(StoreableHouse);
+  test.case("custom: returns a Storable", assert => {
+    const StorableHouse = class extends Storable {};
+    const field = new Field("house_id", StorableHouse);
+    assert(field.custom).equals(StorableHouse);
   });
 
   test.case("serialize: builtins", assert => {
@@ -24,7 +24,7 @@ export default test => {
     assert(field.serialize("1234")).equals("1234");
   });
 
-  test.case("serialize: Storeable", (assert, {LocalHouse}) => {
+  test.case("serialize: Storable", (assert, {LocalHouse}) => {
     const field = new Field("house", LocalHouse);
     assert(field.serialize({name: "Jungle", location: "India"}))
       .equals("Jungle in India");

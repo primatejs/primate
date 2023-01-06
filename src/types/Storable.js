@@ -1,6 +1,6 @@
 import {PredicateError} from "../errors.js";
 
-export default class Storeable {
+export default class Storable {
   static verify_undefined(optional) {
     if (!optional) {
       throw new PredicateError("Must not be empty");

@@ -1,5 +1,5 @@
 import Field from "./Field.js";
-import Storeable from "../types/Storeable.js";
+import Storable from "../types/Storable.js";
 
 const {resolve} = Field;
 
@@ -16,17 +16,17 @@ export default test => {
     }
   });
 
-  test.case("construct: type must be Storeable", (assert, {Animal}) => {
+  test.case("construct: type must be Storable", (assert, {Animal}) => {
     // no error, builtin
     assert(() => new Field("name", String)).not_throws();
     // no error, Domain
     assert(() => new Field("name", Animal)).not_throws();
-    // no error, extends Storeable
-    const StoreableAnimal = class extends Storeable {};
-    assert(() => new Field("name", StoreableAnimal)).not_throws();
-    // error, does not extend Storeable
+    // no error, extends Storable
+    const StorableAnimal = class extends Storable {};
+    assert(() => new Field("name", StorableAnimal)).not_throws();
+    // error, does not extend Storable
     assert(() => new Field("name", Field))
-      .throws("`Field` must subclass Storeable");
+      .throws("`Field` must subclass Storable");
   });
 
   test.case("construct: predicates must be array", assert => {

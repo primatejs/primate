@@ -1,6 +1,6 @@
 import * as types from "./types.js";
 
-import Storeable from "./Storeable.js";
+import Storable from "./Storable.js";
 import DomainType from "./Domain.js";
 
 const {NumberType, BooleanType} = types;
@@ -61,7 +61,7 @@ export default test => {
   });
 
   test.case("deserialize noop", assert => {
-    assert(Storeable.deserialize("Mowgli")).equals("Mowgli");
+    assert(Storable.deserialize("Mowgli")).equals("Mowgli");
   });
 
   test.case("deserialize overriden in derivatives", (assert, {LocalHouse}) => {
@@ -77,7 +77,7 @@ export default test => {
   });
 
   test.case("serialize noop", assert => {
-    assert(Storeable.serialize("Mowgli")).equals("Mowgli");
+    assert(Storable.serialize("Mowgli")).equals("Mowgli");
   });
 
   test.case("serialize overriden in derivatives", (assert, {LocalHouse}) => {

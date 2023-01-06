@@ -17,7 +17,7 @@ export default test => {
     assert(await found_mowgli.name).equals("Mowgli");
   });
 
-  test.case("by id: deserializes storeables", async (assert, fixtures) => {
+  test.case("by id: deserializes storables", async (assert, fixtures) => {
     const {mowgli, Person} = fixtures;
     mowgli.local_house = {name: "Jungle", location: "Asia"};
     await mowgli.save();
@@ -69,7 +69,7 @@ export default test => {
 
   });
 
-  test.case("find: deserializes storeables", async (assert, {Person}) => {
+  test.case("find: deserializes storebles", async (assert, {Person}) => {
     const local_house = {name: "Jungle", location: "Asia"};
     const male = true;
     const mowgli = new Person({name: "Mowgli", male, local_house});
@@ -97,7 +97,7 @@ export default test => {
     assert(await found_mowgli.name).equals("Mowgli");
   });
 
-  test.case("first: deserializes storeables", async (assert, fixtures) => {
+  test.case("first: deserializes storables", async (assert, fixtures) => {
     const {mowgli, Person} = fixtures;
     mowgli.local_house = {name: "Jungle", location: "Asia"};
     await mowgli.save();
@@ -125,7 +125,7 @@ export default test => {
     assert(found_mowgli._id).equals(found_mowgli_by_criteria._id);
   });
 
-  test.case("one: deserializes storeables", async (assert, fixtures) => {
+  test.case("one: deserializes storables", async (assert, fixtures) => {
     const {mowgli, Person} = fixtures;
     mowgli.local_house = {name: "Jungle", location: "Asia"};
     await mowgli.save();
