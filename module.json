@@ -1,0 +1,14 @@
+{
+  "name": "primate",
+  "version": "0.8.1",
+  "author": "Terrablue <terrablue@proton.me>",
+  "homepage": "https://primatejs.com",
+  "bugs": "https://github.com/primatejs/primate/issues",
+  "repository": "https://github.com/primatejs/primate",
+  "description": "A primal JavaScript framework",
+  "license": "MIT",
+  "dependencies": {
+    "polyad": "^0.2.2",
+    "runtime-compat": "^0.9.2"
+  }
+}
