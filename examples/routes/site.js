@@ -1,3 +1,5 @@
-import {router, html} from "primate";
+import {html} from "primate";
 
-router.get("/", () => html`<site-index date="${new Date()}" />`);
+export default router => {
+  router.get("/", () => html`<site-index date="${new Date()}" />`);
+};

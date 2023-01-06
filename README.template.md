@@ -41,16 +41,10 @@ Generate SSL key/certificate
 # scripts/generate-ssl.sh
 ```
 
-Add an entry file
-
-```js
-// app.js
-```
-
-Install Primate and run
+Run Primate
 
 ```sh
-# scripts/run.sh
+npx primate
 ```
 
 ## Table of Contents
@@ -62,10 +56,12 @@ Install Primate and run
 ## Routes
 
 Create routes in the `routes` directory by importing and using the `router`
-singleton. You can group your routes across several files or keep them
+parameter. You can group your routes across several files or keep them
 in one file.
 
-### `router[get|post](pathname, request => ...)`
+### `router.get(pathname, request => ...)`
+
+** Other HTTP verbs are accepted in place of `get`.
 
 Routes are tied to a pathname and execute their callback when the pathname is 
 encountered.
@@ -74,8 +70,8 @@ encountered.
 // routes/some-file.js
 ```
 
-All routes must return a template function handler. See the
-[section on handlers for common handlers](#handlers).
+All routes must return a template function handler. See the section on
+[common handlers](#handlers) for more.
 
 The callback has one parameter, the request data.
 
@@ -109,7 +105,7 @@ applied before matching.
 ### `router.map(pathname, request => ...)`
 
 You can reuse functionality across the same path but different HTTP verbs. This
-function has the same signature as `router[get|post]`.
+function has the same signature as `router.get` etc.
 
 ```js
 // routes/mapping.js

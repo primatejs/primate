@@ -1,7 +1,9 @@
-import {router, json} from "primate";
+import {json} from "primate";
 
-router.get("/site/login", request => json`${{path: request.path}}`);
-// accessing /site/login -> {"path":["site","login"]}
+export default router => {
+  // accessing /site/login -> {"path":["site","login"]}
+  router.get("/site/login", request => json`${{path: request.path}}`);
 
-// or get `path` via destructuring
-router.get("/site/login", ({path}) => json`${{path}}`);
+  // or get `path` via destructuring
+  router.get("/site/login", ({path}) => json`${{path}}`);
+};

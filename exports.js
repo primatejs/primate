@@ -32,8 +32,6 @@ export {http404} from "./src/handlers/http.js";
 
 export {default as DOMParser} from "./src/handlers/DOM/Parser.js";
 
-export {default as router} from "./src/Router.js";
-
 const app = new App(conf);
 
 export {app};

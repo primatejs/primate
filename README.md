@@ -1,7 +1,7 @@
 # Primate 
 
-Full-stack Javascript framework with data verification and server-side
-rendering (either HTML, [React][primate-react] or [Vue][primate-vue]).
+A full-stack Javascript framework with data verification and server-side
+rendering (via web components, [React][primate-react] or [Vue][primate-vue]).
 
 ## Highlights
 
@@ -9,7 +9,7 @@ rendering (either HTML, [React][primate-react] or [Vue][primate-vue]).
 * Secure by default with HTTPS, hash-verified scripts and a strong CSP
 * Built-in support for sessions with secure cookies
 * Input verification using data domains
-* Several data stores available: In-Memory (built-in),
+* Many different data store modules: In-Memory (built-in),
 [File][primate-file-store], [JSON][primate-json-store],
 [MongoDB][primate-mongodb-store]
 * Easy modelling of`1:1`, `1:n` and `n:m` relationships
@@ -27,9 +27,11 @@ mkdir -p primate-app/{routes,components,ssl} && cd primate-app
 Create a route for `/`
 
 ```js
-import {router, html} from "primate";
+import {html} from "primate";
 
-router.get("/", () => html`<site-index date="${new Date()}" />`);
+export default router => {
+  router.get("/", () => html`<site-index date="${new Date()}" />`);
+};
 
 ```
 
@@ -43,23 +45,14 @@ Today's date is ${date}.
 Generate SSL key/certificate
 
 ```sh
-openssl req -x509 -out ssl/app.crt -keyout ssl/app.key -newkey rsa:2048 -nodes -sha256 -batch
+openssl req -x509 -out ssl/default.crt -keyout ssl/default.key -newkey rsa:2048 -nodes -sha256 -batch
 
 ```
 
-Add an entry file
-
-```js
-import {app} from "primate";
-app.run();
-
-```
-
-Install Primate and run
+Run Primate
 
 ```sh
-npm install primate && node --experimental-json-modules app.js
-
+npx primate
 ```
 
 ## Table of Contents
@@ -71,27 +64,29 @@ npm install primate && node --experimental-json-modules app.js
 ## Routes
 
 Create routes in the `routes` directory by importing and using the `router`
-singleton. You can group your routes across several files or keep them
+parameter. You can group your routes across several files or keep them
 in one file.
 
-### `router[delete|get|post|put](pathname, request => ...)`
+### `router.get(pathname, request => ...)`
+
+** Other HTTP verbs are accepted in place of `get`.
 
 Routes are tied to a pathname and execute their callback when the pathname is 
 encountered.
 
 ```js
-import {router, json} from "primate";
+import {json} from "primate";
 
-// on matching the exact pathname /, returns {foo: "bar"} as JSON
-router.get("/", () => json`${{foo: "bar"}}`);
+export default router => {
+  // on matching the exact pathname /, returns {"foo": "bar"} as JSON
+  router.get("/", () => json`${{foo: "bar"}}`);
+};
 
-// you can also have Primate figure out the handler on its own, in this case
-`json`
-router.get("/", () => ({foo: "bar"}));
 ```
 
-All routes must return a template function handler. See the
-[section on handlers for common handlers](#handlers).
+All routes must return a template function handler. See the section on
+[common handlers](#handlers) for more.
+
 The callback has one parameter, the request data.
 
 ### The `request` object
@@ -99,13 +94,16 @@ The callback has one parameter, the request data.
 The request contains the `path`, a `/` separated array of the pathname.
 
 ```js
-import {router, json} from "primate";
+import {json} from "primate";
 
-router.get("/site/login", request => json`${{path: request.path}}`);
-// accessing /site/login -> {path:["site","login"]}
+export default router => {
+  // accessing /site/login -> {"path":["site","login"]}
+  router.get("/site/login", request => json`${{path: request.path}}`);
 
-// or get `path` via destructuring
-router.get("/site/login", ({path}) => json`${{path}}`);
+  // or get `path` via destructuring
+  router.get("/site/login", ({path}) => json`${{path}}`);
+};
+
 ```
 
 The HTTP request's body is available under `request.payload`. 
@@ -115,11 +113,14 @@ The HTTP request's body is available under `request.payload`.
 All routes are treated as regular expressions.
 
 ```js
-import {router, json} from "primate";
+import {json} from "primate";
 
-router.get("/user/view/([0-9])+", request => json`${{path: request.path}}`);
-// accessing /user/view/1234 -> {path:["site","login","1234"]}
-// accessing /user/view/abcd -> error 404
+export default router => {
+  // accessing /user/view/1234 -> {"path":["site","login","1234"]}
+  // accessing /user/view/abcd -> error 404
+  router.get("/user/view/([0-9])+", request => json`${{path: request.path}}`);
+};
+
 ```
 
 ### `router.alias(from, to)`
@@ -128,44 +129,48 @@ To reuse certain parts of a pathname you can define aliases which will be
 applied before matching.
 
 ```js
-import {router, json} from "primate";
+import {json} from "primate";
 
-router.alias("_id", "([0-9])+");
+export default router => {
+  router.alias("_id", "([0-9])+");
 
-router.get("/user/view/_id", request => json`${{path: request.path}}`);
+  router.get("/user/view/_id", request => json`${{path: request.path}}`);
 
-router.get("/user/edit/_id", request => json`${{path: request.path}}`);
+  router.get("/user/edit/_id", request => json`${{path: request.path}}`);
+};
 
 ```
 
 ### `router.map(pathname, request => ...)`
 
 You can reuse functionality across the same path but different HTTP verbs. This
-function has the same signature as `router.get` and other HTTP verbs.
+function has the same signature as `router.get` etc.
 
 ```js
-import {router, html, redirect} from "primate";
+import {html, redirect} from "primate";
 
-router.alias("_id", "([0-9])+");
+export default router => {
+  router.alias("_id", "([0-9])+");
 
-router.map("/user/edit/_id", request => {
-  const user = {name: "Donald"};
-  // return original request and user
-  return {...request, user};
-});
+  router.map("/user/edit/_id", request => {
+    const user = {name: "Donald"};
+    // return original request and user
+    return {...request, user};
+  });
 
-router.get("/user/edit/_id", request => {
-  // show user edit form
-  return html`<user-edit user="${request.user}" />`;
-});
+  router.get("/user/edit/_id", request => {
+    // show user edit form
+    return html`<user-edit user="${request.user}" />`;
+  });
 
-router.post("/user/edit/_id", async request => {
-  const {user} = request;
-  // verify form and save / show errors
-  return await user.save()
-    ? redirect`/users`
-    : html`<user-edit user="${user}" />`;
-});
+  router.post("/user/edit/_id", async request => {
+    const {user} = request;
+    // verify form and save / show errors
+    return await user.save()
+      ? redirect`/users`
+      : html`<user-edit user="${user}" />`;
+  });
+};
 
 ```
 
@@ -194,29 +199,31 @@ Create HTML components in the `components` directory. Use attributes to expose
 passed data within your component.
 
 ```js
-import {router, html, redirect} from "primate";
+import {html, redirect} from "primate";
 
-router.alias("_id", "([0-9])+");
+export default router => {
+  router.alias("_id", "([0-9])+");
 
-router.map("/user/edit/_id", request => {
-  const user = {name: "Donald", email: "donald@was.here"};
-  // return original request and user
-  return {...request, user};
-});
+  router.map("/user/edit/_id", request => {
+    const user = {name: "Donald", email: "donald@was.here"};
+    // return original request and user
+    return {...request, user};
+  });
 
-router.get("/user/edit/_id", request => {
-  // show user edit form
-  return html`<user-edit user="${request.user}" />`;
-});
+  router.get("/user/edit/_id", request => {
+    // show user edit form
+    return html`<user-edit user="${request.user}" />`;
+  });
 
-router.post("/user/edit/_id", async request => {
-  const {user, payload} = request;
-  // verify form and save / show errors
-  // this assumes `user` has a method `save` to verify data
-  return await user.save(payload)
-    ? redirect`/users`
-    : html`<user-edit user="${user}" />`;
-});
+  router.post("/user/edit/_id", async request => {
+    const {user, payload} = request;
+    // verify form and save / show errors
+    // this assumes `user` has a method `save` to verify data
+    return await user.save(payload)
+      ? redirect`/users`
+      : html`<user-edit user="${user}" />`;
+  });
+};
 
 ```
 
@@ -231,6 +238,7 @@ router.post("/user/edit/_id", async request => {
   </p>
   <input type="submit" value="Save user" />
 </form>
+
 ```
 
 ### Grouping objects with `for`
@@ -248,6 +256,7 @@ You can use the special attribute `for` to group objects.
   </p>
   <input type="submit" value="Save user" />
 </form>
+
 ```
 
 ### Expanding arrays
@@ -255,22 +264,24 @@ You can use the special attribute `for` to group objects.
 `for` can also be used to expand arrays.
 
 ```js
-import {router, html} from "primate";
+import {html} from "primate";
 
-router.get("/users", () => {
-  const users = [
-   {name: "Donald", email: "donald@was.here"},
-   {name: "Ryan", email: "ryan@was.here"},
-  ];
-  return html`<user-index users="${users}" />`;
-});
+export default router => {
+  router.get("/users", () => {
+    const users = [
+     {name: "Donald", email: "donald@was.here"},
+     {name: "Ryan", email: "ryan@was.here"},
+    ];
+    return html`<user-index users="${users}" />`;
+  });
+};
 
 ```
 
 ```html
 <div for="${users}">
-  User: ${name}
-  Email: ${email}
+  User ${name}.
+  Email ${email}.
 </div>
 
 ```

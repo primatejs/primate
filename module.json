@@ -7,6 +7,7 @@
   "repository": "https://github.com/primatejs/primate",
   "description": "A primal JavaScript framework",
   "license": "MIT",
+  "bin": "bin/primate.js",
   "dependencies": {
     "polyad": "^0.2.2",
     "runtime-compat": "^0.9.2"

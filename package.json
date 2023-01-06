@@ -12,6 +12,7 @@
     "polyad": "^0.2.2",
     "runtime-compat": "^0.9.2"
   },
+  "bin": "bin/primate.js",
   "devDependencies": {
     "@babel/core": "^7.18.10",
     "@babel/eslint-parser": "^7.18.9",
