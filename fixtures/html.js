@@ -1,4 +1,4 @@
-import html from "../source/handlers/html.js";
+import html from "../src/handlers/html.js";
 const obj = {
   "custom-tag": "<ct></ct>",
   "custom-with-attribute": "<cwa value=\"${foo}\"></cwa>",

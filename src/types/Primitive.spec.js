@@ -1,4 +1,3 @@
-import {Test} from "debris";
 import {BooleanType, NumberType, StringType} from "./types.js";
 
 const types = {BooleanType, NumberType, StringType};
@@ -20,18 +19,16 @@ const checks = [
   {value: Date(), type: StringType},
 ];
 
-const test = new Test();
-
 const type = ["BooleanType", "NumberType", "StringType"];
 
-test.space("type", type, (assert, each) => {
-  const Type = types[each];
-  checks.forEach(check =>
-    assert(Type.is(check.value)).equals(check.type === Type)
-  );
+export default test => {
+  test.space("type", type, (assert, each) => {
+    const Type = types[each];
+    checks.forEach(check =>
+      assert(Type.is(check.value)).equals(check.type === Type)
+    );
 
-  assert(Type.is(undefined)).false();
-  assert(Type.is(null)).false();
-});
-
-export default test;
+    assert(Type.is(undefined)).false();
+    assert(Type.is(null)).false();
+  });
+}

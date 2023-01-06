@@ -1,9 +1,9 @@
 import {log} from "runtime-compat";
 import {Path, File} from "runtime-compat/filesystem";
-import Bundler from "./Bundler.js";
+import {default as Bundler, index} from "./Bundler.js";
 import Router from "./Router.js";
 import Server from "./Server.js";
-import package_json from "../package.json" assert {type: "json"};
+import package_json from "../package.json" assert {"type": "json"};
 
 export default class App {
   constructor(conf) {
@@ -13,20 +13,21 @@ export default class App {
   async run() {
     log.reset("Primate").yellow(package_json.version);
     const routes = await File.list(this.conf.paths.routes);
-    await Promise.all(routes.map(route => import(route.path)));
-    const bundler = await new Bundler(this.conf).bundle();
-    this.index = await bundler.index();
+    for (const route of routes) {
+      await import(`file://${this.conf.paths.routes}/${route}`);
+    }
+    await new Bundler(this.conf).bundle();
+    this.index = await index(this.conf);
 
     const conf = {router: Router,
       serve_from: this.conf.paths.public,
       http: {
         ...this.conf.http,
-        key: await Path.resolve(this.conf.http.ssl.key).file.read(),
-        cert: await Path.resolve(this.conf.http.ssl.cert).file.read(),
-        keyFile: Path.resolve(this.conf.http.ssl.key).path,
-        certFile: Path.resolve(this.conf.http.ssl.cert).path,
+        key: File.read_sync(Path.resolve(this.conf.http.ssl.key)),
+        cert: File.read_sync(Path.resolve(this.conf.http.ssl.cert)),
+        keyFile: Path.resolve(this.conf.http.ssl.key),
+        certFile: Path.resolve(this.conf.http.ssl.cert),
       },
-      index: this.index,
     };
     this.server = new Server(conf);
     await this.server.run();
