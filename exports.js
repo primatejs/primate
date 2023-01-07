@@ -1,9 +1,9 @@
-import {File, Path} from "runtime-compat/filesystem";
+import {File} from "runtime-compat/filesystem";
 
 export {default as Bundler} from "./src/Bundler.js";
 
 export {default as Domain} from "./src/domain/Domain.js";
-export {default as Storeable} from "./src/types/Storeable.js";
+export {default as Storable} from "./src/types/Storable.js";
 
 export * from "./src/errors.js";
 

@@ -12,10 +12,9 @@ export default class App {
 
   async run() {
     log.reset("Primate").yellow(package_json.version);
-    const routes = await File.list(this.conf.paths.routes);
-    for (const route of routes) {
-      await import(`file://${this.conf.paths.routes}/${route}`);
-    }
+    const {paths} = this.conf;
+    const routes = (await Path.list(paths.routes)).map(route => import(route));
+    await Promise.all(routes.map(async route => (await route).default(Router)));
     await new Bundler(this.conf).bundle();
     this.index = await index(this.conf);
 
@@ -23,8 +22,8 @@ export default class App {
       serve_from: this.conf.paths.public,
       http: {
         ...this.conf.http,
-        key: File.read_sync(Path.resolve(this.conf.http.ssl.key)),
-        cert: File.read_sync(Path.resolve(this.conf.http.ssl.cert)),
+        key: await File.read(Path.resolve(this.conf.http.ssl.key)),
+        cert: await File.read(Path.resolve(this.conf.http.ssl.cert)),
         keyFile: Path.resolve(this.conf.http.ssl.key),
         certFile: Path.resolve(this.conf.http.ssl.cert),
       },
