@@ -1,12 +1,10 @@
-import Crypto from "runtime-compat/crypto";
+import {randomUUID} from "runtime-compat/crypto";
 import {Eager} from "polyad";
 import Field from "./Field.js";
 import {PredicateError} from "../errors.js";
 import Store from "../store/Store.js";
 import cache_module from "../cache.js";
 import DomainType from "../types/Domain.js";
-
-const length = 12;
 
 export default class Domain {
   static stores_directory = "stores";
@@ -23,7 +21,7 @@ export default class Domain {
     this.define("_id", {
       type: String,
       predicates: ["unique"],
-      in: value => value ?? Crypto.random(length).toString("hex"),
+      in: value => value ?? randomUUID(),
     });
     return new Proxy(this, {get: (target, property, receiver) =>
       Reflect.get(target, property, receiver) ?? target.#proxy(property),
