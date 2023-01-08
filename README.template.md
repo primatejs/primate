@@ -121,7 +121,7 @@ Compiles and serves a component from the `components` directory and with the
 specified attributes and their values. Returns an HTTP 200 response with the
 `text/html` content type.
 
-### ``json`${{data}}` ``
+### ``json`${data}` ``
 
 Serves JSON `data`. Returns an HTTP 200 response with the `application/json`
 content type.
