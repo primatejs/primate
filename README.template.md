@@ -61,7 +61,7 @@ in one file.
 
 ### `router.get(pathname, request => ...)`
 
-** Other HTTP verbs are accepted in place of `get`.
+*You can use any other HTTP verb in place of `get`.*
 
 Routes are tied to a pathname and execute their callback when the pathname is 
 encountered.
@@ -83,7 +83,7 @@ The request contains the `path`, a `/` separated array of the pathname.
 // routes/request.js
 ```
 
-The HTTP request's body is available under `request.payload`. 
+The HTTP request's body is available as `request.payload`.
 
 ### Regular expressions in routes
 
@@ -95,8 +95,8 @@ All routes are treated as regular expressions.
 
 ### `router.alias(from, to)`
 
-To reuse certain parts of a pathname you can define aliases which will be
-applied before matching.
+To reuse certain parts of a pathname you can define aliases to be applied
+before matching.
 
 ```js
 // routes/aliases.js

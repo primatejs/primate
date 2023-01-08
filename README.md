@@ -80,6 +80,9 @@ import {json} from "primate";
 export default router => {
   // on matching the exact pathname /, returns {"foo": "bar"} as JSON
   router.get("/", () => json`${{foo: "bar"}}`);
+
+  // simply returning an object implicitly uses the JSON handler
+  router.get("/1", () => ({foo: "bar"})`);
 };
 
 ```
@@ -100,13 +103,13 @@ export default router => {
   // accessing /site/login -> {"path":["site","login"]}
   router.get("/site/login", request => json`${{path: request.path}}`);
 
-  // or get `path` via destructuring
-  router.get("/site/login", ({path}) => json`${{path}}`);
+  // or get `path` via destructuring and implicit JSON handler
+  router.get("/site/login", ({path}) => ({path})`);
 };
 
 ```
 
-The HTTP request's body is available under `request.payload`. 
+The HTTP request's body is available as `request.payload`.
 
 ### Regular expressions in routes
 
@@ -125,8 +128,8 @@ export default router => {
 
 ### `router.alias(from, to)`
 
-To reuse certain parts of a pathname you can define aliases which will be
-applied before matching.
+To reuse certain parts of a pathname you can define aliases to be applied
+before matching.
 
 ```js
 import {json} from "primate";
