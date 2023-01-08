@@ -51,10 +51,10 @@ export default class Field {
   }
 
   get custom() {
-    return this.is_domain ? DomainType : this.Type;
+    return this.isDomain ? DomainType : this.Type;
   }
 
-  get is_domain() {
+  get isDomain() {
     return this.Type.prototype instanceof DomainType.instance;
   }
 

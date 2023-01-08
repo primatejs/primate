@@ -3,7 +3,7 @@ import {Eager} from "polyad";
 import Field from "./Field.js";
 import {PredicateError} from "../errors.js";
 import Store from "../store/Store.js";
-import cache_module from "../cache.js";
+import cacheModule from "../cache.js";
 import DomainType from "../types/Domain.js";
 
 export default class Domain {
@@ -38,13 +38,13 @@ export default class Domain {
 
   static get _fields() {
     // initialize programmatic defines
-    cache_module(this, "initialized", () => {new this();});
+    cacheModule(this, "initialized", () => {new this();});
     Object.keys(this.fields).map(name => this.define(name, this.fields[name]));
-    return cache_module(this, "fields", () => ({}));
+    return cacheModule(this, "fields", () => ({}));
   }
 
   static get store() {
-    return Eager.resolve(cache_module(this, "store", () =>
+    return Eager.resolve(cacheModule(this, "store", () =>
       Store.get(this.stores_directory, this.store_file)
     ));
   }
@@ -66,7 +66,7 @@ export default class Domain {
   }
 
   static define(name, definition) {
-    const fields = cache_module(this, "fields", () => ({}));
+    const fields = cacheModule(this, "fields", () => ({}));
     const {property, options} = Field.resolve(name);
     if (fields[property] === undefined) {
       fields[property] = new Field(property, definition, options);
@@ -97,7 +97,7 @@ export default class Domain {
 
   #link(name) {
     const field = this.fields[`${name}_id`];
-    if (field?.is_domain) {
+    if (field?.isDomain) {
       const {collection} = field.Type;
       const {cache} = this.Class;
       if (cache[collection] === undefined) {
