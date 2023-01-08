@@ -13,7 +13,7 @@ rendering (via web components, [React][primate-react] or [Vue][primate-vue]).
 [File][primate-file-store], [JSON][primate-json-store],
 [MongoDB][primate-mongodb-store]
 * Easy modelling of`1:1`, `1:n` and `n:m` relationships
-* Minimally opinionated with sane, overrideable defaults
+* Minimally opinionated with sane, overridable defaults
 
 ## Getting started
 

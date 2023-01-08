@@ -4,7 +4,7 @@ import Storable from "./Storable.js";
 import DomainType from "./Domain.js";
 
 const {NumberType, BooleanType} = types;
-const coerceable = {BooleanType, NumberType};
+const coercible = {BooleanType, NumberType};
 const coercions = [
   {type: NumberType, from: "999", to: 999},
   {type: NumberType, from: "+999", to: 999},
@@ -45,7 +45,7 @@ const space = ["BooleanType", "NumberType"];
 
 export default test => {
   test.space("coerce [meaningful]", space, (assert, each) => {
-    const Type = coerceable[each];
+    const Type = coercible[each];
     coercions.forEach(check => {
       const predicate = check.type === Type ? "equals" : "unequals";
       assert(Type.coerce(check.from))[predicate](check.to);
@@ -53,7 +53,7 @@ export default test => {
   });
 
   test.space("coerce [identity]", space, (assert, each) => {
-    const Type = coerceable[each];
+    const Type = coercible[each];
     non_coercions.filter(check => check.type === Type)
       .forEach(check => check.in.forEach(value =>
         assert(Type.coerce(value)).equals(value)
