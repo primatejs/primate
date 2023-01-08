@@ -1,6 +1,6 @@
-import {Storeable} from "../../exports.js";
+import {Storable} from "../../exports.js";
 
-export default class extends Storeable {
+export default class extends Storable {
   static serialize({name, location}) {
     return `${name} in ${location}`;
   }
