@@ -69,7 +69,7 @@ in one file.
 
 ### `router.get(pathname, request => ...)`
 
-** Other HTTP verbs are accepted in place of `get`.
+*You can use any other HTTP verb in place of `get`.*
 
 Routes are tied to a pathname and execute their callback when the pathname is 
 encountered.
