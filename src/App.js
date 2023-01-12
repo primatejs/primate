@@ -1,9 +1,9 @@
-import {log} from "runtime-compat";
 import {Path, File} from "runtime-compat/filesystem";
 import {default as Bundler, index} from "./Bundler.js";
 import Router from "./Router.js";
 import Server from "./Server.js";
 import package_json from "../package.json" assert {"type": "json"};
+import log from "./log.js";
 
 export default class App {
   constructor(conf) {
@@ -18,7 +18,16 @@ export default class App {
     await new Bundler(this.conf).bundle();
     this.index = await index(this.conf);
 
+    const {paths: {components: path}} = this.conf;
+    const loadFile = async file => [file.base, await file.read()];
+    const components = await path.exists
+      ? Object.fromEntries(await Promise.all((
+        await File.collect(path, ".html")).map(loadFile)))
+      : {};
+
     const conf = {router: Router,
+      components,
+      index: this.index,
       serve_from: this.conf.paths.public,
       http: {
         ...this.conf.http,

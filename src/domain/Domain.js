@@ -1,4 +1,4 @@
-import {randomUUID} from "runtime-compat/crypto";
+import crypto from "runtime-compat/crypto";
 import {Eager} from "polyad";
 import Field from "./Field.js";
 import {PredicateError} from "../errors.js";
@@ -21,7 +21,7 @@ export default class Domain {
     this.define("_id", {
       type: String,
       predicates: ["unique"],
-      in: value => value ?? randomUUID(),
+      in: value => value ?? crypto.randomUUID(),
     });
     return new Proxy(this, {get: (target, property, receiver) =>
       Reflect.get(target, property, receiver) ?? target.#proxy(property),

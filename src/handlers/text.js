@@ -1,15 +1,14 @@
 const last = -1;
-
 const response = {
-  code: 302,
-};
+  code: 200,
+  headers: {"Content-Type": "text/plain"},
+}
 
 export default (strings, ...keys) => async () => {
   const awaitedKeys = await Promise.all(keys);
-  const Location = strings
+  const body = strings
     .slice(0, last)
     .map((string, i) => string + awaitedKeys[i])
     .join("") + strings[strings.length + last];
-  // no body
-  return {...response, headers: {Location}};
+  return {...response, body};
 };

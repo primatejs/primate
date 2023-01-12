@@ -1,10 +1,10 @@
-import {log} from "runtime-compat";
 import {Path} from "runtime-compat/filesystem";
-import {WebServer} from "runtime-compat/web";
+import {WebServer} from "runtime-compat/http";
 import Session from "./Session.js";
-import codes from "./http-codes.json" assert {"type": "json"};
-import mimes from "./mimes.json" assert {"type": "json"};
+import codes from "./http-codes.json" assert {type: "json"};
+import mimes from "./mimes.json" assert {type: "json"};
 import {http404} from "./handlers/http.js";
+import log from "./log.js";
 
 const regex = /\.([a-z1-9]*)$/u;
 const mime = filename => mimes[filename.match(regex)[1]] ?? mimes.binary;
@@ -74,7 +74,7 @@ export default class Server {
     const req = {pathname, method: request.method.toLowerCase(), payload};
     let result;
     try {
-      result = await this.conf.router.process(req);
+      result = await this.conf.router.process(req)(this.conf);
       for (const [key, value] of Object.entries(result.headers)) {
         response.setHeader(key, value);
       }
@@ -86,12 +86,7 @@ export default class Server {
     response.setHeader("Content-Security-Policy", this.csp);
     response.setHeader("Referrer-Policy", "same-origin");
     response.writeHead(code);
-    if (body !== undefined)  {
-      const _b = this.conf.index.replace("<body>", () => `<body>${body}`);
-      response.end(_b);
-    } else {
-      response.end();
-    }
+    response.end(body);
   }
 
   listen() {

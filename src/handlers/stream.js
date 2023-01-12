@@ -1,6 +1,6 @@
 const response = {
   code: 200,
-  headers: {"Content-Type": "application/json"},
+  headers: {"Content-Type": "application/octet-stream"},
 };
 
 export default (strings, ...keys) => async () =>
