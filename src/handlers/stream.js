@@ -4,4 +4,4 @@ const response = {
 };
 
 export default (strings, ...keys) => async () =>
-  ({...response, body: JSON.stringify(await keys[0])});
+  ({...response, body: await keys[0]});

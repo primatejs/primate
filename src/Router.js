@@ -1,4 +1,5 @@
 import {ReadableStream} from "runtime-compat/streams";
+import {File} from "runtime-compat/filesystem";
 import {http404, text, json, stream} from "./handlers/exports.js";
 
 const aliases = [];
@@ -16,8 +17,9 @@ const is = {
   text: v => typeof v === "string" ? text`${v}` : http404``,
   object: v => isObject(v) ? json`${v}` : is.text(v),
   stream: v => v instanceof ReadableStream ? stream`${v}` : is.object(v),
+  file: v => v instanceof File ? stream`${v}` : is.stream(v),
 };
-const guess = value => is.stream(value);
+const guess = value => is.file(value);
 
 export default {
   map: (path, callback) => push("map", path, callback),
