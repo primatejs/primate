@@ -1,5 +1,5 @@
 import {Path} from "runtime-compat/filesystem";
-import {WebServer} from "runtime-compat/http";
+import {serve, Response} from "runtime-compat/http";
 import Session from "./Session.js";
 import codes from "./http-codes.json" assert {type: "json"};
 import mimes from "./mimes.json" assert {type: "json"};
@@ -8,11 +8,6 @@ import log from "./log.js";
 
 const regex = /\.([a-z1-9]*)$/u;
 const mime = filename => mimes[filename.match(regex)[1]] ?? mimes.binary;
-
-const stream = (from, response) => {
-  response.writeHead(codes.OK);
-  return from.pipe(response).on("close", () => response.end());
-};
 
 export default class Server {
   constructor(conf) {
@@ -25,73 +20,73 @@ export default class Server {
     this.csp = Object.keys(csp).reduce((policy_string, key) =>
       `${policy_string}${key} ${csp[key]};`, "");
 
-    this.server = new WebServer(http, async (request, response) => {
+    serve(async request => {
+      const reader = request.body.getReader();
+      const chunks = [];
+      let result;
+      do {
+        result = await reader.read();
+        if (result.value !== undefined) {
+          chunks.push(result.value);
+        }
+      } while (!result.done);
+      const body = chunks.join();
+      const payload = Object.fromEntries(decodeURI(body).replaceAll("+", " ")
+        .split("&")
+        .map(part => part.split("=")));
+      const {pathname, search} = new URL(`https://example.com${request.url}`);
+      const response = await this.try(pathname + search, request, payload);
       const session = await Session.get(request.headers.cookie);
       if (!session.has_cookie) {
         const {cookie} = session;
-        response.setHeader("Set-Cookie", `${cookie}; SameSite=${same_site}`);
+        response.headers.set("Set-Cookie", `${cookie}; SameSite=${same_site}`);
       }
-      response.session = session;
-      let body = "";
-      request.on("data", chunk => {
-        body += chunk;
-      });
-      request.on("end", () => {
-        const payload = Object.fromEntries(decodeURI(body).replaceAll("+", " ")
-          .split("&")
-          .map(part => part.split("=")));
-        const {pathname, search} = new URL(`https://example.com${request.url}`);
-        this.try(pathname + search, request, response, payload);
-      });
-    });
+      return response;
+    }, http);
   }
 
-  async try(url, request, response, payload) {
+  async try(url, request, payload) {
     try {
-      await this.serve(url, request, response, payload);
+      return await this.serve(url, request, payload);
     } catch (error) {
       console.log(error);
-      response.writeHead(codes.InternalServerError);
-      response.end();
+      return new Response(null, {status: codes.InternalServerError});
     }
   }
 
-  async serve_file(filename, file, response) {
-    response.setHeader("Content-Type", mime(filename.name));
-    response.setHeader("Etag", await file.modified);
-    return stream(file.stream, response);
+  async serve(url, request, payload) {
+    const path = new Path(this.conf.serve_from, url);
+    return await path.isFile
+      ? this.serveResource(path.file)
+      : this.serveRoute(url, request, payload);
   }
 
-  async serve(url, request, response, payload) {
-    const filename = new Path(this.conf.serve_from, url);
-    const {file} = filename;
-    return await file.isFile
-      ? this.serve_file(filename, file, response)
-      : this.serve_route(url, request, response, payload);
+  async serveResource(file) {
+    return new Response(file.readable, {
+      status: codes.OK,
+      headers: {
+        "Content-Type": mime(file.name),
+        Etag: await file.modified,
+      },
+    });
   }
 
-  async serve_route(pathname, request, response, payload) {
+  async serveRoute(pathname, request, payload) {
     const req = {pathname, method: request.method.toLowerCase(), payload};
     let result;
     try {
       result = await this.conf.router.process(req)(this.conf);
-      for (const [key, value] of Object.entries(result.headers)) {
-        response.setHeader(key, value);
-      }
     } catch (error) {
       console.log(error);
       result = http404``;
     }
-    const {body, code} = result;
-    response.setHeader("Content-Security-Policy", this.csp);
-    response.setHeader("Referrer-Policy", "same-origin");
-    response.writeHead(code);
-    response.end(body);
-  }
-
-  listen() {
-    const {port, host} = this.conf.http;
-    log.reset("on").yellow(`https://${host}:${port}`).nl();
-    this.server.listen(port, host);
+    return new Response(result.body, {
+      status: result.code,
+      headers: {
+        ...result.headers,
+        "Content-Security-Policy": this.csp,
+        "Referrer-Policy": "same-origin",
+      },
+    });
   }
 }

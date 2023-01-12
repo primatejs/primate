@@ -39,6 +39,5 @@ export default class App {
     };
     this.server = new Server(conf);
     await this.server.run();
-    this.server.listen();
   }
 }
