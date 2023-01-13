@@ -52,7 +52,7 @@ openssl req -x509 -out ssl/default.crt -keyout ssl/default.key -newkey rsa:2048 
 Run
 
 ```sh
-npx primate.
+npx primate
 ```
 
 ## Table of contents

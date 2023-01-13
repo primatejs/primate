@@ -44,7 +44,7 @@ Generate SSL files.
 Run
 
 ```sh
-npx primate.
+npx primate
 ```
 
 ## Table of contents
