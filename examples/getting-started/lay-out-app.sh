@@ -1,1 +1,1 @@
-mkdir -p primate-app/{routes,components,ssl} && cd primate-app
+mkdir -p app/{routes,components,ssl} && cd app

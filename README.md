@@ -1,12 +1,12 @@
 # Primate 
 
-Javascript framework with data verification and server-side rendering (via web
-components, [React][primate-react] or [Vue][primate-vue]).
+Server-client framework with data verification and server-side rendering (via
+HTML, [React][primate-react] or [Vue][primate-vue]).
 
 ## Highlights
 
 * Expressive routing, return HTML, JSON, or binary data
-* Secure by design with HTTPS, hash-verified scripts and strong CSP
+* HTTPS-only, hash-verified scripts, strong CSP
 * Baked in support for sessions with secure cookies
 * Input verification using data domains
 * Many different data store modules: In-Memory (built-in),
@@ -17,14 +17,14 @@ components, [React][primate-react] or [Vue][primate-vue]).
 
 ## Getting started
 
-Lay out app
+Lay out app.
 
 ```sh
-mkdir -p primate-app/{routes,components,ssl} && cd primate-app
+mkdir -p app/{routes,components,ssl} && cd app
 
 ```
 
-Create a route for `/`
+Create a route for `/` in `routes/site.js`.
 
 ```js
 import {html} from "primate";
@@ -35,27 +35,27 @@ export default router => {
 
 ```
 
-Create a component for your route (in `components/site-index.html`)
+Create a component in `components/site-index.html`.
 
 ```html
 Today's date is ${date}.
 
 ```
 
-Generate SSL key/certificate
+Generate SSL files.
 
 ```sh
 openssl req -x509 -out ssl/default.crt -keyout ssl/default.key -newkey rsa:2048 -nodes -sha256 -batch
 
 ```
 
-Run Primate
+Run
 
 ```sh
-npx primate
+npx primate.
 ```
 
-## TOC
+## Table of contents
 
 * [Serving content](#serving-content)
 * [Routing](#routing)
@@ -64,6 +64,8 @@ npx primate
 * [Components](#components)
 
 ## Serving content
+
+Create a file in `routes` that exports a default function.
 
 ### Plain text
 
@@ -106,7 +108,7 @@ export default router => {
 
 ### HTML
 
-Create a `user-index.html` component in `components`
+Create an HTML component in `components/user-index.html`.
 
 ```html
 <div for="${users}">
@@ -116,7 +118,7 @@ Create a `user-index.html` component in `components`
 
 ```
 
-Create a route and use the HTML handler to serve
+Serve the component in your route.
 
 ```js
 import {html} from "primate";
@@ -137,10 +139,13 @@ export default router => {
 
 ## Routing
 
-Primate reads all routes from `routes`. You can group all routes in one file
-or split them across several.
+Routes map requests to responses. All routes are loaded from `routes`.
+
+The order in which routes are declared is irrelevant. Redeclaring a route
+(same pathname and same HTTP verb) throws a `RouteError`.
 
 ### Basic GET route
+
 ```js
 import {html} from "primate";
 
@@ -153,15 +158,17 @@ export default router => {
 ```
 
 ### Working with the request path
+
 ```js
 export default router => {
-  // accessing /site/login will serve a `["site", "login"]` as JSON
+  // accessing /site/login will serve `["site", "login"]` as JSON
   router.get("/site/login", request => request.path);
 };
 
 ```
 
 ### Regular expressions
+
 ```js
 export default router => {
   // accessing /user/view/1234 will serve `1234` as plain text
@@ -172,9 +179,10 @@ export default router => {
 ```
 
 ### Named groups
+
 ```js
 export default router => {
-  // named groups are mapped to properties of request.named
+  // named groups are mapped to properties of `request.named`
   // accessing /user/view/1234 will serve `1234` as plain text
   router.get("/user/view/(<id>[0-9])+", ({named}) => named.id);
 };
@@ -182,12 +190,13 @@ export default router => {
 ```
 
 ### Aliasing
+
 ```js
 export default router => {
-  // will replace "_id" in any path with "([0-9])+"
+  // will replace `"_id"` in any path with `"([0-9])+"`
   router.alias("_id", "([0-9])+");
 
-  // equivalent to `router.get(/user/view/([0-9])+, ...)`
+  // equivalent to `router.get("/user/view/([0-9])+", ...)`
   // will return id if matched, 404 otherwise
   router.get("/user/view/_id", request => request.path[2]);
 
@@ -200,12 +209,13 @@ export default router => {
 
 ```
 
-### Sharing logic across verbs
+### Sharing logic across HTTP verbs
+
 ```js
 import {html, redirect} from "primate";
 
 export default router => {
-  // reuse _id
+  // declare `"edit-user"` as alias of `"/user/edit/([0-9])+"`
   router.alias("edit-user", "/user/edit/([0-9])+");
 
   // return user instead of request for all verbs with this route
@@ -227,8 +237,12 @@ export default router => {
 Domains represent a collection in a store. All domains are loaded from
 `domains`.
 
+A collection is primarily described using the class `fields` property.
+
 ### Fields
-Field types denote the acceptable type of values for a field.
+
+Field types delimit acceptable values for a field.
+
 ```js
 import {Domain} from "primate";
 
@@ -246,8 +260,10 @@ export default class User extends Domain {
 ```
 
 ### Short field notation
+
 Field types may be any constructible JavaScript object, including other
-domains. Primate ensures integrity when using foreign domains.
+domains. When using other domains as types, data integrity (on saving) is
+ensured.
 
 ```js
 import {Domain} from "primate";
@@ -267,8 +283,9 @@ export default class User extends Domain {
 ```
 
 ### Predicates
-Field types may also be specified as an array, in which case they may contained
-additional predicates.
+
+Field types may also be specified as an array, to specify additional predicates
+aside from the type.
 
 ```js
 import {Domain} from "primate";

@@ -1,12 +1,12 @@
 # Primate 
 
-Javascript framework with data verification and server-side rendering (via web
-components, [React][primate-react] or [Vue][primate-vue]).
+Server-client framework with data verification and server-side rendering (via
+HTML, [React][primate-react] or [Vue][primate-vue]).
 
 ## Highlights
 
 * Expressive routing, return HTML, JSON, or binary data
-* Secure by design with HTTPS, hash-verified scripts and strong CSP
+* HTTPS-only, hash-verified scripts, strong CSP
 * Baked in support for sessions with secure cookies
 * Input verification using data domains
 * Many different data store modules: In-Memory (built-in),
@@ -17,37 +17,37 @@ components, [React][primate-react] or [Vue][primate-vue]).
 
 ## Getting started
 
-Lay out app
+Lay out app.
 
 ```sh
 # getting-started/lay-out-app.sh
 ```
 
-Create a route for `/`
+Create a route for `/` in `routes/site.js`.
 
 ```js
 // getting-started/site.js
 ```
 
-Create a component for your route (in `components/site-index.html`)
+Create a component in `components/site-index.html`.
 
 ```html
 <!-- getting-started/site-index.html -->
 ```
 
-Generate SSL key/certificate
+Generate SSL files.
 
 ```sh
 # getting-started/generate-ssl.sh
 ```
 
-Run Primate
+Run
 
 ```sh
-npx primate
+npx primate.
 ```
 
-## TOC
+## Table of contents
 
 * [Serving content](#serving-content)
 * [Routing](#routing)
@@ -56,6 +56,8 @@ npx primate
 * [Components](#components)
 
 ## Serving content
+
+Create a file in `routes` that exports a default function.
 
 ### Plain text
 
@@ -77,13 +79,13 @@ npx primate
 
 ### HTML
 
-Create a `user-index.html` component in `components`
+Create an HTML component in `components/user-index.html`.
 
 ```html
 <!-- serving-content/user-index.html -->
 ```
 
-Create a route and use the HTML handler to serve
+Serve the component in your route.
 
 ```js
 // serving-content/html.js
@@ -91,37 +93,45 @@ Create a route and use the HTML handler to serve
 
 ## Routing
 
-Primate reads all routes from `routes`. You can group all routes in one file
-or split them across several.
+Routes map requests to responses. All routes are loaded from `routes`.
+
+The order in which routes are declared is irrelevant. Redeclaring a route
+(same pathname and same HTTP verb) throws a `RouteError`.
 
 ### Basic GET route
+
 ```js
 // routing/basic-get-request.js
 ```
 
 ### Working with the request path
+
 ```js
 // routing/working-with-the-request-path.js
 ```
 
 ### Regular expressions
+
 ```js
 // routing/regular-expressions.js
 ```
 
 ### Named groups
+
 ```js
 // routing/named-groups.js
 ```
 
 ### Aliasing
+
 ```js
 // routing/aliasing.js
 ```
 
-### Sharing logic across verbs
+### Sharing logic across HTTP verbs
+
 ```js
-// routing/sharing-logic-across-verbs.js
+// routing/sharing-logic-across-http-verbs.js
 ```
 
 ## Domains
@@ -129,23 +139,30 @@ or split them across several.
 Domains represent a collection in a store. All domains are loaded from
 `domains`.
 
+A collection is primarily described using the class `fields` property.
+
 ### Fields
-Field types denote the acceptable type of values for a field.
+
+Field types delimit acceptable values for a field.
+
 ```js
 // domains/fields.js
 ```
 
 ### Short field notation
+
 Field types may be any constructible JavaScript object, including other
-domains. Primate ensures integrity when using foreign domains.
+domains. When using other domains as types, data integrity (on saving) is
+ensured.
 
 ```js
 // domains/short-field-notation.js
 ```
 
 ### Predicates
-Field types may also be specified as an array, in which case they may contained
-additional predicates.
+
+Field types may also be specified as an array, to specify additional predicates
+aside from the type.
 
 ```js
 // domains/predicates.js

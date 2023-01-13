@@ -1,16 +1,23 @@
 import {ReadableStream} from "runtime-compat/streams";
 import {File} from "runtime-compat/filesystem";
 import {http404, text, json, stream} from "./handlers/exports.js";
+import RouteError from "./errors/Route.js";
 
 const aliases = [];
 const routes = [];
 const expand = path => aliases.reduce((expanded, {key, value}) =>
   expanded.replace(key, () => value), path);
-const push = (type, path, handler) =>
-  routes.push({type, path: new RegExp(`^${expand(path)}$`, "u"), handler});
-const find = (type, path, fallback = {handler: r => r}) =>
+const exists = (method, path) =>
+  routes.some(route => route.method === method && route.path === path);
+const add = (method, path, handler) => {
+  if (exists(method, path)) {
+    throw new RouteError(`a ${method} route for ${path} already exists`);
+  }
+  routes.push({method, path: new RegExp(`^${expand(path)}$`, "u"), handler});
+};
+const find = (method, path, fallback = {handler: r => r}) =>
   routes.find(route =>
-    route.type === type && route.path.test(path)) ?? fallback;
+    route.method === method && route.path.test(path)) ?? fallback;
 
 const isObject = value => typeof value === "object" && value !== null;
 const is = {
@@ -22,9 +29,9 @@ const is = {
 const guess = value => is.file(value);
 
 export default {
-  map: (path, callback) => push("map", path, callback),
-  get: (path, callback) => push("get", path, callback),
-  post: (path, callback) => push("post", path, callback),
+  map: (path, callback) => add("map", path, callback),
+  get: (path, callback) => add("get", path, callback),
+  post: (path, callback) => add("post", path, callback),
   alias: (key, value) => aliases.push({key, value}),
   process: request => {
     const {method} = request;
