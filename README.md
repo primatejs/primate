@@ -218,7 +218,7 @@ export default router => {
   // declare `"edit-user"` as alias of `"/user/edit/([0-9])+"`
   router.alias("edit-user", "/user/edit/([0-9])+");
 
-  // return user instead of request for all verbs with this route
+  // pass user instead of request for all verbs with this route
   router.map("edit-user", () => ({name: "Donald"}));
 
   // show user edit form
