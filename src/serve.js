@@ -9,12 +9,12 @@ import log from "./log.js";
 const regex = /\.([a-z1-9]*)$/u;
 const mime = filename => mimes[filename.match(regex)[1]] ?? mimes.binary;
 
-export default class Server {
+const Server = class Server {
   constructor(conf) {
     this.conf = conf;
   }
 
-  async run() {
+  async start() {
     const {http} = this.conf;
     const {csp, "same-site": same_site = "Strict"} = http;
     this.csp = Object.keys(csp).reduce((policy_string, key) =>
@@ -43,6 +43,8 @@ export default class Server {
       }
       return response;
     }, http);
+    const {port, host} = this.conf.http;
+    log.reset("on").yellow(`https://${host}:${port}`).nl();
   }
 
   async try(url, request, payload) {
@@ -55,13 +57,13 @@ export default class Server {
   }
 
   async serve(url, request, payload) {
-    const path = new Path(this.conf.serve_from, url);
+    const path = new Path(this.conf.from, url);
     return await path.isFile
-      ? this.serveResource(path.file)
-      : this.serveRoute(url, request, payload);
+      ? this.resource(path.file)
+      : this.route(url, request, payload);
   }
 
-  async serveResource(file) {
+  async resource(file) {
     return new Response(file.readable, {
       status: codes.OK,
       headers: {
@@ -71,7 +73,7 @@ export default class Server {
     });
   }
 
-  async serveRoute(pathname, request, payload) {
+  async route(pathname, request, payload) {
     const req = {pathname, method: request.method.toLowerCase(), payload};
     let result;
     try {
@@ -89,4 +91,8 @@ export default class Server {
       },
     });
   }
-}
+};
+
+export default conf => new Server(conf).start();
+
+
