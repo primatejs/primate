@@ -8,7 +8,6 @@
   "description": "A primal JavaScript framework",
   "license": "MIT",
   "dependencies": {
-    "dyndef": "^0.3.0",
     "polyad": "^0.2.2",
     "runtime-compat": "^0.10.0"
   },
