@@ -31,4 +31,4 @@ export default test => {
     assert(Type.is(undefined)).false();
     assert(Type.is(null)).false();
   });
-}
+};

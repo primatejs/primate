@@ -1,21 +1,13 @@
 import PrimitiveType from "./Primitive.js";
-import errors from "./errors/String.json" assert {"type": "json"};
+import errors from "./errors/String.json" assert {type: "json"};
 
 export default class StringType extends PrimitiveType {
+  static type = "string";
+  static instance = String;
+  static errors = errors;
+
   static coerce(value) {
     return value?.trim() === "" ? undefined : super.coerce(value);
-  }
-
-  static get type() {
-    return "string";
-  }
-
-  static get instance() {
-    return String;
-  }
-
-  static get errors() {
-    return errors;
   }
 
   static length(value, length) {
@@ -30,8 +22,7 @@ export default class StringType extends PrimitiveType {
     return value.length <= Number(maximum);
   }
 
-  static between(value, minimum, maximum) {
-    const length = value.length;
+  static between({length}, minimum, maximum) {
     return length >= Number(minimum) && length <= Number(maximum);
   }
 

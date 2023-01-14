@@ -15,11 +15,11 @@ export default class Storable {
       predicate.check(property, document, this)));
   }
 
-  static async verify(property, document, type) {
+  static verify(property, document, type) {
     document[property] = this.coerce(document[property]);
     return document[property] === undefined
       ? this.verify_undefined(type.options.optional)
-      : await this.verify_defined(property, document, type);
+      : this.verify_defined(property, document, type);
   }
 
   static type_error() {
@@ -34,7 +34,7 @@ export default class Storable {
     if (!this[name](value, ...params)) {
       let error = this.errors[name];
       for (let i = 0; i < params.length; i++) {
-        error = error.replace(`$${i+1}`, () => params[i]);
+        error = error.replace(`$${i + 1}`, () => params[i]);
       }
       throw new PredicateError(error);
     }

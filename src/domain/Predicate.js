@@ -1,4 +1,4 @@
-import {is} from "dyndef";
+import {is} from "runtime-compat/dyndef";
 import Domain from "./Domain.js";
 import Storable from "../types/Storable.js";
 

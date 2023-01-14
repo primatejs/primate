@@ -1,19 +1,11 @@
-import {boolish} from "dyndef";
+import {boolish} from "runtime-compat/dyndef";
 import PrimitiveType from "./Primitive.js";
 import errors from "./errors/Boolean.json" assert {type: "json"};
 
 export default class BooleanType extends PrimitiveType {
-  static get type() {
-    return "boolean";
-  }
-
-  static get instance() {
-    return Boolean;
-  }
-
-  static get errors() {
-    return errors;
-  }
+  static type = "boolean";
+  static instance = Boolean;
+  static errors = errors;
 
   static coerce(value) {
     return boolish(value) ? value === "true" : value;

@@ -1,19 +1,11 @@
-import {numeric} from "dyndef";
+import {numeric} from "runtime-compat/dyndef";
 import PrimitiveType from "./Primitive.js";
-import errors from "./errors/Number.json" assert {"type": "json"};
+import errors from "./errors/Number.json" assert {type: "json"};
 
 export default class NumberType extends PrimitiveType {
-  static get type() {
-    return "number";
-  }
-
-  static get instance() {
-    return Number;
-  }
-
-  static get errors() {
-    return errors;
-  }
+  static type = "number";
+  static instance = Number;
+  static errors = errors;
 
   static coerce(value) {
     return numeric(value) ? Number(value) : value;

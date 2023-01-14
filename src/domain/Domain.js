@@ -32,9 +32,7 @@ export default class Domain {
     return this.constructor;
   }
 
-  static get fields() {
-    return {};
-  }
+  static fields = {};
 
   static get _fields() {
     // initialize programmatic defines
