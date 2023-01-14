@@ -312,6 +312,11 @@ default. Other stores can be imported as modules.
 
 All stores are loaded from `stores`.
 
+### Resources
+
+* Website: https://primatejs.com
+* IRC: Join the `#primate` channel on `irc.libera.chat`.
+
 ## License
 
 MIT
