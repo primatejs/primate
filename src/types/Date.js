@@ -10,6 +10,6 @@ export default class DateType extends InstanceType {
   }
 
   static deserialize(value) {
-    return value instanceof this.instance ? value : new (this.instance(value));
+    return value instanceof this.instance ? value : new this.instance(value);
   }
 }
