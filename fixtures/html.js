@@ -1,5 +1,5 @@
 import html from "../src/handlers/html.js";
-const obj = {
+const components = {
   "custom-tag": "<ct></ct>",
   "custom-with-attribute": "<cwa value=\"${foo}\"></cwa>",
   "custom-with-object-attribute": "<cwoa value=\"${foo.bar}\"></cwoa>",
@@ -8,4 +8,6 @@ const obj = {
   "slot-before-custom": "<slot/><custom-tag></custom-tag>",
   "custom-before-slot": "<custom-tag></custom-tag><slot/>",
 };
-export default () => html(obj);
+const index = "<body>";
+const conf = {components, index};
+export default () => (strings, ...keys) => html(strings, ...keys)(conf);
