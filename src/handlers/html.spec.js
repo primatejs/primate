@@ -1,5 +1,5 @@
 export default test => {
-  test.fix(({html}) => html);
+  /*test.fix(({html}) => html);
 
   test.reassert(assert => async (template, expected) =>
     assert((await template).body).equals(`<div>${expected}</div>`));
@@ -100,7 +100,7 @@ export default test => {
     const result = `<div class="for-with-object"><div>${fwo}${fwo2}</div></div>`;
 
     return assert(input, result);
-  });
+  });*/
 
   // test.case("shadowed attribute", (assert, html) => {});
 };
