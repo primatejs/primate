@@ -8,7 +8,7 @@ export * from "./src/errors.js";
 export {default as MemoryStore} from "./src/store/Memory.js";
 export {default as Store} from "./src/store/Store.js";
 
-export {default as extend_object} from "./src/extend_object.js";
+export {default as extend} from "./src/extend.js";
 
 export * from "./src/handlers/exports.js";
 

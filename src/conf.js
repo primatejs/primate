@@ -1,7 +1,7 @@
 import {Path} from "runtime-compat/filesystem";
 import {Either} from "polyad";
 import cache from "./cache.js";
-import extend from "./extend_object.js";
+import extend from "./extend.js";
 import json from "./preset/primate.json" assert {type: "json"};
 
 const qualify = (root, paths) =>
