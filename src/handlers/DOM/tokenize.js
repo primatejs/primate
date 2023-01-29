@@ -1,6 +1,6 @@
 // https://html.spec.whatwg.org/multipage/parsing.html
 
-export const EOF = -1;
+export const EOF = Symbol("EOF");
 export const START_TAG = 0;
 export const END_TAG = 1;
 export const CHARACTER = 2;
@@ -43,7 +43,7 @@ const matches = {
   ASCII_ALPHA: re(A_Z),
   WHITESPACE: re(CHARACTER_TABULATION, LINE_FEED, FORM_FEED, SPACE),
   END: re(SOLIDUS, GREATER_THAN),
-  EOF: re(EOF),
+  EOF: {test: c => c === EOF},
   QUOTATION_MARK: re(QUOTATION_MARK),
   APOSTROPHE: re(APOSTROPHE),
   Z: {test: () => true},
