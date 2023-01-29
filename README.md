@@ -101,7 +101,8 @@ export default router => {
 import {File} from "runtime-compat/filesystem";
 
 export default router => {
-  router.get("/users", () => File.readable("users.json"));
+  // `File` implements `readable` as a ReadableStream
+  router.get("/users", () => new File("users.json"));
 };
 
 ```
@@ -246,7 +247,7 @@ Field types delimit acceptable values for a field.
 ```js
 import {Domain} from "primate";
 
-// A basic domain that contains two string properies
+// A basic domain that contains two properies
 export default class User extends Domain {
   static fields = {
     // a user's name must be a string
