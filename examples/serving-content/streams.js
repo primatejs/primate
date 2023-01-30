@@ -1,5 +1,6 @@
 import {File} from "runtime-compat/filesystem";
 
 export default router => {
-  router.get("/users", () => File.readable("users.json"));
+  // `File` implements `readable`, which is a ReadableStream
+  router.get("/users", () => new File("users.json"));
 };
