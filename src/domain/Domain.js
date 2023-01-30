@@ -1,5 +1,5 @@
 import crypto from "runtime-compat/crypto";
-import {Eager} from "polyad";
+import {Eager} from "runtime-compat/functional";
 import Field from "./Field.js";
 import {PredicateError} from "../errors.js";
 import Store from "../store/Store.js";

@@ -8,8 +8,7 @@
   "description": "A primal JavaScript framework",
   "license": "MIT",
   "dependencies": {
-    "polyad": "^0.2.2",
-    "runtime-compat": "^0.12.0"
+    "runtime-compat": "^0.12.1"
   },
   "bin": "bin/primate.js",
   "devDependencies": {

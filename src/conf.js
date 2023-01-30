@@ -1,5 +1,5 @@
 import {Path} from "runtime-compat/filesystem";
-import {Either} from "polyad";
+import {Either} from "runtime-compat/functional";
 import cache from "./cache.js";
 import extend from "./extend.js";
 import json from "./preset/primate.json" assert {type: "json"};
