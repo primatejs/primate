@@ -4,7 +4,7 @@
   "author": "Terrablue <terrablue@proton.me>",
   "bugs": "https://github.com/primatejs/primate/issues",
   "repository": "https://github.com/primatejs/primate",
-  "description": "A primal JavaScript framework",
+  "description": "Primal JavaScript framework",
   "license": "MIT",
   "bin": "bin/primate.js",
   "depends": {

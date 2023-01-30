@@ -1,7 +1,6 @@
 # Primate 
 
-Server-client framework with data verification and server-side rendering (via
-HTML, [React][primate-react] or [Vue][primate-vue]).
+Primal JavaScript framework.
 
 ## Highlights
 
