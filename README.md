@@ -17,14 +17,14 @@ HTML, [React][primate-react] or [Vue][primate-vue]).
 
 ## Getting started
 
-Lay out app.
+Lay out app
 
 ```sh
 mkdir -p app/{routes,components,ssl} && cd app
 
 ```
 
-Create a route for `/` in `routes/site.js`.
+Create a route for `/` in `routes/site.js`
 
 ```js
 import {html} from "primate";
@@ -35,14 +35,14 @@ export default router => {
 
 ```
 
-Create a component in `components/site-index.html`.
+Create a component in `components/site-index.html`
 
 ```html
 Today's date is ${date}.
 
 ```
 
-Generate SSL files.
+Generate SSL files
 
 ```sh
 openssl req -x509 -out ssl/default.crt -keyout ssl/default.key -newkey rsa:2048 -nodes -sha256 -batch
@@ -65,7 +65,7 @@ npx primate
 
 ## Serving content
 
-Create a file in `routes` that exports a default function.
+Create a file in `routes` that exports a default function
 
 ### Plain text
 
@@ -101,15 +101,14 @@ export default router => {
 import {File} from "runtime-compat/filesystem";
 
 export default router => {
-  // `File` implements `readable` as a ReadableStream
-  router.get("/users", () => new File("users.json"));
+  router.get("/users", () => File.readable("users.json"));
 };
 
 ```
 
 ### HTML
 
-Create an HTML component in `components/user-index.html`.
+Create an HTML component in `components/user-index.html`
 
 ```html
 <div for="${users}">
@@ -119,7 +118,7 @@ Create an HTML component in `components/user-index.html`.
 
 ```
 
-Serve the component in your route.
+Serve the component in your route
 
 ```js
 import {html} from "primate";
@@ -247,7 +246,7 @@ Field types delimit acceptable values for a field.
 ```js
 import {Domain} from "primate";
 
-// A basic domain that contains two properies
+// A basic domain that contains two string properies
 export default class User extends Domain {
   static fields = {
     // a user's name must be a string

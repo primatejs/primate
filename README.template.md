@@ -17,25 +17,25 @@ HTML, [React][primate-react] or [Vue][primate-vue]).
 
 ## Getting started
 
-Lay out app.
+Lay out app
 
 ```sh
 # getting-started/lay-out-app.sh
 ```
 
-Create a route for `/` in `routes/site.js`.
+Create a route for `/` in `routes/site.js`
 
 ```js
 // getting-started/site.js
 ```
 
-Create a component in `components/site-index.html`.
+Create a component in `components/site-index.html`
 
 ```html
 <!-- getting-started/site-index.html -->
 ```
 
-Generate SSL files.
+Generate SSL files
 
 ```sh
 # getting-started/generate-ssl.sh
@@ -57,7 +57,7 @@ npx primate
 
 ## Serving content
 
-Create a file in `routes` that exports a default function.
+Create a file in `routes` that exports a default function
 
 ### Plain text
 
@@ -79,13 +79,13 @@ Create a file in `routes` that exports a default function.
 
 ### HTML
 
-Create an HTML component in `components/user-index.html`.
+Create an HTML component in `components/user-index.html`
 
 ```html
 <!-- serving-content/user-index.html -->
 ```
 
-Serve the component in your route.
+Serve the component in your route
 
 ```js
 // serving-content/html.js
