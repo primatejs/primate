@@ -1,6 +1,13 @@
-import {TAG, TEXT} from "./parse.js";
+import {TAG, TEXT, PSEUDO} from "./parse.js";
 
 const flatten = node => {
+  if (node.type === PSEUDO) {
+    let substructure = "";
+    for (const child of node.children) {
+      substructure += flatten(child);
+    }
+    return substructure;
+  }
   if (node.type === TAG) {
     let tag = "<" + node.tagName;
     if (node.attributes !== undefined) {

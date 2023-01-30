@@ -1,4 +1,3 @@
-import parse from "./parse.js";
 import expand from "./expand.js";
 import flatten from "./flatten.js";
 
@@ -16,30 +15,26 @@ const slots = {
   "s-with": "<s-between><c-tag></c-tag></s-between>",
 };
 
-const c_tag = "<div class=\"c-tag\"><ct></ct></div>";
+const c_tag = "<ct></ct>";
 
 const slot_expected = {
-  "s-between": "<cws><div></div></cws>",
-  "s-before": `<div></div>${c_tag}`,
-  "s-after": `${c_tag}<div></div>`,
-  "s-with": `<div class="s-between"><cws><div>${c_tag}</div></cws></div>`,
+  "s-between": "<cws></cws>",
+  "s-before": c_tag,
+  "s-after": c_tag,
+  "s-with": `<cws>${c_tag}</cws>`,
 };
 
 const components = {...customs, ...slots};
 
 export default test => {
   test.reassert(assert => (html, expected) =>
-    assert(flatten(expand(html, components))).equals(`<div>${expected}</div>`));
+    assert(flatten(expand(html, components))).equals(expected));
 
   test.space("custom components", Object.keys(customs), (assert, each) => {
-    const attributes = `class="${each}"`;
-    const expected = `<div ${attributes}>${components[each]}</div>`;
-    assert(`<${each} />`, expected);
+    assert(`<${each} />`, components[each]);
   });
 
   test.space("slotted componets", Object.keys(slots), (assert, each) => {
-    const attributes = `class="${each}"`;
-    const expected = `<div ${attributes}>${slot_expected[each]}</div>`;
-    assert(`<${each} />`, expected);
+    assert(`<${each} />`, slot_expected[each]);
   });
 };

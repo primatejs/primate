@@ -1,4 +1,4 @@
-import parse from "./parse.js";
+import {default as parse, PSEUDO} from "./parse.js";
 
 const expand = (tree, components, slots) => {
   if (tree.children !== undefined) {
@@ -15,8 +15,7 @@ const expand = (tree, components, slots) => {
         if (child.tagName === "slot" && slots !== undefined) {
           // insert slot
           tree.children[i] = {
-            type: 0,
-            tagName: "div",
+            type: PSEUDO,
             children: slots,
           };
           expand(tree.children[i], components);

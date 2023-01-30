@@ -1,13 +1,16 @@
-import {default as tokenize, EOF, START_TAG, END_TAG, CHARACTER} from "./tokenize.js";
+import {default as tokenize, START_TAG, END_TAG, CHARACTER}
+  from "./tokenize.js";
 
 export const TAG = 0;
 export const TEXT = 1;
+export const PSEUDO = 2;
 
 const makeTag = tagName => ({type: TAG, tagName, children: []});
+const makePseudo = () => ({type: PSEUDO, children: []});
 const makeText = data => ({type: TEXT, data});
 
 const parse = tokens => {
-  const root = makeTag("div");
+  const root = makePseudo();
   const stack = [root];
 
   for (const token of tokens) {
