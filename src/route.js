@@ -47,12 +47,10 @@ export default async definitions => {
       const params = Object.fromEntries(searchParams);
       const verb = find(method, pathname, {handler: () => http404``});
       const path = pathname.split("/").filter(part => part !== "");
-      Object.entries(verb.path?.exec(pathname)?.groups ?? [])
-        .filter(([key]) => path[key] === undefined)
-        .forEach(([key, value]) => Object.defineProperty(path, key, {value}));
+      const named = verb.path?.exec(pathname)?.groups ?? {};
 
       const result = verb.handler(find("map", pathname)
-        .handler({...request, pathname, params, path}));
+        .handler({...request, pathname, params, path, named}));
 
       return typeof result === "function" ? result : guess(result);
     },
