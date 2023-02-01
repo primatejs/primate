@@ -1,6 +1,5 @@
 import {Path} from "runtime-compat/filesystem";
 import {serve, Response} from "runtime-compat/http";
-import Session from "./Session.js";
 import codes from "./http-codes.json" assert {type: "json"};
 import mimes from "./mimes.json" assert {type: "json"};
 import {http404} from "./handlers/http.js";
@@ -35,13 +34,7 @@ const Server = class Server {
         .split("&")
         .map(part => part.split("=")));
       const {pathname, search} = new URL(`https://example.com${request.url}`);
-      const response = await this.try(pathname + search, request, payload);
-      const session = await Session.get(request.headers.cookie);
-      if (!session.has_cookie) {
-        const {cookie} = session;
-        response.headers.set("Set-Cookie", `${cookie}; SameSite=${same_site}`);
-      }
-      return response;
+      return this.try(pathname + search, request, payload);
     }, http);
     const {port, host} = this.conf.http;
     log.reset("on").yellow(`https://${host}:${port}`).nl();
@@ -77,7 +70,7 @@ const Server = class Server {
     const req = {pathname, method: request.method.toLowerCase(), payload};
     let result;
     try {
-      result = await this.conf.router.process(req)(this.conf);
+      result = await (await this.conf.router.process(req))(this.conf);
     } catch (error) {
       console.log(error);
       result = http404``;
@@ -94,5 +87,3 @@ const Server = class Server {
 };
 
 export default conf => new Server(conf).start();
-
-

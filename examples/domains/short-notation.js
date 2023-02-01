@@ -1,4 +1,4 @@
-import {Domain} from "primate";
+import {Domain} from "@primate/domains";
 import House from "./House.js";
 
 export default class User extends Domain {

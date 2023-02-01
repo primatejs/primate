@@ -1,4 +1,5 @@
-import {html, redirect} from "primate";
+import html from "@primate/html";
+import redirect from "@primate/redirect";
 
 export default router => {
   // declare `"edit-user"` as alias of `"/user/edit/([0-9])+"`

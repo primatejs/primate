@@ -1,4 +1,4 @@
-import {html} from "primate";
+import html from "@primate/html";
 
 export default router => {
   // the HTML tagged template handler loads a component from the `components`

@@ -2,18 +2,6 @@
 
 Primal JavaScript framework.
 
-## Highlights
-
-* Expressive routing, return HTML, JSON, or binary data
-* HTTPS-only, hash-verified scripts, strong CSP
-* Baked in support for sessions with secure cookies
-* Input verification using data domains
-* Many different data store modules: In-Memory (built-in),
-[File][primate-file-store], [JSON][primate-json-store],
-[MongoDB][primate-mongodb-store]
-* Easy modeling of`1:1`, `1:n` and `n:m` relationships
-* Minimally opinionated with sane, overridable defaults
-
 ## Getting started
 
 Lay out app
@@ -148,14 +136,14 @@ Field types delimit acceptable values for a field.
 // domains/fields.js
 ```
 
-### Short field notation
+### Short notation
 
 Field types may be any constructible JavaScript object, including other
 domains. When using other domains as types, data integrity (on saving) is
 ensured.
 
 ```js
-// domains/short-field-notation.js
+// domains/short-notation.js
 ```
 
 ### Predicates

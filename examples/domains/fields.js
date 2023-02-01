@@ -1,4 +1,4 @@
-import {Domain} from "primate";
+import {Domain} from "@primate/domains";
 
 // A basic domain that contains two string properies
 export default class User extends Domain {

@@ -2,18 +2,6 @@
 
 Primal JavaScript framework.
 
-## Highlights
-
-* Expressive routing, return HTML, JSON, or binary data
-* HTTPS-only, hash-verified scripts, strong CSP
-* Baked in support for sessions with secure cookies
-* Input verification using data domains
-* Many different data store modules: In-Memory (built-in),
-[File][primate-file-store], [JSON][primate-json-store],
-[MongoDB][primate-mongodb-store]
-* Easy modeling of`1:1`, `1:n` and `n:m` relationships
-* Minimally opinionated with sane, overridable defaults
-
 ## Getting started
 
 Lay out app
@@ -26,7 +14,7 @@ mkdir -p app/{routes,components,ssl} && cd app
 Create a route for `/` in `routes/site.js`
 
 ```js
-import {html} from "primate";
+import html from "@primate/html";
 
 export default router => {
   router.get("/", () => html`<site-index date="${new Date()}" />`);
@@ -121,7 +109,7 @@ Create an HTML component in `components/user-index.html`
 Serve the component in your route
 
 ```js
-import {html} from "primate";
+import html from "@primate/html";
 
 export default router => {
   // the HTML tagged template handler loads a component from the `components`
@@ -147,10 +135,10 @@ The order in which routes are declared is irrelevant. Redeclaring a route
 ### Basic GET route
 
 ```js
-import {html} from "primate";
+import html from "@primate/html";
 
 export default router => {
-  // accessing /site/login will serve the contents of 
+  // accessing /site/login will serve the contents of
   // `components/site-login.html` as HTML
   router.get("/site/login", () => html`<site-login />`);
 };
@@ -212,7 +200,8 @@ export default router => {
 ### Sharing logic across HTTP verbs
 
 ```js
-import {html, redirect} from "primate";
+import html from "@primate/html";
+import redirect from "@primate/redirect";
 
 export default router => {
   // declare `"edit-user"` as alias of `"/user/edit/([0-9])+"`
@@ -244,7 +233,7 @@ A collection is primarily described using the class `fields` property.
 Field types delimit acceptable values for a field.
 
 ```js
-import {Domain} from "primate";
+import {Domain} from "@primate/domains";
 
 // A basic domain that contains two string properies
 export default class User extends Domain {
@@ -259,14 +248,14 @@ export default class User extends Domain {
 
 ```
 
-### Short field notation
+### Short notation
 
 Field types may be any constructible JavaScript object, including other
 domains. When using other domains as types, data integrity (on saving) is
 ensured.
 
 ```js
-import {Domain} from "primate";
+import {Domain} from "@primate/domains";
 import House from "./House.js";
 
 export default class User extends Domain {
@@ -288,7 +277,7 @@ Field types may also be specified as an array, to specify additional predicates
 aside from the type.
 
 ```js
-import {Domain} from "primate";
+import {Domain} from "@primate/domains";
 import House from "./House.js";
 
 export default class User extends Domain {

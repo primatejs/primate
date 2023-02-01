@@ -40,7 +40,7 @@ export default async definitions => {
     get: (path, callback) => add("get", path, callback),
     post: (path, callback) => add("post", path, callback),
     alias: (key, value) => aliases.push({key, value}),
-    process: request => {
+    process: async request => {
       const {method} = request;
       const url = new URL(`https://primatejs.com${request.pathname}`);
       const {pathname, searchParams} = url;
@@ -49,7 +49,7 @@ export default async definitions => {
       const path = pathname.split("/").filter(part => part !== "");
       const named = verb.path?.exec(pathname)?.groups ?? {};
 
-      const result = verb.handler(find("map", pathname)
+      const result = await verb.handler(find("map", pathname)
         .handler({...request, pathname, params, path, named}));
 
       return typeof result === "function" ? result : guess(result);
