@@ -127,7 +127,7 @@ export default router => {
 
 ## Routing
 
-Routes map requests to responses. All routes are loaded from `routes`.
+Routes map requests to responses. Routes are loaded from `routes`.
 
 The order in which routes are declared is irrelevant. Redeclaring a route
 (same pathname and same HTTP verb) throws a `RouteError`.
@@ -189,7 +189,7 @@ export default router => {
   router.get("/user/view/_id", request => request.path[2]);
 
   // can be combined with named groups
-  router.alias("_name", "(<name>[a-z])+");
+  router.alias("_name", "(?<name>[a-z])+");
 
   // will return name if matched, 404 otherwise
   router.get("/user/view/_name", request => request.named.name);
@@ -223,10 +223,8 @@ export default router => {
 
 ## Domains
 
-Domains represent a collection in a store. All domains are loaded from
-`domains`.
-
-A collection is primarily described using the class `fields` property.
+Domains represent a collection in a store, primarily with the class `fields`
+property.
 
 ### Fields
 
@@ -299,7 +297,7 @@ export default class User extends Domain {
 Stores interface data. Primate comes with volatile in-memory store used as a
 default. Other stores can be imported as modules.
 
-All stores are loaded from `stores`.
+Stores are loaded from `stores`.
 
 ### Resources
 
@@ -309,12 +307,3 @@ All stores are loaded from `stores`.
 ## License
 
 MIT
-
-[getting-started]: https://primatejs.com/getting-started
-[source-code]: https://github.com/primatejs/primate
-[issues]: https://github.com/primatejs/primate/issues
-[primate-file-store]: https://npmjs.com/primate-file-store
-[primate-json-store]: https://npmjs.com/primate-json-store
-[primate-mongodb-store]: https://npmjs.com/primate-mongodb-store
-[primate-react]: https://github.com/primatejs/primate-react
-[primate-vue]: https://github.com/primatejs/primate-vue
