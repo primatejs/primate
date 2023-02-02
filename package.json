@@ -8,7 +8,7 @@
   "description": "Primal JavaScript framework",
   "license": "MIT",
   "dependencies": {
-    "runtime-compat": "file:../../flogjs/std/runtime-compat"
+    "runtime-compat": "^0.12.2"
   },
   "bin": "bin/primate.js",
   "devDependencies": {
