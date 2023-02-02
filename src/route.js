@@ -49,7 +49,7 @@ export default async definitions => {
       const path = pathname.split("/").filter(part => part !== "");
       const named = verb.path?.exec(pathname)?.groups ?? {};
 
-      const result = await verb.handler(find("map", pathname)
+      const result = await verb.handler(await find("map", pathname)
         .handler({...request, pathname, params, path, named}));
 
       return typeof result === "function" ? result : guess(result);

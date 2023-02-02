@@ -10,18 +10,10 @@ export default async conf => {
   const {paths} = conf;
   const router = await route(paths.routes);
   await new Bundler(conf).bundle();
-  const _index = await index(conf);
-
-  const {paths: {components: path}} = conf;
-  const loadFile = async file => [file.base, await file.read()];
-  const components = await path.exists
-    ? Object.fromEntries(await Promise.all((
-      await File.collect(path, ".html")).map(loadFile)))
-    : {};
 
   await serve({router,
-    components,
-    index: _index,
+    paths: conf.paths,
+    index: await index(conf),
     from: conf.paths.public,
     http: {
       ...conf.http,

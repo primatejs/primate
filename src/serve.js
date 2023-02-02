@@ -19,6 +19,7 @@ const Server = class Server {
     this.csp = Object.keys(csp).reduce((policy_string, key) =>
       `${policy_string}${key} ${csp[key]};`, "");
 
+    const decoder = new TextDecoder();
     serve(async request => {
       const reader = request.body.getReader();
       const chunks = [];
@@ -26,7 +27,7 @@ const Server = class Server {
       do {
         result = await reader.read();
         if (result.value !== undefined) {
-          chunks.push(result.value);
+          chunks.push(decoder.decode(result.value));
         }
       } while (!result.done);
       const body = chunks.join();

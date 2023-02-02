@@ -7,7 +7,7 @@ export default router => {
   router.get("/user/view/_id", request => request.path[2]);
 
   // can be combined with named groups
-  router.alias("_name", "(<name>[a-z])+");
+  router.alias("_name", "(?<name>[a-z])+");
 
   // will return name if matched, 404 otherwise
   router.get("/user/view/_name", request => request.named.name);
