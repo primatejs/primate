@@ -1,38 +1,15 @@
 # Primate 
 
-Primal JavaScript framework.
+An expressive, minimal and extensible framework for JavaScript.
 
 ## Getting started
 
-Lay out app
-
-```sh
-mkdir -p app/{routes,components,ssl} && cd app
-
-```
-
-Create a route for `/` in `routes/site.js`
+Create a route in `routes/hello.js`
 
 ```js
-import html from "@primate/html";
-
 export default router => {
-  router.get("/", () => html`<site-index date="${new Date()}" />`);
+  router.get("/", () => "Hello, world!");
 };
-
-```
-
-Create a component in `components/site-index.html`
-
-```html
-Today's date is ${date}.
-
-```
-
-Generate SSL files
-
-```sh
-openssl req -x509 -out ssl/default.crt -keyout ssl/default.key -newkey rsa:2048 -nodes -sha256 -batch
 
 ```
 
@@ -127,10 +104,10 @@ export default router => {
 
 ## Routing
 
-Routes map requests to responses. Routes are loaded from `routes`.
+Routes map requests to responses. They are loaded from `routes`.
 
 The order in which routes are declared is irrelevant. Redeclaring a route
-(same pathname and same HTTP verb) throws a `RouteError`.
+(same pathname and same HTTP verb) throws an error.
 
 ### Basic GET route
 
@@ -292,14 +269,7 @@ export default class User extends Domain {
 
 ```
 
-## Stores
-
-Stores interface data. Primate comes with volatile in-memory store used as a
-default. Other stores can be imported as modules.
-
-Stores are loaded from `stores`.
-
-### Resources
+## Resources
 
 * Website: https://primatejs.com
 * IRC: Join the `#primate` channel on `irc.libera.chat`.

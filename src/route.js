@@ -55,7 +55,9 @@ export default async definitions => {
       return typeof result === "function" ? result : guess(result);
     },
   };
-  const files = (await Path.list(definitions)).map(route => import(route));
-  await Promise.all(files.map(async route => (await route).default(router)));
+  if (await definitions.exists) {
+    const files = (await Path.list(definitions)).map(route => import(route));
+    await Promise.all(files.map(async route => (await route).default(router)));
+  }
   return router;
 };

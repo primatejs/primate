@@ -1,31 +1,13 @@
 # Primate 
 
-Primal JavaScript framework.
+An expressive, minimal and extensible framework for JavaScript.
 
 ## Getting started
 
-Lay out app
-
-```sh
-# getting-started/lay-out-app.sh
-```
-
-Create a route for `/` in `routes/site.js`
+Create a route in `routes/hello.js`
 
 ```js
-// getting-started/site.js
-```
-
-Create a component in `components/site-index.html`
-
-```html
-<!-- getting-started/site-index.html -->
-```
-
-Generate SSL files
-
-```sh
-# getting-started/generate-ssl.sh
+// getting-started/hello.js
 ```
 
 Run
@@ -80,10 +62,10 @@ Serve the component in your route
 
 ## Routing
 
-Routes map requests to responses. Routes are loaded from `routes`.
+Routes map requests to responses. They are loaded from `routes`.
 
 The order in which routes are declared is irrelevant. Redeclaring a route
-(same pathname and same HTTP verb) throws a `RouteError`.
+(same pathname and same HTTP verb) throws an error.
 
 ### Basic GET route
 
@@ -153,14 +135,7 @@ aside from the type.
 // domains/predicates.js
 ```
 
-## Stores
-
-Stores interface data. Primate comes with volatile in-memory store used as a
-default. Other stores can be imported as modules.
-
-Stores are loaded from `stores`.
-
-### Resources
+## Resources
 
 * Website: https://primatejs.com
 * IRC: Join the `#primate` channel on `irc.libera.chat`.
