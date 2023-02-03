@@ -198,7 +198,7 @@ Field types delimit acceptable values for a field.
 ```js
 import {Domain} from "@primate/domains";
 
-// A basic domain that contains two string properies
+// A basic domain that contains two properies
 export default class User extends Domain {
   static fields = {
     // a user's name must be a string
