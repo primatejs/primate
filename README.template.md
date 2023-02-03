@@ -10,19 +10,7 @@ Create a route in `routes/hello.js`
 // getting-started/hello.js
 ```
 
-Run
-
-```sh
-npx primate
-```
-
-## Table of contents
-
-* [Serving content](#serving-content)
-* [Routing](#routing)
-* [Domains](#domains)
-* [Stores](#stores)
-* [Components](#components)
+Add `{"type": "module"}` to your `package.json` and run `npx primate`.
 
 ## Serving content
 
