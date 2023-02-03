@@ -38,7 +38,7 @@ const Server = class Server {
       return this.try(pathname + search, request, payload);
     }, http);
     const {port, host} = this.conf.http;
-    log.reset("on").yellow(`https://${host}:${port}`).nl();
+    log.reset("on").yellow(`${host}:${port}`).nl();
   }
 
   async try(url, request, payload) {

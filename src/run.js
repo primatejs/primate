@@ -15,12 +15,6 @@ export default async conf => {
     paths: conf.paths,
     index: await index(conf),
     from: conf.paths.public,
-    http: {
-      ...conf.http,
-      key: await File.read(Path.resolve(conf.http.ssl.key)),
-      cert: await File.read(Path.resolve(conf.http.ssl.cert)),
-      keyFile: Path.resolve(conf.http.ssl.key),
-      certFile: Path.resolve(conf.http.ssl.cert),
-    },
+    http: conf.http,
   });
 };

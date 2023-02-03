@@ -7,10 +7,6 @@
   "http": {
     "host": "localhost",
     "port": 9999,
-    "ssl": {
-      "key": "ssl/default.key",
-      "cert": "ssl/default.crt"
-    },
     "csp": {
       "default-src": "'self'",
       "object-src": "'none'",
