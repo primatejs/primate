@@ -15,6 +15,24 @@ export default router => {
 
 Add `{"type": "module"}` to your `package.json` and run `npx primate`.
 
+## Table of Contents
+
+- [Serving content](#serving-content)
+  - [Plain text](#plain-text)
+  - [JSON](#json)
+  - [Streams](#streams)
+  - [HTML](#html)
+- [Routing](#routing)
+  - [Basic](#basic)
+  - [The request object](#the-request-object)
+  - [Regular expressions](#regular-expressions)
+  - [Named groups](#named-groups)
+  - [Aliasing](#aliasing)
+  - [Sharing logic across requests](#sharing-logic-across-requests)
+- [Data persistance](#data-persistance)
+  - [Short field notation](#short-field-notation)
+  - [Predicates](#predicates)
+
 ## Serving content
 
 Create a file in `routes` that exports a default function
@@ -97,7 +115,7 @@ Routes map requests to responses. They are loaded from `routes`.
 The order in which routes are declared is irrelevant. Redeclaring a route
 (same pathname and same HTTP verb) throws an error.
 
-### Basic GET route
+### Basic
 
 ```js
 import html from "@primate/html";
@@ -110,7 +128,7 @@ export default router => {
 
 ```
 
-### Working with the request path
+### The request object
 
 ```js
 export default router => {
@@ -162,7 +180,7 @@ export default router => {
 
 ```
 
-### Sharing logic across HTTP verbs
+### Sharing logic across requests
 
 ```js
 import html from "@primate/html";
@@ -186,14 +204,10 @@ export default router => {
 
 ```
 
-## Domains
+## Data persistance 
 
-Domains represent a collection in a store, primarily with the class `fields`
-property.
-
-### Fields
-
-Field types delimit acceptable values for a field.
+Primate domains (via [`@primate/domains`][primate-domains]) represent a
+collection in a store using the class `fields` property.
 
 ```js
 import {Domain} from "@primate/domains";
@@ -211,9 +225,9 @@ export default class User extends Domain {
 
 ```
 
-### Short notation
+### Short field notation
 
-Field types may be any constructible JavaScript object, including other
+Value types may be any constructible JavaScript object, including other
 domains. When using other domains as types, data integrity (on saving) is
 ensured.
 
@@ -265,3 +279,5 @@ export default class User extends Domain {
 ## License
 
 MIT
+
+[primate-domains]: https://github.com/primatejs/primate-domains
