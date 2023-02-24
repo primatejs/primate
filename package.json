@@ -12,10 +12,10 @@
   },
   "bin": "bin/primate.js",
   "devDependencies": {
-    "@babel/core": "^7.20.12",
+    "@babel/core": "^7.21.0",
     "@babel/eslint-parser": "^7.19.1",
     "@babel/plugin-syntax-import-assertions": "^7.20.0",
-    "eslint": "^8.33.0",
+    "eslint": "^8.34.0",
     "eslint-plugin-json": "^3.1.0"
   },
   "scripts": {
