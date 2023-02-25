@@ -1,8 +1,8 @@
 import {Path} from "runtime-compat/filesystem";
-import {Either} from "runtime-compat/functional";
+import {EagerEither} from "runtime-compat/functional";
 import cache from "./cache.js";
 import extend from "./extend.js";
-import json from "./preset/primate.json" assert {type: "json"};
+import preset from "./preset/primate.js";
 
 const qualify = (root, paths) =>
   Object.keys(paths).reduce((sofar, key) => {
@@ -13,13 +13,15 @@ const qualify = (root, paths) =>
     return sofar;
   }, {});
 
-export default (filename = "primate.json") => cache("conf", filename, () => {
+export default async (filename = "primate.js") => {
   const root = Path.resolve();
-  const conf = Either
-    .try(() => extend(json, JSON.parse(root.join(filename).file.readSync())))
-    .match({left: () => json})
+  const conffile = root.join(filename);
+  const conf = await EagerEither
+    .try(async () => extend(preset, (await import(conffile)).default))
+    .match({left: () => preset})
     .get();
   const paths = qualify(root, conf.paths);
-
-  return {...conf, paths, root};
-});
+  return cache("conf", filename, () => {
+    return {...conf, paths, root};
+  });
+};
