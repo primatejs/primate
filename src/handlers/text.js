@@ -1,8 +1,8 @@
 const last = -1;
 const response = {
-  code: 200,
+  status: 200,
   headers: {"Content-Type": "text/plain"},
-}
+};
 
 export default (strings, ...keys) => async () => {
   const awaitedKeys = await Promise.all(keys);

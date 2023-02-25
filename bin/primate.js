@@ -2,4 +2,4 @@
 
 import conf from "../src/conf.js";
 import run from "../src/run.js";
-await run(conf());
+await run(await conf());

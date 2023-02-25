@@ -16,6 +16,9 @@ const isFile = value => value instanceof File
   ? stream`${value}` : isStream(value);
 const guess = value => isFile(value);
 
+// insensitive-case equal
+const ieq = (left, right) => left.toLowerCase() === right.toLowerCase();
+
 export default async definitions => {
   const aliases = [];
   const routes = [];
@@ -33,7 +36,7 @@ export default async definitions => {
   };
   const find = (method, path, fallback = {handler: r => r}) =>
     routes.find(route =>
-      route.method === method && route.path.test(path)) ?? fallback;
+      ieq(route.method, method) && route.path.test(path)) ?? fallback;
 
   const router = {
     map: (path, callback) => add("map", path, callback),
@@ -41,7 +44,7 @@ export default async definitions => {
     post: (path, callback) => add("post", path, callback),
     alias: (key, value) => aliases.push({key, value}),
     process: async request => {
-      const {method} = request;
+      const {method} = request.original;
       const url = new URL(`https://primatejs.com${request.pathname}`);
       const {pathname, searchParams} = url;
       const params = Object.fromEntries(searchParams);

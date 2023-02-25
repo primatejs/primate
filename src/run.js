@@ -4,8 +4,11 @@ import bundle from "./bundle.js";
 import package_json from "../package.json" assert {type: "json"};
 import log from "./log.js";
 
+const extract = (modules, key) => modules.flatMap(module => module[key] ?? []);
+
 export default async conf => {
   log.reset("Primate").yellow(package_json.version);
+
   const {paths} = conf;
   const router = await route(paths.routes);
   await bundle(conf);
@@ -14,5 +17,6 @@ export default async conf => {
     paths: conf.paths,
     from: conf.paths.public,
     http: conf.http,
+    modules: extract(conf.modules ?? [], "serve"),
   });
 };

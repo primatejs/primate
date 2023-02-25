@@ -1,5 +1,5 @@
 const response = {
-  code: 200,
+  status: 200,
   headers: {"Content-Type": "application/json"},
 };
 

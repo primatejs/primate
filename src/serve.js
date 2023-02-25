@@ -1,6 +1,6 @@
 import {Path} from "runtime-compat/filesystem";
 import {serve, Response} from "runtime-compat/http";
-import codes from "./http-codes.json" assert {type: "json"};
+import statuses from "./http-statuses.json" assert {type: "json"};
 import mimes from "./mimes.json" assert {type: "json"};
 import {http404} from "./handlers/http.js";
 import log from "./log.js";
@@ -8,83 +8,87 @@ import log from "./log.js";
 const regex = /\.([a-z1-9]*)$/u;
 const mime = filename => mimes[filename.match(regex)[1]] ?? mimes.binary;
 
-const Server = class Server {
-  constructor(conf) {
-    this.conf = conf;
-  }
+const contents = {
+  "application/x-www-form-urlencoded": body =>
+    Object.fromEntries(body.split("&").map(part => part.split("=")
+      .map(subpart => decodeURIComponent(subpart).replaceAll("+", " ")))),
+  "application/json": body => JSON.parse(body),
+};
 
-  async start() {
-    const {http} = this.conf;
-    const {csp, "same-site": same_site = "Strict"} = http;
-    this.csp = Object.keys(csp).reduce((policy_string, key) =>
-      `${policy_string}${key} ${csp[key]};`, "");
-
-    const decoder = new TextDecoder();
-    serve(async request => {
-      const reader = request.body.getReader();
-      const chunks = [];
-      let result;
-      do {
-        result = await reader.read();
-        if (result.value !== undefined) {
-          chunks.push(decoder.decode(result.value));
-        }
-      } while (!result.done);
-      const body = chunks.join();
-      const payload = Object.fromEntries(decodeURI(body).replaceAll("+", " ")
-        .split("&")
-        .map(part => part.split("=")));
-      const {pathname, search} = new URL(`https://example.com${request.url}`);
-      return this.try(pathname + search, request, payload);
-    }, http);
-    const {port, host} = this.conf.http;
-    log.reset("on").yellow(`${host}:${port}`).nl();
-  }
-
-  async try(url, request, payload) {
-    try {
-      return await this.serve(url, request, payload);
-    } catch (error) {
-      console.log(error);
-      return new Response(null, {status: codes.InternalServerError});
-    }
-  }
-
-  async serve(url, request, payload) {
-    const path = new Path(this.conf.from, url);
-    return await path.isFile
-      ? this.resource(path.file)
-      : this.route(url, request, payload);
-  }
-
-  async resource(file) {
-    return new Response(file.readable, {
-      status: codes.OK,
-      headers: {
-        "Content-Type": mime(file.name),
-        Etag: await file.modified,
-      },
-    });
-  }
-
-  async route(pathname, request, payload) {
-    const req = {pathname, method: request.method.toLowerCase(), payload};
+export default conf => {
+  const route = async request => {
     let result;
     try {
-      result = await (await this.conf.router.process(req))(this.conf);
+      result = await (await conf.router.process(request))(conf);
     } catch (error) {
       console.log(error);
-      result = http404``;
+      result = http404()``;
     }
+    const csp = Object.keys(conf.http.csp).reduce((policy_string, key) =>
+      `${policy_string}${key} ${conf.http.csp[key]};`, "");
     return new Response(result.body, {
-      status: result.code,
+      status: result.status,
       headers: {
         ...result.headers,
-        "Content-Security-Policy": this.csp,
+        "Content-Security-Policy": csp,
         "Referrer-Policy": "same-origin",
       },
     });
-  }
-};
+  };
 
-export default conf => new Server(conf).start();
+  const resource = async file => new Response(file.readable, {
+    status: statuses.OK,
+    headers: {
+      "Content-Type": mime(file.name),
+      Etag: await file.modified,
+    },
+  });
+
+  const _serve = async request => {
+    const path = new Path(conf.from, request.pathname);
+    return await path.isFile ? resource(path.file) : route(request);
+  };
+
+  const handle = async request => {
+    try {
+      return await _serve(request);
+    } catch (error) {
+      console.log(error);
+      return new Response(null, {status: statuses.InternalServerError});
+    }
+  };
+
+  const parseContent = (request, body) => {
+    const type = contents[request.headers.get("content-type")];
+    return type === undefined ? body : type(body);
+  };
+
+  const {http, modules} = conf;
+
+  // handle is the last module to be executed
+  const handlers = [...modules, handle].reduceRight((acc, handler) =>
+    input => handler(input, acc));
+
+  const decoder = new TextDecoder();
+  serve(async request => {
+    // preprocess request
+    const reader = request.body.getReader();
+    const chunks = [];
+    let result;
+    do {
+      result = await reader.read();
+      if (result.value !== undefined) {
+        chunks.push(decoder.decode(result.value));
+      }
+    } while (!result.done);
+
+    const body = chunks.length === 0 ? undefined
+      : parseContent(request, chunks.join());
+
+    const {pathname, search} = new URL(`https://example.com${request.url}`);
+
+    return await handlers({original: request, pathname: pathname + search, body});
+  }, http);
+
+  log.reset("on").yellow(`${http.host}:${http.port}`).nl();
+};
