@@ -19,4 +19,8 @@ const log = new Proxy(Log, {
     log.paint(colors[property] ?? reset, message).paint(reset, " ")),
 });
 
-export default log;
+export default {
+  info: (...args) => log.green("[info]").reset(...args).nl(),
+  warn: (...args) => log.yellow("[warn]").reset(...args).nl(),
+  error: (...args) => log.red("[error]").reset(...args).nl(),
+};

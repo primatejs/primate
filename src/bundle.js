@@ -1,8 +1,7 @@
 import {File} from "runtime-compat/filesystem";
 
-export default async conf => {
-  const {paths} = conf;
-
+export default async env => {
+  const {paths} = env;
   if (await paths.static.exists) {
     // remove public directory in case exists
     if (await paths.public.exists) {

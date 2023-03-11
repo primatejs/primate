@@ -3,7 +3,6 @@ import {serve, Response} from "runtime-compat/http";
 import statuses from "./http-statuses.json" assert {type: "json"};
 import mimes from "./mimes.json" assert {type: "json"};
 import {http404} from "./handlers/http.js";
-import log from "./log.js";
 
 const regex = /\.([a-z1-9]*)$/u;
 const mime = filename => mimes[filename.match(regex)[1]] ?? mimes.binary;
@@ -15,17 +14,17 @@ const contents = {
   "application/json": body => JSON.parse(body),
 };
 
-export default conf => {
+export default env => {
   const route = async request => {
     let result;
     try {
-      result = await (await conf.router.process(request))(conf);
+      result = await (await env.router.process(request))(env);
     } catch (error) {
-      console.log(error);
+      env.error(error);
       result = http404()``;
     }
-    const csp = Object.keys(conf.http.csp).reduce((policy_string, key) =>
-      `${policy_string}${key} ${conf.http.csp[key]};`, "");
+    const csp = Object.keys(env.http.csp).reduce((policy_string, key) =>
+      `${policy_string}${key} ${env.http.csp[key]};`, "");
     return new Response(result.body, {
       status: result.status,
       headers: {
@@ -45,7 +44,7 @@ export default conf => {
   });
 
   const _serve = async request => {
-    const path = new Path(conf.from, request.pathname);
+    const path = new Path(env.paths.public, request.pathname);
     return await path.isFile ? resource(path.file) : route(request);
   };
 
@@ -53,7 +52,7 @@ export default conf => {
     try {
       return await _serve(request);
     } catch (error) {
-      console.log(error);
+      env.error(error);
       return new Response(null, {status: statuses.InternalServerError});
     }
   };
@@ -63,7 +62,7 @@ export default conf => {
     return type === undefined ? body : type(body);
   };
 
-  const {http, modules} = conf;
+  const {http, modules} = env;
 
   // handle is the last module to be executed
   const handlers = [...modules, handle].reduceRight((acc, handler) =>
@@ -90,5 +89,5 @@ export default conf => {
     return await handlers({original: request, pathname: pathname + search, body});
   }, http);
 
-  log.reset("on").yellow(`${http.host}:${http.port}`).nl();
+  env.info(`running on ${http.host}:${http.port}`);
 };

@@ -1,22 +1,13 @@
 import serve from "./serve.js";
 import route from "./route.js";
 import bundle from "./bundle.js";
-import package_json from "../package.json" assert {type: "json"};
-import log from "./log.js";
 
 const extract = (modules, key) => modules.flatMap(module => module[key] ?? []);
 
-export default async conf => {
-  log.reset("Primate").yellow(package_json.version);
-
-  const {paths} = conf;
+export default async env => {
+  const {paths} = env;
   const router = await route(paths.routes);
-  await bundle(conf);
+  await bundle(env);
 
-  await serve({router,
-    paths: conf.paths,
-    from: conf.paths.public,
-    http: conf.http,
-    modules: extract(conf.modules ?? [], "serve"),
-  });
+  await serve({router, ...env, modules: extract(env.modules ?? [], "serve")});
 };

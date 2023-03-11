@@ -18,4 +18,5 @@ export default {
     routes: "routes",
     components: "components",
   },
+  modules: [],
 };
