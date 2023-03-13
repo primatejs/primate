@@ -1,7 +1,4 @@
-const response = {
+export default (_, ...keys) => async () => [await keys[0], {
   status: 200,
   headers: {"Content-Type": "application/octet-stream"},
-};
-
-export default (strings, ...keys) => async () =>
-  ({...response, body: await keys[0]});
+}];

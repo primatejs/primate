@@ -1,7 +1,4 @@
-const response = {
+export default (_, ...keys) => async () => [JSON.stringify(await keys[0]), {
   status: 200,
   headers: {"Content-Type": "application/json"},
-};
-
-export default (strings, ...keys) => async () =>
-  ({...response, body: JSON.stringify(await keys[0])});
+}];

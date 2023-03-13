@@ -17,22 +17,20 @@ const contents = {
 export default env => {
   const route = async request => {
     let result;
-    try {
-      result = await (await env.router.process(request))(env);
-    } catch (error) {
-      env.error(error);
-      result = http404()``;
-    }
     const csp = Object.keys(env.http.csp).reduce((policy_string, key) =>
       `${policy_string}${key} ${env.http.csp[key]};`, "");
-    return new Response(result.body, {
-      status: result.status,
-      headers: {
-        ...result.headers,
-        "Content-Security-Policy": csp,
-        "Referrer-Policy": "same-origin",
-      },
-    });
+    const headers = {
+      "Content-Security-Policy": csp,
+      "Referrer-Policy": "same-origin",
+    };
+
+    try {
+      result = await (await env.router.process(request))(env, headers);
+    } catch (error) {
+      env.error(error);
+      result = http404(env, headers)``;
+    }
+    return new Response(...result);
   };
 
   const resource = async file => new Response(file.readable, {
@@ -86,7 +84,7 @@ export default env => {
 
     const {pathname, search} = new URL(`https://example.com${request.url}`);
 
-    return await handlers({original: request, pathname: pathname + search, body});
+    return handlers({original: request, pathname: pathname + search, body});
   }, http);
 
   env.info(`running on ${http.host}:${http.port}`);
