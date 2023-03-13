@@ -27,7 +27,7 @@ export default env => {
     try {
       result = await (await env.router.process(request))(env, headers);
     } catch (error) {
-      env.error(error);
+      env.error(error.message);
       result = http404(env, headers)``;
     }
     return new Response(...result);
@@ -50,7 +50,7 @@ export default env => {
     try {
       return await _serve(request);
     } catch (error) {
-      env.error(error);
+      env.error(error.message);
       return new Response(null, {status: statuses.InternalServerError});
     }
   };

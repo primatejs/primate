@@ -1,14 +1,18 @@
 import {ReadableStream} from "runtime-compat/streams";
 import {Path, File} from "runtime-compat/filesystem";
 import {is} from "runtime-compat/dyndef";
-import {http404} from "./handlers/http.js";
 import text from "./handlers/text.js";
 import json from "./handlers/json.js";
 import stream from "./handlers/stream.js";
 import RouteError from "./errors/Route.js";
 
-const isText = value => typeof value === "string" ? text`${value}` : http404``;
-const isObject = value => typeof value === "object" && value !== null 
+const isText = value => {
+  if (typeof value === "string") {
+    return text`${value}`;
+  }
+  throw new RouteError(`no handler found for ${value}`);
+};
+const isObject = value => typeof value === "object" && value !== null
   ? json`${value}` : isText(value);
 const isStream = value => value instanceof ReadableStream
   ? stream`${value}` : isObject(value);
@@ -48,7 +52,9 @@ export default async definitions => {
       const url = new URL(`https://primatejs.com${request.pathname}`);
       const {pathname, searchParams} = url;
       const params = Object.fromEntries(searchParams);
-      const verb = find(method, pathname, {handler: () => http404``});
+      const verb = find(method, pathname, {handler: () => {
+        throw new RouteError(`no ${method.toUpperCase()} route to ${pathname}`);
+      }});
       const path = pathname.split("/").filter(part => part !== "");
       const named = verb.path?.exec(pathname)?.groups ?? {};
 
