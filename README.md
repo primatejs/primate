@@ -89,7 +89,7 @@ Routes map requests to responses. They are loaded from `routes`.
 
 ```js
 export default router => {
-  // accessing /site/login will serve the `Hello, world!` as plain text
+  // accessing /site/login will serve `Hello, world!` as plain text
   router.get("/site/login", () => "Hello, world!");
 };
 
