@@ -48,12 +48,6 @@
       "skipBlankLines": true,
       "skipComments": true
     }],
-    "max-lines-per-function": ["error",{
-      "max": 12,
-      "skipBlankLines": true,
-      "skipComments": true,
-      "IIFEs": true
-    }],
     "max-nested-callbacks": ["error", 3],
     "max-params": ["error", 3],
     "max-statements": ["error", 10],

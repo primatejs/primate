@@ -13,7 +13,7 @@ export default router => {
 
 ```
 
-Add `{"type": "module"}` to your `package.json` and run `npx primate`.
+Add `{"type": "module"}` to your `package.json` and run `npx primate@latest -y`.
 
 ## Table of Contents
 
@@ -25,10 +25,14 @@ Add `{"type": "module"}` to your `package.json` and run `npx primate`.
 - [Routing](#routing)
   - [Basic](#basic)
   - [The request object](#the-request-object)
+  - [Accessing the request body](#accessing-the-request-body)
   - [Regular expressions](#regular-expressions)
   - [Named groups](#named-groups)
   - [Aliasing](#aliasing)
   - [Sharing logic across requests](#sharing-logic-across-requests)
+- [Extensions](#extensions)
+  - [Handlers](#handlers)
+  - [Modules](#modules)
 - [Data persistance](#data-persistance)
   - [Short field notation](#short-field-notation)
   - [Predicates](#predicates)
@@ -77,53 +81,16 @@ export default router => {
 
 ```
 
-### HTML
-
-Create an HTML component in `components/user-index.html`
-
-```html
-<div for="${users}">
-  User ${name}.
-  Email ${email}.
-</div>
-
-```
-
-Serve the component in your route
-
-```js
-import html from "@primate/html";
-
-export default router => {
-  // the HTML tagged template handler loads a component from the `components`
-  // directory and serves it as HTML, passing any given data as attributes
-  router.get("/users", () => {
-    const users = [
-      {name: "Donald", email: "donald@the.duck"},
-      {name: "Joe", email: "joe@was.absent"},
-    ];
-    return html`<user-index users="${users}" />`;
-  });
-};
-
-```
-
 ## Routing
 
 Routes map requests to responses. They are loaded from `routes`.
 
-The order in which routes are declared is irrelevant. Redeclaring a route
-(same pathname and same HTTP verb) throws an error.
-
 ### Basic
 
 ```js
-import html from "@primate/html";
-
 export default router => {
-  // accessing /site/login will serve the contents of
-  // `components/site-login.html` as HTML
-  router.get("/site/login", () => html`<site-login />`);
+  // accessing /site/login will serve the `Hello, world!` as plain text
+  router.get("/site/login", () => "Hello, world!");
 };
 
 ```
@@ -134,6 +101,20 @@ export default router => {
 export default router => {
   // accessing /site/login will serve `["site", "login"]` as JSON
   router.get("/site/login", request => request.path);
+};
+
+```
+
+### Accessing the request body
+
+For requests containing a body, Primate will attempt to parse the body according
+to the content type sent along the request. Currently supported are
+`application/x-www-form-urlencoded` (typically for form submission) and
+`application/json`.
+
+```js
+export default router => {
+  router.post("/site/login", ({body}) => `submitted user: ${body.username}`);
 };
 
 ```
@@ -204,10 +185,125 @@ export default router => {
 
 ```
 
-## Data persistance 
+## Extensions
 
-Primate domains (via [`@primate/domains`][primate-domains]) represent a
-collection in a store using the class `fields` property.
+There are two ways to extend Primate's core functionality. Handlers are used
+per route to serve new types of content not supported by core. Modules extend
+an app's entire scope.
+
+Handlers and modules listed here are officially developed and supported by
+Primate.
+
+### Handlers
+
+#### HTML ([`@primate/html`](https://github.com/primatejs/primate-html))
+
+Serve HTML tagged templates. This handler reads HTML component files from
+`components`.
+
+Create an HTML component in `components/user-index.html`
+
+```html
+<div for="${users}">
+  User ${name}.
+  Email ${email}.
+</div>
+
+```
+
+Create a route in `route/user.js` and serve the component in your route
+
+```js
+import html from "@primate/html";
+
+export default router => {
+  // the HTML tagged template handler loads a component from the `components`
+  // directory and serves it as HTML, passing any given data as attributes
+  router.get("/users", () => {
+    const users = [
+      {name: "Donald", email: "donald@the.duck"},
+      {name: "Joe", email: "joe@was.absent"},
+    ];
+    return html`<user-index users="${users}" />`;
+  });
+};
+
+```
+
+#### HTMX ([`@primate/htmx`](https://github.com/primatejs/primate-htmx))
+
+Serve HTML tagged templates with HTMX support. This handler reads HTML component
+files from `components`.
+
+Create an HTML component in `components/user-index.html`
+
+```html
+<div for="${users}" hx-get="/other-users" hx-swap="outerHTML">
+  User ${name}.
+  Email ${email}.
+</div>
+
+```
+
+Create a route in `route/user.js` and serve the component in your route
+
+```js
+import {default as htmx, partial} from "@primate/htmx";
+
+export default router => {
+  // the HTML tagged template handler loads a component from the `components`
+  // directory and serves it as HTML, passing any given data as attributes
+  router.get("/users", () => {
+    const users = [
+      {name: "Donald", email: "donald@the.duck"},
+      {name: "Joe", email: "joe@was.absent"},
+    ];
+    return htmx`<user-index users="${users}" />`;
+  });
+
+  // this is the same as above, with support for partial rendering (without
+  // index.html)
+  router.get("/other-users", () => {
+    const users = [
+      {name: "Other Donald", email: "donald@the.goose"},
+      {name: "Other Joe", email: "joe@was.around"},
+    ];
+    return partial`<user-index users="${users}" />`;
+  });
+};
+
+```
+
+### Modules
+
+To add modules, create a `primate.conf.js` configuration file in your project's
+root. This file should export a default object with the property `modules` used
+for extending your app.
+
+```js
+export default {
+  modules: [],
+};
+
+```
+
+#### Data persistance ([`@primate/domains`][primate-domains])
+
+Primate domains add data persistance in the form of ORM backed up by various
+drivers.
+
+Import and initialize this module in your configuration file
+
+```js
+import domains from "@primate/domains";
+
+export default {
+  modules: [domains()],
+};
+
+```
+
+A domain represent a collection in a store using the static `fields` property
 
 ```js
 import {Domain} from "@primate/domains";
@@ -225,33 +321,8 @@ export default class User extends Domain {
 
 ```
 
-### Short field notation
-
-Value types may be any constructible JavaScript object, including other
-domains. When using other domains as types, data integrity (on saving) is
-ensured.
-
-```js
-import {Domain} from "@primate/domains";
-import House from "./House.js";
-
-export default class User extends Domain {
-  static fields = {
-    // a user's name must be a string
-    name: String,
-    // a user's age must be a number
-    age: Number,
-    // a user's house must have the foreign id of a house record
-    house_id: House,
-  };
-}
-
-```
-
-### Predicates
-
 Field types may also be specified as an array, to specify additional predicates
-aside from the type.
+aside from the type
 
 ```js
 import {Domain} from "@primate/domains";
@@ -270,6 +341,8 @@ export default class User extends Domain {
 }
 
 ```
+
+#### Sessions ([`@primate/sessions`][primate-session])
 
 ## Resources
 
