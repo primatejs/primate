@@ -196,7 +196,7 @@ Primate.
 
 ### Handlers
 
-#### HTML ([`@primate/html`](https://github.com/primatejs/primate-html))
+#### HTML ([`@primate/html`][primate-html])
 
 Serve HTML tagged templates. This handler reads HTML component files from
 `components`.
@@ -230,7 +230,7 @@ export default router => {
 
 ```
 
-#### HTMX ([`@primate/htmx`](https://github.com/primatejs/primate-htmx))
+#### HTMX ([`@primate/htmx`][primate-htmx])
 
 Serve HTML tagged templates with HTMX support. This handler reads HTML component
 files from `components`.
@@ -303,7 +303,7 @@ export default {
 
 ```
 
-A domain represent a collection in a store using the static `fields` property
+A domain represents a collection in a store using the static `fields` property
 
 ```js
 import {Domain} from "@primate/domains";
@@ -321,7 +321,7 @@ export default class User extends Domain {
 
 ```
 
-Field types may also be specified as an array, to specify additional predicates
+Field types may also be specified as an array with additional predicates
 aside from the type
 
 ```js
@@ -342,8 +342,6 @@ export default class User extends Domain {
 
 ```
 
-#### Sessions ([`@primate/sessions`][primate-session])
-
 ## Resources
 
 * Website: https://primatejs.com
@@ -353,4 +351,6 @@ export default class User extends Domain {
 
 MIT
 
+[primate-html]: https://github.com/primatejs/primate-html
+[primate-htmx]: https://github.com/primatejs/primate-htmx
 [primate-domains]: https://github.com/primatejs/primate-domains

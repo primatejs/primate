@@ -173,13 +173,13 @@ Import and initialize this module in your configuration file
 // extensions/modules/domains/configure.js
 ```
 
-A domain represent a collection in a store using the static `fields` property
+A domain represents a collection in a store using the static `fields` property
 
 ```js
 // extensions/modules/domains/fields.js
 ```
 
-Field types may also be specified as an array, to specify additional predicates
+Field types may also be specified as an array with additional predicates
 aside from the type
 
 ```js
