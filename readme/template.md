@@ -1,6 +1,6 @@
 # Primate 
 
-An expressive, minimal and extensible framework for JavaScript.
+Expressive, minimal and extensible framework for JavaScript.
 
 ## Getting started
 
@@ -10,7 +10,7 @@ Create a route in `routes/hello.js`
 // getting-started/hello.js
 ```
 
-Add `{"type": "module"}` to your `package.json` and run `npx primate@latest -y`.
+Add `{"type": "module"}` to your `package.json` and run `npx -y primate@latest`.
 
 ## Table of Contents
 
@@ -18,7 +18,6 @@ Add `{"type": "module"}` to your `package.json` and run `npx primate@latest -y`.
   - [Plain text](#plain-text)
   - [JSON](#json)
   - [Streams](#streams)
-  - [HTML](#html)
 - [Routing](#routing)
   - [Basic](#basic)
   - [The request object](#the-request-object)
@@ -28,15 +27,16 @@ Add `{"type": "module"}` to your `package.json` and run `npx primate@latest -y`.
   - [Aliasing](#aliasing)
   - [Sharing logic across requests](#sharing-logic-across-requests)
 - [Extensions](#extensions)
-  - [Handlers](#handlers)
-  - [Modules](#modules)
-- [Data persistance](#data-persistance)
-  - [Short field notation](#short-field-notation)
-  - [Predicates](#predicates)
+- [Handlers](#handlers)
+  - [HTML](#html)
+  - [Redirect](#redirect)
+  - [HTMX](#htmx)
+- [Modules](#modules)
+  - [Data persistance](#data-persistance)
 
 ## Serving content
 
-Create a file in `routes` that exports a default function
+Create a file in `routes` that exports a default function.
 
 ### Plain text
 
@@ -118,7 +118,9 @@ Primate.
 
 ### Handlers
 
-#### HTML ([`@primate/html`][primate-html])
+#### HTML
+
+*[`@primate/html`][primate-html]*
 
 Serve HTML tagged templates. This handler reads HTML component files from
 `components`.
@@ -135,7 +137,21 @@ Create a route in `route/user.js` and serve the component in your route
 // extensions/handlers/html/user.js
 ```
 
-#### HTMX ([`@primate/htmx`][primate-htmx])
+#### Redirect
+
+*[`@primate/redirect`][primate-redirect]*
+
+Redirect the request.
+
+Create a route in `route/user.js`
+
+```js
+// extensions/handlers/redirect/user.js
+```
+
+#### HTMX
+
+*[`@primate/htmx`][primate-htmx]*
 
 Serve HTML tagged templates with HTMX support. This handler reads HTML component
 files from `components`.
@@ -162,10 +178,11 @@ for extending your app.
 // extensions/modules/configure.js
 ```
 
-#### Data persistance ([`@primate/domains`][primate-domains])
+#### Data persistance
 
-Primate domains add data persistance in the form of ORM backed up by various
-drivers.
+*[`@primate/domains`][primate-domains]*
+
+Add data persistance in the form of ORM backed up by various drivers.
 
 Import and initialize this module in your configuration file
 
@@ -196,5 +213,7 @@ aside from the type
 MIT
 
 [primate-html]: https://github.com/primatejs/primate-html
+[primate-redirect]: https://github.com/primatejs/primate-redirect
 [primate-htmx]: https://github.com/primatejs/primate-htmx
 [primate-domains]: https://github.com/primatejs/primate-domains
+[primate-sessions]: https://github.com/primatejs/primate-sessions

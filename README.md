@@ -1,6 +1,6 @@
 # Primate 
 
-An expressive, minimal and extensible framework for JavaScript.
+Expressive, minimal and extensible framework for JavaScript.
 
 ## Getting started
 
@@ -13,7 +13,7 @@ export default router => {
 
 ```
 
-Add `{"type": "module"}` to your `package.json` and run `npx primate@latest -y`.
+Add `{"type": "module"}` to your `package.json` and run `npx -y primate@latest`.
 
 ## Table of Contents
 
@@ -21,7 +21,6 @@ Add `{"type": "module"}` to your `package.json` and run `npx primate@latest -y`.
   - [Plain text](#plain-text)
   - [JSON](#json)
   - [Streams](#streams)
-  - [HTML](#html)
 - [Routing](#routing)
   - [Basic](#basic)
   - [The request object](#the-request-object)
@@ -31,15 +30,16 @@ Add `{"type": "module"}` to your `package.json` and run `npx primate@latest -y`.
   - [Aliasing](#aliasing)
   - [Sharing logic across requests](#sharing-logic-across-requests)
 - [Extensions](#extensions)
-  - [Handlers](#handlers)
-  - [Modules](#modules)
-- [Data persistance](#data-persistance)
-  - [Short field notation](#short-field-notation)
-  - [Predicates](#predicates)
+- [Handlers](#handlers)
+  - [HTML](#html)
+  - [Redirect](#redirect)
+  - [HTMX](#htmx)
+- [Modules](#modules)
+  - [Data persistance](#data-persistance)
 
 ## Serving content
 
-Create a file in `routes` that exports a default function
+Create a file in `routes` that exports a default function.
 
 ### Plain text
 
@@ -75,7 +75,7 @@ export default router => {
 import {File} from "runtime-compat/filesystem";
 
 export default router => {
-  // `File` implements `readable`, which is a ReadableStream
+  // `File` implements `readable`, which is a `ReadableStream`
   router.get("/users", () => new File("users.json"));
 };
 
@@ -196,7 +196,9 @@ Primate.
 
 ### Handlers
 
-#### HTML ([`@primate/html`][primate-html])
+#### HTML
+
+*[`@primate/html`][primate-html]*
 
 Serve HTML tagged templates. This handler reads HTML component files from
 `components`.
@@ -230,7 +232,27 @@ export default router => {
 
 ```
 
-#### HTMX ([`@primate/htmx`][primate-htmx])
+#### Redirect
+
+*[`@primate/redirect`][primate-redirect]*
+
+Redirect the request.
+
+Create a route in `route/user.js`
+
+```js
+import redirect from "@primate/html";
+
+export default router => {
+  // redirect the request
+  router.get("/user", () => redirect`/users`);
+};
+
+```
+
+#### HTMX
+
+*[`@primate/htmx`][primate-htmx]*
 
 Serve HTML tagged templates with HTMX support. This handler reads HTML component
 files from `components`.
@@ -287,10 +309,11 @@ export default {
 
 ```
 
-#### Data persistance ([`@primate/domains`][primate-domains])
+#### Data persistance
 
-Primate domains add data persistance in the form of ORM backed up by various
-drivers.
+*[`@primate/domains`][primate-domains]*
+
+Add data persistance in the form of ORM backed up by various drivers.
 
 Import and initialize this module in your configuration file
 
@@ -308,16 +331,15 @@ A domain represents a collection in a store using the static `fields` property
 ```js
 import {Domain} from "@primate/domains";
 
-// A basic domain that contains two properies
+// A basic domain with two properies
 export default class User extends Domain {
   static fields = {
-    // a user's name must be a string
+    // a user's name is a string
     name: String,
-    // a user's age must be a number
+    // a user's age is a number
     age: Number,
   };
 }
-
 
 ```
 
@@ -330,11 +352,11 @@ import House from "./House.js";
 
 export default class User extends Domain {
   static fields = {
-    // a user's name must be a string and unique across the user collection
+    // a user's name is a string unique across the user collection
     name: [String, "unique"],
-    // a user's age must be a positive integer
+    // a user's age is a positive integer
     age: [Number, "integer", "positive"],
-    // a user's house must have the foreign id of a house record and no two
+    // a user's house has the foreign id of a house record and no two
     // users may have the same house
     house_id: [House, "unique"],
   };
@@ -352,5 +374,7 @@ export default class User extends Domain {
 MIT
 
 [primate-html]: https://github.com/primatejs/primate-html
+[primate-redirect]: https://github.com/primatejs/primate-redirect
 [primate-htmx]: https://github.com/primatejs/primate-htmx
 [primate-domains]: https://github.com/primatejs/primate-domains
+[primate-sessions]: https://github.com/primatejs/primate-sessions
