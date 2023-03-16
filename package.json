@@ -9,7 +9,7 @@
   "license": "MIT",
   "bin": "bin/primate.js",
   "dependencies": {
-    "runtime-compat": "^0.12.3"
+    "runtime-compat": "^0.13.1"
   },
   "devDependencies": {
     "@babel/core": "^7.21.3",

@@ -3,6 +3,7 @@ import {serve, Response} from "runtime-compat/http";
 import statuses from "./http-statuses.json" assert {type: "json"};
 import mimes from "./mimes.json" assert {type: "json"};
 import {http404} from "./handlers/http.js";
+import {isResponse} from "./duck.js";
 
 const regex = /\.([a-z1-9]*)$/u;
 const mime = filename => mimes[filename.match(regex)[1]] ?? mimes.binary;
@@ -16,7 +17,6 @@ const contents = {
 
 export default env => {
   const route = async request => {
-    let result;
     const csp = Object.keys(env.http.csp).reduce((policy_string, key) =>
       `${policy_string}${key} ${env.http.csp[key]};`, "");
     const headers = {
@@ -24,13 +24,14 @@ export default env => {
       "Referrer-Policy": "same-origin",
     };
 
+    let response;
     try {
-      result = await (await env.router.process(request))(env, headers);
+      response = await (await env.router.process(request))(env, headers);
     } catch (error) {
       env.error(error.message);
-      result = http404(env, headers)``;
+      response = http404(env, headers)``;
     }
-    return new Response(...result);
+    return isResponse(response) ? response : new Response(...response);
   };
 
   const resource = async file => new Response(file.readable, {

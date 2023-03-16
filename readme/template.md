@@ -18,6 +18,7 @@ Add `{"type": "module"}` to your `package.json` and run `npx -y primate@latest`.
   - [Plain text](#plain-text)
   - [JSON](#json)
   - [Streams](#streams)
+  - [Response](#response)
 - [Routing](#routing)
   - [Basic](#basic)
   - [The request object](#the-request-object)
@@ -54,6 +55,12 @@ Create a file in `routes` that exports a default function.
 
 ```js
 // serving-content/streams.js
+```
+
+### Response
+
+```js
+// serving-content/response.js
 ```
 
 ## Routing

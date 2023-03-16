@@ -21,6 +21,7 @@ Add `{"type": "module"}` to your `package.json` and run `npx -y primate@latest`.
   - [Plain text](#plain-text)
   - [JSON](#json)
   - [Streams](#streams)
+  - [Response](#response)
 - [Routing](#routing)
   - [Basic](#basic)
   - [The request object](#the-request-object)
@@ -77,6 +78,18 @@ import {File} from "runtime-compat/filesystem";
 export default router => {
   // `File` implements `readable`, which is a `ReadableStream`
   router.get("/users", () => new File("users.json"));
+};
+
+```
+
+### Response
+
+```js
+import {Response} from "runtime-compat/http";
+
+export default router => {
+  // use a generic response instance for a custom response status
+  router.get("/create", () => new Response("created!", {status: 201}));
 };
 
 ```
