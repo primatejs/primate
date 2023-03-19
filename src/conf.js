@@ -1,9 +1,8 @@
 import {Path} from "runtime-compat/filesystem";
-import {EagerEither} from "runtime-compat/functional";
 import cache from "./cache.js";
 import extend from "./extend.js";
 import preset from "./preset/primate.conf.js";
-import log from "./log.js";
+import * as log from "./log.js";
 import package_json from "../package.json" assert {type: "json"};
 
 const qualify = (root, paths) =>
@@ -15,16 +14,28 @@ const qualify = (root, paths) =>
     return sofar;
   }, {});
 
+const getConf = async (root, filename) => {
+  try {
+    return extend(preset, (await import(root.join(filename))).default);
+  } catch (error) {
+    // this happens before we've initialised conf, so show full stack trace
+    log.error(error, {debug: true});
+    return preset;
+  }
+};
+
 export default async (filename = "primate.conf.js") => {
   const root = Path.resolve();
-  const conffile = root.join(filename);
-  const conf = await EagerEither
-    .try(async () => extend(preset, (await import(conffile)).default))
-    .match({left: () => preset})
-    .get();
+  const conf = await getConf(root, filename);
 
-  const temp = {...conf, ...log, paths: qualify(root, conf.paths), root};
-  temp.info(`primate \x1b[34m${package_json.version}\x1b[0m`);
-  const modules = await Promise.all(conf.modules.map(module => module(temp)));
-  return cache("conf", filename, () => ({...temp, modules}));
+  const env = {
+    ...conf,
+    paths: qualify(root, conf.paths),
+    root,
+    log: {...log, error: error => log.error(error, conf),
+    },
+  };
+  env.log.info(`${package_json.name} \x1b[34m${package_json.version}\x1b[0m`);
+  const modules = await Promise.all(conf.modules.map(module => module(env)));
+  return cache("conf", filename, () => ({...env, modules}));
 };

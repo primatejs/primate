@@ -19,8 +19,11 @@ const log = new Proxy(Log, {
     log.paint(colors[property] ?? reset, message).paint(reset, " ")),
 });
 
-export default {
-  info: (...args) => log.green("[info]").reset(...args).nl(),
-  warn: (...args) => log.yellow("[warn]").reset(...args).nl(),
-  error: (...args) => log.red("[error]").reset(...args).nl(),
+export const info = (...args) => log.green("[info]").reset(...args).nl();
+
+export const warn = (...args) => log.yellow("[warn]").reset(...args).nl();
+
+export const error = (error, env) => {
+  log.red("[error]").reset(error.message).nl();
+  env.debug && console.log(error);
 };

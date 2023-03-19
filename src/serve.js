@@ -28,7 +28,7 @@ export default env => {
     try {
       response = await (await env.router.process(request))(env, headers);
     } catch (error) {
-      env.error(error.message);
+      env.log.error(error);
       response = http404(env, headers)``;
     }
     return isResponse(response) ? response : new Response(...response);
@@ -51,7 +51,7 @@ export default env => {
     try {
       return await _serve(request);
     } catch (error) {
-      env.error(error.message);
+      env.log.error(error);
       return new Response(null, {status: statuses.InternalServerError});
     }
   };
@@ -88,5 +88,5 @@ export default env => {
     return handlers({original: request, pathname: pathname + search, body});
   }, http);
 
-  env.info(`running on ${http.host}:${http.port}`);
+  env.log.info(`running on ${http.host}:${http.port}`);
 };
