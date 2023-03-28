@@ -1,11 +1,10 @@
 {
   "name": "primate",
   "version": "0.11.0",
-  "author": "Terrablue <terrablue@proton.me>",
   "homepage": "https://primatejs.com",
   "bugs": "https://github.com/primatejs/primate/issues",
   "repository": "https://github.com/primatejs/primate",
   "description": "Expressive, minimal and extensible framework for JavaScript",
   "license": "MIT",
-  "bin": "bin/primate.js"
+  "bin": "src/bin.js"
 }
