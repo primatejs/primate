@@ -19,8 +19,6 @@ const getConfig = async (root, filename) => {
   try {
     return extend(defaults, (await import(root.join(filename))).default);
   } catch (error) {
-    // this happens before we've initialised config, so show full stack trace
-    log.error(error, {debug: true});
     return defaults;
   }
 };
