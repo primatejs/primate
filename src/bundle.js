@@ -1,4 +1,4 @@
-import {File} from "runtime-compat/filesystem";
+import {File} from "runtime-compat/fs";
 
 export default async env => {
   const {paths} = env;

@@ -1,4 +1,4 @@
-import {Blob} from "runtime-compat/filesystem";
+import {Blob} from "runtime-compat/fs";
 import text from "./handlers/text.js";
 import json from "./handlers/json.js";
 import stream from "./handlers/stream.js";

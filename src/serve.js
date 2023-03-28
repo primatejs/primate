@@ -1,4 +1,4 @@
-import {Path} from "runtime-compat/filesystem";
+import {Path} from "runtime-compat/fs";
 import {serve, Response} from "runtime-compat/http";
 import statuses from "./http-statuses.json" assert {type: "json"};
 import mimes from "./mimes.json" assert {type: "json"};

@@ -1,4 +1,4 @@
-import {Path} from "runtime-compat/filesystem";
+import {Path} from "runtime-compat/fs";
 import {is} from "runtime-compat/dyndef";
 import cache from "./cache.js";
 import extend from "./extend.js";
