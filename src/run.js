@@ -11,5 +11,5 @@ export default async () => {
   const router = await route(paths.routes);
   await bundle(env);
 
-  serve({router, ...env, modules: extract(env.modules ?? [], "serve")});
+  serve({router, ...env});
 };

@@ -1,27 +1,6 @@
-import {ReadableStream} from "runtime-compat/streams";
-import {Blob, Path} from "runtime-compat/filesystem";
+import {Path} from "runtime-compat/filesystem";
 import {is} from "runtime-compat/dyndef";
-import text from "./handlers/text.js";
-import json from "./handlers/json.js";
-import stream from "./handlers/stream.js";
 import RouteError from "./errors/Route.js";
-import {isResponse as isResponseDuck} from "./duck.js";
-
-const isText = value => {
-  if (typeof value === "string") {
-    return text`${value}`;
-  }
-  throw new RouteError(`no handler found for ${value}`);
-};
-const isObject = value => typeof value === "object" && value !== null
-  ? json`${value}` : isText(value);
-const isResponse = value => isResponseDuck(value)
-  ? () => value : isObject(value);
-const isStream = value => value instanceof ReadableStream
-  ? stream`${value}` : isResponse(value);
-const isBlob = value => value instanceof Blob
-  ? stream`${value}` : isStream(value);
-const guess = value => isBlob(value);
 
 // insensitive-case equal
 const ieq = (left, right) => left.toLowerCase() === right.toLowerCase();
@@ -50,7 +29,7 @@ export default async definitions => {
     get: (path, callback) => add("get", path, callback),
     post: (path, callback) => add("post", path, callback),
     alias: (key, value) => aliases.push({key, value}),
-    process: async request => {
+    route: async request => {
       const {method} = request.original;
       const url = new URL(`https://primatejs.com${request.pathname}`);
       const {pathname, searchParams} = url;
@@ -61,10 +40,8 @@ export default async definitions => {
       const path = pathname.split("/").filter(part => part !== "");
       const named = verb.path?.exec(pathname)?.groups ?? {};
 
-      const result = await verb.handler(await find("map", pathname)
+      return verb.handler(await find("map", pathname)
         .handler({...request, pathname, params, path, named}));
-
-      return typeof result === "function" ? result : guess(result);
     },
   };
   if (await definitions.exists) {

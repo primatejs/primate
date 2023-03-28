@@ -4,9 +4,12 @@ import statuses from "./http-statuses.json" assert {type: "json"};
 import mimes from "./mimes.json" assert {type: "json"};
 import {http404} from "./handlers/http.js";
 import {isResponse} from "./duck.js";
+import respond from "./respond.js";
 
 const regex = /\.([a-z1-9]*)$/u;
 const mime = filename => mimes[filename.match(regex)[1]] ?? mimes.binary;
+
+const extract = (modules, key) => modules.flatMap(module => module[key] ?? []);
 
 const contents = {
   "application/x-www-form-urlencoded": body =>
@@ -26,7 +29,12 @@ export default env => {
 
     let response;
     try {
-      response = await (await env.router.process(request))(env, headers);
+      const {router} = env;
+      const modules = extract(env.modules ?? [], "route");
+      // handle is the last module to be executed
+      const handlers = [...modules, router.route].reduceRight((acc, handler) =>
+        input => handler(input, acc));
+      response = await respond(await handlers(request))(env, headers);
     } catch (error) {
       env.log.error(error);
       response = http404(env, headers)``;
@@ -61,7 +69,8 @@ export default env => {
     return type === undefined ? body : type(body);
   };
 
-  const {http, modules} = env;
+  const {http} = env;
+  const modules = extract(env.modules ?? [], "serve");
 
   // handle is the last module to be executed
   const handlers = [...modules, handle].reduceRight((acc, handler) =>
