@@ -1,13 +1,12 @@
 {
   "name": "primate",
   "version": "0.11.0",
-  "author": "Terrablue <terrablue@proton.me>",
   "homepage": "https://primatejs.com",
   "bugs": "https://github.com/primatejs/primate/issues",
   "repository": "https://github.com/primatejs/primate",
   "description": "Expressive, minimal and extensible framework for JavaScript",
   "license": "MIT",
-  "bin": "bin/primate.js",
+  "bin": "src/bin.js",
   "dependencies": {
     "runtime-compat": "^0.13.1"
   },
@@ -19,7 +18,8 @@
     "eslint-plugin-json": "^3.1.0"
   },
   "scripts": {
-    "docs": "scripts/docs.sh"
+    "docs": "scripts/docs.sh",
+    "test": "npx debris"
   },
   "type": "module",
   "exports": "./exports.js",

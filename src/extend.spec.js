@@ -40,20 +40,20 @@ export default test => {
   });
 
   test.case("one property of a subobject", assert => {
-    const base = {key: {"subkey": "subvalue"}};
-    const extension = {key: {"subkey": "subvalue 2"}};
+    const base = {key: {subkey: "subvalue"}};
+    const extension = {key: {subkey: "subvalue 2"}};
     assert(extend(base, extension)).equals(extension);
   });
 
   test.case("two properties of a subobject, one replaced", assert => {
-      const base = {key: {subkey: "subvalue", subkey2: "subvalue2"}};
-      const extension = {key: {subkey: "subvalue 2"}};
-      const extended = {key: {subkey: "subvalue 2", subkey2: "subvalue2"}};
-      assert(extend(base, extension)).equals(extended);
-    });
+    const base = {key: {subkey: "subvalue", subkey2: "subvalue2"}};
+    const extension = {key: {subkey: "subvalue 2"}};
+    const extended = {key: {subkey: "subvalue 2", subkey2: "subvalue2"}};
+    assert(extend(base, extension)).equals(extended);
+  });
 
-  test.case("configuration enhancement", assert => {
-    const default_conf = {
+  test.case("config enhancement", assert => {
+    const base = {
       base: "/",
       debug: false,
       defaults: {
@@ -61,16 +61,14 @@ export default test => {
         context: "guest",
       },
       paths: {
-        client: "client",
-        data: {
-          domains: "domains",
-          stores: "stores",
-        },
         public: "public",
+        static: "static",
+        routes: "routes",
+        components: "components",
       },
     };
 
-    const additional_conf = {
+    const additional = {
       debug: true,
       environment: "testing",
       defaults: {
@@ -78,11 +76,7 @@ export default test => {
         mode: "operational",
       },
       paths: {
-        client: "client_logic",
-        data: {
-          stores: "storage",
-          drivers: "drivers",
-        },
+        client: "client",
       },
     };
 
@@ -96,16 +90,14 @@ export default test => {
         mode: "operational",
       },
       paths: {
-        client: "client_logic",
-        data: {
-          domains: "domains",
-          drivers: "drivers",
-          stores: "storage",
-        },
+        client: "client",
         public: "public",
+        static: "static",
+        routes: "routes",
+        components: "components",
       },
     };
 
-    assert(extend(default_conf, additional_conf)).equals(extended);
+    assert(extend(base, additional)).equals(extended);
   });
 };

@@ -311,9 +311,9 @@ export default router => {
 
 ### Modules
 
-To add modules, create a `primate.conf.js` configuration file in your project's
-root. This file should export a default object with the property `modules` used
-for extending your app.
+To add modules, create a `primate.config.js` configuration file in your
+project's root. This file should export a default object with the property
+`modules` used for extending your app.
 
 ```js
 export default {

@@ -177,9 +177,9 @@ Create a route in `route/user.js` and serve the component in your route
 
 ### Modules
 
-To add modules, create a `primate.conf.js` configuration file in your project's
-root. This file should export a default object with the property `modules` used
-for extending your app.
+To add modules, create a `primate.config.js` configuration file in your
+project's root. This file should export a default object with the property
+`modules` used for extending your app.
 
 ```js
 // extensions/modules/configure.js
