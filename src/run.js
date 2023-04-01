@@ -3,8 +3,6 @@ import config from "./config.js";
 import serve from "./serve.js";
 import route from "./route.js";
 
-const extract = (modules, key) => modules.flatMap(module => module[key] ?? []);
-
 export default async () => {
   const env = await config();
   const {paths} = env;

@@ -1,7 +1,7 @@
 import {Path} from "runtime-compat/fs";
 import {serve, Response} from "runtime-compat/http";
-import statuses from "./http-statuses.json" assert {type: "json"};
-import mimes from "./mimes.json" assert {type: "json"};
+import statuses from "./http-statuses.js";
+import mimes from "./mimes.js";
 import {http404} from "./handlers/http.js";
 import {isResponse} from "./duck.js";
 import respond from "./respond.js";
@@ -9,7 +9,7 @@ import respond from "./respond.js";
 const regex = /\.([a-z1-9]*)$/u;
 const mime = filename => mimes[filename.match(regex)[1]] ?? mimes.binary;
 
-const extract = (modules, key) => modules.flatMap(module => module[key] ?? []);
+const filter = (key, array) => array?.flatMap(m => m[key] ?? []) ?? [];
 
 const contents = {
   "application/x-www-form-urlencoded": body =>
@@ -19,7 +19,7 @@ const contents = {
 };
 
 export default env => {
-  const route = async request => {
+  const _respond = async request => {
     const csp = Object.keys(env.http.csp).reduce((policy_string, key) =>
       `${policy_string}${key} ${env.http.csp[key]};`, "");
     const headers = {
@@ -27,18 +27,21 @@ export default env => {
       "Referrer-Policy": "same-origin",
     };
 
-    let response;
     try {
       const {router} = env;
-      const modules = extract(env.modules ?? [], "route");
+      const modules = filter("route", env.modules);
       // handle is the last module to be executed
       const handlers = [...modules, router.route].reduceRight((acc, handler) =>
         input => handler(input, acc));
-      response = await respond(await handlers(request))(env, headers);
+      return await respond(await handlers(request))(env, headers);
     } catch (error) {
       env.log.error(error);
-      response = http404(env, headers)``;
+      return http404(env, headers)``;
     }
+  };
+
+  const route = async request => {
+    const response = await _respond(request);
     return isResponse(response) ? response : new Response(...response);
   };
 
@@ -70,7 +73,7 @@ export default env => {
   };
 
   const {http} = env;
-  const modules = extract(env.modules ?? [], "serve");
+  const modules = filter("serve", env.modules);
 
   // handle is the last module to be executed
   const handlers = [...modules, handle].reduceRight((acc, handler) =>
