@@ -8,6 +8,6 @@ export default router => {
       {name: "Donald", email: "donald@the.duck"},
       {name: "Joe", email: "joe@was.absent"},
     ];
-    return html`<user-index users="${users}" />`;
+    return html("user-index", {users});
   });
 };

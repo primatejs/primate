@@ -8,7 +8,7 @@ export default router => {
       {name: "Donald", email: "donald@the.duck"},
       {name: "Joe", email: "joe@was.absent"},
     ];
-    return htmx`<user-index users="${users}" />`;
+    return htmx("user-index", {users});
   });
 
   // this is the same as above, with support for partial rendering (without
@@ -18,6 +18,6 @@ export default router => {
       {name: "Other Donald", email: "donald@the.goose"},
       {name: "Other Joe", email: "joe@was.around"},
     ];
-    return partial`<user-index users="${users}" />`;
+    return partial("user-index", {users});
   });
 };

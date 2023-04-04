@@ -188,11 +188,11 @@ export default router => {
   router.map("edit-user", () => ({name: "Donald"}));
 
   // show user edit form
-  router.get("edit-user", user => html`<user-edit user="${user}" />`);
+  router.get("edit-user", user => html("user-edit", {user}));
 
   // verify form and save, or show errors
   router.post("edit-user", async user => await user.save()
-    ? redirect`/users`
+    ? redirect("/users")
     : html`<user-edit user="${user}" />`);
 };
 
@@ -239,7 +239,7 @@ export default router => {
       {name: "Donald", email: "donald@the.duck"},
       {name: "Joe", email: "joe@was.absent"},
     ];
-    return html`<user-index users="${users}" />`;
+    return html("user-index", {users});
   });
 };
 
@@ -258,7 +258,7 @@ import redirect from "@primate/html";
 
 export default router => {
   // redirect the request
-  router.get("/user", () => redirect`/users`);
+  router.get("/user", () => redirect("/users"));
 };
 
 ```
@@ -293,7 +293,7 @@ export default router => {
       {name: "Donald", email: "donald@the.duck"},
       {name: "Joe", email: "joe@was.absent"},
     ];
-    return htmx`<user-index users="${users}" />`;
+    return htmx("user-index", {users});
   });
 
   // this is the same as above, with support for partial rendering (without
@@ -303,7 +303,7 @@ export default router => {
       {name: "Other Donald", email: "donald@the.goose"},
       {name: "Other Joe", email: "joe@was.around"},
     ];
-    return partial`<user-index users="${users}" />`;
+    return partial("user-index", {users});
   });
 };
 

@@ -9,10 +9,10 @@ export default router => {
   router.map("edit-user", () => ({name: "Donald"}));
 
   // show user edit form
-  router.get("edit-user", user => html`<user-edit user="${user}" />`);
+  router.get("edit-user", user => html("user-edit", {user}));
 
   // verify form and save, or show errors
   router.post("edit-user", async user => await user.save()
-    ? redirect`/users`
+    ? redirect("/users")
     : html`<user-edit user="${user}" />`);
 };
