@@ -4,7 +4,13 @@ import RouteError from "./errors/Route.js";
 
 // insensitive-case equal
 const ieq = (left, right) => left.toLowerCase() === right.toLowerCase();
-
+// HTTP verbs
+const verbs = [
+  // CRUD
+  "post", "get", "put", "delete",
+  // extended
+  "delete", "connect", "options", "trace", "patch",
+];
 export default async definitions => {
   const aliases = [];
   const routes = [];
@@ -25,9 +31,9 @@ export default async definitions => {
       ieq(route.method, method) && route.path.test(path)) ?? fallback;
 
   const router = {
+    ...Object.fromEntries(verbs.map(verb =>
+      [verb, (path, callback) => add(verb, path, callback)])),
     map: (path, callback) => add("map", path, callback),
-    get: (path, callback) => add("get", path, callback),
-    post: (path, callback) => add("post", path, callback),
     alias: (key, value) => aliases.push({key, value}),
     route: async request => {
       const {method} = request.original;
