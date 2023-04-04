@@ -1,4 +1,6 @@
-export default () => () => ["Page not found", {
-  status: 404,
-  headers: {"Content-Type": "text/html"},
-}];
+export default (body = "Not found") => (_, headers) => [
+  body, {
+    status: 404,
+    headers: {...headers, "Content-Type": "text/html"},
+  },
+];

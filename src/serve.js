@@ -36,7 +36,7 @@ export default env => {
       return await respond(await handlers(request))(env, headers);
     } catch (error) {
       env.log.error(error);
-      return http404(env, headers)``;
+      return http404()(env, headers);
     }
   };
 

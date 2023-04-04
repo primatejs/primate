@@ -1,4 +1,6 @@
-export default (_, ...keys) => async () => [await keys[0], {
-  status: 200,
-  headers: {"Content-Type": "application/octet-stream"},
-}];
+export default (body, status = 200) => (_, headers) => [
+  body, {
+    status,
+    headers: {...headers, "Content-Type": "application/octet-stream"},
+  },
+];

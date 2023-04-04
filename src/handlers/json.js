@@ -1,4 +1,6 @@
-export default (_, ...keys) => async () => [JSON.stringify(await keys[0]), {
-  status: 200,
-  headers: {"Content-Type": "application/json"},
-}];
+export default (body, status = 200) => (_, headers) => [
+  JSON.stringify(body), {
+    status,
+    headers: {...headers, "Content-Type": "application/json"},
+  },
+];
