@@ -34,7 +34,6 @@ Add `{"type": "module"}` to your `package.json` and run `npx -y primate@latest`.
 - [Extensions](#extensions)
 - [Handlers](#handlers)
   - [HTML](#html)
-  - [Redirect](#redirect)
   - [HTMX](#htmx)
 - [Modules](#modules)
   - [Data persistance](#data-persistance)
@@ -384,7 +383,6 @@ export default class User extends Domain {
 MIT
 
 [primate-html]: https://github.com/primatejs/primate-html
-[primate-redirect]: https://github.com/primatejs/primate-redirect
 [primate-htmx]: https://github.com/primatejs/primate-htmx
 [primate-domains]: https://github.com/primatejs/primate-domains
 [primate-sessions]: https://github.com/primatejs/primate-sessions
