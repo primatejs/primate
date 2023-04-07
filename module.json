@@ -1,10 +1,10 @@
 {
   "name": "primate",
-  "version": "0.11.0",
+  "version": "0.12.0",
+  "description": "Expressive, minimal and extensible framework for JavaScript",
   "homepage": "https://primatejs.com",
   "bugs": "https://github.com/primatejs/primate/issues",
-  "repository": "https://github.com/primatejs/primate",
-  "description": "Expressive, minimal and extensible framework for JavaScript",
   "license": "MIT",
-  "bin": "src/bin.js"
+  "bin": "src/bin.js",
+  "repository": "https://github.com/primatejs/primate"
 }

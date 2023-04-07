@@ -1,25 +1,25 @@
 {
   "name": "primate",
   "version": "0.12.0",
+  "description": "Expressive, minimal and extensible framework for JavaScript",
   "homepage": "https://primatejs.com",
   "bugs": "https://github.com/primatejs/primate/issues",
-  "repository": "https://github.com/primatejs/primate",
-  "description": "Expressive, minimal and extensible framework for JavaScript",
   "license": "MIT",
   "bin": "src/bin.js",
+  "repository": "https://github.com/primatejs/primate",
+  "scripts": {
+    "docs": "scripts/docs.sh",
+    "test": "npx debris"
+  },
   "dependencies": {
     "runtime-compat": "^0.14.1"
   },
   "devDependencies": {
     "maximin": "^0.1.2"
   },
-  "scripts": {
-    "docs": "scripts/docs.sh",
-    "test": "npx debris"
-  },
-  "type": "module",
-  "exports": "./exports.js",
   "engines": {
     "node": ">=17.9.0"
-  }
+  },
+  "type": "module",
+  "exports": "./exports.js"
 }
