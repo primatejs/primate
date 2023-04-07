@@ -30,6 +30,7 @@ Add `{"type": "module"}` to your `package.json` and run `npx -y primate@latest`.
   - [Named groups](#named-groups)
   - [Aliasing](#aliasing)
   - [Sharing logic across requests](#sharing-logic-across-requests)
+  - [Explicit handlers](#explicit-handlers)
 - [Extensions](#extensions)
 - [Handlers](#handlers)
   - [HTML](#html)
@@ -198,6 +199,20 @@ export default router => {
 
 ```
 
+### Explicit handlers
+
+A lot of the time, Primate can figure the content type to respond with based on
+the return type from the handler. To handle content not automatically detected
+by Primate, you can use the second argument of the exported function.
+
+```js
+export default (router, {redirect}) => {
+  // redirect from source to target
+  router.get("/source", () => redirect("/target"));
+};
+
+```
+
 ## Extensions
 
 There are two ways to extend Primate's core functionality. Handlers are used
@@ -241,24 +256,6 @@ export default router => {
     ];
     return html("user-index", {users});
   });
-};
-
-```
-
-#### Redirect
-
-*[`@primate/redirect`][primate-redirect]*
-
-Redirect the request.
-
-Create a route in `route/user.js`
-
-```js
-import redirect from "@primate/html";
-
-export default router => {
-  // redirect the request
-  router.get("/user", () => redirect("/users"));
 };
 
 ```

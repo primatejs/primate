@@ -7,7 +7,7 @@ Expressive, minimal and extensible framework for JavaScript.
 Create a route in `routes/hello.js`
 
 ```js
-// getting-started/hello.js
+// getting-started.js
 ```
 
 Add `{"type": "module"}` to your `package.json` and run `npx -y primate@latest`.
@@ -27,6 +27,7 @@ Add `{"type": "module"}` to your `package.json` and run `npx -y primate@latest`.
   - [Named groups](#named-groups)
   - [Aliasing](#aliasing)
   - [Sharing logic across requests](#sharing-logic-across-requests)
+  - [Explicit handlers](#explicit-handlers)
 - [Extensions](#extensions)
 - [Handlers](#handlers)
   - [HTML](#html)
@@ -114,6 +115,16 @@ to the content type sent along the request. Currently supported are
 // routing/sharing-logic-across-requests.js
 ```
 
+### Explicit handlers
+
+A lot of the time, Primate can figure the content type to respond with based on
+the return type from the handler. To handle content not automatically detected
+by Primate, you can use the second argument of the exported function.
+
+```js
+// routing/explicit-handlers.js
+```
+
 ## Extensions
 
 There are two ways to extend Primate's core functionality. Handlers are used
@@ -142,18 +153,6 @@ Create a route in `route/user.js` and serve the component in your route
 
 ```js
 // extensions/handlers/html/user.js
-```
-
-#### Redirect
-
-*[`@primate/redirect`][primate-redirect]*
-
-Redirect the request.
-
-Create a route in `route/user.js`
-
-```js
-// extensions/handlers/redirect/user.js
 ```
 
 #### HTMX
