@@ -1,7 +1,5 @@
 import {Blob} from "runtime-compat/fs";
-import text from "./handlers/text.js";
-import json from "./handlers/json.js";
-import stream from "./handlers/stream.js";
+import {text, json, stream} from "./handlers/exports.js";
 import {isResponse as isResponseDuck} from "./duck.js";
 import RouteError from "./errors/Route.js";
 

@@ -39,10 +39,16 @@ export default async (filename = "primate.config.js") => {
     ...config,
     paths: qualify(root, config.paths),
     root,
-    log: {...log, error: error => log.error(error, config),
-    },
+    log: {...log, error: error => log.error(error, config)},
+    handlers: {},
   };
   env.log.info(`${package_json.name} \x1b[34m${package_json.version}\x1b[0m`);
   const modules = await Promise.all(config.modules.map(module => module(env)));
-  return cache("config", filename, () => ({...env, modules}));
+  // modules may load other modules
+  const loads = await Promise.all(modules
+    .filter(module => module.load !== undefined)
+    .map(module => module.load()(env)));
+
+  return cache("config", filename, () => ({...env,
+    modules: modules.concat(loads)}));
 };

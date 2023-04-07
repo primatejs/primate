@@ -11,7 +11,7 @@ const verbs = [
   // extended
   "delete", "connect", "options", "trace", "patch",
 ];
-export default async definitions => {
+export default async (definitions, handlers) => {
   const aliases = [];
   const routes = [];
   const expand = path => aliases.reduce((expanded, {key, value}) =>
@@ -52,7 +52,8 @@ export default async definitions => {
   };
   if (await definitions.exists) {
     const files = (await Path.list(definitions)).map(route => import(route));
-    await Promise.all(files.map(async route => (await route).default(router)));
+    await Promise.all(files.map(async route =>
+      (await route).default(router, handlers)));
   }
   return router;
 };
