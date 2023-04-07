@@ -19,6 +19,7 @@ Add `{"type": "module"}` to your `package.json` and run `npx -y primate@latest`.
   - [JSON](#json)
   - [Streams](#streams)
   - [Response](#response)
+  - [HTML](#html)
 - [Routing](#routing)
   - [Basic](#basic)
   - [The request object](#the-request-object)
@@ -28,12 +29,6 @@ Add `{"type": "module"}` to your `package.json` and run `npx -y primate@latest`.
   - [Aliasing](#aliasing)
   - [Sharing logic across requests](#sharing-logic-across-requests)
   - [Explicit handlers](#explicit-handlers)
-- [Extensions](#extensions)
-- [Handlers](#handlers)
-  - [HTML](#html)
-  - [HTMX](#htmx)
-- [Modules](#modules)
-  - [Data persistance](#data-persistance)
 
 ## Serving content
 
@@ -61,6 +56,12 @@ Create a file in `routes` that exports a default function.
 
 ```js
 // serving-content/response.js
+```
+
+### HTML
+
+```js
+// serving-content/html.js
 ```
 
 ## Routing
@@ -116,96 +117,12 @@ to the content type sent along the request. Currently supported are
 
 ### Explicit handlers
 
-A lot of the time, Primate can figure the content type to respond with based on
-the return type from the handler. To handle content not automatically detected
-by Primate, you can use the second argument of the exported function.
+Most often we can figure the content type to respond with based on the return
+type from the handler. To handle content not automatically detected, use the
+second argument of the exported function.
 
 ```js
 // routing/explicit-handlers.js
-```
-
-## Extensions
-
-There are two ways to extend Primate's core functionality. Handlers are used
-per route to serve new types of content not supported by core. Modules extend
-an app's entire scope.
-
-Handlers and modules listed here are officially developed and supported by
-Primate.
-
-### Handlers
-
-#### HTML
-
-*[`@primate/html`][primate-html]*
-
-Serve HTML tagged templates. This handler reads HTML component files from
-`components`.
-
-Create an HTML component in `components/user-index.html`
-
-```html
-<!-- extensions/handlers/html/user-index.html -->
-```
-
-Create a route in `route/user.js` and serve the component in your route
-
-```js
-// extensions/handlers/html/user.js
-```
-
-#### HTMX
-
-*[`@primate/htmx`][primate-htmx]*
-
-Serve HTML tagged templates with HTMX support. This handler reads HTML component
-files from `components`.
-
-Create an HTML component in `components/user-index.html`
-
-```html
-<!-- extensions/handlers/htmx/user-index.html -->
-```
-
-Create a route in `route/user.js` and serve the component in your route
-
-```js
-// extensions/handlers/htmx/user.js
-```
-
-### Modules
-
-To add modules, create a `primate.config.js` configuration file in your
-project's root. This file should export a default object with the property
-`modules` used for extending your app.
-
-```js
-// extensions/modules/configure.js
-```
-
-#### Data persistance
-
-*[`@primate/domains`][primate-domains]*
-
-Add data persistance in the form of ORM backed up by various drivers.
-
-Import and initialize this module in your configuration file
-
-```js
-// extensions/modules/domains/configure.js
-```
-
-A domain represents a collection in a store using the static `fields` property
-
-```js
-// extensions/modules/domains/fields.js
-```
-
-Field types may also be specified as an array with additional predicates
-aside from the type
-
-```js
-// extensions/modules/domains/predicates.js
 ```
 
 ## Resources
@@ -216,8 +133,3 @@ aside from the type
 ## License
 
 MIT
-
-[primate-html]: https://github.com/primatejs/primate-html
-[primate-htmx]: https://github.com/primatejs/primate-htmx
-[primate-domains]: https://github.com/primatejs/primate-domains
-[primate-sessions]: https://github.com/primatejs/primate-sessions
