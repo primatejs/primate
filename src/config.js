@@ -1,4 +1,4 @@
-import {Path} from "runtime-compat/fs";
+import {File, Path} from "runtime-compat/fs";
 import {is} from "runtime-compat/dyndef";
 import cache from "./cache.js";
 import extend from "./extend.js";
@@ -34,6 +34,17 @@ const getRoot = async () => {
   }
 };
 
+const index = async env => {
+  const name = "index.html";
+  try {
+    // user-provided file
+    return await File.read(`${env.paths.static.join(name)}`);
+  } catch (error) {
+    // fallback
+    return new Path(import.meta.url).directory.join(name).file.read();
+  }
+};
+
 export default async (filename = "primate.config.js") => {
   is(filename).string();
   const root = await getRoot();
@@ -48,6 +59,7 @@ export default async (filename = "primate.config.js") => {
       env.handlers[name] = handler;
     },
     handlers: {...handlers},
+    render: async html => (await index(env)).replace("%body%", () => html),
   };
   env.log.info(`${package_json.name} \x1b[34m${package_json.version}\x1b[0m`);
   const modules = await Promise.all(config.modules.map(module => module(env)));
