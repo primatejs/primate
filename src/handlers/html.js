@@ -1,6 +1,14 @@
-export default (name, {partial = false, status = 200} = {}) =>
+const getContent = async (env, name) => {
+  try {
+    return await env.paths.components.join(`${name}.html`).file.read();
+  } catch (error) {
+    throw new Error(`cannot load component at ${name}.html`);
+  }
+};
+
+export default (content, {status = 200, partial = false, adhoc = false} = {}) =>
   async (env, headers) => {
-    const html = await env.paths.components.join(`${name}.html`).file.read();
+    const html = adhoc ? content : await getContent(env, content);
     return [
       partial ? html : await env.render(html), {
         status,
