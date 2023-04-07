@@ -4,6 +4,7 @@ import cache from "./cache.js";
 import extend from "./extend.js";
 import defaults from "./primate.config.js";
 import * as log from "./log.js";
+import * as handlers from "./handlers/exports.js";
 import package_json from "../package.json" assert {type: "json"};
 
 const qualify = (root, paths) =>
@@ -40,7 +41,10 @@ export default async (filename = "primate.config.js") => {
     paths: qualify(root, config.paths),
     root,
     log: {...log, error: error => log.error(error, config)},
-    handlers: {},
+    register: (name, handler) => {
+      env.handlers[name] = handler;
+    },
+    handlers: {...handlers},
   };
   env.log.info(`${package_json.name} \x1b[34m${package_json.version}\x1b[0m`);
   const modules = await Promise.all(config.modules.map(module => module(env)));
