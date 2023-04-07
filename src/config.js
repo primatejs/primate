@@ -24,16 +24,19 @@ const getConfig = async (root, filename) => {
   }
 };
 
-export default async (filename = "primate.config.js") => {
-  is(filename).string();
-  let root;
+const getRoot = async () => {
   try {
     // use module root if possible
-    root = await Path.root();
+    return await Path.root();
   } catch (error) {
     // fall back to current directory
-    root = Path.resolve();
+    return Path.resolve();
   }
+};
+
+export default async (filename = "primate.config.js") => {
+  is(filename).string();
+  const root = await getRoot();
   const config = await getConfig(root, filename);
 
   const env = {

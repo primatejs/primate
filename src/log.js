@@ -23,7 +23,7 @@ export const info = (...args) => log.green("[info]").reset(...args).nl();
 
 export const warn = (...args) => log.yellow("[warn]").reset(...args).nl();
 
-export const error = (error, env) => {
-  log.red("[error]").reset(error.message).nl();
-  env.debug && console.log(error);
+export const error = (originalError, env) => {
+  log.red("[error]").reset(originalError.message).nl();
+  env.debug && console.log(originalError);
 };

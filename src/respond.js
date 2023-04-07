@@ -9,7 +9,9 @@ const isText = value => {
   }
   throw new RouteError(`no handler found for ${value}`);
 };
-const isObject = value => typeof value === "object" && value !== null
+
+const isNonNullObject = value => typeof value === "object" && value !== null;
+const isObject = value => isNonNullObject(value)
   ? json(value) : isText(value);
 const isResponse = value => isResponseDuck(value)
   ? () => value : isObject(value);
