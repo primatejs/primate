@@ -1,6 +1,6 @@
 {
   "name": "primate",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "description": "Expressive, minimal and extensible framework for JavaScript",
   "homepage": "https://primatejs.com",
   "bugs": "https://github.com/primatejs/primate/issues",
