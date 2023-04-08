@@ -22,8 +22,19 @@ export default env => {
   const _respond = async request => {
     const csp = Object.keys(env.http.csp).reduce((policy_string, key) =>
       `${policy_string}${key} ${env.http.csp[key]};`, "");
+    const scripts = env.resources
+      .map(resource => `'${resource.integrity}'`).join(" ");
+    const _csp = scripts === "" ? csp : `${csp}script-src 'self' ${scripts};`;
+    // remove inline resources
+    for (let i = env.resources.length - 1; i >= 0; i--) {
+      const resource = env.resources[i];
+      if (resource.inline) {
+        env.resources.splice(i, 1);
+      }
+    }
+
     const headers = {
-      "Content-Security-Policy": csp,
+      "Content-Security-Policy": _csp,
       "Referrer-Policy": "same-origin",
     };
 
@@ -53,9 +64,24 @@ export default env => {
     },
   });
 
+  const publishedResource = request => {
+    const published = env.resources.find(resource =>
+      `/${resource.src}` === request.pathname);
+    if (published !== undefined) {
+      return new Response(published.code, {
+        status: statuses.OK,
+        headers: {
+          "Content-Type": mime(published.src),
+        },
+      });
+    }
+
+    return route(request);
+  };
+
   const _serve = async request => {
     const path = new Path(env.paths.public, request.pathname);
-    return await path.isFile ? resource(path.file) : route(request);
+    return await path.isFile ? resource(path.file) : publishedResource(request);
   };
 
   const handle = async request => {

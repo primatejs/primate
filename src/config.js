@@ -1,5 +1,6 @@
-import {File, Path} from "runtime-compat/fs";
+import crypto from "runtime-compat/crypto";
 import {is} from "runtime-compat/dyndef";
+import {File, Path} from "runtime-compat/fs";
 import cache from "./cache.js";
 import extend from "./extend.js";
 import defaults from "./primate.config.js";
@@ -45,11 +46,19 @@ const index = async env => {
   }
 };
 
+const hash = async (string, algorithm = "sha-384") => {
+  const encoder = new TextEncoder();
+  const bytes = await crypto.subtle.digest(algorithm, encoder.encode(string));
+  const algo = algorithm.replace("-", () => "");
+  return `${algo}-${btoa(String.fromCharCode(...new Uint8Array(bytes)))}`;
+};
+
 export default async (filename = "primate.config.js") => {
   is(filename).string();
   const root = await getRoot();
   const config = await getConfig(root, filename);
 
+  const resources = [];
   const env = {
     ...config,
     paths: qualify(root, config.paths),
@@ -61,7 +70,20 @@ export default async (filename = "primate.config.js") => {
     handlers: {...handlers},
     render: async ({body = "", head = ""} = {}) => {
       const html = await index(env);
-      return html.replace("%body%", () => body).replace("%head%", () => head);
+      const heads = resources.map(({src, code, type, inline, integrity}) => {
+        const tag = "script";
+        const pre = `<${tag} type="${type}" integrity="${integrity}"`;
+        const post = `</${tag}>`;
+        return inline ? `${pre}>${code}${post}` : `${pre} src="${src}">${post}`;
+      }).join("\n");
+      return html
+        .replace("%body%", () => body)
+        .replace("%head%", () => `${head}${heads}`);
+    },
+    publish: async ({src, code, type = "", inline = false}) => {
+      const integrity = await hash(code);
+      resources.push({src, code, type, inline, integrity});
+      return integrity;
     },
   };
   env.log.info(`${package_json.name} \x1b[34m${package_json.version}\x1b[0m`);
@@ -71,6 +93,6 @@ export default async (filename = "primate.config.js") => {
     .filter(module => module.load !== undefined)
     .map(module => module.load()(env)));
 
-  return cache("config", filename, () => ({...env,
+  return cache("config", filename, () => ({...env, resources,
     modules: modules.concat(loads)}));
 };
