@@ -117,9 +117,9 @@ to the content type sent along the request. Currently supported are
 
 ### Explicit handlers
 
-Most often we can figure the content type to respond with based on the return
-type from the handler. To handle content not automatically detected, use the
-second argument of the exported function.
+Most often we can figure out the content type to respond with based on the
+return type from the handler. To handle content not automatically detected, use
+the second argument of the exported function.
 
 ```js
 // routing/explicit-handlers.js

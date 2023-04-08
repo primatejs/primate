@@ -210,9 +210,9 @@ export default router => {
 
 ### Explicit handlers
 
-Most often we can figure the content type to respond with based on the return
-type from the handler. To handle content not automatically detected, use the
-second argument of the exported function.
+Most often we can figure out the content type to respond with based on the
+return type from the handler. To handle content not automatically detected, use
+the second argument of the exported function.
 
 ```js
 export default (router, {redirect}) => {
