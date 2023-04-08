@@ -67,9 +67,18 @@ export default env => {
     }
   };
 
-  const parseContent = (request, body) => {
-    const type = contents[request.headers.get("content-type")];
+  const parseContentType = (contentType, body) => {
+    const type = contents[contentType];
     return type === undefined ? body : type(body);
+  };
+
+  const parseContent = (request, body) => {
+    try {
+      return parseContentType(request.headers.get("content-type"), body);
+    } catch (error) {
+      env.log.warn(error);
+      return body;
+    }
   };
 
   const {http} = env;
