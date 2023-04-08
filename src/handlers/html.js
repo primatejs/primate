@@ -8,9 +8,9 @@ const getContent = async (env, name) => {
 
 export default (content, {status = 200, partial = false, adhoc = false} = {}) =>
   async (env, headers) => {
-    const html = adhoc ? content : await getContent(env, content);
+    const body = adhoc ? content : await getContent(env, content);
     return [
-      partial ? html : await env.render(html), {
+      partial ? body : await env.render({body}), {
         status,
         headers: {...headers, "Content-Type": "text/html"},
       },

@@ -16,6 +16,8 @@ const makePublic = async env => {
   }
 };
 
-export default async env => await makePublic(env) &&
+export default async env => {
+  await makePublic(env);
   [...filter("bundle", env.modules), _ => _].reduceRight((acc, handler) =>
     input => handler(input, acc))(env);
+};

@@ -59,7 +59,10 @@ export default async (filename = "primate.config.js") => {
       env.handlers[name] = handler;
     },
     handlers: {...handlers},
-    render: async html => (await index(env)).replace("%body%", () => html),
+    render: async ({body = "", head = ""} = {}) => {
+      const html = await index(env);
+      return html.replace("%body%", () => body).replace("%head%", () => head);
+    },
   };
   env.log.info(`${package_json.name} \x1b[34m${package_json.version}\x1b[0m`);
   const modules = await Promise.all(config.modules.map(module => module(env)));
