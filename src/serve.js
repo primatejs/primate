@@ -72,6 +72,7 @@ export default env => {
         status: statuses.OK,
         headers: {
           "Content-Type": mime(published.src),
+          Etag: published.integrity,
         },
       });
     }
