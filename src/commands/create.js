@@ -1,9 +1,30 @@
 import {Path} from "runtime-compat/fs";
-const name = "primate.config.js";
+import package_json from "../../package.json" assert {type: "json"};
 
-const template = "export default {};";
+const createModule = async () => {
+  const space = 2;
+  try {
+    // will throw if cannot find a package.json up the filesystem hierarchy
+    await Path.root();
+  } catch (error) {
+    const rootConfig = JSON.stringify({
+      name: "primate-app",
+      private: true,
+      dependencies: {
+        primate: `^${package_json.version}`,
+      },
+      scripts: {
+        run: "npx primate",
+      },
+      type: "module",
+    }, null, space);
+    await Path.resolve().join("package.json").file.write(rootConfig);
+  }
+};
 
 const createConfig = async env => {
+  const name = "primate.config.js";
+  const template = "export default {};";
   const root = (await Path.root()).join(name);
   if (await root.exists) {
     env.log.warn(`${root} already exists`);
@@ -14,6 +35,7 @@ const createConfig = async env => {
 };
 
 export default async env => {
+  await createModule();
   await createConfig(env);
 };
 
