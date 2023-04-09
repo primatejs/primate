@@ -14,7 +14,7 @@ const createModule = async () => {
         primate: `^${package_json.version}`,
       },
       scripts: {
-        run: "npx primate",
+        start: "npx primate",
       },
       type: "module",
     }, null, space);
