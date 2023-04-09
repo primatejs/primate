@@ -1,2 +1,8 @@
 #!/usr/bin/env node
-(await import("./run.js")).default();
+import args from "runtime-compat/args";
+import * as commands from "./commands/exports.js";
+import run from "./run.js";
+
+const command = name => commands[name] ?? commands.help;
+
+await run(args[0] === undefined ? commands.start : command(args[0]));

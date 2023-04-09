@@ -87,12 +87,12 @@ export default async (filename = "primate.config.js") => {
     },
   };
   env.log.info(`${package_json.name} \x1b[34m${package_json.version}\x1b[0m`);
-  const modules = await Promise.all(config.modules.map(module => module(env)));
+  const {modules} = config;
   // modules may load other modules
   const loads = await Promise.all(modules
     .filter(module => module.load !== undefined)
-    .map(module => module.load()(env)));
+    .map(module => module.load()));
 
   return cache("config", filename, () => ({...env, resources,
-    modules: modules.concat(loads)}));
+    modules: modules.concat(loads.flat())}));
 };

@@ -22,5 +22,5 @@
     "node": ">=17.9.0"
   },
   "type": "module",
-  "exports": "./exports.js"
+  "exports": "./src/exports.js"
 }
