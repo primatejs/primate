@@ -58,9 +58,10 @@ export default async (filename = "primate.config.js") => {
   const root = await getRoot();
   const config = await getConfig(root, filename);
 
-  const resources = [];
   const env = {
     ...config,
+    resources: [],
+    entrypoints: [],
     paths: qualify(root, config.paths),
     root,
     log: {...log, error: error => log.error(error, config)},
@@ -70,11 +71,16 @@ export default async (filename = "primate.config.js") => {
     handlers: {...handlers},
     render: async ({body = "", head = ""} = {}) => {
       const html = await index(env);
-      const heads = resources.map(({src, code, type, inline, integrity}) => {
-        const tag = "script";
-        const pre = `<${tag} type="${type}" integrity="${integrity}"`;
-        const post = `</${tag}>`;
-        return inline ? `${pre}>${code}${post}` : `${pre} src="${src}">${post}`;
+      const heads = env.resources.map(({src, code, type, inline, integrity}) => {
+        const tag = type === "style" ? "link" : "script";
+        const pre = type === "style"
+          ? `<${tag} rel="stylesheet" integrity="${integrity}"`
+          : `<${tag} type="${type}" integrity="${integrity}"`;
+        const middle = type === "style"
+          ? ` href="${src}">`
+          : ` src="${src}">`;
+        const post = type === "style" ? "" : `</${tag}>`;
+        return inline ? `${pre}>${code}${post}` : `${pre}${middle}${post}`;
       }).join("\n");
       return html
         .replace("%body%", () => body)
@@ -82,8 +88,11 @@ export default async (filename = "primate.config.js") => {
     },
     publish: async ({src, code, type = "", inline = false, main}) => {
       const integrity = await hash(code);
-      resources.push({src, code, type, inline, integrity, main});
+      env.resources.push({src, code, type, inline, integrity, main});
       return integrity;
+    },
+    bootstrap: ({type, code}) => {
+      env.entrypoints.push({type, code});
     },
   };
   env.log.info(`${package_json.name} \x1b[34m${package_json.version}\x1b[0m`);
@@ -93,6 +102,6 @@ export default async (filename = "primate.config.js") => {
     .filter(module => module.load !== undefined)
     .map(module => module.load()));
 
-  return cache("config", filename, () => ({...env, resources,
+  return cache("config", filename, () => ({...env,
     modules: modules.concat(loads.flat())}));
 };

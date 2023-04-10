@@ -1,6 +1,4 @@
 import config from "./config.js";
+import command from "./commands/exports.js";
 
-export default async command => {
-  // env should initialised before any commands run
-  await command(await config());
-};
+export default async name => command(name)(await config());
