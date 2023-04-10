@@ -1,4 +1,8 @@
-export default (router, {redirect}) => {
-  // redirect from source to target
-  router.get("/source", () => redirect("/target"));
+import {redirect} from "primate";
+
+// routes/source.js handles the `/source` route
+export default {
+  get() {
+    return redirect("/target");
+  },
 };

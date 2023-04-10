@@ -4,16 +4,20 @@ Expressive, minimal and extensible framework for JavaScript.
 
 ## Getting started
 
-Create a route in `routes/hello.js`
+Run `npx -y primate@latest create` to create a project structure.
+
+Create a route in `routes/index.js`
 
 ```js
-export default router => {
-  router.get("/", () => "Hello, world!");
+export default {
+  get() {
+    return "Hello, world!";
+  },
 };
 
 ```
 
-Add `{"type": "module"}` to your `package.json` and run `npx -y primate@latest`.
+Run `npm i && npm start` and visit `localhost:6161` in your browser.
 
 ## Table of Contents
 
@@ -27,22 +31,22 @@ Add `{"type": "module"}` to your `package.json` and run `npx -y primate@latest`.
   - [Basic](#basic)
   - [The request object](#the-request-object)
   - [Accessing the request body](#accessing-the-request-body)
-  - [Regular expressions](#regular-expressions)
-  - [Named groups](#named-groups)
-  - [Aliasing](#aliasing)
-  - [Sharing logic across requests](#sharing-logic-across-requests)
+  - [Parameterized routes](#parameterized-routes)
   - [Explicit handlers](#explicit-handlers)
 
 ## Serving content
 
-Create a file in `routes` that exports a default function.
+Create a file in `routes/index.js` to handle the special `/` route.
 
 ### Plain text
 
 ```js
-export default router => {
-  // Serve strings as plain text
-  router.get("/user", () => "Donald");
+// routes/index.js handles the `/` route
+export default {
+  get() {
+    // Strings are served as plain text
+    return "Donald";
+  },
 };
 
 ```
@@ -50,17 +54,15 @@ export default router => {
 ### JSON
 
 ```js
-import {File} from "runtime-compat/filesystem";
-
-export default router => {
-  // Serve proper JavaScript objects as JSON
-  router.get("/users", () => [
-    {name: "Donald"},
-    {name: "Ryan"},
-  ]);
-
-  // Load from file and serve as JSON
-  router.get("/users-from-file", () => File.json("users.json"));
+// routes/index.js handles the `/` route
+export default {
+  get() {
+    // Proper JavaScript objects are served as JSON
+    return [
+      {name: "Donald"},
+      {name: "Ryan"},
+    ];
+  },
 };
 
 ```
@@ -70,9 +72,12 @@ export default router => {
 ```js
 import {File} from "runtime-compat/filesystem";
 
-export default router => {
-  // `File` implements `readable`, which is a `ReadableStream`
-  router.get("/users", () => new File("users.json"));
+// routes/index.js handles the `/` route
+export default {
+  get() {
+    // ReadableStream or Blob objects are streamed to the client
+    return new File("users.json");
+  },
 };
 
 ```
@@ -82,9 +87,12 @@ export default router => {
 ```js
 import {Response} from "runtime-compat/http";
 
-export default router => {
-  // Use a Response object for custom response status
-  router.get("/create", () => new Response("created!", {status: 201}));
+// routes/index.js handles the `/` route
+export default {
+  get() {
+    // Use a Response object for custom response status
+    return new Response("created!", {status: 201});
+  },
 };
 
 ```
@@ -92,31 +100,37 @@ export default router => {
 ### HTML
 
 ```js
-// Use an explicit handler as we can't detect HTML by the return value type
-export default (router, {html}) => {
-  // Embed components/hello-world.html into static/index.html and serve it. In
-  // case a user-provided index.html doesn't exist, use a fallback index.html
-  router.get("/hello", () => html("hello-world"));
+import {html} from "primate";
 
-  // Same as above, but without embedding
-  router.get("/hello-partial", () => html("hello-world", {partial: true}));
-
-  // Serve directly from string instead of loading a component
-  router.get("/hello-adhoc", () => html("<p>Hello, world!</p>", {adhoc: true}));
+// routes/index.js handles the `/` route
+export default {
+  get() {
+    // To serve HTML, import and use the html handler
+    return html("<p>Hello, world!</p>");
+  },
 };
 
 ```
 
 ## Routing
 
-Routes map requests to responses. They are loaded from `routes`.
+Primate uses filesystem-based routes. Every path a client accesses is mapped to 
+a route under `routes`.
+
+* `index.js` handles the root route (`/`)
+* `post.js` handles the `/post` route
+* `post/{postId}.js` handles a parameterized route where `{postId}` can
+  be mapped to anything, such as `/post/1`
 
 ### Basic
 
 ```js
-export default router => {
-  // accessing /site/login will serve `Hello, world!` as plain text
-  router.get("/site/login", () => "Hello, world!");
+// routes/site/login.js handles the `/site/login` route
+export default {
+  get() {
+    // Strings are served as plain text
+    return "Hello, world!";
+  },
 };
 
 ```
@@ -124,9 +138,12 @@ export default router => {
 ### The request object
 
 ```js
-export default router => {
-  // accessing /site/login will serve `["site", "login"]` as JSON
-  router.get("/site/login", request => request.path);
+// routes/site/login.js handles the `/site/login` route
+export default {
+  get(request) {
+    // Will serve `["site", "login"]` as JSON
+    return request.path;
+  },
 };
 
 ```
@@ -139,85 +156,41 @@ to the content type sent along the request. Currently supported are
 `application/json`.
 
 ```js
-export default router => {
-  router.post("/site/login", ({body}) => `submitted user: ${body.username}`);
+// routes/site/login.js handles the `/site/login` route
+export default {
+  get(request) {
+    return `username submitted: ${request.body.username}`;
+  },
 };
 
 ```
 
-### Regular expressions
+### Parameterized routes
 
 ```js
-export default router => {
-  // accessing /user/view/1234 will serve `1234` as plain text
-  // accessing /user/view/abcd will show a 404 error
-  router.get("/user/view/([0-9])+", request => request[2]);
-};
-
-```
-
-### Named groups
-
-```js
-export default router => {
-  // named groups are mapped to properties of `request.named`
-  // accessing /user/view/1234 will serve `1234` as plain text
-  router.get("/user/view/(?<_id>[0-9])+", ({named}) => named._id);
-};
-
-```
-
-### Aliasing
-
-```js
-export default router => {
-  // will replace `"_id"` in any path with `"([0-9])+"`
-  router.alias("_id", "([0-9])+");
-
-  // equivalent to `router.get("/user/view/([0-9])+", ...)`
-  // will return id if matched, 404 otherwise
-  router.get("/user/view/_id", request => request.path[2]);
-
-  // can be combined with named groups
-  router.alias("_name", "(?<name>[a-z])+");
-
-  // will return name if matched, 404 otherwise
-  router.get("/user/view/_name", request => request.named.name);
-};
-
-```
-
-### Sharing logic across requests
-
-```js
-export default router => {
-  // Declare `"edit-user"` as alias of `"/user/edit/([0-9])+"`
-  router.alias("edit-user", "/user/edit/([0-9])+");
-
-  // Pass user instead of request to all verbs on this route
-  router.map("edit-user", ({body}) => body?.name ?? "Donald");
-
-  // Show user as plain text
-  router.get("edit-user", user => user);
-
-  // Verify or show error
-  router.post("edit-user", user => user === "Donald"
-    ? "Hi Donald!"
-    : {message: "Error saving user"});
+// routes/user/{userId}.js handles all routes of the sort `/user/{userId}`
+// where {userId} can be anything
+export default {
+  get(request) {
+    return `user id: ${request.named.userId}`;
+  },
 };
 
 ```
 
 ### Explicit handlers
 
-Most often we can figure out the content type to respond with based on the
-return type from the handler. To handle content not automatically detected, use
-the second argument of the exported function.
+Often we can figure out the content type to respond with based on the return
+type from the handler. For other cases, we need to use an explicit handler.
 
 ```js
-export default (router, {redirect}) => {
-  // redirect from source to target
-  router.get("/source", () => redirect("/target"));
+import {redirect} from "primate";
+
+// routes/source.js handles the `/source` route
+export default {
+  get() {
+    return redirect("/target");
+  },
 };
 
 ```

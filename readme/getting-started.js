@@ -1,3 +1,5 @@
-export default router => {
-  router.get("/", () => "Hello, world!");
+export default {
+  get() {
+    return "Hello, world!";
+  },
 };

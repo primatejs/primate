@@ -1,4 +1,7 @@
-export default router => {
-  // accessing /site/login will serve `["site", "login"]` as JSON
-  router.get("/site/login", request => request.path);
+// routes/site/login.js handles the `/site/login` route
+export default {
+  get(request) {
+    // Will serve `["site", "login"]` as JSON
+    return request.path;
+  },
 };

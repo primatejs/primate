@@ -4,13 +4,15 @@ Expressive, minimal and extensible framework for JavaScript.
 
 ## Getting started
 
-Create a route in `routes/hello.js`
+Run `npx -y primate@latest create` to create a project structure.
+
+Create a route in `routes/index.js`
 
 ```js
 // getting-started.js
 ```
 
-Add `{"type": "module"}` to your `package.json` and run `npx -y primate@latest`.
+Run `npm i && npm start` and visit `localhost:6161` in your browser.
 
 ## Table of Contents
 
@@ -24,15 +26,12 @@ Add `{"type": "module"}` to your `package.json` and run `npx -y primate@latest`.
   - [Basic](#basic)
   - [The request object](#the-request-object)
   - [Accessing the request body](#accessing-the-request-body)
-  - [Regular expressions](#regular-expressions)
-  - [Named groups](#named-groups)
-  - [Aliasing](#aliasing)
-  - [Sharing logic across requests](#sharing-logic-across-requests)
+  - [Parameterized routes](#parameterized-routes)
   - [Explicit handlers](#explicit-handlers)
 
 ## Serving content
 
-Create a file in `routes` that exports a default function.
+Create a file in `routes/index.js` to handle the special `/` route.
 
 ### Plain text
 
@@ -66,7 +65,13 @@ Create a file in `routes` that exports a default function.
 
 ## Routing
 
-Routes map requests to responses. They are loaded from `routes`.
+Primate uses filesystem-based routes. Every path a client accesses is mapped to 
+a route under `routes`.
+
+* `index.js` handles the root route (`/`)
+* `post.js` handles the `/post` route
+* `post/{postId}.js` handles a parameterized route where `{postId}` can
+  be mapped to anything, such as `/post/1`
 
 ### Basic
 
@@ -91,35 +96,16 @@ to the content type sent along the request. Currently supported are
 // routing/accessing-the-request-body.js
 ```
 
-### Regular expressions
+### Parameterized routes
 
 ```js
-// routing/regular-expressions.js
-```
-
-### Named groups
-
-```js
-// routing/named-groups.js
-```
-
-### Aliasing
-
-```js
-// routing/aliasing.js
-```
-
-### Sharing logic across requests
-
-```js
-// routing/sharing-logic-across-requests.js
+// routing/parameterized-routes.js
 ```
 
 ### Explicit handlers
 
-Most often we can figure out the content type to respond with based on the
-return type from the handler. To handle content not automatically detected, use
-the second argument of the exported function.
+Often we can figure out the content type to respond with based on the return
+type from the handler. For other cases, we need to use an explicit handler.
 
 ```js
 // routing/explicit-handlers.js

@@ -1,6 +1,9 @@
 import {Response} from "runtime-compat/http";
 
-export default router => {
-  // Use a Response object for custom response status
-  router.get("/create", () => new Response("created!", {status: 201}));
+// routes/index.js handles the `/` route
+export default {
+  get() {
+    // Use a Response object for custom response status
+    return new Response("created!", {status: 201});
+  },
 };
