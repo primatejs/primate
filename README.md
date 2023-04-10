@@ -44,7 +44,7 @@ Create a file in `routes/index.js` to handle the special `/` route.
 // routes/index.js handles the `/` route
 export default {
   get() {
-    // Strings are served as plain text
+    // strings are served as plain text
     return "Donald";
   },
 };
@@ -57,7 +57,7 @@ export default {
 // routes/index.js handles the `/` route
 export default {
   get() {
-    // Proper JavaScript objects are served as JSON
+    // proper JavaScript objects are served as JSON
     return [
       {name: "Donald"},
       {name: "Ryan"},
@@ -90,7 +90,7 @@ import {Response} from "runtime-compat/http";
 // routes/index.js handles the `/` route
 export default {
   get() {
-    // Use a Response object for custom response status
+    // use a Response object for custom response status
     return new Response("created!", {status: 201});
   },
 };
@@ -105,7 +105,7 @@ import {html} from "primate";
 // routes/index.js handles the `/` route
 export default {
   get() {
-    // To serve HTML, import and use the html handler
+    // to serve HTML, import and use the html handler
     return html("<p>Hello, world!</p>");
   },
 };
@@ -130,7 +130,7 @@ import {redirect} from "primate";
 // routes/site/login.js handles the `/site/login` route
 export default {
   get() {
-    // Strings are served as plain text
+    // strings are served as plain text
     return "Hello, world!";
   },
   // other HTTP verbs are also available
@@ -147,7 +147,7 @@ export default {
 // routes/site/login.js handles the `/site/login` route
 export default {
   get(request) {
-    // Will serve `["site", "login"]` as JSON
+    // will serve `["site", "login"]` as JSON
     return request.path;
   },
 };
