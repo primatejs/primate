@@ -80,9 +80,9 @@ export default async (filename = "primate.config.js") => {
         .replace("%body%", () => body)
         .replace("%head%", () => `${head}${heads}`);
     },
-    publish: async ({src, code, type = "", inline = false}) => {
+    publish: async ({src, code, type = "", inline = false, main}) => {
       const integrity = await hash(code);
-      resources.push({src, code, type, inline, integrity});
+      resources.push({src, code, type, inline, integrity, main});
       return integrity;
     },
   };

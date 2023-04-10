@@ -15,6 +15,8 @@ const createModule = async () => {
       },
       scripts: {
         start: "npx primate",
+        dev: "npx primate dev",
+        serve: "npx primate serve",
       },
       type: "module",
     }, null, space);

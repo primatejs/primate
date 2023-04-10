@@ -5,4 +5,4 @@ import run from "./run.js";
 
 const command = name => commands[name] ?? commands.help;
 
-await run(args[0] === undefined ? commands.start : command(args[0]));
+await run(args[0] === undefined ? commands.dev : command(args[0]));
