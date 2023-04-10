@@ -1,5 +1,4 @@
 import {Path} from "runtime-compat/fs";
-import {is} from "runtime-compat/dyndef";
 import RouteError from "./errors/Route.js";
 
 // insensitive-case equal
@@ -11,30 +10,13 @@ const verbs = [
   // extended
   "delete", "connect", "options", "trace", "patch",
 ];
-export default async (definitions, handlers) => {
-  const aliases = [];
+export default async env => {
   const routes = [];
-  const expand = path => aliases.reduce((expanded, {key, value}) =>
-    expanded.replace(key, () => value), path);
-  const exists = (method, path) =>
-    routes.some(route => route.method === method && route.path === path);
-  const add = (method, path, handler) => {
-    is(path).string();
-    is(handler).function();
-    if (exists(method, path)) {
-      throw new RouteError(`a ${method} route for ${path} already exists`);
-    }
-    routes.push({method, path: new RegExp(`^${expand(path)}$`, "u"), handler});
-  };
   const find = (method, path, fallback = {handler: r => r}) =>
     routes.find(route =>
       ieq(route.method, method) && route.path.test(path)) ?? fallback;
 
   const router = {
-    ...Object.fromEntries(verbs.map(verb =>
-      [verb, (path, callback) => add(verb, path, callback)])),
-    map: (path, callback) => add("map", path, callback),
-    alias: (key, value) => aliases.push({key, value}),
     route: async ({request}) => {
       const {method} = request.original;
       const url = new URL(`https://primatejs.com${request.pathname}`);
@@ -50,10 +32,32 @@ export default async (definitions, handlers) => {
         .handler({...request, pathname, params, path, named}));
     },
   };
-  if (await definitions.exists) {
-    const files = (await Path.list(definitions)).map(route => import(route));
-    await Promise.all(files.map(async route =>
-      (await route).default(router, handlers)));
+  const toRoute = file => {
+    const ending = -3;
+    const route = file
+      // remove ending
+      .slice(0, ending)
+      // transform /index -> ""
+      .replace("/index", "")
+      // transform index -> ""
+      .replace("index", "")
+      // prepare for regex
+      .replaceAll(/\{(?<named>.*)\}/gu, (_, name) => `(?<${name}>.*?)`)
+    ;
+    return new RegExp(`^/${route}$`, "u");
+  };
+  for (const route of await Path.collect(env.paths.routes, /^.*.js$/u)) {
+    const imported = (await import(route)).default;
+    const file = `${route}`.replace(env.paths.routes, "").slice(1);
+    if (imported === undefined) {
+      env.log.warn(`empty route file at ${file}`);
+    } else {
+      const valids = Object.entries(imported)
+        .filter(([verb]) => verbs.includes(verb));
+      for (const [method, handler] of valids) {
+        routes.push({method, path: toRoute(file), handler});
+      }
+    }
   }
   return router;
 };

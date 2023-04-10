@@ -15,5 +15,5 @@ export default async env => {
   // bundle client-side code
   await bundle(env);
   // serve
-  serve({router: await route(env.paths.routes, env.handlers), ...env});
+  serve({router: await route(env), ...env});
 };
