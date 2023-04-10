@@ -1,7 +1,6 @@
-test
 debris.json
-.eslintrc.json
-output
-.nyc_output
-jsconfig.json
-examples
+readme/*
+scripts/*
+eslint.config.js
+module.json
+*.spec.js
