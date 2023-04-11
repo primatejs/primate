@@ -5,6 +5,7 @@ import mimes from "./mimes.js";
 import {http404} from "./handlers/http.js";
 import {isResponse} from "./duck.js";
 import respond from "./respond.js";
+import {colors, print} from "./Logger.js";
 
 const regex = /\.([a-z1-9]*)$/u;
 const mime = filename => mimes[filename.match(regex)[1]] ?? mimes.binary;
@@ -46,7 +47,7 @@ export default env => {
         input => handler(input, acc));
       return await respond(await handlers({request, env}))(env, headers);
     } catch (error) {
-      env.log.error(error);
+      env.log.auto(error);
       return http404()(env, headers);
     }
   };
@@ -89,7 +90,7 @@ export default env => {
     try {
       return await _serve(request);
     } catch (error) {
-      env.log.error(error);
+      env.log.auto(error);
       return new Response(null, {status: statuses.InternalServerError});
     }
   };
@@ -136,5 +137,5 @@ export default env => {
     return handlers({original: request, pathname: pathname + search, body});
   }, http);
 
-  env.log.info(`running on ${http.host}:${http.port}`);
+  print(colors.gray(`at http://${http.host}:${http.port}`), "\n");
 };

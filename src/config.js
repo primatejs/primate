@@ -4,9 +4,8 @@ import {File, Path} from "runtime-compat/fs";
 import cache from "./cache.js";
 import extend from "./extend.js";
 import defaults from "./primate.config.js";
-import * as log from "./log.js";
+import {colors, print, default as Logger} from "./Logger.js";
 import * as handlers from "./handlers/exports.js";
-import package_json from "../package.json" assert {type: "json"};
 
 const qualify = (root, paths) =>
   Object.keys(paths).reduce((sofar, key) => {
@@ -58,13 +57,17 @@ export default async (filename = "primate.config.js") => {
   const root = await getRoot();
   const config = await getConfig(root, filename);
 
+  const {name, version} = JSON.parse(await new Path(import.meta.url)
+    .directory.directory.join("package.json").file.read());
+
   const env = {
     ...config,
+    name, version,
     resources: [],
     entrypoints: [],
     paths: qualify(root, config.paths),
     root,
-    log: {...log, error: error => log.error(error, config)},
+    log: new Logger(config.logger),
     register: (name, handler) => {
       env.handlers[name] = handler;
     },
@@ -95,7 +98,7 @@ export default async (filename = "primate.config.js") => {
       env.entrypoints.push({type, code});
     },
   };
-  env.log.info(`${package_json.name} \x1b[34m${package_json.version}\x1b[0m`);
+  print(colors.blue(colors.bold(name)), colors.blue(version), "");
   const {modules} = config;
   // modules may load other modules
   const loads = await Promise.all(modules

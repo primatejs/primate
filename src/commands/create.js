@@ -1,7 +1,6 @@
 import {Path} from "runtime-compat/fs";
-import package_json from "../../package.json" assert {type: "json"};
 
-const createModule = async () => {
+const createModule = async env => {
   const space = 2;
   try {
     // will throw if cannot find a package.json up the filesystem hierarchy
@@ -11,7 +10,7 @@ const createModule = async () => {
       name: "primate-app",
       private: true,
       dependencies: {
-        primate: `^${package_json.version}`,
+        primate: `^${env.version}`,
       },
       scripts: {
         start: "npx primate",
@@ -37,7 +36,7 @@ const createConfig = async env => {
 };
 
 export default async env => {
-  await createModule();
+  await createModule(env);
   await createConfig(env);
 };
 

@@ -1,6 +1,10 @@
+import {Logger} from "primate";
+
 export default {
   base: "/",
-  debug: false,
+  logger: {
+    level: Logger.Warn,
+  },
   http: {
     host: "localhost",
     port: 6161,

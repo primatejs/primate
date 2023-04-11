@@ -1,5 +1,5 @@
 import {Path} from "runtime-compat/fs";
-import RouteError from "./errors/Route.js";
+import Logger from "./Logger.js";
 
 // insensitive-case equal
 const ieq = (left, right) => left.toLowerCase() === right.toLowerCase();
@@ -23,7 +23,7 @@ export default async env => {
       const {pathname, searchParams} = url;
       const params = Object.fromEntries(searchParams);
       const verb = find(method, pathname, {handler: () => {
-        throw new RouteError(`no ${method.toUpperCase()} route to ${pathname}`);
+        throw new Logger.Info(`no ${method.toUpperCase()} route to ${pathname}`);
       }});
       const path = pathname.split("/").filter(part => part !== "");
       const named = verb.path?.exec(pathname)?.groups ?? {};
