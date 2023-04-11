@@ -99,6 +99,7 @@ export default async (filename = "primate.config.js") => {
     },
   };
   print(colors.blue(colors.bold(name)), colors.blue(version), "");
+  print(colors.gray(`at http://${config.http.host}:${config.http.port}`), "\n");
   const {modules} = config;
   // modules may load other modules
   const loads = await Promise.all(modules

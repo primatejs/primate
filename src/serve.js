@@ -136,6 +136,4 @@ export default env => {
 
     return handlers({original: request, pathname: pathname + search, body});
   }, http);
-
-  print(colors.gray(`at http://${http.host}:${http.port}`), "\n");
 };
