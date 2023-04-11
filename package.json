@@ -18,7 +18,7 @@
     "lint": "npx eslint ."
   },
   "dependencies": {
-    "runtime-compat": "^0.15.0"
+    "runtime-compat": "^0.15.1"
   },
   "devDependencies": {
     "maximin": "^0.1.2"

@@ -1,4 +1,4 @@
-import config from "./config.js";
+import env from "./env.js";
 import command from "./commands/exports.js";
 
-export default async name => command(name)(await config());
+export default async name => command(name)(await env());

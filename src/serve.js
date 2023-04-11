@@ -5,7 +5,6 @@ import mimes from "./mimes.js";
 import {http404} from "./handlers/http.js";
 import {isResponse} from "./duck.js";
 import respond from "./respond.js";
-import {colors, print} from "./Logger.js";
 
 const regex = /\.([a-z1-9]*)$/u;
 const mime = filename => mimes[filename.match(regex)[1]] ?? mimes.binary;
