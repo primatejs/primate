@@ -1,3 +1,3 @@
-export default env => {
-  env.log.info("available commands: create dev serve");
+export default app => {
+  app.log.info("available commands: create dev serve");
 };

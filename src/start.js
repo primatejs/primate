@@ -6,25 +6,25 @@ import route from "./route.js";
 import serve from "./serve.js";
 import config from "./config.js";
 
-export default async (env, operations = {}) => {
+export default async (app, operations = {}) => {
   // read/write configuration
-  await config(env);
+  await config(app);
   // register handlers
-  await register(env);
+  await register(app);
   // compile server-side code
-  await compile(env);
+  await compile(app);
   // publish client-side code
-  await publish(env);
+  await publish(app);
 
   // after publish hook, publish a zero assumptions app.js (no css imports)
-  const code = env.entrypoints.filter(({type}) => type === "script")
+  const code = app.entrypoints.filter(({type}) => type === "script")
     .map(({code}) => code).join("");
-  await env.publish({src: `${env.dist}.js`, code, type: "module"});
+  await app.publish({src: `${app.dist}.js`, code, type: "module"});
 
   if (operations?.bundle) {
     // bundle client-side code
-    await bundle(env);
+    await bundle(app);
   }
   // serve
-  serve({router: await route(env), ...env});
+  serve({router: await route(app), ...app});
 };

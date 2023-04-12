@@ -1,6 +1,6 @@
 import {Path} from "runtime-compat/fs";
 
-const createModule = async env => {
+const createModule = async app => {
   const space = 2;
   try {
     // will throw if cannot find a package.json up the filesystem hierarchy
@@ -10,7 +10,7 @@ const createModule = async env => {
       name: "primate-app",
       private: true,
       dependencies: {
-        primate: `^${env.version}`,
+        primate: `^${app.version}`,
       },
       scripts: {
         start: "npx primate",
@@ -23,20 +23,20 @@ const createModule = async env => {
   }
 };
 
-const createConfig = async env => {
+const createConfig = async app => {
   const name = "primate.config.js";
   const template = "export default {};";
   const root = (await Path.root()).join(name);
   if (await root.exists) {
-    env.log.warn(`${root} already exists`);
+    app.log.warn(`${root} already exists`);
   } else {
     await root.file.write(template);
-    env.log.info(`created config at ${root}`);
+    app.log.info(`created config at ${root}`);
   }
 };
 
-export default async env => {
-  await createModule(env);
-  await createConfig(env);
+export default async app => {
+  await createModule(app);
+  await createConfig(app);
 };
 

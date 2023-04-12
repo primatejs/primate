@@ -34,11 +34,11 @@ const getRoot = async () => {
   }
 };
 
-const index = async env => {
+const index = async app => {
   const name = "index.html";
   try {
     // user-provided file
-    return await File.read(`${env.paths.static.join(name)}`);
+    return await File.read(`${app.paths.static.join(name)}`);
   } catch (error) {
     // fallback
     return new Path(import.meta.url).directory.join(name).file.read();
@@ -67,7 +67,7 @@ export default async (filename = "primate.config.js") => {
     config.secure = true;
   }
 
-  const env = {
+  const app = {
     ...config,
     name, version,
     resources: [],
@@ -76,12 +76,12 @@ export default async (filename = "primate.config.js") => {
     root,
     log: new Logger(config.logger),
     register: (name, handler) => {
-      env.handlers[name] = handler;
+      app.handlers[name] = handler;
     },
     handlers: {...handlers},
     render: async ({body = "", head = ""} = {}) => {
-      const html = await index(env);
-      const heads = env.resources.map(({src, code, type, inline, integrity}) => {
+      const html = await index(app);
+      const heads = app.resources.map(({src, code, type, inline, integrity}) => {
         const tag = type === "style" ? "link" : "script";
         const pre = type === "style"
           ? `<${tag} rel="stylesheet" integrity="${integrity}"`
@@ -98,15 +98,15 @@ export default async (filename = "primate.config.js") => {
     },
     publish: async ({src, code, type = "", inline = false}) => {
       const integrity = await hash(code);
-      env.resources.push({src, code, type, inline, integrity});
+      app.resources.push({src, code, type, inline, integrity});
       return integrity;
     },
     bootstrap: ({type, code}) => {
-      env.entrypoints.push({type, code});
+      app.entrypoints.push({type, code});
     },
   };
   print(colors.blue(colors.bold(name)), colors.blue(version), "");
-  const type = env.secure ? "https" : "http";
+  const type = app.secure ? "https" : "http";
   const address = `${type}://${config.http.host}:${config.http.port}`;
   print(colors.gray(`at ${address}`), "\n");
   const {modules} = config;
@@ -115,6 +115,6 @@ export default async (filename = "primate.config.js") => {
     .filter(module => module.load !== undefined)
     .map(module => module.load()));
 
-  return cache("config", filename, () => ({...env,
+  return cache("config", filename, () => ({...app,
     modules: modules.concat(loads.flat())}));
 };

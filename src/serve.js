@@ -18,18 +18,18 @@ const contents = {
   "application/json": body => JSON.parse(body),
 };
 
-export default env => {
+export default app => {
   const _respond = async request => {
-    const csp = Object.keys(env.http.csp).reduce((policy_string, key) =>
-      `${policy_string}${key} ${env.http.csp[key]};`, "");
-    const scripts = env.resources
+    const csp = Object.keys(app.http.csp).reduce((policy_string, key) =>
+      `${policy_string}${key} ${app.http.csp[key]};`, "");
+    const scripts = app.resources
       .map(resource => `'${resource.integrity}'`).join(" ");
     const _csp = scripts === "" ? csp : `${csp}script-src 'self' ${scripts};`;
     // remove inline resources
-    for (let i = env.resources.length - 1; i >= 0; i--) {
-      const resource = env.resources[i];
+    for (let i = app.resources.length - 1; i >= 0; i--) {
+      const resource = app.resources[i];
       if (resource.inline) {
-        env.resources.splice(i, 1);
+        app.resources.splice(i, 1);
       }
     }
 
@@ -39,15 +39,15 @@ export default env => {
     };
 
     try {
-      const {router} = env;
-      const modules = filter("route", env.modules);
+      const {router} = app;
+      const modules = filter("route", app.modules);
       // handle is the last module to be executed
       const handlers = [...modules, router.route].reduceRight((acc, handler) =>
         input => handler(input, acc));
-      return await respond(await handlers({request, env}))(env, headers);
+      return await respond(await handlers({request, app}))(app, headers);
     } catch (error) {
-      env.log.auto(error);
-      return http404()(env, headers);
+      app.log.auto(error);
+      return http404()(app, headers);
     }
   };
 
@@ -65,7 +65,7 @@ export default env => {
   });
 
   const publishedResource = request => {
-    const published = env.resources.find(resource =>
+    const published = app.resources.find(resource =>
       `/${resource.src}` === request.pathname);
     if (published !== undefined) {
       return new Response(published.code, {
@@ -81,7 +81,7 @@ export default env => {
   };
 
   const _serve = async request => {
-    const path = new Path(env.paths.public, request.pathname);
+    const path = new Path(app.paths.public, request.pathname);
     return await path.isFile ? resource(path.file) : publishedResource(request);
   };
 
@@ -89,7 +89,7 @@ export default env => {
     try {
       return await _serve(request);
     } catch (error) {
-      env.log.auto(error);
+      app.log.auto(error);
       return new Response(null, {status: statuses.InternalServerError});
     }
   };
@@ -103,13 +103,12 @@ export default env => {
     try {
       return parseContentType(request.headers.get("content-type"), body);
     } catch (error) {
-      env.log.warn(error);
+      app.log.warn(error);
       return body;
     }
   };
 
-  const {http} = env;
-  const modules = filter("serve", env.modules);
+  const modules = filter("serve", app.modules);
 
   // handle is the last module to be executed
   const handlers = [...modules, handle].reduceRight((acc, handler) =>
@@ -134,5 +133,5 @@ export default env => {
     const {pathname, search} = new URL(`https://example.com${request.url}`);
 
     return handlers({original: request, pathname: pathname + search, body});
-  }, http);
+  }, app.http);
 };

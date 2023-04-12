@@ -1,8 +1,8 @@
 import {File} from "runtime-compat/fs";
 const filter = (key, array) => array?.flatMap(m => m[key] ?? []) ?? [];
 
-const makePublic = async env => {
-  const {paths} = env;
+const makePublic = async app => {
+  const {paths} = app;
 
   // remove public directory in case exists
   if (await paths.public.exists) {
@@ -16,8 +16,8 @@ const makePublic = async env => {
   }
 };
 
-export default async env => {
-  await makePublic(env);
-  [...filter("bundle", env.modules), _ => _].reduceRight((acc, handler) =>
-    input => handler(input, acc))(env);
+export default async app => {
+  await makePublic(app);
+  [...filter("bundle", app.modules), _ => _].reduceRight((acc, handler) =>
+    input => handler(input, acc))(app);
 };

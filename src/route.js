@@ -10,7 +10,7 @@ const verbs = [
   // extended
   "delete", "connect", "options", "trace", "patch",
 ];
-export default async env => {
+export default async app => {
   const routes = [];
   const find = (method, path, fallback = {handler: r => r}) =>
     routes.find(route =>
@@ -46,11 +46,11 @@ export default async env => {
     ;
     return new RegExp(`^/${route}$`, "u");
   };
-  for (const route of await Path.collect(env.paths.routes, /^.*.js$/u)) {
+  for (const route of await Path.collect(app.paths.routes, /^.*.js$/u)) {
     const imported = (await import(route)).default;
-    const file = `${route}`.replace(env.paths.routes, "").slice(1);
+    const file = `${route}`.replace(app.paths.routes, "").slice(1);
     if (imported === undefined) {
-      env.log.warn(`empty route file at ${file}`);
+      app.log.warn(`empty route file at ${file}`);
     } else {
       const valids = Object.entries(imported)
         .filter(([verb]) => verbs.includes(verb));

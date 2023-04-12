@@ -1,3 +1,3 @@
 import start from "../start.js";
 
-export default async env => start(env);
+export default app => start(app);
