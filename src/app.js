@@ -1,7 +1,6 @@
 import crypto from "runtime-compat/crypto";
 import {is} from "runtime-compat/dyndef";
 import {File, Path} from "runtime-compat/fs";
-import cache from "./cache.js";
 import extend from "./extend.js";
 import defaults from "./primate.config.js";
 import {colors, print, default as Logger} from "./Logger.js";
@@ -115,6 +114,5 @@ export default async (filename = "primate.config.js") => {
     .filter(module => module.load !== undefined)
     .map(module => module.load()));
 
-  return cache("config", filename, () => ({...app,
-    modules: modules.concat(loads.flat())}));
+  return {...app, modules: modules.concat(loads.flat())};
 };
