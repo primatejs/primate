@@ -27,13 +27,13 @@ const levels = new Map([
 const print = (...messages) => process.stdout.write(messages.join(" "));
 
 const Logger = class Logger {
-  #level; #traceStack;
+  #level; #trace;
 
-  constructor({level = Error, traceStack = false} = {}) {
+  constructor({level = Error, trace = false} = {}) {
     assert(level !== undefined && levels.get(level) <= info);
-    is(traceStack).boolean();
+    is(trace).boolean();
     this.#level = level;
-    this.#traceStack = traceStack;
+    this.#trace = trace;
   }
 
   static get Error() {
@@ -51,7 +51,7 @@ const Logger = class Logger {
   #print(pre, error) {
     if (error instanceof Error) {
       print(colors.bold(pre), error.message, "\n");
-      if (this.#traceStack) {
+      if (this.#trace) {
         console.log(error);
       }
     } else {
