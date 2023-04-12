@@ -17,8 +17,8 @@ const contents = {
 
 export default app => {
   const _respond = async request => {
-    const csp = Object.keys(app.http.csp).reduce((policy_string, key) =>
-      `${policy_string}${key} ${app.http.csp[key]};`, "");
+    const csp = Object.keys(app.config.http.csp).reduce((policy_string, key) =>
+      `${policy_string}${key} ${app.config.http.csp[key]};`, "");
     const scripts = app.resources
       .map(resource => `'${resource.integrity}'`).join(" ");
     const _csp = scripts === "" ? csp : `${csp}script-src 'self' ${scripts};`;
@@ -130,5 +130,5 @@ export default app => {
     const {pathname, search} = new URL(`https://example.com${request.url}`);
 
     return handlers({original: request, pathname: pathname + search, body});
-  }, app.http);
+  }, app.config.http);
 };

@@ -63,11 +63,11 @@ export default async (filename = "primate.config.js") => {
   if (config.http.ssl) {
     config.http.ssl.key = root.join(config.http.ssl.key);
     config.http.ssl.cert = root.join(config.http.ssl.cert);
-    config.secure = true;
   }
 
   const app = {
-    ...config,
+    config,
+    secure: config.http?.ssl !== undefined,
     name, version,
     resources: [],
     entrypoints: [],
