@@ -1,6 +1,6 @@
 # Primate 
 
-Expressive, minimal and extensible framework for JavaScript.
+Expressive, minimal and extensible JavaScript web framework.
 
 ## Getting started
 
@@ -205,7 +205,3 @@ export default {
 
 * Website: https://primatejs.com
 * IRC: Join the `#primate` channel on `irc.libera.chat`.
-
-## License
-
-MIT
