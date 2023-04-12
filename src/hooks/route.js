@@ -1,5 +1,5 @@
 import {Path} from "runtime-compat/fs";
-import Logger from "./Logger.js";
+import {Logger} from "primate";
 
 // insensitive-case equal
 const ieq = (left, right) => left.toLowerCase() === right.toLowerCase();

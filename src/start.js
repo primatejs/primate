@@ -1,10 +1,5 @@
-import register from "./register.js";
-import compile from "./compile.js";
-import publish from "./publish.js";
-import bundle from "./bundle.js";
-import route from "./route.js";
-import serve from "./serve.js";
-import config from "./config.js";
+import {config, register, compile, publish, bundle, route, serve}
+  from "./hooks/exports.js";
 
 export default async (app, operations = {}) => {
   // read/write configuration

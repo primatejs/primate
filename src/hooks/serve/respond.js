@@ -1,13 +1,12 @@
 import {Blob} from "runtime-compat/fs";
-import {text, json, stream} from "./handlers/exports.js";
+import {text, json, stream} from "primate";
 import {isResponse as isResponseDuck} from "./duck.js";
-import RouteError from "./errors/Route.js";
 
 const isText = value => {
   if (typeof value === "string") {
     return text(value);
   }
-  throw new RouteError(`no handler found for ${value}`);
+  throw new Error(`no handler found for ${value}`);
 };
 
 const isNonNullObject = value => typeof value === "object" && value !== null;
