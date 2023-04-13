@@ -103,16 +103,18 @@ export default async (filename = "primate.config.js") => {
     bootstrap: ({type, code}) => {
       app.entrypoints.push({type, code});
     },
+    modules: [...config.modules],
   };
   print(colors.blue(colors.bold(name)), colors.blue(version), "");
   const type = app.secure ? "https" : "http";
   const address = `${type}://${config.http.host}:${config.http.port}`;
   print(colors.gray(`at ${address}`), "\n");
-  const {modules} = config;
   // modules may load other modules
-  const loads = await Promise.all(modules
+  await Promise.all(app.modules
     .filter(module => module.load !== undefined)
-    .map(module => module.load()));
+    .map(module => module.load({...app, load(dependent) {
+      app.modules.push(dependent);
+    }})));
 
-  return {...app, modules: modules.concat(loads.flat())};
+  return app;
 };

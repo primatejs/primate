@@ -1,9 +1,7 @@
-import {config, register, compile, publish, bundle, route, serve}
+import {register, compile, publish, bundle, route, serve}
   from "./hooks/exports.js";
 
 export default async (app, operations = {}) => {
-  // read/write configuration
-  await config(app);
   // register handlers
   await register(app);
   // compile server-side code

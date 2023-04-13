@@ -23,8 +23,8 @@ const inMemory = () => {
 export default ({manager = inMemory(), sameSite = "Strict"} = {}) => {
   const options = {sameSite};
   return {
-    config(app) {
-      options.secure = app.secure ? ";Secure": "";
+    load(app) {
+      options.secure = app.secure ? ";Secure" : "";
     },
     async serve(request, next) {
       const id = extractId(request.original.headers.get("cookie"));
@@ -35,5 +35,5 @@ export default ({manager = inMemory(), sameSite = "Strict"} = {}) => {
       response.headers.set("Set-Cookie", cookie);
       return response;
     },
-  }
+  };
 };
