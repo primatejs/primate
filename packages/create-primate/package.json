@@ -1,0 +1,20 @@
+{
+  "name": "create-primate",
+  "version": "0.1.0",
+  "description": "CLI for creating Primate projects",
+  "bugs": "https://github.com/primatejs/primate/issues",
+  "license": "MIT",
+  "files": [
+    "src/**",
+    "!src/**/*.spec.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/primatejs/primate",
+    "directory": "packages/create-primate"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.6.3"
+  },
+  "type": "module"
+}
