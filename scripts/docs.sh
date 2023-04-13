@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 npx -y embedme\
-  --source-root docs\
+  --source-root docs/primate\
   --strip-embed-comment\
-  --stdout docs/template.md\
-  > README.md
+  --stdout docs/primate/template.md\
+  > packages/primate/README.md
 

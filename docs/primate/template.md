@@ -1,6 +1,6 @@
 # Primate 
 
-Expressive, minimal and extensible framework for JavaScript.
+Expressive, minimal and extensible framework for JavaScript
 
 ## Getting started
 
