@@ -1,0 +1,25 @@
+{
+  "name": "@primate/svelte",
+  "version": "0.6.1",
+  "description": "Primate Svelte module",
+  "bugs": "https://github.com/primatejs/primate/issues",
+  "license": "MIT",
+  "files": [
+    "src/**",
+    "!src/**/*.spec.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/primatejs/primate",
+    "directory": "packages/svelte"
+  },
+  "dependencies": {
+    "runtime-compat": "^0.15.1",
+    "svelte": "^3.58.0"
+  },
+  "peerDependencies": {
+    "primate": "0.15"
+  },
+  "type": "module",
+  "exports": "./src/exports.js"
+}
