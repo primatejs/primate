@@ -2,7 +2,7 @@ import crypto from "runtime-compat/crypto";
 import {is} from "runtime-compat/dyndef";
 import {File, Path} from "runtime-compat/fs";
 import extend from "./extend.js";
-import defaults from "./primate.config.js";
+import defaults from "./defaults/primate.config.js";
 import {colors, print, default as Logger} from "./Logger.js";
 import * as handlers from "./handlers/exports.js";
 
@@ -33,6 +33,8 @@ const getRoot = async () => {
   }
 };
 
+const src = new Path(import.meta.url).up(1);
+
 const index = async app => {
   const name = "index.html";
   try {
@@ -40,7 +42,7 @@ const index = async app => {
     return await File.read(`${app.paths.static.join(name)}`);
   } catch (error) {
     // fallback
-    return new Path(import.meta.url).directory.join(name).file.read();
+    return src.join("defaults", name).text();
   }
 };
 
@@ -56,8 +58,7 @@ export default async (filename = "primate.config.js") => {
   const root = await getRoot();
   const config = await getConfig(root, filename);
 
-  const {name, version} = JSON.parse(await new Path(import.meta.url)
-    .directory.directory.join("package.json").file.read());
+  const {name, version} = await src.up(1).join("package.json").json();
 
   // if ssl activated, resolve key and cert early
   if (config.http.ssl) {
