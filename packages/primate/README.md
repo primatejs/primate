@@ -1,6 +1,6 @@
 # Primate 
 
-Expressive, minimal and extensible framework for JavaScript
+Expressive, minimal and extensible web framework
 
 ## Getting started
 
@@ -16,7 +16,7 @@ export default {
 };
 ```
 
-Run `npm i && npm start` and visit `http://localhost:6161` in your browser.
+Run `npm i && npm start` and visit http://localhost:6161 in your browser.
 
 ## Table of Contents
 
