@@ -1,0 +1,24 @@
+{
+  "name": "@primate/session",
+  "version": "0.2.1",
+  "description": "Primate session module",
+  "bugs": "https://github.com/primatejs/primate/issues",
+  "license": "MIT",
+  "files": [
+    "src/**",
+    "!src/**/*.spec.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/primatejs/primate",
+    "directory": "packages/session"
+  },
+  "dependencies": {
+    "runtime-compat": "^0.15.1"
+  },
+  "peerDependencies": {
+    "primate": "0.15"
+  },
+  "type": "module",
+  "exports": "./src/exports.js"
+}
