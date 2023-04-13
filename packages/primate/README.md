@@ -14,10 +14,9 @@ export default {
     return "Hello, world!";
   },
 };
-
 ```
 
-Run `npm i && npm start` and visit `localhost:6161` in your browser.
+Run `npm i && npm start` and visit `http://localhost:6161` in your browser.
 
 ## Table of Contents
 

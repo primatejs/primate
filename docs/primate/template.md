@@ -9,10 +9,14 @@ Run `npx -y primate@latest create` to create a project structure.
 Create a route in `routes/index.js`
 
 ```js
-// getting-started.js
+export default {
+  get() {
+    return "Hello, world!";
+  },
+};
 ```
 
-Run `npm i && npm start` and visit `localhost:6161` in your browser.
+Run `npm i && npm start` and visit http://localhost:6161 in your browser.
 
 ## Table of Contents
 
