@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 npx -y embedme\
-  --source-root readme\
+  --source-root docs\
   --strip-embed-comment\
-  --stdout readme/template.md\
+  --stdout docs/template.md\
   > README.md
 
