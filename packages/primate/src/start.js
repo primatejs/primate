@@ -6,20 +6,14 @@ export default async (app, operations = {}) => {
   await register({...app, register(name, handler) {
     app.handlers[name] = handler;
   }});
+
   // compile server-side code
   await compile(app);
   // publish client-side code
   await publish(app);
 
-  // after publish hook, publish a zero assumptions app.js (no css imports)
-  const code = app.entrypoints.filter(({type}) => type === "script")
-    .map(({code}) => code).join("");
-  await app.publish({src: `${app.dist}.js`, code, type: "module"});
-
-  if (operations?.bundle) {
-    // bundle client-side code
-    await bundle(app);
-  }
+  // bundle client-side code
+  await bundle(app, operations?.bundle);
   // serve
   serve({router: await route(app), ...app});
 };
