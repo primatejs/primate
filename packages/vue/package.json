@@ -1,0 +1,25 @@
+{
+  "name": "@primate/vue",
+  "version": "0.1.1",
+  "description": "Primate Vue module",
+  "bugs": "https://github.com/primatejs/primate/issues",
+  "license": "MIT",
+  "files": [
+    "src/**",
+    "!src/**/*.spec.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/primatejs/primate",
+    "directory": "packages/vue"
+  },
+  "dependencies": {
+    "runtime-compat": "^0.15.1",
+    "vue": "^3.2.47"
+  },
+  "peerDependencies": {
+    "primate": "0.15"
+  },
+  "type": "module",
+  "main": "./src/exports.js"
+}
