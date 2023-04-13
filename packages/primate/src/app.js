@@ -16,9 +16,15 @@ const qualify = (root, paths) =>
   }, {});
 
 const getConfig = async (root, filename) => {
-  try {
-    return extend(defaults, (await import(root.join(filename))).default);
-  } catch (error) {
+  const config = root.join(filename);
+  if (await config.exists) {
+    try {
+      return extend(defaults, (await import(config)).default);
+    } catch (error) {
+      print(`${colors.red("!!")} couldn't load config file\n`);
+      throw error;
+    }
+  } else {
     return defaults;
   }
 };
