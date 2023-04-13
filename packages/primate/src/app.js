@@ -74,9 +74,6 @@ export default async (filename = "primate.config.js") => {
     paths: qualify(root, config.paths),
     root,
     log: new Logger(config.logger),
-    register: (name, handler) => {
-      app.handlers[name] = handler;
-    },
     handlers: {...handlers},
     render: async ({body = "", head = ""} = {}) => {
       const html = await index(app);

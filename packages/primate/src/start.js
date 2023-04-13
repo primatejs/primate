@@ -3,7 +3,9 @@ import {register, compile, publish, bundle, route, serve}
 
 export default async (app, operations = {}) => {
   // register handlers
-  await register(app);
+  await register({...app, register(name, handler) {
+    app.handlers[name] = handler;
+  }});
   // compile server-side code
   await compile(app);
   // publish client-side code
