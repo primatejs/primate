@@ -87,7 +87,7 @@ export default async (filename = "primate.config.js") => {
       const heads = app.resources.map(({src, code, type, inline, integrity}) => {
         const tag = type === "style" ? "link" : "script";
         const pre = type === "style"
-          ? `<${tag} rel="stylesheet" integrity="${integrity}"`
+          ? `<${tag} rel="stylesheet"`
           : `<${tag} type="${type}" integrity="${integrity}"`;
         const middle = type === "style"
           ? ` href="${src}">`
@@ -100,6 +100,8 @@ export default async (filename = "primate.config.js") => {
         .replace("%head%", () => `${head}${heads}`);
     },
     publish: async ({src, code, type = "", inline = false}) => {
+      // while integrity is only really needed for scripts, it is also later
+      // used for the etag header
       const integrity = await hash(code);
       app.resources.push({src, code, type, inline, integrity});
       return integrity;
