@@ -1,10 +1,11 @@
 import crypto from "runtime-compat/crypto";
+import {is} from "runtime-compat/dyndef";
 
-const extractId = header => header
-  ?.split(";").filter(text => text.includes("session_id="))[0]?.split("=")[1];
+const extractId = (name, header) => header
+  ?.split(";").filter(text => text.includes(`${name}=`))[0]?.split("=")[1];
 
-const createCookie = (session_id, {secure, sameSite}) =>
-  `session_id=${session_id};Path=/;HttpOnly${secure};${sameSite}`;
+const createCookie = (name, value, {path, secure, sameSite}) =>
+  `${name}=${value};HttpOnly;Path=${path};${secure};SameSite=${sameSite}`;
 
 // gets a cookie id and returns it if exists, otherwise generates a new one
 const inMemory = () => {
@@ -20,19 +21,31 @@ const inMemory = () => {
   };
 };
 
-export default ({manager = inMemory(), sameSite = "Strict"} = {}) => {
-  const options = {sameSite};
+export default ({
+  name = "sessionId",
+  sameSite = "Strict",
+  path = "/",
+  manager = inMemory(),
+} = {}) => {
+  is(name).string();
+  is(sameSite).string();
+  is(path).string();
+  const options = {sameSite, path};
   return {
-    load(app) {
+    load(app = {}) {
       options.secure = app.secure ? ";Secure" : "";
     },
     async serve(request, next) {
-      const id = extractId(request.original.headers.get("cookie"));
+      const id = extractId(name, request.original.headers.get("cookie"));
       const session = manager(id);
-      const cookie = createCookie(session.id, options);
+      is(session.id).string();
 
       const response = await next({...request, session});
-      response.headers.set("Set-Cookie", cookie);
+      // only send the cookie if it different than the received one
+      if (session.id !== id) {
+        const cookie = createCookie(name, session.id, options);
+        response.headers.set("Set-Cookie", cookie);
+      }
       return response;
     },
   };
