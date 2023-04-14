@@ -19,11 +19,11 @@ export default {
 ## Use
 
 This module automatically creates and sends a session cookie with every
-request. If the client sends cookie that identifies a session id, no new cookie
-is created.
+request. If the client sends a cookie that identifies an existing session id,
+no new cookie is created.
 
-The session's data (which consists of `id` unless you change the
-default manager) is made available to the request as `request.session`.
+The session's data (which consists only of `id` unless you change the
+default manager) is made available to the route as `request.session`.
 
 To illustrate this, assume you have a route in `routes/index.js` (which handles
 `/`) with a GET method.
