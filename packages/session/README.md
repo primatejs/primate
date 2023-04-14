@@ -1,15 +1,15 @@
-# Primate sessions module
+# Primate session module
 
 ## Install
 
-`npm i @primate/sessions`
+`npm i @primate/session`
 
 ## Load
 
 Add to `primate.config.js`
 
 ```js
-import session rom "@primate/sessions";
+import session from "@primate/session";
 
 export default {
   modules: [session()],
