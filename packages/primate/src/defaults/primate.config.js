@@ -1,4 +1,4 @@
-import {Logger} from "primate";
+import Logger from "../Logger.js";
 
 export default {
   base: "/",

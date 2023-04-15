@@ -1,5 +1,5 @@
 import {Blob} from "runtime-compat/fs";
-import {text, json, stream} from "primate";
+import {text, json, stream, redirect} from "primate";
 import {isResponse as isResponseDuck} from "./duck.js";
 
 const isText = value => {
@@ -18,6 +18,8 @@ const isStream = value => value instanceof ReadableStream
   ? stream(value) : isResponse(value);
 const isBlob = value => value instanceof Blob
   ? stream(value) : isStream(value);
-const guess = value => isBlob(value);
+const isURL = value => value instanceof URL
+  ? redirect(value.href) : isBlob(value);
+const guess = value => isURL(value);
 
 export default result => typeof result === "function" ? result : guess(result);
