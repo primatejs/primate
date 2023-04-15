@@ -1,5 +1,5 @@
 import {Path} from "runtime-compat/fs";
-import {serve, Response} from "runtime-compat/http";
+import {serve, Response, URL} from "runtime-compat/http";
 import {http404} from "../handlers/http.js";
 import {statuses, mimes, isResponse, respond} from "./handle/exports.js";
 import fromNull from "../fromNull.js";
