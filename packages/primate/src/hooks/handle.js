@@ -11,8 +11,8 @@ const filter = (key, array) => array?.flatMap(m => m[key] ?? []) ?? [];
 
 const contents = {
   "application/x-www-form-urlencoded": body =>
-    Object.fromEntries(body.split("&").map(part => part.split("=")
-      .map(subpart => decodeURIComponent(subpart).replaceAll("+", " ")))),
+    fromNull(Object.fromEntries(body.split("&").map(part => part.split("=")
+      .map(subpart => decodeURIComponent(subpart).replaceAll("+", " "))))),
   "application/json": body => JSON.parse(body),
 };
 
