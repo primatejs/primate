@@ -16,7 +16,7 @@
     "directory": "packages/primate"
   },
   "dependencies": {
-    "runtime-compat": "^0.16.0"
+    "runtime-compat": "^0.16.2"
   },
   "type": "module",
   "exports": "./src/exports.js"
