@@ -4,8 +4,8 @@ import {http404} from "../handlers/http.js";
 import {statuses, mimes, isResponse, respond} from "./handle/exports.js";
 import fromNull from "../fromNull.js";
 
-const regex = /\.([a-z1-9]*)$/u;
-const mime = filename => mimes[filename.match(regex)[1]] ?? mimes.binary;
+const regex = /\.(?<ending>[a-z1-9]*)$/u;
+const mime = filename => filename.match(regex)?.groups.ending ?? mimes.binary;
 
 const filter = (key, array) => array?.flatMap(m => m[key] ?? []) ?? [];
 
