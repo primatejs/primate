@@ -1,7 +1,7 @@
 import {Path} from "runtime-compat/fs";
 import {serve, Response} from "runtime-compat/http";
 import {http404} from "../handlers/http.js";
-import {statuses, mimes, isResponse, respond} from "./serve/exports.js";
+import {statuses, mimes, isResponse, respond} from "./handle/exports.js";
 
 const regex = /\.([a-z1-9]*)$/u;
 const mime = filename => mimes[filename.match(regex)[1]] ?? mimes.binary;
@@ -53,7 +53,7 @@ export default app => {
     return isResponse(response) ? response : new Response(...response);
   };
 
-  const resource = async file => new Response(file.readable, {
+  const staticResource = async file => new Response(file.readable, {
     status: statuses.OK,
     headers: {
       "Content-Type": mime(file.name),
@@ -77,14 +77,16 @@ export default app => {
     return route(request);
   };
 
-  const _serve = async request => {
+  const resource = async request => {
     const path = new Path(app.paths.public, request.pathname);
-    return await path.isFile ? resource(path.file) : publishedResource(request);
+    return await path.isFile
+      ? staticResource(path.file)
+      : publishedResource(request);
   };
 
   const handle = async request => {
     try {
-      return await _serve(request);
+      return await resource(request);
     } catch (error) {
       app.log.auto(error);
       return new Response(null, {status: statuses.InternalServerError});
@@ -105,7 +107,7 @@ export default app => {
     }
   };
 
-  const modules = filter("serve", app.modules);
+  const modules = filter("handle", app.modules);
 
   // handle is the last module to be executed
   const handlers = [...modules, handle].reduceRight((acc, handler) =>

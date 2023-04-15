@@ -1,4 +1,4 @@
-import {register, compile, publish, bundle, route, serve}
+import {register, compile, publish, bundle, route, handle}
   from "./hooks/exports.js";
 
 export default async (app, operations = {}) => {
@@ -14,6 +14,7 @@ export default async (app, operations = {}) => {
 
   // bundle client-side code
   await bundle(app, operations?.bundle);
-  // serve
-  serve({router: await route(app), ...app});
+
+  // handle
+  handle({router: await route(app), ...app});
 };

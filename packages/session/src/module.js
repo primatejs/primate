@@ -35,7 +35,7 @@ export default ({
     load(app = {}) {
       options.secure = app.secure ? ";Secure" : "";
     },
-    async serve(request, next) {
+    async handle(request, next) {
       const id = extractId(name, request.original.headers.get("cookie"));
       const session = manager(id);
       is(session.id).string();
