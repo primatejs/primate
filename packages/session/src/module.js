@@ -1,9 +1,6 @@
 import crypto from "runtime-compat/crypto";
 import {is} from "runtime-compat/dyndef";
 
-const extractId = (name, header) => header
-  ?.split(";").filter(text => text.includes(`${name}=`))[0]?.split("=")[1];
-
 const createCookie = (name, value, {path, secure, sameSite}) =>
   `${name}=${value};HttpOnly;Path=${path};${secure};SameSite=${sameSite}`;
 
@@ -36,7 +33,7 @@ export default ({
       options.secure = app.secure ? ";Secure" : "";
     },
     async handle(request, next) {
-      const id = extractId(name, request.original.headers.get("cookie"));
+      const id = request.cookies[name];
       const session = manager(id);
       is(session.id).string();
 

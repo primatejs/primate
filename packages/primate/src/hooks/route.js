@@ -1,5 +1,6 @@
 import {Path} from "runtime-compat/fs";
 import {Logger} from "primate";
+import fromNull from "../fromNull.js";
 
 // insensitive-case equal
 const ieq = (left, right) => left.toLowerCase() === right.toLowerCase();
@@ -10,6 +11,7 @@ const verbs = [
   // extended
   "delete", "connect", "options", "trace", "patch",
 ];
+
 export default async app => {
   const routes = [];
   const find = (method, path, fallback = {handler: r => r}) =>
@@ -17,19 +19,21 @@ export default async app => {
       ieq(route.method, method) && route.path.test(path)) ?? fallback;
 
   const router = {
-    route: async ({request}) => {
-      const {method} = request.original;
-      const url = new URL(`https://primatejs.com${request.pathname}`);
+    async route({request, url, app, ...rest}) {
+      const {method} = request;
       const {pathname, searchParams} = url;
-      const params = Object.fromEntries(searchParams);
       const verb = find(method, pathname, {handler: () => {
-        throw new Logger.Info(`no ${method.toUpperCase()} route to ${pathname}`);
+        throw new Logger.Info(`no ${method} route to ${pathname}`);
       }});
-      const path = pathname.split("/").filter(part => part !== "");
-      const named = verb.path?.exec(pathname)?.groups ?? {};
 
-      return verb.handler(await find("map", pathname)
-        .handler({...request, pathname, params, path, named}));
+      const data = {
+        request,
+        path: verb.path?.exec(pathname)?.groups ?? Object.create(null),
+        query: fromNull(Object.fromEntries(searchParams)),
+        ...rest,
+      };
+
+      return verb.handler(await find("map", pathname).handler(data));
     },
   };
   const toRoute = file => {

@@ -6,7 +6,7 @@ const init = (config, app) => {
   session.load(app);
   return {
     session,
-    request: {original: {headers: new Map()}},
+    request: {request: {headers: new Map()}},
     response: response(),
   };
 };
@@ -25,7 +25,7 @@ export default test => {
 
     const r = await session.handle(request, response);
     const [cookie] = r.headers.get("Set-Cookie").split(";");
-    request.original.headers.set("cookie", cookie);
+    request.request.headers.set("cookie", cookie);
 
     const r2 = await session.handle(request, response);
     assert(r2.headers.has("Set-Cookie")).false();

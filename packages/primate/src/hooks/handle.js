@@ -2,6 +2,7 @@ import {Path} from "runtime-compat/fs";
 import {serve, Response} from "runtime-compat/http";
 import {http404} from "../handlers/http.js";
 import {statuses, mimes, isResponse, respond} from "./handle/exports.js";
+import fromNull from "../fromNull.js";
 
 const regex = /\.([a-z1-9]*)$/u;
 const mime = filename => mimes[filename.match(regex)[1]] ?? mimes.binary;
@@ -16,9 +17,11 @@ const contents = {
 };
 
 export default app => {
+  const {config} = app;
+
   const _respond = async request => {
-    const csp = Object.keys(app.config.http.csp).reduce((policy_string, key) =>
-      `${policy_string}${key} ${app.config.http.csp[key]};`, "");
+    const csp = Object.keys(config.http.csp).reduce((policy_string, key) =>
+      `${policy_string}${key} ${config.http.csp[key]};`, "");
     const scripts = app.resources
       .map(resource => `'${resource.integrity}'`).join(" ");
     const _csp = scripts === "" ? csp : `${csp}script-src 'self' ${scripts};`;
@@ -41,7 +44,7 @@ export default app => {
       // handle is the last module to be executed
       const handlers = [...modules, router.route].reduceRight((acc, handler) =>
         input => handler(input, acc));
-      return await respond(await handlers({request, app}))(app, headers);
+      return await respond(await handlers({...request, app}))(app, headers);
     } catch (error) {
       app.log.auto(error);
       return http404()(app, headers);
@@ -63,7 +66,7 @@ export default app => {
 
   const publishedResource = request => {
     const published = app.resources.find(resource =>
-      `/${resource.src}` === request.pathname);
+      `/${resource.src}` === request.url.pathname);
     if (published !== undefined) {
       return new Response(published.code, {
         status: statuses.OK,
@@ -78,7 +81,7 @@ export default app => {
   };
 
   const resource = async request => {
-    const path = new Path(app.paths.public, request.pathname);
+    const path = new Path(app.paths.public, request.url.pathname);
     return await path.isFile
       ? staticResource(path.file)
       : publishedResource(request);
@@ -107,15 +110,9 @@ export default app => {
     }
   };
 
-  const modules = filter("handle", app.modules);
-
-  // handle is the last module to be executed
-  const handlers = [...modules, handle].reduceRight((acc, handler) =>
-    input => handler(input, acc));
-
   const decoder = new TextDecoder();
-  serve(async request => {
-    // preprocess request
+
+  const parseBody = async request => {
     const reader = request.body.getReader();
     const chunks = [];
     let result;
@@ -126,11 +123,26 @@ export default app => {
       }
     } while (!result.done);
 
-    const body = chunks.length === 0 ? undefined
-      : parseContent(request, chunks.join());
+    return chunks.length === 0 ? null : parseContent(request, chunks.join());
+  };
 
-    const {pathname, search} = new URL(`https://example.com${request.url}`);
+  const parseRequest = async request => {
+    const cookies = request.headers.get("cookie");
 
-    return handlers({original: request, pathname: pathname + search, body});
-  }, app.config.http);
+    return {
+      request,
+      url: new URL(request.url),
+      body: await parseBody(request),
+      cookies: fromNull(cookies === null
+        ? {}
+        : Object.fromEntries(cookies.split(";").map(c => c.trim().split("=")))),
+      headers: fromNull(Object.fromEntries(request.headers)),
+    };
+  };
+
+  // handle is the last module to be executed
+  const handlers = [...filter("handle", app.modules), handle]
+    .reduceRight((acc, handler) => input => handler(input, acc));
+
+  serve(async request => handlers(await parseRequest(request)), config.http);
 };
