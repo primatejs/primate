@@ -44,7 +44,7 @@ export default app => {
       // handle is the last module to be executed
       const handlers = [...modules, router.route].reduceRight((acc, handler) =>
         input => handler(input, acc));
-      return await respond(await handlers({...request, app}))(app, headers);
+      return await respond(await handlers(request))(app, headers);
     } catch (error) {
       app.log.auto(error);
       return http404()(app, headers);

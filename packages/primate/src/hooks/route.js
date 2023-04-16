@@ -28,6 +28,7 @@ export default async app => {
 
       const data = {
         request,
+        url,
         path: verb.path?.exec(pathname)?.groups ?? Object.create(null),
         query: fromNull(Object.fromEntries(searchParams)),
         ...rest,
