@@ -1,11 +1,8 @@
 import {Path} from "runtime-compat/fs";
 import {serve, Response, URL} from "runtime-compat/http";
 import {http404} from "../handlers/http.js";
-import {statuses, mimes, isResponse, respond} from "./handle/exports.js";
+import {statuses, mime, isResponse, respond} from "./handle/exports.js";
 import fromNull from "../fromNull.js";
-
-const regex = /\.(?<ending>[a-z1-9]*)$/u;
-const mime = filename => filename.match(regex)?.groups.ending ?? mimes.binary;
 
 const filter = (key, array) => array?.flatMap(m => m[key] ?? []) ?? [];
 
@@ -66,7 +63,7 @@ export default app => {
 
   const publishedResource = request => {
     const published = app.resources.find(resource =>
-      `/${resource.src}` === request.url.pathname);
+      resource.src === request.url.pathname);
     if (published !== undefined) {
       return new Response(published.code, {
         status: statuses.OK,

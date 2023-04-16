@@ -103,7 +103,7 @@ export default async (filename = "primate.config.js") => {
       // while integrity is only really needed for scripts, it is also later
       // used for the etag header
       const integrity = await hash(code);
-      app.resources.push({src, code, type, inline, integrity});
+      app.resources.push({src: `/${src}`, code, type, inline, integrity});
       return integrity;
     },
     bootstrap: ({type, code}) => {

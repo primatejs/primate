@@ -15,7 +15,7 @@ const handler = path => (component, props = {}, {status = 200} = {}) =>
 
     const name = component.slice(0, -endings.svelte.length);
     // create an entry point
-    const entry = `import {${name} as Component} from "./${app.config.dist}.js";
+    const entry = `import {${name} as Component} from "/${app.config.dist}.js";
       const props = JSON.parse(${JSON.stringify(JSON.stringify(props))});
       new Component({
         target: document.body,
