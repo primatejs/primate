@@ -23,7 +23,7 @@ export default async app => {
       const {method} = request;
       const {pathname, searchParams} = url;
       const verb = find(method, pathname, {handler: () => {
-        throw new Logger.Info(`no ${method} route to ${pathname}`);
+        throw new Logger.Warn(`no ${method} route to ${pathname}`);
       }});
 
       const data = {
