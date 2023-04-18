@@ -15,6 +15,7 @@ const contents = {
 
 export default async app => {
   const {config} = app;
+  const {http} = config;
 
   const _respond = async request => {
     const csp = Object.keys(config.http.csp).reduce((policy_string, key) =>
@@ -62,8 +63,8 @@ export default async app => {
   });
 
   const publishedResource = request => {
-    const published = app.resources.find(resource =>
-      resource.src === request.url.pathname);
+    const published = app.resources.find(({src}) =>
+      src === request.url.pathname);
     if (published !== undefined) {
       return new Response(published.code, {
         status: statuses.OK,
@@ -78,10 +79,15 @@ export default async app => {
   };
 
   const resource = async request => {
-    const path = new Path(app.paths.public, request.url.pathname);
-    return await path.isFile
-      ? staticResource(path.file)
-      : publishedResource(request);
+    const {pathname} = request.url;
+    const {root} = http.static;
+    if (pathname.startsWith(root)) {
+      const path = app.paths.public.join(pathname.replace(root, ""));
+      return await path.isFile
+        ? staticResource(path.file)
+        : publishedResource(request);
+    }
+    return route(request);
   };
 
   const handle = async request => {

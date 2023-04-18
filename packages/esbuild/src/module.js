@@ -11,7 +11,7 @@ export default () => ({
     // write all the published resources to the build directory
     for (const resource of app.resources) {
       const {src, code} = resource;
-      const filePath = src.split("/");
+      const filePath = src.replace(app.config.http.static.root, "").split("/");
       const dirPart = filePath.slice(0, -1);
       const directory = dirPart.length > 0 ? build.join(...dirPart) : build;
       const file = directory.join(...filePath.slice(-1));

@@ -109,7 +109,8 @@ export default async (filename = configName) => {
       // while integrity is only really needed for scripts, it is also later
       // used for the etag header
       const integrity = await hash(code);
-      app.resources.push({src: `/${src}`, code, type, inline, integrity});
+      const _src = new Path(config.http.static.root).join(src ?? "");
+      app.resources.push({src: `${_src}`, code, type, inline, integrity});
       return integrity;
     },
     bootstrap: ({type, code}) => {

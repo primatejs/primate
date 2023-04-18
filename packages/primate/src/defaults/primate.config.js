@@ -15,6 +15,9 @@ export default {
       "form-action": "'self'",
       "base-uri": "'self'",
     },
+    static: {
+      root: "/",
+    },
   },
   paths: {
     public: "public",
