@@ -15,11 +15,17 @@ const qualify = (root, paths) =>
     return sofar;
   }, {});
 
+const configName = "primate.config.js";
+
 const getConfig = async (root, filename) => {
   const config = root.join(filename);
   if (await config.exists) {
     try {
-      return extend(defaults, (await import(config)).default);
+      const imported = await import(config);
+      if (imported.default === undefined) {
+        print(`${colors.yellow("??")} ${configName} has no default export\n`);
+      }
+      return extend(defaults, imported.default);
     } catch (error) {
       print(`${colors.red("!!")} couldn't load config file\n`);
       throw error;
@@ -59,7 +65,7 @@ const hash = async (string, algorithm = "sha-384") => {
   return `${algo}-${btoa(String.fromCharCode(...new Uint8Array(bytes)))}`;
 };
 
-export default async (filename = "primate.config.js") => {
+export default async (filename = configName) => {
   is(filename).string();
   const root = await getRoot();
   const config = await getConfig(root, filename);

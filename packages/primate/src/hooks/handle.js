@@ -13,7 +13,7 @@ const contents = {
   "application/json": body => JSON.parse(body),
 };
 
-export default app => {
+export default async app => {
   const {config} = app;
 
   const _respond = async request => {
