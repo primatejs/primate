@@ -4,6 +4,7 @@ const mimes = {
   html: "text/html",
   jpg: "image/jpeg",
   js: "text/javascript",
+  mjs: "text/javascript",
   json: "application/json",
   png: "image/png",
   svg: "image/svg+xml",
