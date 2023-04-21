@@ -17,11 +17,12 @@ export default {
     },
     static: {
       root: "/",
+      pure: false,
     },
   },
   paths: {
-    public: "public",
     static: "static",
+    public: "public",
     routes: "routes",
     components: "components",
   },
