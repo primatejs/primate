@@ -4,5 +4,5 @@ export default (name, props, options) => async (app, headers) => {
   if (handler === undefined) {
     return app.log.error(new Error(`no handler for ${ending} components`));
   }
-  return handler(name, props, options)(app, headers);
+  return handler(name, {load: true, ...props}, options)(app, headers);
 };
