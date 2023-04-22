@@ -1,17 +1,17 @@
 @font-face {
-  font-family: pt-sans;
+  font-family: pt-sans, sans-serif;
   font-weight: 400;
   src: url("pt-sans-400.woff2") format("woff2");
 }
 
 @font-face {
-  font-family: pt-sans;
+  font-family: pt-sans, sans-serif;
   font-weight: 700;
   src: url("pt-sans-700.woff2") format("woff2");
 }
 
 @font-face {
-  font-family: droid-sans-mono;
+  font-family: droid-sans-mono, sans-serif;
   font-weight: 400;
   src: url("droid-sans-mono.woff2") format("woff2");
 }
@@ -59,7 +59,7 @@ html {
 body {
   margin: 0;
   font-size: var(--prs-text-m);
-  font-family: pt-sans;
+  font-family: pt-sans, sans-serif;
   line-height: 1.5;
 }
 
@@ -273,7 +273,7 @@ article a:hover {
 pre, code {
   padding: 0 .4rem;
   font-size: var(--prs-text-s);
-  font-family: droid-sans-mono;
+  font-family: droid-sans-mono, sans-serif;
   background-color: #f7fafd;
 }
 
@@ -291,7 +291,7 @@ pre {
 
 .filename {
   background-color: #d3dce6;
-  font-family: droid-sans-mono;
+  font-family: droid-sans-mono, sans-serif;
   font-size: var(--prs-text-s);
   padding: 0.5rem 1rem;
   color: hsl(45, 7%, 35%);
