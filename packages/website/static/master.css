@@ -173,8 +173,7 @@ main {
 
 .on-this-page {
   position: fixed;
-  left: calc(100vw - 31rem);
-  width: var(--sidebar-width);
+  left: calc(100vw - var(--sidebar-width));
   margin: 6rem 0;
   padding: 0 1rem;
   font-size: var(--prs-text-s);
@@ -259,7 +258,10 @@ button {
 
 article {
   flex-grow: 1;
-  padding: calc(var(--prs-page-padding-side)) calc(var(--sidebar-width) + 2 * var(--prs-page-padding-side));
+  padding-top: var(--prs-page-padding-side);
+  padding-bottom: var(--prs-page-padding-side);
+  padding-left: calc(var(--sidebar-width) + 2 * var(--prs-page-padding-side));
+  padding-right: calc(var(--sidebar-width) + var(--prs-page-padding-side));
 }
 
 article a {
@@ -319,5 +321,14 @@ pre {
 @media (prefers-color-scheme: dark) {
   .box {
     border: 1px solid var(--prs-primary-dark);
+  }
+}
+
+@media (max-width: 1200px) {
+  .on-this-page {
+    display: none;
+  }
+  article {
+    padding-right: var(--prs-page-padding-side);
   }
 }
