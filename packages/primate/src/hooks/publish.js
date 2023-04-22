@@ -16,8 +16,16 @@ const post = async app => {
       const src = file.name;
       await app.publish({src, code, type: file.extension === ".js" ?
         "module" : "style"});
+      if (file.extension === ".css") {
+        app.bootstrap({type: "style", code: `import "./${file.name}";`});
+      }
     }));
   }
+  await Promise.all(Object.entries(app.library).map(async libfile => {
+    const [, src] = libfile;
+    const code = await Path.resolve().join("node_modules", src).text();
+    await app.publish({src, code, type: "module"});
+  }));
 };
 
 export default async app => {

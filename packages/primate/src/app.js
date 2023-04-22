@@ -82,6 +82,18 @@ export default async (filename = configName) => {
     config,
     secure: config.http?.ssl !== undefined,
     name, version,
+    library: {},
+    identifiers: {},
+    replace(code) {
+      const joined = Object.keys(app.identifiers).join("|");
+      const re = `(?<=import (?:.*) from ['|"])(${joined})(?=['|"])`;
+      return code.replaceAll(new RegExp(re, "gus"), (_, p1) => {
+        if (app.library[p1] === undefined) {
+          app.library[p1] = app.identifiers[p1];
+        }
+        return app.identifiers[p1];
+      });
+    },
     resources: [],
     entrypoints: [],
     paths: qualify(root, config.paths),
@@ -106,6 +118,9 @@ export default async (filename = configName) => {
         .replace("%head%", () => `${head}${heads}`);
     },
     publish: async ({src, code, type = "", inline = false}) => {
+      if (type === "module") {
+        code = app.replace(code);
+      }
       // while integrity is only really needed for scripts, it is also later
       // used for the etag header
       const integrity = await hash(code);
@@ -115,6 +130,15 @@ export default async (filename = configName) => {
     },
     bootstrap: ({type, code}) => {
       app.entrypoints.push({type, code});
+    },
+    resolve: (pkg, name) => {
+      const exports = Object.fromEntries(Object.entries(pkg.exports)
+        .filter(([, _export]) => _export.import !== undefined)
+        .map(([key, value]) => [
+          key.replace(".", name),
+          value.import.replace(".", `./${name}`),
+        ]));
+      app.identifiers = {...exports, ...app.identifiers};
     },
     modules: [...config.modules],
   };

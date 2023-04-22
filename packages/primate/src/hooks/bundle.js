@@ -12,7 +12,10 @@ const pre = async app => {
 
   if (await paths.static.exists) {
     // copy static files to public
-    await File.copy(paths.static, paths.public);
+    const filter = file => app.config.http.static.pure
+      ? true
+      : !file.endsWith(".js") && !file.endsWith(".css");
+    await File.copy(paths.static, paths.public, filter);
   }
 };
 

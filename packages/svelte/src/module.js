@@ -58,30 +58,23 @@ export default ({directory, entryPoints} = {}) => ({
     return next(app);
   },
   async publish(app, next) {
+    const _path = ["node_modules", "svelte", "package.json"];
+    const j = await Path.resolve().join(..._path).json();
+    app.resolve(j, "svelte");
+
     const path = directory ?? app.paths.components;
     const options = {
       generate: "dom",
       hydratable: true,
-      sveltePath: "./svelte",
     };
     const components = await path.list(filename => filename.endsWith(svelte));
-    {
-      const scriptPath = ["node_modules", "svelte", "internal", "index.mjs"];
-      // import.meta.resolve is more reliable, use it if available
-      const _path = import.meta.resolve === undefined
-        ? await Path.resolve().join(...scriptPath)
-        : new Path(await import.meta.resolve("svelte/internal"));
-      // publish svelte itself
-      const code = await _path.file.read();
-      await app.publish({src: "svelte/internal.js", code, type});
-    }
+
     await Promise.all(components.map(async component => {
       const file = await component.file.read();
       const client = compiler.compile(file, options);
       const css = client.css.code;
-      const compiled = client.js.code
-        .replaceAll(svelte, js)
-        .replace("./svelte/internal", "./svelte/internal.js");
+      const compiled = client.js.code.replaceAll(svelte, js);
+
       await app.publish({src: `${component.name}.js`, code: compiled, type});
       if (css !== null) {
         const name = `${component.name}.css`;
@@ -89,6 +82,7 @@ export default ({directory, entryPoints} = {}) => ({
         app.bootstrap({type: "style", code: `import "./${name}";`});
       }
     }));
+
     if (entryPoints !== undefined) {
       entryPoints.forEach(entry => {
         const name = entry.slice(0, -endings.svelte.length);
