@@ -63,8 +63,8 @@ export default async app => {
   });
 
   const publishedResource = request => {
-    const published = app.resources.find(({src}) =>
-      src === request.url.pathname);
+    const published = app.resources.find(({src, inline}) =>
+      !inline && src === request.url.pathname);
     if (published !== undefined) {
       return new Response(published.code, {
         status: statuses.OK,
