@@ -11,7 +11,6 @@
     "url": "https://github.com/primatejs/primate"
   },
   "scripts": {
-    "docs": "scripts/docs.sh",
     "test": "npx debris",
     "lint": "npx eslint ."
   },
