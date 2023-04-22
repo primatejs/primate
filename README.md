@@ -1,22 +1,8 @@
 # Primate 
 
-Expressive, minimal and extensible web framework
+Expressive, minimal and extensible web framework.
 
-## Getting started
-
-Run `npx -y primate@latest create` to create a project structure.
-
-Create a route in `routes/index.js`
-
-```js
-export default {
-  get() {
-    return "Hello, world!";
-  },
-};
-```
-
-Run `npm i && npm start` and visit http://localhost:6161 in your browser.
+See the [Getting started][getting-started] guide for documentation.
 
 ## Packages
 
@@ -29,6 +15,7 @@ Run `npm i && npm start` and visit http://localhost:6161 in your browser.
 |[@primate/htmx](packages/htmx)               | Serving HTMX files            |
 |[@primate/esbuild](packages/esbuild)         | Bundling JS/CSS               |
 |[@primate/session](packages/session)         | User sessions                 |
+|[@primate/website](packages/website)         | Primate website (private)     |
 
 ## Resources
 
@@ -38,3 +25,5 @@ Run `npm i && npm start` and visit http://localhost:6161 in your browser.
 ## License
 
 MIT
+
+[getting-started]: https://primatejs.com/guide/getting-started

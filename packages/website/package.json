@@ -1,0 +1,13 @@
+{
+  "name": "@primate/website",
+  "private": true,
+  "dependencies": {
+    "primate": "^0.16.2",
+    "priss": "^0.8.0"
+  },
+  "scripts": {
+    "local": "scripts/local.sh",
+    "start": "npm i && npx primate"
+  },
+  "type": "module"
+}
