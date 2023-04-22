@@ -1,17 +1,17 @@
 @font-face {
-  font-family: pt-sans, sans-serif;
+  font-family: pt-sans;
   font-weight: 400;
   src: url("pt-sans-400.woff2") format("woff2");
 }
 
 @font-face {
-  font-family: pt-sans, sans-serif;
+  font-family: pt-sans;
   font-weight: 700;
   src: url("pt-sans-700.woff2") format("woff2");
 }
 
 @font-face {
-  font-family: droid-sans-mono, sans-serif;
+  font-family: droid-sans-mono;
   font-weight: 400;
   src: url("droid-sans-mono.woff2") format("woff2");
 }
