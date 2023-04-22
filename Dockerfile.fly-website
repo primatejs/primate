@@ -1,0 +1,22 @@
+FROM node:20-alpine as builder
+
+ENV BRANCH_NAME=master
+
+WORKDIR /app
+
+RUN apk add --no-cache --update \
+  curl;
+
+RUN curl https://codeload.github.com/primatejs/primate/tar.gz/${BRANCH_NAME} | tar -xz; \
+  mv primate-${BRANCH_NAME} primate;
+   
+RUN npm i --prefix=primate/packages/website
+
+FROM node:20-alpine
+
+WORKDIR /app
+
+COPY --from=builder /app/primate/packages/website .
+COPY --from=builder /app/primate/docs ./content
+
+CMD ["npx", "primate", "build"]
