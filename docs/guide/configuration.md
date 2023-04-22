@@ -30,6 +30,7 @@ export default {
     },
     static: {
       root: "/",
+      pure: false,
     },
   },
   paths: {
@@ -87,6 +88,7 @@ export default {
     },
     static: {
       root: "/",
+      pure: false,
     },
   },
   paths: {
@@ -165,6 +167,15 @@ Default `"/"`
 The path to serve static resources (those located in the `static` directory)
 from. Static resources take precedence over routes. This option allows you to
 have all static resources served from a namespaced path, like `/public`.
+
+### http.static.pure
+
+Default `false`
+
+Whether all files in `static` should be copied to `public`. By default, certain
+files (JavaScript, CSS) won't be copied over and instead be loaded into memory
+to be served from there. If you're running a pure static server, it might make
+sense to set this to `true`.
 
 ### http.ssl.{key,cert}
 
