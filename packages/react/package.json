@@ -1,8 +1,8 @@
 {
   "name": "@primate/react",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Primate React module",
-  "homepage": "https://primatejs.com/modules/esbuild",
+  "homepage": "https://primatejs.com/modules/react",
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
   "files": [
