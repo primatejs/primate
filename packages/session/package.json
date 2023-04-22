@@ -14,10 +14,10 @@
     "directory": "packages/session"
   },
   "dependencies": {
-    "runtime-compat": "^0.15.1"
+    "runtime-compat": "^0.16.3"
   },
   "peerDependencies": {
-    "primate": "0.15"
+    "primate": "0.16"
   },
   "type": "module",
   "exports": "./src/exports.js"
