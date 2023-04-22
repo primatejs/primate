@@ -5,6 +5,9 @@ const master = i => i;
 const blog = () => undefined;
 
 export default {
+  http: {
+    host: "0.0.0.0"
+  },
   modules: [priss({
     title: "Primate",
     description: "Expressive, minimal and extensible web framework",
