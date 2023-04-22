@@ -40,6 +40,7 @@ export default () => ({
         format: "esm",
         outdir: `${build}`,
         logLevel: app.debug ? "warning" : "error",
+        external: ["*.woff2"],
       });
       await app.publish({src: "app.js", code: files[0].text, type: "module"});
       await app.publish({src: "app.css", code: files[1].text, type: "style"});
