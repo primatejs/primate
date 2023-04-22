@@ -15,11 +15,11 @@
     "directory": "packages/esbuild"
   },
   "dependencies": {
-    "esbuild": "^0.17.16",
-    "runtime-compat": "^0.15.1"
+    "esbuild": "^0.17.17",
+    "runtime-compat": "^0.16.3"
   },
   "peerDependencies": {
-    "primate": "0.15"
+    "primate": "0.16"
   },
   "type": "module",
   "exports": "./src/exports.js"
