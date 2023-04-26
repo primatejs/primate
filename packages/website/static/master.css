@@ -264,6 +264,12 @@ article {
   padding-right: calc(var(--sidebar-width) + var(--prs-page-padding-side));
 }
 
+article ul {
+  list-style: circle;
+  margin: 1.6rem;
+  margin-right: 0;
+}
+
 article a {
   color: var(--prs-primary-light);
 }
