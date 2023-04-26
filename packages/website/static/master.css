@@ -230,6 +230,11 @@ button {
   text-decoration: none;
 }
 
+.home img {
+  width: 1.6rem;
+  margin-right: 1rem;
+}
+
 .search {
   flex-grow: 1;
 }
