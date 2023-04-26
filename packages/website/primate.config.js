@@ -6,7 +6,7 @@ const blog = () => undefined;
 
 export default {
   http: {
-    host: "0.0.0.0"
+    host: "0.0.0.0",
   },
   modules: [priss({
     title: "Primate",
@@ -55,11 +55,11 @@ export default {
           "PostgreSQL",
           {heading: "Others"},
           "Sessions",
-          "esbuild"
+          "esbuild",
         ],
       },
       github: "primatejs/primate",
     }),
     uses: [blog()],
-  })]
+  })],
 };
