@@ -7,8 +7,9 @@ This package contains the code for https://primatejs.com. It uses
 
 `npm run local`
 
-## Install
+## Edit content
 
-`npm i @primate/react`
+The website's static content is located at [root docs][docs].
 
 [priss]: https://github.com/primatejs/priss
+[docs]: https://github.com/primatejs/primate/tree/master/docs
