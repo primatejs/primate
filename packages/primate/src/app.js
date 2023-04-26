@@ -78,8 +78,19 @@ export default async (filename = configName) => {
     config.http.ssl.cert = root.join(config.http.ssl.cert);
   }
 
+  const paths = qualify(root, config.paths);
+
+  const ending = ".js";
+  const routes = await Promise.all(
+    (await Path.collect(paths.routes, /^.*.js$/u))
+      .map(async route => [
+        `${route}`.replace(paths.routes, "").slice(1, -ending.length),
+        (await import(route)).default,
+      ]));
+
   const app = {
     config,
+    routes,
     secure: config.http?.ssl !== undefined,
     name, version,
     library: {},
@@ -96,7 +107,7 @@ export default async (filename = configName) => {
     },
     resources: [],
     entrypoints: [],
-    paths: qualify(root, config.paths),
+    paths,
     root,
     log: new Logger(config.logger),
     handlers: {...handlers},

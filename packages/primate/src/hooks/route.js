@@ -1,4 +1,3 @@
-import {Path} from "runtime-compat/fs";
 import {Logger} from "primate";
 import fromNull from "../fromNull.js";
 
@@ -13,57 +12,49 @@ const verbs = [
 ];
 
 const toRoute = file => {
-  const ending = -3;
   const route = file
-    // remove ending
-    .slice(0, ending)
     // transform /index -> ""
     .replace("/index", "")
     // transform index -> ""
     .replace("index", "")
     // prepare for regex
-    .replaceAll(/\{(?<named>.*)\}/gu, (_, name) => `(?<${name}>.*?)`)
+    .replaceAll(/\{(?<named>.*)\}/gu, (_, name) => `(?<${name}>[^/]{1,}?)`)
   ;
   return new RegExp(`^/${route}$`, "u");
 };
 
-export default async app => {
-  const routes = (await Promise.all(
-    (await Path.collect(app.paths.routes, /^.*.js$/u))
-      .map(async route => {
-        const imported = (await import(route)).default;
-        const file = `${route}`.replace(app.paths.routes, "").slice(1);
-        if (imported === undefined) {
-          app.log.warn(`empty route file at ${file}`);
-          return [];
-        }
+export default app => {
+  const routes = app.routes
+    .map(([route, imported]) => {
+      if (imported === undefined) {
+        app.log.warn(`empty route file at ${route}.js`);
+        return [];
+      }
 
-        const path = toRoute(file);
-        return Object.entries(imported)
-          .filter(([verb]) => verbs.includes(verb))
-          .map(([method, handler]) => ({method, handler, path}));
-      }))).flat();
+      const path = toRoute(route);
+      return Object.entries(imported)
+        .filter(([verb]) => verbs.includes(verb))
+        .map(([method, handler]) => ({method, handler, path}));
+    }).flat();
+
   const find = (method, path) => routes.find(route =>
     ieq(route.method, method) && route.path.test(path));
 
-  const router = {
-    async route({request, url, ...rest}) {
-      const {method} = request;
-      const {pathname, searchParams} = url;
-      const verb = find(method, pathname) ?? (() => {
-        throw new Logger.Warn(`no ${method} route to ${pathname}`);
-      })();
+  return ({request, url, ...rest}) => {
+    const {method} = request;
+    const {pathname, searchParams} = url;
+    const verb = find(method, pathname) ?? (() => {
+      throw new Logger.Warn(`no ${method} route to ${pathname}`);
+    })();
 
-      const data = {
-        request,
-        url,
-        path: verb.path?.exec(pathname)?.groups ?? Object.create(null),
-        query: fromNull(Object.fromEntries(searchParams)),
-        ...rest,
-      };
+    const data = {
+      request,
+      url,
+      path: verb.path?.exec(pathname)?.groups ?? Object.create(null),
+      query: fromNull(Object.fromEntries(searchParams)),
+      ...rest,
+    };
 
-      return verb.handler(data);
-    },
+    return verb.handler(data);
   };
-  return router;
 };
