@@ -2,7 +2,7 @@
   "name": "@primate/website",
   "private": true,
   "dependencies": {
-    "primate": "^0.16.2",
+    "primate": "^0.16.3",
     "priss": "^0.8.0"
   },
   "scripts": {
