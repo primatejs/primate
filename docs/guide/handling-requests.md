@@ -186,6 +186,38 @@ In this case, Primate will load the HTML component at `components/hello.html`.
 Similarly to the `html`, Primate will embed the content of the component into
 `index.html`, either your custom one or its default.
 
+### Error
+
+The `error` handler allows you to generate an error (typically with a 4xx or
+5xx status code). The most common error and the default of this handler is
+`404 Not Found` using the content type `text/html`.
+
+```js file=routes/error.js
+import {error} from "primate";
+
+export default {
+  get() {
+    return error();
+  },
+};
+```
+
+A request to `/error` will result in a `404 Not Found` response.
+
+You can customize the body and the status of this handler.
+
+```js file=routes/server-error.js
+import {error} from "primate";
+
+export default {
+  get() {
+    return error("Internal Server Error", {status: 500});
+  },
+};
+```
+
+A request to `/server-error` will result in a `500` response with the HTML body
+`Internal Server Error`.
 
 ### Custom response
 

@@ -17,5 +17,5 @@ export default async (app, operations = {}) => {
   await bundle(app, operations?.bundle);
 
   // handle
-  serve(await handle({router: await route(app), ...app}, app.config.http));
+  serve(await handle({router: await route(app), ...app}), app.config.http);
 };

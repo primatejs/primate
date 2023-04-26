@@ -1,5 +1,5 @@
 import {Response, URL} from "runtime-compat/http";
-import {http404} from "../handlers/http.js";
+import {error as clientError} from "../handlers/exports.js";
 import {statuses, mime, isResponse, respond} from "./handle/exports.js";
 import fromNull from "../fromNull.js";
 
@@ -43,7 +43,7 @@ export default async app => {
       return await respond(await handlers(request))(app, headers);
     } catch (error) {
       app.log.auto(error);
-      return http404()(app, headers);
+      return clientError()(app, headers);
     }
   };
 
