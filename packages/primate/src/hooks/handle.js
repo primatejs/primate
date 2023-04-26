@@ -1,5 +1,4 @@
-import {Path} from "runtime-compat/fs";
-import {serve, Response, URL} from "runtime-compat/http";
+import {Response, URL} from "runtime-compat/http";
 import {http404} from "../handlers/http.js";
 import {statuses, mime, isResponse, respond} from "./handle/exports.js";
 import fromNull from "../fromNull.js";
@@ -14,12 +13,11 @@ const contents = {
 };
 
 export default async app => {
-  const {config} = app;
-  const {http} = config;
+  const {http} = app.config;
 
   const _respond = async request => {
-    const csp = Object.keys(config.http.csp).reduce((policy_string, key) =>
-      `${policy_string}${key} ${config.http.csp[key]};`, "");
+    const csp = Object.keys(http.csp).reduce((policy_string, key) =>
+      `${policy_string}${key} ${http.csp[key]};`, "");
     const scripts = app.resources
       .map(resource => `'${resource.integrity}'`).join(" ");
     const _csp = scripts === "" ? csp : `${csp}script-src 'self' ${scripts};`;
@@ -116,6 +114,9 @@ export default async app => {
   const decoder = new TextDecoder();
 
   const parseBody = async request => {
+    if (request.body === null) {
+      return null;
+    }
     const reader = request.body.getReader();
     const chunks = [];
     let result;
@@ -126,7 +127,7 @@ export default async app => {
       }
     } while (!result.done);
 
-    return chunks.length === 0 ? null : parseContent(request, chunks.join());
+    return parseContent(request, chunks.join());
   };
 
   const parseRequest = async request => {
@@ -148,5 +149,5 @@ export default async app => {
   const handlers = [...filter("handle", app.modules), handle]
     .reduceRight((acc, handler) => input => handler(input, acc));
 
-  serve(async request => handlers(await parseRequest(request)), config.http);
+  return async request => handlers(await parseRequest(request));
 };

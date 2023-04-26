@@ -9,7 +9,7 @@ const verbs = [
   // CRUD
   "post", "get", "put", "delete",
   // extended
-  "delete", "connect", "options", "trace", "patch",
+  "connect", "options", "trace", "patch",
 ];
 
 const toRoute = file => {

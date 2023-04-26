@@ -1,3 +1,4 @@
+import {serve} from "runtime-compat/http";
 import {register, compile, publish, bundle, route, handle}
   from "./hooks/exports.js";
 
@@ -16,5 +17,5 @@ export default async (app, operations = {}) => {
   await bundle(app, operations?.bundle);
 
   // handle
-  await handle({router: await route(app), ...app});
+  serve(await handle({router: await route(app), ...app}, app.config.http));
 };
