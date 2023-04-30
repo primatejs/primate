@@ -45,9 +45,9 @@ export default {
 };
 ```
 
-In you want to make adjustments to the defaults, create a `primate.config.js`
-file in your project root. Primate will read it and merge any overrides with
-the default configuration.
+In case you want to make adjustments to the defaults, create a
+`primate.config.js` file in your project root. Primate will read it and merge
+any overrides with the default configuration.
 
 To illustrate this, if you wanted to change the default logging level to
 `Info` instead of `Warn` and the HTTP port to 6262 you would create a
