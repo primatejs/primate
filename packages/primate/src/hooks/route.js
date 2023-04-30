@@ -1,5 +1,4 @@
-import {Logger} from "primate";
-import fromNull from "../fromNull.js";
+import {default as Logger, Exit} from "../Logger.js";
 
 // insensitive-case equal
 const ieq = (left, right) => left.toLowerCase() === right.toLowerCase();
@@ -18,12 +17,31 @@ const toRoute = file => {
     // transform index -> ""
     .replace("index", "")
     // prepare for regex
-    .replaceAll(/\{(?<named>.*)\}/gu, (_, name) => `(?<${name}>[^/]{1,}?)`)
+    .replaceAll(/\{(?<named>.*?)\}/gu, (_, named) => {
+      try {
+        const {name, type} = /^(?<name>\w*)(?<type>:\w+)?$/u.exec(named).groups;
+        const param = type === undefined ? name : `${name}$${type.slice(1)}`;
+        return `(?<${param}>[^/]{1,}?)`;
+      } catch (error) {
+        throw new Exit(`illegal parameter clause: "${named}"`);
+      }
+    })
   ;
-  return new RegExp(`^/${route}$`, "u");
+  try {
+    return new RegExp(`^/${route}$`, "u");
+  } catch (error) {
+    throw new Exit(error.message);
+  }
 };
 
+const reentry = (object, mapper) =>
+  Object.fromEntries(mapper(Object.entries(object ?? {})));
+
 export default app => {
+  const {types = {}} = app;
+  Object.entries(types).every(([name]) => /^(?:\w*)$/u.test(name) || (() => {
+    throw new Exit(`illegal type: "${name}"`);
+  })());
   const routes = app.routes
     .map(([route, imported]) => {
       if (imported === undefined) {
@@ -37,18 +55,31 @@ export default app => {
         .map(([method, handler]) => ({method, handler, path}));
     }).flat();
 
+  const isType = groups => Object
+    .entries(groups ?? {})
+    .map(([name, value]) =>
+      [types[name] === undefined ? name : `${name}$${name}`, value])
+    .filter(([name]) => name.includes("$"))
+    .map(([name, value]) => [name.split("$")[1], value])
+    .every(([name, value]) => types?.[name](value) === true)
+  ;
+  const isPath = ({route, path}) => {
+    const result = route.path.exec(path);
+    return result === null ? false : isType(result.groups);
+  };
+  const isMethod = ({route, method, path}) => ieq(route.method, method)
+    && isPath({route, path});
   const find = (method, path) => routes.find(route =>
-    ieq(route.method, method) && route.path.test(path));
+    isMethod({route, method, path}));
 
   return request => {
     const {original: {method}, url: {pathname}} = request;
     const verb = find(method, pathname) ?? (() => {
       throw new Logger.Warn(`no ${method} route to ${pathname}`);
     })();
+    const path = reentry(verb.path?.exec(pathname).groups,
+      object => object.map(([key, value]) => [key.split("$")[0], value]));
 
-    return verb.handler({
-      ...request,
-      path: verb.path?.exec(pathname)?.groups ?? Object.create(null),
-    });
+    return verb.handler({...request, path});
   };
 };

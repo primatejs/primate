@@ -14,6 +14,7 @@ const error = 0;
 const warn = 1;
 const info = 2;
 
+const Exit = class Exit extends Error {};
 // Error natively provided
 const Warn = class Warn extends Error {};
 const Info = class Info extends Error {};
@@ -95,4 +96,4 @@ const Logger = class Logger {
 
 export default Logger;
 
-export {colors, levels, print};
+export {colors, levels, print, Exit};

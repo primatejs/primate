@@ -117,7 +117,7 @@ Default `Logger.Warn`
 
 The logging level to be used. Primate has three logging levels, `Error`, `Warn`
 and `Info`. For what they mean and how they are used, refer to the
-[security section][logging].
+[security section][security-logging].
 
 ### logger.trace
 
@@ -158,7 +158,7 @@ Default
 
 The Content Security Policy (CSP) to be used. Primate's defaults are strictly
 secure, you need to opt in for decreased security. For more information,
-consult the [security section][csp].
+consult the [security section][security-csp].
 
 ### http.static.root
 
@@ -215,9 +215,16 @@ relative path, will be relative to project root.
 
 Default `"components"`
 
-The directory where components are localted. The `view` handler will try to
+The directory where components are located. The `view` handler will try to
 load any reference component filename from this directory. If specified as a
 relative path, will be relative to project root.
+
+### paths.types
+
+Default `"types"`
+
+The directory where types are located. These types can be used to limits the
+range of possible values that a [path parameter][routing-parameters] can hold.
 
 ### modules
 
@@ -270,10 +277,11 @@ with the [http.static.root](#http-static-root) setting.
 This placeholder is replaced by whatever HTML code the `view` or `html`
 handler generates.
 
+[security-logging]: /guide/security#logging
+[security-csp]: /guide/security#csp
+[hooks-load]: /guide/hooks#load
+[routing-parameters]: /guide/routing#parameters
 [default-config]:
 https://github.com/primatejs/primate/blob/master/packages/primate/src/defaults/primate.config.js
-[logging]: /guide/security#logging
-[csp]: /guide/security#csp
-[hooks-load]: /guide/hooks#load
 [runtime]:
 https://github.com/flogjs/std/blob/master/runtime-compat/http/src/serve.js

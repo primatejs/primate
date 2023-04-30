@@ -1,6 +1,7 @@
 import {serve} from "runtime-compat/http";
 import {register, compile, publish, bundle, route, handle}
   from "./hooks/exports.js";
+import {Exit} from "./Logger.js";
 
 export default async (app, operations = {}) => {
   // register handlers
@@ -17,5 +18,11 @@ export default async (app, operations = {}) => {
   await bundle(app, operations?.bundle);
 
   // handle
-  serve(await handle({route: route(app), ...app}), app.config.http);
+  try {
+    serve(await handle({route: route(app), ...app}), app.config.http);
+  } catch (error) {
+    if (error instanceof Exit) {
+      throw new Error(`Early exit: ${error.message}`);
+    }
+  }
 };

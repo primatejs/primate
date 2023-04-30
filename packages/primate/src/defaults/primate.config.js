@@ -25,6 +25,7 @@ export default {
     public: "public",
     routes: "routes",
     components: "components",
+    types: "types",
   },
   modules: [],
   dist: "app",

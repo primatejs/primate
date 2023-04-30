@@ -2,10 +2,32 @@ import route from "./route.js";
 
 const app = {
   routes: [
-    ["index", {get: request => request}],
-    ["user", {get: request => request}],
-    ["users/{userId}a", {get: request => request}],
-  ],
+    "index",
+    "user",
+    "users/{userId}a",
+    "comments/{commentId:comment}",
+    "users/{userId}/comments/{commentId}",
+    "users/{userId:user}/comments/{commentId}/a",
+    "users/{userId:user}/comments/{commentId:comment}/b",
+    "users/{_userId}/comments/{commentId}/d",
+    "users/{_userId}/comments/{_commentId}/e",
+    "comments2/{_commentId}",
+    "users2/{_userId}/{commentId}",
+    "users3/{_userId}/{_commentId:_commentId}",
+    "users4/{_userId}/{_commentId}",
+    "users5/{truthy}",
+    "{uuid}/{Uuid}/{UUID}",
+  ].map(pathname => [pathname, {get: request => request}]),
+  types: {
+    user: id => /^\d*$/u.test(id),
+    comment: id => /^\d*$/u.test(id),
+    _userId: id => /^\d*$/u.test(id),
+    _commentId: id => /^\d*$/u.test(id),
+    truthy: () => 1,
+    uuid: _ => _ === "uuid",
+    Uuid: _ => _ === "Uuid",
+    UUID: _ => _ === "UUID",
+  },
 };
 
 export default test => {
@@ -21,13 +43,26 @@ export default test => {
   };
 
   test.reassert(assert => ({
-    match: (url, pathname) => {
-      assert(r(url).url.pathname).equals(pathname ?? url);
+    match: (url, result) => {
+      assert(r(url).url.pathname).equals(result ?? url);
     },
-    fail: (path, result) =>
-      assert(() => r(path)).throws(`no GET route to ${result ?? path}`),
+    fail: (url, result) =>
+      assert(() => r(url)).throws(`no GET route to ${result ?? url}`),
+    path: (url, result) => assert(r(url).path).equals(result),
     assert,
   }));
+
+  /* early exits {{{ */
+  test.case("must not contain same parameter twice", ({assert}) => {
+    assert(() => route({routes: [["{userId}/{userId}"]]})).throws();
+  });
+  test.case("must not contain illegal characters in params", ({assert}) => {
+    assert(() => route({routes: [["{user$Id}"]]})).throws();
+  });
+  test.case("must not contain illegal characters in types", ({assert}) => {
+    assert(() => route({routes: [], types: {us$er: () => null}})).throws();
+  });
+  /* }}} */
 
   test.case("index route", ({match}) => {
     match("/");
@@ -45,10 +80,58 @@ export default test => {
     fail("/users//a");
     fail("/users/?a", "/users/");
   });
-  test.case("path without parameter", async ({assert}) => {
-    assert(r("/").path).equals({});
+  test.case("path without params", ({path}) => {
+    path("/", {});
   });
-  test.case("path with parameter", async ({assert}) => {
-    assert(r("/users/1a").path.userId).equals("1");
+  test.case("path with single param", ({path}) => {
+    path("/users/1a", {userId: "1"});
+  });
+  test.case("path with params", ({path}) => {
+    path("/users/1/comments/2", {userId: "1", commentId: "2"});
+  });
+  test.case("path with single typed param", ({path, fail}) => {
+    path("/comments/1", {commentId: "1"});
+    fail("/comments/ ", "/comments");
+    fail("/comments/1d");
+  });
+  test.case("path with mixed untyped and typed params", ({path, fail}) => {
+    path("/users/1/comments/2/a", {userId: "1", commentId: "2"});
+    fail("/users/d/comments/2/a");
+  });
+  test.case("path with params", ({path, fail}) => {
+    path("/users/1/comments/2/b", {userId: "1", commentId: "2"});
+    fail("/users/d/comments/2/b");
+    fail("/users/1/comments/d/b");
+    fail("/users/d/comments/d/b");
+  });
+  test.case("path with single implicit typed param", ({path, fail}) => {
+    path("/comments2/1", {_commentId: "1"});
+    fail("/comments2/d");
+  });
+  test.case("path with mixed implicit and untyped params", ({path, fail}) => {
+    path("/users2/1/2", {_userId: "1", commentId: "2"});
+    fail("/users2/d/2");
+    fail("/users2/d");
+  });
+  test.case("path with mixed implicit and explicit params", ({path, fail}) => {
+    path("/users3/1/2", {_userId: "1", _commentId: "2"});
+    fail("/users3/d/2");
+    fail("/users3/1/d");
+    fail("/users3");
+  });
+  test.case("path with implicit params", ({path, fail}) => {
+    path("/users4/1/2", {_userId: "1", _commentId: "2"});
+    fail("/users4/d/2");
+    fail("/users4/1/d");
+    fail("/users4");
+  });
+  test.case("fail not strictly true implicit params", ({fail}) => {
+    fail("/users5/any");
+  });
+  test.case("different case params", ({path, fail}) => {
+    path("/uuid/Uuid/UUID", {uuid: "uuid", Uuid: "Uuid", UUID: "UUID"});
+    fail("/uuid/uuid/uuid");
+    fail("/Uuid/UUID/uuid");
+    fail("/UUID/uuid/Uuid");
   });
 };
