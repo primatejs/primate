@@ -40,21 +40,15 @@ export default app => {
   const find = (method, path) => routes.find(route =>
     ieq(route.method, method) && route.path.test(path));
 
-  return ({request, url, ...rest}) => {
-    const {method} = request;
-    const {pathname, searchParams} = url;
+  return request => {
+    const {original: {method}, url: {pathname}} = request;
     const verb = find(method, pathname) ?? (() => {
       throw new Logger.Warn(`no ${method} route to ${pathname}`);
     })();
 
-    const data = {
-      request,
-      url,
+    return verb.handler({
+      ...request,
       path: verb.path?.exec(pathname)?.groups ?? Object.create(null),
-      query: fromNull(Object.fromEntries(searchParams)),
-      ...rest,
-    };
-
-    return verb.handler(data);
+    });
   };
 };

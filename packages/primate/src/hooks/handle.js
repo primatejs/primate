@@ -131,16 +131,18 @@ export default async app => {
 
   const parseRequest = async request => {
     const cookies = request.headers.get("cookie");
-    const {url} = request;
+    const _url = request.url;
+    const url = new URL(_url.endsWith("/") ? _url.slice(0, -1) : _url);
 
     return {
-      request,
-      url: new URL(url.endsWith("/") ? url.slice(0, -1) : url),
+      original: request,
+      url,
       body: await parseBody(request),
       cookies: fromNull(cookies === null
         ? {}
         : Object.fromEntries(cookies.split(";").map(c => c.trim().split("=")))),
       headers: fromNull(Object.fromEntries(request.headers)),
+      query: fromNull(Object.fromEntries(url.searchParams)),
     };
   };
 

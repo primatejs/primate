@@ -13,6 +13,11 @@ const app = {
       return request;
     },
   }],
+  routes: [
+    ["index", {get: () => "/"}],
+    ["user", {get: () => "/user"}],
+    ["users/{userId}a", {get: request => request}],
+  ],
 };
 
 const r = await (async () => {
@@ -44,5 +49,40 @@ export default test => {
         "Content-Type": "application/x-www-form-urlencoded",
       },
     })).body).equals({foo: "bar ", bar: "baz"});
+  });
+  test.case("no query => {}", async assert => {
+    assert((await r.get("/")).query).equals({});
+  });
+  test.case("query", async assert => {
+    assert((await r.get("/?key=value")).query).equals({key: "value"});
+  });
+  test.case("no cookies => {}", async assert => {
+    assert((await r.get("/")).cookies).equals({});
+  });
+  test.case("cookies", async assert => {
+    assert((await r.get("/?key=value", {
+      headers: {
+        Cookie: "key=value;key2=value2",
+      },
+    })).cookies).equals({key: "value", key2: "value2"});
+  });
+  test.case("no headers => {}", async assert => {
+    assert((await r.get("/")).headers).equals({});
+  });
+  test.case("headers", async assert => {
+    assert((await r.get("/?key=value", {
+      headers: {
+        "X-User": "Donald",
+      },
+    })).headers).equals({"x-user": "Donald"});
+  });
+  test.case("cookies double as headers", async assert => {
+    const response = await r.get("/?key=value", {
+      headers: {
+        Cookie: "key=value",
+      },
+    });
+    assert(response.headers).equals({cookie: "key=value"});
+    assert(response.cookies).equals({key: "value"});
   });
 };
