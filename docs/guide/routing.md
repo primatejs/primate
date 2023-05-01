@@ -266,7 +266,7 @@ import {UserStore} from "./database.js";
 export default id => UserStore.count({id}) > 0;
 ```
 
-Accordingly, a parameter `me` could check if a user is permitted to edit his
+In the same vein, a type `me` could check if a user is permitted to edit his
 own page.
 
 Types can be used implicitly. If Primate comes across a parameter which is
@@ -274,4 +274,4 @@ identically named like a type, it will treat this parameter as if it were typed
 accordingly. That is, if you have defined a type predicate `userId` (in
 `types/userId.js`), you don't need to explicit write `{userId:userId}` in every
 route that uses `userId` as a parameter. `{userId}` will implicitly use the
-parameter of the same name.
+type of the same name.

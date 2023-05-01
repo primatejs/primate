@@ -147,8 +147,8 @@ cross-runtime compatibility layer
 
 ### Extensible
 
-* Different hooks available (`register`, `compile`, `publish`, `bundle`,
-`handle`, `route`)
+* Different hooks available (`load`, `register`, `compile`, `publish`,
+`bundle`, `handle`, `route`)
 * Officially supported modules that are updated alongside Primate itself
 
 ## Resources
