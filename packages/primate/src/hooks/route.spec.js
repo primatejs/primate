@@ -52,18 +52,23 @@ export default test => {
     assert,
   }));
 
-  /* early exits {{{ */
-  test.case("must not have the same route twice", ({assert}) => {
-    assert(() => route({routes: [["post"], ["post"]]})).throws();
+  const get = () => null;
+  /* abort {{{ */
+  test.case("must not contain the same route twice", ({assert}) => {
+    const post = ["post", {get}];
+    assert(() => route({routes: [post, post]})).throws("same route twice");
   });
-  test.case("must not contain same parameter twice", ({assert}) => {
-    assert(() => route({routes: [["{userId}/{userId}"]]})).throws();
+  test.case("must not contain the same param twice", ({assert}) => {
+    assert(() => route({routes: [["{userId}/{userId}", {get}]]}))
+      .throws("same parameter twice");
   });
-  test.case("must not contain illegal characters in params", ({assert}) => {
-    assert(() => route({routes: [["{user$Id}"]]})).throws();
+  test.case("must not contain invalid characters in params", ({assert}) => {
+    assert(() => route({routes: [["{user$Id}", {get}]]}))
+      .throws("invalid parameter \"user$Id\"");
   });
-  test.case("must not contain illegal characters in types", ({assert}) => {
-    assert(() => route({routes: [], types: {us$er: () => null}})).throws();
+  test.case("must not contain invalid characters in types", ({assert}) => {
+    assert(() => route({routes: [], types: {us$er: () => null}}))
+      .throws("invalid type \"us$er\"");
   });
   /* }}} */
 

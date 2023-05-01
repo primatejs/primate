@@ -36,7 +36,7 @@ export default async app => {
 
     try {
       const modules = filter("route", app.modules);
-      // handle is the last module to be executed
+      // app.route is the last module to be executed
       const handlers = [...modules, app.route].reduceRight((acc, handler) =>
         input => handler(input, acc));
       return await respond(await handlers(request))(app, headers);

@@ -1,4 +1,4 @@
-import {default as Logger, Exit} from "../Logger.js";
+import {default as Logger, abort} from "../Logger.js";
 
 // insensitive-case equal
 const ieq = (left, right) => left.toLowerCase() === right.toLowerCase();
@@ -23,14 +23,14 @@ const toRoute = file => {
         const param = type === undefined ? name : `${name}$${type.slice(1)}`;
         return `(?<${param}>[^/]{1,}?)`;
       } catch (error) {
-        throw new Exit(`illegal parameter clause: "${named}"`);
+        abort(`invalid parameter "${named}"`);
       }
     })
   ;
   try {
     return new RegExp(`^/${route}$`, "u");
   } catch (error) {
-    throw new Exit(error.message);
+    abort("same parameter twice");
   }
 };
 
@@ -39,9 +39,8 @@ const reentry = (object, mapper) =>
 
 export default app => {
   const {types = {}} = app;
-  Object.entries(types).every(([name]) => /^(?:\w*)$/u.test(name) || (() => {
-    throw new Exit(`illegal type: "${name}"`);
-  })());
+  Object.entries(types).every(([name]) => /^(?:\w*)$/u.test(name) ||
+    abort(`invalid type "${name}"`));
   const routes = app.routes
     .map(([route, imported]) => {
       if (imported === undefined) {
@@ -56,7 +55,7 @@ export default app => {
     }).flat();
   const paths = routes.map(({method, path}) => `${method}${path}`);
   if (new Set(paths).size !== paths.length) {
-    throw new Exit("doubled path");
+    abort("same route twice");
   }
 
   const isType = groups => Object

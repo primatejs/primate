@@ -1,10 +1,7 @@
 import crypto from "runtime-compat/crypto";
-import {is} from "runtime-compat/dyndef";
 import {File, Path} from "runtime-compat/fs";
-import extend from "./extend.js";
-import defaults from "./defaults/primate.config.js";
-import {colors, print, default as Logger} from "./Logger.js";
 import * as handlers from "./handlers/exports.js";
+import {abort} from "./Logger.js";
 
 const qualify = (root, paths) =>
   Object.keys(paths).reduce((sofar, key) => {
@@ -14,36 +11,6 @@ const qualify = (root, paths) =>
       : qualify(`${root}/${key}`, value);
     return sofar;
   }, {});
-
-const configName = "primate.config.js";
-
-const getConfig = async (root, filename) => {
-  const config = root.join(filename);
-  if (await config.exists) {
-    try {
-      const imported = await import(config);
-      if (imported.default === undefined) {
-        print(`${colors.yellow("??")} ${configName} has no default export\n`);
-      }
-      return extend(defaults, imported.default);
-    } catch (error) {
-      print(`${colors.red("!!")} couldn't load config file\n`);
-      throw error;
-    }
-  } else {
-    return defaults;
-  }
-};
-
-const getRoot = async () => {
-  try {
-    // use module root if possible
-    return await Path.root();
-  } catch (error) {
-    // fall back to current directory
-    return Path.resolve();
-  }
-};
 
 const src = new Path(import.meta.url).up(1);
 
@@ -65,11 +32,7 @@ const hash = async (string, algorithm = "sha-384") => {
   return `${algo}-${btoa(String.fromCharCode(...new Uint8Array(bytes)))}`;
 };
 
-export default async (filename = configName) => {
-  is(filename).string();
-  const root = await getRoot();
-  const config = await getConfig(root, filename);
-
+export default async (config, root, log) => {
   const {name, version} = await src.up(1).join("package.json").json();
 
   // if ssl activated, resolve key and cert early
@@ -81,12 +44,25 @@ export default async (filename = configName) => {
   const paths = qualify(root, config.paths);
 
   const ending = ".js";
-  const routes = await Promise.all(
+  const routes = paths.routes === undefined ? [] : await Promise.all(
     (await Path.collect(paths.routes, /^.*.js$/u))
       .map(async route => [
         `${route}`.replace(paths.routes, "").slice(1, -ending.length),
         (await import(route)).default,
       ]));
+
+  const modules = config.modules === undefined ? [] : config.modules;
+
+  modules.every(module => module.name !== undefined ||
+    abort("all modules must have names"));
+
+  if (new Set(modules.map(module => module.name)).size !== modules.length) {
+    abort("same module twice");
+  }
+
+  modules.every(module => Object.entries(module).length > 1) || (() => {
+    log.warn("some modules haven't subscribed to any hooks");
+  })();
 
   const app = {
     config,
@@ -109,7 +85,7 @@ export default async (filename = configName) => {
     entrypoints: [],
     paths,
     root,
-    log: new Logger(config.logger),
+    log,
     handlers: {...handlers},
     render: async ({body = "", head = ""} = {}) => {
       const html = await index(app);
@@ -151,8 +127,9 @@ export default async (filename = configName) => {
         ]));
       app.identifiers = {...exports, ...app.identifiers};
     },
-    modules: [...config.modules],
+    modules,
   };
+  const {print, colors} = log.class;
   print(colors.blue(colors.bold(name)), colors.blue(version), "");
   const type = app.secure ? "https" : "http";
   const address = `${type}://${config.http.host}:${config.http.port}`;

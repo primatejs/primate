@@ -14,7 +14,7 @@ const error = 0;
 const warn = 1;
 const info = 2;
 
-const Exit = class Exit extends Error {};
+const Abort = class Abort extends Error {};
 // Error natively provided
 const Warn = class Warn extends Error {};
 const Info = class Info extends Error {};
@@ -24,6 +24,10 @@ const levels = new Map([
   [Warn, warn],
   [Info, info],
 ]);
+
+const abort = message => {
+  throw new Abort(message);
+};
 
 const print = (...messages) => process.stdout.write(messages.join(" "));
 
@@ -37,6 +41,14 @@ const Logger = class Logger {
     this.#trace = trace;
   }
 
+  static get colors() {
+    return colors;
+  }
+
+  static print(...args) {
+    print(...args);
+  }
+
   static get Error() {
     return Error;
   }
@@ -47,6 +59,10 @@ const Logger = class Logger {
 
   static get Info() {
     return Info;
+  }
+
+  get class() {
+    return this.constructor;
   }
 
   #print(pre, error) {
@@ -96,4 +112,4 @@ const Logger = class Logger {
 
 export default Logger;
 
-export {colors, levels, print, Exit};
+export {colors, levels, print, abort, Abort};
