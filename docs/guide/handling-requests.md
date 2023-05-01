@@ -183,8 +183,8 @@ In this case, Primate will load the HTML component at `components/hello.html`.
 <p>Hello, world!</p>
 ```
 
-Similarly to the `html`, Primate will embed the content of the component into
-`index.html`, either your custom one or its default.
+Similarly to the `html` handler, this handler will also embed the content of
+the component into `static/index.html`, either your custom one or its default.
 
 ### Error
 
