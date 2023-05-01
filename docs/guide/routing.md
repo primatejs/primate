@@ -251,9 +251,9 @@ Like parameters themselves, types are case sensitive. `types/uuid.js`,
 `types/UUID.js` and `types/Uuid.js` all describe different types.
 
 !!!
-A type predicate function must return exactly `true` (or a Promise that
-evaluates to that) to pass the check. Primate will not coerce the return value,
-treating any return value which is not `true` as false.
+A type predicate function must return exactly `true` to pass the check. Primate
+will not coerce the return value, treating any return value which is not `true`
+as false.
 !!!
 
 Types allow for early validation before a route function is being executed.
