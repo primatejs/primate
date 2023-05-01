@@ -128,7 +128,33 @@ and start looking around. It features an exhausive example app that includes
 various additional frontend frameworks as well as a bundler, a session manager
 and a data store.
 
+## More about goals
+
+Primate strives for technical excellence, with a small core code base and a
+variety of officially supported modules that extend it.
+
+### Expressive
+
+* Routes are pure functions that transform a request into a response
+* Route functions receive a prepared request object with easily accessible
+`path`, `query`, `cookies` and `headers` fields
+
+### Minimal
+
+* No dependencies aside from [`runtime-compat`][runtime-compat], a
+cross-runtime compatibility layer
+* Under 1K lines of JavaScript code (Express > 4K, Fastify > 6K)
+
+### Extensible
+
+* Different hooks available (`register`, `compile`, `publish`, `bundle`,
+`handle`, `route`)
+* Officially supported modules that are updated alongside Primate itself
+
 ## Resources
+
+If you have a question that this guide doesn't cover, consider consulting the
+code itself, asking in chat, or raising an issue.
 
 ### Code
 
@@ -136,17 +162,18 @@ and a data store.
 `packages/primate` as well code for the official modules and the
 website.
 
+### Chat
+
+Primate has an IRC channel at `#primate` on irc.libera.chat. You can use the
+[Libera web client][chat] if you don't have an IRC client installed.
+
 ### Issues
 
 Feel free to open an issue on [Primate's issue tracker][issues] if you find a
 bug or have a feature request.
 
-### Chat
-
-For questions or chat there's `#primate` on irc.libera.chat. You can use the
-[Libera web client][chat] if you don't have an IRC client installed.
-
 [repo]: https://github.com/primatejs/primate
 [issues]: https://github.com/primatejs/primate/issues
 [primate-app]: https://github.com/primatejs/app
 [chat]: https://web.libera.chat#primate
+[runtime-compat]: https://github.com/flogjs/std/tree/master/runtime-compat
