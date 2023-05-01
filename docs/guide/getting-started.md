@@ -143,7 +143,7 @@ variety of officially supported modules that extend it.
 
 * No dependencies aside from [`runtime-compat`][runtime-compat], a
 cross-runtime compatibility layer
-* Under 1K lines of JavaScript code (Express > 4K, Fastify > 6K)
+* Under 0.8K lines of JavaScript code (Express > 1.8K, Fastify > 5.3K)
 
 ### Extensible
 
