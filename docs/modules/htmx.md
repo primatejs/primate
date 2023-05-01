@@ -69,7 +69,8 @@ to `true`.
 
 ### directory
 
-Directory where the HTMX components reside. Defaults to
-`config.paths.components`.
+Default `config.paths.components`
+
+Directory where the HTMX components reside.
 
 [repository]: https://github.com/primatejs/primate/tree/master/packages/htmx

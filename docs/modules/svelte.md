@@ -77,10 +77,13 @@ http://localhost:6161/svelte.
 
 ### directory
 
-Directory where the Svelte components reside. Defaults to
-`config.paths.components`.
+Default `config.paths.components`
+
+Directory where the Svelte components reside.
 
 ### entryPoints
+
+Default `[]`
 
 Array of component names that serve as entry points. This information is
 valuable to a bundle for deciding what files are relevant as starting input for

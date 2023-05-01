@@ -64,7 +64,8 @@ http://localhost:6161/react.
 
 ### directory
 
-Directory where the JSX components reside. Defaults to
-`config.paths.components`.
+Default `config.paths.components`
+
+Directory where the JSX components reside.
 
 [repository]: https://github.com/primatejs/primate/tree/master/packages/react

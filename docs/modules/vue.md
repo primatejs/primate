@@ -1,7 +1,7 @@
 # Vue handler
 
-The [Vue handler module][repository] supports SSR and serves Vue (SFC)
-components with the `.vue` extension.
+The [Vue handler module][repository] supports SSR and serves Vue SFC components
+with the `.vue` extension.
 
 ## Install
 
@@ -55,7 +55,8 @@ Your rendered Vue component will be accessible at http://localhost:6161/react.
 
 ### directory
 
-Directory where the Vue components reside. Defaults to
-`config.paths.components`.
+Default `config.paths.components`
+
+Directory where the Vue SFC components reside.
 
 [repository]: https://github.com/primatejs/primate/tree/master/packages/vue

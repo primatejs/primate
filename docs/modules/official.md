@@ -18,7 +18,7 @@ license.
 
 Handler modules extend Primate's component support to popular frontend
 frameworks such as React, Vue, Svelte or HTMX. They register new file types
-that allow you write components for these frameworks and use them with the
+that allow you to write components for these frameworks and use them with the
 `view` handler.
 
 ## Stores
@@ -29,5 +29,5 @@ transactions, allowing you to commit and rollback data changes automatically.
 
 ## Others
 
-Stores that do not fall in the first two categories, including an esbuild
+Modules that do not fall in the first two categories, including an esbuild
 bundler as well as a session module.
