@@ -11,7 +11,7 @@ serves Svelte components with the  `.svelte` extension.
 
 Import and initialize the module in your configuration.
 
-```js file=primate.config.js
+```js caption=primate.config.js
 import svelte from "@primate/svelte";
 
 export default {
@@ -21,7 +21,7 @@ export default {
 
 If you use a bundler, specify an array of entry points.
 
-```js file=primate.config.js
+```js caption=primate.config.js
 import svelte from "@primate/svelte";
 
 export default {
@@ -33,7 +33,7 @@ export default {
 
 Create a Svelte component in `components`.
 
-```html file=components/PostIndex.svelte
+```html caption=components/PostIndex.svelte
 <script>
   export let posts;
 </script>
@@ -55,7 +55,7 @@ Create a Svelte component in `components`.
 
 Create a route and serve the Svelte `PostIndex` component.
 
-```js file=routes/svelte.js
+```js caption=routes/svelte.js
 import {view} from "primate";
 
 const posts = [{

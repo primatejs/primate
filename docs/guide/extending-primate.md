@@ -58,12 +58,12 @@ function with that session. The `next` function could be another module using
 the `handle` hook or, at the end of the line, the route function itself, which
 will have the session available as a property of its request object.
 
-```js file=routes/session.js
+```js caption=routes/session.js
 export default {
   get(request) {
     return request.session.id;
-  }
-}
+  },
+};
 ```
 
 A client requesting `GET /session` would see a plain text response with its
@@ -86,7 +86,7 @@ the same name for a module more than once.
 To use a Primate module, add it into the `modules` array of your app
 configuration.
 
-```js file=primate.config.js
+```js caption=primate.config.js
 import session from "@primate/session";
 
 export default {
@@ -100,7 +100,7 @@ export default {
 If the module accepts configuration options, you can pass them when
 initializing the module.
 
-```js file=primate.config.js
+```js caption=primate.config.js
 import session from "@primate/session";
 
 export default {
@@ -122,7 +122,7 @@ which the hooks will call them.
 All modules are just subscription objects. You can therefore easily create and
 pass modules directly in your configuration file.
 
-```js file=primate.config.js
+```js caption=primate.config.js
 export default {
   modules: [{
     name: "ad-hoc module",

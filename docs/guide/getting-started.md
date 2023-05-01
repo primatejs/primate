@@ -11,11 +11,11 @@ To illustrate this, if you want an app that responds with a `200 OK` saying
 "Hello, world!" at its index route (`/`), create a route file inside your
 project directory.
 
-```js file=routes/index.js
+```js caption=routes/index.js
 export default {
   get() {
     return "Hello, world!";
-  }
+  },
 };
 ```
 
@@ -32,19 +32,19 @@ Building on the last example, imagine you wanted to add a form to your page
 and redirect users who have submitted the form to a success page. This requires
 first changing the previous route to show a form.
 
-```js file=routes/index.js
+```js caption=routes/index.js
 import {view} from "primate";
 
 export default {
   get() {
     return view("form.html");
-  }
+  },
 }
 ```
 
 We also need to create an HTML component for the form.
 
-```html file=components/form.html
+```html caption=components/form.html
 <form>
   <label for="name">Enter name</label>
   <input type="text" id="name" required />
@@ -67,7 +67,7 @@ If you now go to http://localhost:6161, you will see an HTML form.
 Next, we need to handle the form submission. We'll do that by adding a `post`
 function to our route:
 
-```js file=routes/index.js
+```js caption=routes/index.js
 import {view, redirect} from "primate";
 
 export default {
@@ -82,7 +82,7 @@ export default {
     }
 
     return redirect("/");
-  }
+  },
 }
 ```
 
@@ -102,11 +102,11 @@ form.
 All that's left is the success page, which we will handle by creating an
 additional route file.
 
-```js file=routes/success.js
+```js caption=routes/success.js
 export default {
   get() {
     return "Thank you for submitting your data, we will get back to you.";
-  }
+  },
 }
 ```
 

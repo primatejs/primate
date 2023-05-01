@@ -10,7 +10,7 @@ If Primate doesn't find a `primate.config.js` in your project root directory
 (the directory where your `package.json` resides) or this file does not export
 a default object, Primate will fall back to its default configuration file.
 
-```js file=primate.config.js (default)
+```js caption=primate.config.js (default)
 import {Logger} from "primate";
 
 export default {
@@ -53,7 +53,7 @@ To illustrate this, if you wanted to change the default logging level to
 `Info` instead of `Warn` and the HTTP port to `6262` you would create a
 `primate.config.js` with the following changes.
 
-```js file=primate.config.js (custom)
+```js caption=primate.config.js (custom)
 import {Logger} from "primate";
 
 export default {
@@ -69,7 +69,7 @@ export default {
 Primate will merge your custom configuration with its default, resulting in
 effectively the following configuration.
 
-```js file=primate.config.js (merged)
+```js caption=primate.config.js (merged)
 import {Logger} from "primate";
 
 export default {
@@ -253,7 +253,7 @@ Primate will embed the generated HTML from the handler into this file. If an
 `index.html` does exist in the `static` directory, Primate will fall back to
 its default index file.
 
-```html file=static/index.html (default)
+```html caption=static/index.html (default)
 <!doctype html>
 <html>
   <head>

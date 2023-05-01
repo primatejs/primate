@@ -16,7 +16,7 @@ following requests reply with a `200 OK` response.
 
 Strings are served with the content type `text/plain`.
 
-```js file=routes/plain-text.js
+```js caption=routes/plain-text.js
 export default {
   get() {
     return "Donald";
@@ -29,7 +29,7 @@ them the string "Donald" in plain text.
 
 To use this handler explicitly, import and use the `text` function.
 
-```js file=routes/plain-text.js
+```js caption=routes/plain-text.js
 import {text} from "primate";
 
 export default {
@@ -47,7 +47,7 @@ response.
 Objects (including arrays) are served with the content type
 `application/json`.
 
-```js file=routes/json.js
+```js caption=routes/json.js
 export default {
   get() {
     return [
@@ -68,7 +68,7 @@ Like `text`, this handler can also be used explicitly with the `json` import.
 Instances of `ReadableStream` or `Blob` are streamed to the client with the
 content type `application/octet-stream`.
 
-```js file=routes/stream.js
+```js caption=routes/stream.js
 import {File} from "runtime-compat/fs";
 
 export default {
@@ -93,7 +93,7 @@ This handler can be also used explicitly with the `stream` import.
 Instances of `URL` redirect the client to the location they represent using the
 status code `302 Found`.
 
-```js file=routes/redirect.js
+```js caption=routes/redirect.js
 import {URL} from "primate";
 
 export default {
@@ -115,7 +115,7 @@ As `URL` objects can only be used with fully-qualified domains, it is often
 easier to use the explicit `redirect` handler to redirect to paths within the
 same app.
 
-```js file=routes/redirect.js
+```js caption=routes/redirect.js
 import {redirect} from "primate";
 
 export default {
@@ -133,7 +133,7 @@ fine-grained control.
 The `html` handler allows you to serve responses with content type `text/html`
 directly from the route function.
 
-```js file=routes/html.js
+```js caption=routes/html.js
 import {html} from "primate";
 
 export default {
@@ -152,7 +152,7 @@ The `html` handler also supports partial responses, without embedding it into
 `index.html`, by setting the `partial` flag to `true`. Like with every other
 explicit handler, you can also change the status code.
 
-```js file=routes/html.js
+```js caption=routes/html.js
 import {html} from "primate";
 
 export default {
@@ -167,7 +167,7 @@ export default {
 The `view` handler allows you to serve responses with content type `text/html`
 from the `components` directory.
 
-```js file=routes/view.js
+```js caption=routes/view.js
 import {view} from "primate";
 
 export default {
@@ -179,7 +179,7 @@ export default {
 
 In this case, Primate will load the HTML component at `components/hello.html`.
 
-```html file=components/hello.html
+```html caption=components/hello.html
 <p>Hello, world!</p>
 ```
 
@@ -192,7 +192,7 @@ The `error` handler allows you to generate an error (typically with a 4xx or
 5xx status code). The most common error and the default of this handler is
 `404 Not Found` using the content type `text/html`.
 
-```js file=routes/error.js
+```js caption=routes/error.js
 import {error} from "primate";
 
 export default {
@@ -206,7 +206,7 @@ A request to `/error` will result in a `404 Not Found` response.
 
 You can customize the body and the status of this handler.
 
-```js file=routes/server-error.js
+```js caption=routes/server-error.js
 import {error} from "primate";
 
 export default {
@@ -224,7 +224,7 @@ A request to `/server-error` will result in a `500` response with the HTML body
 Lastly, for a custom response status, you can return a `Response` object from a
 route.
 
-```js file=routes/response.js
+```js caption=routes/response.js
 import {Response} from "primate";
 
 export default {

@@ -11,7 +11,7 @@ components with the `.jsx` extension.
 
 Import and initialize the module in your configuration.
 
-```js file=primate.config.js
+```js caption=primate.config.js
 import react from "@primate/react";
 
 export default {
@@ -23,7 +23,7 @@ export default {
 
 Create a JSX component in `components`.
 
-```jsx file=components/PostIndex.jsx
+```jsx caption=components/PostIndex.jsx
 import React from "react";
 
 export default class extends React.Component {
@@ -42,7 +42,7 @@ export default class extends React.Component {
 
 Create a route and serve the React `PostIndex` component.
 
-```js file=routes/react.js
+```js caption=routes/react.js
 import {view} from "primate";
 
 const posts = [{

@@ -31,7 +31,7 @@ Primate generally follows the OpenAPI specification in denoting path parameters
 with braces (`{}`) and making path, query, cookie and header parameters easily
 accessible to a route function.
 
-```js file=routes/comment/{commentId}.js
+```js caption=routes/comment/{commentId}.js
 export default {
     put(request) {
       const {path, query, cookies, headers, body} = request;

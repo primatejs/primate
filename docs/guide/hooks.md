@@ -6,7 +6,7 @@ subscribers accept different types of parameters, depending on the hook.
 
 ## Lifecycle
 
-```sh file=lifecycle of a Primate app
+```sh caption=lifecycle of a Primate app
 ├─ # read configuration and merge with defaults
 │
 ├─ `load`
@@ -61,15 +61,15 @@ The first hook to be called, directly after app start-up and loading the
 configuration file. This hook is for modules to initialize state or load other
 modules.
 
-```js file=primate.config.js
+```js caption=primate.config.js
 export default {
   modules: [{
     name: "load-hook-example-module",
     /* receives the app object, augmented with a `load` function */
     load(app) {
       app.load({
-        name: "dependent-module"  
-      }),
+        name: "dependent-module",
+      });
     },
   }],
 };
@@ -90,7 +90,7 @@ not accept a final `next` parameter.
 This hook allows modules to register a component file extension to be handled
 by `view`.
 
-```js file=primate.config.js
+```js caption=primate.config.js
 /**
 /* @param {string} name the component name, for example `clock.mustache` 
 /* @param {object} props any props passed to the component
@@ -115,7 +115,7 @@ export default {
 By that definition, any `.mustache` file in `components` will be handled by
 the specified `mustacheHandler` handler function.
 
-```js file=routes/clock.js
+```js caption=routes/clock.js
 import {view} from "primate";
 
 export default {
@@ -201,7 +201,7 @@ It is particularly useful for modules which modify the request object in a way
 that exposes further functionality for all subsequent handlers, such as the
 [session module](/modules/session).
 
-```js file=primate.config.js
+```js caption=primate.config.js
 const augment = request => {
   return {...request, /*
     augment request with additional properties such as client ip, by reading
@@ -232,7 +232,7 @@ everything else aside from the route function, but before a route function has
 been matched. It is particularly useful if you want to treat certain routes in
 a special way, but otherwise let Primate do the routing for you.
 
-```js file=primate.config.js
+```js caption=primate.config.js
 const delegate = request => {
   /* pass the request to admin app */
 };

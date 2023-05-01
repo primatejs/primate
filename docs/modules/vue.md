@@ -11,7 +11,7 @@ with the `.vue` extension.
 
 Import and initialize the module in your configuration.
 
-```js file=primate.config.js
+```js caption=primate.config.js
 import vue from "@primate/vue";
 
 export default {
@@ -23,7 +23,7 @@ export default {
 
 Create a SFC component in `components`.
 
-```html file=components/PostIndex.vue
+```html caption=components/PostIndex.vue
 <template>
   <h1>All posts</h1>
   <div v-for="post in posts">
@@ -34,7 +34,7 @@ Create a SFC component in `components`.
 
 Create a route and serve the Vue `PostIndex` component.
 
-```js file=routes/vue.js
+```js caption=routes/vue.js
 import {view} from "primate";
 
 const posts = [{

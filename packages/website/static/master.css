@@ -302,7 +302,7 @@ pre {
   margin-top: 0;
 }
 
-.filename {
+.caption {
   background-color: #d3dce6;
   font-family: droid-sans-mono, sans-serif;
   font-size: var(--prs-text-s);

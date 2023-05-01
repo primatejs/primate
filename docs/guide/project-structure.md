@@ -53,7 +53,7 @@ package.json file will be created for you if it doesn't exist.
 This directory contains all your [app routes][routing] hierarchically. If you
 were creating a blog, this is how a typical layout could look like.
 
-```sh file=routes (web app)
+```sh caption=routes (web app)
 .
 ├─ index.js # view homepage -> /
 └─ post/
@@ -76,7 +76,7 @@ web app that uses the same route for showing and submitting a form. However, if
 you were developing an API, you might opt for using a wider variety of HTTP
 verbs. In that case, your layout might look a little different.
 
-```sh file=routes (API)
+```sh caption=routes (API)
 .
 ├─ post/
 │   ├─ {postId}/

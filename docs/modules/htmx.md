@@ -11,7 +11,7 @@ extension.
 
 Import and initialize the module in your configuration.
 
-```js file=primate.config.js
+```js caption=primate.config.js
 import htmx from "@primate/htmx";
 
 export default {
@@ -23,7 +23,7 @@ export default {
 
 Create an HTMX component in `components`.
 
-```html file=components/post-add.htmx
+```html caption=components/post-add.htmx
 <h1>Add post</h1>
 <form hx-post="/htmx" hx-wrap="outerHTML">
   <p>
@@ -41,7 +41,7 @@ Create an HTMX component in `components`.
 Create a route and serve the HTMX `post-add` component, adding a POST route for
 handling its form.
 
-```js file=routes/htmx.js
+```js caption=routes/htmx.js
 import {view, html} from "primate";
 
 const posts = [
@@ -55,7 +55,7 @@ export default {
       <div><strong>Title</strong> ${body.title}</div>
       <div><strong>Text</strong> ${body.text}</div>`,
     {partial: true});
-  }
+  },
 };
 ```
 

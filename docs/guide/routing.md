@@ -52,7 +52,7 @@ object destructuring.
 The request's body, if relevant. For requests that have no body (such
 as GET requests), it defaults to `null`.
 
-```js file=routes/your-name.js
+```js caption=routes/your-name.js
 export default() {
   post(request) {
     const {body} = request;
@@ -72,7 +72,7 @@ used in the request.
 decodes the form fields into object properties
 * `application/json` will decode the given JSON string using `JSON.parse`
 
-```js file=routes/your-full-name.js
+```js caption=routes/your-full-name.js
 export default() {
   post(request) {
     const {body} = request;
@@ -95,7 +95,7 @@ and the provided name.
 
 The request's path, an object containing named parameters.
 
-```js file=routes/users/{user}.js
+```js caption=routes/users/{user}.js
 import {error} from "primate";
 
 const users = ["Donald", "Ryan"];
@@ -109,8 +109,8 @@ export default() {
     }
 
     return error("Unknown user");
-  }
-}
+  },
+};
 ```
 
 If a user requests POST `/users/Donald` or `/users/Ryan`, Primate will respond
@@ -123,7 +123,7 @@ We will later handle [routes with parameters](#parameters) in depth.
 
 The request's query string, broken down into its constituent parts.
 
-```js file=routes/users.js
+```js caption=routes/users.js
 import {error} from "primate";
 
 const users = ["Donald", "Ryan"];
@@ -137,8 +137,8 @@ export default() {
     }
 
     return error("Unknown user");
-  }
-}
+  },
+};
 ```
 
 If a user requests POST `/users?user=Donald` or `/users?user=Ryan`, Primate
@@ -149,7 +149,7 @@ will respond with `200`, otherwise with `404`.
 The request's `Cookie` header, broken down into individual cookies as a
 key-value object.
 
-```js file=routes/current-user.js
+```js caption=routes/current-user.js
 import {error} from "primate";
 
 const users = ["Donald", "Ryan"];
@@ -163,8 +163,8 @@ export default() {
     }
 
     return error("Unknown user");
-  }
-}
+  },
+};
 ```
 
 If a user requests POST `/current-user` with the `Cookie` header set to
@@ -175,7 +175,7 @@ If a user requests POST `/current-user` with the `Cookie` header set to
 
 The request's headers, compacted into a a key-value object.
 
-```js file=routes/current-x-user.js
+```js caption=routes/current-x-user.js
 import {error} from "primate";
 
 const users = ["Donald", "Ryan"];
@@ -189,8 +189,8 @@ export default() {
     }
 
     return error("Unknown user");
-  }
-}
+  },
+};
 ```
 
 If a user requests POST `/current-x-user` with a `X-User` header set to
@@ -199,7 +199,7 @@ If a user requests POST `/current-x-user` with a `X-User` header set to
 ### original
 
 The `original` property of the request object provides access to the original
-WHATWG Request object, for low-level request data access.
+WHATWG Request object.
 
 ## Parameters
 
@@ -236,10 +236,10 @@ Types need to be defined in the `types` directory as predicate functions
 (returning `true` or `false`) before they can be used. The name of the file
 corresponds to the type name.
 
-```js file=types/uuid.js
+```js caption=types/uuid.js
 const UUID = /^[a-zA-Z\d]{8}-[a-zA-Z\d]{4}-[a-zA-Z\d]{4}-[a-zA-Z\d]{12}$/u;
 
-export default parameter => UUID.test(parameter);
+export default maybeUUID => UUID.test(maybeUUID);
 ```
 
 With the definition in place, to type a parameter, place a colon between its
@@ -260,7 +260,7 @@ Types allow for early validation before a route function is being executed.
 For example, we could create a type called `userId` which makes sure a given
 parameter `userId` belongs to an actual user in the database.
 
-```js file=types/userId.js
+```js caption=types/userId.js
 import {UserStore} from "./database.js";
 
 export default id => UserStore.count({id}) > 0;
