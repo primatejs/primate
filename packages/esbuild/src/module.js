@@ -1,6 +1,7 @@
 import esbuild from "esbuild";
 
 export default () => ({
+  name: "@primate/esbuild",
   async bundle(app, next) {
     const build = app.root.join("build");
     if (await build.exists) {

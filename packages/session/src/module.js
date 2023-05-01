@@ -29,6 +29,7 @@ export default ({
   is(path).string();
   const options = {sameSite, path};
   return {
+    name: "@primate/session",
     load(app = {}) {
       options.secure = app.secure ? ";Secure" : "";
     },

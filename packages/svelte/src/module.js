@@ -40,6 +40,7 @@ const handler = path => (component, props = {}, {status = 200} = {}) =>
 
 const {svelte, js} = endings;
 export default ({directory, entryPoints} = {}) => ({
+  name: "@primate/svelte",
   register(app, next) {
     app.register("svelte", handler(directory ?? app.paths.components));
     return next(app);

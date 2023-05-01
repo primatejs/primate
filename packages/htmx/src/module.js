@@ -29,6 +29,7 @@ const handler = path => (name, {status = 200, partial = false} = {}) =>
   };
 
 export default directory => ({
+  name: "@primate/htmx",
   register(app, next) {
     app.register("htmx", handler(directory ?? app.paths.components));
     return next(app);

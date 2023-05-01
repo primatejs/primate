@@ -20,6 +20,7 @@ const handler = path => (component, props = {}, {status = 200} = {}) =>
   };
 
 export default ({directory} = {}) => ({
+  name: "@primate/react",
   register(app, next) {
     app.register("jsx", handler(directory ?? app.paths.components));
     return next(app);

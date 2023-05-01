@@ -21,6 +21,7 @@ const handler = path => (component, props = {}, {status = 200} = {}) =>
   };
 
 export default ({directory} = {}) => ({
+  name: "@primate/vue",
   register(app, next) {
     app.register("vue", handler(directory ?? app.paths.components));
     return next(app);

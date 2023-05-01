@@ -32,7 +32,6 @@ export default {
           {heading: "Module system"},
           "Extending Primate",
           "Hooks",
-          "Anonymous modules",
           {heading: "Advanced"},
           "Security",
         ],
