@@ -66,6 +66,11 @@ were creating a blog, this is how a typical layout could look like.
         └─ edit.js # edit post -> /post/1/edit
 ```
 
+!!!
+Some of the above comments use `1`, where in fact any value could stand for
+`{postId}`. We'll later come back to path parameters in depth.
+!!!
+
 Here we chose our paths to represent CRUD actions. This is appropriate for a
 web app that uses the same route for showing and submitting a form. However, if
 you were developing an API, you might opt for using a wider variety of HTTP
@@ -81,16 +86,12 @@ verbs. In that case, your layout might look a little different.
 └─ post.js # add post -> /post
 ```
 
-Whether you use `post.js` or `post/index.js` to represent the route
-`/post` is your choice, both are equally valid. Primate will warn you if you
-try to use both.
-
 ## components
 
-This directory contains a collection of view components for your app. These can
-be any type of file supported by Primate's [content handlers][handlers]. In our
-initial example, we placed an HTML page in this directory which we then served
-with the `view` handler.
+This directory contains a collection of [view components][components] for your
+app. These can be any type of file supported by Primate's content handlers. In
+our initial example, we placed an HTML page in this directory which we then
+served with the `view` handler.
 
 If your app is an API or doesn't have any views, you don't need to create this
 directory.
@@ -99,7 +100,7 @@ Primate's official modules includes support for various frontend framework
 handlers such as React, Vue, Svelte or HTMX.
 
 [routing]: /guide/routing
-[handlers]: /guide/handlers
+[components]: /guide/components
 [default-config]:
 https://github.com/primatejs/primate/blob/master/packages/primate/src/defaults/primate.config.js
 [default-index]:

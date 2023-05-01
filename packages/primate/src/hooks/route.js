@@ -54,6 +54,10 @@ export default app => {
         .filter(([verb]) => verbs.includes(verb))
         .map(([method, handler]) => ({method, handler, path}));
     }).flat();
+  const paths = routes.map(({method, path}) => `${method}${path}`);
+  if (new Set(paths).size !== paths.length) {
+    throw new Exit("doubled path");
+  }
 
   const isType = groups => Object
     .entries(groups ?? {})

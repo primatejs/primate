@@ -29,7 +29,7 @@ change [`paths.static`][paths-static] or [`paths.public`][paths-public].
 Primate's [filesystem-based routes][routes] are excellent for creating an API.
 Primate generally follows the OpenAPI specification in denoting path parameters
 with braces (`{}`) and making path, query, cookie and header parameters easily
-accessible to a route.
+accessible to a route function.
 
 ```js file=routes/comment/{commentId}.js
 export default {
@@ -66,7 +66,7 @@ Content-Type: application/json
 {"title":"Comment title","text":"Comment text"}
 ```
 
-Then Primate will display the following plain text page.
+Then Primate will respond in plain text as follows.
 
 ```text
 You've sent a PUT request with the following data:
@@ -86,9 +86,9 @@ Body:
 
 ## Web app
 
-Primate supports serving HTML either directly from a route using the [`html`
-handler][html-handler] or loaded from the `components` directory using the
-[`view` handler][view-handler].
+Primate supports serving HTML either directly from a route function using the
+[`html` handler][html-handler] or loaded from the `components` directory using
+the [`view` handler][view-handler].
 
 In the [Getting started][quick-start] section, we showed how to build a simple
 web page that includes form submission. However, modern apps include many

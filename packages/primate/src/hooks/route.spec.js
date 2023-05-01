@@ -53,6 +53,9 @@ export default test => {
   }));
 
   /* early exits {{{ */
+  test.case("must not have the same route twice", ({assert}) => {
+    assert(() => route({routes: [["post"], ["post"]]})).throws();
+  });
   test.case("must not contain same parameter twice", ({assert}) => {
     assert(() => route({routes: [["{userId}/{userId}"]]})).throws();
   });
