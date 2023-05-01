@@ -70,7 +70,7 @@ export default test => {
   test.case("simple route", ({match}) => {
     match("/user");
   });
-  test.case("parameter", ({match, fail}) => {
+  test.case("param match/fail", ({match, fail}) => {
     match("/users/1a");
     match("/users/aa");
     match("/users/ba?key=value", "/users/ba");
@@ -80,46 +80,44 @@ export default test => {
     fail("/users//a");
     fail("/users/?a", "/users/");
   });
-  test.case("path without params", ({path}) => {
+  test.case("no params", ({path}) => {
     path("/", {});
   });
-  test.case("path with single param", ({path}) => {
+  test.case("single param", ({path}) => {
     path("/users/1a", {userId: "1"});
   });
-  test.case("path with params", ({path}) => {
+  test.case("params", ({path, fail}) => {
     path("/users/1/comments/2", {userId: "1", commentId: "2"});
-  });
-  test.case("path with single typed param", ({path, fail}) => {
-    path("/comments/1", {commentId: "1"});
-    fail("/comments/ ", "/comments");
-    fail("/comments/1d");
-  });
-  test.case("path with mixed untyped and typed params", ({path, fail}) => {
-    path("/users/1/comments/2/a", {userId: "1", commentId: "2"});
-    fail("/users/d/comments/2/a");
-  });
-  test.case("path with params", ({path, fail}) => {
     path("/users/1/comments/2/b", {userId: "1", commentId: "2"});
     fail("/users/d/comments/2/b");
     fail("/users/1/comments/d/b");
     fail("/users/d/comments/d/b");
   });
-  test.case("path with single implicit typed param", ({path, fail}) => {
+  test.case("single typed param", ({path, fail}) => {
+    path("/comments/1", {commentId: "1"});
+    fail("/comments/ ", "/comments");
+    fail("/comments/1d");
+  });
+  test.case("mixed untyped and typed params", ({path, fail}) => {
+    path("/users/1/comments/2/a", {userId: "1", commentId: "2"});
+    fail("/users/d/comments/2/a");
+  });
+  test.case("single implicit typed param", ({path, fail}) => {
     path("/comments2/1", {_commentId: "1"});
     fail("/comments2/d");
   });
-  test.case("path with mixed implicit and untyped params", ({path, fail}) => {
+  test.case("mixed implicit and untyped params", ({path, fail}) => {
     path("/users2/1/2", {_userId: "1", commentId: "2"});
     fail("/users2/d/2");
     fail("/users2/d");
   });
-  test.case("path with mixed implicit and explicit params", ({path, fail}) => {
+  test.case("mixed implicit and explicit params", ({path, fail}) => {
     path("/users3/1/2", {_userId: "1", _commentId: "2"});
     fail("/users3/d/2");
     fail("/users3/1/d");
     fail("/users3");
   });
-  test.case("path with implicit params", ({path, fail}) => {
+  test.case("implicit params", ({path, fail}) => {
     path("/users4/1/2", {_userId: "1", _commentId: "2"});
     fail("/users4/d/2");
     fail("/users4/1/d");
