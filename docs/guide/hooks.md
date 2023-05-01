@@ -36,6 +36,7 @@ subscribers accept different types of parameters, depending on the hook.
 |
 ├─ `handle` # on client request
 │   └─ # modules handle client request themselves or yield to `next`
+|
 ├─ # if yielded through, match request against static resources in `public`
 |
 ├─ # if unmatched, match request against in-memory resources
@@ -54,9 +55,9 @@ subscribers accept different types of parameters, depending on the hook.
 
 **Executed** once
 
-**Precondition** configuration has been read and merged with defaults
+**Precondition** configuration has been loaded and merged with defaults
 
-The first hook to be called, directly after app start-up and reading in the
+The first hook to be called, directly after app start-up and loading the
 configuration file. This hook is for modules to initialize state or load other
 modules.
 
@@ -76,8 +77,8 @@ export default {
 
 !!!
 Dependent modules loaded using `app.load` **are not** currently triggered
-by `load` hook. Also, unlike all other hooks, the `load` hook does not accept a
-final `next` parameter.
+by `load` hook themselves. Also, unlike all other hooks, the `load` hook does
+not accept a final `next` parameter.
 !!!
 
 ## register
@@ -86,7 +87,7 @@ final `next` parameter.
 
 **Precondition** none
 
-This hooks allows modules to register a component file extension to be handled
+This hook allows modules to register a component file extension to be handled
 by `view`.
 
 ```js file=primate.config.js
@@ -102,7 +103,7 @@ const mustacheHandler = (name, props, options) => {
 export default {
   modules: [{
     name: "register-hook-example-module",
-    /* receives the app object, augmented with a `register` function */
+    /* receives the app object augmented with a `register` function */
     register(app, next) {
       app.register("mustache", mustacheHandler);
       return next(app);
@@ -111,8 +112,8 @@ export default {
 };
 ```
 
-Using this definition, any `.mustache` file in `components` will be handled by
-the specified `mustacheHandler` function.
+By that definition, any `.mustache` file in `components` will be handled by
+the specified `mustacheHandler` handler function.
 
 ```js file=routes/clock.js
 import {view} from "primate";
@@ -136,13 +137,13 @@ component rendered into HTML.
 
 **Precondition** none
 
-This hook allows modules to compile server-side files into JavaScript. Is it
-particularly useful for [frontend frameworks][frontend-frameworks] which use
+This hook allows modules to compile server-side components into JavaScript. Is
+it particularly useful for [frontend frameworks][frontend-frameworks] which use
 their own domain-specific languages (React's `.jsx`, Vue's `.vue` (SFC),
-Svelte's `.svelte` etc.), to be served through server-side rendering.
+Svelte's `.svelte` etc.) to be served through server-side rendering.
 
-This hook receives the app object as its first and the next subscriber as its
-second parameter.
+This hook receives the app as its first and the next subscriber as its second
+parameter.
 
 ## publish
 
@@ -156,11 +157,11 @@ directory directly from memory, and this hook is particularly useful for
 [frontend frameworks][frontend-frameworks], which might need to register their
 own core scripts.
 
-Publishing entry points allow bundler modules to effectivly consolidate code
+Publishing entry points allow bundler modules to effectively consolidate code
 during the `bundle` hook.
 
-This hook receives the app object as its first and the next subscriber as its
-second parameter.
+This hook receives the app as its first and the next subscriber as its second
+parameter.
 
 ## bundle
 
@@ -173,28 +174,28 @@ turn bundling on and off as necessary.
 **Executed** once
 
 **Precondition** all entry points have been evaluated, JavaScript/CSS files in
-`static` have been loaded to memory, and the `public` directory has been
-created with non Javascript/CSS files copied into it from `static`
+`static` directory have been loaded to memory, and the `public` directory has
+been created with non Javascript/CSS files copied into it from `static`
 
 This hook allows modules to transform client-side code and entry points which
 have been loaded into memory previously, either during the `publish` hook or by
 Primate loading them from the `static` directory, into consolidated code. It is
 particularly useful for bundler modules such as [esbuild](/modules/esbuild).
 
-This hook receives the app object as its first and the next subscriber as its
-second parameter.
+This hook receives the app as its first and the next subscriber as its second
+parameter.
 
 ## handle
 
 **Executed** for every request
 
-**Precondition** all start-up hooks have been executed, and Primate is serving
-content
+**Precondition** all start-up hooks have been executed, and Primate has left
+the start-up phase and is serving content
 
-This hook allows modules to handle requests themselves, before Primate will
-try to handle them on its own. It has the highest priority: it is resolved
-before any static or in-memory resources are served and before route functions
-are matched.
+This hook allows modules to handle requests themselves, before Primate tries
+to handle them on its own. It has the highest priority, being resolved before
+any static or in-memory resources are served and before route functions are
+matched.
 
 It is particularly useful for modules which modify the request object in a way
 that exposes further functionality for all subsequent handlers, such as the
@@ -202,9 +203,10 @@ that exposes further functionality for all subsequent handlers, such as the
 
 ```js file=primate.config.js
 const augment = request => {
-  /* augment request with additional properties such client ip, by reading them
-     from the original request at `request.original` */
-  return request;
+  return {...request, /*
+    augment request with additional properties such as client ip, by reading
+    them from the original request at `request.original`
+  */};
 };
 
 export default {
@@ -222,14 +224,13 @@ export default {
 
 **Executed** for every request
 
-**Precondition** the request hasn't been completely handled by any `handle`,
-and no static or in-memory resource has been matched by the request
+**Precondition** the request hasn't been completely handled by the `handle`
+hook and no static or in-memory resource has been matched by the request
 
-This hook allows modules to handle the routing of requests, after they have
-been handled by everything else aside from the route function, but before a
-route function has been matched. It is particularly useful if you want to treat
-certain routes in a special way, but otherwise let Primate do the routing for
-you.
+This hook allows modules to route requests after they have been handled by
+everything else aside from the route function, but before a route function has
+been matched. It is particularly useful if you want to treat certain routes in
+a special way, but otherwise let Primate do the routing for you.
 
 ```js file=primate.config.js
 const delegate = request => {
@@ -245,7 +246,7 @@ export default {
         // delegate request to admin app
         return delegate(request);
       }
-      // otherwise let Primate handle the request
+      // otherwise let other subscribers or Primate handle the request
       return next(request);
     },
   }],
@@ -263,7 +264,5 @@ don't want to call `next` because you're handling or routing the request
 completely on your own. In some circumstances, a hybrid solution makes the most
 sense: some requests you're handling on your own, and for some you want the
 normal Primate logic to run its due course.
-
-
 
 [frontend-frameworks]: /modules/frameworks
