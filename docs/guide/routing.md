@@ -244,16 +244,16 @@ export default parameter => UUID.test(parameter);
 
 With the definition in place, to type a parameter, place a colon between its
 name and type. The route file `/users/{userId:uuid}.js` will only accept routes
-for which the `userId` parameter satifies the predicate specified in
+for which the `userId` parameter satisfies the predicate specified in
 `types/uuid.js`.
 
 Like parameters themselves, types are case sensitive. `types/uuid.js`,
-`types/UUID.js` and `types/Uuid.js` would all describe different types.
+`types/UUID.js` and `types/Uuid.js` all describe different types.
 
 !!!
-A type predicate function must return exactly `true` to pass the check. Primate
-will not coerce the return value, treating any return value which is not `true`
-as false.
+A type predicate function must return exactly `true` (or a Promise that
+evaluates to that) to pass the check. Primate will not coerce the return value,
+treating any return value which is not `true` as false.
 !!!
 
 Types allow for early validation before a route function is being executed.
@@ -263,7 +263,7 @@ parameter `userId` belongs to an actual user in the database.
 ```js file=types/userId.js
 import {UserStore} from "./database.js";
 
-export default async id => (await UserStore.count({id})) > 0;
+export default id => UserStore.count({id}) > 0;
 ```
 
 Accordingly, a parameter `me` could check if a user is permitted to edit his
