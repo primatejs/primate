@@ -2,8 +2,8 @@ import {writable} from "svelte/store";
 
 const item = "colorScheme";
 
-const colorscheme = writable(localStorage.getItem(item) || 
-  !window.matchMedia("(prefers-color-scheme:dark)").matches)
+const colorscheme = writable(localStorage.getItem(item) ||
+  window.matchMedia("(prefers-color-scheme:dark)").matches ? "dark" : "light");
 
 colorscheme.subscribe(value => {
   localStorage.setItem(item, value);

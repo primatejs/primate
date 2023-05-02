@@ -47,8 +47,6 @@
   --h5: var(--prs-text-xs);
   --h6: var(--prs-text-xxs);
   --a: var(--prs-link);
-
-  color-scheme: light dark;
 }
 
 * {
