@@ -38,8 +38,7 @@
   --prs-page-padding-side: 6rem;
   --prs-navbar-shadow-light: rgba(0, 0, 0, 0.1) 0 1px 2px 0;
   --prs-navbar-shadow-dark: rgba(255, 255, 255, 0.9) 0 1px 2px 0;
-  --prs-primary-light: #a26937;
-  --prs-primary-dark: #7cafc3;
+  --prs-primary: #a26937;
   --h1: var(--prs-text-xl);
   --h2: var(--prs-text-l);
   --h3: var(--prs-text-m);
@@ -87,7 +86,7 @@ body.dark,
 .dark a:hover,
 .dark button:hover,
 .dark article a {
-  color: var(--prs-primary-dark);
+  color: var(--prs-primary);
 }
 
 h1 {
@@ -258,14 +257,9 @@ button {
 
 a:hover,
 button:hover {
-  color: var(--prs-primary-light);
+  color: var(--prs-primary);
   transition: color 0.25s;
   cursor: pointer;
-}
-
-.dark a:hover,
-.dark button:hover {
-  color: var(--prs-primary-dark);
 }
 
 button {
@@ -330,7 +324,7 @@ article ul {
 }
 
 article a {
-  color: var(--prs-primary-light);
+  color: var(--prs-primary);
 }
 
 article a:hover {
@@ -381,23 +375,13 @@ pre {
 
 .box {
   padding: 1rem;
-  border: 1px solid var(--prs-primary-light);
+  border: 1px solid var(--prs-primary);
   border-radius: 2px;
-}
-
-.dark .box {
-  border: 1px solid var(--prs-primary-dark);
 }
 
 .hero h2 {
   margin-top: 1rem;
   border-bottom: 0;
-}
-
-@media (prefers-color-scheme: dark) {
-  .box {
-    border: 1px solid var(--prs-primary-dark);
-  }
 }
 
 @media (max-width: 1200px) {
