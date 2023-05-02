@@ -5,7 +5,7 @@ const createCookie = (name, value, {path, secure, sameSite}) =>
   `${name}=${value};HttpOnly;Path=${path};${secure};SameSite=${sameSite}`;
 
 // gets a cookie id and returns it if exists, otherwise generates a new one
-const inMemory = () => {
+const inMemorySessionManager = () => {
   const store = new Set();
   return id => {
     if (store.has(id)) {
@@ -22,7 +22,7 @@ export default ({
   name = "sessionId",
   sameSite = "Strict",
   path = "/",
-  manager = inMemory(),
+  manager = inMemorySessionManager(),
 } = {}) => {
   is(name).string();
   is(sameSite).string();
