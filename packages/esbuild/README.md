@@ -1,17 +1,6 @@
-# Primate esbuild module
+# esbuild module
 
-## Install
+This module bundles your application's resources into a single JavaScript and
+CSS file.
 
-`npm i @primate/esbuild`
-
-## Configure
-
-Add to `primate.config.js`
-
-```js
-import esbuild from "@primate/esbuild";
-
-export default {
-  modules: [esbuild()],
-};
-```
+## [Documentation](https://primatejs.com/modules/esbuild)
