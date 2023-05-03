@@ -1,4 +1,4 @@
-# Store module
+# Data store module
 
 This module adds data persistance to your application.
 
