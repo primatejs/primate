@@ -48,8 +48,6 @@ export default {
           "HTMX",
           {heading: "Data"},
           "Stores",
-          "JSON",
-          "File",
           "MongoDB",
           "PostgreSQL",
           {heading: "Others"},
