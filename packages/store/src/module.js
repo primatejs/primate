@@ -1,62 +1,21 @@
-import {memory} from "./drivers/exports.js";
 import crypto from "runtime-compat/crypto";
+import {inconstructible_function} from "runtime-compat/dyndef";
+import Store from "./Store.js";
+import {memory} from "./drivers/exports.js";
+import types from "./types.js";
 
 const ending = -3;
 
-const Store = class {
-  #collection;
-  #properties;
-  #driver;
-  #primary;
-
-  constructor({
-    name,
-    properties = {},
-    driver,
-    primary,
-  }) {
-    this.#collection = name.toLowerCase();
-    this.#properties = properties;
-    this.#driver = driver;
-    this.#primary = primary;
-  }
-
-  get(value) {
-    return this.#driver.get(this.#collection, this.#primary, value);
-  }
-
-  find(criteria) {
-    return this.#driver.find(this.#collection, criteria);
-  }
-
-  insert(document) {
-    return this.#driver.insert(this.#collection, document);
-  }
-
-  update(criteria, document) {
-    return this.#driver.update(this.#collection, criteria, document);
-  }
-
-  delete(criteria) {
-    return this.#driver.delete(this.#collection, criteria);
-  }
-
-  get driver() {
-    return this.#driver;
-  }
-};
-
-const openStores = (stores, {driver, primary}) =>
+const openStores = (stores, defaults) =>
   Object.fromEntries(Object.entries(stores).map(([name, module]) =>
-    [name, new Store({
-      name,
-      properies: module.default,
-      driver: module.driver ?? driver,
-      primary: module.primary ?? primary,
+    [name, new Store(name, module.schema, {
+      ...Object.fromEntries(Object.entries(defaults).map(([key, value]) =>
+        [key, module[key] ?? value]
+      )),
     })]
   ));
 
-const makeTransaction = async ({stores, defaults}) => {
+const makeTransaction = ({stores, defaults}) => {
   const store = openStores(stores, defaults);
   const drivers =
     [...new Set(Object.values(store).map(({driver}) => driver)).values()];
@@ -70,6 +29,14 @@ const makeTransaction = async ({stores, defaults}) => {
   };
 };
 
+const fail = message => `@primate/store -- ${message} (stores disabled)`;
+const valid = (type, name, store) =>
+  inconstructible_function(type) ? type : (() => {
+    throw new Error(
+      fail(`field \`${name}\` in store \`${store}\` has no validator`)
+    );
+  })();
+
 export default ({
   /* directory for stores */
   directory = "stores",
@@ -77,6 +44,8 @@ export default ({
   driver = memory(),
   /* default primary key */
   primary = "id",
+  /* whether properies should be validated before saving */
+  validate = true,
 } = {}) => {
   const env = {
     defaults: {},
@@ -86,22 +55,41 @@ export default ({
     async load(app) {
       const base = app.root.join(directory);
       if (!await base.exists) {
-        app.log.warn(`\`${base}\` doesn't exist, no stores were loaded`);
+        app.log.warn(fail(`\`${base}\` doesn't exist`));
         return;
       }
-      env.stores = Object.fromEntries(await Promise.all((await base.list())
-        .map(path => [path.name.slice(0, ending), path.path])
-        // accept only stores that start with a capital letter
-        .filter(([name]) => /^[A-Z]/u.test(name))
-        .map(async ([name, path]) => [name, await import(path)])));
+      try {
+        env.stores = Object.fromEntries(await Promise.all((await base.list())
+          .map(path => [path.name.slice(0, ending), path.path])
+          // accept only stores that start with a capital letter
+          .filter(([name]) => /^[A-Z]/u.test(name))
+          .map(async ([name, path]) => {
+            const exports = await import(path);
+            const schema = Object.fromEntries(Object.entries(exports.default)
+              .map(([property, type]) => {
+                const predicate = types[type] ?? valid(type, property, name);
+                return [property, predicate];
+              }));
+            return [name, {
+              ...exports,
+              schema,
+            }];
+          })
+        ));
+      } catch (error) {
+        app.log.error(error.message);
+        return;
+      }
+
       env.defaults = {
         driver: await driver,
         primary,
+        validate,
       };
       env.warn = message => app.log.warn(message);
     },
     async route(request, next) {
-      const {id, transaction, store} = await makeTransaction(env);
+      const {id, transaction, store} = makeTransaction(env);
       await transaction.start();
       try {
         const response = await next({...request, transaction, store});

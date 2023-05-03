@@ -13,6 +13,11 @@ export default (driver, lifecycle) => test => {
     await assert(await count("user")).equals(0);
     await assert(await count("comment")).equals(0);
   });
+  test.case("primary", async assert => {
+    const {primary} = await init();
+    const {validate, generate} = await primary();
+    await assert(validate(generate())).true();
+  });
   test.case("insert/count", async assert => {
     const {insert, count} = await init();
     await insert("user", {id: "1"}) ;
@@ -88,6 +93,11 @@ export default (driver, lifecycle) => test => {
 
     await insert("user", user2);
     await commit();
+    await rollback();
+    // changes not discarded due to commit
+    await assert(await count("user")).equals(1);
+
+    await insert("user", user2);
     await rollback();
     // changes not discarded due to commit
     await assert(await count("user")).equals(1);

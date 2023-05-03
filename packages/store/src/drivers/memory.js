@@ -3,15 +3,14 @@ import TransactionManager from "./TransactionManager.js";
 import common from "./common.js";
 
 export default async () => {
-  let collections = {};
-
-  const db = {collections: {}};
-  const read = () => collections;
-  const write = _collections => {
-    collections = _collections;
+  let storage = "{}";
+  const read = () => JSON.parse(storage);
+  const write = collections => {
+    storage = JSON.stringify(collections);
   };
+  const db = {collections: read()};
 
-  return driver(new TransactionManager({
+  return driver("memory", new TransactionManager({
     async read() {
       db.collections = read();
     },

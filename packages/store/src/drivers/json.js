@@ -1,4 +1,5 @@
 import {Path} from "runtime-compat/fs";
+
 import {is} from "runtime-compat/dyndef";
 import driver from "./driver.js";
 import TransactionManager from "./TransactionManager.js";
@@ -12,10 +13,9 @@ export default async path => {
   const write = async collections => {
     await file.write(JSON.stringify(collections));
   };
-
   const db = {collections: await read()};
 
-  return driver(new TransactionManager({
+  return driver("json", new TransactionManager({
     async read() {
       db.collections = await read();
     },

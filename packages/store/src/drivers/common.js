@@ -1,3 +1,4 @@
+import crypto from "runtime-compat/crypto";
 const NOT_FOUND = -1;
 
 export default db => {
@@ -18,6 +19,13 @@ export default db => {
     some(collection, "findIndex", criteria);
 
   return {
+    primary() {
+      return {
+        validate: value => typeof value === "string",
+        message: "Must be a valid UUID",
+        generate: () => crypto.randomUUID(),
+      };
+    },
     find(collection, criteria) {
       return criteria === undefined
         ? use(collection)
@@ -32,10 +40,12 @@ export default db => {
     },
     insert(collection, document) {
       use(collection).push(document);
+      return document;
     },
     update(collection, criteria, document) {
       const index = findIndex(collection, criteria);
       use(collection).splice(index, 1, document);
+      return document;
     },
     delete(collection, criteria) {
       const index = findIndex(collection, criteria);

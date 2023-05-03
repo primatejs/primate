@@ -1,23 +1,35 @@
-export default manager => ({
-  // start transaction
+const operations = [
+  "find",
+  "count",
+  "get",
+  "insert",
+  "update",
+  "delete",
+  "primary",
+];
+
+export default (name, manager) => ({
+  /* driver name, must be unique */
+  name,
+  /* start transaction */
   start() {
     if (manager.started) {
       throw new Error("already in transaction, use `end` first");
     }
     manager.open();
   },
-  // rollback any changes so far
+  /* rollback any uncommited changes */
   async rollback() {
     manager.assert();
     await manager.read();
   },
-  // write anything in memory into file
+  /* commit changes */
   async commit() {
     manager.assert();
     await manager.write();
     manager.flush();
   },
-  // end transaction
+  /* end transaction */
   end() {
     manager.assert();
     if (manager.unflushed) {
@@ -25,11 +37,9 @@ export default manager => ({
     }
     manager.close();
   },
-  ...Object.fromEntries(["find", "count", "get", "insert", "update", "delete"]
-    .map(operation => [
-      operation, (...args) =>
-        manager.schedule(_operations => _operations[operation](...args),
-          {change: ["insert", "update", "delete"].includes(operation)}
-        )])),
+  ...Object.fromEntries(operations.map(operation => [operation, (...args) =>
+    manager.schedule(_operations => _operations[operation](...args),
+      {change: ["insert", "update", "delete"].includes(operation)}
+    )])),
 
 });
