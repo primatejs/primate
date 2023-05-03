@@ -1,6 +1,6 @@
 {
   "name": "@primate/svelte",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Primate Svelte module",
   "homepage": "https://primatejs.com/modules/svelte",
   "bugs": "https://github.com/primatejs/primate/issues",
@@ -19,7 +19,7 @@
     "svelte": "^3.58.0"
   },
   "peerDependencies": {
-    "primate": "0.16"
+    "primate": "0.17"
   },
   "type": "module",
   "exports": "./src/exports.js"
