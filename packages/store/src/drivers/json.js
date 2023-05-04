@@ -5,7 +5,7 @@ import driver from "./driver.js";
 import TransactionManager from "./TransactionManager.js";
 import common from "./common.js";
 
-export default async path => {
+export default async ({path}) => {
   is(path).string();
 
   const {file} = new Path(path);

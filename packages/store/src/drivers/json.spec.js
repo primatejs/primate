@@ -4,7 +4,7 @@ import base from "./base.test.js";
 
 const path = new Path(import.meta.url).up(1).join("db.json");
 
-export default base(() => json(`${path}`), {
+export default base(() => json({path: `${path}`}), {
   after: async () => {
     if (await path.exists) {
       await path.file.remove();
