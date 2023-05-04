@@ -45,7 +45,7 @@ export default ({
   /* default primary key */
   primary = "id",
   /* whether properies should be validated before saving */
-  validate = true,
+  validate = false,
 } = {}) => {
   const env = {
     defaults: {},
