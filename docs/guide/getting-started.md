@@ -107,7 +107,7 @@ export default {
   get() {
     return "Thank you for submitting your data, we will get back to you.";
   },
-}
+};
 ```
 
 ## Deep dive
@@ -115,7 +115,7 @@ export default {
 Now that we've built a trivial use case with form submission, we can start
 diving a bit deeper into the framework itself and what it offers.
 
-You don't have to read this entire guide to get productive with Primate. if you
+You don't have to read this entire guide to get productive with Primate. If you
 prefer a hands-on approach, you can jump in directly into coding and refer back
 to it as necessary.
 
@@ -130,14 +130,14 @@ and a data store.
 
 ## More about goals
 
-Primate strives for technical excellence, with a small core code base and a
+Primate strives for technical excellence, with a small core codebase and a
 variety of officially supported modules that extend it.
 
 ### Expressive
 
-* Routes are pure functions that transform a request into a response
+* Routes are pure functions that transform requests into responses
 * Route functions receive a prepared request object with easily accessible
-`path`, `query`, `cookies` and `headers` fields
+`body`, `path`, `query`, `cookies` and `headers` fields
 
 ### Minimal
 

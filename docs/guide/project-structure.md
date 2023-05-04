@@ -29,7 +29,7 @@ This directory can also contain an `index.html` file if you wish to override
 
 Static resources take precedence over [routes][routing]. You can configure 
 Primate to serve static resources from a different path by setting the
-`http.static.root` property in your configuration to something else.
+`http.static.root` option in your configuration to something else.
 
 ## primate.config.js
 
@@ -46,7 +46,8 @@ it is useful for pinning the version of Primate and of additional modules you
 use.
 
 To pin the current version of Primate for your project, run `npm i primate`. A
-package.json file will be created for you if it doesn't exist.
+package.json file will be created for you if it doesn't exist. Make sure you
+commit this file into your version control system.
 
 ## routes
 
@@ -67,8 +68,8 @@ were creating a blog, this is how a typical layout could look like.
 ```
 
 !!!
-Some of the above comments use `1`, where in fact any value could stand for
-`{postId}`. We'll later come back to path parameters in depth.
+Some of the above route examples use `1`, where in fact any value could stand
+for `{postId}`. We'll later come back to path parameters in depth.
 !!!
 
 Here we chose our paths to represent CRUD actions. This is appropriate for a
@@ -96,8 +97,8 @@ served with the `view` handler.
 If your app is an API or doesn't have any views, you don't need to create this
 directory.
 
-Primate's official modules includes support for various frontend framework
-handlers such as React, Vue, Svelte or HTMX.
+Primate's official modules includes support for various [frontend
+frameworks](/modules/frameworks) such as React, Vue, Svelte or HTMX.
 
 [routing]: /guide/routing
 [components]: /guide/components

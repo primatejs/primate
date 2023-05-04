@@ -15,6 +15,8 @@ See the [Getting started][getting-started] guide for documentation.
 |[@primate/htmx](packages/htmx)               | Serving HTMX files            |
 |[@primate/esbuild](packages/esbuild)         | Bundling JS/CSS               |
 |[@primate/session](packages/session)         | User sessions                 |
+|[@primate/store](packages/store)             | Data store                    |
+|[@primate/validation](packages/validation)   | Extended data validation      |
 |[@primate/website](packages/website)         | Primate website (private)     |
 
 ## Resources

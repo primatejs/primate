@@ -1,8 +1,7 @@
 # Configuration
 
 Primate is a zero-configuration framework and can be used without creating a
-custom configuration. In most cases the defaults can be used without
-modification.
+custom configuration. In most cases the defaults can be used as is.
 
 ## primate.config.js
 
