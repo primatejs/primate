@@ -1,5 +1,6 @@
 import crypto from "runtime-compat/crypto";
 import {File, Path} from "runtime-compat/fs";
+import {bold, blue, grey} from "runtime-compat/colors";
 import * as handlers from "./handlers/exports.js";
 import {abort} from "./Logger.js";
 
@@ -129,11 +130,11 @@ export default async (config, root, log) => {
     },
     modules,
   };
-  const {print, colors} = log.class;
-  print(colors.blue(colors.bold(name)), colors.blue(version), "");
+  const {print} = log.class;
+  print(blue(bold(name)), blue(version), "");
   const type = app.secure ? "https" : "http";
   const address = `${type}://${config.http.host}:${config.http.port}`;
-  print(colors.gray(`at ${address}`), "\n");
+  print(grey(`at ${address}`), "\n");
   // modules may load other modules
   await Promise.all(app.modules
     .filter(module => module.load !== undefined)

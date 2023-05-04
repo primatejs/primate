@@ -1,14 +1,5 @@
 import {assert, is} from "runtime-compat/dyndef";
-
-const colors = {
-  black: msg => `\x1b[0m${msg}\x1b[0m`,
-  bold: msg => `\x1b[1m${msg}\x1b[0m`,
-  red: msg => `\x1b[31m${msg}\x1b[0m`,
-  green: msg => `\x1b[32m${msg}\x1b[0m`,
-  yellow: msg => `\x1b[33m${msg}\x1b[0m`,
-  blue: msg => `\x1b[34m${msg}\x1b[0m`,
-  gray: msg => `\x1b[2m${msg}\x1b[0m`,
-};
+import {bold, green, red, yellow} from "runtime-compat/colors";
 
 const error = 0;
 const warn = 1;
@@ -41,10 +32,6 @@ const Logger = class Logger {
     this.#trace = trace;
   }
 
-  static get colors() {
-    return colors;
-  }
-
   static print(...args) {
     print(...args);
   }
@@ -67,12 +54,12 @@ const Logger = class Logger {
 
   #print(pre, error) {
     if (error instanceof Error) {
-      print(colors.bold(pre), error.message, "\n");
+      print(bold(pre), error.message, "\n");
       if (this.#trace) {
         console.log(error);
       }
     } else {
-      print(colors.bold(pre), error, "\n");
+      print(bold(pre), error, "\n");
     }
   }
 
@@ -82,19 +69,19 @@ const Logger = class Logger {
 
   info(message) {
     if (this.level >= levels.get(Info)) {
-      this.#print(colors.green("--"), message);
+      this.#print(green("--"), message);
     }
   }
 
   warn(message) {
     if (this.level >= levels.get(Warn)) {
-      this.#print(colors.yellow("??"), message);
+      this.#print(yellow("??"), message);
     }
   }
 
   error(message) {
     if (this.level >= levels.get(Error)) {
-      this.#print(colors.red("!!"), message);
+      this.#print(red("!!"), message);
     }
   }
 
@@ -112,4 +99,4 @@ const Logger = class Logger {
 
 export default Logger;
 
-export {colors, levels, print, abort, Abort};
+export {levels, print, abort, Abort};

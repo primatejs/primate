@@ -1,7 +1,9 @@
 import {Path} from "runtime-compat/fs";
+import {yellow, red} from "runtime-compat/colors";
+
 import app from "./app.js";
 import command from "./commands/exports.js";
-import {Abort, colors, print, default as Logger} from "./Logger.js";
+import {Abort, print, default as Logger} from "./Logger.js";
 import defaults from "./defaults/primate.config.js";
 import extend from "./extend.js";
 
@@ -22,11 +24,11 @@ const getConfig = async root => {
     try {
       const imported = await import(config);
       if (imported.default === undefined) {
-        print(`${colors.yellow("??")} ${configName} has no default export\n`);
+        print(`${yellow("??")} ${configName} has no default export\n`);
       }
       return extend(defaults, imported.default);
     } catch (error) {
-      print(`${colors.red("!!")} couldn't load config file\n`);
+      print(`${red("!!")} couldn't load config file\n`);
       throw error;
     }
   } else {
