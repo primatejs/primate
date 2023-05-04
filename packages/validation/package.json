@@ -1,6 +1,6 @@
 {
   "name": "@primate/validation",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Primate data validation module",
   "homepage": "https://primatejs.com/modules/validation",
   "bugs": "https://github.com/primatejs/primate/issues",
