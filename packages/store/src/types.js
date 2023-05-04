@@ -23,26 +23,26 @@ export default {
     message: "Must be a valid date",
     base: "datetime",
   },
+  [Array]: {
+    validate: value => Array.isArray(value),
+    message: "Must be a valid array",
+    base: "array",
+  },
+  [Object]: {
+    validate: value => typeof value === "object" && value !== null,
+    message: "Must be a valid object",
+    base: "composite",
+  },
   [JSON]: {
     validate: value => {
       try {
-        JSON.stringify(value);
+        JSON.parse(value);
         return true;
       } catch (_) {
         return false;
       }
     },
+    message: "Must be a valid JSON string",
     base: "json",
-  },
-  [BigInt]: {
-    validate: value => typeof value === "bigint",
-    coerce: value => {
-      try {
-        return BigInt(value);
-      } catch (_) {
-        return value;
-      }
-    },
-    base: "bigint",
   },
 };
