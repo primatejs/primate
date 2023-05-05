@@ -2,6 +2,7 @@ import {Response, URL} from "runtime-compat/http";
 import {error as clientError} from "../handlers/exports.js";
 import {statuses, mime, isResponse, respond} from "./handle/exports.js";
 import fromNull from "../fromNull.js";
+import {invalid} from "./route.js";
 
 const filter = (key, array) => array?.flatMap(m => m[key] ?? []) ?? [];
 
@@ -33,6 +34,11 @@ export default async app => {
       "Content-Security-Policy": _csp,
       "Referrer-Policy": "same-origin",
     };
+
+    if (invalid(request.url.pathname)) {
+      app.log.warn(`no file at ${request.url.pathname}`);
+      return clientError()(app, {});
+    }
 
     try {
       const modules = filter("route", app.modules);

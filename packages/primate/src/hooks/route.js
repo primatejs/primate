@@ -10,6 +10,8 @@ const verbs = [
   "connect", "options", "trace", "patch",
 ];
 
+/* routes may not contain dots */
+export const invalid = route => /\./u.test(route);
 const toRoute = file => {
   const route = file
     // transform /index -> ""
@@ -23,10 +25,13 @@ const toRoute = file => {
         const param = type === undefined ? name : `${name}$${type.slice(1)}`;
         return `(?<${param}>[^/]{1,}?)`;
       } catch (error) {
-        abort(`invalid parameter "${named}"`);
+        return abort(`invalid parameter "${named}"`);
       }
     })
   ;
+  if (invalid(route)) {
+    return abort(`invalid characters in route \`${route}\` [.]`);
+  }
   try {
     return new RegExp(`^/${route}$`, "u");
   } catch (error) {

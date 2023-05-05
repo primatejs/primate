@@ -62,6 +62,11 @@ export default test => {
     assert(() => route({routes: [["{userId}/{userId}", {get}]]}))
       .throws("same parameter twice");
   });
+  test.case("must not contain invalid characters in routes", ({assert}) => {
+    const post = ["po.st", {get}];
+    assert(() => route({routes: [post], types: {}}))
+      .throws("invalid characters in route `po.st` [.]");
+  });
   test.case("must not contain invalid characters in params", ({assert}) => {
     assert(() => route({routes: [["{user$Id}", {get}]]}))
       .throws("invalid parameter \"user$Id\"");
