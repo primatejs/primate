@@ -6,16 +6,24 @@ const createCookie = (name, value, {path, secure, sameSite}) =>
 
 // gets a cookie id and returns it if exists, otherwise generates a new one
 const inMemorySessionManager = () => {
-  const store = new Set();
-  return id => {
-    if (store.has(id)) {
-      return {id};
-    }
-
-    const newId = crypto.randomUUID();
-    store.add(newId);
-    return {id: newId};
-  };
+  const store = new Map();
+  return id => ({
+    id: store.has(id) ? id : undefined,
+    data: store.get(id),
+    async create(data) {
+      /* dynamic to prevent multiple calls to create */
+      if (!store.has(id)) {
+        this.id = crypto.randomUUID();
+        store.set(this.id, data);
+      }
+    },
+      /* dynamic to prevent multiple calls to destroy */
+    destroy() {
+      if (store.has(id)) {
+        store.delete(id);
+      }
+    },
+  });
 };
 
 export default ({
@@ -23,10 +31,12 @@ export default ({
   sameSite = "Strict",
   path = "/",
   manager = inMemorySessionManager(),
+  implicit = false,
 } = {}) => {
   is(name).string();
   is(sameSite).string();
   is(path).string();
+  is(manager).function();
   const options = {sameSite, path};
   return {
     name: "@primate/session",
@@ -36,14 +46,21 @@ export default ({
     async handle(request, next) {
       const id = request.cookies[name];
       const session = manager(id);
-      is(session.id).string();
+      is(session.create).function();
+      is(session.destroy).function();
 
       const response = await next({...request, session});
-      // only send the cookie if it different than the received one
+
+      if (implicit && session.id === undefined) {
+        await session.create();
+      }
+
+      // only send the cookie if different than the received one
       if (session.id !== id) {
         const cookie = createCookie(name, session.id, options);
         response.headers.set("Set-Cookie", cookie);
       }
+
       return response;
     },
   };
