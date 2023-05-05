@@ -26,17 +26,15 @@ const extend = (base = {}, extension = {}) =>
     };
   }, base);
 
-const toObject = (path, payload) => JSON.parse(path
-  .map(_ => `{"${_}":`)
-  .concat("null", "}".repeat(path.length))
-  .join(""), (_, value) => value ?? payload);
+const depath = (path, initial) => path.split("/")
+  .reduceRight((depathed, key) => ({[key]: depathed}), initial);
 
 const makeTransaction = ({stores, defaults}) => {
   const _stores = openStores(stores, defaults);
 
   const drivers = [...new Set(_stores.map(([, store]) => store.driver)).keys()];
   const store = _stores.reduce((base, [name, value]) =>
-    extend(base, toObject(name.split("/"), value))
+    extend(base, depath(name, value))
   , {});
   return {
     id: crypto.randomUUID(),
