@@ -6,10 +6,7 @@ export default class Store {
 
   constructor(name, schema = {}, options = {}) {
     this.#schema = schema;
-    this.#config = {
-      collection: name.toLowerCase(),
-      ...options,
-    };
+    this.#config = {name: name.toLowerCase(), ...options};
   }
 
   get driver() {
@@ -20,8 +17,12 @@ export default class Store {
     return this.#config.primary;
   }
 
-  get collection() {
-    return this.#config.collection;
+  get name() {
+    return this.#config.name;
+  }
+
+  get readonly() {
+    return this.#config.readonly;
   }
 
   async validate(input) {
@@ -48,18 +49,18 @@ export default class Store {
   }
 
   get(value) {
-    return this.driver.get(this.collection, this.primary, value);
+    return this.driver.get(this.name, this.primary, value);
   }
 
   find(criteria) {
-    return this.driver.find(this.collection, criteria);
+    return this.driver.find(this.name, criteria);
   }
 
   async #validate(input, onSuccess) {
     const {error, document} = await this.validate(input);
 
     return Object.keys(error).length === 0
-      ? {document: await onSuccess(document)}
+      ? {document: this.readonly ? document : await onSuccess(document)}
       : {error};
   }
 
@@ -73,12 +74,12 @@ export default class Store {
     return this.#validate({
       ...document,
       [primary]: document[primary] ?? await this.#generate(),
-    }, validated => this.driver.insert(this.collection, validated));
+    }, validated => this.driver.insert(this.name, validated));
   }
 
   update(criteria, document = {}) {
     return this.#validate(document, validated =>
-      this.driver.update(this.collection, criteria, validated));
+      this.driver.update(this.name, criteria, validated));
   }
 
   save(document) {
@@ -90,6 +91,6 @@ export default class Store {
   }
 
   delete(criteria) {
-    return this.driver.delete(this.collection, criteria);
+    return this.driver.delete(this.name, criteria);
   }
 }

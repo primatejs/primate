@@ -4,21 +4,41 @@ import Store from "./Store.js";
 import {memory} from "./drivers/exports.js";
 import types from "./types.js";
 
+const last = -1;
 const ending = -3;
 
 const openStores = (stores, defaults) =>
-  Object.fromEntries(Object.entries(stores).map(([name, module]) =>
-    [name, new Store(name, module.schema, {
+  stores.map(([name, module]) =>
+    [name, new Store(module.name, module.schema, {
       ...Object.fromEntries(Object.entries(defaults).map(([key, value]) =>
         [key, module[key] ?? value]
       )),
     })]
-  ));
+  );
+
+const extend = (base = {}, extension = {}) =>
+  Object.keys(extension).reduce((result, property) => {
+    const value = extension[property];
+    return {
+      ...result,
+      [property]: value?.constructor === Object
+        ? extend(base[property], value)
+        : value,
+    };
+  }, base);
+
+const toObject = (path, payload) => JSON.parse(path
+  .map(_ => `{"${_}":`)
+  .concat("null", "}".repeat(path.length))
+  .join(""), (_, value) => value ?? payload);
 
 const makeTransaction = ({stores, defaults}) => {
-  const store = openStores(stores, defaults);
-  const drivers =
-    [...new Set(Object.values(store).map(({driver}) => driver)).values()];
+  const _stores = openStores(stores, defaults);
+
+  const drivers = [...new Set(_stores.map(([, store]) => store.driver)).keys()];
+  const store = _stores.reduce((base, [name, value]) =>
+    extend(base, toObject(name.split("/"), value))
+  , {});
   return {
     id: crypto.randomUUID(),
     transaction: Object.fromEntries(["start", "commit", "rollback", "end"]
@@ -58,11 +78,23 @@ export default ({
         app.log.warn(fail(`\`${base}\` doesn't exist`));
         return;
       }
+      env.defaults = {
+        driver: await driver,
+        primary,
+        validate,
+        readonly: false,
+      };
       try {
-        env.stores = Object.fromEntries(await Promise.all((await base.list())
-          .map(path => [path.name.slice(0, ending), path.path])
-          // accept only stores that start with a capital letter
-          .filter(([name]) => /^[A-Z]/u.test(name))
+        env.stores = await Promise.all((await base.collect(/^.*.js$/u))
+          /* accept only uppercase-first files in store filename */
+          .filter(path => /^[A-Z]/u.test(path.name))
+          .map(path => [
+            `${path}`.replace(`${base}/`, () => "").slice(0, ending),
+            path,
+          ])
+          /* accept only lowercase-first directories in store path */
+          .filter(([name]) =>
+            name.split("/").slice(0, last).every(part => /^[a-z]/u.test(part)))
           .map(async ([name, path]) => {
             const exports = await import(path);
             const schema = Object.fromEntries(Object.entries(exports.default)
@@ -70,22 +102,19 @@ export default ({
                 const predicate = types[type] ?? valid(type, property, name);
                 return [property, predicate];
               }));
+
             return [name, {
               ...exports,
               schema,
+              name: exports.name ?? name.replaceAll("/", "_"),
             }];
           })
-        ));
+        );
       } catch (error) {
         app.log.error(error.message);
         return;
       }
 
-      env.defaults = {
-        driver: await driver,
-        primary,
-        validate,
-      };
       env.warn = message => app.log.warn(message);
     },
     async route(request, next) {
