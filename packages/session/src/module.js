@@ -1,7 +1,7 @@
 import crypto from "runtime-compat/crypto";
 import {is} from "runtime-compat/dyndef";
 
-const createCookie = (name, value, {path, secure, sameSite}) =>
+const cookie = (name, value, {path, secure, sameSite}) =>
   `${name}=${value};HttpOnly;Path=${path};${secure};SameSite=${sameSite}`;
 
 // gets a cookie id and returns it if exists, otherwise generates a new one
@@ -51,14 +51,11 @@ export default ({
 
       const response = await next({...request, session});
 
-      if (implicit && session.id === undefined) {
-        await session.create();
-      }
+      implicit && await session.create();
 
       // only send the cookie if different than the received one
-      if (session.id !== id) {
-        const cookie = createCookie(name, session.id, options);
-        response.headers.set("Set-Cookie", cookie);
+      if (session.id !== id && session.id !== undefined) {
+        response.headers.set("Set-Cookie", cookie(name, session.id, options));
       }
 
       return response;
