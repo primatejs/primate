@@ -1,5 +1,4 @@
 import crypto from "runtime-compat/crypto";
-import {inconstructible_function} from "runtime-compat/dyndef";
 import Store from "./Store.js";
 import {memory} from "./drivers/exports.js";
 import types from "./types.js";
@@ -51,7 +50,7 @@ const makeTransaction = ({stores, defaults}) => {
 
 const fail = message => `@primate/store -- ${message} (stores disabled)`;
 const valid = (type, name, store) =>
-  inconstructible_function(type) ? type : (() => {
+  typeof type?.validate === "function" ? type : (() => {
     throw new Error(
       fail(`field \`${name}\` in store \`${store}\` has no validator`)
     );
