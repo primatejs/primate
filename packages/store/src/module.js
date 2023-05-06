@@ -1,7 +1,7 @@
 import crypto from "runtime-compat/crypto";
 import Store from "./Store.js";
 import {memory} from "./drivers/exports.js";
-import types from "./types.js";
+import predicates from "./predicates/exports.js";
 
 const last = -1;
 const ending = -3;
@@ -96,7 +96,7 @@ export default ({
             const exports = await import(path);
             const schema = Object.fromEntries(Object.entries(exports.default)
               .map(([property, type]) => {
-                const predicate = types[type] ?? valid(type, property, name);
+                const predicate = predicates[type] ?? valid(type, property, name);
                 return [property, predicate];
               }));
 
