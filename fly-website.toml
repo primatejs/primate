@@ -1,44 +1,40 @@
 app = "primatejs"
+primary_region = "ams"
 kill_signal = "SIGINT"
-kill_timeout = 5
-processes = []
-
-[build]
-  dockerfile = "Dockerfile.fly-website"
-
-[env]
+kill_timeout = "5s"
 
 [experimental]
   auto_rollback = true
 
+[build]
+  dockerfile = "Dockerfile.fly-website"
+
 [[services]]
-  http_checks = []
+  protocol = "tcp"
   internal_port = 6161
   processes = ["app"]
-  script_checks = []
+
+  [[services.ports]]
+    port = 80
+    handlers = ["http"]
+    force_https = true
+
+  [[services.ports]]
+    port = 443
+    handlers = ["tls", "http"]
+    [services.ports.tls_options]
+      alpn = ["h2", "http/1.1"]
+      versions = ["TLSv1.2", "TLSv1.3"]
   [services.concurrency]
     type = "requests"
-    soft_limit = 200
     hard_limit = 250
+    soft_limit = 200
 
-  [[services.ports]]
-    force_https = true
-    handlers = ["http"]
-    port = 80
-
-  [[services.ports]]
-    handlers = ["tls", "http"]
-    port = 443
-    tls_options = { "alpn" = ["h2", "http/1.1"], "versions" = ["TLSv1.2", "TLSv1.3"] }
-
-  [services.http_checks]
-    interval = 30000
+  [[services.http_checks]]
+    interval = "30s"
+    timeout = "2s"
     grace_period = "5s"
+    restart_limit = 0
     method = "get"
     path = "/"
     protocol = "http"
-    restart_limit = 0
-    timeout = 2000
-    tls_skip_verify = false
-    [services.http_checks.headers]
-
