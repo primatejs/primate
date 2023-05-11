@@ -60,7 +60,7 @@ export default ({directory, entryPoints} = {}) => ({
   },
   async publish(app, next) {
     const _path = ["node_modules", "svelte", "package.json"];
-    app.resolve(await Path.resolve().join(..._path).join(), "svelte");
+    app.resolve(await Path.resolve().join(..._path).json(), "svelte");
 
     const path = directory ?? app.paths.components;
     const options = {
