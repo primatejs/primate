@@ -1,7 +1,7 @@
 # primate
 
 List of errors in the base framework. For an explanation of logging, error
-levels and early bailout, see [logging](/advanced/logging).
+levels and bailout, see [logging](/advanced/logging).
 
 ## Cannot Parse Body
 
@@ -25,7 +25,7 @@ due to a client-side manipulation.
 
 ## Double Module
 
-Level: `Error` (early bailout)
+Level: `Error` (bailout)
 
 Primate detects two modules using the same name in `primate.config.is`, which
 is impermissible. A module's `name` property is its unique identifier.
@@ -34,7 +34,7 @@ is impermissible. A module's `name` property is its unique identifier.
 
 ## Double Path Parameter
 
-Level: `Error` (early bailout)
+Level: `Error` (bailout)
 
 Primate detects the use of the same parameter twice in one route, such as
 `routes/{userId}/{userId}.js`, which is impermissible. Path parameters are
@@ -45,7 +45,7 @@ type) creates ambiguity.
 
 ## Double Route
 
-Level: `Error` (early bailout)
+Level: `Error` (bailout)
 
 Primate detects the same route used twice, such as `route/user.js` and
 `route/user/index.js`, which is impermissible, creating mapping ambiguity.
@@ -157,5 +157,4 @@ Level: `Error` (bailout)
 Primate finds in valid characters in a type definition, which is impermissible.
 
 **Use only Latin letters and decimal digits in types, that is lowercase and
-uppercase A to Z as well as 0 to 9.
-
+uppercase A to Z as well as 0 to 9.**
