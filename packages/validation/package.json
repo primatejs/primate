@@ -1,6 +1,6 @@
 {
   "name": "@primate/validation",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Primate data validation module",
   "homepage": "https://primatejs.com/modules/validation",
   "bugs": "https://github.com/primatejs/primate/issues",
@@ -18,7 +18,7 @@
     "runtime-compat": "^0.17.0"
   },
   "peerDependencies": {
-    "primate": "0.17"
+    "primate": "0.18"
   },
   "type": "module",
   "exports": "./src/exports.js"

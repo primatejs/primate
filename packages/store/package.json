@@ -1,6 +1,6 @@
 {
   "name": "@primate/store",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Primate data store module",
   "homepage": "https://primatejs.com/modules/stores",
   "bugs": "https://github.com/primatejs/primate/issues",
@@ -18,7 +18,7 @@
     "runtime-compat": "^0.17.0"
   },
   "peerDependencies": {
-    "primate": "0.17"
+    "primate": "0.18"
   },
   "type": "module",
   "exports": "./src/exports.js"

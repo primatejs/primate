@@ -15,11 +15,11 @@
     "directory": "packages/vue"
   },
   "dependencies": {
-    "runtime-compat": "^0.16.3",
-    "vue": "^3.2.47"
+    "runtime-compat": "^0.17.0",
+    "vue": "^3.3.1"
   },
   "peerDependencies": {
-    "primate": "0.17"
+    "primate": "0.18"
   },
   "type": "module",
   "main": "./src/exports.js"
