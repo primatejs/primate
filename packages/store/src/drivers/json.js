@@ -15,13 +15,42 @@ export default async ({path}) => {
   };
   const db = {collections: await read()};
 
-  return driver("json", new TransactionManager({
-    async read() {
-      db.collections = await read();
+  return driver("json", {
+    float: {
+      in(value) {
+        return value;
+      },
+      out(value) {
+        const out = Number(value);
+        if (Number.isNaN(out)) {
+          throw new Error();
+        }
+        return out;
+      },
     },
-    async write() {
-      await write(db.collections);
+    bigint: {
+      in(value) {
+        return value.toString();
+      },
+      out(value) {
+        return BigInt(value);
+      },
     },
-    operations: common(db),
+    datetime: {
+      in(value) {
+        return value.toJSON();
+      },
+      out(value) {
+        return new Date(value);
+      },
+    },
+  }, new TransactionManager({
+      async read() {
+        db.collections = await read();
+      },
+      async write() {
+        await write(db.collections);
+      },
+      operations: common(db),
   }));
 };

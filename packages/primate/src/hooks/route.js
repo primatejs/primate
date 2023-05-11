@@ -1,4 +1,6 @@
-import {default as Logger, abort} from "../Logger.js";
+import errors from "../errors.js";
+
+const filter = (key, array) => array?.flatMap(m => m[key] ?? []) ?? [];
 
 // insensitive-case equal
 const ieq = (left, right) => left.toLowerCase() === right.toLowerCase();
@@ -7,13 +9,20 @@ const verbs = [
   // CRUD
   "post", "get", "put", "delete",
   // extended
-  "connect", "options", "trace", "patch",
+  "connect", "options", "trace", "patch", "head",
 ];
 
 /* routes may not contain dots */
 export const invalid = route => /\./u.test(route);
-const toRoute = file => {
-  const route = file
+const toRoute = path => {
+  const double = path.split("/")
+    .filter(part => part.startsWith("{") && part.endsWith("}"))
+    .map(part => part.slice(1, part.indexOf(":")))
+    .find((part, i, array) =>
+      array.filter((_, j) => i !== j).includes(part));
+  double && errors.DoublePathParameter.throw({path, double});
+
+  const route = path
     // transform /index -> ""
     .replace("/index", "")
     // transform index -> ""
@@ -25,31 +34,32 @@ const toRoute = file => {
         const param = type === undefined ? name : `${name}$${type.slice(1)}`;
         return `(?<${param}>[^/]{1,}?)`;
       } catch (error) {
-        return abort(`invalid parameter "${named}"`);
+        return errors.InvalidPathParameter.throw({named, path});
       }
-    })
-  ;
-  if (invalid(route)) {
-    return abort(`invalid characters in route \`${route}\` [.]`);
-  }
-  try {
-    return new RegExp(`^/${route}$`, "u");
-  } catch (error) {
-    abort("same parameter twice");
-  }
+    });
+
+  invalid(route) && errors.InvalidRouteName.throw({path});
+
+  return new RegExp(`^/${route}$`, "u");
 };
 
 const reentry = (object, mapper) =>
   Object.fromEntries(mapper(Object.entries(object ?? {})));
 
 export default app => {
-  const {types = {}} = app;
-  Object.entries(types).every(([name]) => /^(?:\w*)$/u.test(name) ||
-    abort(`invalid type "${name}"`));
+  const double = app.routes
+    .map(([route]) => route
+      .replaceAll("/index", "")
+      .replaceAll(/\{(?<name>\w*)(?<_>:\w+)?\}?/gu, (_, name) => `{${name}}`))
+    .find((part, i, array) =>
+      array.filter((_, j) => i !== j).includes(part));
+
+  double && errors.DoubleRoute.throw({double});
+
   const routes = app.routes
     .map(([route, imported]) => {
-      if (imported === undefined) {
-        app.log.warn(`empty route file at ${route}.js`);
+      if (imported === undefined || Object.keys(imported).length === 0) {
+        errors.EmptyRouteFile.warn(app.log, {config: app.config, route});
         return [];
       }
 
@@ -58,10 +68,10 @@ export default app => {
         .filter(([verb]) => verbs.includes(verb))
         .map(([method, handler]) => ({method, handler, path}));
     }).flat();
-  const paths = routes.map(({method, path}) => `${method}${path}`);
-  if (new Set(paths).size !== paths.length) {
-    abort("same route twice");
-  }
+
+  const {types = {}} = app;
+  Object.entries(types).every(([name]) => /^(?:\w*)$/u.test(name) ||
+    errors.InvalidType.throw({name}));
 
   const isType = groups => Object
     .entries(groups ?? {})
@@ -79,15 +89,19 @@ export default app => {
     && isPath({route, path});
   const find = (method, path) => routes.find(route =>
     isMethod({route, method, path}));
+  const modules = filter("route", app.modules);
 
   return request => {
     const {original: {method}, url: {pathname}} = request;
-    const verb = find(method, pathname) ?? (() => {
-      throw new Logger.Warn(`no ${method} route to ${pathname}`);
-    })();
+    const verb = find(method, pathname) ??
+      errors.NoRouteToPath.throw({method, pathname, config: app.config});
     const path = reentry(verb.path?.exec(pathname).groups,
       object => object.map(([key, value]) => [key.split("$")[0], value]));
 
-    return verb.handler({...request, path});
+    // verb.handler is the last module to be executed
+    const handlers = [...modules, verb.handler].reduceRight((acc, handler) =>
+      input => handler(input, acc));
+
+    return handlers({...request, path});
   };
 };

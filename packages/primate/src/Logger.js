@@ -1,32 +1,50 @@
 import {assert, is} from "runtime-compat/dyndef";
-import {bold, green, red, yellow} from "runtime-compat/colors";
+import {blue, bold, green, red, yellow, dim} from "runtime-compat/colors";
 
-const error = 0;
-const warn = 1;
-const info = 2;
-
-const Abort = class Abort extends Error {};
-// Error natively provided
-const Warn = class Warn extends Error {};
-const Info = class Info extends Error {};
-
-const levels = new Map([
-  [Error, error],
-  [Warn, warn],
-  [Info, info],
-]);
-
-const abort = message => {
-  throw new Abort(message);
+const errors = {
+  Error: 0,
+  Warn: 1,
+  Info: 2,
 };
 
 const print = (...messages) => process.stdout.write(messages.join(" "));
+const bye = () => print(dim(yellow("~~ bye\n")));
+const mark = (format, ...params) => params.reduce((formatted, param) =>
+  formatted.replace("%", bold(param)), format);
+
+const reference = "https://primatejs.com/reference/errors";
+
+const hyphenate = classCased => classCased
+  .split("")
+  .map(character => character
+    .replace(/[A-Z]/u, capital => `-${capital.toLowerCase()}`))
+  .join("")
+  .slice(1);
 
 const Logger = class Logger {
   #level; #trace;
 
-  constructor({level = Error, trace = false} = {}) {
-    assert(level !== undefined && levels.get(level) <= info);
+  static throwable(type, name, module) {
+    return {
+      throw(args = {}) {
+        const {message, level, fix} = type(args);
+        const error = new Error(mark(...message));
+        error.level = level;
+        error.fix = mark(...fix);
+        error.name = name;
+        error.module = module;
+        throw error;
+      },
+      warn(logger, ...args) {
+        const {message, level, fix} = type(...args);
+        const error = {level, message: mark(...message), fix: mark(...fix)};
+        logger.auto({...error, name, module});
+      },
+    };
+  }
+
+  constructor({level = errors.Error, trace = false} = {}) {
+    assert(level !== undefined && level <= errors.Info);
     is(trace).boolean();
     this.#level = level;
     this.#trace = trace;
@@ -36,67 +54,73 @@ const Logger = class Logger {
     print(...args);
   }
 
+  static get mark() {
+    return mark;
+  }
+
   static get Error() {
-    return Error;
+    return errors.Error;
   }
 
   static get Warn() {
-    return Warn;
+    return errors.Warn;
   }
 
   static get Info() {
-    return Info;
+    return errors.Info;
   }
 
   get class() {
     return this.constructor;
   }
 
-  #print(pre, error) {
-    if (error instanceof Error) {
-      print(bold(pre), error.message, "\n");
-      if (this.#trace) {
-        console.log(error);
-      }
-    } else {
-      print(bold(pre), error, "\n");
+  #print(pre, color, message, {fix, module, name} = {}, error) {
+    print(pre, `${module !== undefined ? `${color(module)} ` : ""}${message}`, "\n");
+    if (fix && this.level >= errors.Warn) {
+      print(blue("++"), fix);
+      name && print(dim(`\n   -> ${reference}/${module ?? "primate"}#${hyphenate(name)}`), "\n");
+    }
+    if (this.#trace && error) {
+      print(pre, color(module), "trace follows\n");
+      console.log(error);
     }
   }
 
   get level() {
-    return levels.get(this.#level);
+    return this.#level;
   }
 
-  info(message) {
-    if (this.level >= levels.get(Info)) {
-      this.#print(green("--"), message);
-    }
-  }
-
-  warn(message) {
-    if (this.level >= levels.get(Warn)) {
-      this.#print(yellow("??"), message);
+  info(message, args) {
+    if (this.level >= errors.Info) {
+      this.#print(green("--"), green, message, args);
     }
   }
 
-  error(message) {
-    if (this.level >= levels.get(Error)) {
-      this.#print(red("!!"), message);
+  warn(message, args) {
+    if (this.level >= errors.Warn) {
+      this.#print(yellow("??"), yellow, message, args);
     }
   }
 
-  auto(message) {
-    if (message instanceof Info) {
-      return this.info(message.message);
+  error(message, args, error) {
+    if (this.level >= errors.Warn) {
+      this.#print(red("!!"), red, message, args, error);
     }
-    if (message instanceof Warn) {
-      return this.warn(message.message);
+  }
+
+  auto(error) {
+    const {level, message, ...args} = error;
+    if (level === errors.Info) {
+      return this.info(message, args, error);
+    }
+    if (level === errors.Warn) {
+      return this.warn(message, args, error);
     }
 
-    return this.error(message);
+    return this.error(message, args, error);
   }
 };
 
 export default Logger;
 
-export {levels, print, abort, Abort};
+export {print, bye};

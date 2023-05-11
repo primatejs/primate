@@ -10,7 +10,7 @@ export default async () => {
   };
   const db = {collections: read()};
 
-  return driver("memory", new TransactionManager({
+  return driver("memory", {}, new TransactionManager({
     async read() {
       db.collections = read();
     },

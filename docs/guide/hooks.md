@@ -41,12 +41,12 @@ subscribers accept different types of parameters, depending on the hook.
 |
 ├─ # if unmatched, match request against in-memory resources
 |
+| # if yielded through, match route
+|
 ├─ `route` # if previously unmatched
 │   └─ # modules handle routing request themselves or yield to `next`
 |
-| # if yielded through, match a route and execute it
-|
-| # if unmatched, show a 404 error
+| # if yielded through, execute route function
 |
 ├─ # END on client request
 ```
@@ -195,11 +195,15 @@ the start-up phase and is serving content
 This hook allows modules to handle requests themselves, before Primate tries
 to handle them on its own. It has the highest priority, being resolved before
 any static or in-memory resources are served and before route functions are
-matched.
+matched. It is particularly useful if you want to treat certain routes in
+a special way, but otherwise let Primate do the routing for you.
 
 It is particularly useful for modules which modify the request object in a way
 that exposes further functionality for all subsequent handlers, such as the
 [session module](/modules/session).
+
+If you need to manipulate the request object for *just for* the route function,
+use the `route` hook instead.
 
 ```js caption=primate.config.js
 const augment = request => {
@@ -225,12 +229,17 @@ export default {
 **Executed** for every request
 
 **Precondition** the request hasn't been completely handled by the `handle`
-hook and no static or in-memory resource has been matched by the request
+phase and a route has been match
 
-This hook allows modules to route requests after they have been handled by
-everything else aside from the route function, but before a route function has
-been matched. It is particularly useful if you want to treat certain routes in
-a special way, but otherwise let Primate do the routing for you.
+This hook allows modules to transform requests after they have been matched
+by a route function but before it executes.
+
+It is particularly useful for modifying the request object in a way that
+exposes further functionality specifically for the route function such as the
+[store module](/modules/store).
+
+If you need to manipulate the request object for *all* requests (including
+assets), use the `handle` hook instead.
 
 ```js caption=primate.config.js
 const delegate = request => {

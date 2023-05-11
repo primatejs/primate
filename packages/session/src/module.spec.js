@@ -13,7 +13,6 @@ const request = () => ({cookies: {}});
 
 const UUID = /^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$/u;
 
-
 export default test => {
   test.case("implicit", async assert => {
     const next = ({session}) => {
@@ -22,7 +21,7 @@ export default test => {
       assert(session.data).undefined();
       return response();
     };
-    
+
     const explicit = init({});
     const e = await explicit.handle(request(), next);
     assert(e.headers.has("Set-Cookie")).false();

@@ -1,5 +1,6 @@
-import {serve} from "runtime-compat/http";
-import {register, compile, publish, bundle, route, handle}
+import {serve, Response} from "runtime-compat/http";
+import {InternalServerError} from "./http-statuses.js";
+import {register, compile, publish, bundle, route, handle, parse}
   from "./hooks/exports.js";
 
 export default async (app, operations = {}) => {
@@ -16,6 +17,15 @@ export default async (app, operations = {}) => {
   // bundle client-side code
   await bundle(app, operations?.bundle);
 
-  // handle
-  serve(await handle({route: route(app), ...app}), app.config.http);
+  const _route = route(app);
+
+  serve(async request => {
+    try {
+      // parse, handle
+      return await handle({...app, route: _route})(await parse(request));
+    } catch(error) {
+      app.log.auto(error);
+      return new Response(null, {status: InternalServerError});
+    }
+  }, app.config.http);
 };

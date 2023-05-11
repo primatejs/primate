@@ -1,5 +1,0 @@
-export default {
-  OK: 200,
-  Found: 302,
-  InternalServerError: 500,
-};

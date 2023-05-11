@@ -1,4 +1,6 @@
-export default (Location, {status = 302} = {}) => (_, headers) => [
+import {Found} from "../http-statuses.js";
+
+export default (Location, {status = Found} = {}) => (_, headers) => [
   /* no body */
   null, {
     status,

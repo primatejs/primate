@@ -4,6 +4,7 @@ import priss from "priss";
 const master = i => i;
 const blog = () => undefined;
 
+
 export default {
   http: {
     host: "0.0.0.0",
@@ -35,7 +36,15 @@ export default {
           {heading: "Advanced"},
           "Security",
         ],
-        reference: [],
+        reference: [
+          {heading: "Errors"},
+          {
+            errors: [
+              "primate",
+              "primate/store",
+            ],
+          },
+        ],
         modules: [
           {heading: "Modules"},
           "Official",
@@ -47,7 +56,7 @@ export default {
           "Vue",
           "HTMX",
           {heading: "Data"},
-          "Stores",
+          "Store",
           "MongoDB",
           "PostgreSQL",
           {heading: "Others"},

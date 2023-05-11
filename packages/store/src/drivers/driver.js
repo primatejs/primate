@@ -8,7 +8,7 @@ const operations = [
   "primary",
 ];
 
-export default (name, manager) => ({
+export default (name, types, manager) => ({
   /* driver name, must be unique */
   name,
   /* start transaction */
@@ -37,6 +37,7 @@ export default (name, manager) => ({
     }
     manager.close();
   },
+  types,
   ...Object.fromEntries(operations.map(operation => [operation, (...args) =>
     manager.schedule(_operations => _operations[operation](...args),
       {change: ["insert", "update", "delete"].includes(operation)}

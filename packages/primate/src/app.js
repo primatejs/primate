@@ -1,8 +1,9 @@
 import crypto from "runtime-compat/crypto";
 import {File, Path} from "runtime-compat/fs";
-import {bold, blue, grey} from "runtime-compat/colors";
+import {bold, blue} from "runtime-compat/colors";
+import errors from "./errors.js";
 import * as handlers from "./handlers/exports.js";
-import {abort} from "./Logger.js";
+import * as hooks from "./hooks/exports.js";
 
 const qualify = (root, paths) =>
   Object.keys(paths).reduce((sofar, key) => {
@@ -34,12 +35,12 @@ const hash = async (string, algorithm = "sha-384") => {
 };
 
 export default async (config, root, log) => {
-  const {name, version} = await src.up(1).join("package.json").json();
+  const {http} = config;
 
   // if ssl activated, resolve key and cert early
-  if (config.http.ssl) {
-    config.http.ssl.key = root.join(config.http.ssl.key);
-    config.http.ssl.cert = root.join(config.http.ssl.cert);
+  if (http.ssl) {
+    http.ssl.key = root.join(http.ssl.key);
+    http.ssl.cert = root.join(http.ssl.cert);
   }
 
   const paths = qualify(root, config.paths);
@@ -54,22 +55,27 @@ export default async (config, root, log) => {
 
   const modules = config.modules === undefined ? [] : config.modules;
 
-  modules.every(module => module.name !== undefined ||
-    abort("all modules must have names"));
+  modules.every((module, n) => module.name !== undefined ||
+    errors.ModulesMustHaveNames.throw({n}));
 
-  if (new Set(modules.map(module => module.name)).size !== modules.length) {
-    abort("same module twice");
-  }
+  new Set(modules.map(({name}) => name)).size !== modules.length &&
+    errors.DoubleModule.throw({
+      modules: modules.map(({name}) => name),
+      config: root.join("primate.config.js"),
+    });
 
-  modules.every(module => Object.entries(module).length > 1) || (() => {
-    log.warn("some modules haven't subscribed to any hooks");
-  })();
+  const hookless = modules.filter(module =>
+    !Object.keys(module).some(key => Object.keys(hooks).includes(key)));
+  hookless.length > 0 && errors.ModuleHasNoHooks.warn(log, {hookless});
+
+  const {name, version} = await src.up(1).join("package.json").json();
 
   const app = {
     config,
     routes,
-    secure: config.http?.ssl !== undefined,
-    name, version,
+    secure: http?.ssl !== undefined,
+    name,
+    version,
     library: {},
     identifiers: {},
     replace(code) {
@@ -87,6 +93,25 @@ export default async (config, root, log) => {
     paths,
     root,
     log,
+    generateHeaders: () => {
+      const csp = Object.keys(http.csp).reduce((policy_string, key) =>
+        `${policy_string}${key} ${http.csp[key]};`, "");
+      const scripts = app.resources
+        .map(resource => `'${resource.integrity}'`).join(" ");
+      const _csp = scripts === "" ? csp : `${csp}script-src 'self' ${scripts};`;
+      // remove inline resources
+      for (let i = app.resources.length - 1; i >= 0; i--) {
+        const resource = app.resources[i];
+        if (resource.inline) {
+          app.resources.splice(i, 1);
+        }
+      }
+
+      return {
+        "Content-Security-Policy": _csp,
+        "Referrer-Policy": "same-origin",
+      };
+    },
     handlers: {...handlers},
     render: async ({body = "", head = ""} = {}) => {
       const html = await index(app);
@@ -112,7 +137,7 @@ export default async (config, root, log) => {
       // while integrity is only really needed for scripts, it is also later
       // used for the etag header
       const integrity = await hash(code);
-      const _src = new Path(config.http.static.root).join(src ?? "");
+      const _src = new Path(http.static.root).join(src ?? "");
       app.resources.push({src: `${_src}`, code, type, inline, integrity});
       return integrity;
     },
@@ -130,11 +155,8 @@ export default async (config, root, log) => {
     },
     modules,
   };
-  const {print} = log.class;
-  print(blue(bold(name)), blue(version), "");
-  const type = app.secure ? "https" : "http";
-  const address = `${type}://${config.http.host}:${config.http.port}`;
-  print(grey(`at ${address}`), "\n");
+  log.class.print(blue(bold(name)), blue(version),
+    `at http${app.secure ? "s" : ""}://${http.host}:${http.port}\n`);
   // modules may load other modules
   await Promise.all(app.modules
     .filter(module => module.load !== undefined)

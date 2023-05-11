@@ -29,7 +29,7 @@ const post = async app => {
 };
 
 export default async app => {
-  app.log.info("running publish hooks");
+  app.log.info("running publish hooks", {module: "primate"});
   await [...filter("publish", app.modules), _ => _]
     .reduceRight((acc, handler) => input => handler(input, acc))(app);
   await post(app);

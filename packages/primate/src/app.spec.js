@@ -1,3 +1,6 @@
+import {Path} from "runtime-compat/fs";
+import {bold} from "runtime-compat/colors";
+
 import app from "./app.js";
 
 const config = {
@@ -8,8 +11,9 @@ const config = {
 
   },
 };
-const root = "/";
+const root = new Path("/");
 const logger = {
+  auto: () => null,
   class: {
     print: () => null,
     colors: {
@@ -30,11 +34,11 @@ export default test => {
     assert(() => init({
       ...config,
       modules: [{}],
-    })).throws("all modules must have names");
+    })).throws("modules must have names");
   });
   test.case("warn when a module doesn't subscribe to hooks", async assert => {
     let r = false;
-    const l = {...logger, warn: () => {
+    const l = {...logger, auto: () => {
       r = true;
     }};
     await init({
@@ -43,10 +47,10 @@ export default test => {
     }, l);
     assert(r).true();
   });
-  test.case("same module twice", async assert => {
+  test.case("double module", async assert => {
     assert(() => init({
       ...config,
       modules: [{name: "hi"}, {name: "hi"}],
-    })).throws("same module twice");
+    })).throws(`double module ${bold("hi")} in ${bold("/primate.config.js")}`);
   });
 };

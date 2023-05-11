@@ -1,53 +1,46 @@
-export default (driver, lifecycle) => test => {
-  const init = async (db = driver()) => {
-    const _db = await db;
-    return Object.fromEntries(Object.keys(_db).map(operation =>
-      [operation, (...args) => _db[operation](...args)]
-    ));
-  };
-
+export default (test, driver, lifecycle) => {
   test.lifecycle(lifecycle);
 
   test.case("empty collection", async assert => {
-    const {count} = await init();
+    const {count} = await driver();
     await assert(await count("user")).equals(0);
     await assert(await count("comment")).equals(0);
   });
   test.case("primary", async assert => {
-    const {primary} = await init();
+    const {primary} = await driver();
     const {validate, generate} = await primary();
     await assert(validate(generate())).true();
   });
   test.case("insert/count", async assert => {
-    const {insert, count} = await init();
-    await insert("user", {id: "1"}) ;
+    const {insert, count} = await driver();
+    await insert("user", {id: "1"});
     await assert(await count("user")).equals(1);
     await assert(await count("comment")).equals(0);
-    await insert("user", {id: "1"}) ;
+    await insert("user", {id: "1"});
     await assert(await count("user")).equals(1 + 1);
     await assert(await count("comment")).equals(0);
   });
   test.case("get", async assert => {
-    const {insert, get} = await init();
+    const {insert, get} = await driver();
     await insert("user", {id: "1"}) ;
     await assert(await get("user", "id", "1")).equals({id: "1"});
   });
   test.case("find", async assert => {
-    const {insert, find} = await init();
+    const {insert, find} = await driver();
     const user1 = {id: "1", name: "Donald", sex: "M"};
     const user2 = {id: "2", name: "Donald", sex: "M"};
     const user3 = {id: "3", name: "Ryan", sex: "M"};
     await insert("user", user1);
     await insert("user", user2);
     await insert("user", user3);
-    await assert(await find("user", {name: "Donald"})).equals([user1, user2]);
-    await assert(await find("user", {name: "Ryan"})).equals([user3]);
-    await assert(await find("user", {sex: "M"})).equals([user1, user2, user3]);
-    await assert(await find("user", {sex: "F"})).equals([]);
-    await assert(await find("user")).equals([user1, user2, user3]);
+    await assert(await find({}, "user", {name: "Donald"})).equals([user1, user2]);
+    await assert(await find({}, "user", {name: "Ryan"})).equals([user3]);
+    await assert(await find({}, "user", {sex: "M"})).equals([user1, user2, user3]);
+    await assert(await find({}, "user", {sex: "F"})).equals([]);
+    await assert(await find({}, "user")).equals([user1, user2, user3]);
   });
   test.case("update", async assert => {
-    const {update, get, insert, count} = await init();
+    const {update, get, insert, count} = await driver();
     const user1 = {id: "1", name: "Donald"};
     const user2 = {id: "2", name: "Donald"};
     await insert("user", user1);
@@ -61,7 +54,7 @@ export default (driver, lifecycle) => test => {
     await assert(await get("user", "id", "2")).equals(user2);
   });
   test.case("delete", async assert => {
-    const {insert, count, get, delete: $delete} = await init();
+    const {insert, count, get, delete: $delete} = await driver();
     const user1 = {id: "1", name: "Donald"};
     const user2 = {id: "2", name: "Donald"};
     await insert("user", user1);
@@ -75,7 +68,7 @@ export default (driver, lifecycle) => test => {
     await assert(await count("user")).equals(0);
   });
   test.case("transactions", async assert => {
-    const {start, rollback, commit, end, insert, count} = await init();
+    const {start, rollback, commit, end, insert, count} = await driver();
     const error = "no transaction, use `start` first";
     assert(() => rollback()).throws(error);
     assert(() => commit()).throws(error);

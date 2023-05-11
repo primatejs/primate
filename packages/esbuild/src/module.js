@@ -5,7 +5,8 @@ export default () => ({
   async bundle(app, next) {
     const build = app.root.join("build");
     if (await build.exists) {
-      app.log.warn("build folder already exists, bundling disabled");
+      app.log.warn("build folder already exists, bundling disabled",
+        {module: "primate/esbuild"});
       return next(app);
     }
     await build.file.create();

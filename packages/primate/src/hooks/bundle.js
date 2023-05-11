@@ -22,7 +22,7 @@ const pre = async app => {
 export default async (app, bundle) => {
   await pre(app);
   if (bundle) {
-    app.log.info("running bundle hooks");
+    app.log.info("running bundle hooks", {module: "primate"});
     await [...filter("bundle", app.modules), _ => _]
       .reduceRight((acc, handler) => input => handler(input, acc))(app);
   }

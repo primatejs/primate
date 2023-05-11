@@ -4,5 +4,5 @@ export default {
   coerce: value => boolish(value) ? value === "true" : value,
   validate: value => typeof value === "boolean",
   message: "Must be true or false",
-  base: "boolean",
+  type: "boolean",
 };

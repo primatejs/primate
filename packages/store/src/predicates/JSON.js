@@ -8,5 +8,5 @@ export default {
     }
   },
   message: "Must be a valid JSON string",
-  base: "json",
+  type: "json",
 };

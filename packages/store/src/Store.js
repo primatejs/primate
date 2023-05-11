@@ -1,12 +1,31 @@
+import {Logger} from "primate";
 import validate from "./validate.js";
+import errors from "./errors.js";
+
+const transform = direction => ({types, schema, document, path}) =>
+  Object.fromEntries(Object.entries(document)
+    .filter(([field]) => schema[field]?.type !== undefined)
+    .map(([field, value]) => {
+      try {
+        return [field, types[schema[field].type]?.[direction](value) ?? value];
+      } catch (error) {
+        const {name} = schema[field];
+        errors.CannotUnpackValue.throw({name, value, field, path, document});
+      }
+    }));
+
+const pack = transform("in");
+const unpack = transform("out");
 
 export default class Store {
   #schema;
   #config = {};
+  #path;
 
-  constructor(name, schema = {}, options = {}) {
+  constructor(name, schema = {}, config = {}) {
     this.#schema = schema;
-    this.#config = {name: name.toLowerCase(), ...options};
+    this.#path = name.replaceAll("_", ".");
+    this.#config = {name: name.toLowerCase(), ...config};
   }
 
   get driver() {
@@ -25,10 +44,11 @@ export default class Store {
     return this.#config.readonly;
   }
 
+  get strict() {
+    return this.#config.strict;
+  }
+
   async validate(input) {
-    if (!this.#config.validate) {
-      return {error: {}, document: input};
-    }
     return validate({
       /* name of the primary field as well the driver's primary validate
        * function */
@@ -40,6 +60,26 @@ export default class Store {
       input,
       /* the schema to validate against */
       schema: this.#schema,
+      /* whether all fields must be non-empty */
+      strict: this.#config.strict,
+    });
+  }
+
+  #pack(document) {
+    return pack({
+      types: this.driver.types,
+      schema: this.#schema,
+      document,
+      path: this.#path,
+    });
+  }
+
+  #unpack(document) {
+    return unpack({
+      types: this.driver.types,
+      schema: this.#schema,
+      document,
+      path: this.#path,
     });
   }
 
@@ -48,20 +88,31 @@ export default class Store {
       ({[this.primary]: generate()}));
   }
 
-  get(value) {
-    return this.driver.get(this.name, this.primary, value);
+  async get(value) {
+    const {name} = this;
+    const path = this.#path;
+
+    const document = await this.driver.get(name, this.primary, value);
+
+    document === undefined && errors.NoDocumentFound.throw({path, value});
+
+    return this.#unpack(document);
   }
 
-  find(criteria) {
-    return this.driver.find(this.name, criteria);
+  async find(criteria) {
+    const documents = await this.driver.find(this.name, criteria);
+    return documents.map(document => this.#unpack(document));
   }
 
-  async #validate(input, onSuccess) {
+  async #validate(input, write) {
     const {error, document} = await this.validate(input);
+    const keys = Object.keys(error);
 
-    return Object.keys(error).length === 0
-      ? {document: this.readonly ? document : await onSuccess(document)}
-      : {error};
+    return keys.length === 0
+      ? {document: this.readonly ? document : await write(this.#pack(document))}
+      : (() => {
+        throw new Logger.Warn(`validation failed for ${keys.join(", ")}`);
+      })();
   }
 
   #generate() {

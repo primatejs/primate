@@ -1,11 +1,10 @@
 import {Path} from "runtime-compat/fs";
-import {yellow, red} from "runtime-compat/colors";
-
 import app from "./app.js";
-import command from "./commands/exports.js";
-import {Abort, print, default as Logger} from "./Logger.js";
-import defaults from "./defaults/primate.config.js";
+import {default as Logger, bye} from "./Logger.js";
 import extend from "./extend.js";
+import errors from "./errors.js";
+import command from "./commands/exports.js";
+import defaults from "./defaults/primate.config.js";
 
 const getRoot = async () => {
   try {
@@ -17,19 +16,21 @@ const getRoot = async () => {
   }
 };
 
-const configName = "primate.config.js";
+const protologger = new Logger({level: Logger.Warn});
+
 const getConfig = async root => {
-  const config = root.join(configName);
+  const name = "primate.config.js";
+  const config = root.join(name);
   if (await config.exists) {
     try {
-      const imported = await import(config);
-      if (imported.default === undefined) {
-        print(`${yellow("??")} ${configName} has no default export\n`);
-      }
-      return extend(defaults, imported.default);
-    } catch (error) {
-      print(`${red("!!")} couldn't load config file\n`);
-      throw error;
+      const imported = (await import(config)).default;
+
+      (imported === undefined || Object.keys(imported).length === 0) &&
+        errors.EmptyConfigFile.warn(protologger, {config});
+
+      return extend(defaults, imported);
+    } catch ({message}) {
+      return errors.ErrorInConfigFile.throw({message, config});
     }
   } else {
     return defaults;
@@ -38,11 +39,16 @@ const getConfig = async root => {
 
 export default async name => {
   const root = await getRoot();
-  const config = await getConfig(root);
+  let logger = protologger;
   try {
-    command(name)(await app(config, root, new Logger(config.logger)));
+    const config = await getConfig(root);
+    logger = new Logger(config.logger);
+    await command(name)(await app(config, root, new Logger(config.logger)));
   } catch (error) {
-    if (error instanceof Abort) {
+    if (error.level === Logger.Error) {
+      logger.auto(error);
+      bye();
+    } else {
       throw error;
     }
   }

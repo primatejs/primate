@@ -1,6 +1,14 @@
+import Logger from "../Logger.js";
 import route from "./route.js";
 
+const {mark} = Logger;
+
 const app = {
+  config: {
+    paths: {
+      routes: "/routes",
+    },
+  },
   routes: [
     "index",
     "user",
@@ -36,9 +44,10 @@ export default test => {
   const r = pathname => {
     const original = new Request(`${p}${pathname}`, {method: "GET"});
     const {url} = original;
+    const end = -1;
     return router({
       original,
-      url: new URL(url.endsWith("/") ? url.slice(0, -1) : url),
+      url: new URL(url.endsWith("/") ? url.slice(0, end) : url),
     });
   };
 
@@ -46,34 +55,58 @@ export default test => {
     match: (url, result) => {
       assert(r(url).url.pathname).equals(result ?? url);
     },
-    fail: (url, result) =>
-      assert(() => r(url)).throws(`no GET route to ${result ?? url}`),
+    fail: (url, result) => {
+      const throws = mark("no % route to %", "GET", result ?? url);
+      assert(() => r(url)).throws(throws);
+    },
     path: (url, result) => assert(r(url).path).equals(result),
     assert,
   }));
 
   const get = () => null;
-  /* abort {{{ */
-  test.case("must not contain the same route twice", ({assert}) => {
+  /* errors {{{ */
+  test.case("error DoubleRouted", ({assert}) => {
     const post = ["post", {get}];
-    assert(() => route({routes: [post, post]})).throws("same route twice");
+    const throws = mark("double route %", "post");
+    assert(() => route({routes: [post, post]})).throws(throws);
   });
-  test.case("must not contain the same param twice", ({assert}) => {
-    assert(() => route({routes: [["{userId}/{userId}", {get}]]}))
-      .throws("same parameter twice");
+  test.case("error DoublePathParameter", ({assert}) => {
+    const path = "{user}/{user}";
+    const throws = mark("double path parameter % in route %", "user", path);
+    assert(() => route({routes: [[path, {get}]]})).throws(throws);
   });
-  test.case("must not contain invalid characters in routes", ({assert}) => {
+  test.case("error EmptyRoutefile", ({assert}) => {
+    const path = "user";
+    const throws = mark("empty route file at %", `/routes/${path}.js`);
+    const base = {
+      log: {
+        auto(error) {
+          throw error;
+        },
+      },
+      config: {
+        paths: {
+          routes: "/routes",
+        },
+      },
+    };
+    assert(() => route({...base, routes: [[path, undefined]]})).throws(throws);
+    assert(() => route({...base, routes: [[path, {}]]})).throws(throws);
+  });
+  test.case("error InvalidRouteName", ({assert}) => {
     const post = ["po.st", {get}];
-    assert(() => route({routes: [post], types: {}}))
-      .throws("invalid characters in route `po.st` [.]");
+    const throws = mark("invalid route name %", "po.st");
+    assert(() => route({routes: [post], types: {}})).throws(throws);
   });
-  test.case("must not contain invalid characters in params", ({assert}) => {
-    assert(() => route({routes: [["{user$Id}", {get}]]}))
-      .throws("invalid parameter \"user$Id\"");
+  test.case("error InvalidParameter", ({assert}) => {
+    const path = "{us$er}";
+    const throws = mark("invalid path parameter % in route %", "us$er", path);
+    assert(() => route({routes: [[path, {get}]]})).throws(throws);
   });
-  test.case("must not contain invalid characters in types", ({assert}) => {
-    assert(() => route({routes: [], types: {us$er: () => null}}))
-      .throws("invalid type \"us$er\"");
+  test.case("error InvalidType", ({assert}) => {
+    const throws = mark("invalid type %", "us$er");
+    const types = {us$er: () => false};
+    assert(() => route({routes: [], types})).throws(throws);
   });
   /* }}} */
 
