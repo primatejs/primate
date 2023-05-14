@@ -1,6 +1,6 @@
 # WebSocket
 
-The WebSocket module adds support for WebSocket comminucation to your
+The WebSocket module adds support for WebSocket communication to your
 application.
 
 ## Install
