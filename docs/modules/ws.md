@@ -35,13 +35,10 @@ export default {
     return view("chat.html");
   },
   ws(request) {
-    const {limit} = Number(request.query);
+    const {limit} = request.query;
+    let n = 1;
     return {
-      connection() {
-        return "hi";
-      },
       message(payload) {
-        let n = 1;
         if (n > 0 && n < limit) {
           n++;
           return `You wrote ${payload}`;
@@ -54,16 +51,41 @@ export default {
 
 ```html caption=components/chat.html | chat client
 <script>
-  const ws = new WebSocket("ws://localhost:6161/chat?limit=100");
-  ws.addEventListener("message", message => {
-    ws.send(`you sent ${message}`);
-  })
+  window.addEventListener("load", () => {
+    const ws = new WebSocket("ws://localhost:6161/chat?limit=20");
+    ws.addEventListener("open", () => {
+      document.querySelector("#chat").addEventListener("keypress", event => {
+        if (event.key === "Enter") {
+          ws.send(event.target.value);
+          event.target.value = "";
+        }
+      })
+    });
+    ws.addEventListener("message", message => {
+      const chatbox = document.querySelector("#box");
+      const div = document.createElement("div");
+      div.innerText = message.data
+      chatbox.appendChild(div);
+    })
+  });
 </script>
+<style>
+.chatbox {
+  background-color: lightgrey;
+  width: 300px;
+  height: 300px;
+  overflow: auto;
+}
+</style>
+<div class="chatbox" id="box">
+
+</div>
+<input id="chat" placeholder="Type to chat" />
 ```
 
 By that example, a client requesting a `GET` WebSocket upgrade at
-`/chat?limit=100` will be able to start communication bidirectionally with the
-server using web sockets.
+`/chat?limit=20` will be able to start chat communication with the server using
+web sockets, with a limit of 20 messages.
 
 ## Resources
 
