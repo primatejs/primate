@@ -141,7 +141,7 @@ export default ({
       } catch (error) {
         env.log.auto(error);
         await transaction.rollback();
-        errors.TransactionRolledBack.warn(env.log, {id, name});
+        errors.TransactionRolledBack.warn(env.log, {id, name: error.name});
 
         return new Response("Internal server error", {status: 500});
       } finally {
