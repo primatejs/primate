@@ -6,49 +6,32 @@ subscribers accept different types of parameters, depending on the hook.
 
 ## Lifecycle
 
-```sh caption=lifecycle of a Primate app
-├─ # read configuration and merge with defaults
-│
+```sh caption=Primate app lifecycle
+┌─ # read configuration and merge with defaults
 ├─ `load`
 │   └─ # modules initialize / load other modules
-|
-├─ # BEGIN start-up phase, all hooks in this phase are called once
-|
+├─ # *begin* start-up phase, all hooks in this phase are called once
 ├─ `register`
 │   └─ # modules register component file extensions for the `view` handler
-|
 ├─ `compile`
 │   └─ # modules compile server-side files into JavaScript
-|
 ├─ `publish`
 │   └─ # modules publish client-side code and entry points to memory
-|
-├─ # evalute entry points, load JavaScript/CSS files in `static` to memory
-|
+├─ # evaluate entry points, load JavaScript/CSS files in `static` to memory
 ├─ # create `public` and copy files from `static` to `public`
-|
 ├─ `bundle` # if `npx primate serve` is run, otherwise skipped
 │   └─ # modules transform in-memory client-side code
-|
-├─ # END start-up phase
-|
-├─ # BEGIN on client request, all hooks in this phase are called per request
-|
+├─ # *end* start-up phase
+├─ # *begin* client request phase, hooks here are called per request
 ├─ `handle` # on client request
 │   └─ # modules handle client request themselves or yield to `next`
-|
 ├─ # if yielded through, match request against static resources in `public`
-|
 ├─ # if unmatched, match request against in-memory resources
-|
 | # if yielded through, match route
-|
 ├─ `route` # if previously unmatched
 │   └─ # modules handle routing request themselves or yield to `next`
-|
 | # if yielded through, execute route function
-|
-├─ # END on client request
+└─ # *end* client request phase due to program shutdown
 ```
 
 ## load

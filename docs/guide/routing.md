@@ -237,9 +237,9 @@ Types need to be defined in the `types` directory as predicate functions
 corresponds to the type name.
 
 ```js caption=types/uuid.js
-const UUID = /^[a-zA-Z\d]{8}-[a-zA-Z\d]{4}-[a-zA-Z\d]{4}-[a-zA-Z\d]{12}$/u;
+const uuid = /^[^\W_]{8}-[^\W_]{4}-[^\W_]{4}-[^\W_]{4}-[^\W_]{12}$/u;
 
-export default maybeUUID => UUID.test(maybeUUID);
+export default value => uuid.test(value);
 ```
 
 With the definition in place, to type a parameter, place a colon between its

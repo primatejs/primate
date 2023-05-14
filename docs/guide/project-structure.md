@@ -6,14 +6,14 @@ setup you would use.
 ```sh
 .
 ├─ static/
-│   ├─ index.html
-│   └─ [static resources]
+│  ├─ index.html
+│  └─ [static resources]
 ├─ primate.config.js
 ├─ package.json
 ├─ routes/
-│   └─ [filesystem-based routes]
+│  └─ [filesystem-based routes]
 └─ components/
-    └─ [view components]
+   └─ [view components]
 ```
 
 ## static
@@ -58,13 +58,13 @@ were creating a blog, this is how a typical layout could look like.
 .
 ├─ index.js # view homepage -> /
 └─ post/
-    ├─ add.js # add post -> /post/add
-    └─ {postId}/
-        ├─ comment/
-        │   └─ add.js # add comment on post -> /post/1/comment/add
-        ├─ comments.js # show comments on posts -> /post/1/comments
-        ├─ delete.js # delete post -> /post/1/delete
-        └─ edit.js # edit post -> /post/1/edit
+   ├─ add.js # add post -> /post/add
+   └─ {postId}/
+      ├─ comment/
+      │  └─ add.js # add comment on post -> /post/1/comment/add
+      ├─ comments.js # show comments on posts -> /post/1/comments
+      ├─ delete.js # delete post -> /post/1/delete
+      └─ edit.js # edit post -> /post/1/edit
 ```
 
 !!!
@@ -80,10 +80,10 @@ verbs. In that case, your layout might look a little different.
 ```sh caption=routes (API)
 .
 ├─ post/
-│   ├─ {postId}/
-│   │   └─ comment.js # get post comments -> /post/1/comment
-│   │   └─ {commentId}.js # get, update, delete comment -> post/1/comment/2
-│   └─ {postId}.js # get, update, delete post -> post/1
+│  ├─ {postId}/
+│  │  ├─ comment.js # get post comments -> /post/1/comment
+│  │  └─ {commentId}.js # get, update, delete comment -> post/1/comment/2
+│  └─ {postId}.js # get, update, delete post -> post/1
 └─ post.js # add post -> /post
 ```
 

@@ -34,6 +34,7 @@ export default {
           "Extending Primate",
           "Hooks",
           {heading: "Advanced"},
+          "Logging",
           "Security",
         ],
         reference: [
@@ -57,6 +58,7 @@ export default {
           "HTMX",
           {heading: "Data"},
           "Store",
+          "Validation",
           "MongoDB",
           "PostgreSQL",
           {heading: "Others"},

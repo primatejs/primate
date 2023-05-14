@@ -1,6 +1,6 @@
 # Sessions
 
-The [Session module][repository] adds cookie-based sessions to your
+The [session module][repository] adds cookie-based sessions to your
 application.
 
 ## Install
@@ -9,9 +9,9 @@ application.
 
 ## Load
 
-Add to `primate.config.js`
+Import and initialize the module in your configuration.
 
-```js
+```js caption=primate.config.js
 import session from "@primate/session";
 
 export default {
@@ -78,7 +78,6 @@ Primate [is running on https](/guide/configuration#http-ssl-key-cert)
 
 **Cross-site scripting attacks** cookies are always sent with the `HttpOnly`
 attribute
-
 
 [repository]: https://github.com/primatejs/primate/tree/master/packages/session
 [inMemorySessionManager]: https://github.com/primatejs/primate/blob/master/packages/session/src/module.js#L7-L19

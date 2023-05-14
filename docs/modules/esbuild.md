@@ -12,9 +12,9 @@ Primate using `npx primate serve`.
 
 ## Configure
 
-Add to `primate.config.js`
+Import and initialize the module in your configuration.
 
-```js
+```js caption=primate.config.js
 import esbuild from "@primate/esbuild";
 
 export default {
