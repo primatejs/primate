@@ -52,6 +52,13 @@ export default async (config, root, log) => {
         `${route}`.replace(paths.routes, "").slice(1, -ending.length),
         (await import(route)).default,
       ]));
+  const types = Object.fromEntries(
+    paths.types === undefined ? [] : await Promise.all(
+      (await Path.collect(paths.types , /^.*.js$/u))
+        .map(async type => [
+          `${type}`.replace(paths.types, "").slice(1, -ending.length),
+          (await import(type)).default,
+        ])));
 
   const modules = config.modules === undefined ? [] : config.modules;
 
@@ -154,6 +161,7 @@ export default async (config, root, log) => {
       app.identifiers = {...exports, ...app.identifiers};
     },
     modules,
+    types,
   };
   log.class.print(blue(bold(name)), blue(version),
     `at http${app.secure ? "s" : ""}://${http.host}:${http.port}\n`);

@@ -46,8 +46,9 @@ export default Object.fromEntries(Object.entries({
     };
   },
   ModuleHasNoHooks({hookless}) {
+    const modules = hookless.map(({name}) => name).join(", ");
     return {
-      message: ["module % has no hooks", hookless.join(", ")],
+      message: ["module % has no hooks", modules],
       fix: ["ensure every module uses at least one hook or deactivate it"],
       level: Logger.Warn,
     };
