@@ -21,6 +21,8 @@ subscribers accept different types of parameters, depending on the hook.
 ├─ # create `public` and copy files from `static` to `public`
 ├─ `bundle` # if `npx primate serve` is run, otherwise skipped
 │   └─ # modules transform in-memory client-side code
+├─ `serve`
+│   └─ # modules modify the underlying server to access low-level operations
 ├─ # *end* start-up phase
 ├─ # *begin* client request phase, hooks here are called per request
 ├─ `handle` # on client request
@@ -167,6 +169,21 @@ particularly useful for bundler modules such as [esbuild](/modules/esbuild).
 
 This hook receives the app as its first and the next subscriber as its second
 parameter.
+
+## serve
+
+**Executed** once
+
+**Precondition** The HTTP server has been created.
+
+This hook allows modules to access the low-level HTTP server implementation in
+order to deal with additions to HTTP such as the WebSocket protocol. Such
+modules can add support for additional verbs aside from the official HTTP
+verbs. For example, the [WebSocket](/modules/ws) module adds support for
+a `ws` verb.
+
+This hook receives the app, augmented with a `server` property, as its first
+and the next subscriber as its second parameter.
 
 ## handle
 

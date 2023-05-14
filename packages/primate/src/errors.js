@@ -82,7 +82,7 @@ export default Object.fromEntries(Object.entries({
     };
   },
   NoRouteToPath({method, pathname, config: {paths}}) {
-    const route = `${paths.routes}/${pathname === "/" ? "index" : ""}.js`;
+    const route = `${paths.routes}${pathname === "" ? "index" : pathname}.js`;
     return {
       message: ["no % route to %", method, pathname],
       fix: ["if unintentional create a route at %", route],

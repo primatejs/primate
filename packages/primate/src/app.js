@@ -172,5 +172,7 @@ export default async (config, root, log) => {
       app.modules.push(dependent);
     }})));
 
+  app.route = hooks.route(app);
+
   return app;
 };

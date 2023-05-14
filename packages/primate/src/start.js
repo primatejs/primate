@@ -1,31 +1,36 @@
 import {serve, Response} from "runtime-compat/http";
 import {InternalServerError} from "./http-statuses.js";
-import {register, compile, publish, bundle, route, handle, parse}
-  from "./hooks/exports.js";
+import * as hooks from "./hooks/exports.js";
+
+const filter = (key, array) => array?.flatMap(m => m[key] ?? []) ?? [];
 
 export default async (app, operations = {}) => {
   // register handlers
-  await register({...app, register(name, handler) {
+  await hooks.register({...app, register(name, handler) {
     app.handlers[name] = handler;
   }});
 
   // compile server-side code
-  await compile(app);
+  await hooks.compile(app);
   // publish client-side code
-  await publish(app);
+  await hooks.publish(app);
 
   // bundle client-side code
-  await bundle(app, operations?.bundle);
+  await hooks.bundle(app, operations?.bundle);
 
-  const _route = route(app);
-
-  serve(async request => {
+  const server = await serve(async request => {
+    const {handle, parse} = hooks;
     try {
       // parse, handle
-      return await handle({...app, route: _route})(await parse(request));
+      return await handle(app)(await parse(request));
     } catch(error) {
       app.log.auto(error);
       return new Response(null, {status: InternalServerError});
     }
   }, app.config.http);
+
+  await [...filter("serve", app.modules), _ => _]
+    .reduceRight((acc, handler) => input => handler(input, acc))({
+      ...app, server,
+    });
 };

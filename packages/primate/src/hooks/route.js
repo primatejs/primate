@@ -4,13 +4,6 @@ const filter = (key, array) => array?.flatMap(m => m[key] ?? []) ?? [];
 
 // insensitive-case equal
 const ieq = (left, right) => left.toLowerCase() === right.toLowerCase();
-// HTTP verbs
-const verbs = [
-  // CRUD
-  "post", "get", "put", "delete",
-  // extended
-  "connect", "options", "trace", "patch", "head",
-];
 
 /* routes may not contain dots */
 export const invalid = route => /\./u.test(route);
@@ -63,10 +56,8 @@ export default app => {
         return [];
       }
 
-      const path = toRoute(route);
       return Object.entries(imported)
-        .filter(([verb]) => verbs.includes(verb))
-        .map(([method, handler]) => ({method, handler, path}));
+        .map(([method, handler]) => ({method, handler, path: toRoute(route)}));
     }).flat();
 
   const {types = {}} = app;
