@@ -173,6 +173,7 @@ export default async (config, root, log) => {
     }})));
 
   app.route = hooks.route(app);
+  app.parse = hooks.parse;
 
   return app;
 };
