@@ -10,15 +10,15 @@ const integrate = async (html, publish, headers) => {
   return html.replaceAll(/<script>.*?<\/script>/gus, () => "");
 };
 
-export default (component, flags = {}) => {
-  const {status = 200, partial = false, load = false} = flags;
+export default (component, options = {}) => {
+  const {status = 200, partial = false, load = false, layout} = options;
 
   return async (app, headers) => {
     const body = await integrate(await load ?
       await app.paths.components.join(component).text() : component,
         app.publish, headers);
 
-    return [partial ? body : await app.render({body}), {
+    return [partial ? body : await app.render({body, layout}), {
       status,
       headers: {...headers, "Content-Type": "text/html"},
     }];

@@ -15,15 +15,16 @@ const qualify = (root, paths) =>
   }, {});
 
 const src = new Path(import.meta.url).up(1);
+const defaultLayout = "index.html";
 
-const index = async app => {
-  const name = "index.html";
+const index = async (app, layout = defaultLayout) => {
+  const name = layout;
   try {
     // user-provided file
     return await File.read(`${app.paths.static.join(name)}`);
   } catch (error) {
     // fallback
-    return src.join("defaults", name).text();
+    return src.join("defaults", defaultLayout).text();
   }
 };
 
@@ -120,8 +121,8 @@ export default async (config, root, log) => {
       };
     },
     handlers: {...handlers},
-    render: async ({body = "", head = ""} = {}) => {
-      const html = await index(app);
+    render: async ({body = "", head = "", layout} = {}) => {
+      const html = await index(app, layout);
       const heads = app.resources.map(({src, code, type, inline, integrity}) => {
         const tag = type === "style" ? "link" : "script";
         const pre = type === "style"
