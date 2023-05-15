@@ -21,7 +21,7 @@ const index = async (app, layout = defaultLayout) => {
   const name = layout;
   try {
     // user-provided file
-    return await File.read(`${app.paths.static.join(name)}`);
+    return await File.read(`${app.paths.layouts.join(name)}`);
   } catch (error) {
     // fallback
     return src.join("defaults", defaultLayout).text();

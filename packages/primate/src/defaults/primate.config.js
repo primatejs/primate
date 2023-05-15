@@ -21,6 +21,7 @@ export default {
     },
   },
   paths: {
+    layouts: "layouts",
     static: "static",
     public: "public",
     routes: "routes",
