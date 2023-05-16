@@ -14,7 +14,7 @@ const qualify = (root, paths) =>
     return sofar;
   }, {});
 
-const src = new Path(import.meta.url).up(1);
+const base = new Path(import.meta.url).up(1);
 const defaultLayout = "index.html";
 
 const index = async (app, layout = defaultLayout) => {
@@ -24,7 +24,7 @@ const index = async (app, layout = defaultLayout) => {
     return await File.read(`${app.paths.layouts.join(name)}`);
   } catch (error) {
     // fallback
-    return src.join("defaults", defaultLayout).text();
+    return base.join("defaults", defaultLayout).text();
   }
 };
 
@@ -34,6 +34,13 @@ const hash = async (string, algorithm = "sha-384") => {
   const algo = algorithm.replace("-", () => "");
   return `${algo}-${btoa(String.fromCharCode(...new Uint8Array(bytes)))}`;
 };
+
+const attribute = attributes => Object.keys(attributes).length > 0 ?
+  " ".concat(Object.entries(attributes)
+    .map(([key, value]) => `${key}="${value}"`).join(" "))
+  : "";
+const tag = ({name, attributes = {}, code = "", close = true}) =>
+  `<${name}${attribute(attributes)}${close ? `>${code}</${name}>` : "/>"}`;
 
 export default async (config, root, log) => {
   const {http} = config;
@@ -76,7 +83,7 @@ export default async (config, root, log) => {
     !Object.keys(module).some(key => Object.keys(hooks).includes(key)));
   hookless.length > 0 && errors.ModuleHasNoHooks.warn(log, {hookless});
 
-  const {name, version} = await src.up(1).join("package.json").json();
+  const {name, version} = await base.up(1).join("package.json").json();
 
   const app = {
     config,
@@ -105,6 +112,7 @@ export default async (config, root, log) => {
       const csp = Object.keys(http.csp).reduce((policy_string, key) =>
         `${policy_string}${key} ${http.csp[key]};`, "");
       const scripts = app.resources
+        .filter(({type}) => type !== "style")
         .map(resource => `'${resource.integrity}'`).join(" ");
       const _csp = scripts === "" ? csp : `${csp}script-src 'self' ${scripts};`;
       // remove inline resources
@@ -123,17 +131,21 @@ export default async (config, root, log) => {
     handlers: {...handlers},
     render: async ({body = "", head = "", layout} = {}) => {
       const html = await index(app, layout);
-      const heads = app.resources.map(({src, code, type, inline, integrity}) => {
-        const tag = type === "style" ? "link" : "script";
-        const pre = type === "style"
-          ? `<${tag} rel="stylesheet"`
-          : `<${tag} type="${type}" integrity="${integrity}"`;
-        const middle = type === "style"
-          ? ` href="${src}">`
-          : ` src="${src}">`;
-        const post = type === "style" ? "" : `</${tag}>`;
-        return inline ? `${pre}>${code}${post}` : `${pre}${middle}${post}`;
-      }).join("\n");
+      // inline: <script type integrity>...</script>
+      // outline: <script type integrity src></script>
+      const script = ({inline, code, type, integrity, src}) => inline
+        ? tag({name: "script", attributes: {type, integrity}, code})
+        : tag({name: "script", attributes: {type, integrity, src}});
+      // inline: <style>...</style>
+      // outline: <link rel="stylesheet" href/>
+      const style = ({inline, code, href, rel = "stylesheet"}) => inline
+        ? tag({name: "style", code})
+        : tag({name: "link", attributes: {rel, href}, close: false});
+      const heads = app.resources.map(({src, code, type, inline, integrity}) =>
+        type === "style"
+          ? style({inline, code, href: src})
+          : script({inline, code, type, integrity, src})
+      ).join("\n");
       return html
         .replace("%body%", () => body)
         .replace("%head%", () => `${head}${heads}`);
@@ -142,8 +154,6 @@ export default async (config, root, log) => {
       if (type === "module") {
         code = app.replace(code);
       }
-      // while integrity is only really needed for scripts, it is also later
-      // used for the etag header
       const integrity = await hash(code);
       const _src = new Path(http.static.root).join(src ?? "");
       app.resources.push({src: `${_src}`, code, type, inline, integrity});
