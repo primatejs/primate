@@ -11,11 +11,10 @@ export default app => {
   const {http} = app.config;
 
   const _respond = async (request, headers) => {
-    if (invalid(request.url.pathname)) {
-      errors.NoFileForPath.throw({pathname: request.url.pathname, config: app.config});
-      return;
-    }
-    return respond(await app.route(request))(app, headers);
+    const {pathname} = request.url;
+    return invalid(pathname)
+      ? errors.NoFileForPath.throw({pathname, config: app.config})
+      : (await respond(await app.route(request)))(app, headers);
   };
 
   const route = async request => {
@@ -66,10 +65,6 @@ export default app => {
     return route(request);
   };
 
-  const handle = async request => {
-    return await resource(request);
-  };
-
-  return [...filter("handle", app.modules), handle]
+  return [...filter("handle", app.modules), resource]
     .reduceRight((acc, handler) => input => handler(input, acc));
 };

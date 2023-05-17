@@ -1,6 +1,6 @@
 # primate/store
 
-List of errors in [@primate/store](/modules/store).
+List of errors in the [data store module](/modules/store).
 
 ## Empty Store Directory
 

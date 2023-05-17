@@ -55,7 +55,7 @@ as GET requests), it defaults to `null`.
 ```js caption=routes/your-name.js
 export default() {
   post(request) {
-    const {body} = request;
+    const body = request.body.get();
 
     return `Hello, ${body}`;
   },
@@ -75,13 +75,13 @@ decodes the form fields into object properties
 ```js caption=routes/your-full-name.js
 export default() {
   post(request) {
-    const {body} = request;
+    const {name} = request.body.get();
 
-    if (body?.name === undefined) {
+    if (name === undefined) {
       return "You haven't specified your name";
     }
 
-    return `Hello, ${body.name}`;
+    return `Hello, ${name}`;
   }
 }
 ```
@@ -102,10 +102,10 @@ const users = ["Donald", "Ryan"];
 
 export default() {
   post(request) {
-    const {path} = request;
+    const {user} = request.path.get();
 
-    if (users.includes(path.user)) {
-      return `Hello, ${path.user}`;
+    if (users.includes(user)) {
+      return `Hello, ${user}`;
     }
 
     return error("Unknown user");
@@ -130,10 +130,10 @@ const users = ["Donald", "Ryan"];
 
 export default() {
   post(request) {
-    const {query} = request;
+    const {user} = request.query.get();
 
-    if (users.includes(query.user)) {
-      return `Hello, ${query.user}`;
+    if (users.includes(user)) {
+      return `Hello, ${user}`;
     }
 
     return error("Unknown user");
@@ -156,10 +156,10 @@ const users = ["Donald", "Ryan"];
 
 export default() {
   post(request) {
-    const {cookies} = request;
+    const {user} = request.cookies.get();
 
-    if (users.includes(cookies.user)) {
-      return `Hello, ${cookies.user}`;
+    if (users.includes(user)) {
+      return `Hello, ${user}`;
     }
 
     return error("Unknown user");
@@ -182,10 +182,10 @@ const users = ["Donald", "Ryan"];
 
 export default() {
   post(request) {
-    const {headers} = request;
+    const user = request.headers.get("X-User");
 
-    if (users.includes(headers["X-User"])) {
-      return `Hello, ${header["X-User"]}`;
+    if (users.includes(user)) {
+      return `Hello, ${user}`;
     }
 
     return error("Unknown user");
@@ -232,46 +232,5 @@ The same path won't be matched by any of the following requests.
 ## Typed parameters
 
 Parameters can be also typed, in which case their value can be restricted.
-Types need to be defined in the `types` directory as predicate functions
-(returning `true` or `false`) before they can be used. The name of the file
-corresponds to the type name.
-
-```js caption=types/uuid.js
-const uuid = /^[^\W_]{8}-[^\W_]{4}-[^\W_]{4}-[^\W_]{4}-[^\W_]{12}$/u;
-
-export default value => uuid.test(value);
-```
-
-With the definition in place, to type a parameter, place a colon between its
-name and type. The route file `/users/{userId:uuid}.js` will only accept routes
-for which the `userId` parameter satisfies the predicate specified in
-`types/uuid.js`.
-
-Like parameters themselves, types are case sensitive. `types/uuid.js`,
-`types/UUID.js` and `types/Uuid.js` all describe different types.
-
-!!!
-A type predicate function must return exactly `true` to pass the check. Primate
-will not coerce the return value, treating any return value which is not `true`
-as false.
-!!!
-
-Types allow for early validation before a route function is being executed.
-For example, we could create a type called `userId` which makes sure a given
-parameter `userId` belongs to an actual user in the database.
-
-```js caption=types/userId.js
-import {UserStore} from "./database.js";
-
-export default id => UserStore.count({id}) > 0;
-```
-
-In the same vein, a type `me` could check if a user is permitted to edit his
-own page.
-
-Types can be used implicitly. If Primate comes across a parameter which is
-identically named like a type, it will treat this parameter as if it were typed
-accordingly. That is, if you have defined a type predicate `userId` (in
-`types/userId.js`), you don't need to explicit write `{userId:userId}` in every
-route that uses `userId` as a parameter. `{userId}` will implicitly use the
-type of the same name.
+The [Types](/guide/types) section elaborates on the use of types within path
+parameters.

@@ -1,9 +1,9 @@
 import crypto from "runtime-compat/crypto";
-import {Response} from "runtime-compat/http";
 import {bold} from "runtime-compat/colors";
+import {error as clientError} from "primate";
 import Store from "./Store.js";
 import {memory} from "./drivers/exports.js";
-import predicates from "./predicates/exports.js";
+import builtins from "./builtins/exports.js";
 import errors from "./errors.js";
 
 const last = -1;
@@ -101,7 +101,7 @@ export default ({
             const exports = await import(path);
             const schema = Object.fromEntries(Object.entries(exports.default)
               .map(([property, type]) => {
-                const predicate = predicates[type] ?? valid(type, property, name);
+                const predicate = builtins[type] ?? valid(type, property, name);
                 return [property, {...predicate, name: type.name}];
               }));
 
@@ -143,7 +143,7 @@ export default ({
         await transaction.rollback();
         errors.TransactionRolledBack.warn(env.log, {id, name: error.name});
 
-        return new Response("Internal server error", {status: 500});
+        return clientError();
       } finally {
         await transaction.end();
       }

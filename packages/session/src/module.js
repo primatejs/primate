@@ -44,7 +44,7 @@ export default ({
       options.secure = app.secure ? ";Secure" : "";
     },
     async handle(request, next) {
-      const id = request.cookies[name];
+      const id = request.cookies.get(name);
       const session = manager(id);
       is(session.create).function();
       is(session.destroy).function();

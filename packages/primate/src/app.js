@@ -4,6 +4,7 @@ import {bold, blue} from "runtime-compat/colors";
 import errors from "./errors.js";
 import * as handlers from "./handlers/exports.js";
 import * as hooks from "./hooks/exports.js";
+import dispatch from "./dispatch.js";
 
 const qualify = (root, paths) =>
   Object.keys(paths).reduce((sofar, key) => {
@@ -63,10 +64,14 @@ export default async (config, root, log) => {
   const types = Object.fromEntries(
     paths.types === undefined ? [] : await Promise.all(
       (await Path.collect(paths.types , /^.*.js$/u))
+        /* accept only lowercase-first files in type filename */
+        .filter(path => /^[a-z]/u.test(path.name))
         .map(async type => [
           `${type}`.replace(paths.types, "").slice(1, -ending.length),
           (await import(type)).default,
         ])));
+  Object.entries(types).some(([name, type]) =>
+    typeof type !== "function" && errors.InvalidType.throw({name}));
 
   const modules = config.modules === undefined ? [] : config.modules;
 
@@ -183,8 +188,8 @@ export default async (config, root, log) => {
       app.modules.push(dependent);
     }})));
 
-  app.route = hooks.route(app);
-  app.parse = hooks.parse;
+  app.route = hooks.route({...app, dispatch: dispatch(types)});
+  app.parse = hooks.parse(dispatch(types));
 
   return app;
 };

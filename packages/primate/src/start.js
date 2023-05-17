@@ -19,11 +19,11 @@ export default async (app, operations = {}) => {
   await hooks.bundle(app, operations?.bundle);
 
   const server = await serve(async request => {
-    const {handle, parse} = hooks;
     try {
       // parse, handle
-      return await handle(app)(await parse(request));
+      return await hooks.handle(app)(await app.parse(request));
     } catch(error) {
+      console.log("TEST2");
       app.log.auto(error);
       return new Response(null, {status: InternalServerError});
     }

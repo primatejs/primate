@@ -236,9 +236,9 @@ relative path, will be relative to project root.
 
 Default `"types"`
 
-The directory where types are located. These types can be used to limits the
-range of possible values that a [path parameter][routing-parameters] can hold.
-If specified as a relative path, will be relative to project root.
+The directory where types are located. [Primate types](/guide/types) can be
+used to limit the range of possible values that a variable can hold. If
+specified as a relative path, will be relative to project root.
 
 ### modules
 

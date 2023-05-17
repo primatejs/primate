@@ -1,5 +1,6 @@
-import Logger from "../Logger.js";
 import route from "./route.js";
+import Logger from "../Logger.js";
+import dispatch from "../dispatch.js";
 
 const {mark} = Logger;
 
@@ -36,6 +37,7 @@ const app = {
     Uuid: _ => _ === "Uuid",
     UUID: _ => _ === "UUID",
   },
+  dispatch: dispatch(),
 };
 
 export default test => {
@@ -59,7 +61,7 @@ export default test => {
       const throws = mark("no % route to %", "GET", result ?? url);
       assert(() => r(url)).throws(throws);
     },
-    path: (url, result) => assert(r(url).path).equals(result),
+    path: (url, result) => assert(r(url).path.get()).equals(result),
     assert,
   }));
 
@@ -103,8 +105,8 @@ export default test => {
     const throws = mark("invalid path parameter % in route %", "us$er", path);
     assert(() => route({routes: [[path, {get}]]})).throws(throws);
   });
-  test.case("error InvalidType", ({assert}) => {
-    const throws = mark("invalid type %", "us$er");
+  test.case("error InvalidTypeName", ({assert}) => {
+    const throws = mark("invalid type name %", "us$er");
     const types = {us$er: () => false};
     assert(() => route({routes: [], types})).throws(throws);
   });

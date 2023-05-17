@@ -102,6 +102,62 @@ which does nothing.
 
 **Add configuration options to the file or remove it.**
 
+## Invalid Path Parameter
+
+Level: `Error` (bailout)
+
+Primate finds invalid characters in a path parameter, which is impermissible.
+Path parameters are limited to alphanumeric characters.
+
+**Use only Latin letters and decimal digits in path parameters, that is
+lowercase and uppercase A to Z as well as 0 to 9.
+
+## Invalid Route Name
+
+Level: `Error` (bailout)
+
+Primate finds dots in route names, which is impermissible. Dots are typically
+used for files, which would create amgibuity between routes and static files.
+
+**Do not use dots in route names.**
+
+## Invalid Type
+
+Level: `Error` (bailout)
+
+Primate finds a type file with a default export which is not a function.
+
+**Use only functions for the default export of type files.**
+
+## Invalid Type Name
+
+Level: `Error` (bailout)
+
+Primate finds an valid characters in a type name, which is impermissible.
+
+**Use only Latin letters and decimal digits in type filenames, that is
+lowercase and uppercase A to Z as well as 0 to 9.**
+
+## Mismatched Path
+
+Level: `Info`
+
+Primate detects an a type mismatch path parameters, which precludes the route
+from executing. This could be either due to a mismatched path parameter
+or intentional client-side probing. 
+
+**If deemed unintentional, fix the type or the caller.**
+
+## Mismatched Type
+
+Level: `Info`
+
+Primate detects an a type mismatch during the execution of a route function,
+which stops executing the route. This could be either due to a mismatched body,
+query, cookie or header parameter or intentional client-side probing. 
+
+**If deemed unintentional, fix the type or the caller.**
+
 ## No File For Path
 
 Level: `Info`
@@ -131,30 +187,11 @@ due to a missing route function or intentional client-side probing.
 
 **If deemed unintentional, create an appropriate route function.**
 
-## Invalid Path Parameter
+## Reserved Type Name
 
 Level: `Error` (bailout)
 
-Primate finds invalid characters in a path parameter, which is impermissible.
-Path parameters are limited to alphanumeric characters.
+Primate finds a reserved type name, which is impermissible. Reserved types are:
+`get`, `raw`.
 
-**Use only Latin letters and decimal digits in path parameters, that is
-lowercase and uppercase A to Z as well as 0 to 9.
-
-## Invalid Route Name
-
-Level: `Error` (bailout)
-
-Primate finds dots in route names, which is impermissible. Dots are typically
-used for files, which would create amgibuity between routes and static files.
-
-**Do not use dots in route names.**
-
-## Invalid Type
-
-Level: `Error` (bailout)
-
-Primate finds in valid characters in a type definition, which is impermissible.
-
-**Use only Latin letters and decimal digits in types, that is lowercase and
-uppercase A to Z as well as 0 to 9.**
+**Do not use any reserved name in type filenames.**

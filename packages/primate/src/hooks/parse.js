@@ -1,16 +1,15 @@
 import {URL} from "runtime-compat/http";
-import fromNull from "../fromNull.js";
 import errors from "../errors.js";
 
 const contents = {
   "application/x-www-form-urlencoded": body =>
-    fromNull(Object.fromEntries(body.split("&").map(part => part.split("=")
-      .map(subpart => decodeURIComponent(subpart).replaceAll("+", " "))))),
+    Object.fromEntries(body.split("&").map(part => part.split("=")
+      .map(subpart => decodeURIComponent(subpart).replaceAll("+", " ")))),
   "application/json": body => JSON.parse(body),
 };
 const decoder = new TextDecoder();
 
-export default async request => {
+export default dispatch => async request => {
   const parseContentType = (contentType, body) => {
     const type = contents[contentType];
     return type === undefined ? body : type(body);
@@ -46,14 +45,15 @@ export default async request => {
   const _url = request.url;
   const url = new URL(_url.endsWith("/") ? _url.slice(0, -1) : _url);
 
+  const body = await parseBody(request);
   return {
     original: request,
     url,
-    body: await parseBody(request),
-    cookies: fromNull(cookies === null
+    body: dispatch(body),
+    cookies: dispatch(cookies === null
       ? {}
       : Object.fromEntries(cookies.split(";").map(c => c.trim().split("=")))),
-    headers: fromNull(Object.fromEntries(request.headers)),
-    query: fromNull(Object.fromEntries(url.searchParams)),
+    headers: dispatch(Object.fromEntries(request.headers)),
+    query: dispatch(Object.fromEntries(url.searchParams)),
   };
 };

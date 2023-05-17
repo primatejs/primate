@@ -61,20 +61,28 @@ export default app => {
     }).flat();
 
   const {types = {}} = app;
-  Object.entries(types).every(([name]) => /^(?:\w*)$/u.test(name) ||
-    errors.InvalidType.throw({name}));
+  Object.entries(types).some(([name]) => /^(?:[^\W_]*)$/u.test(name) ||
+    errors.InvalidTypeName.throw({name}));
+  const reserved = ["get", "raw"];
+  Object.entries(types).some(([name]) => reserved.includes(name) &&
+    errors.ReservedTypeName.throw({name}));
 
-  const isType = groups => Object
+  const isType = (groups, path) => Object
     .entries(groups ?? {})
     .map(([name, value]) =>
       [types[name] === undefined ? name : `${name}$${name}`, value])
     .filter(([name]) => name.includes("$"))
     .map(([name, value]) => [name.split("$")[1], value])
-    .every(([name, value]) => types?.[name](value) === true)
-  ;
+    .every(([name, value]) => {
+      try {
+        return types?.[name](value) === true;
+      } catch (error) {
+        return errors.MismatchedPath.throw({message: error.message, path});
+      }
+    });
   const isPath = ({route, path}) => {
     const result = route.path.exec(path);
-    return result === null ? false : isType(result.groups);
+    return result === null ? false : isType(result.groups, path);
   };
   const isMethod = ({route, method, path}) => ieq(route.method, method)
     && isPath({route, path});
@@ -86,8 +94,8 @@ export default app => {
     const {original: {method}, url: {pathname}} = request;
     const verb = find(method, pathname) ??
       errors.NoRouteToPath.throw({method, pathname, config: app.config});
-    const path = reentry(verb.path?.exec(pathname).groups,
-      object => object.map(([key, value]) => [key.split("$")[0], value]));
+    const path = app.dispatch(reentry(verb.path?.exec(pathname).groups,
+      object => object.map(([key, value]) => [key.split("$")[0], value])));
 
     // verb.handler is the last module to be executed
     const handlers = [...modules, verb.handler].reduceRight((acc, handler) =>

@@ -45,6 +45,48 @@ export default Object.fromEntries(Object.entries({
       level: Logger.Error,
     };
   },
+  InvalidPathParameter({named, path}) {
+    return {
+      message: ["invalid path parameter % in route %", named, path],
+      fix: ["use only latin letters and decimal digits in path parameters"],
+      level: Logger.Error,
+    };
+  },
+  InvalidRouteName({path}) {
+    return {
+      message: ["invalid route name %", path],
+      fix: ["do not use dots in route names"],
+      level: Logger.Error,
+    };
+  },
+  InvalidType({name}) {
+    return {
+      message: ["invalid type %", name],
+      fix: ["use only functions for the default export of types"],
+      level: Logger.Error,
+    };
+  },
+  InvalidTypeName({name}) {
+    return {
+      message: ["invalid type name %", name],
+      fix: ["use only latin letters and decimal digits in types"],
+      level: Logger.Error,
+    };
+  },
+  MismatchedPath({path, message}) {
+    return {
+      message: [`mismatched % path: ${message}`, path],
+      fix: ["if unintentional, fix the type or the caller"],
+      level: Logger.Info,
+    };
+  },
+  MismatchedType({message}) {
+    return {
+      message: [`mismatched type: ${message}`],
+      fix: ["if unintentional, fix the type or the caller"],
+      level: Logger.Info,
+    };
+  },
   ModuleHasNoHooks({hookless}) {
     const modules = hookless.map(({name}) => name).join(", ");
     return {
@@ -89,24 +131,10 @@ export default Object.fromEntries(Object.entries({
       level: Logger.Info,
     };
   },
-  InvalidPathParameter({named, path}) {
+  ReservedTypeName({name}) {
     return {
-      message: ["invalid path parameter % in route %", named, path],
-      fix: ["use only latin letters and decimal digits in path parameters"],
-      level: Logger.Error,
-    };
-  },
-  InvalidRouteName({path}) {
-    return {
-      message: ["invalid route name %", path],
-      fix: ["do not use dots in route names"],
-      level: Logger.Error,
-    };
-  },
-  InvalidType({name}) {
-    return {
-      message: ["invalid type %", name],
-      fix: ["use only latin letters and decimal digits in types"],
+      message: ["type name % is reserved", name],
+      fix: ["do not use any reserved type names"],
       level: Logger.Error,
     };
   },

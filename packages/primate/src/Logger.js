@@ -80,10 +80,7 @@ const Logger = class Logger {
       print(blue("++"), fix);
       name && print(dim(`\n   -> ${reference}/${module ?? "primate"}#${hyphenate(name)}`), "\n");
     }
-    if (this.#trace && error) {
-      print(pre, color(module), "trace follows\n");
-      console.log(error);
-    }
+    this.#trace && error && console.log(error);
   }
 
   get level() {
