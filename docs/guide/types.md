@@ -58,21 +58,16 @@ import crypto from "runtime-compat/crypto";
 
 const valid = /^[^\W_]{8}-[^\W_]{4}-[^\W_]{4}-[^\W_]{4}-[^\W_]{12}$/u;
 
-const uuid = value => {
+export default value => {
   is(value).string();
   if (valid(value)) {
     return value;
   }
-  throw new Error(`${value} is not a UUID`);
+  throw new Error(`${value} is not a valid UUID`);
 };
-
-uuid.new = () => crypto.randomUUID();
-
-export default uuid;
 ```
 
-The `uuid` type makes sure a string is a UUID, and also lets you create new
-random UUIDs using `uuid.new()`.
+The `uuid` type makes sure a string is a valid UUID.
 
 !!!
 The `number` and `uuid` types are so common that they're included in a Primate
