@@ -20,4 +20,5 @@ export default {
   validate: value => typeof value === "string" && check(value),
   message: "Must be a valid ISO 8601 time string",
   base: "time",
+  type: "time",
 };
