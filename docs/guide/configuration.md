@@ -42,6 +42,9 @@ export default {
   },
   modules: [],
   dist: "app",
+  types: {
+    explicit: false,
+  },
 };
 ```
 
@@ -102,6 +105,9 @@ export default {
   },
   modules: [],
   dist: "app",
+  types: {
+    explicit: false,
+  },
 };
 ```
 

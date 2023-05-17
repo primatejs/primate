@@ -10,7 +10,7 @@ const number = (value, name) => {
 
 export default test => {
   test.case("get", async assert => {
-    const d = dispatch(); //{number});
+    const d = dispatch();
     assert(d(null).get()).null();
     assert(d({}).get()).equals({});
     assert(d({foo: "bar"}).get()).equals({foo: "bar"});

@@ -31,4 +31,7 @@ export default {
   },
   modules: [],
   dist: "app",
+  types: {
+    explicit: false,
+  },
 };

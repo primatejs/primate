@@ -10,7 +10,8 @@ or satisfies certain conditions.
 !!!
 Primate types aren't programming types in the true sense. They're much better
 -- while they all translate to one of JavaScript's underlying types, they can
-be thought of as value predicates with additional functionality.
+be thought of as value predicates with additional functionality; they are also
+sometimes called `type validators` throughout this document.
 !!!
 
 ## Defining
@@ -184,10 +185,10 @@ export default {
 ```
 
 This is generally OK, but as routes may arbitrarily nested, it can make
-importing from relative paths hard. For that, Primate offers function
-injection.
+importing from relative paths hard. For that, Primate enhances the `query`
+object with functions for dispatching a property's value to the type validator.
 
-```js caption=user.js | typed query (injected)
+```js caption=user.js | typed query (using dispatchers)
 export default {
   /*
     GET /user?userId=0
@@ -203,11 +204,11 @@ export default {
 }
 ```
 
-In this case, Primate injects defined types as functions of the `request.query`
-object, in addition to the `get()` function which allows direct access to the
-query string parts. As there no user in our dataset ID `1`, if a client tries
-to access `GET /user?userId=1`, the route will throw and it will be redirected
-to an error page.
+In this case, Primate adds defined types as dispatcher functions of the
+`request.query` object, in addition to the `get()` function which allows direct
+access to the query string parts. As there is no user in our dataset ID `1`, if
+a client tries to access `GET /user?userId=1`, the route will throw and it will
+be redirected to an error page.
 
 !!!
 As `get` is already defined on `request.query`, it is considered a reserved
@@ -259,8 +260,8 @@ export default {
 
 ## Related modules
 
-Primate's ecosystem extends the concept of types by providing a lot of defaults
-and by integrating with database types.
+Primate's ecosystem extends the concept of types by providing many defaults
+and integrating with database types.
 
 ### Types
 

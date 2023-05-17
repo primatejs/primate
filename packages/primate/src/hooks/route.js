@@ -67,10 +67,11 @@ export default app => {
   Object.entries(types).some(([name]) => reserved.includes(name) &&
     errors.ReservedTypeName.throw({name}));
 
+  const {explicit} = app.config.types;
   const isType = (groups, path) => Object
     .entries(groups ?? {})
     .map(([name, value]) =>
-      [types[name] === undefined ? name : `${name}$${name}`, value])
+      [types[name] === undefined || explicit ? name : `${name}$${name}`, value])
     .filter(([name]) => name.includes("$"))
     .map(([name, value]) => [name.split("$")[1], value])
     .every(([name, value]) => {
