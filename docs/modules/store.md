@@ -183,9 +183,8 @@ automatically generated on an insert. Had we tried to `update`, Primate would
 have thrown an error.
 !!!
 
-Using type functions is implicit validation. Primate also supports explicit
-validation by passing in an object that contains at the least a `validate`
-property.
+In addition to using type functions, Primate supports using an object with a
+`type` function property for validation.
 
 ```js
 import {id, u8, array} from "primate/@types"
@@ -195,8 +194,12 @@ const between = ({length}, min, max) => length >= min && length <= max;
 export default {
   id,
   name: {
-    validate: value => typeof value === "string" && between(value, 2, 20),
-    message: "Must be 2 to 20 characters in length",
+    type(value) {
+      if (typeof value === "string" && between(value, 2, 20)) {
+        return value;
+      }
+      throw new Error(`${value} must be 2 to 20 characters in length`);
+    }
     base: "string",
   },
   age: u8.range(0, 120),
@@ -204,10 +207,10 @@ export default {
 };
 ```
 
-When trying to validate the `name` field, Primate will run the `validate`
-predicate function and use its output to determine if the field has passed
-validation. In case of failure, it would show the specified message. For saving
-this field into the database, it will use the driver's base type `"string"`.
+When trying to validate the `name` field, Primate will run the `type` function
+to determine if the field has passed validation. In case of failure, it would
+stop the execution of the route function with the given error. For saving
+this field into the database, it will use the driver's base type `"string"`
 
 ### Strict
 

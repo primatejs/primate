@@ -100,12 +100,12 @@ export default ({
           .map(async ([name, path]) => {
             const exports = await import(path);
             const schema = Object.fromEntries(Object.entries(exports.default)
-              .filter(([property, type]) => {
-                return valid(type, property, name);
-              })
+              .filter(([property, type]) => valid(type, property, name))
+              .map(([property, type]) =>
+                [property, typeof type === "function" ? type : type.type])
               .map(([property, type]) => {
                 const {base = "string"} = type;
-                return [property, {type, name: type.name, base}];
+                return [property, {type, base}];
               }));
 
             exports.ambiguous !== true && schema.id === undefined

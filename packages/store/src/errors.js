@@ -20,8 +20,9 @@ export default Object.fromEntries(Object.entries({
     };
   },
   FailedDocumentValidation({document}) {
-    const fields = Object.values(document)
-      .filter(([name]) => name.startsWith("$"));
+    const fields = Object.keys(document)
+      .filter(name => name.startsWith("$"))
+      .map(name => name.slice(1)).join(", ");
     return {
       message: ["document validation failed for %", fields],
       fix: [""],
