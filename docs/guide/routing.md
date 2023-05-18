@@ -87,9 +87,21 @@ export default() {
 ```
 
 In this example, if a client sends a request to `/your-full-name` with an HTTP
-form (`application/x-www-form-urlencoded`) or JSON data (`application/json`) as
-body that contains a field `name` in it, Primate will respond by saying Hello
-and the provided name.
+form (`application/x-www-form-urlencoded`) or JSON data (`application/json`)
+with a field `name` in its body, Primate will respond by saying Hello and the
+provided name.
+
+!!!
+The `get` function on `request.body` can be used in two ways. If called without
+parameters, it will return the underyling object, which we can then destructure
+into its properties as in the example. It's also possible to call it with the
+name of a property to retrieve it directly.
+```js
+const name = request.body.get("name");
+```
+This applies not only to `body` but to
+all of the following request sections.
+!!!
 
 ### path
 
@@ -173,7 +185,7 @@ If a user requests POST `/current-user` with the `Cookie` header set to
 
 ### headers
 
-The request's headers, compacted into a a key-value object.
+The request's headers, compacted into a key-value object.
 
 ```js caption=routes/current-x-user.js
 import {error} from "primate";
@@ -211,8 +223,8 @@ at least one character.
 
 By default, parameters will match anything in the path except `/`, though they
 are not greedy. A path like `/users/{userId}a.js` is unambiguous: it will match
-any path that starts with `/users/` followed by anything that is not `/` or
-`a`, provided that it ends with `a`. The last `a` can therefore not be part of
+any path that starts with `/users/` followed by anything that is not `/`,
+provided that it ends with `a`. The last `a` can therefore not be part of
 the match.
 
 Such a path will thus be matched by all the following requests.

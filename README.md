@@ -1,8 +1,7 @@
 # Primate 
 
-Expressive, minimal and extensible web framework.
-
-See the [Getting started][getting-started] guide for documentation.
+Expressive, minimal and extensible web framework. For documentation see
+[Getting started][getting-started].
 
 ## Packages
 
@@ -13,11 +12,11 @@ See the [Getting started][getting-started] guide for documentation.
 |[@primate/react](packages/react)             | Serving React/JSX components  |
 |[@primate/vue](packages/vue)                 | Serving Vue/SFC components    |
 |[@primate/htmx](packages/htmx)               | Serving HTMX files            |
+|[@primate/types](packages/types)             | Runtime types                 |
+|[@primate/store](packages/store)             | Data store                    |
+|[@primate/website](packages/website)         | Primate website (private)     |
 |[@primate/esbuild](packages/esbuild)         | Bundling JS/CSS               |
 |[@primate/session](packages/session)         | User sessions                 |
-|[@primate/store](packages/store)             | Data store                    |
-|[@primate/validation](packages/validation)   | Extended data validation      |
-|[@primate/website](packages/website)         | Primate website (private)     |
 
 ## Resources
 
