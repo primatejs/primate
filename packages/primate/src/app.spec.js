@@ -10,6 +10,9 @@ const config = {
   paths: {
 
   },
+  types: {
+    explicit: false,
+  },
 };
 const root = new Path("/");
 const logger = {

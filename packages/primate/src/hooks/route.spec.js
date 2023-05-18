@@ -9,6 +9,9 @@ const app = {
     paths: {
       routes: "/routes",
     },
+    types: {
+      explicit: false,
+    },
   },
   routes: [
     "index",

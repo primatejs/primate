@@ -84,8 +84,8 @@ export default async (config, root, log) => {
       config: root.join("primate.config.js"),
     });
 
-  const hookless = modules.filter(module =>
-    !Object.keys(module).some(key => Object.keys(hooks).includes(key)));
+  const hookless = modules.filter(module => !Object.keys(module).some(key =>
+    [...Object.keys(hooks), "load"].includes(key)));
   hookless.length > 0 && errors.ModuleHasNoHooks.warn(log, {hookless});
 
   const {name, version} = await base.up(1).join("package.json").json();
