@@ -4,6 +4,7 @@ export {default as date} from "./date.js";
 export {default as json} from "./json.js";
 export {default as number} from "./number.js";
 export {default as object} from "./object.js";
+export {default as string} from "./string.js";
 
 /* signed integers */
 export {default as i8} from "./i8.js";
@@ -19,6 +20,5 @@ export {default as u32} from "./u32.js";
 export {default as u64} from "./u64.js";
 export {default as u128} from "./u128.js";
 
-/* floats */
-/*export {default as f16} from "./f16.js";
-export {default as f32} from "./f32.js";*/
+/* additionals */
+export {default as id} from "./id.js";

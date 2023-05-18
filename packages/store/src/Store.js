@@ -1,4 +1,3 @@
-import {Logger} from "primate";
 import validate from "./validate.js";
 import errors from "./errors.js";
 
@@ -17,7 +16,7 @@ const transform = direction => ({types, schema, document, path}) =>
 const pack = transform("in");
 const unpack = transform("out");
 
-export default class Store {
+export default env => class Store {
   #schema;
   #config = {};
   #path;
@@ -56,6 +55,8 @@ export default class Store {
         name: this.primary,
         value: {...await this.driver.primary()},
       },
+      /* the driver in use */
+      driver: this.driver,
       /* the input to be validated */
       input,
       /* the schema to validate against */
@@ -105,14 +106,14 @@ export default class Store {
   }
 
   async #validate(input, write) {
-    const {error, document} = await this.validate(input);
-    const keys = Object.keys(error);
+    const {errored, document} = await this.validate(input);
 
-    return keys.length === 0
-      ? {document: this.readonly ? document : await write(this.#pack(document))}
-      : (() => {
-        throw new Logger.Warn(`validation failed for ${keys.join(", ")}`);
-      })();
+    return errored
+      ? (() => {
+        errors.FailedDocumentValidation.warn(env.log, {document});
+        return document;
+      })()
+      : this.readonly ? document : write(this.#pack(document));
   }
 
   #generate() {
@@ -144,4 +145,4 @@ export default class Store {
   delete(criteria) {
     return this.driver.delete(this.name, criteria);
   }
-}
+};

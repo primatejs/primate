@@ -16,6 +16,11 @@ export default async ({path}) => {
   const db = {collections: await read()};
 
   return driver("json", {
+    primary: {
+      validate(value) {
+        return value;
+      },
+    },
     float: {
       in(value) {
         return value;

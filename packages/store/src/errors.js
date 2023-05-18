@@ -19,6 +19,15 @@ export default Object.fromEntries(Object.entries({
       level: Logger.Error,
     };
   },
+  FailedDocumentValidation({document}) {
+    const fields = Object.values(document)
+      .filter(([name]) => name.startsWith("$"));
+    return {
+      message: ["document validation failed for %", fields],
+      fix: [""],
+      level: Logger.Info,
+    };
+  },
   InvalidPredicate({name, store}) {
     return {
       message: ["field % in store % has invalid predicate" , name, store],

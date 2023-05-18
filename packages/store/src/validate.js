@@ -1,17 +1,20 @@
-export default async ({primary, input, schema, strict}) => Object.entries({
-  ...schema,
-  [primary.name]: primary.value,
-}).reduce(({error, document}, [field, {coerce, validate, message}]) => {
-  // skip empty fields if not in strict mode
-  if (!strict && input[field] === undefined) {
-    return {error, document};
-  }
-  // coerce values
-  const coerced = coerce?.(input[field]) ?? input[field];
-  const result = validate(coerced) ? {} : {[field]: message};
+export default async ({driver, input, schema, strict}) =>
+  Object.entries(schema).reduce(({errored, document}, [name, field]) => {
+    // skip empty fields if not in strict mode
+    if (!strict && input[name] === undefined) {
+      return {errored, document};
+    }
 
-  return {
-    error: {...error, ...result},
-    document: {...document, [field]: coerced},
-  };
-}, {error: {}, document: {}});
+    try {
+      const coerced = field.type(input[name], driver);
+      return {
+        errored,
+        document: {...document, [name]: coerced},
+      };
+    } catch (error) {
+      return {
+        errored: true,
+        document: {...document, [`$${name}`]: error.message},
+      };
+    }
+  }, {errored: false, document: {}});

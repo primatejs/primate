@@ -1,15 +1,14 @@
 import crypto from "runtime-compat/crypto";
 import {bold} from "runtime-compat/colors";
 import {error as clientError} from "primate";
-import Store from "./Store.js";
+import storer from "./Store.js";
 import {memory} from "./drivers/exports.js";
-import builtins from "./builtins/exports.js";
 import errors from "./errors.js";
 
 const last = -1;
 const ending = -3;
 
-const openStores = (stores, defaults) =>
+const openStores = (stores, defaults, Store) =>
   stores.map(([name, module]) =>
     [name, new Store(module.name, module.schema, {
       ...Object.fromEntries(Object.entries(defaults).map(([key, value]) =>
@@ -32,8 +31,8 @@ const extend = (base = {}, extension = {}) =>
 const depath = (path, initial) => path.split(".")
   .reduceRight((depathed, key) => ({[key]: depathed}), initial);
 
-const makeTransaction = ({stores, defaults}) => {
-  const _stores = openStores(stores, defaults);
+const makeTransaction = ({stores, defaults, Store}) => {
+  const _stores = openStores(stores, defaults, Store);
 
   const drivers = [...new Set(_stores.map(([, store]) => store.driver)).keys()];
   const store = _stores.reduce((base, [name, value]) =>
@@ -50,7 +49,7 @@ const makeTransaction = ({stores, defaults}) => {
 };
 
 const validPredicate = predicate =>
-  typeof predicate?.validate === "function" && predicate.type !== undefined;
+  typeof predicate === "function" || typeof predicate?.type === "function";
 
 const valid = (predicate, name, store) => validPredicate(predicate)
   ? predicate
@@ -75,9 +74,10 @@ export default ({
     async load(app) {
       try {
         env.log = app.log;
+        env.Store = storer(env);
 
-        const base = app.root.join(directory);
-        !await base.exists && errors.MissingStoreDirectory.throw({base});
+        const root = app.root.join(directory);
+        !await root.exists && errors.MissingStoreDirectory.throw({base: root});
 
         env.defaults = {
           driver: await driver,
@@ -87,11 +87,11 @@ export default ({
           ambiguous: false,
         };
 
-        env.stores = await Promise.all((await base.collect(/^.*.js$/u))
+        env.stores = await Promise.all((await root.collect(/^.*.js$/u))
           /* accept only uppercase-first files in store filename */
           .filter(path => /^[A-Z]/u.test(path.name))
           .map(path => [
-            `${path}`.replace(`${base}/`, () => "").slice(0, ending),
+            `${path}`.replace(`${root}/`, () => "").slice(0, ending),
             path,
           ])
           /* accept only uppercase-first directories in store path */
@@ -100,9 +100,13 @@ export default ({
           .map(async ([name, path]) => {
             const exports = await import(path);
             const schema = Object.fromEntries(Object.entries(exports.default)
+              .filter(([property, type]) => {
+                return valid(type, property, name);
+              })
               .map(([property, type]) => {
-                const predicate = builtins[type] ?? valid(type, property, name);
-                return [property, {...predicate, name: type.name}];
+                valid(type, property, name);
+                const {base = "string"} = type;
+                return [property, {type, name: type.name, base}];
               }));
 
             exports.ambiguous !== true && schema.id === undefined
@@ -120,7 +124,7 @@ export default ({
           })
         );
         Object.keys(env.stores).length === 0
-          && errors.EmptyStoreDirectory.throw({base});
+          && errors.EmptyStoreDirectory.throw({base: root});
 
         env.log.info("all stores nominal", {module: "primate/store"});
       } catch (error) {

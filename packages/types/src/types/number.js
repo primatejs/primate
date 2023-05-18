@@ -1,5 +1,5 @@
 import {numeric} from "runtime-compat/dyndef";
-import range from "./range.js";
+import {range} from "./predicates/exports.js";
 
 const min = Number.MIX_SAFE_INTEGER;
 const max = Number.MAX_SAFE_INTEGER;
