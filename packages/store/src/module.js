@@ -77,7 +77,7 @@ export default ({
         env.Store = storer(env);
 
         const root = app.root.join(directory);
-        !await root.exists && errors.MissingStoreDirectory.throw({base: root});
+        !await root.exists && errors.MissingStoreDirectory.throw({root});
 
         env.defaults = {
           driver: await driver,
@@ -104,7 +104,6 @@ export default ({
                 return valid(type, property, name);
               })
               .map(([property, type]) => {
-                valid(type, property, name);
                 const {base = "string"} = type;
                 return [property, {type, name: type.name, base}];
               }));
@@ -124,7 +123,7 @@ export default ({
           })
         );
         Object.keys(env.stores).length === 0
-          && errors.EmptyStoreDirectory.throw({base: root});
+          && errors.EmptyStoreDirectory.throw({root});
 
         env.log.info("all stores nominal", {module: "primate/store"});
       } catch (error) {

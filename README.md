@@ -17,6 +17,7 @@ Expressive, minimal and extensible web framework. For documentation see
 |[@primate/website](packages/website)         | Primate website (private)     |
 |[@primate/esbuild](packages/esbuild)         | Bundling JS/CSS               |
 |[@primate/session](packages/session)         | User sessions                 |
+|[@primate/guard](packages/guard)             | Route guards                  |
 
 ## Resources
 

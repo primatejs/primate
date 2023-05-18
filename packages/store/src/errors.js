@@ -1,10 +1,10 @@
 import {Logger} from "primate";
 
 export default Object.fromEntries(Object.entries({
-  EmptyStoreDirectory({base}) {
+  EmptyStoreDirectory({root}) {
     return {
       message: ["empty store directory"],
-      fix: ["populate % with stores", base],
+      fix: ["populate % with stores", root],
       level: Logger.Warn,
     };
   },
@@ -43,7 +43,7 @@ export default Object.fromEntries(Object.entries({
       level: Logger.Warn,
     };
   },
-  MissingStoreDirectory({base}) {
+  MissingStoreDirectory({root}) {
     return {
       message: ["missing store directory"],
       fix: ["create % and populate it", base],

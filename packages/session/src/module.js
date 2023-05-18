@@ -9,8 +9,8 @@ const inMemorySessionManager = () => {
   const store = new Map();
   return id => ({
     id: store.has(id) ? id : undefined,
-    data: store.get(id),
-    async create(data) {
+    get: () => store.get(id) ?? {},
+    async create(data = {}) {
       /* dynamic to prevent multiple calls to create */
       if (!store.has(id)) {
         this.id = crypto.randomUUID();
