@@ -6,7 +6,7 @@
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
   "files": [
-    "src/**",
+    "src/**/*.js",
     "!src/**/*.spec.js"
   ],
   "repository": {
@@ -19,7 +19,7 @@
     "ws": "^8.13.0"
   },
   "peerDependencies": {
-    "primate": "0.18"
+    "primate": "0.19"
   },
   "type": "module",
   "exports": "./src/exports.js"

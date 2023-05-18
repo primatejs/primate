@@ -1,12 +1,12 @@
 {
   "name": "@primate/vue",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Primate Vue module",
   "homepage": "https://primatejs.com/modules/vue",
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
   "files": [
-    "src/**",
+    "src/**/*.js",
     "!src/**/*.spec.js"
   ],
   "repository": {
@@ -16,10 +16,10 @@
   },
   "dependencies": {
     "runtime-compat": "^0.17.0",
-    "vue": "^3.3.1"
+    "vue": "^3.3.4"
   },
   "peerDependencies": {
-    "primate": "0.18"
+    "primate": "0.19"
   },
   "type": "module",
   "main": "./src/exports.js"

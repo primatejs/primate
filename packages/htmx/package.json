@@ -1,12 +1,12 @@
 {
   "name": "@primate/htmx",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "description": "Primate HTMX module",
   "homepage": "https://primatejs.com/modules/htmx",
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
   "files": [
-    "src/**",
+    "src/**/*.js",
     "!src/**/*.spec.js"
   ],
   "repository": {
@@ -19,7 +19,7 @@
     "runtime-compat": "^0.17.0"
   },
   "peerDependencies": {
-    "primate": "0.18"
+    "primate": "0.19"
   },
   "type": "module",
   "exports": "./src/exports.js"
