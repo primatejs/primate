@@ -1,13 +1,13 @@
-# Svelte handler
+# Svelte
 
-The [Svelte handler module][repository] has support for SSR and hydration and
-serves Svelte components with the  `.svelte` extension.
+This handler module supports SSR and hydration and serves Svelte components
+with the `.svelte` extension.
 
 ## Install
 
 `npm i @primate/svelte`
 
-## Load
+## Configure
 
 Import and initialize the module in your configuration.
 
@@ -19,7 +19,7 @@ export default {
 };
 ```
 
-If you use a bundler, specify an array of entry points.
+If you're using a bundler, specify an array of entry points.
 
 ```js caption=primate.config.js
 import svelte from "@primate/svelte";
@@ -89,4 +89,8 @@ Array of component names that serve as entry points. This information is
 valuable to a bundle for deciding what files are relevant as starting input for
 bundling.
 
-[repository]: https://github.com/primatejs/primate/tree/master/packages/svelte
+## Resources
+
+* [Repository][repo]
+
+[repo]: https://github.com/primatejs/primate/tree/master/packages/svelte

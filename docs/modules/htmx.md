@@ -1,13 +1,12 @@
-# HTMX handler
+# HTMX
 
-The [HTMX handler module][repository] serves HTMX components with the `.htmx`
-extension.
+This handler module serves HTMX components with the `.htmx` extension.
 
 ## Install
 
 `npm i @primate/htmx`
 
-## Load
+## Configure
 
 Import and initialize the module in your configuration.
 
@@ -73,4 +72,8 @@ Default `config.paths.components`
 
 Directory where the HTMX components reside.
 
-[repository]: https://github.com/primatejs/primate/tree/master/packages/htmx
+## Resources
+
+* [Repository][repo]
+
+[repo]: https://github.com/primatejs/primate/tree/master/packages/htmx

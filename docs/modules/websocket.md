@@ -1,13 +1,12 @@
 # WebSocket
 
-The WebSocket module adds support for WebSocket communication to your
-application.
+This module adds support for WebSockets in routes to your application.
 
 ## Install
 
 `npm i @primate/ws`
 
-## Load
+## Configure
 
 Import and initialize the module in your configuration.
 
@@ -88,6 +87,7 @@ By that example, a client requesting a `GET` WebSocket upgrade at
 web sockets, with a limit of 20 messages.
 
 ## Resources
-
-* [Repository](https://github.com/primatejs/primate/tree/master/packages/ws)
+* [Repository][repo]
 * [Error list](/reference/errors/primate/ws)
+
+[repo]: https://github.com/primatejs/primate/tree/master/packages/ws

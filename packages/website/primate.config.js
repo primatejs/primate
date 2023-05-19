@@ -43,7 +43,9 @@ export default {
           {
             errors: [
               "primate",
+              "primate/guard",
               "primate/store",
+              "primate/ws",
             ],
           },
         ],
@@ -62,8 +64,11 @@ export default {
           "Store",
           "MongoDB",
           "PostgreSQL",
+          "SQLite",
           {heading: "Others"},
-          "Sessions",
+          "Session",
+          "Guard",
+          "WebSocket",
           "esbuild",
         ],
       },

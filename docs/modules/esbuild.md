@@ -1,10 +1,8 @@
 # esbuild
 
-The [esbuild bundler module][repository] bundles your application's resources
-into a single JavaScript and CSS file.
-
-As this module uses the `bundle` hook, bundling will only occur if you run
-Primate using `npx primate serve`.
+This module bundles your application's resources into a single JavaScript and
+CSS file. As it module uses the `bundle` hook, bundling will only occur if you
+run Primate using `npx primate serve`.
 
 ## Install
 
@@ -22,4 +20,8 @@ export default {
 };
 ```
 
-[repository]: https://github.com/primatejs/primate/tree/master/packages/esbuild
+## Resources
+
+* [Repository][repo]
+
+[repo]: https://github.com/primatejs/primate/tree/master/packages/esbuild

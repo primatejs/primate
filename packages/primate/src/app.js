@@ -70,6 +70,8 @@ export default async (config, root, log) => {
           `${type}`.replace(paths.types, "").slice(1, -ending.length),
           (await import(type)).default,
         ])));
+  Object.keys(types).length === 0
+    && errors.EmptyTypeDirectory.warn(log, {root: paths.types});
   Object.entries(types).some(([name, type]) =>
     typeof type !== "function" && errors.InvalidType.throw({name}));
 

@@ -38,6 +38,13 @@ export default Object.fromEntries(Object.entries({
       level: Logger.Warn,
     };
   },
+  EmptyTypeDirectory({root}) {
+    return {
+      message: ["empty type directory"],
+      fix: ["populate % with types or remove it", root],
+      level: Logger.Warn,
+    };
+  },
   ErrorInConfigFile({config, message}) {
     return {
       message: ["error in config %", message],

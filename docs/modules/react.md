@@ -1,13 +1,13 @@
-# React handler
+# React
 
-The [React handler module][repository] supports SSR and serves React (JSX)
-components with the `.jsx` extension.
+This handler module supports SSR and serves React (JSX) components with the
+`.jsx` extension.
 
 ## Install
 
 `npm i @primate/react`
 
-## Load
+## Configure
 
 Import and initialize the module in your configuration.
 
@@ -68,4 +68,8 @@ Default `config.paths.components`
 
 Directory where the JSX components reside.
 
-[repository]: https://github.com/primatejs/primate/tree/master/packages/react
+## Resources
+
+* [Repository][repo]
+
+[repo]: https://github.com/primatejs/primate/tree/master/packages/react

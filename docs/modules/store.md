@@ -1,7 +1,7 @@
 # Data store
 
-The data store module adds transactionalized data persistance to your
-application as part of your routes, backed up by different database systems.
+This module adds transactionalized data persistance to your application as part
+of your routes, backed up by different database systems.
 
 In Primate, the term `store` represents tables in classical RDBMS (such as
 PostgreSQL) or collections in NoSQL databases (such as MongoDB). Stores are
@@ -396,8 +396,6 @@ stores that export `ambiguous = true`, using this operation will always throw.
 
 ## Store actions
 
-## Fields and predicates
-
 ## Configuration options
 
 ### directory
@@ -455,7 +453,8 @@ using `export const strict = false;`.
 
 ## Resources
 
-* [Repository](https://github.com/primatejs/primate/tree/master/packages/store)
+* [Repository][repo]
 * [Error list](/reference/errors/primate/store)
 
+[repo]: https://github.com/primatejs/primate/tree/master/packages/store
 [memory]: https://github.com/primatejs/primate/blob/master/packages/store/src/drivers/memory.js

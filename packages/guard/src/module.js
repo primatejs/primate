@@ -1,7 +1,6 @@
 import {bold} from "runtime-compat/colors";
 import errors from "./errors.js";
 
-const last = -1;
 const ending = -3;
 
 const validGuard = guard => typeof guard === "function";

@@ -4,13 +4,13 @@ export default Object.fromEntries(Object.entries({
   EmptyStoreDirectory({root}) {
     return {
       message: ["empty store directory"],
-      fix: ["populate % with stores", root],
+      fix: ["populate % with stores or remove it", root],
       level: Logger.Warn,
     };
   },
   CannotUnpackValue({field, value, name, path, document: {id}}) {
     const fixes = [
-      "change predicate for %s", `(await ${path}.get("${id}")).${field}`,
+      "change type for %s", `(await ${path}.get("${id}")).${field}`,
       "correct data in database",
     ];
     return {
@@ -29,10 +29,10 @@ export default Object.fromEntries(Object.entries({
       level: Logger.Info,
     };
   },
-  InvalidPredicate({name, store}) {
+  InvalidType({name, store}) {
     return {
-      message: ["field % in store % has invalid predicate" , name, store],
-      fix: ["use a valid predicate"],
+      message: ["field % in store % has invalid type" , name, store],
+      fix: ["use a valid type"],
       level: Logger.Error,
     };
   },
@@ -41,13 +41,13 @@ export default Object.fromEntries(Object.entries({
       message: ["missing primary key % in store %", primary, name],
       fix: ["add an % field or set % to the store", "id",
         "export const ambiguous = true;"],
-      level: Logger.Warn,
+      level: Logger.Error,
     };
   },
   MissingStoreDirectory({root}) {
     return {
       message: ["missing store directory"],
-      fix: ["create % and populate it", base],
+      fix: ["create % and populate it", root],
       level: Logger.Warn,
     };
   },

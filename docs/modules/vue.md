@@ -1,13 +1,13 @@
-# Vue handler
+# Vue
 
-The [Vue handler module][repository] supports SSR and serves Vue SFC components
-with the `.vue` extension.
+This handler module supports SSR and serves Vue SFC components with the `.vue`
+extension.
 
 ## Install
 
 `npm i @primate/vue`
 
-## Load
+## Configure
 
 Import and initialize the module in your configuration.
 
@@ -59,4 +59,8 @@ Default `config.paths.components`
 
 Directory where the Vue SFC components reside.
 
-[repository]: https://github.com/primatejs/primate/tree/master/packages/vue
+## Resources
+
+* [Repository][repo]
+
+[rep]: https://github.com/primatejs/primate/tree/master/packages/vue

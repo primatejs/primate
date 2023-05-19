@@ -48,12 +48,12 @@ const makeTransaction = ({stores, defaults, Store}) => {
   };
 };
 
-const validPredicate = predicate =>
-  typeof predicate === "function" || typeof predicate?.type === "function";
+const validType = type =>
+  typeof type === "function" || typeof type?.type === "function";
 
-const valid = (predicate, name, store) => validPredicate(predicate)
-  ? predicate
-  : errors.InvalidPredicate.throw({name, store});
+const valid = (type, name, store) => validType(type)
+  ? type
+  : errors.InvalidType.throw({name, store});
 
 export default ({
   /* directory for stores */

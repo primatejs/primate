@@ -4,7 +4,7 @@ export default Object.fromEntries(Object.entries({
   EmptyGuardDirectory({root}) {
     return {
       message: ["empty guard directory"],
-      fix: ["populate % with guard", root],
+      fix: ["populate % with guards or remove it", root],
       level: Logger.Warn,
     };
   },
