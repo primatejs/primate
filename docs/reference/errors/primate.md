@@ -164,7 +164,7 @@ The mismatch happened in a `body`, `query`, `cookies` or `headers` field.
 Level: [`Info`][info] | [`Possibly Intentional`][possibly-intentional]
 
 No file for the given path, as in `/favicon.ico` when the `static` directory
-does not contain a `favicon.ico` file. 
+does not contain a `favicon.ico` file.
 
 **If deemed unintentional, create a file in your static directory.**
 

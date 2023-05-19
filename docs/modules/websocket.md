@@ -23,7 +23,7 @@ export default {
 This module adds a new verb that you can use in your routes, `ws`. Although
 web sockets are a `GET` upgrade, this route is distinct from a `get` route,
 which you could use to send the JavaScript client used to connect. Like all
-other routes, you can have multiply WebSocket routes each with their different
+other routes, you can have multiple WebSocket routes each with their different
 logic.
 
 ```js caption=routes/chat.js | GET+WS /chat 
