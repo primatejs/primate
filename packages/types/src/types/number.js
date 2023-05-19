@@ -41,4 +41,4 @@ number.range = (min, max) => {
 
 export default number;
 
-export const base = "float";
+export const base = "f64";
