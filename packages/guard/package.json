@@ -1,6 +1,6 @@
 {
   "name": "@primate/guard",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Primate route guard module",
   "homepage": "https://primatejs.com/modules/guard",
   "bugs": "https://github.com/primatejs/primate/issues",
