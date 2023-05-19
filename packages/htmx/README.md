@@ -1,17 +1,5 @@
-# Primate HTMX module
+# HTMX
 
-## Install
+This handler module serves HTMX components with the .htmx extension.
 
-`npm i @primate/htmx`
-
-## Configure
-
-Add to `primate.config.js`
-
-```js
-import htmx from "@primate/htmx";
-
-export default {
-  modules: [htmx()],
-};
-```
+## [Documentation](https://primatejs.com/modules/htmx)

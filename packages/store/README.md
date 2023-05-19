@@ -1,5 +1,6 @@
-# Data store module
+# Data store
 
-This module adds data persistance to your application.
+This module adds transactionalized data persistance to your application as part
+of your routes, backed up by different database systems.
 
-## [Documentation](https://primatejs.com/modules/stores)
+## [Documentation](https://primatejs.com/modules/store)

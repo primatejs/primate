@@ -1,6 +1,6 @@
 # WebSocket
 
-This module adds support for WebSockets in routes to your application.
+This module adds WebSocket support in routes to your application.
 
 ## Install
 

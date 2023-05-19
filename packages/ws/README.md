@@ -1,5 +1,5 @@
-# WebSocket module
+# WebSocket
 
-This module adds support for web sockets to your application.
+This module adds WebSocket support in routes to your application.
 
-## [Documentation](https://primatejs.com/modules/ws)
+## [Documentation](https://primatejs.com/modules/websocket)

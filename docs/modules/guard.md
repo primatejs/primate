@@ -1,4 +1,4 @@
-# Guard
+# Route guards
 
 This module adds route guards to your application.
 
@@ -67,3 +67,5 @@ Directory where the guards reside.
 
 * [Repository][repo]
 * [Error list](/reference/errors/primate/guard)
+
+[repo]: https://github.com/primatejs/primate/tree/master/packages/guard

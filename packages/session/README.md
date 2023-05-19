@@ -1,4 +1,4 @@
-# Session module
+# Session
 
 This module adds cookie-based sessions to your application.
 

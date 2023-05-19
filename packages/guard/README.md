@@ -1,4 +1,4 @@
-# Route guard module
+# Route guards
 
 This module adds route guards to your application.
 
