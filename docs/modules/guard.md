@@ -59,7 +59,7 @@ export default {
 
 ### directory
 
-Default `config.paths.guards`
+Default `"guards"`
 
 Directory where the guards reside.
 
