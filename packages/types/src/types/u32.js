@@ -11,6 +11,7 @@ const name = "32-bit unsigned integer";
 
 const u32 = value => orthrow(() => u32range(int(value)), not(name)(value));
 
+u32.base = "u32";
+
 export default u32;
 
-export const base = "u32";

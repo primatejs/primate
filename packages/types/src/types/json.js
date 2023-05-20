@@ -1,5 +1,3 @@
-export const type = "json";
-
 const json = value => {
   try {
     return JSON.parse(value);
@@ -7,5 +5,7 @@ const json = value => {
     throw new Error(`${value} is not a JSON`);
   }
 };
+
+json.base = "json";
 
 export default json;

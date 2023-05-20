@@ -11,6 +11,6 @@ const name = "128-bit unsigned integer";
 
 const u128 = value => orthrow(() => u128range(bigint(value)), not(name)(value));
 
-export default u128;
+u128.base = "u128";
 
-export const base = "u128";
+export default u128;

@@ -12,6 +12,6 @@ const name = "16-bit integer";
 
 const i16 = value => orthrow(() => i16range(int(value)), not(name)(value));
 
-export default i16;
+i16.base = "i16";
 
-export const base = "i16";
+export default i16;

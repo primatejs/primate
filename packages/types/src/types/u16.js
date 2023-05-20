@@ -11,6 +11,6 @@ const name = "16-bit unsigned integer";
 
 const u16 = value => orthrow(() => u16range(int(value)), not(name)(value));
 
-export default u16;
+u16.base = "u16";
 
-export const base = "u16";
+export default u16;

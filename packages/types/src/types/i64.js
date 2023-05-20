@@ -12,6 +12,6 @@ const name = "64-bit integer";
 
 const i64 = value => orthrow(() => i64range(bigint(value)), not(name)(value));
 
-export default i64;
+i64.base = "i64";
 
-export const base = "i64";
+export default i64;

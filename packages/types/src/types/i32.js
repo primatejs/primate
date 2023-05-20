@@ -12,6 +12,6 @@ const name = "32-bit integer";
 
 const i32 = value => orthrow(() => i32range(int(value)), not(name)(value));
 
-export default i32;
+i32.base = "i32";
 
-export const base = "i32";
+export default i32;

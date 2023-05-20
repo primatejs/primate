@@ -1,7 +1,5 @@
 import {boolish} from "runtime-compat/dyndef";
 
-export const type = "boolean";
-
 const boolean = value => {
   const coerced = boolish(value) ? value === "true" : value;
   if (typeof coerced === "boolean") {
@@ -9,5 +7,7 @@ const boolean = value => {
   }
   throw new Error(`${value} is not a boolean`);
 };
+
+boolean.base = "boolean";
 
 export default boolean;

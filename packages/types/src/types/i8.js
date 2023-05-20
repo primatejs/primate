@@ -12,6 +12,6 @@ const name = "8-bit integer";
 
 const i8 = value => orthrow(() => i8range(int(value)), not(name)(value));
 
-export default i8;
+i8.base = "i8";
 
-export const base = "i8";
+export default i8;

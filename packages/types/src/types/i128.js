@@ -12,6 +12,6 @@ const name = "128-bit integer";
 
 const i128 = value => orthrow(() => i128range(bigint(value)), not(name)(value));
 
-export default i128;
+i128.base = "i128";
 
-export const base = "i128";
+export default i128;

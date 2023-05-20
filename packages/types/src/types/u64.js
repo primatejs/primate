@@ -11,6 +11,6 @@ const name = "64-bit unsigned integer";
 
 const u64 = value => orthrow(() => u64range(bigint(value)), not(name)(value));
 
-export default u64;
+u64.base = "u64";
 
-export const base = "u64";
+export default u64;

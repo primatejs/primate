@@ -39,6 +39,6 @@ number.range = (min, max) => {
   };
 };
 
-export default number;
+number.base = "f64";
 
-export const base = "f64";
+export default number;
