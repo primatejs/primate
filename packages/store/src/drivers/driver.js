@@ -13,10 +13,7 @@ export default (name, types, manager) => ({
   name,
   /* start transaction */
   start() {
-    if (manager.started) {
-      throw new Error("already in transaction, use `end` first");
-    }
-    manager.open();
+    return manager.open();
   },
   /* rollback any uncommited changes */
   async rollback() {

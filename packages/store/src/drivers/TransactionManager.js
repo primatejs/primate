@@ -3,6 +3,8 @@ export default class TransactionManager {
   #changed = false;
   #read; #write;
   #operations;
+  #mutex;
+  #unlock;
 
   constructor({read, write, operations = {}}) {
     this.#read = read;
@@ -19,12 +21,19 @@ export default class TransactionManager {
     return result;
   }
 
-  open() {
+  async open() {
+    await this.#mutex;
+    this.#mutex = new Promise(resolve => {
+      this.#unlock = () => {
+        this.#started = false;
+        resolve();
+      };
+    });
     this.#started = true;
   }
 
   close() {
-    this.#started = false;
+    this.#unlock();
   }
 
   async read() {
