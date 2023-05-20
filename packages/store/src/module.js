@@ -1,6 +1,7 @@
 import crypto from "runtime-compat/crypto";
 import {bold} from "runtime-compat/colors";
 import {error as clientError} from "primate";
+import * as types from "@primate/types";
 import storer from "./Store.js";
 import {memory} from "./drivers/exports.js";
 import errors from "./errors.js";
@@ -86,7 +87,6 @@ export default ({
           readonly: false,
           ambiguous: false,
         };
-
         env.stores = await Promise.all((await root.collect(/^.*.js$/u))
           /* accept only uppercase-first files in store filename */
           .filter(path => /^[A-Z]/u.test(path.name))
@@ -97,28 +97,31 @@ export default ({
           /* accept only uppercase-first directories in store path */
           .filter(([name]) =>
             name.split("/").slice(0, last).every(part => /^[A-Z]/u.test(part)))
-          .map(async ([name, path]) => {
+          .map(async ([store, path]) => {
             const exports = await import(path);
             const schema = Object.fromEntries(Object.entries(exports.default)
-              .filter(([property, type]) => valid(type, property, name))
+              .filter(([property, type]) => valid(type, property, store))
               .map(([property, type]) =>
                 [property, typeof type === "function" ? type : type.type])
               .map(([property, type]) => {
-                const {base = "string"} = type;
+                const base = Object.keys(types)
+                  .find(({name}) => name === type.name)?.base
+                  ?? type.base
+                  ?? "string";
                 return [property, {type, base}];
               }));
 
             exports.ambiguous !== true && schema.id === undefined
-              && errors.MissingPrimaryKey.throw({name, primary});
+              && errors.MissingPrimaryKey.throw({store, primary});
 
-            const pathed = name.replaceAll("/", ".");
+            const pathed = store.replaceAll("/", ".");
 
             env.log.info(`loading ${bold(pathed)}`, {module: "primate/store"});
 
             return [pathed, {
               ...exports,
               schema,
-              name: exports.name ?? name.replaceAll("/", "_"),
+              name: exports.name ?? store.replaceAll("/", "_"),
             }];
           })
         );

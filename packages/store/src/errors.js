@@ -36,9 +36,9 @@ export default Object.fromEntries(Object.entries({
       level: Logger.Error,
     };
   },
-  MissingPrimaryKey({primary, name}) {
+  MissingPrimaryKey({primary, store}) {
     return {
-      message: ["missing primary key % in store %", primary, name],
+      message: ["missing primary key % in store %", primary, store],
       fix: ["add an % field or set % to the store", "id",
         "export const ambiguous = true;"],
       level: Logger.Error,

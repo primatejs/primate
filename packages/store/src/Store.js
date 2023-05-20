@@ -6,7 +6,7 @@ const transform = direction => ({types, schema, document, path}) =>
     .filter(([field]) => schema[field]?.type !== undefined)
     .map(([field, value]) => {
       try {
-        return [field, types[schema[field].type]?.[direction](value) ?? value];
+        return [field, types[schema[field].base]?.[direction](value) ?? value];
       } catch (error) {
         const {name} = schema[field];
         errors.CannotUnpackValue.throw({name, value, field, path, document});
@@ -49,12 +49,6 @@ export default env => class Store {
 
   async validate(input) {
     return validate({
-      /* name of the primary field as well the driver's primary validate
-       * function */
-      primary: {
-        name: this.primary,
-        value: {...await this.driver.primary()},
-      },
       /* the driver in use */
       driver: this.driver,
       /* the input to be validated */
@@ -123,15 +117,15 @@ export default env => class Store {
   async insert(document = {}) {
     const {primary} = this;
 
-    return this.#validate({
+    return this.#unpack(await this.#validate({
       ...document,
       [primary]: document[primary] ?? await this.#generate(),
-    }, validated => this.driver.insert(this.name, validated));
+    }, validated => this.driver.insert(this.name, validated)));
   }
 
-  update(criteria, document = {}) {
-    return this.#validate(document, validated =>
-      this.driver.update(this.name, criteria, validated));
+  async update(criteria, document = {}) {
+    return this.#unpack(await this.#validate(document, validated =>
+      this.driver.update(this.name, criteria, validated)));
   }
 
   save(document) {
