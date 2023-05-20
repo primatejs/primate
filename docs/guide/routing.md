@@ -21,8 +21,6 @@ type `uuid`, for example `/user/f6a3fac2-7c1d-432d-9e1c-68d0db925adc` (but not
 ## HTTP verbs
 
 Every route file exports an object containing one or many HTTP verb functions.
-Primate supports the CRUD verbs (`POST`, `GET`, `PUT`, `DELETE`) as well
-additional verbs (`CONNECT`, `OPTIONS`, `TRACE`, `PATCH`).
 
 ```js filename=routes/user/profile.js
 export default {
@@ -49,8 +47,8 @@ object destructuring.
 
 ### body
 
-The request's body, if relevant. For requests that have no body (such
-as GET requests), it defaults to `null`.
+The request body. For requests that have no body (such as GET requests) it
+defaults to `null`.
 
 ```js caption=routes/your-name.js
 export default() {
@@ -62,10 +60,10 @@ export default() {
 }
 ```
 
-If a client sends a `text/plain` POST request to `/your-name` with "Donald" as
+If a client sends a POST request to `/your-name` with `text/plain` "Donald" as
 body, this route will respond with 200 saying `Hello, Donald`.
 
-Primate will try to decode the body according to the `Content-Type` header
+Primate will attempt to decode the body according to the `Content-Type` header
 used in the request.
 
 * `application/x-www-form-urlencoded`, which is primarily used in HTML forms,
@@ -86,21 +84,22 @@ export default() {
 }
 ```
 
-In this example, if a client sends a request to `/your-full-name` with an HTTP
-form (`application/x-www-form-urlencoded`) or JSON data (`application/json`)
-with a field `name` in its body, Primate will respond by saying Hello and the
-provided name.
+In this example, if a client sends a request to `/your-full-name` with a
+URL-encoded form (`application/x-www-form-urlencoded`) or JSON data
+(`application/json`) with a field `name` in its body, Primate will respond by
+saying Hello and the provided name.
 
 !!!
 The `get` function on `request.body` can be used in two ways. If called without
-parameters, it will return the underyling object, which we can then destructure
+parameters, it will return the underlying object, which we can then destructure
 into its properties as in the example. It's also possible to call it with the
 name of a property to retrieve it directly.
+
 ```js
 const name = request.body.get("name");
 ```
-This applies not only to `body` but to
-all of the following request sections.
+
+This applies not only to `body` but to all of the following request sections.
 !!!
 
 ### path
