@@ -19,4 +19,4 @@ WORKDIR /app
 COPY --from=builder /app/primate/packages/website .
 COPY --from=builder /app/primate/docs ./content
 
-CMD ["npx", "primate", "build"]
+CMD ["npx", "primate", "serve"]
