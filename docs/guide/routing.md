@@ -13,7 +13,7 @@ To illustrate this, consider that inside `routes`
 * `user/{userId}.js` is mapped to a
 [route with parameters](#parameters), for example `/user/1` (but also
 `/user/donald`)
-* `user/{userId:uuid}.js` is mapped to a
+* `user/{userId=uuid}.js` is mapped to a
 [route with typed parameters](#typed-parameters) route where `userId` is of the
 type `uuid`, for example `/user/f6a3fac2-7c1d-432d-9e1c-68d0db925adc` (but not
 `/user/1`)

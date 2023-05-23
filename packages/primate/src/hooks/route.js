@@ -10,7 +10,7 @@ export const invalid = route => /\./u.test(route);
 const toRoute = path => {
   const double = path.split("/")
     .filter(part => part.startsWith("{") && part.endsWith("}"))
-    .map(part => part.slice(1, part.indexOf(":")))
+    .map(part => part.slice(1, part.indexOf("=")))
     .find((part, i, array) =>
       array.filter((_, j) => i !== j).includes(part));
   double && errors.DoublePathParameter.throw({path, double});
@@ -23,7 +23,7 @@ const toRoute = path => {
     // prepare for regex
     .replaceAll(/\{(?<named>.*?)\}/gu, (_, named) => {
       try {
-        const {name, type} = /^(?<name>\w*)(?<type>:\w+)?$/u.exec(named).groups;
+        const {name, type} = /^(?<name>\w+)(?<type>=\w+)?$/u.exec(named).groups;
         const param = type === undefined ? name : `${name}$${type.slice(1)}`;
         return `(?<${param}>[^/]{1,}?)`;
       } catch (error) {
@@ -43,7 +43,7 @@ export default app => {
   const double = app.routes
     .map(([route]) => route
       .replaceAll("/index", "")
-      .replaceAll(/\{(?<name>\w*)(?<_>:\w+)?\}?/gu, (_, name) => `{${name}}`))
+      .replaceAll(/\{(?<name>\w*)(?:=\w+)?\}?/gu, (_, name) => `{${name}}`))
     .find((part, i, array) =>
       array.filter((_, j) => i !== j).includes(part));
 

@@ -17,15 +17,15 @@ const app = {
     "index",
     "user",
     "users/{userId}a",
-    "comments/{commentId:comment}",
+    "comments/{commentId=comment}",
     "users/{userId}/comments/{commentId}",
-    "users/{userId:user}/comments/{commentId}/a",
-    "users/{userId:user}/comments/{commentId:comment}/b",
+    "users/{userId=user}/comments/{commentId}/a",
+    "users/{userId=user}/comments/{commentId=comment}/b",
     "users/{_userId}/comments/{commentId}/d",
     "users/{_userId}/comments/{_commentId}/e",
     "comments2/{_commentId}",
     "users2/{_userId}/{commentId}",
-    "users3/{_userId}/{_commentId:_commentId}",
+    "users3/{_userId}/{_commentId=_commentId}",
     "users4/{_userId}/{_commentId}",
     "users5/{truthy}",
     "{uuid}/{Uuid}/{UUID}",
@@ -103,10 +103,13 @@ export default test => {
     const throws = mark("invalid route name %", "po.st");
     assert(() => route({routes: [post], types: {}})).throws(throws);
   });
-  test.case("error InvalidParameter", ({assert}) => {
+  test.case("error InvalidPathParameter", ({assert}) => {
     const path = "{us$er}";
     const throws = mark("invalid path parameter % in route %", "us$er", path);
     assert(() => route({routes: [[path, {get}]]})).throws(throws);
+    const path2 = "{}";
+    const throws2 = mark("invalid path parameter % in route %", "", path2);
+    assert(() => route({routes: [[path2, {get}]]})).throws(throws2);
   });
   test.case("error InvalidTypeName", ({assert}) => {
     const throws = mark("invalid type name %", "us$er");

@@ -88,7 +88,7 @@ In Primate's [filesystem-based routing](/guide/routing), path parameters may be
 additionally specified with types to ensure the path adheres to a certain
 format.
 
-```js caption=routes/user/{userId:uuid}.js | typed path
+```js caption=routes/user/{userId=uuid}.js | typed path
 export default {
   /*
     GET /user/b8c5b7b2-4f4c-4939-81d8-d1bdadd888c5
@@ -152,7 +152,7 @@ export default {
 }
 ```
 
-Here, we avoided typing out the route as `user/{userId:userId}.js` and relied
+Here, we avoided typing out the route as `user/{userId=userId}.js` and relied
 on Primate to match the type to the parameter name. In this case, `GET
 /user/1616` cannot be matched to a route, as `1616` is not an ID of a user in
 our dataset.
@@ -166,7 +166,7 @@ supplying the ID of an actual dataset user.
 !!!
 If you do not wish Primate to automatically type your path parameters, set
 `types.explicit` to `true` in your configuration. In that case, you would need
-to use the route filename `routes/user/{userId:userId}.js` instead.
+to use the route filename `routes/user/{userId=userId}.js` instead.
 !!!
 
 ### Request query
