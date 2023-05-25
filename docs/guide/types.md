@@ -20,13 +20,13 @@ as true, which is what you would expect on the web.
 Types are defined in the `types` directory, unless specified
 [elsewise](/guide/configuration#paths-types) in the configuration. Type
 filenames are alphanumeric and lowercase-first -- any files not starting with a 
-lowercase letter will be ignored by Primate.
+lowercase letter will be ignored.
 
 Type files must export a function as their default export, and Primate will
 refuse to start if it detects a type that's not a function.
 
 Here is an example for a `number` type, a type that makes sure a string is
-convertible to a number.
+convertible to a number and outputs a number.
 
 ```js caption=types/number.js
 import {is} from "runtime-compat/dyndef";
@@ -300,12 +300,10 @@ and integrating with database types.
 
 Most of the time you won't need to define your own types unless you have very
 specific use cases. Primate's [Types module](/modules/types) comes with a
-handful of common types such as `string`, `number`, `uuid`, `isodate`,
-containing over 20 different types. By importing and loading this module, its
+handful of common types. By importing and loading this module, its
 types will be injected and available wherever types are used.
 
 ### Store
 
 The Primate [Store module](/modules/store), used for data persistance, also
-integrates with Primate's type concept and extends upon it. It is highly
-recommended to use it in conjuction with the Types module.
+integrates with Primate's type concept and extends upon it.

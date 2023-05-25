@@ -1,4 +1,4 @@
-import * as types from "./types/exports.js";
+import * as types from "./exports.js";
 
 const extend = (base = {}, extension = {}) =>
   Object.keys(extension).reduce((result, property) => {

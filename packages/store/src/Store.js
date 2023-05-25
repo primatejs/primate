@@ -16,7 +16,7 @@ const transform = direction => ({types, schema, document, path}) =>
 const pack = transform("in");
 const unpack = transform("out");
 
-export default env => class Store {
+export default class Store {
   #schema;
   #config = {};
   #path;
@@ -99,15 +99,18 @@ export default env => class Store {
     return documents.map(document => this.#unpack(document));
   }
 
-  async #validate(input, write) {
-    const {errored, document} = await this.validate(input);
+  async #write(input, writer) {
+    const result = await this.validate(input);
+    const {document} = result;
 
-    return errored
+    return Object.keys(result.errors).length > 0
       ? (() => {
-        errors.FailedDocumentValidation.warn(env.log, {document});
-        return document;
+        const error = errors.FailedDocumentValidation.new(result);
+        error.errors = result.errors;
+        throw error;
       })()
-      : this.readonly ? document : write(this.#pack(document));
+      : this.readonly ? document :
+        this.#unpack(await writer(this.#pack(document)));
   }
 
   #generate() {
@@ -117,15 +120,15 @@ export default env => class Store {
   async insert(document = {}) {
     const {primary} = this;
 
-    return this.#unpack(await this.#validate({
+    return this.#write({
       ...document,
       [primary]: document[primary] ?? await this.#generate(),
-    }, validated => this.driver.insert(this.name, validated)));
+    }, validated => this.driver.insert(this.name, validated));
   }
 
   async update(criteria, document = {}) {
-    return this.#unpack(await this.#validate(document, validated =>
-      this.driver.update(this.name, criteria, validated)));
+    return this.#write(document, validated =>
+      this.driver.update(this.name, criteria, validated));
   }
 
   save(document) {

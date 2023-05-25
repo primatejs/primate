@@ -1,15 +1,14 @@
 import crypto from "runtime-compat/crypto";
 import {bold} from "runtime-compat/colors";
 import {error as clientError} from "primate";
-import * as types from "@primate/types";
-import storer from "./Store.js";
+import Store from "./Store.js";
 import {memory} from "./drivers/exports.js";
 import errors from "./errors.js";
 
 const last = -1;
 const ending = -3;
 
-const openStores = (stores, defaults, Store) =>
+const openStores = (stores, defaults) =>
   stores.map(([name, module]) =>
     [name, new Store(module.name, module.schema, {
       ...Object.fromEntries(Object.entries(defaults).map(([key, value]) =>
@@ -32,8 +31,8 @@ const extend = (base = {}, extension = {}) =>
 const depath = (path, initial) => path.split(".")
   .reduceRight((depathed, key) => ({[key]: depathed}), initial);
 
-const makeTransaction = ({stores, defaults, Store}) => {
-  const _stores = openStores(stores, defaults, Store);
+const makeTransaction = ({stores, defaults}) => {
+  const _stores = openStores(stores, defaults);
 
   const drivers = [...new Set(_stores.map(([, store]) => store.driver)).keys()];
   const store = _stores.reduce((base, [name, value]) =>
@@ -75,7 +74,6 @@ export default ({
     async load(app) {
       try {
         env.log = app.log;
-        env.Store = storer(env);
 
         const root = app.root.join(directory);
         !await root.exists && errors.MissingStoreDirectory.throw({root});
@@ -104,10 +102,7 @@ export default ({
               .map(([property, type]) =>
                 [property, typeof type === "function" ? type : type.type])
               .map(([property, type]) => {
-                const base = Object.keys(types)
-                  .find(({name}) => name === type.name)?.base
-                  ?? type.base
-                  ?? "string";
+                const base = type?.base ?? "string";
                 return [property, {type, base}];
               }));
 

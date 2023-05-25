@@ -72,8 +72,14 @@ export default test => {
   /* errors {{{ */
   test.case("error DoubleRouted", ({assert}) => {
     const post = ["post", {get}];
-    const throws = mark("double route %", "post");
+    const throws = mark("double route of the form %", "post");
     assert(() => route({routes: [post, post]})).throws(throws);
+    const index = [["post", {get}], ["post/index", {get}]];
+    const throws2 = mark("double route of the form %", "post");
+    assert(() => route({routes: index})).throws(throws2);
+    const paths = [["{foo}/{bar}/t/index", {get}], ["{bar=baz}/index/{baz}/t", {get}]];
+    const throws3 = mark("double route of the form %", "{0}/{1}/t");
+    assert(() => route({routes: paths, types: {}})).throws(throws3);
   });
   test.case("error DoublePathParameter", ({assert}) => {
     const path = "{user}/{user}";

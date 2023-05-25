@@ -26,14 +26,17 @@ const Logger = class Logger {
 
   static throwable(type, name, module) {
     return {
-      throw(args = {}) {
+      new(args = {}) {
         const {message, level, fix} = type(args);
         const error = new Error(mark(...message));
         error.level = level;
         error.fix = mark(...fix);
         error.name = name;
         error.module = module;
-        throw error;
+        return error;
+      },
+      throw(args) {
+        throw this.new(args);
       },
       warn(logger, ...args) {
         const {message, level, fix} = type(...args);

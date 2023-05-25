@@ -48,6 +48,10 @@ export default db => {
       return document;
     },
     delete(collection, criteria) {
+      if (criteria === undefined) {
+        use(collection).splice(0);
+        return;
+      }
       const index = findIndex(collection, criteria);
       if (index !== NOT_FOUND) {
         use(collection).splice(index, 1);

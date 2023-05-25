@@ -1,5 +1,10 @@
 # Data store
 
+!!!
+This page assumes you have read the guide, specifically the section about
+[types](/guide/types).
+!!!
+
 This module adds transactionalized data persistance to your application as part
 of your routes, backed up by different database systems.
 
@@ -17,11 +22,6 @@ system of a given store is referred to as `driver`.
 └─ backed up by `driver` # underlying database system
 ```
 
-!!!
-It is highly recommended to install and load [`@primate/types`](/modules/types)
-alongside this module. This page assumes the Types module has been loaded.
-!!!
-
 ## Quick start
 
 ### Install
@@ -33,11 +33,10 @@ alongside this module. This page assumes the Types module has been loaded.
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import types from "@primate/types";
 import store from "@primate/store";
 
 export default {
-  modules: [types(), store()],
+  modules: [store()],
 };
 ```
 
@@ -46,11 +45,10 @@ long as the application runs. Alternatively you can use the JSON driver which
 persists onto a file.
 
 ```js caption=primate.config.js | using the JSON driver
-import types from "@primate/types";
 import {default as store, json} from "@primate/store";
 
 export default {
-  modules: [types(), store({driver: json({path: "/tmp/db.json"})})],
+  modules: [store({driver: json({path: "/tmp/db.json"})})],
 };
 ```
 

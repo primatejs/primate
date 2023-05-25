@@ -23,7 +23,6 @@ export default async (app, operations = {}) => {
       // parse, handle
       return await hooks.handle(app)(await app.parse(request));
     } catch(error) {
-      console.log("TEST2");
       app.log.auto(error);
       return new Response(null, {status: InternalServerError});
     }

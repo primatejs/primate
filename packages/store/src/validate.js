@@ -1,20 +1,20 @@
 export default async ({driver, input, schema, strict}) =>
-  Object.entries(schema).reduce(({errored, document}, [name, field]) => {
+  Object.entries(schema).reduce(({errors, document}, [name, field]) => {
     // skip empty fields if not in strict mode
     if (!strict && input[name] === undefined) {
-      return {errored, document};
+      return {errors, document};
     }
 
     try {
       const coerced = field.type(input[name], driver);
       return {
-        errored,
+        errors,
         document: {...document, [name]: coerced},
       };
     } catch (error) {
       return {
-        errored: true,
-        document: {...document, [`$${name}`]: error.message},
+        errors: {...errors, [name]: error.message},
+        document,
       };
     }
-  }, {errored: false, document: {}});
+  }, {errors: {}, document: {}});

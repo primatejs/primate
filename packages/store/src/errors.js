@@ -19,14 +19,11 @@ export default Object.fromEntries(Object.entries({
       level: Logger.Error,
     };
   },
-  FailedDocumentValidation({document}) {
-    const fields = Object.keys(document)
-      .filter(name => name.startsWith("$"))
-      .map(name => name.slice(1)).join(", ");
+  FailedDocumentValidation({errors}) {
     return {
-      message: ["document validation failed for %", fields],
-      fix: [""],
-      level: Logger.Info,
+      message: ["document validation failed for %", Object.keys(errors)],
+      fix: ["check and fix errors"],
+      level: Logger.Warn,
     };
   },
   InvalidType({name, store}) {

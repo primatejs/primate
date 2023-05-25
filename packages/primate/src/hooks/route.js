@@ -39,13 +39,16 @@ const toRoute = path => {
 const reentry = (object, mapper) =>
   Object.fromEntries(mapper(Object.entries(object ?? {})));
 
+const normalizeRoute = route => {
+  let i = 0;
+  return route.replaceAll("/index", "")
+    .replaceAll(/\{(?:\w*)(?:=\w+)?\}?/gu, () => `{${i++}}`);
+};
+
 export default app => {
   const double = app.routes
-    .map(([route]) => route
-      .replaceAll("/index", "")
-      .replaceAll(/\{(?<name>\w*)(?:=\w+)?\}?/gu, (_, name) => `{${name}}`))
-    .find((part, i, array) =>
-      array.filter((_, j) => i !== j).includes(part));
+    .map(([route]) => normalizeRoute(route))
+    .find((part, i, array) => array.filter((_, j) => i !== j).includes(part));
 
   double && errors.DoubleRoute.throw({double});
 
