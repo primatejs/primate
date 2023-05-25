@@ -1,7 +1,7 @@
 import {Path} from "runtime-compat/fs";
+import {extend} from "runtime-compat/object";
 import app from "./app.js";
 import {default as Logger, bye} from "./Logger.js";
-import extend from "./extend.js";
 import errors from "./errors.js";
 import command from "./commands/exports.js";
 import defaults from "./defaults/primate.config.js";

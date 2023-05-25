@@ -84,7 +84,8 @@ export default async (config, root, log) => {
 
   new Set(modules.map(({name}) => name)).size !== modules.length &&
     errors.DoubleModule.throw({
-      modules: modules.map(({name}) => name),
+      double: modules.map(({name}) => name).find((module, i, array) =>
+        array.filter((_, j) => i !== j).includes(module)),
       config: root.join("primate.config.js"),
     });
 

@@ -1,5 +1,6 @@
 import crypto from "runtime-compat/crypto";
 import {bold} from "runtime-compat/colors";
+import {extend, inflate} from "runtime-compat/object";
 import {error as clientError} from "primate";
 import Store from "./Store.js";
 import {memory} from "./drivers/exports.js";
@@ -17,26 +18,12 @@ const openStores = (stores, defaults) =>
     })]
   );
 
-const extend = (base = {}, extension = {}) =>
-  Object.keys(extension).reduce((result, property) => {
-    const value = extension[property];
-    return {
-      ...result,
-      [property]: value?.constructor === Object
-        ? extend(base[property], value)
-        : value,
-    };
-  }, base);
-
-const depath = (path, initial) => path.split(".")
-  .reduceRight((depathed, key) => ({[key]: depathed}), initial);
-
 const makeTransaction = ({stores, defaults}) => {
   const _stores = openStores(stores, defaults);
 
   const drivers = [...new Set(_stores.map(([, store]) => store.driver)).keys()];
   const store = _stores.reduce((base, [name, value]) =>
-    extend(base, depath(name, value))
+    extend(base, inflate(name, value))
   , {});
   return {
     id: crypto.randomUUID(),

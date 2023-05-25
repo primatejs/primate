@@ -8,9 +8,7 @@ export default Object.fromEntries(Object.entries({
       level: Logger.Warn,
     };
   },
-  DoubleModule({modules, config}) {
-    const double = modules.find((module, i, array) =>
-      array.filter((_, j) => i !== j).includes(module));
+  DoubleModule({double, config}) {
     return {
       message: ["double module % in %", double, config],
       fix: ["load % only once", double],
@@ -26,8 +24,8 @@ export default Object.fromEntries(Object.entries({
   },
   DoubleRoute({double}) {
     return {
-      message: ["double route %", double],
-      fix: ["disambiguate route % and %", double, `${double}/index`],
+      message: ["double route of the form %", double],
+      fix: ["disambiguate routes"],
       level: Logger.Error,
     };
   },

@@ -1,13 +1,5 @@
-import * as types from "./exports.js";
-
-const extend = (base = {}, extension = {}) =>
-  Object.keys(extension).reduce((result, property) => {
-    const value = extension[property];
-    result[property] = value?.constructor === Object
-      ? extend(base[property], value)
-      : value;
-    return result;
-  }, base);
+import {extend} from "runtime-compat/object";
+import * as types from "./types.js";
 
 export default ({} = {}) => {
   const env = {
@@ -17,7 +9,7 @@ export default ({} = {}) => {
     name: "@primate/types",
     async load(app) {
       env.log = app.log;
-      app.types = extend(app.types, types);
+      app.types = extend(app.types, {...types});
     },
   };
 };
