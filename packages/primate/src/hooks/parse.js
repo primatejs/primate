@@ -20,7 +20,7 @@ export default dispatch => async request => {
     try {
       return parseContentType(contentType, body);
     } catch (error) {
-      return errors.CannotParseBody.throw({body, contentType});
+      return errors.CannotParseBody.throw(body, contentType);
     }
   };
 

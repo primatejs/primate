@@ -28,7 +28,8 @@ export default () => {
         });
         try {
           const response = await app.route(await app.parse(request));
-          response?.message ?? errors.InvalidHandler.throw();
+          response?.message ?? errors.InvalidHandler.throw(
+            "ws", "message", "{message(payload) { return payload; }}");
           wss.handleUpgrade(req, socket, head, up(response));
         } catch (error) {
           socket.destroy();

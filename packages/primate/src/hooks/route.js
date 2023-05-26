@@ -13,7 +13,7 @@ const toRoute = path => {
     .map(part => part.slice(1, part.indexOf("=")))
     .find((part, i, array) =>
       array.filter((_, j) => i !== j).includes(part));
-  double && errors.DoublePathParameter.throw({path, double});
+  double && errors.DoublePathParameter.throw(double, path);
 
   const route = path
     // transform /index -> ""
@@ -27,11 +27,11 @@ const toRoute = path => {
         const param = type === undefined ? name : `${name}$${type.slice(1)}`;
         return `(?<${param}>[^/]{1,}?)`;
       } catch (error) {
-        return errors.InvalidPathParameter.throw({named, path});
+        return errors.InvalidPathParameter.throw(named, path);
       }
     });
 
-  invalid(route) && errors.InvalidRouteName.throw({path});
+  invalid(route) && errors.InvalidRouteName.throw(path);
 
   return new RegExp(`^/${route}$`, "u");
 };
@@ -50,12 +50,13 @@ export default app => {
     .map(([route]) => normalizeRoute(route))
     .find((part, i, array) => array.filter((_, j) => i !== j).includes(part));
 
-  double && errors.DoubleRoute.throw({double});
+  double && errors.DoubleRoute.throw(double);
 
   const routes = app.routes
     .map(([route, imported]) => {
       if (imported === undefined || Object.keys(imported).length === 0) {
-        errors.EmptyRouteFile.warn(app.log, {config: app.config, route});
+        errors.EmptyRouteFile.warn(app.log,
+          app.paths.routes.join(`${route}.js`).path);
         return [];
       }
 
@@ -65,10 +66,10 @@ export default app => {
 
   const {types = {}} = app;
   Object.entries(types).some(([name]) => /^(?:[^\W_]*)$/u.test(name) ||
-    errors.InvalidTypeName.throw({name}));
+    errors.InvalidTypeName.throw(name));
   const reserved = ["get", "raw"];
   Object.entries(types).some(([name]) => reserved.includes(name) &&
-    errors.ReservedTypeName.throw({name}));
+    errors.ReservedTypeName.throw(name));
 
   const {explicit} = app.config.types;
   const isType = (groups, path) => Object
@@ -80,8 +81,8 @@ export default app => {
     .every(([name, value]) => {
       try {
         return types?.[name](value) === true;
-      } catch (error) {
-        return errors.MismatchedPath.throw({message: error.message, path});
+      } catch ({message}) {
+        return errors.MismatchedPath.throw(path, message);
       }
     });
   const isPath = ({route, path}) => {
@@ -97,7 +98,11 @@ export default app => {
   return request => {
     const {original: {method}, url: {pathname}} = request;
     const verb = find(method, pathname) ??
-      errors.NoRouteToPath.throw({method, pathname, config: app.config});
+      errors.NoRouteToPath.throw(
+        method,
+        pathname,
+        `${app.config.paths.routes}${pathname === "" ? "index" : pathname}.js`
+      );
     const path = app.dispatch(reentry(verb.path?.exec(pathname).groups,
       object => object.map(([key, value]) => [key.split("$")[0], value])));
 

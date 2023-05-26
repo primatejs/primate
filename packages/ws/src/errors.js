@@ -1,13 +1,6 @@
+import {Path} from "runtime-compat/fs";
 import {Logger} from "primate";
 
-export default Object.fromEntries(Object.entries({
-  InvalidHandler() {
-    return {
-      message: ["% route must return a valid % handler", "ws", "message"],
-      fix: ["return object that handles the message event, such as %",
-        "{message(payload) { return payload; }}"],
-      level: Logger.Error,
-    };
-  },
-}).map(([name, error]) =>
-  [name, Logger.throwable(error, name, "primate/ws")]));
+const errors = await new Path(import.meta.url).up(1).join("errors.json").json();
+
+export default Logger.err(errors, "primate/ws");

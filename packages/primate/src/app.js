@@ -72,26 +72,27 @@ export default async (config, root, log) => {
         ])));
   if (await paths.types.exists) {
     Object.keys(types).length === 0
-      && errors.EmptyTypeDirectory.warn(log, {root: paths.types});
+      && errors.EmptyTypeDirectory.warn(log, paths.types);
   }
   Object.entries(types).some(([name, type]) =>
-    typeof type !== "function" && errors.InvalidType.throw({name}));
+    typeof type !== "function" && errors.InvalidType.throw(name));
 
   const modules = config.modules === undefined ? [] : config.modules;
 
   modules.every((module, n) => module.name !== undefined ||
-    errors.ModulesMustHaveNames.throw({n}));
+    errors.ModulesMustHaveNames.throw(n));
 
   new Set(modules.map(({name}) => name)).size !== modules.length &&
-    errors.DoubleModule.throw({
-      double: modules.map(({name}) => name).find((module, i, array) =>
+    errors.DoubleModule.throw(
+      modules.map(({name}) => name).find((module, i, array) =>
         array.filter((_, j) => i !== j).includes(module)),
-      config: root.join("primate.config.js"),
-    });
+      root.join("primate.config.js")
+    );
 
   const hookless = modules.filter(module => !Object.keys(module).some(key =>
     [...Object.keys(hooks), "load"].includes(key)));
-  hookless.length > 0 && errors.ModuleHasNoHooks.warn(log, {hookless});
+  hookless.length > 0 && errors.ModuleHasNoHooks.warn(log,
+    hookless.map(({name}) => name).join(", "));
 
   const {name, version} = await base.up(1).join("package.json").json();
 

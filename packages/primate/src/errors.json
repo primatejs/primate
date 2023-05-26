@@ -1,0 +1,102 @@
+{
+  "CannotParseBody": {
+    "message": "cannot parse body {0} as {1}",
+    "fix": "use a different content type or fix body",
+    "level": "Warn"
+  },
+  "DoubleModule": {
+    "message": "double module {0} in {1}",
+    "fix": "load {0} only once",
+    "level": "Error"
+  },
+  "DoublePathParameter": {
+    "message": "double path parameter {0} in route {1}",
+    "fix": "disambiguate path parameters in route names",
+    "level": "Error"
+  },
+  "DoubleRoute": {
+    "message": "double route of the form {0}",
+    "fix": "disambiguate routes",
+    "level": "Error"
+  },
+  "EmptyRouteFile": {
+    "message": "empty route file at {0}",
+    "fix": "add routes or remove file",
+    "level": "Warn"
+  },
+  "EmptyTypeDirectory": {
+    "message": "empty type directory",
+    "fix": "populate {0} with types or remove it",
+    "level": "Warn"
+  },
+  "ErrorInConfigFile": {
+    "message": "error in config file :: {0}",
+    "fix": "check errors in config file by running {1}",
+    "level": "Error"
+  },
+  "InvalidPathParameter": {
+    "message": "invalid path parameter {0} in route {1}",
+    "fix": "use only latin letters and decimal digits in path parameters",
+    "level": "Error"
+  },
+  "InvalidRouteName": {
+    "message": "invalid route name {0}",
+    "fix": "do not use dots in route names",
+    "level": "Error"
+  },
+  "InvalidType": {
+    "message": "invalid type {0}",
+    "fix": "use only functions for the default export of types",
+    "level": "Error"
+  },
+  "InvalidTypeName": {
+    "message": "invalid type name {0}",
+    "fix": "use only latin letters and decimal digits in types",
+    "level": "Error"
+  },
+  "MismatchedPath": {
+    "message": "mismatched {0} path :: {1}",
+    "fix": "if unintentional, fix the type or the caller",
+    "level": "Info"
+  },
+  "MismatchedType": {
+    "message": "mismatched type :: {0}",
+    "fix": "if unintentional, fix the type or the caller",
+    "level": "Info"
+  },
+  "ModuleHasNoHooks": {
+    "message": "module {0} has no hooks",
+    "fix": "ensure every module uses at least one hook or deactivate it",
+    "level": "Warn"
+  },
+  "ModulesMustHaveNames": {
+    "message": "modules must have names",
+    "fix": "update module at index {0} and inform maintainer",
+    "level": "Error"
+  },
+  "EmptyConfigFile": {
+    "message": "empty config file at {0}",
+    "fix": "add configuration options or remove file",
+    "level": "Warn"
+  },
+  "NoFileForPath": {
+    "message": "no file for {0}",
+    "fix": "if unintentional create a file at {1}{0}",
+    "level": "Info"
+  },
+  "NoHandlerForExtension": {
+    "message": "no handler for {0} extension",
+    "fix": "add handler module for .{0} files or remove {1}",
+    "level": "Error"
+  },
+  "NoRouteToPath": {
+    "message": "no {0} route to {1}",
+    "fix": "if unintentional create a route at {2}",
+    "level": "Info"
+  },
+  "ReservedTypeName": {
+    "message": "type name {0} is reserved",
+    "fix": "do not use any reserved type names",
+    "level": "Error"
+  }
+}

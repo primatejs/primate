@@ -46,10 +46,11 @@ and using the same name twice (with or without a type) creates ambiguity.
 
 Level: [`Error`][error] | [`Bailout`][bailout]
 
-The same route is used twice, as in `route/user.js` and
-`route/user/index.js`, creating mapping ambiguity. Routes must be unique, and
-while you can mix styles in your application (like `route/user.js` and
-`route/comment/index.js`), you must not use the same style for the same route.
+The same route is used twice, as in `routes/user.js` and
+`routes/user/index.js` or `routes/post/{foo}.js` and `/routes/post/{bar}.js`,
+creating mapping ambiguity. Routes must be unique, and while you can mix styles
+in your application (like `routes/user.js` and `routes/comment/index.js`), you
+must not use the same style for the same route.
 
 **Disambiguate the routes by consolidating them into one file of the path-style
 of your choosing.**

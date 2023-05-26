@@ -1,0 +1,42 @@
+{
+  "EmptyStoreDirectory": {
+    "message": "empty store directory",
+    "fix": "populate {0} with stores or remove it",
+    "level": "Warn"
+  },
+  "CannotUnpackValue": {
+    "message": "cannot unpack {0} to {1}",
+    "fix": "change type for {2} or correct data in databases",
+    "level": "Error"
+  },
+  "FailedDocumentValidation": {
+    "message": "document validation failed for {0}",
+    "fix": "check and fix errors",
+    "level": "Warn"
+  },
+  "InvalidType": {
+    "message": "field {0} in store {1} has invalid type",
+    "fix": ["use a valid type"],
+    "level": "Error"
+  },
+  "MissingPrimaryKey": {
+    "message": "missing primary key {0} in store {1}",
+    "fix": "add an {2} field or set {3} to the store",
+    "level": "Error"
+  },
+  "MissingStoreDirectory": {
+    "message": "missing store directory",
+    "fix": "create {0} and populate it",
+    "level": "Warn"
+  },
+  "NoDocumentfound": {
+    "message": "no document found with primary key {0}",
+    "fix": "check for existence with {1} first",
+    "level": "Warn"
+  },
+  "TransactionRolledBack": {
+    "message": "transaction {0} rolled back due to previous error",
+    "fix": "address previous {1} error",
+    "level": "Warn"
+  }
+}

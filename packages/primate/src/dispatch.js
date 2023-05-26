@@ -9,8 +9,8 @@ export default (patches = {}) => value => {
         is(property).defined(`\`${name}\` called without property`);
         try {
           return patch(value[property], property);
-        } catch (error) {
-          errors.MismatchedType.throw({message: error.message});
+        } catch ({message}) {
+          errors.MismatchedType.throw(message);
         }
       }])),
     get(property) {

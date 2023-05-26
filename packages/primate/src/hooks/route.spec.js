@@ -1,3 +1,4 @@
+import {Path} from "runtime-compat/fs";
 import route from "./route.js";
 import Logger from "../Logger.js";
 import dispatch from "../dispatch.js";
@@ -95,10 +96,8 @@ export default test => {
           throw error;
         },
       },
-      config: {
-        paths: {
-          routes: "/routes",
-        },
+      paths: {
+        routes: new Path("/routes"),
       },
     };
     assert(() => route({...base, routes: [[path, undefined]]})).throws(throws);

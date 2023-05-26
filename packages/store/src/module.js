@@ -40,7 +40,7 @@ const validType = type =>
 
 const valid = (type, name, store) => validType(type)
   ? type
-  : errors.InvalidType.throw({name, store});
+  : errors.InvalidType.throw(name, store);
 
 export default ({
   /* directory for stores */
@@ -63,7 +63,7 @@ export default ({
         env.log = app.log;
 
         const root = app.root.join(directory);
-        !await root.exists && errors.MissingStoreDirectory.throw({root});
+        !await root.exists && errors.MissingStoreDirectory.throw(root);
 
         env.defaults = {
           driver: await driver,
@@ -94,7 +94,8 @@ export default ({
               }));
 
             exports.ambiguous !== true && schema.id === undefined
-              && errors.MissingPrimaryKey.throw({store, primary});
+              && errors.MissingPrimaryKey.throw(primary, store, "id",
+                "export const ambiguous = true;");
 
             const pathed = store.replaceAll("/", ".");
 
@@ -108,7 +109,7 @@ export default ({
           })
         );
         Object.keys(env.stores).length === 0
-          && errors.EmptyStoreDirectory.throw({root});
+          && errors.EmptyStoreDirectory.throw(root);
 
         env.log.info("all stores nominal", {module: "primate/store"});
       } catch (error) {
@@ -129,7 +130,7 @@ export default ({
       } catch (error) {
         env.log.auto(error);
         await transaction.rollback();
-        errors.TransactionRolledBack.warn(env.log, {id, name: error.name});
+        errors.TransactionRolledBack.warn(env.log, id, error.name);
 
         return clientError();
       } finally {

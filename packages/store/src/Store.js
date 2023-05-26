@@ -9,7 +9,8 @@ const transform = direction => ({types, schema, document, path}) =>
         return [field, types[schema[field].base]?.[direction](value) ?? value];
       } catch (error) {
         const {name} = schema[field];
-        errors.CannotUnpackValue.throw({name, value, field, path, document});
+        const command = `(await ${path}.get("${document.id}")).${field}`;
+        return errors.CannotUnpackValue.throw(value, name, command);
       }
     }));
 
@@ -89,7 +90,8 @@ export default class Store {
 
     const document = await this.driver.get(name, this.primary, value);
 
-    document === undefined && errors.NoDocumentFound.throw({path, value});
+    document === undefined &&
+      errors.NoDocumentFound.throw(value, `${path}.exists(id)`);
 
     return this.#unpack(document);
   }
@@ -105,7 +107,7 @@ export default class Store {
 
     return Object.keys(result.errors).length > 0
       ? (() => {
-        const error = errors.FailedDocumentValidation.new(result);
+        const error = errors.FailedDocumentValidation.new(Object.keys(result));
         error.errors = result.errors;
         throw error;
       })()

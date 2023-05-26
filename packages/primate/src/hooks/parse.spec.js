@@ -135,8 +135,9 @@ export default test => {
     });
 
     const pre = "mismatched type";
-    assert(() => body.number("foo")).throws(`${pre}: foo is not a number`);
-    assert(() => body.number("bar")).throws(`${pre}: bar is not a number`);
+    const nan = "is not a number";
+    assert(() => body.number("foo")).throws(mark(`${pre} :: %`, `foo ${nan}`));
+    assert(() => body.number("bar")).throws(mark(`${pre} :: %`, `bar ${nan}`));
     assert(body.number("val")).equals(3);
   });
 };

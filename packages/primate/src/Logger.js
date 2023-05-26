@@ -1,7 +1,7 @@
 import {assert, is} from "runtime-compat/dyndef";
 import {blue, bold, green, red, yellow, dim} from "runtime-compat/colors";
 
-const errors = {
+const levels = {
   Error: 0,
   Warn: 1,
   Info: 2,
@@ -9,8 +9,8 @@ const errors = {
 
 const print = (...messages) => process.stdout.write(messages.join(" "));
 const bye = () => print(dim(yellow("~~ bye\n")));
-const mark = (format, ...params) => params.reduce((formatted, param) =>
-  formatted.replace("%", bold(param)), format);
+const mark = (format, ...params) => params.reduce((formatted, param, i) =>
+  formatted.replace(`{${i}}`, bold(param)), format);
 
 const reference = "https://primatejs.com/reference/errors";
 
@@ -21,33 +21,36 @@ const hyphenate = classCased => classCased
   .join("")
   .slice(1);
 
+const throwable = ({message, level, fix}, name, module) => ({
+  new(...args) {
+    const error = new Error(mark(message, ...args));
+    error.level = Logger[level];
+    error.fix = mark(fix, ...args);
+    error.name = name;
+    error.module = module;
+    return error;
+  },
+  throw(...args) {
+    throw this.new(...args);
+  },
+  warn(logger, ...args) {
+    const error = {level: Logger[level], message: mark(message, ...args),
+      fix: mark(fix, ...args)};
+    logger.auto({...error, name, module});
+  },
+});
+
 const Logger = class Logger {
   #level; #trace;
 
-  static throwable(type, name, module) {
-    return {
-      new(args = {}) {
-        const {message, level, fix} = type(args);
-        const error = new Error(mark(...message));
-        error.level = level;
-        error.fix = mark(...fix);
-        error.name = name;
-        error.module = module;
-        return error;
-      },
-      throw(args) {
-        throw this.new(args);
-      },
-      warn(logger, ...args) {
-        const {message, level, fix} = type(...args);
-        const error = {level, message: mark(...message), fix: mark(...fix)};
-        logger.auto({...error, name, module});
-      },
-    };
+  static err(errors, module) {
+    return Object.fromEntries(Object.entries(errors)
+      .map(([name, error]) => [name, throwable(error, name, module)]));
   }
 
-  constructor({level = errors.Error, trace = false} = {}) {
-    assert(level !== undefined && level <= errors.Info);
+
+  constructor({level = levels.Error, trace = false} = {}) {
+    assert(level !== undefined && level <= levels.Info);
     is(trace).boolean();
     this.#level = level;
     this.#trace = trace;
@@ -62,15 +65,15 @@ const Logger = class Logger {
   }
 
   static get Error() {
-    return errors.Error;
+    return levels.Error;
   }
 
   static get Warn() {
-    return errors.Warn;
+    return levels.Warn;
   }
 
   static get Info() {
-    return errors.Info;
+    return levels.Info;
   }
 
   get class() {
@@ -79,7 +82,7 @@ const Logger = class Logger {
 
   #print(pre, color, message, {fix, module, name} = {}, error) {
     print(pre, `${module !== undefined ? `${color(module)} ` : ""}${message}`, "\n");
-    if (fix && this.level >= errors.Warn) {
+    if (fix && this.level >= levels.Warn) {
       print(blue("++"), fix);
       name && print(dim(`\n   -> ${reference}/${module ?? "primate"}#${hyphenate(name)}`), "\n");
     }
@@ -91,29 +94,29 @@ const Logger = class Logger {
   }
 
   info(message, args) {
-    if (this.level >= errors.Info) {
+    if (this.level >= levels.Info) {
       this.#print(green("--"), green, message, args);
     }
   }
 
   warn(message, args) {
-    if (this.level >= errors.Warn) {
+    if (this.level >= levels.Warn) {
       this.#print(yellow("??"), yellow, message, args);
     }
   }
 
   error(message, args, error) {
-    if (this.level >= errors.Warn) {
+    if (this.level >= levels.Warn) {
       this.#print(red("!!"), red, message, args, error);
     }
   }
 
   auto(error) {
     const {level, message, ...args} = error;
-    if (level === errors.Info) {
+    if (level === levels.Info) {
       return this.info(message, args, error);
     }
-    if (level === errors.Warn) {
+    if (level === levels.Warn) {
       return this.warn(message, args, error);
     }
 

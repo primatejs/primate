@@ -1,4 +1,7 @@
+import Logger from "./Logger.js";
 import dispatch from "./dispatch.js";
+
+const {mark} = Logger;
 
 const number = (value, name) => {
   const n = Number(value);
@@ -21,7 +24,7 @@ export default test => {
   });
   test.case("patch", async assert => {
     const d = dispatch({number});
-    const error = "mismatched type: `foo` is not a number";
+    const error = mark("mismatched type :: %", "`foo` is not a number");
     assert(() => d({}).number()).throws("`number` called without property");
     assert(() => d({}).number("foo")).throws(error);
     assert(() => d({}).number("foo")).throws(error);

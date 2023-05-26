@@ -26,11 +26,12 @@ const getConfig = async root => {
       const imported = (await import(config)).default;
 
       (imported === undefined || Object.keys(imported).length === 0) &&
-        errors.EmptyConfigFile.warn(protologger, {config});
+        errors.EmptyConfigFile.warn(protologger, config);
 
       return extend(defaults, imported);
     } catch ({message}) {
-      return errors.ErrorInConfigFile.throw({message, config});
+      const {runtime = "node"} = import.meta;
+      return errors.ErrorInConfigFile.throw(message, `${runtime} ${config}`);
     }
   } else {
     return defaults;

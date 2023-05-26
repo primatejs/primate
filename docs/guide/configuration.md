@@ -22,6 +22,7 @@ export default {
     port: 6161,
     csp: {
       "default-src": "'self'",
+      "style-src": "'self'",
       "object-src": "'none'",
       "frame-ancestors": "'none'",
       "form-action": "'self'",
@@ -85,6 +86,7 @@ export default {
     port: 6262,
     csp: {
       "default-src": "'self'",
+      "style-src": "'self'",
       "object-src": "'none'",
       "frame-ancestors": "'none'",
       "form-action": "'self'",

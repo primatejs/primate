@@ -13,7 +13,7 @@ export default app => {
   const _respond = async (request, headers) => {
     const {pathname} = request.url;
     return invalid(pathname)
-      ? errors.NoFileForPath.throw({pathname, config: app.config})
+      ? errors.NoFileForPath.throw(pathname, app.config.paths.static)
       : (await respond(await app.route(request)))(app, headers);
   };
 
