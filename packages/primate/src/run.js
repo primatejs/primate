@@ -16,7 +16,7 @@ const getRoot = async () => {
   }
 };
 
-const protologger = new Logger({level: Logger.Warn});
+const protologger = new Logger({level: Logger.Warn, trace: true});
 
 const getConfig = async root => {
   const name = "primate.config.js";

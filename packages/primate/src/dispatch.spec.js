@@ -1,7 +1,5 @@
-import Logger from "./Logger.js";
+import {mark} from "./Logger.js";
 import dispatch from "./dispatch.js";
-
-const {mark} = Logger;
 
 const number = (value, name) => {
   const n = Number(value);

@@ -1,10 +1,11 @@
 import crypto from "runtime-compat/crypto";
 import {File, Path} from "runtime-compat/fs";
 import {bold, blue} from "runtime-compat/colors";
-import errors from "./errors.js";
 import * as handlers from "./handlers/exports.js";
 import * as hooks from "./hooks/exports.js";
+import * as loaders from "./loaders/exports.js";
 import dispatch from "./dispatch.js";
+import {print} from "./Logger.js";
 
 const qualify = (root, paths) =>
   Object.keys(paths).reduce((sofar, key) => {
@@ -45,61 +46,23 @@ const tag = ({name, attributes = {}, code = "", close = true}) =>
 
 export default async (config, root, log) => {
   const {http} = config;
+  const secure = http?.ssl !== undefined;
+  const {name, version} = await base.up(1).join("package.json").json();
+
+  print(blue(bold(name)), blue(version),
+    `at http${secure ? "s" : ""}://${http.host}:${http.port}\n`);
 
   // if ssl activated, resolve key and cert early
-  if (http.ssl) {
+  if (secure) {
     http.ssl.key = root.join(http.ssl.key);
     http.ssl.cert = root.join(http.ssl.cert);
   }
 
   const paths = qualify(root, config.paths);
 
-  const ending = ".js";
-  const routes = paths.routes === undefined ? [] : await Promise.all(
-    (await Path.collect(paths.routes, /^.*.js$/u))
-      .map(async route => [
-        `${route}`.replace(paths.routes, "").slice(1, -ending.length),
-        (await import(route)).default,
-      ]));
-  const types = Object.fromEntries(
-    paths.types === undefined ? [] : await Promise.all(
-      (await Path.collect(paths.types , /^.*.js$/u))
-        /* accept only lowercase-first files in type filename */
-        .filter(path => /^[a-z]/u.test(path.name))
-        .map(async type => [
-          `${type}`.replace(paths.types, "").slice(1, -ending.length),
-          (await import(type)).default,
-        ])));
-  if (await paths.types.exists) {
-    Object.keys(types).length === 0
-      && errors.EmptyTypeDirectory.warn(log, paths.types);
-  }
-  Object.entries(types).some(([name, type]) =>
-    typeof type !== "function" && errors.InvalidType.throw(name));
-
-  const modules = config.modules === undefined ? [] : config.modules;
-
-  modules.every((module, n) => module.name !== undefined ||
-    errors.ModulesMustHaveNames.throw(n));
-
-  new Set(modules.map(({name}) => name)).size !== modules.length &&
-    errors.DoubleModule.throw(
-      modules.map(({name}) => name).find((module, i, array) =>
-        array.filter((_, j) => i !== j).includes(module)),
-      root.join("primate.config.js")
-    );
-
-  const hookless = modules.filter(module => !Object.keys(module).some(key =>
-    [...Object.keys(hooks), "load"].includes(key)));
-  hookless.length > 0 && errors.ModuleHasNoHooks.warn(log,
-    hookless.map(({name}) => name).join(", "));
-
-  const {name, version} = await base.up(1).join("package.json").json();
-
   const app = {
     config,
-    routes,
-    secure: http?.ssl !== undefined,
+    secure,
     name,
     version,
     library: {},
@@ -182,20 +145,14 @@ export default async (config, root, log) => {
         ]));
       app.identifiers = {...exports, ...app.identifiers};
     },
-    modules,
-    types,
+    types: await loaders.types(log, paths.types),
+    guards: await loaders.guards(log, paths.guards),
+    routes: await loaders.routes(log, paths.routes),
   };
-  log.class.print(blue(bold(name)), blue(version),
-    `at http${app.secure ? "s" : ""}://${http.host}:${http.port}\n`);
-  // modules may load other modules
-  await Promise.all(app.modules
-    .filter(module => module.load !== undefined)
-    .map(module => module.load({...app, load(dependent) {
-      app.modules.push(dependent);
-    }})));
 
-  app.route = hooks.route({...app, dispatch: dispatch(types)});
-  app.parse = hooks.parse(dispatch(types));
-
-  return app;
+  return {...app,
+    modules: await loaders.modules(app, root, config),
+    route: hooks.route({...app, dispatch: dispatch(app.types)}),
+    parse: hooks.parse(dispatch(app.types)),
+  };
 };

@@ -24,9 +24,9 @@
     "fix": "add routes or remove file",
     "level": "Warn"
   },
-  "EmptyTypeDirectory": {
-    "message": "empty type directory",
-    "fix": "populate {0} with types or remove it",
+  "EmptyDirectory": {
+    "message": "empty {0} directory",
+    "fix": "populate {1} or remove it",
     "level": "Warn"
   },
   "ErrorInConfigFile": {

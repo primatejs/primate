@@ -1,8 +1,6 @@
 import parse from "./parse.js";
-import Logger from "../Logger.js";
+import {mark} from "../Logger.js";
 import dispatch from "../dispatch.js";
-
-const {mark} = Logger;
 
 const r = await (async () => {
   const p = "https://p.com";

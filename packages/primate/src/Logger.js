@@ -48,20 +48,11 @@ const Logger = class Logger {
       .map(([name, error]) => [name, throwable(error, name, module)]));
   }
 
-
   constructor({level = levels.Error, trace = false} = {}) {
     assert(level !== undefined && level <= levels.Info);
     is(trace).boolean();
     this.#level = level;
     this.#trace = trace;
-  }
-
-  static print(...args) {
-    print(...args);
-  }
-
-  static get mark() {
-    return mark;
   }
 
   static get Error() {
@@ -76,12 +67,9 @@ const Logger = class Logger {
     return levels.Info;
   }
 
-  get class() {
-    return this.constructor;
-  }
-
-  #print(pre, color, message, {fix, module, name} = {}, error) {
-    print(pre, `${module !== undefined ? `${color(module)} ` : ""}${message}`, "\n");
+  #print(pre, color, message, error = {}) {
+    const {fix, module, name} = error;
+    print(color(pre), `${module !== undefined ? `${color(module)} ` : ""}${message}`, "\n");
     if (fix && this.level >= levels.Warn) {
       print(blue("++"), fix);
       name && print(dim(`\n   -> ${reference}/${module ?? "primate"}#${hyphenate(name)}`), "\n");
@@ -93,37 +81,38 @@ const Logger = class Logger {
     return this.#level;
   }
 
-  info(message, args) {
+  print(level, pre, color, ...args) {
+    if (this.level >= level) {
+      this.#print(pre, color, ...args);
+    }
+  }
+
+  info(...args) {
     if (this.level >= levels.Info) {
-      this.#print(green("--"), green, message, args);
+      this.#print("--", green, ...args);
     }
   }
 
-  warn(message, args) {
+  warn(...args) {
     if (this.level >= levels.Warn) {
-      this.#print(yellow("??"), yellow, message, args);
+      this.#print("??", yellow, ...args);
     }
   }
 
-  error(message, args, error) {
+  error(...args) {
     if (this.level >= levels.Warn) {
-      this.#print(red("!!"), red, message, args, error);
+      this.#print("!!", red, ...args);
     }
   }
 
   auto(error) {
-    const {level, message, ...args} = error;
-    if (level === levels.Info) {
-      return this.info(message, args, error);
-    }
-    if (level === levels.Warn) {
-      return this.warn(message, args, error);
-    }
-
-    return this.error(message, args, error);
+    const {message} = error;
+    const matches = Object.fromEntries(Object.entries(levels)
+      .map(([name, level]) => [level, name.toLowerCase()]));
+    return this[matches[error.level]](message, error);
   }
 };
 
 export default Logger;
 
-export {print, bye};
+export {print, bye, mark};

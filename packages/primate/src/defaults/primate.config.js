@@ -28,6 +28,7 @@ export default {
     routes: "routes",
     components: "components",
     types: "types",
+    guards: "guards",
   },
   modules: [],
   dist: "app",
