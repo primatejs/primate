@@ -5,12 +5,10 @@ import {invalid} from "./route.js";
 import errors from "../errors.js";
 import {OK} from "../http-statuses.js";
 
-const filter = (key, array) => array?.flatMap(m => m[key] ?? []) ?? [];
-
 export default app => {
   const {http} = app.config;
 
-  const _respond = async (request, headers) => {
+  const run = async (request, headers) => {
     const {pathname} = request.url;
     return invalid(pathname)
       ? errors.NoFileForPath.throw(pathname, app.config.paths.static)
@@ -21,7 +19,7 @@ export default app => {
     const headers = app.generateHeaders();
 
     try {
-      const response = await _respond(request, headers);
+      const response = await run(request, headers);
       return isResponse(response) ? response : new Response(...response);
     } catch (error) {
       app.log.auto(error);
@@ -29,42 +27,43 @@ export default app => {
     }
   };
 
-  const staticResource = async file => new Response(file.readable, {
-    status: OK,
-    headers: {
-      "Content-Type": mime(file.name),
-      Etag: await file.modified,
-    },
-  });
-
-  const publishedResource = request => {
-    const published = app.resources.find(({src, inline}) =>
-      !inline && src === request.url.pathname);
-    if (published !== undefined) {
-      return new Response(published.code, {
+  const assets = {
+    async static(file) {
+      return new Response(file.readable, {
         status: OK,
         headers: {
-          "Content-Type": mime(published.src),
-          Etag: published.integrity,
+          "Content-Type": mime(file.name),
+          Etag: await file.modified,
         },
       });
-    }
-
-    return route(request);
+    },
+    published(request) {
+      const published = app.resources.find(({src, inline}) =>
+        !inline && src === request.url.pathname);
+      return published === undefined
+        ? route(request)
+        : new Response(published.code, {
+          status: OK,
+          headers: {
+            "Content-Type": mime(published.src),
+            Etag: published.integrity,
+          },
+        });
+    },
   };
 
-  const resource = async request => {
+  const asset = async request => {
     const {pathname} = request.url;
     const {root} = http.static;
     if (pathname.startsWith(root)) {
       const path = app.paths.public.join(pathname.replace(root, ""));
       return await path.isFile
-        ? staticResource(path.file)
-        : publishedResource(request);
+        ? assets.static(path.file)
+        : assets.published(request);
     }
     return route(request);
   };
 
-  return [...filter("handle", app.modules), resource]
+  return [...app.modules.handle, asset]
     .reduceRight((acc, handler) => input => handler(input, acc));
 };

@@ -7,26 +7,26 @@ import * as loaders from "./loaders/exports.js";
 import dispatch from "./dispatch.js";
 import {print} from "./Logger.js";
 
-const qualify = (root, paths) =>
-  Object.keys(paths).reduce((sofar, key) => {
-    const value = paths[key];
-    sofar[key] = typeof value === "string"
-      ? new Path(root, value)
-      : qualify(`${root}/${key}`, value);
-    return sofar;
-  }, {});
+const qualify = (root, paths) => Object.keys(paths).reduce((qualified, key) => {
+  const value = paths[key];
+  return {
+    [key]: typeof value === "string"
+      ? root.join(value)
+      : qualify(root.join(key), value),
+    ...qualified,
+  };
+}, {});
 
 const base = new Path(import.meta.url).up(1);
-const defaultLayout = "index.html";
 
-const index = async (app, layout = defaultLayout) => {
+const index = async (app, layout) => {
   const name = layout;
   try {
     // user-provided file
     return await File.read(`${app.paths.layouts.join(name)}`);
   } catch (error) {
     // fallback
-    return base.join("defaults", defaultLayout).text();
+    return base.join("defaults", app.config.layout).text();
   }
 };
 
@@ -48,17 +48,17 @@ export default async (config, root, log) => {
   const {http} = config;
   const secure = http?.ssl !== undefined;
   const {name, version} = await base.up(1).join("package.json").json();
+  const paths = qualify(root, config.paths);
+  console.log(paths);
 
-  print(blue(bold(name)), blue(version),
-    `at http${secure ? "s" : ""}://${http.host}:${http.port}\n`);
+  const at = `at http${secure ? "s" : ""}://${http.host}:${http.port}\n`;
+  print(blue(bold(name)), blue(version), at);
 
   // if ssl activated, resolve key and cert early
   if (secure) {
     http.ssl.key = root.join(http.ssl.key);
     http.ssl.cert = root.join(http.ssl.cert);
   }
-
-  const paths = qualify(root, config.paths);
 
   const app = {
     config,
@@ -104,7 +104,7 @@ export default async (config, root, log) => {
     },
     handlers: {...handlers},
     render: async ({body = "", head = "", layout} = {}) => {
-      const html = await index(app, layout);
+      const html = await index(app, layout ?? config.layout);
       // inline: <script type integrity>...</script>
       // outline: <script type integrity src></script>
       const script = ({inline, code, type, integrity, src}) => inline
@@ -150,9 +150,11 @@ export default async (config, root, log) => {
     routes: await loaders.routes(log, paths.routes),
   };
 
+  const modules = await loaders.modules(app, root, config);
+
   return {...app,
-    modules: await loaders.modules(app, root, config),
-    route: hooks.route({...app, dispatch: dispatch(app.types)}),
+    modules,
+    route: hooks.route({...app, modules, dispatch: dispatch(app.types)}),
     parse: hooks.parse(dispatch(app.types)),
   };
 };

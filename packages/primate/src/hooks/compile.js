@@ -1,7 +1,5 @@
-const filter = (key, array) => array?.flatMap(m => m[key] ?? []) ?? [];
-
 export default async app => {
   app.log.info("running compile hooks", {module: "primate"});
-  await [...filter("compile", app.modules), _ => _]
+  await [...app.modules.compile, _ => _]
     .reduceRight((acc, handler) => input => handler(input, acc))(app);
 };

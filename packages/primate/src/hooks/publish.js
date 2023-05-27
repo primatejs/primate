@@ -1,7 +1,5 @@
 import {Path} from "runtime-compat/fs";
 
-const filter = (key, array) => array?.flatMap(m => m[key] ?? []) ?? [];
-
 const post = async app => {
   // after hook, publish a zero assumptions app.js (no css imports)
   const code = app.entrypoints.filter(({type}) => type === "script")
@@ -30,7 +28,7 @@ const post = async app => {
 
 export default async app => {
   app.log.info("running publish hooks", {module: "primate"});
-  await [...filter("publish", app.modules), _ => _]
+  await [...app.modules.publish, _ => _]
     .reduceRight((acc, handler) => input => handler(input, acc))(app);
   await post(app);
 };

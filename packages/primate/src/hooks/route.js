@@ -1,7 +1,5 @@
 import errors from "../errors.js";
 
-const filter = (key, array) => array?.flatMap(m => m[key] ?? []) ?? [];
-
 // insensitive-case equal
 const ieq = (left, right) => left.toLowerCase() === right.toLowerCase();
 
@@ -12,7 +10,7 @@ const reentry = (object, mapper) =>
   Object.fromEntries(mapper(Object.entries(object ?? {})));
 
 export default app => {
-  const {types, routes, config: {explicit}} = app;
+  const {types, routes, config: {explicit}, modules} = app;
 
   const isType = (groups, path) => Object
     .entries(groups ?? {})
@@ -35,7 +33,6 @@ export default app => {
     && isPath({route, path});
   const find = (method, path) => routes.find(route =>
     isMethod({route, method, path}));
-  const modules = filter("route", app.modules);
 
   return request => {
     const {original: {method}, url: {pathname}} = request;
@@ -49,8 +46,8 @@ export default app => {
       object => object.map(([key, value]) => [key.split("$")[0], value])));
 
     // verb.handler is the last module to be executed
-    const handlers = [...modules, verb.handler].reduceRight((acc, handler) =>
-      input => handler(input, acc));
+    const handlers = [...modules.route, verb.handler]
+      .reduceRight((acc, handler) => input => handler(input, acc));
 
     return handlers({...request, path});
   };

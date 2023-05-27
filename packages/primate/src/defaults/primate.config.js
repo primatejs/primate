@@ -21,6 +21,7 @@ export default {
       pure: false,
     },
   },
+  layout: "index.html",
   paths: {
     layouts: "layouts",
     static: "static",

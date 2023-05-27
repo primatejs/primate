@@ -40,6 +40,7 @@ export default {
     routes: "routes",
     components: "components",
     types: "types",
+    guards: "guards",
   },
   modules: [],
   dist: "app",
@@ -104,6 +105,7 @@ export default {
     routes: "routes",
     components: "components",
     types: "types",
+    guards: "guards",
   },
   modules: [],
   dist: "app",
@@ -122,6 +124,10 @@ the default as is. If your app is running from a subpath, adjust accordingly.
 
 This is used in CSP paths and the HTML `<base>` tag.
 
+### logger
+
+Configuring [Logging in Primate](/guide/logging).
+
 ### logger.level
 
 Default `Logger.Warn`
@@ -136,6 +142,10 @@ Default `false`
 
 Whether Primate should show the original stack trace of errors in addition to
 its own errors.
+
+### http
+
+Configuring the underlying HTTP server.
 
 ### http.host
 
@@ -202,6 +212,11 @@ Primate does not load the key or certificate into memory. It only resolves
 the paths as necessary and passes them to the [runtime][runtime].
 !!!
 
+### paths
+
+Locations of standard directories for different aspects of Primate. If any of
+these paths are relative, they will be relative to project root.
+
 ### paths.layouts
 
 Default `"layouts"`
@@ -215,38 +230,41 @@ layout.
 
 Default `"static"`
 
-The directory where static assets are copied from. If specified as a relative
-path, will be relative to project root.
+The directory where static assets are copied from.
 
 ### paths.public
 
 Default `"public"`
 
-The directory where static assets are copied to and served from. If specified
-as a relative path, will be relative to project root.
+The directory where static assets are copied to and served from.
 
 ### paths.routes
 
 Default `"routes"`
 
-The directory where the hierarchy of route files resides. If specified as a
-relative path, will be relative to project root.
+The directory where the hierarchy of route files resides.
 
 ### paths.components
 
 Default `"components"`
 
-The directory where components are located. The `view` handler will try to
-load any referenced component filename from this directory. If specified as a
-relative path, will be relative to project root.
+The directory where components are located. [Components](/guide/components) are
+used as HTML files or by frontend frameworks. The `view` handler will try to
+load any referenced component file from this directory.
 
 ### paths.types
 
 Default `"types"`
 
-The directory where types are located. [Primate types](/guide/types) can be
-used to limit the range of possible values that a variable can hold. If
-specified as a relative path, will be relative to project root.
+The directory where types are located. [Types](/guide/types) can be
+used to limit the range of possible values that a variable can hold.
+
+### paths.guards
+
+Default `"guards"`
+
+The directory where guards are located. [Guards](/guide/guards) can be
+used to limit access to routes based on user privilege.
 
 ### modules
 

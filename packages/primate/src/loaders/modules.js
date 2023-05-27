@@ -2,8 +2,10 @@ import * as hooks from "../hooks/exports.js";
 import {doubled} from "./common.js";
 import errors from "../errors.js";
 
+const filter = (key, array) => array?.flatMap(m => m[key] ?? []) ?? [];
+
 export default async (app, root, config) => {
-  const modules = config.modules === undefined ? [] : config.modules;
+  const modules = config.modules ?? [];
 
   modules.some((module, n) => module.name === undefined &&
     errors.ModulesMustHaveNames.throw(n));
@@ -24,5 +26,6 @@ export default async (app, root, config) => {
       modules.push(dependent);
     }})));
 
-  return modules;
+  return Object.fromEntries(Object.keys(hooks)
+    .map(hook => [hook, filter(hook, modules)]));
 };

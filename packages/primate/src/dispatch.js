@@ -10,7 +10,7 @@ export default (patches = {}) => value => {
         try {
           return patch(value[property], property);
         } catch ({message}) {
-          errors.MismatchedType.throw(message);
+          return errors.MismatchedType.throw(message);
         }
       }])),
     get(property) {

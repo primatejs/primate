@@ -1,5 +1,4 @@
 import {File} from "runtime-compat/fs";
-const filter = (key, array) => array?.flatMap(m => m[key] ?? []) ?? [];
 
 const pre = async app => {
   const {paths} = app;
@@ -23,7 +22,7 @@ export default async (app, bundle) => {
   await pre(app);
   if (bundle) {
     app.log.info("running bundle hooks", {module: "primate"});
-    await [...filter("bundle", app.modules), _ => _]
+    await [...app.modules.bundle, _ => _]
       .reduceRight((acc, handler) => input => handler(input, acc))(app);
   }
 };

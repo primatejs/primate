@@ -64,11 +64,16 @@ export.
 
 **Add routes to the file or remove it.**
 
-## Empty Type Directory
+## Empty Directory
 
 Level [`Warn`][warn]
 
-The `types` directory is empty, a no-op.
+One of the default directories is empty, a no-op.
+
+Primate is an opt-in framework, that is most of its aspects, like *routes*,
+*types* or *guards* are only active when their directories exist. Such an empty
+directory could mean you intended to use something but haven't. It's best to
+either populate the directory with files or remove it completely.
 
 **Populate or remove it.**
 

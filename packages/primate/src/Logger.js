@@ -81,35 +81,23 @@ const Logger = class Logger {
     return this.#level;
   }
 
-  print(level, pre, color, ...args) {
-    if (this.level >= level) {
-      this.#print(pre, color, ...args);
-    }
-  }
-
   info(...args) {
-    if (this.level >= levels.Info) {
-      this.#print("--", green, ...args);
-    }
+    this.level >= levels.Info && this.#print("--", green, ...args);
   }
 
   warn(...args) {
-    if (this.level >= levels.Warn) {
-      this.#print("??", yellow, ...args);
-    }
+    this.level >= levels.Warn && this.#print("??", yellow, ...args);
   }
 
   error(...args) {
-    if (this.level >= levels.Warn) {
-      this.#print("!!", red, ...args);
-    }
+    this.level >= levels.Warn && this.#print("!!", red, ...args);
   }
 
   auto(error) {
     const {message} = error;
     const matches = Object.fromEntries(Object.entries(levels)
       .map(([name, level]) => [level, name.toLowerCase()]));
-    return this[matches[error.level]](message, error);
+    return this[matches[error.level] ?? "error"](message, error);
   }
 };
 
