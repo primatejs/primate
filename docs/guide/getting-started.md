@@ -2,7 +2,7 @@
 
 ## Why Primate?
 
-Primate is a expressive, minimal, and extensible web framework. It maps
+Primate is an expressive, minimal, and extensible web framework. It maps
 requests to responses using filesystem-based routes, includes only the bare
 essentials for web app development and can be easily extended with additional
 modules for common scenarios. 

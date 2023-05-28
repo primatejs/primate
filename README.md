@@ -1,7 +1,7 @@
 # Primate 
 
-Expressive, minimal and extensible web framework. [Read guide][guide] for
-documentation.
+Expressive, minimal and extensible web framework. For documentation
+[read guide][guide].
 
 ## Packages
 
