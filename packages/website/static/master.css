@@ -420,9 +420,10 @@ img.background {
 }
 
 .hero::before {
-  background-image: url("/theme.png");
+  background-image: url("/theme.jpg");
   background-position: center top;
   background-repeat: no-repeat;
+  background-size: cover;
   content: "";
   filter: opacity(40%) sepia(100%);
   height: 100%;
