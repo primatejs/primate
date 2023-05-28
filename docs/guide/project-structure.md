@@ -27,7 +27,7 @@ you have a `style.css`, it will be served at the path `/style.css`.
 This directory can also contain an `index.html` file if you wish to override
 [the default one][default-index].
 
-Static resources take precedence over [routes][routing]. You can configure 
+Static resources take precedence over [routes][routes]. You can configure 
 Primate to serve static resources from a different path by setting the
 `http.static.root` option in your configuration to something else.
 
@@ -51,7 +51,7 @@ commit this file into your version control system.
 
 ## routes
 
-This directory contains all your [app routes][routing] hierarchically. If you
+This directory contains all your [app routes][routes] hierarchically. If you
 were creating a blog, this is how a typical layout could look like.
 
 ```sh caption=routes (web app)
@@ -100,7 +100,7 @@ directory.
 Primate's official modules includes support for various [frontend
 frameworks](/modules/frameworks) such as React, Vue, Svelte or HTMX.
 
-[routing]: /guide/routing
+[routes]: /guide/routes
 [components]: /guide/components
 [default-config]:
 https://github.com/primatejs/primate/blob/master/packages/primate/src/defaults/primate.config.js

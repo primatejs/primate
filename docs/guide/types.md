@@ -84,7 +84,7 @@ functionalities integrate seamlessly with the types you define.
 
 ### Path parameters
 
-In Primate's [filesystem-based routing](/guide/routing), path parameters may be
+In Primate's [filesystem-based routes](/guide/routes), path parameters may be
 additionally specified with types to ensure the path adheres to a certain
 format.
 

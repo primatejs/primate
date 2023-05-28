@@ -1,4 +1,4 @@
-# Handling requests
+# Responses
 
 Every route function represents an HTTP verb that receives a request and
 returns a response.

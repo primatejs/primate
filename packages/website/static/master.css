@@ -37,7 +37,7 @@
   --prs-link: hsl(0, 0%, 27%);
   --prs-page-padding-side: 6rem;
   --prs-navbar-shadow-light: rgba(0, 0, 0, 0.1) 0 1px 2px 0;
-  --prs-navbar-shadow-dark: rgba(255, 255, 255, 0.9) 0 1px 2px 0;
+  --prs-navbar-shadow-dark: #bababa 0 1px 2px 0;
   --prs-primary: #a26937;
   --h1: var(--prs-text-xl);
   --h2: var(--prs-text-l);
@@ -258,7 +258,7 @@ button {
 a:hover,
 button:hover {
   color: var(--prs-primary);
-  transition: color 0.25s;
+  transition: color 0.25s, border-color 0.25s;
   cursor: pointer;
 }
 
@@ -279,7 +279,7 @@ button {
 }
 
 .home img {
-  width: 1.6rem;
+  width: 2rem;
   margin-right: 1rem;
 }
 
@@ -294,6 +294,10 @@ button {
 
 .navbar li {
   margin: 0 1rem;
+}
+
+.navbar a.active {
+  font-weight: bold;
 }
 
 .ic {
@@ -379,9 +383,96 @@ pre {
   border-radius: 2px;
 }
 
+.hero article {
+  text-align: center;
+  padding: calc(2 * var(--prs-page-padding-side)) 0;
+}
+
+.hero img {
+  width: 60px;
+}
+
+.hero h1 {
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
 .hero h2 {
+  font-size: 2.7rem;
   margin-top: 1rem;
   border-bottom: 0;
+  color: #454545;
+}
+
+.dark .hero h2 {
+  color: #bababa;
+}
+
+img.background {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  filter: opacity(15%) invert(100%);
+}
+
+.dark img.background {
+  filter: opacity(15%)
+}
+
+.hero::before {
+  background-image: url("/theme.png");
+  background-position: center top;
+  background-repeat: no-repeat;
+  content: "";
+  filter: opacity(40%) sepia(100%);
+  height: 100%;
+  position: fixed;
+  width: 100%;
+  z-index: -1;
+}
+
+.dark .hero::before {
+  filter: opacity(15%);
+}
+
+.hero .buttons {
+  margin-top: 4rem;
+}
+
+.hero .buttons a {
+  padding: 1rem 2rem;
+  color: white;
+  border-radius: 0.3rem;
+  font-size: var(--prs-text-m);
+  margin: 0 1rem;
+}
+
+.hero .buttons a:hover {
+  text-decoration: none;
+}
+
+.hero .buttons a.primary {
+  background-color: var(--prs-primary);
+  color: white;
+  border: 1px solid var(--prs-primary);
+}
+
+.hero .buttons a.secondary {
+  color: #454545;
+  border: 1px solid #454545;
+}
+
+.hero .buttons a.secondary:hover {
+  border: 1px solid var(--prs-primary);
+}
+
+.dark .hero .buttons a.secondary{
+  color: #bababa;
+  border: 1px solid #bababa;
+}
+
+.dark .hero .buttons a.secondary:hover {
+  border: 1px solid var(--prs-primary);
 }
 
 @media (max-width: 1200px) {

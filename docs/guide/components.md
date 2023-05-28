@@ -6,7 +6,7 @@ modules](/modules/frameworks) extend this support to other formats.
 
 The components in this directory are served using the `view` handler. You also
 have the option of serving HTML directly using the
-[`html` handler](/guide/handling-requests#html).
+[`html` handler](/guide/responses#html).
 
 ## Serving views
 

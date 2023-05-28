@@ -1,4 +1,4 @@
-# Routing
+# Routes
 
 Primate uses filesystem-based routes. Route files are JavaScript files in the
 `routes` directory that correspond to their routes. For example, the file
@@ -14,9 +14,9 @@ To illustrate this, consider that inside `routes`
 [route with parameters](#parameters), for example `/user/1` (but also
 `/user/donald`)
 * `user/{userId=uuid}.js` is mapped to a
-[route with typed parameters](#typed-parameters) route where `userId` is of the
-type `uuid`, for example `/user/f6a3fac2-7c1d-432d-9e1c-68d0db925adc` (but not
-`/user/1`)
+[route with typed parameters](/types#path-parameters) route where `userId` is
+of the type `uuid`, for example `/user/f6a3fac2-7c1d-432d-9e1c-68d0db925adc`
+(but not `/user/1`)
 
 ## HTTP verbs
 
@@ -240,8 +240,6 @@ The same path won't be matched by any of the following requests.
 * `/users//a` (does not match `/`)
 * `/users/?a` (`?` denotes end of path)
 
-## Typed parameters
-
 Parameters can be also typed, in which case their value can be restricted.
-The [Types](/guide/types) section elaborates on the use of types within path
-parameters.
+The types section elaborates on the use of
+[types in path parameters](/guide/types#path-parameters).

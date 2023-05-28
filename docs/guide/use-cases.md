@@ -108,9 +108,9 @@ login, sessions). The Primate website uses Priss itself.
 [http-static-pure]: /guide/configuration#http-static-pure
 [paths-static]: /guide/configuration#paths-static
 [paths-public]: /guide/configuration#paths-public
-[routes]: /guide/routing
-[html-handler]: /guide/handling-requests#html
-[view-handler]: /guide/handling-requests#view
+[routes]: /guide/routes
+[html-handler]: /guide/responses#html
+[view-handler]: /guide/responses#view
 [quick-start]: /guide/getting-started#quick-start
 [frameworks]: /modules/frameworks
 [stores]: /modules/stores

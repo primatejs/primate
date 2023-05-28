@@ -179,7 +179,7 @@ does not contain a `favicon.ico` file.
 Level [`Error`][error]
 
 No appropriate handler for the given extension using the
-[`view`](/guide/handling-requests#view) handler.
+[`view`](/guide/responses#view) handler.
 
 **Add a handler module for files of the given extension or change this route.**
 

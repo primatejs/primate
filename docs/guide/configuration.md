@@ -284,10 +284,10 @@ components from.
 
 ## layouts/index.html
 
-If you use the `view` or `html` [handler](/guide/handling-requests#view),
-Primate will embed the generated HTML from the handler into this file. If an
-`index.html` doesn't exist in the `layouts` directory, Primate will fall back
-to its default index file.
+If you use the `view` or `html` [handler](/guide/requests#view), Primate will
+embed the generated HTML from the handler into this file. If an `index.html`
+doesn't exist in the `layouts` directory, Primate will fall back to its default
+index file.
 
 ```html caption=layouts/index.html | default fallback
 <!doctype html>
@@ -320,7 +320,6 @@ handler generates.
 [security-logging]: /guide/security#logging
 [security-csp]: /guide/security#csp
 [hooks-load]: /guide/hooks#load
-[routing-parameters]: /guide/routing#parameters
 [default-config]:
 https://github.com/primatejs/primate/blob/master/packages/primate/src/defaults/primate.config.js
 [runtime]:
