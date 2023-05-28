@@ -3,7 +3,7 @@
   "private": true,
   "dependencies": {
     "primate": "^0.19.4",
-    "priss": "^0.13.2"
+    "priss": "^0.13.1"
   },
   "scripts": {
     "local": "scripts/local.sh",
