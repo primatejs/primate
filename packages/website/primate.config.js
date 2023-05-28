@@ -4,7 +4,6 @@ import priss from "priss";
 const master = i => i;
 const blog = () => undefined;
 
-
 export default {
   http: {
     host: "0.0.0.0",
@@ -30,6 +29,7 @@ export default {
           "Handling requests",
           "Routing",
           "Types",
+          "Guards",
           "Components",
           {heading: "Module system"},
           "Extending Primate",
@@ -73,6 +73,8 @@ export default {
         ],
       },
       github: "primatejs/primate",
+      twitter: "primatejs",
+      chat: "https://web.libera.chat/#primate",
     }),
     uses: [blog()],
   })],
