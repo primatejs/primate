@@ -1,7 +1,7 @@
 # Primate 
 
-Expressive, minimal and extensible web framework. For documentation see
-[Getting started][getting-started].
+Expressive, minimal and extensible web framework. [Read guide][guide] for
+documentation.
 
 ## Packages
 
@@ -29,4 +29,4 @@ Expressive, minimal and extensible web framework. For documentation see
 
 MIT
 
-[getting-started]: https://primatejs.com/guide/getting-started
+[guide]: https://primatejs.com/guide/getting-started
