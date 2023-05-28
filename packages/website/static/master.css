@@ -421,7 +421,7 @@ img.background {
 
 .hero::before {
   background-image: url("/theme.jpg");
-  background-position: center top;
+  background-position: center -30px;
   background-repeat: no-repeat;
   background-size: cover;
   content: "";
