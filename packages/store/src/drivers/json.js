@@ -15,47 +15,50 @@ export default async ({path}) => {
   };
   const db = {collections: await read()};
 
-  return driver("json", {
-    primary: {
-      validate(value) {
-        return value;
+  return {
+    ...driver("json", {
+      primary: {
+        validate(value) {
+          return value;
+        },
       },
-    },
-    float: {
-      in(value) {
-        return value;
+      float: {
+        in(value) {
+          return value;
+        },
+        out(value) {
+          const out = Number(value);
+          if (Number.isNaN(out)) {
+            throw new Error();
+          }
+          return out;
+        },
       },
-      out(value) {
-        const out = Number(value);
-        if (Number.isNaN(out)) {
-          throw new Error();
-        }
-        return out;
+      bigint: {
+        in(value) {
+          return value.toString();
+        },
+        out(value) {
+          return BigInt(value);
+        },
       },
-    },
-    bigint: {
-      in(value) {
-        return value.toString();
+      datetime: {
+        in(value) {
+          return value.toJSON();
+        },
+        out(value) {
+          return new Date(value);
+        },
       },
-      out(value) {
-        return BigInt(value);
-      },
-    },
-    datetime: {
-      in(value) {
-        return value.toJSON();
-      },
-      out(value) {
-        return new Date(value);
-      },
-    },
-  }, new TransactionManager({
-      async read() {
-        db.collections = await read();
-      },
-      async write() {
-        await write(db.collections);
-      },
-      operations: common(db),
-  }));
+    }, new TransactionManager({
+        async read() {
+          db.collections = await read();
+        },
+        async write() {
+          await write(db.collections);
+        },
+        operations: common(db),
+    })),
+    client: {read, write},
+  };
 };

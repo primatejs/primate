@@ -25,7 +25,7 @@ export default {
 
 Primate logs are implemented as JavaScript errors and thus carry a stack. If
 you want the stack trace to be output in addition to Primate's own logging (in
-the case of `Error` logs), set `trace` to `true`.
+the case of `Error` or `Warn` logs), set `trace` to `true`.
 
 ```js primate.config.js | activating traces
 import {Logger} from "primate";
@@ -34,7 +34,7 @@ export default {
   logger: {
     /* show all logs */
     level: Logger.Info,
-    /* show stack traces */
+    /* show stack traces for errors and warnings */
     trace: true,
   },
 };
@@ -85,9 +85,9 @@ and can be usually ignored.
 
 ### Possibly intentional
 
-Some errors are indicated as possibly intentional. This is due to Primate not
-knowing if this is due to a client misconfiguration (for example, providing a
-client that sends alphanumeric strings where numeric strings are expected) or
+Some info logs are indicated as possibly intentional. This is due to Primate
+not knowing if this is due to a client misconfiguration (for example, using
+a client that sends alphanumeric strings where numeric strings are expected) or
 due to actual client manipulation.
 
 ## Fix

@@ -40,16 +40,16 @@ export default {
       You've sent a PUT request with the following data:
 
       Path:
-        /comment/${path.commentId}
+        /comment/${path.get("commentId")}
       Query:
-        timestamps: ${query.timestamps}
+        timestamps: ${query.get("timestamps")}
       Cookies:
-        jar: ${cookies.jar}
+        jar: ${cookies.get("jar")}
       Headers:
-        host: ${headers.host}
+        host: ${headers.get("host")}
       Body:
-        title: ${body.title}
-        text: ${body.text}
+        title: ${body.get("title")}
+        text: ${body.get("text")}
       `;
     },
 };

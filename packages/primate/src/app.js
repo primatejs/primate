@@ -49,7 +49,6 @@ export default async (config, root, log) => {
   const secure = http?.ssl !== undefined;
   const {name, version} = await base.up(1).join("package.json").json();
   const paths = qualify(root, config.paths);
-  console.log(paths);
 
   const at = `at http${secure ? "s" : ""}://${http.host}:${http.port}\n`;
   print(blue(bold(name)), blue(version), at);

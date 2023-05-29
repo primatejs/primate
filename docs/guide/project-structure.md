@@ -6,8 +6,9 @@ setup you would use.
 ```sh
 .
 ├─ static/
-│  ├─ index.html
 │  └─ [static resources]
+├─ layouts/
+│  └─ index.html
 ├─ primate.config.js
 ├─ package.json
 ├─ routes/
@@ -22,14 +23,16 @@ This directory contains static resources such as JavaScript, CSS, font files or
 anything else you would want Primate to serve statically.
 
 Every file in this directory is mapped to the root path, `/`. For example, if
-you have a `style.css`, it will be served at the path `/style.css`.
-
-This directory can also contain an `index.html` file if you wish to override
-[the default one][default-index].
+you have a `style.css` file, it will be served at the path `/style.css`.
 
 Static resources take precedence over [routes][routes]. You can configure 
 Primate to serve static resources from a different path by setting the
 `http.static.root` option in your configuration to something else.
+
+## layouts
+
+This directory contains a collection of layouts you use with your components,
+including the [default `index.html`][default-index] that you can override.
 
 ## primate.config.js
 
@@ -37,7 +40,7 @@ Your project configuration file. If it doesn't exist, Primate will use
 its [default configuration][default-config]. If it exists, Primate will merge
 your custom configuration with the defaults, using properties you set to
 override defaults. Refer to the [configuration](/guide/configuration) section
-for in-depth review of all options.
+for an in-depth review of all options.
 
 ## package.json
 
@@ -54,7 +57,7 @@ commit this file into your version control system.
 This directory contains all your [app routes][routes] hierarchically. If you
 were creating a blog, this is how a typical layout could look like.
 
-```sh caption=routes (web app)
+```sh caption=routes | web app
 .
 ├─ index.js # view homepage -> /
 └─ post/
@@ -77,14 +80,14 @@ web app that uses the same route for showing and submitting a form. However, if
 you were developing an API, you might opt for using a wider variety of HTTP
 verbs. In that case, your layout might look a little different.
 
-```sh caption=routes (API)
+```sh caption=routes | API
 .
 ├─ post/
 │  ├─ {postId}/
-│  │  ├─ comment.js # get post comments -> /post/1/comment
-│  │  └─ {commentId}.js # get, update, delete comment -> post/1/comment/2
-│  └─ {postId}.js # get, update, delete post -> post/1
-└─ post.js # add post -> /post
+│  │  ├─ comment.js # create comment, read comments -> /post/1/comment
+│  │  └─ {commentId}.js # read, update, delete comment -> post/1/comment/2
+│  └─ {postId}.js # read, update, delete post -> post/1
+└─ post.js # create post, read posts -> /post
 ```
 
 ## components

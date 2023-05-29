@@ -2,7 +2,7 @@ import crypto from "runtime-compat/crypto";
 import {bold} from "runtime-compat/colors";
 import {extend, inflate} from "runtime-compat/object";
 import {error as clientError} from "primate";
-import Store from "./Store.js";
+import wrap from "./wrap.js";
 import {memory} from "./drivers/exports.js";
 import errors from "./errors.js";
 
@@ -11,27 +11,27 @@ const ending = -3;
 
 const openStores = (stores, defaults) =>
   stores.map(([name, module]) =>
-    [name, new Store(module.name, module.schema, {
+    [name, wrap(module.name, module.schema, {
       ...Object.fromEntries(Object.entries(defaults).map(([key, value]) =>
         [key, module[key] ?? value]
       )),
+      actions: module.actions ?? (() => ({})),
     })]
   );
 
-const makeTransaction = ({stores, defaults}) => {
-  const _stores = openStores(stores, defaults);
+const makeTransaction = (env) => {
+  const stores = openStores(env.stores, env.defaults);
 
-  const drivers = [...new Set(_stores.map(([, store]) => store.driver)).keys()];
-  const store = _stores.reduce((base, [name, value]) =>
-    extend(base, inflate(name, value))
-  , {});
+  const drivers = [...new Set(stores.map(([, store]) => store.driver)).keys()];
   return {
     id: crypto.randomUUID(),
     transaction: Object.fromEntries(["start", "commit", "rollback", "end"]
       .map(action =>
         [action, () => Promise.all(drivers.map(driver => driver[action]()))]
       )),
-    store,
+    store: stores.reduce((base, [name, {actions, driver, store}]) =>
+      extend(base, inflate(name, actions(driver.client, store)))
+    , {}),
   };
 };
 
@@ -110,7 +110,6 @@ export default ({
         );
         Object.keys(env.stores).length === 0
           && errors.EmptyStoreDirectory.throw(root);
-
         env.log.info("all stores nominal", {module: "primate/store"});
       } catch (error) {
         enabled = false;

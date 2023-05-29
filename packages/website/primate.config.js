@@ -74,7 +74,7 @@ export default {
       },
       github: "primatejs/primate",
       twitter: "primatejs",
-      chat: "https://web.libera.chat/gamja/#primate",
+      chat: "https://web.libera.chat/gamja#primate",
     }),
     uses: [blog()],
   })],

@@ -2,18 +2,18 @@ export default class TransactionManager {
   #started = false;
   #changed = false;
   #read; #write;
-  #operations;
+  #actions;
   #mutex;
   #unlock;
 
-  constructor({read, write, operations = {}}) {
+  constructor({read, write, actions = {}}) {
     this.#read = read;
     this.#write = write;
-    this.#operations = operations;
+    this.#actions = actions;
   }
 
   async schedule(action, change = false) {
-    const result = await action(this.#operations);
+    const result = await action(this.#actions);
     if (change && !this.#started) {
       this.#changed = true;
       await this.#write();

@@ -1,4 +1,4 @@
-const operations = [
+const actions = [
   "find",
   "count",
   "get",
@@ -35,9 +35,9 @@ export default (name, types, manager) => ({
     manager.close();
   },
   types,
-  ...Object.fromEntries(operations.map(operation => [operation, (...args) =>
-    manager.schedule(_operations => _operations[operation](...args),
-      {change: ["insert", "update", "delete"].includes(operation)}
+  ...Object.fromEntries(actions.map(action => [action, (...args) =>
+    manager.schedule(_actions => _actions[action](...args),
+      {change: ["insert", "update", "delete"].includes(action)}
     )])),
 
 });

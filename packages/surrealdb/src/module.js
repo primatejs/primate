@@ -5,8 +5,8 @@ export default async ({
   host = "http://127.0.0.1",
   port = 8000,
   path = "rpc",
-  ns = "app",
-  db = "app",
+  ns,
+  db,
   user,
   pass,
 } = {}) => {
@@ -14,10 +14,12 @@ export default async ({
   if (user !== undefined && pass !== undefined) {
     await client.signin({user, pass});
   }
-  await client.use(ns, db);
-  let people = await client.select("person");
+  if (ns !== undefined && db !== undefined) {
+    await client.use(ns, db);
+  }
   return {
     name: "surrealdb",
+    client,
     async primary() {
       return {
         generate: () => crypto.randomUUID(),

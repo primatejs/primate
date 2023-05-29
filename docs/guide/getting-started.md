@@ -39,7 +39,7 @@ export default {
   get() {
     return view("form.html");
   },
-}
+};
 ```
 
 We also need to create an HTML component for the form.
@@ -54,18 +54,17 @@ We also need to create an HTML component for the form.
 ```
 
 You may have noticed in our first example that we simply returned a string from
-the route function,
-which Primate then translated to a `200 OK` response with content type
-`text/plain`. Primate can detect the content type to use based on the return
-type, but only where it makes sense. To return HTML (content type `text/html`),
-we need to use the explicit request handler `view`, which we imported. It
-accepts the name of a component file and renders it from the `components`
-directory.
+the route function, which was then translated to a `200 OK` response with
+content type `text/plain`. Primate can detect the content type to use based on
+the return type, but only where it makes sense. To return HTML (content type
+`text/html`), we need to use the explicit request handler `view` which we
+imported. It accepts the name of a component file and renders it from the
+`components` directory.
 
 If you now go to http://localhost:6161, you will see an HTML form.
 
 Next, we need to handle the form submission. We'll do that by adding a `post`
-function to our route:
+function to our route.
 
 ```js caption=routes/index.js
 import {view, redirect} from "primate";
@@ -75,7 +74,7 @@ export default {
     return view("form.html");
   },
   post(request) {
-    const {name, age} = request.body;
+    const {name, age} = request.body.get();
 
     if (name !== undefined && age !== undefined) {
       return redirect("/success");
@@ -83,13 +82,13 @@ export default {
 
     return redirect("/");
   },
-}
+};
 ```
 
 Every route function in Primate accepts a `request` parameter that contains
 request data, including the request body if applicable. Here, Primate
-deserialized the form for us into `request.body` so we can easily access
-its fields.
+deserialized the form for us into `request.body` so we can easily get its
+fields using the `get()` accessor.
 
 In case both `name` and `age` are set, we redirect the user to `/success` by
 using the `redirect` handler Primate provides.
@@ -110,7 +109,7 @@ export default {
 };
 ```
 
-## Deep dive
+## Deeper dive
 
 Now that we've built a trivial use case with form submission, we can start
 diving a bit deeper into the framework itself and what it offers.
@@ -175,5 +174,5 @@ bug or have a feature request.
 [repo]: https://github.com/primatejs/primate
 [issues]: https://github.com/primatejs/primate/issues
 [primate-app]: https://github.com/primatejs/app
-[chat]: https://web.libera.chat#primate
+[chat]: https://web.libera.chat/gamja#primate
 [runtime-compat]: https://github.com/flogjs/std/tree/master/runtime-compat

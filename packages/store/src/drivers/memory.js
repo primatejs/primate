@@ -10,19 +10,22 @@ export default async () => {
   };
   const db = {collections: read()};
 
-  return driver("memory", {
-    primary: {
-      validate(value) {
-        return value;
+  return {
+    ...driver("memory", {
+      primary: {
+        validate(value) {
+          return value;
+        },
       },
-    },
-  }, new TransactionManager({
-    async read() {
-      db.collections = read();
-    },
-    async write() {
-      write(db.collections);
-    },
-    operations: common(db),
-  }));
+    }, new TransactionManager({
+      async read() {
+        db.collections = read();
+      },
+      async write() {
+        write(db.collections);
+      },
+      operations: common(db),
+    })),
+    client: {read, write},
+  };
 };
