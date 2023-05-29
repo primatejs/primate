@@ -8,19 +8,29 @@ const cookie = (name, value, {path, secure, sameSite}) =>
 const inMemorySessionManager = () => {
   const store = new Map();
   return id => ({
-    id: store.has(id) ? id : undefined,
-    get: () => store.get(id) ?? {},
+    id,
+    has() {
+      return store.has(this.id);
+    },
+    get() {
+      return store.get(this.id) ?? {};
+    },
+    set(key, value) {
+      if (this.has()) {
+        store.set(this.id, {...this.get(), [key]: value});
+      }
+    },
     async create(data = {}) {
       /* dynamic to prevent multiple calls to create */
-      if (!store.has(id)) {
+      if (!this.has()) {
         this.id = crypto.randomUUID();
         store.set(this.id, data);
       }
     },
       /* dynamic to prevent multiple calls to destroy */
     destroy() {
-      if (store.has(id)) {
-        store.delete(id);
+      if (this.has()) {
+        store.delete(this.id);
       }
     },
   });
