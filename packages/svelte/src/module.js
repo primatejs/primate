@@ -1,5 +1,6 @@
 import * as compiler from "svelte/compiler";
 import {File, Path} from "runtime-compat/fs";
+import errors from "./errors.js";
 
 const endings = {
   svelte: ".svelte",
@@ -8,10 +9,17 @@ const endings = {
 
 const type = "module";
 
+const load = async path => {
+  try {
+    return (await import(`${path}.js`)).default;
+  } catch (error) {
+    return errors.MissingComponent.throw(path.name, path);
+  }
+};
+
 const handler = path => (component, props = {}, {status = 200} = {}) =>
   async (app, headers) => {
-    const {html: body} = (await import(`${path.join(`${component}.js`)}`))
-      .default.render(props);
+    const {html: body} = await load(path.join(component));
 
     const name = component.slice(0, -endings.svelte.length);
 

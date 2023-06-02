@@ -1,7 +1,10 @@
 {
-  "InvalidHandler": {
-    "message": "{0} route must return a valid {1} handler",
-    "fix": "return object that handles the message event, such as {2}",
-    "level": "Error"
+  "module": "primate/ws",
+  "errors": {
+    "InvalidHandler": {
+      "message": "{0} route must return a valid {1} handler",
+      "fix": "return object that handles the message event, such as {2}",
+      "level": "Error"
+    }
   }
 }
