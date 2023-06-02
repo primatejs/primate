@@ -1,6 +1,6 @@
-import {Found} from "../http-statuses.js";
+import statuses from "../statuses.js";
 
-export default (Location, {status = Found} = {}) => (_, headers) => [
+export default (Location, {status = statuses.Found} = {}) => (_, headers) => [
   /* no body */
   null, {
     status,

@@ -36,7 +36,7 @@ export default test => {
 
     const faulty = `${body}%`;
     assert(() => r.post("/", {body: faulty, headers}))
-      .throws(mark("cannot parse body % as %", faulty, contentType));
+      .throws(mark("cannot parse body {0} as {1}", faulty, contentType));
   });
   test.case("body is application/x-www-form-urlencoded", async assert => {
     const {body} = await r.post("/", {
@@ -132,10 +132,10 @@ export default test => {
       },
     });
 
-    const pre = "mismatched type";
+    const pre = "mismatched type :: {0}";
     const nan = "is not a number";
-    assert(() => body.number("foo")).throws(mark(`${pre} :: %`, `foo ${nan}`));
-    assert(() => body.number("bar")).throws(mark(`${pre} :: %`, `bar ${nan}`));
+    assert(() => body.number("foo")).throws(mark(pre, `foo ${nan}`));
+    assert(() => body.number("bar")).throws(mark(pre, `bar ${nan}`));
     assert(body.number("val")).equals(3);
   });
 };

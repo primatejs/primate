@@ -22,7 +22,7 @@ export default test => {
   });
   test.case("patch", async assert => {
     const d = dispatch({number});
-    const error = mark("mismatched type :: %", "`foo` is not a number");
+    const error = mark("mismatched type :: {0}", "`foo` is not a number");
     assert(() => d({}).number()).throws("`number` called without property");
     assert(() => d({}).number("foo")).throws(error);
     assert(() => d({}).number("foo")).throws(error);

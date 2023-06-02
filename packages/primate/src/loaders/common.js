@@ -18,7 +18,7 @@ export default async ({
         `${path}`.replace(directory, () => "").slice(1, -ending.length),
         (await import(path)).default,
       ]));
-  warn.empty(log)(objects, name, directory);
+  await Path.exists(directory) && warn.empty(log)(objects, name, directory);
 
   return objects;
 };

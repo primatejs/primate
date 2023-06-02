@@ -7,8 +7,10 @@ const filter = (key, array) => array?.flatMap(m => m[key] ?? []) ?? [];
 export default async (app, root, config) => {
   const modules = config.modules ?? [];
 
+  Array.isArray(modules) || errors.ModulesMustBeArray.throw("modules");
+
   modules.some((module, n) => module.name === undefined &&
-    errors.ModulesMustHaveNames.throw(n));
+    errors.ModuleHasNoName.throw(n));
 
   const names = modules.map(({name}) => name);
   new Set(names).size !== modules.length &&

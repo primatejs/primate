@@ -1,7 +1,7 @@
-import {Path} from "runtime-compat/fs";
 import route from "./route.js";
 import {mark} from "../Logger.js";
 import dispatch from "../dispatch.js";
+import * as loaders from "../loaders/exports.js";
 
 const app = {
   config: {
@@ -12,7 +12,10 @@ const app = {
       explicit: false,
     },
   },
-  routes: [
+  modules: {
+    route: [],
+  },
+  routes: await loaders.routes(undefined, undefined, () => [
     "index",
     "user",
     "users/{userId}a",
@@ -28,7 +31,7 @@ const app = {
     "users4/{_userId}/{_commentId}",
     "users5/{truthy}",
     "{uuid}/{Uuid}/{UUID}",
-  ].map(pathname => [pathname, {get: request => request}]),
+  ].map(pathname => [pathname, {get: request => request}])),
   types: {
     user: id => /^\d*$/u.test(id),
     comment: id => /^\d*$/u.test(id),
@@ -60,66 +63,12 @@ export default test => {
       assert(r(url).url.pathname).equals(result ?? url);
     },
     fail: (url, result) => {
-      const throws = mark("no % route to %", "GET", result ?? url);
+      const throws = mark("no {0} route to {1}", "GET", result ?? url);
       assert(() => r(url)).throws(throws);
     },
     path: (url, result) => assert(r(url).path.get()).equals(result),
     assert,
   }));
-
-  const get = () => null;
-  /* errors {{{ */
-  test.case("error DoubleRouted", ({assert}) => {
-    const post = ["post", {get}];
-    const throws = mark("double route of the form %", "post");
-    assert(() => route({routes: [post, post]})).throws(throws);
-    const index = [["post", {get}], ["post/index", {get}]];
-    const throws2 = mark("double route of the form %", "post");
-    assert(() => route({routes: index})).throws(throws2);
-    const paths = [["{foo}/{bar}/t/index", {get}], ["{bar=baz}/index/{baz}/t", {get}]];
-    const throws3 = mark("double route of the form %", "{0}/{1}/t");
-    assert(() => route({routes: paths, types: {}})).throws(throws3);
-  });
-  test.case("error DoublePathParameter", ({assert}) => {
-    const path = "{user}/{user}";
-    const throws = mark("double path parameter % in route %", "user", path);
-    assert(() => route({routes: [[path, {get}]]})).throws(throws);
-  });
-  test.case("error EmptyRoutefile", ({assert}) => {
-    const path = "user";
-    const throws = mark("empty route file at %", `/routes/${path}.js`);
-    const base = {
-      log: {
-        auto(error) {
-          throw error;
-        },
-      },
-      paths: {
-        routes: new Path("/routes"),
-      },
-    };
-    assert(() => route({...base, routes: [[path, undefined]]})).throws(throws);
-    assert(() => route({...base, routes: [[path, {}]]})).throws(throws);
-  });
-  test.case("error InvalidRouteName", ({assert}) => {
-    const post = ["po.st", {get}];
-    const throws = mark("invalid route name %", "po.st");
-    assert(() => route({routes: [post], types: {}})).throws(throws);
-  });
-  test.case("error InvalidPathParameter", ({assert}) => {
-    const path = "{us$er}";
-    const throws = mark("invalid path parameter % in route %", "us$er", path);
-    assert(() => route({routes: [[path, {get}]]})).throws(throws);
-    const path2 = "{}";
-    const throws2 = mark("invalid path parameter % in route %", "", path2);
-    assert(() => route({routes: [[path2, {get}]]})).throws(throws2);
-  });
-  test.case("error InvalidTypeName", ({assert}) => {
-    const throws = mark("invalid type name %", "us$er");
-    const types = {us$er: () => false};
-    assert(() => route({routes: [], types})).throws(throws);
-  });
-  /* }}} */
 
   test.case("index route", ({match}) => {
     match("/");

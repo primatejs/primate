@@ -1,6 +1,6 @@
-import {NotFound} from "../http-statuses.js";
+import statuses from "../statuses.js";
 
-export default (body = "Not Found", {status = NotFound} = {}) =>
+export default (body = "Not Found", {status = statuses.NotFound} = {}) =>
   async (app, headers) => [
     await app.render({body}), {
       status,

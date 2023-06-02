@@ -1,7 +1,7 @@
 import errors from "../errors.js";
-import {default as load, lc_first as filter} from "./common.js";
+import {default as fs, lc_first as filter} from "./common.js";
 
-export default async (log, directory) => {
+export default async (log, directory, load = fs) => {
   const guards = await load({log, directory, name: "guards", filter,
     recursive: false});
 

@@ -7,16 +7,6 @@ import * as loaders from "./loaders/exports.js";
 import dispatch from "./dispatch.js";
 import {print} from "./Logger.js";
 
-const qualify = (root, paths) => Object.keys(paths).reduce((qualified, key) => {
-  const value = paths[key];
-  return {
-    [key]: typeof value === "string"
-      ? root.join(value)
-      : qualify(root.join(key), value),
-    ...qualified,
-  };
-}, {});
-
 const base = new Path(import.meta.url).up(1);
 
 const index = async (app, layout) => {
@@ -48,7 +38,8 @@ export default async (config, root, log) => {
   const {http} = config;
   const secure = http?.ssl !== undefined;
   const {name, version} = await base.up(1).join("package.json").json();
-  const paths = qualify(root, config.paths);
+  const paths = Object.fromEntries(Object.entries(config.paths)
+    .map(([key, value]) => [key, root.join(value)]));
 
   const at = `at http${secure ? "s" : ""}://${http.host}:${http.port}\n`;
   print(blue(bold(name)), blue(version), at);
@@ -89,12 +80,7 @@ export default async (config, root, log) => {
         .map(resource => `'${resource.integrity}'`).join(" ");
       const _csp = scripts === "" ? csp : `${csp}script-src 'self' ${scripts};`;
       // remove inline resources
-      for (let i = app.resources.length - 1; i >= 0; i--) {
-        const resource = app.resources[i];
-        if (resource.inline) {
-          app.resources.splice(i, 1);
-        }
-      }
+      app.resources = app.resources.filter(resource => !resource.inline);
 
       return {
         "Content-Security-Policy": _csp,

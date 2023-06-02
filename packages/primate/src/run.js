@@ -39,15 +39,13 @@ const getConfig = async root => {
 };
 
 export default async name => {
-  const root = await getRoot();
-  let logger = protologger;
   try {
+    const root = await getRoot();
     const config = await getConfig(root);
-    logger = new Logger(config.logger);
     await command(name)(await app(config, root, new Logger(config.logger)));
   } catch (error) {
     if (error.level === Logger.Error) {
-      logger.auto(error);
+      protologger.auto(error);
       bye();
     } else {
       throw error;
