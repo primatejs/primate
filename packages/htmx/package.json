@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "htmx.org": "^1.9.2",
-    "runtime-compat": "^0.17.0"
+    "runtime-compat": "^0.19.1"
   },
   "peerDependencies": {
     "primate": "0.19"

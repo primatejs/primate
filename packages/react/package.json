@@ -15,12 +15,12 @@
     "directory": "packages/react"
   },
   "dependencies": {
-    "@babel/core": "^7.21.8",
-    "@babel/preset-react": "^7.18.6",
+    "@babel/core": "^7.22.1",
+    "@babel/preset-react": "^7.22.3",
     "babel-plugin-replace-import-extension": "^1.1.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "runtime-compat": "^0.17.0"
+    "runtime-compat": "^0.19.1"
   },
   "peerDependencies": {
     "primate": "0.19"
