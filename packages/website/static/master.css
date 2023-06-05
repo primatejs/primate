@@ -461,6 +461,7 @@ img.background {
 .hero .buttons a.secondary {
   color: #454545;
   border: 1px solid #454545;
+  background-color: #fff;
 }
 
 .hero .buttons a.secondary:hover {
@@ -470,6 +471,7 @@ img.background {
 .dark .hero .buttons a.secondary{
   color: #bababa;
   border: 1px solid #bababa;
+  background-color: #000;
 }
 
 .dark .hero .buttons a.secondary:hover {
