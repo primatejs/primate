@@ -69,7 +69,11 @@ export default async (config, root, log) => {
     },
     resources: [],
     entrypoints: [],
-    paths,
+    paths: {
+      ...paths,
+      client: paths.build.join("client"),
+      server: paths.build.join("server"),
+    },
     root,
     log,
     generateHeaders: () => {
@@ -126,7 +130,7 @@ export default async (config, root, log) => {
         .filter(([, _export]) => _export.import !== undefined)
         .map(([key, value]) => [
           key.replace(".", name),
-          value.import.replace(".", `./${name}`),
+          value.import.replace(".", `/${name}`),
         ]));
       app.identifiers = {...exports, ...app.identifiers};
     },

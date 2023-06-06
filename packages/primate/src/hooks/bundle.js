@@ -3,18 +3,14 @@ import {File} from "runtime-compat/fs";
 const pre = async app => {
   const {paths} = app;
 
-  // remove public directory in case exists
-  if (await paths.public.exists) {
-    await paths.public.file.remove();
-  }
-  await paths.public.file.create();
-
   if (await paths.static.exists) {
-    // copy static files to public
+    paths.client.file.create();
+
+    // copy static files to build/client
     const filter = file => app.config.http.static.pure
       ? true
       : !file.endsWith(".js") && !file.endsWith(".css");
-    await File.copy(paths.static, paths.public, filter);
+    await File.copy(paths.static, paths.client, filter);
   }
 };
 

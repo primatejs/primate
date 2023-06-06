@@ -68,13 +68,13 @@ const Logger = class Logger {
   }
 
   #print(pre, color, message, error = {}) {
-    const {fix, module, name} = error;
+    const {fix, module, name, level} = error;
     print(color(pre), `${module !== undefined ? `${color(module)} ` : ""}${message}`, "\n");
-    if (this.level <= levels.Warn) {
-      if (fix) {
-        print(blue("++"), fix);
-        name && print(dim(`\n   -> ${reference}/${module ?? "primate"}#${hyphenate(name)}`), "\n");
-      }
+    if (fix) {
+      print(blue("++"), fix);
+      name && print(dim(`\n   -> ${reference}/${module ?? "primate"}#${hyphenate(name)}`), "\n");
+    }
+    if (level <= levels.Warn) {
       this.#trace && error && console.log(error);
     }
   }

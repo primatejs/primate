@@ -1,5 +1,5 @@
 import * as compiler from "svelte/compiler";
-import {File, Path} from "runtime-compat/fs";
+import {Path} from "runtime-compat/fs";
 import errors from "./errors.js";
 
 const endings = {
@@ -50,18 +50,21 @@ const {svelte, js} = endings;
 export default ({directory, entryPoints} = {}) => ({
   name: "@primate/svelte",
   register(app, next) {
-    app.register("svelte", handler(directory ?? app.paths.components));
+    app.register("svelte", handler(app.paths.server));
     return next(app);
   },
   async compile(app, next) {
-    const path = directory ?? app.paths.components;
+    const source = directory ?? app.paths.components;
     const options = {generate: "ssr", hydratable: true};
-    const components = await path.list(filename => filename.endsWith(svelte));
+    const components = await source.collect(/^.*.svelte$/u);
+    const target = app.paths.server;
+    await target.file.create();
     await Promise.all(components.map(async component => {
       const file = await component.file.read();
       const server = compiler.compile(file, options);
-      const compiled = server.js.code.replaceAll(svelte, js);
-      await File.write(`${component.path}.js`, compiled);
+      const to = await target.join(`${component.path}.js`.replace(source, ""));
+      await to.directory.file.create();
+      await to.file.write(server.js.code.replaceAll(svelte, js));
     }));
 
     return next(app);
@@ -75,7 +78,7 @@ export default ({directory, entryPoints} = {}) => ({
       generate: "dom",
       hydratable: true,
     };
-    const components = await path.list(filename => filename.endsWith(svelte));
+    const components = await path.collect(/^.*.svelte$/u);
 
     await Promise.all(components.map(async component => {
       const file = await component.file.read();
@@ -83,18 +86,19 @@ export default ({directory, entryPoints} = {}) => ({
       const css = client.css.code;
       const compiled = client.js.code.replaceAll(svelte, js);
 
-      await app.publish({src: `${component.name}.js`, code: compiled, type});
+      const base = `${component.path}`.replace(`${app.paths.components}/`, "");
+      await app.publish({src: `${base}.js`, code: compiled, type});
       if (css !== null) {
-        const name = `${component.name}.css`;
+        const name = `${base}.css`;
         await app.publish({src: name, code: css, type: "style"});
-        app.bootstrap({type: "style", code: `import "./${name}";`});
+        app.bootstrap({type: "style", code: `import "/${name}";`});
       }
     }));
 
     if (entryPoints !== undefined) {
       entryPoints.forEach(entry => {
         const name = entry.slice(0, -endings.svelte.length);
-        const code = `export {default as ${name}} from "./${entry}.js";`;
+        const code = `export {default as ${name}} from "/${entry}.js";`;
         app.bootstrap({type: "script", code});
       });
     }

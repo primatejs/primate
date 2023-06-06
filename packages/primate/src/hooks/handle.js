@@ -55,7 +55,7 @@ export default app => {
     const {pathname} = request.url;
     const {root} = http.static;
     if (pathname.startsWith(root)) {
-      const path = app.paths.public.join(pathname.replace(root, ""));
+      const path = app.paths.client.join(pathname.replace(root, ""));
       return await path.isFile
         ? assets.static(path.file)
         : assets.published(request);
