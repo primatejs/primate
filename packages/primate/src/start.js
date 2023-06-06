@@ -1,6 +1,5 @@
-import {serve, Response} from "runtime-compat/http";
+import {serve, Response, Status} from "runtime-compat/http";
 import {identity} from "runtime-compat/function";
-import statuses from "./statuses.js";
 import * as hooks from "./hooks/exports.js";
 
 export default async (app, operations = {}) => {
@@ -23,7 +22,7 @@ export default async (app, operations = {}) => {
       return await hooks.handle(app)(await app.parse(request));
     } catch(error) {
       app.log.auto(error);
-      return new Response(null, {status: statuses.InternalServerError});
+      return new Response(null, {status: Status.InternalServerError});
     }
   }, app.config.http);
 

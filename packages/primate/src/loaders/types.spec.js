@@ -19,6 +19,9 @@ export default test => {
   test.case("errors.InvalidTypeName", assert => {
     const throws = mark("invalid type name {0}", "us$er");
     assert(() => types([["us$er", () => false]])).throws(throws);
+    const throws2 = mark("invalid type name {0}", "User");
+    assert(() => types([["User", () => false]])).throws(throws2);
+    assert(() => types([["uSer", () => false]])).not_throws();
   });
 
   test.case("errors.ReservedTypeName", assert => {

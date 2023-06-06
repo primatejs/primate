@@ -1,6 +1,6 @@
-import statuses from "../statuses.js";
+import {Status} from "runtime-compat/http";
 
-export default (Location, {status = statuses.Found} = {}) => (_, headers) => [
+export default (Location, {status = Status.Found} = {}) => (_, headers) => [
   /* no body */
   null, {
     status,

@@ -8,5 +8,8 @@ export default async (log, directory, load = fs) => {
   guards.some(([name, guard]) =>
     typeof guard !== "function" && errors.InvalidGuard.throw(name));
 
+  guards.every(([name]) =>
+    /^(?:[a-z][^\W_]*)$/u.test(name) || errors.InvalidGuardName.throw(name));
+
   return Object.fromEntries(guards);
 };

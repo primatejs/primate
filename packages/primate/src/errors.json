@@ -36,6 +36,16 @@
       "fix": "check errors in config file by running {1}",
       "level": "Error"
     },
+    "InvalidGuard": {
+      "message": "invalid guard {0}",
+      "fix": "use only functions for the default export of guards",
+      "level": "Error"
+    },
+    "InvalidGuardName": {
+      "message": "invalid guard name {0}",
+      "fix": "use lowercase-first latin letters and decimals in guard names",
+      "level": "Error"
+    },
     "InvalidPathParameter": {
       "message": "invalid path parameter {0} in route {1}",
       "fix": "use only latin letters and decimal digits in path parameters",
@@ -53,7 +63,7 @@
     },
     "InvalidTypeName": {
       "message": "invalid type name {0}",
-      "fix": "use only latin letters and decimal digits in types",
+      "fix": "use lowercase-first latin letters and decimals in type names",
       "level": "Error"
     },
     "MismatchedPath": {

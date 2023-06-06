@@ -8,7 +8,7 @@ export default async (log, directory, load = fs) => {
     typeof type !== "function" && errors.InvalidType.throw(name));
 
   types.every(([name]) =>
-    /^(?:[^\W_]*)$/u.test(name) || errors.InvalidTypeName.throw(name));
+    /^(?:[a-z][^\W_]*)$/u.test(name) || errors.InvalidTypeName.throw(name));
 
   types.some(([name]) => ["get", "raw"].includes(name) &&
     errors.ReservedTypeName.throw(name));

@@ -30,11 +30,11 @@ them the string "Donald" in plain text.
 To use this handler explicitly, import and use the `text` function.
 
 ```js caption=routes/plain-text.js
-import {text} from "primate";
+import {text, Status} from "primate";
 
 export default {
   get() {
-    return text("Donald", {status: 201});
+    return text("Donald", {status: Status.Accepted});
   },
 };
 ```
@@ -116,11 +116,11 @@ easier to use the explicit `redirect` handler to redirect to paths within the
 same app.
 
 ```js caption=routes/redirect.js
-import {redirect} from "primate";
+import {redirect, Status} from "primate";
 
 export default {
   get() {
-    return redirect("/success", {status: 301});
+    return redirect("/success", {status: Status.MovedPermanently});
   },
 };
 ```
@@ -153,11 +153,12 @@ The `html` handler also supports partial responses, without embedding it into
 explicit handler, you can also change the status code.
 
 ```js caption=routes/html.js
-import {html} from "primate";
+import {html, Status} from "primate";
 
 export default {
   get() {
-    return html("<p>Hello, world!</p>", {partial: true, status: 201});
+    const status = Status.Accepted;
+    return html("<p>Hello, world!</p>", {partial: true, status});
   },
 };
 ```
@@ -207,11 +208,11 @@ A request to `/error` will result in a `404 Not Found` response.
 You can customize the body and the status of this handler.
 
 ```js caption=routes/server-error.js
-import {error} from "primate";
+import {error, Status} from "primate";
 
 export default {
   get() {
-    return error("Internal Server Error", {status: 500});
+    return error("Internal Server Error", {status: Status.InternalServerError});
   },
 };
 ```
@@ -225,11 +226,11 @@ Lastly, for a custom response status, you can return a `Response` object from a
 route.
 
 ```js caption=routes/response.js
-import {Response} from "primate";
+import {Response, Status} from "primate";
 
 export default {
   get() {
-    return new Response("created!", {status: 201});
+    return new Response("created!", {status: Status.Created});
   },
 };
 ```

@@ -1,9 +1,8 @@
-import {Response} from "runtime-compat/http";
+import {Response, Status} from "runtime-compat/http";
 import {mime, isResponse, respond} from "./handle/exports.js";
 import {invalid} from "./route.js";
 import {error as clientError} from "../handlers/exports.js";
 import errors from "../errors.js";
-import statuses from "../statuses.js";
 
 export default app => {
   const {http} = app.config;
@@ -30,7 +29,7 @@ export default app => {
   const assets = {
     async static(file) {
       return new Response(file.readable, {
-        status: statuses.OK,
+        status: Status.OK,
         headers: {
           "Content-Type": mime(file.name),
           Etag: await file.modified,
@@ -43,7 +42,7 @@ export default app => {
       return published === undefined
         ? route(request)
         : new Response(published.code, {
-          status: statuses.OK,
+          status: Status.OK,
           headers: {
             "Content-Type": mime(published.src),
             Etag: published.integrity,

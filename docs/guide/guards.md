@@ -48,19 +48,19 @@ function or specifying it as part of the route path.
 
 Defined guards are injected into the `guard` property of the request object. In
 order to use a guard, call it within the route function it should protect. For
-this matter, assume we have defined a guard that verifies users are only
-editing resources they own. This example also assumes we're using the sessions
-module to record users who have logged in.
+this matter, assume we have defined a guard that ensures users may only edit
+resources they own. This example also assumes we're using the sessions module
+to record users who have logged in.
 
 ```js caption=guards/me.js | protecting your own resources
-import {Response} from "primate";
+import {Response, Status} from "primate";
 
 export default ({session, path}) => {
     if (session.get("userId") === query.get("userId")) {
       return true;
     }
 
-    return new Response("Forbidden", {status: 403});
+    return new Response("Forbidden", {status: Status.Forbidden});
 }
 ```
 
@@ -92,23 +92,25 @@ at `routes/+me/user/edit/{userId}.js` specifies that any request beginning with
 `me` guard, regardless of the HTTP verb used.
 
 In a similar fashion, you can group entire route trees under a guard, to place
-them all under protection. For example, if you want several routes under
+them all under its protection. For example, if you wanted several routes under
 `/admin` to be guarded by a guard named `admin`, you would create them as
-`routes/+admin/post/add`, `routes/+admin/post/edit/${postId}` and so on.
+`routes/+admin/post/add`, `routes/+admin/post/edit/${postId}` and so forth.
 
 To keep things simple, there are certain rules to how guards can be used in
 route filenames.
 
 * Everything between the `+` and the next path separator is part of the guard,
-  and there must be exist a guard with this name. 
-* It is possible to use a guard at any path level, but only one guard per path.
-`routes/+loggedIn/user/view/${userId}.js` and
-`routes/user/+loggedIn/view/${userId}.js` are both permissible and express the
-same path, but `routes/+loggedIn/+admin/user.js` isn't. If you need the admin 
-guard to first check if the user is logged in, integrate it directly into the 
-guard.
+  and there must be exist a guard with this name
+* It is possible to use a guard at any path level, but only one guard per path;
+`routes/+loggedIn/user/view/${userId}.js` or
+`routes/user/+loggedIn/view/${userId}.js` are either permissible and express
+the same path, but `routes/+loggedIn/+admin/user.js` isn't. If you need the
+admin guard to first check if the user is logged in, integrate it directly into
+the  guard
 * Routes still need to be unique, so creating the same route with and without a
-  guard, as in `routes/+me/view` and `routes/view` isn't permissible.
+guard, as in `routes/+me/view` and `routes/view` isn't permissible. Same goes
+for having both `routes/+loggedIn/user/view/${userId}.js` and 
+`routes/user/+loggedIn/view/${userId}.js`
 
-All those cases are detected during startup, and Primate will bail out and tell
+Those cases are all detected during startup, and Primate will bail out and tell
 you the names of the conflicting paths.
