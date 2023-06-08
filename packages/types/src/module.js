@@ -7,7 +7,7 @@ export default ({} = {}) => {
   };
   return {
     name: "@primate/types",
-    async load(app) {
+    async init(app) {
       env.log = app.log;
       app.types = extend(app.types, {...types});
     },

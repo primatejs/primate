@@ -1,6 +1,6 @@
 import crypto from "runtime-compat/crypto";
 import {bold} from "runtime-compat/colors";
-import {extend, inflate} from "runtime-compat/object";
+import {extend, inflate, map, transform} from "runtime-compat/object";
 import {error as clientError} from "primate";
 import wrap from "./wrap.js";
 import {memory} from "./drivers/exports.js";
@@ -12,9 +12,7 @@ const ending = -3;
 const openStores = (stores, defaults) =>
   stores.map(([name, module]) =>
     [name, wrap(module.name, module.schema, {
-      ...Object.fromEntries(Object.entries(defaults).map(([key, value]) =>
-        [key, module[key] ?? value]
-      )),
+      ...map(defaults, ([key, value]) => [key, module[key] ?? value]),
       actions: module.actions ?? (() => ({})),
     })]
   );
@@ -58,7 +56,7 @@ export default ({
   };
   return {
     name: "@primate/store",
-    async load(app) {
+    async init(app) {
       try {
         env.log = app.log;
 
@@ -84,7 +82,7 @@ export default ({
             name.split("/").slice(0, last).every(part => /^[A-Z]/u.test(part)))
           .map(async ([store, path]) => {
             const exports = await import(path);
-            const schema = Object.fromEntries(Object.entries(exports.default)
+            const schema = transform(exports.default, entry => entry
               .filter(([property, type]) => valid(type, property, store))
               .map(([property, type]) =>
                 [property, typeof type === "function" ? type : type.type])

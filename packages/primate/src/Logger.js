@@ -1,5 +1,6 @@
 import {assert, is} from "runtime-compat/dyndef";
 import {blue, bold, green, red, yellow, dim} from "runtime-compat/colors";
+import {map, valmap} from "runtime-compat/object";
 
 const levels = {
   Error: 0,
@@ -8,7 +9,7 @@ const levels = {
 };
 
 const print = (...messages) => process.stdout.write(messages.join(" "));
-const bye = () => print(dim(yellow("~~ bye\n")));
+const bye = _ => print(dim(yellow("~~ bye\n")));
 const mark = (format, ...params) => params.reduce((formatted, param, i) =>
   formatted.replace(`{${i}}`, bold(param)), format);
 
@@ -44,8 +45,7 @@ const Logger = class Logger {
   #level; #trace;
 
   static err(errors, module) {
-    return Object.fromEntries(Object.entries(errors)
-      .map(([name, error]) => [name, throwable(error, name, module)]));
+    return map(errors, ([key, value]) => [key, throwable(value, key, module)]);
   }
 
   constructor({level = levels.Error, trace = false} = {}) {
@@ -74,8 +74,8 @@ const Logger = class Logger {
       print(blue("++"), fix);
       name && print(dim(`\n   -> ${reference}/${module ?? "primate"}#${hyphenate(name)}`), "\n");
     }
-    if (level <= levels.Warn) {
-      this.#trace && error && console.log(error);
+    if (level === levels.Error || level === undefined && error.message) {
+      this.#trace && console.log(error);
     }
   }
 
@@ -97,8 +97,7 @@ const Logger = class Logger {
 
   auto(error) {
     const {message} = error;
-    const matches = Object.fromEntries(Object.entries(levels)
-      .map(([name, level]) => [level, name.toLowerCase()]));
+    const matches = map(levels, ([name, level]) => [level, name.toLowerCase()]);
     return this[matches[error.level] ?? "error"](message, error);
   }
 };

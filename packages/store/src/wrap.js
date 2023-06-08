@@ -1,20 +1,22 @@
+import {tryreturn} from "runtime-compat/flow";
+import * as object from "runtime-compat/object";
 import validate from "./validate.js";
 import errors from "./errors.js";
 
 const {FailedDocumentValidation} = errors;
 
 const transform = direction => ({types, schema, document, path}) =>
-  Object.fromEntries(Object.entries(document)
+  object.transform(document, entry => entry
     .filter(([field]) => schema[field]?.type !== undefined)
-    .map(([field, value]) => {
-      try {
-        return [field, types[schema[field].base]?.[direction](value) ?? value];
-      } catch (error) {
-        const {name} = schema[field];
-        const command = `(await ${path}.get("${document.id}")).${field}`;
-        return errors.CannotUnpackValue.throw(value, name, command);
-      }
-    }));
+    .map(([field, value]) =>
+      tryreturn(_ =>
+        [field, types[schema[field].base]?.[direction](value) ?? value])
+        .orelse(_ => {
+          const {name} = schema[field];
+          const command = `(await ${path}.get("${document.id}")).${field}`;
+          return errors.CannotUnpackValue.throw(value, name, command);
+        })
+    ));
 
 const actions = [
   "validate", "new",

@@ -1,4 +1,5 @@
 import {serve, Response, Status} from "runtime-compat/http";
+import {tryreturn} from "runtime-compat/flow";
 import {identity} from "runtime-compat/function";
 import * as hooks from "./hooks/exports.js";
 
@@ -16,15 +17,13 @@ export default async (app, operations = {}) => {
   // bundle client-side code
   await hooks.bundle(app, operations?.bundle);
 
-  const server = await serve(async request => {
-    try {
-      // parse, handle
-      return await hooks.handle(app)(await app.parse(request));
-    } catch(error) {
-      app.log.auto(error);
-      return new Response(null, {status: Status.InternalServerError});
-    }
-  }, app.config.http);
+  const server = await serve(async request =>
+    tryreturn(async _ => hooks.handle(app)(await app.parse(request)))
+      .orelse(error => {
+        app.log.auto(error);
+        return new Response(null, {status: Status.InternalServerError});
+      }),
+  app.config.http);
 
   await [...app.modules.serve, identity]
     .reduceRight((acc, handler) => input => handler(input, acc))({

@@ -1,5 +1,3 @@
-import {Path} from "runtime-compat/fs";
-
 const loadComponent = async (file) => {
   try {
     return await file.read();
@@ -35,14 +33,9 @@ export default directory => ({
     return next(app);
   },
   async publish(app, next) {
-    const src = "htmx.js";
-    const scriptPath = ["node_modules", "htmx.org", "dist", src];
-    const path = import.meta.resolve === undefined
-      ? await Path.resolve().join(...scriptPath)
-      : new Path(await import.meta.resolve("htmx.org"));
-    const code = await path.file.read();
-    await app.publish({src, code, type: "module"});
-    app.bootstrap({type: "script", code: `import * as htmx from "./${src}";`});
+    const name = "htmx.org";
+    await app.import(name);
+    app.bootstrap({type: "script", code: `import * as htmx from "${name}";`});
     return next(app);
   },
 });

@@ -1,3 +1,5 @@
+import {keymap} from "runtime-compat/object";
+import {tryreturn} from "runtime-compat/flow";
 import errors from "../errors.js";
 
 // insensitive-case equal
@@ -6,11 +8,8 @@ const ieq = (left, right) => left.toLowerCase() === right.toLowerCase();
 /* routes may not contain dots */
 export const invalid = route => /\./u.test(route);
 
-const reentry = (object, mapper) =>
-  Object.fromEntries(mapper(Object.entries(object ?? {})));
-
 export default app => {
-  const {types, routes, config: {explicit}, modules} = app;
+  const {types, routes, config: {explicit}, modules, dispatch} = app;
 
   const isType = (groups, path) => Object
     .entries(groups ?? {})
@@ -18,13 +17,9 @@ export default app => {
       [types[name] === undefined || explicit ? name : `${name}$${name}`, value])
     .filter(([name]) => name.includes("$"))
     .map(([name, value]) => [name.split("$")[1], value])
-    .every(([name, value]) => {
-      try {
-        return types?.[name](value) === true;
-      } catch ({message}) {
-        return errors.MismatchedPath.throw(path, message);
-      }
-    });
+    .every(([name, value]) =>
+      tryreturn(_ => types?.[name](value) === true)
+        .orelse(({message}) => errors.MismatchedPath.throw(path, message)));
   const isPath = ({route, path}) => {
     const result = route.path.exec(path);
     return result === null ? false : isType(result.groups, path);
@@ -42,13 +37,14 @@ export default app => {
         pathname,
         `${app.config.paths.routes}${pathname === "" ? "index" : pathname}.js`
       );
-    const path = app.dispatch(reentry(verb.path?.exec(pathname).groups,
-      object => object.map(([key, value]) => [key.split("$")[0], value])));
 
     // verb.handler is the last module to be executed
     const handlers = [...modules.route, verb.handler]
       .reduceRight((acc, handler) => input => handler(input, acc));
 
-    return handlers({...request, path});
+    return handlers({...request,
+      path: dispatch(keymap(verb.path?.exec(pathname).groups,
+        key => key.split("$")[0])),
+    });
   };
 };

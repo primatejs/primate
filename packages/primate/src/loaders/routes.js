@@ -1,10 +1,11 @@
+import {tryreturn} from "runtime-compat/flow";
 import errors from "../errors.js";
 import {invalid} from "../hooks/route.js";
 import {default as fs, doubled} from "./common.js";
 
 const normalize = route => {
   let i = 0;
-  return route.replaceAll(/\{(?:\w*)(?:=\w+)?\}?/gu, () => `{${i++}}`);
+  return route.replaceAll(/\{(?:\w*)(?:=\w+)?\}?/gu, _ => `{${i++}}`);
 };
 
 const make = path => {
@@ -13,15 +14,12 @@ const make = path => {
     .map(part => part.slice(1, part.indexOf("="))));
   double && errors.DoublePathParameter.throw(double, path);
 
-  const route = path.replaceAll(/\{(?<named>.*?)\}/gu, (_, named) => {
-    try {
+  const route = path.replaceAll(/\{(?<named>.*?)\}/gu, (_, named) =>
+    tryreturn(_ => {
       const {name, type} = /^(?<name>\w+)(?<type>=\w+)?$/u.exec(named).groups;
       const param = type === undefined ? name : `${name}$${type.slice(1)}`;
       return `(?<${param}>[^/]{1,}?)`;
-    } catch (error) {
-      return errors.InvalidPathParameter.throw(named, path);
-    }
-  });
+    }).orelse(_ => errors.InvalidPathParameter.throw(named, path)));
 
   invalid(route) && errors.InvalidRouteName.throw(path);
 

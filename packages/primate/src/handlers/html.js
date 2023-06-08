@@ -14,7 +14,7 @@ const integrate = async (html, publish, headers) => {
     headers["Content-Security-Policy"] = headers["Content-Security-Policy"]
       .replace("style-src 'self'", `style-src 'self' '${integrity}' `);
   }
-  return html.replaceAll(/<(?<tag>script|style)>.*?<\/\k<tag>>/gus, () => "");
+  return html.replaceAll(/<(?<tag>script|style)>.*?<\/\k<tag>>/gus, _ => "");
 };
 
 export default (component, options = {}) => {

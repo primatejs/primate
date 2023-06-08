@@ -18,7 +18,7 @@ export default ({
   };
   return {
     name: "@primate/guard",
-    async load(app) {
+    async init(app) {
       try {
         env.log = app.log;
 

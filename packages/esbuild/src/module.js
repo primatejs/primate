@@ -1,53 +1,45 @@
+import {Path} from "runtime-compat/fs";
 import esbuild from "esbuild";
 
 export default () => ({
   name: "@primate/esbuild",
   async bundle(app, next) {
-    const build = app.root.join("build");
-    if (await build.exists) {
-      app.log.warn("build folder already exists, bundling disabled",
-        {module: "primate/esbuild"});
-      return next(app);
-    }
-    await build.file.create();
-    // write all the published resources to the build directory
-    for (const resource of app.resources) {
-      const {src, code} = resource;
-      const filePath = src.replace(app.config.http.static.root, "").split("/");
-      const dirPart = filePath.slice(0, -1);
-      const directory = dirPart.length > 0 ? build.join(...dirPart) : build;
-      const file = directory.join(...filePath.slice(-1));
-      if (!await directory.exists) {
-        await directory.file.create();
-      }
-      await file.file.write(code);
-    }
-
-    // only bundle if there are entrypoints
+    const {paths: {client, build}, config} = app;
     if (app.entrypoints.length > 0) {
-      // clear memory resources
-      while (app.resources.length > 0) {
-        app.resources.pop();
+      while (app.assets.length > 0) {
+        app.assets.pop();
       }
       const dist = app.entrypoints.map(({code}) => code).join("");
-      // construct new dist
-      const {outputFiles: files} = await esbuild.build({
+      await esbuild.build({
         stdin: {
           contents: dist,
-          resolveDir: `${build}`,
+          resolveDir: `${client.join(app.config.build.app)}`,
         },
+        entryNames: "app-[hash]",
         bundle: true,
         minify: true,
-        write: false,
         format: "esm",
         outdir: `${build}`,
         logLevel: app.debug ? "warning" : "error",
         external: ["*.woff2", "*.png", "*.jpg"],
       });
-      await app.publish({src: "app.js", code: files[0].text, type: "module"});
-      await app.publish({src: "app.css", code: files[1].text, type: "style"});
+      await client.join(config.build.app).file.remove();
+      await client.join(config.build.modules).file.remove();
+      for (const f of await build.collect(/\.(?:js|css)$/u, {recursive: false})) {
+        const code = await f.file.text();
+        const src = f.name;
+        const type = f.extension === ".css" ? "style" : "module";
+        await app.publish({src, code, type});
+        if (f.extension === ".js") {
+          const imports = {app: new Path(config.http.static.root, src).path};
+          await app.publish({
+            inline: true,
+            code: JSON.stringify({imports}, null, 2),
+            type: "importmap",
+          });
+        }
+      }
     }
-    await build.file.remove();
     return next(app);
   },
 });

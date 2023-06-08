@@ -1,5 +1,4 @@
 import * as compiler from "svelte/compiler";
-import {Path} from "runtime-compat/fs";
 import errors from "./errors.js";
 
 const endings = {
@@ -23,9 +22,8 @@ const handler = path => (component, props = {}, {status = 200} = {}) =>
 
     const name = component.slice(0, -endings.svelte.length);
 
-    const src = new Path(app.config.http.static.root, app.config.dist);
     // create an entry point
-    const entry = `import {${name} as Component} from "${src}.js";
+    const entry = `import {${name} as Component} from "app";
       const props = JSON.parse(${JSON.stringify(JSON.stringify(props))});
       new Component({
         target: document.body,
@@ -47,61 +45,82 @@ const handler = path => (component, props = {}, {status = 200} = {}) =>
   };
 
 const {svelte, js} = endings;
-export default ({directory, entryPoints} = {}) => ({
-  name: "@primate/svelte",
-  register(app, next) {
-    app.register("svelte", handler(app.paths.server));
-    return next(app);
-  },
-  async compile(app, next) {
-    const source = directory ?? app.paths.components;
-    const options = {generate: "ssr", hydratable: true};
-    const components = await source.collect(/^.*.svelte$/u);
-    const target = app.paths.server;
-    await target.file.create();
-    await Promise.all(components.map(async component => {
-      const file = await component.file.read();
-      const server = compiler.compile(file, options);
-      const to = await target.join(`${component.path}.js`.replace(source, ""));
-      await to.directory.file.create();
-      await to.file.write(server.js.code.replaceAll(svelte, js));
-    }));
-
-    return next(app);
-  },
-  async publish(app, next) {
-    const _path = ["node_modules", "svelte", "package.json"];
-    app.resolve(await Path.resolve().join(..._path).json(), "svelte");
-
-    const path = directory ?? app.paths.components;
-    const options = {
-      generate: "dom",
-      hydratable: true,
-    };
-    const components = await path.collect(/^.*.svelte$/u);
-
-    await Promise.all(components.map(async component => {
-      const file = await component.file.read();
-      const client = compiler.compile(file, options);
-      const css = client.css.code;
-      const compiled = client.js.code.replaceAll(svelte, js);
-
-      const base = `${component.path}`.replace(`${app.paths.components}/`, "");
-      await app.publish({src: `${base}.js`, code: compiled, type});
-      if (css !== null) {
-        const name = `${base}.css`;
-        await app.publish({src: name, code: css, type: "style"});
-        app.bootstrap({type: "style", code: `import "/${name}";`});
+export default ({directory, entryPoints} = {}) => {
+  const env = {};
+  return {
+    name: "@primate/svelte",
+    async init(app) {
+      const source = directory ?? app.paths.components;
+      env.copyJS = source !== app.paths.components;
+      env.copy = app.copy;
+      env.source = source;
+      env.components = await source.collect(/^.*.svelte$/u);
+      env.build = app.config.build.app;
+      env.paths = {
+        server: app.paths.server.join(env.build),
+        client: app.paths.client.join(env.build),
+      };
+    },
+    register(app, next) {
+      app.register("svelte", handler(env.paths.server));
+      return next(app);
+    },
+    async compile(app, next) {
+      const options = {generate: "ssr", hydratable: true};
+      const target = env.paths.server;
+      await target.file.create();
+      // copy any JS files from an alternative components directory
+      if (env.copyJS) {
+        await app.copy(env.source, env.paths.server);
+        await app.copy(env.source, env.paths.client);
       }
-    }));
 
-    if (entryPoints !== undefined) {
-      entryPoints.forEach(entry => {
-        const name = entry.slice(0, -endings.svelte.length);
-        const code = `export {default as ${name}} from "/${entry}.js";`;
-        app.bootstrap({type: "script", code});
-      });
-    }
-    return next(app);
-  },
-});
+      await Promise.all(env.components.map(async component => {
+        const file = await component.file.read();
+        const server = compiler.compile(file, options);
+        const to = await target.join(`${component.path}.js`.replace(env.source, ""));
+        await to.directory.file.create();
+        await to.file.write(server.js.code.replaceAll(svelte, js));
+      }));
+
+      return next(app);
+    },
+    async publish(app, next) {
+      await app.import("svelte");
+
+      const options = {generate: "dom", hydratable: true};
+      const target = env.paths.client;
+      await target.file.create();
+
+      await Promise.all(env.components.map(async component => {
+        const file = await component.file.read();
+        const client = compiler.compile(file, options);
+        {
+          const code = client.js.code.replaceAll(svelte, js);
+          const src = `${component.path}.js`.replace(`${env.source}`, env.build);
+          await app.publish({src, code, type});
+        }
+        if (client.css.code !== null) {
+          {
+            const {code} = client.css;
+            const src = `${component.path}.css`.replace(`${env.source}`, env.build);
+            await app.publish({src, code, type: "style"});
+          }
+          {
+            const src = `${component.path}.css`.replace(`${env.source}`, "");
+            app.bootstrap({type: "style", code: `import ".${src}";`});
+          }
+        }
+      }));
+
+      if (entryPoints !== undefined) {
+        entryPoints.forEach(entry => {
+          const name = entry.slice(0, -endings.svelte.length);
+          const code = `export {default as ${name}} from "./${entry}.js";`;
+          app.bootstrap({type: "script", code});
+        });
+      }
+      return next(app);
+    },
+  };
+};

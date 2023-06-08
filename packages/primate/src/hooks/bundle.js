@@ -1,16 +1,10 @@
 import {File} from "runtime-compat/fs";
 
 const pre = async app => {
-  const {paths} = app;
-
+  const {paths, config} = app;
   if (await paths.static.exists) {
-    paths.client.file.create();
-
-    // copy static files to build/client
-    const filter = file => app.config.http.static.pure
-      ? true
-      : !file.endsWith(".js") && !file.endsWith(".css");
-    await File.copy(paths.static, paths.client, filter);
+    // copy static files to build/client/_static
+    await File.copy(paths.static, paths.client.join(config.build.static));
   }
 };
 

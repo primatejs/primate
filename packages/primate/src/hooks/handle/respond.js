@@ -14,7 +14,7 @@ const isNonNullObject = value => typeof value === "object" && value !== null;
 const isObject = value => isNonNullObject(value)
   ? json(value) : isText(value);
 const isResponse = value => isResponseDuck(value)
-  ? () => value : isObject(value);
+  ? _ => value : isObject(value);
 const isStream = value => value instanceof ReadableStream
   ? stream(value) : isResponse(value);
 const isBlob = value => value instanceof Blob
