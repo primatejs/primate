@@ -14,7 +14,7 @@ returns anything else, including `undefined`, the route function won't execute.
 Guards are defined hierarchically alongside routes in the `routes` directory.
 To define a guard, create a `+guard.js` file inside `routes`.
 
-```js caption=routes/+guards.js
+```js caption=routes/+guard.js
 import {redirect} from "primate";
 
 export default request => {
@@ -39,11 +39,11 @@ This defines a guard which checks two headers sent along the request, and if
 those match the given values, lets the request through. Alternatively, if the
 client is trying to access the `/login` pathname, it is also let through. In
 all other cases, the guard redirects the client to a login page with the current
-request pathname provided in the query string.
+pathname provided in the query string.
 
 !!!
-For a request to be let through, the guard must return the value `true`.
-Primate will not coerce the return value and the route function won't execute
+For a request to be let through, the guard must return exactly `true`. Primate
+will **not** coerce the return value and the route function won't execute
 unless exactly `true` is returned. Whatever the guard returns will be used in
 its stead.
 !!!
