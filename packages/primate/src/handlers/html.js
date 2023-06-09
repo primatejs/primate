@@ -18,14 +18,14 @@ const integrate = async (html, publish, headers) => {
 };
 
 export default (component, options = {}) => {
-  const {status = 200, partial = false, load = false, layout} = options;
+  const {status = 200, partial = false, load = false} = options;
 
   return async (app, headers) => {
     const body = await integrate(await load ?
       await app.paths.components.join(component).text() : component,
     app.publish, headers);
 
-    return [partial ? body : await app.render({body, layout}), {
+    return [partial ? body : await app.render({body}), {
       status,
       headers: {...headers, "Content-Type": "text/html"},
     }];

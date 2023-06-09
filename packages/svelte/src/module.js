@@ -1,4 +1,5 @@
 import * as compiler from "svelte/compiler";
+import {tryreturn} from "runtime-compat/flow";
 import errors from "./errors.js";
 
 const endings = {
@@ -8,15 +9,11 @@ const endings = {
 
 const type = "module";
 
-const load = async path => {
-  try {
-    return (await import(`${path}.js`)).default;
-  } catch (error) {
-    return errors.MissingComponent.throw(path.name, path);
-  }
-};
+const load = async path =>
+  tryreturn(async () => (await import(`${path}.js`)).default)
+    .orelse(() => errors.MissingComponent.throw(path.name, path));
 
-const handler = path => (component, props = {}, {status = 200} = {}) =>
+const handler = path => (component, props = {}, {status = 200, page} = {}) =>
   async (app, headers) => {
     const {html: body} = await load(path.join(component));
 
@@ -38,7 +35,7 @@ const handler = path => (component, props = {}, {status = 200} = {}) =>
       .replace("script-src 'self' ", `script-src 'self' '${integrity}' `);
 
     // -> spread into new Response()
-    return [await app.render({body}), {
+    return [await app.render({body, page}), {
       status,
       headers: {...headers, "Content-Type": "text/html"},
     }];

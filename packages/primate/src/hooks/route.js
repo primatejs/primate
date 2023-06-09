@@ -28,22 +28,44 @@ export default app => {
     && isPath({route, path});
   const find = (method, path) => routes.find(route =>
     isMethod({route, method, path}));
+  const guardError = Symbol("guardError");
 
   return request => {
     const {original: {method}, url: {pathname}} = request;
-    const verb = find(method, pathname) ??
+    const route = find(method, pathname) ??
       errors.NoRouteToPath.throw(
         method,
         pathname,
         `${app.config.paths.routes}${pathname === "" ? "index" : pathname}.js`
       );
 
-    // verb.handler is the last module to be executed
-    const handlers = [...modules.route, verb.handler]
+    // check guards
+    const {guards} = route;
+    try {
+      guards.map(guard => {
+        const result = guard(request);
+        if (result === true) {
+          return undefined;
+        }
+        const error = new Error();
+        error.result = result;
+        error.type = guardError;
+        throw error;
+      });
+    } catch (error) {
+      if (error.type === guardError) {
+        return error.result;
+      }
+      // rethrow if not guard error
+      throw error;
+    }
+
+    // route.handler is the last module to be executed
+    const handlers = [...modules.route, route.handler]
       .reduceRight((acc, handler) => input => handler(input, acc));
 
     return handlers({...request,
-      path: dispatch(keymap(verb.path?.exec(pathname).groups,
+      path: dispatch(keymap(route.path?.exec(pathname).groups,
         key => key.split("$")[0])),
     });
   };

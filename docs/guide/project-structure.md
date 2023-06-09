@@ -6,7 +6,7 @@ setup you would use.
 ```sh
 .
 ├─ static/
-│  └─ [static resources]
+│  └─ [static assets]
 ├─ layouts/
 │  └─ index.html
 ├─ primate.config.js
@@ -19,14 +19,14 @@ setup you would use.
 
 ## static
 
-This directory contains static resources such as JavaScript, CSS, font files or
+This directory contains static assets such as JavaScript, CSS, font files or
 anything else you would want Primate to serve statically.
 
 Every file in this directory is mapped to the root path, `/`. For example, if
 you have a `style.css` file, it will be served at the path `/style.css`.
 
-Static resources take precedence over [routes][routes]. You can configure 
-Primate to serve static resources from a different path by setting the
+Static assets take precedence over [routes][routes]. You can configure 
+Primate to serve static assets from a different path by setting the
 `http.static.root` option in your configuration to something else.
 
 ## layouts

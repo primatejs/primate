@@ -41,11 +41,6 @@
       "fix": "use only functions for the default export of guards",
       "level": "Error"
     },
-    "InvalidGuardName": {
-      "message": "invalid guard name {0}",
-      "fix": "use lowercase-first latin letters and decimals in guard names",
-      "level": "Error"
-    },
     "InvalidPathParameter": {
       "message": "invalid path parameter {0} in route {1}",
       "fix": "use only latin letters and decimal digits in path parameters",

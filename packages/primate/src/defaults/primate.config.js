@@ -20,15 +20,17 @@ export default {
       root: "/",
     },
   },
-  layout: "index.html",
+  pages: {
+    app: "app.html",
+    error: "error.html",
+  },
   paths: {
     build: "build",
     static: "static",
     components: "components",
-    layouts: "layouts",
+    pages: "pages",
     routes: "routes",
     types: "types",
-    guards: "guards",
   },
   build: {
     static: "static",

@@ -70,10 +70,10 @@ Level [`Warn`][warn]
 
 One of the default directories is empty, a no-op.
 
-Primate is an opt-in framework, that is most of its aspects, like *routes*,
-*types* or *guards* are only active when their directories exist. Such an empty
-directory could mean you intended to use something but haven't. It's best to
-either populate the directory with files or remove it completely.
+Primate is an opt-in framework, that is most of its aspects, like *routes* or
+*types* are only active when their directories exist. Such an empty directory
+could mean you intended to use something but haven't. It's best to either
+populate the directory with files or remove it completely.
 
 **Populate or remove it.**
 

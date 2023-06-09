@@ -15,9 +15,9 @@ const packager = import.meta.runtime?.packager ?? "package.json";
 const library = import.meta.runtime?.library ?? "node_modules";
 
 // use user-provided file or fall back to default
-const index = (app, layout) =>
-  tryreturn(async _ => File.read(`${app.paths.layouts.join(layout)}`))
-    .orelse(async _ => base.join("defaults", app.config.layout).text());
+const index = (app, name) =>
+  tryreturn(async _ => File.read(`${app.paths.pages.join(name)}`))
+    .orelse(async _ => base.join("defaults", app.config.pages.app).text());
 
 const hash = async (string, algorithm = "sha-384") => {
   const encoder = new TextEncoder();
@@ -87,8 +87,8 @@ export default async (config, root, log) => {
       };
     },
     handlers: {...handlers},
-    render: async ({body = "", head = "", layout} = {}) => {
-      const html = await index(app, layout ?? config.layout);
+    render: async ({body = "", head = "", page} = {}) => {
+      const html = await index(app, page ?? config.page);
       // inline: <script type integrity>...</script>
       // outline: <script type integrity src></script>
       const script = ({inline, code, type, integrity, src}) => inline
@@ -100,7 +100,7 @@ export default async (config, root, log) => {
         ? tag({name: "style", code})
         : tag({name: "link", attributes: {rel, href}, close: false});
       const heads = app.assets
-        .toSorted(a => a.type === "importmap" ? -1 : 1)
+        .toSorted(({type}) => -1 * (type === "importmap"))
         .map(({src, code, type, inline, integrity}) =>
           type === "style"
             ? style({inline, code, href: src})
@@ -147,7 +147,6 @@ export default async (config, root, log) => {
         ...this.importmaps};
     },
     types: await loaders.types(log, paths.types),
-    guards: await loaders.guards(log, paths.guards),
     routes: await loaders.routes(log, paths.routes),
   };
 

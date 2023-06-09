@@ -27,8 +27,8 @@ subscribers accept different types of parameters, depending on the hook.
 ├─ # *begin* client request phase, hooks here are called per request
 ├─ `handle` # on client request
 │   └─ # modules handle client request themselves or yield to `next`
-├─ # if yielded through, match request against static resources in `public`
-├─ # if unmatched, match request against in-memory resources
+├─ # if yielded through, match request against static assets in `public`
+├─ # if unmatched, match request against in-memory assets
 | # if yielded through, match route
 ├─ `route` # if previously unmatched
 │   └─ # modules handle routing request themselves or yield to `next`
@@ -194,7 +194,7 @@ the start-up phase and is serving content
 
 This hook allows modules to handle requests themselves, before Primate tries
 to handle them on its own. It has the highest priority, being resolved before
-any static or in-memory resources are served and before route functions are
+any static or in-memory assets are served and before route functions are
 matched. It is particularly useful if you want to treat certain routes in
 a special way, but otherwise let Primate do the routing for you.
 

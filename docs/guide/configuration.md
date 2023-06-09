@@ -40,7 +40,6 @@ export default {
     routes: "routes",
     components: "components",
     types: "types",
-    guards: "guards",
   },
   modules: [],
   dist: "app",
@@ -105,7 +104,6 @@ export default {
     routes: "routes",
     components: "components",
     types: "types",
-    guards: "guards",
   },
   modules: [],
   dist: "app",
@@ -185,10 +183,10 @@ consult the [security section][security-csp].
 
 Default `"/"`
 
-The path from which to serve static resources (those located in the `static`
-directory and copied during runtome to the `public` directory). Static
-resources take precedence over routes. This option allows you to have all
-static resources served from a subpath, like `/public`.
+The path from which to serve static assets (those located in the `static`
+directory and copied during runtome to the `public` directory). Static assets
+take precedence over routes. This option allows you to have all static assets
+served from a subpath, like `/public`.
 
 ### http.static.pure
 
@@ -258,13 +256,6 @@ Default `"types"`
 
 The directory where types are located. [Types](/guide/types) can be
 used to limit the range of possible values that a variable can hold.
-
-### paths.guards
-
-Default `"guards"`
-
-The directory where guards are located. [Guards](/guide/guards) can be
-used to limit access to routes based on user privilege.
 
 ### modules
 
