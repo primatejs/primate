@@ -12,7 +12,8 @@ const getBody = async (app, partial, file) => {
 };
 
 const handler = path => (name, {status = 200, partial = false} = {}) =>
-  async (app, headers) => {
+  async app => {
+    const headers = app.headers();
     const styleSrc = "style-src 'self' 'unsafe-inline';";
     const csp = `${headers["Content-Security-Policy"]}${styleSrc}`;
     const options = {

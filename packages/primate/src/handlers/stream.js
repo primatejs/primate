@@ -1,6 +1,6 @@
-export default (body, {status = 200} = {}) => (_, headers) => [
+export default (body, {status = 200} = {}) => app => [
   body, {
     status,
-    headers: {...headers, "Content-Type": "application/octet-stream"},
+    headers: {...app.headers(), "Content-Type": "application/octet-stream"},
   },
 ];

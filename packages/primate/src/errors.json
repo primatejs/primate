@@ -36,9 +36,9 @@
       "fix": "check errors in config file by running {1}",
       "level": "Error"
     },
-    "InvalidGuard": {
-      "message": "invalid guard {0}",
-      "fix": "use only functions for the default export of guards",
+    "InvalidDefaultExport": {
+      "message": "invalid default export at {0}",
+      "fix": "use only functions for the default export",
       "level": "Error"
     },
     "InvalidPathParameter": {
@@ -49,11 +49,6 @@
     "InvalidRouteName": {
       "message": "invalid route name {0}",
       "fix": "do not use dots in route names",
-      "level": "Error"
-    },
-    "InvalidType": {
-      "message": "invalid type {0}",
-      "fix": "use only functions for the default export of types",
       "level": "Error"
     },
     "InvalidTypeName": {
@@ -103,7 +98,7 @@
     },
     "NoRouteToPath": {
       "message": "no {0} route to {1}",
-      "fix": "if unintentional create a route at {2}",
+      "fix": "if unintentional create a route at {2}.js",
       "level": "Info"
     },
     "ReservedTypeName": {

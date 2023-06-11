@@ -17,7 +17,7 @@ const library = import.meta.runtime?.library ?? "node_modules";
 // use user-provided file or fall back to default
 const index = (app, name) =>
   tryreturn(async _ => File.read(`${app.paths.pages.join(name)}`))
-    .orelse(async _ => base.join("defaults", app.config.pages.app).text());
+    .orelse(async _ => base.join("defaults", app.config.index).text());
 
 const hash = async (string, algorithm = "sha-384") => {
   const encoder = new TextEncoder();
@@ -70,7 +70,7 @@ export default async (config, root, log) => {
         await to.file.write(file);
       }));
     },
-    generateHeaders: _ => {
+    headers: _ => {
       const csp = Object.keys(http.csp).reduce((policy_string, key) =>
         `${policy_string}${key} ${http.csp[key]};`, "");
       const scripts = app.assets
@@ -88,7 +88,7 @@ export default async (config, root, log) => {
     },
     handlers: {...handlers},
     render: async ({body = "", head = "", page} = {}) => {
-      const html = await index(app, page ?? config.page);
+      const html = await index(app, page ?? config.index);
       // inline: <script type integrity>...</script>
       // outline: <script type integrity src></script>
       const script = ({inline, code, type, integrity, src}) => inline
@@ -154,6 +154,7 @@ export default async (config, root, log) => {
 
   return {...app,
     modules,
+    layoutDepth: Math.max(...app.routes.map(({layouts}) => layouts.length)) + 1,
     route: hooks.route({...app, modules, dispatch: dispatch(app.types)}),
     parse: hooks.parse(dispatch(app.types)),
   };

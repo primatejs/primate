@@ -1,6 +1,7 @@
 import {keymap} from "runtime-compat/object";
 import {tryreturn} from "runtime-compat/flow";
 import errors from "../errors.js";
+import {respond} from "./respond/exports.js";
 
 // insensitive-case equal
 const ieq = (left, right) => left.toLowerCase() === right.toLowerCase();
@@ -9,7 +10,7 @@ const ieq = (left, right) => left.toLowerCase() === right.toLowerCase();
 export const invalid = route => /\./u.test(route);
 
 export default app => {
-  const {types, routes, config: {explicit}, modules, dispatch} = app;
+  const {types, routes, config: {explicit, paths}, modules, dispatch} = app;
 
   const isType = (groups, path) => Object
     .entries(groups ?? {})
@@ -29,15 +30,14 @@ export default app => {
   const find = (method, path) => routes.find(route =>
     isMethod({route, method, path}));
   const guardError = Symbol("guardError");
+  const index = path => path === "" ? "index" : path;
 
-  return request => {
+  return async request => {
     const {original: {method}, url: {pathname}} = request;
-    const route = find(method, pathname) ??
-      errors.NoRouteToPath.throw(
-        method,
-        pathname,
-        `${app.config.paths.routes}${pathname === "" ? "index" : pathname}.js`
-      );
+    const path = pathname.endsWith("/") && pathname !== "/"
+      ? pathname.slice(0, -1) : pathname;
+    const route = find(method, path) ??
+      errors.NoRouteToPath.throw(method, path, `${paths.routes}${index(path)}`);
 
     // check guards
     const {guards} = route;
@@ -54,7 +54,7 @@ export default app => {
       });
     } catch (error) {
       if (error.type === guardError) {
-        return error.result;
+        return (await respond(error.result))(app);
       }
       // rethrow if not guard error
       throw error;
@@ -64,9 +64,12 @@ export default app => {
     const handlers = [...modules.route, route.handler]
       .reduceRight((acc, handler) => input => handler(input, acc));
 
-    return handlers({...request,
-      path: dispatch(keymap(route.path?.exec(pathname).groups,
+    const layouts = await Promise.all(route.layouts.map(layout =>
+      layout(request)));
+
+    return (await respond(await handlers({...request,
+      path: dispatch(keymap(route.path?.exec(path).groups,
         key => key.split("$")[0])),
-    });
+    })))(app, {layouts});
   };
 };

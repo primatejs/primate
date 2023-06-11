@@ -1,9 +1,9 @@
 import {Status} from "runtime-compat/http";
 
-export default (Location, {status = Status.Found} = {}) => (_, headers) => [
+export default (Location, {status = Status.Found} = {}) => app => [
   /* no body */
   null, {
     status,
-    headers: {...headers, Location},
+    headers: {...app.headers(), Location},
   },
 ];

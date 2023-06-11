@@ -8,7 +8,7 @@ export default async ({
   log,
   directory,
   filter = identity,
-  name,
+  name = "routes",
   recursive = true,
 } = {}) => {
   const objects = directory === undefined ? [] : await Promise.all(

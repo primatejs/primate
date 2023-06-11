@@ -1,6 +1,6 @@
 import {Response, Status} from "runtime-compat/http";
 import {tryreturn} from "runtime-compat/flow";
-import {mime, isResponse, respond} from "./handle/exports.js";
+import {mime, isResponse} from "./respond/exports.js";
 import {invalid} from "./route.js";
 import {error as clientError} from "../handlers/exports.js";
 import errors from "../errors.js";
@@ -8,16 +8,16 @@ import errors from "../errors.js";
 export default app => {
   const {config: {http, build}, paths} = app;
 
-  const run = async (request, headers) => {
+  const run = async (request) => {
     const {pathname} = request.url;
     return invalid(pathname)
       ? errors.NoFileForPath.throw(pathname, paths.static)
-      : (await respond(await app.route(request)))(app, headers);
+      : app.route(request);
   };
 
   const route = async request =>
     tryreturn(async _ => {
-      const response = await run(request, app.generateHeaders());
+      const response = await run(request);
       return isResponse(response) ? response : new Response(...response);
     }).orelse(async error => {
       app.log.auto(error);

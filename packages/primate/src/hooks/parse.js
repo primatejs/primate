@@ -40,8 +40,7 @@ export default dispatch => async request => {
   };
 
   const cookies = request.headers.get("cookie");
-  const _url = request.url;
-  const url = new URL(_url.endsWith("/") ? _url.slice(0, -1) : _url);
+  const url = new URL(request.url);
 
   const body = await parseBody(request);
   return {

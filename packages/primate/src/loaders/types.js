@@ -1,11 +1,13 @@
+import {Path} from "runtime-compat/fs";
 import errors from "../errors.js";
 import {default as fs, lc_first as filter} from "./common.js";
 
 export default async (log, directory, load = fs) => {
   const types = await load({log, directory, name: "types", filter});
 
-  types.some(([name, type]) =>
-    typeof type !== "function" && errors.InvalidType.throw(name));
+  const resolve = name => new Path(directory, name);
+  types.some(([name, type]) => typeof type !== "function"
+    && errors.InvalidDefaultExport.throw(resolve(`${name}.js`)));
 
   types.every(([name]) =>
     /^(?:[a-z][^\W_]*)$/u.test(name) || errors.InvalidTypeName.throw(name));
