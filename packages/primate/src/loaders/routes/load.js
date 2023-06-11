@@ -5,7 +5,7 @@ export default type => async (log, directory, load) => {
   const filter = path => new RegExp(`^\\+${type}.js$`, "u").test(path.name);
 
   const replace = new RegExp(`\\+${type}`, "u");
-  const objects = (await load({log, directory, filter}))
+  const objects = (await load({log, directory, filter, warn: false}))
     .map(([name, object]) => [name.replace(replace, () => ""), object])
     .toSorted(([a], [b]) => a.length - b.length);
 

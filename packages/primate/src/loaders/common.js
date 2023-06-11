@@ -1,8 +1,12 @@
 import {Path} from "runtime-compat/fs";
 import {identity} from "runtime-compat/function";
-import {warn} from "../errors.js";
+import errors from "../errors.js";
 
 const ending = ".js";
+
+const empty = log => (objects, name, path) =>
+  Object.keys(objects).length === 0
+    && errors.EmptyDirectory.warn(log, name, path);
 
 export default async ({
   log,
@@ -10,6 +14,7 @@ export default async ({
   filter = identity,
   name = "routes",
   recursive = true,
+  warn = true,
 } = {}) => {
   const objects = directory === undefined ? [] : await Promise.all(
     (await Path.collect(directory, /^.*.js$/u, {recursive}))
@@ -18,7 +23,7 @@ export default async ({
         `${path}`.replace(directory, _ => "").slice(1, -ending.length),
         (await import(path)).default,
       ]));
-  await Path.exists(directory) && warn.empty(log)(objects, name, directory);
+  warn && await Path.exists(directory) && empty(log)(objects, name, directory);
 
   return objects;
 };
