@@ -1,12 +1,13 @@
 {
   "name": "@primate/ws",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "description": "Primate WebSocket module",
   "homepage": "https://primatejs.com/modules/ws",
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
   "files": [
     "src/**/*.js",
+    "src/errors.json",
     "!src/**/*.spec.js"
   ],
   "repository": {
@@ -15,11 +16,11 @@
     "directory": "packages/ws"
   },
   "dependencies": {
-    "runtime-compat": "^0.19.1",
+    "runtime-compat": "^0.20.2",
     "ws": "^8.13.0"
   },
   "peerDependencies": {
-    "primate": "0.19"
+    "primate": "0.20"
   },
   "type": "module",
   "exports": "./src/exports.js"

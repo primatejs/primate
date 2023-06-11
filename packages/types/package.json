@@ -1,6 +1,6 @@
 {
   "name": "@primate/types",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Primate types module",
   "homepage": "https://primatejs.com/modules/types",
   "bugs": "https://github.com/primatejs/primate/issues",
@@ -15,10 +15,10 @@
     "directory": "packages/types"
   },
   "dependencies": {
-    "runtime-compat": "^0.20.1"
+    "runtime-compat": "^0.20.2"
   },
   "peerDependencies": {
-    "primate": "0.19"
+    "primate": "0.20"
   },
   "type": "module",
   "exports": "./src/exports.js"

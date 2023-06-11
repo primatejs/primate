@@ -1,6 +1,6 @@
 {
   "name": "@primate/htmx",
-  "version": "0.14.0",
+  "version": "0.15.0",
   "description": "Primate HTMX module",
   "homepage": "https://primatejs.com/modules/htmx",
   "bugs": "https://github.com/primatejs/primate/issues",
@@ -16,10 +16,10 @@
   },
   "dependencies": {
     "htmx.org": "^1.9.2",
-    "runtime-compat": "^0.20.1"
+    "runtime-compat": "^0.20.2"
   },
   "peerDependencies": {
-    "primate": "0.19"
+    "primate": "0.20"
   },
   "type": "module",
   "exports": "./src/exports.js"

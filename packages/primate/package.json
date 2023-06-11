@@ -1,13 +1,14 @@
 {
   "name": "primate",
-  "version": "0.19.4",
+  "version": "0.20.1",
   "description": "Expressive, minimal and extensible web framework",
   "homepage": "https://primatejs.com",
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
   "files": [
     "src/**/*.js",
-    "src/defaults/index.html",
+    "src/errors.json",
+    "src/defaults/app.html",
     "!src/**/*.spec.js"
   ],
   "bin": "src/bin.js",
