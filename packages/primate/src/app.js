@@ -50,6 +50,8 @@ export default async (config, root, log) => {
     http.ssl.cert = root.join(http.ssl.cert);
   }
 
+  const types = await loaders.types(log, paths.types);
+
   const app = {
     config,
     secure,
@@ -146,8 +148,9 @@ export default async (config, root, log) => {
         ...valmap(exports, value => new Path(root, build.modules, value).path),
         ...this.importmaps};
     },
-    types: await loaders.types(log, paths.types),
+    types,
     routes: await loaders.routes(log, paths.routes),
+    dispatch: dispatch(types),
   };
 
   const modules = await loaders.modules(app, root, config);
@@ -155,7 +158,7 @@ export default async (config, root, log) => {
   return {...app,
     modules,
     layoutDepth: Math.max(...app.routes.map(({layouts}) => layouts.length)) + 1,
-    route: hooks.route({...app, modules, dispatch: dispatch(app.types)}),
-    parse: hooks.parse(dispatch(app.types)),
+    route: hooks.route({...app, modules}),
+    parse: hooks.parse(dispatch(types)),
   };
 };

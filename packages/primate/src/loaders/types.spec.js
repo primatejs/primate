@@ -11,8 +11,8 @@ const directory = new Path("/types");
 const types = defs => loader(log, directory, () => defs);
 
 export default test => {
-  test.case("errors.InvalidType", assert => {
-    const throws = mark("invalid type {0}", "user");
+  test.case("errors.InvalidDefaultExport", assert => {
+    const throws = mark("invalid default export at {0}", "/types/user.js");
     assert(() => types([["user", false]])).throws(throws);
   });
 

@@ -31,6 +31,7 @@ export default {
     layouts: "layouts",
   },
   build: {
+    includes: [],
     static: "static",
     app: "app",
     modules: "modules",

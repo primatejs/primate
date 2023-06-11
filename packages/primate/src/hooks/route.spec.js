@@ -1,7 +1,8 @@
-import route from "./route.js";
-import {mark} from "../Logger.js";
 import dispatch from "../dispatch.js";
 import * as loaders from "../loaders/exports.js";
+import route from "./route.js";
+import {mark} from "../Logger.js";
+const undef = undefined;
 
 const app = {
   config: {
@@ -12,10 +13,11 @@ const app = {
       explicit: false,
     },
   },
+  headers: () => ({}),
   modules: {
     route: [],
   },
-  routes: await loaders.routes(undefined, undefined, () => [
+  routes: await loaders.routes(undef, undef, ({warn = true}) => (warn ? [
     "index",
     "user",
     "users/{userId}a",
@@ -31,7 +33,8 @@ const app = {
     "users4/{_userId}/{_commentId}",
     "users5/{truthy}",
     "{uuid}/{Uuid}/{UUID}",
-  ].map(pathname => [pathname, {get: request => request}])),
+  ] : []).map(pathname => [pathname, {get: request => request}])
+  ),
   types: {
     user: id => /^\d*$/u.test(id),
     comment: id => /^\d*$/u.test(id),
@@ -59,32 +62,35 @@ export default test => {
   };
 
   test.reassert(assert => ({
-    match: (url, result) => {
-      assert(r(url).url.pathname).equals(result ?? url);
+    match: (url, expected) => {
+      assert(r(url).pathname.toString()).equals(expected.toString());
     },
     fail: (url, result) => {
       const throws = mark("no {0} route to {1}", "GET", result ?? url);
       assert(() => r(url)).throws(throws);
     },
-    path: (url, result) => assert(r(url).path.get()).equals(result),
+    path: (url, result) => {
+      assert(r(url).path.get()).equals(result);
+    },
     assert,
   }));
 
   test.case("index route", ({match}) => {
-    match("/");
+    match("/", /^\/$/u);
   });
   test.case("simple route", ({match}) => {
-    match("/user");
+    match("/user", /^\/user$/u);
   });
   test.case("param match/fail", ({match, fail}) => {
-    match("/users/1a");
-    match("/users/aa");
-    match("/users/ba?key=value", "/users/ba");
+    const re = /^\/users\/(?<userId>[^/]{1,}?)a$/u;
+    match("/users/1a", re);
+    match("/users/aa", re);
+    match("/users/ba?key=value", re);
     fail("/user/1a");
     fail("/users/a");
     fail("/users/aA");
     fail("/users//a");
-    fail("/users/?a", "/users/");
+    fail("/users/?a", "/users");
   });
   test.case("no params", ({path}) => {
     path("/", {});

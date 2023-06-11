@@ -1,18 +1,48 @@
 import {Response, Status} from "runtime-compat/http";
 import {tryreturn} from "runtime-compat/flow";
-import {mime, isResponse} from "./respond/exports.js";
+import {mime, isResponse, respond} from "./respond/exports.js";
 import {invalid} from "./route.js";
 import {error as clientError} from "../handlers/exports.js";
 import errors from "../errors.js";
 
+const guardError = Symbol("guardError");
+
 export default app => {
   const {config: {http, build}, paths} = app;
 
-  const run = async (request) => {
+  const run = async request => {
     const {pathname} = request.url;
-    return invalid(pathname)
+    const {path, guards, layouts, handler} = invalid(pathname)
       ? errors.NoFileForPath.throw(pathname, paths.static)
-      : app.route(request);
+      : await app.route(request);
+
+    // handle guards
+    try {
+      guards.map(guard => {
+        const result = guard(request);
+        if (result === true) {
+          return undefined;
+        }
+        const error = new Error();
+        error.result = result;
+        error.type = guardError;
+        throw error;
+      });
+    } catch (error) {
+      if (error.type === guardError) {
+        return (await respond(error.result))(app);
+      }
+      // rethrow if not guard error
+      throw error;
+    }
+
+    // handle request
+    const handlers = [...app.modules.route, handler]
+      .reduceRight((chain, next) => input => next(input, chain));
+
+    return (await respond(await handlers({...request, path})))(app, {
+      layouts: await Promise.all(layouts.map(layout => layout(request))),
+    });
   };
 
   const route = async request =>

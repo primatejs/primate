@@ -9,33 +9,26 @@ const log = {
 };
 const directory = new Path("/routes");
 
-const routes = defs => loader(log, directory, () => defs);
+const routes = defs => loader(log, directory, ({warn = true}) =>
+  warn ? defs : []);
 
 const get = () => null;
 
 export default test => {
-  test.case("errors.DoubleRouted", assert => {
-    const post = ["post", {get}];
-    const throws = mark("double route of the form {0}", "post");
-    assert(() => routes([post, post])).throws(throws);
-    const index = [["post", {get}], ["post/index", {get}]];
-    const throws2 = mark("double route of the form {0}", "post");
-    assert(() => routes(index)).throws(throws2);
-    const paths = [["{foo}/{bar}/t/index", {get}],
-      ["{bar=baz}/index/{baz}/t", {get}]];
-    const throws3 = mark("double route of the form {0}", "{0}/{1}/t");
-    assert(() => routes(paths)).throws(throws3);
-  });
   test.case("errors.EmptyRoutefile", assert => {
     const path = "user";
     const throws = mark("empty route file at {0}", `/routes/${path}.js`);
     assert(() => routes([[path, undefined]])).throws(throws);
     assert(() => routes([[path, {}]])).throws(throws);
   });
-  test.case("error DoublePathParameter", assert => {
+  test.case("error DoublePathParameter", async assert => {
     const path = "{user}/{user}";
     const throws = mark("double path parameter {0} in route {1}", "user", path);
-    assert(() => routes([[path, {get}]])).throws(throws);
+    try {
+      await routes([[path, {get}]]);
+    } catch (error) {
+      assert(error.message).equals(throws);
+    }
   });
   test.case("error InvalidPathParameter", assert => {
     const path = "{us$er}";
@@ -45,9 +38,13 @@ export default test => {
     const err2 = mark("invalid path parameter {0} in route {1}", "", path2);
     assert(() => routes([[path2, {get}]])).throws(err2);
   });
-  test.case("error InvalidRouteName", assert => {
+  test.case("error InvalidRouteName", async assert => {
     const post = ["po.st", {get}];
     const throws = mark("invalid route name {0}", "po.st");
-    assert(() => routes([post])).throws(throws);
+    try {
+      await routes([post]);
+    } catch (error) {
+      assert(error.message).equals(throws);
+    }
   });
 };

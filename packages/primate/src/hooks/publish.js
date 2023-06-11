@@ -1,5 +1,6 @@
 import {Path} from "runtime-compat/fs";
 import {identity} from "runtime-compat/function";
+import copy_includes from "./copy_includes.js"
 
 const post = async app => {
   const {config} = app;
@@ -33,6 +34,17 @@ const post = async app => {
         code: `import "../${config.build.static}/${file.name}";`});
     }
   }));
+
+  const source = `${app.paths.client}`;
+  const {root} = app.config.http.static;
+  // copy additional subdirectories to build/client
+  await copy_includes(app, "client", async to =>
+    Promise.all((await to.collect(/\.js$/u)).map(async script => {
+      const code = await script.text();
+      const src = new Path(root, script.path.replace(source, () => ""));
+      await app.publish({src, code, type: "module"});
+    }))
+  );
 };
 
 export default async app => {

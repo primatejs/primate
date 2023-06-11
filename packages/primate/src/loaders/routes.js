@@ -37,7 +37,7 @@ export default async (log, directory, load = fs) => {
     return Object.entries(imported).map(([method, handler]) => ({
       method,
       handler,
-      path: make(path.endsWith("/") ? path.slice(0, -1) : path),
+      pathname: make(path.endsWith("/") ? path.slice(0, -1) : path),
       guards: guards.filter(filter(path)).map(([, guard]) => guard),
       layouts: layouts.filter(filter(path)).map(([, layout]) => layout),
     }));
