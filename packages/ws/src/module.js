@@ -27,11 +27,14 @@ export default () => {
           body: req,
         });
         try {
-          const response = await app.route(await app.parse(request));
+          const parsed = await app.parse(request);
+          const {handler, path} = await app.route(parsed);
+          const response = await handler({...parsed, path});
           response?.message ?? errors.InvalidHandler.throw(
             "ws", "message", "{message(payload) { return payload; }}");
           wss.handleUpgrade(req, socket, head, up(response));
         } catch (error) {
+          console.log(error);
           socket.destroy();
           if (error.level !== undefined) {
             app.log.auto(error);
