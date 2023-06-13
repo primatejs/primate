@@ -1,6 +1,6 @@
 {
   "name": "primate",
-  "version": "0.20.1",
+  "version": "0.20.2",
   "description": "Expressive, minimal and extensible web framework",
   "homepage": "https://primatejs.com",
   "bugs": "https://github.com/primatejs/primate/issues",
@@ -19,6 +19,9 @@
   },
   "dependencies": {
     "runtime-compat": "^0.20.2"
+  },
+  "engines": {
+    "node": ">=18.16"
   },
   "type": "module",
   "exports": "./src/exports.js"
