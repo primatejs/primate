@@ -8,6 +8,7 @@ import * as hooks from "./hooks/exports.js";
 import * as loaders from "./loaders/exports.js";
 import dispatch from "./dispatch.js";
 import {print} from "./Logger.js";
+import toSorted from "./toSorted.js";
 
 const base = new Path(import.meta.url).up(1);
 // do not hard-depend on node
@@ -101,8 +102,8 @@ export default async (config, root, log) => {
       const style = ({inline, code, href, rel = "stylesheet"}) => inline
         ? tag({name: "style", code})
         : tag({name: "link", attributes: {rel, href}, close: false});
-      const heads = app.assets
-        .toSorted(({type}) => -1 * (type === "importmap"))
+      const heads = toSorted(app.assets,
+        ({type}) => -1 * (type === "importmap"))
         .map(({src, code, type, inline, integrity}) =>
           type === "style"
             ? style({inline, code, href: src})
