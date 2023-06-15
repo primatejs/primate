@@ -1,3 +1,4 @@
+import crypto from "runtime-compat/crypto";
 import {Path} from "runtime-compat/fs";
 import * as compiler from "svelte/compiler";
 import {tryreturn} from "runtime-compat/flow";
