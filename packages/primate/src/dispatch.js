@@ -1,5 +1,5 @@
 import {is, maybe} from "runtime-compat/dyndef";
-import {tryreturn} from "runtime-compat/flow";
+import {tryreturn} from "runtime-compat/sync";
 import {map} from "runtime-compat/object";
 import errors from "./errors.js";
 

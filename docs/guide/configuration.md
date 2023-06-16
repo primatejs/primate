@@ -30,19 +30,25 @@ export default {
     },
     static: {
       root: "/",
-      pure: false,
     },
   },
+  index: "app.html",
   paths: {
-    layouts: "layouts",
-    static: "static",
-    public: "public",
-    routes: "routes",
+    build: "build",
     components: "components",
+    pages: "pages",
+    routes: "routes",
+    static: "static",
     types: "types",
   },
+  build: {
+    includes: [],
+    static: "static",
+    app: "app",
+    modules: "modules",
+    index: "index.js",
+  },
   modules: [],
-  dist: "app",
   types: {
     explicit: false,
   },
@@ -94,19 +100,25 @@ export default {
     },
     static: {
       root: "/",
-      pure: false,
     },
   },
+  index: "app.html",
   paths: {
-    layouts: "layouts",
-    static: "static",
-    public: "public",
-    routes: "routes",
+    build: "build",
     components: "components",
+    pages: "pages",
+    routes: "routes",
+    static: "static",
     types: "types",
   },
+  build: {
+    includes: [],
+    static: "static",
+    app: "app",
+    modules: "modules",
+    index: "index.js",
+  },
   modules: [],
-  dist: "app",
   types: {
     explicit: false,
   },
@@ -120,7 +132,7 @@ Default `"/"`
 Your app's base path. If your app is running from a domain's root path, leave
 the default as is. If your app is running from a subpath, adjust accordingly.
 
-This is used in CSP paths and the HTML `<base>` tag.
+This is used in CSP paths.
 
 ### logger
 
@@ -156,6 +168,7 @@ The HTTP host to be used. This value is directly passed to the runtime.
 Default `6161`
 
 The HTTP port to be used. This value is directly passed to the runtime.
+
 ### http.csp
 
 Default
@@ -164,6 +177,8 @@ Default
 {
 /* all content must come from own origin, excluding subdomains */
 "default-src": "'self'",
+/* styles must come from own origin, excluding subdomains */
+"style-src": "'self'",
 /* disallow <object>, <embed> and <applet> elements */
 "object-src": "'none'",
 /* disallow embedding */
@@ -176,26 +191,17 @@ Default
 ```
 
 The Content Security Policy (CSP) to be used. Primate's defaults are strictly
-secure, you need to opt in for decreased security. For more information,
-consult the [security section][security-csp].
+secure, you would need to change them for decreased security. For more
+information, consult the [security section][security-csp].
 
 ### http.static.root
 
 Default `"/"`
 
 The path from which to serve static assets (those located in the `static`
-directory and copied during runtome to the `public` directory). Static assets
-take precedence over routes. This option allows you to have all static assets
-served from a subpath, like `/public`.
-
-### http.static.pure
-
-Default `false`
-
-Whether all files in `static` should be copied to `public`. By default, certain
-files (JavaScript, CSS) won't be copied over and instead be loaded into memory
-to be served from there. If you're running a pure static server, it might make
-sense to set this to `true`.
+directory and copied during runtome to the `build/client/static` directory).
+Static assets take precedence over routes. This option allows you to have all
+static assets served from a subpath, like `/public`.
 
 ### http.ssl.{key,cert}
 
@@ -210,37 +216,25 @@ Primate does not load the key or certificate into memory. It only resolves
 the paths as necessary and passes them to the [runtime][runtime].
 !!!
 
+### index
+
+Default: `app.html`
+
+Name of the default HTML page located in `paths.pages`. If `paths.pages` does
+not exist or contain this file, Primate will use its
+[default app.html](default-app-html).
+
 ### paths
 
 Locations of standard directories for different aspects of Primate. If any of
 these paths are relative, they will be relative to project root.
 
-### paths.layouts
+### paths.build
 
-Default `"layouts"`
+Default `"build"`
 
-The directory where layouts are loaded from. If specified as a relative path,
-will be relative to project root. If this directory doesn't exist and you use
-the `view` or `html` handler, Primate will use its default `index.html` as a
-layout.
-
-### paths.static
-
-Default `"static"`
-
-The directory where static assets are copied from.
-
-### paths.public
-
-Default `"public"`
-
-The directory where static assets are copied to and served from.
-
-### paths.routes
-
-Default `"routes"`
-
-The directory where the hierarchy of route files resides.
+The directory where your app's server and client files are created and served
+from.
 
 ### paths.components
 
@@ -250,12 +244,68 @@ The directory where components are located. [Components](/guide/components) are
 used as HTML files or by frontend frameworks. The `view` handler will try to
 load any referenced component file from this directory.
 
+### paths.pages
+
+Default `"pages"`
+
+The directory where pages are loaded from. If this directory doesn't exist and
+you use the `view` or `html` handler, Primate will use its default `app.html`
+as the default page.
+
+### paths.routes
+
+Default `"routes"`
+
+The directory where the hierarchy of route files resides.
+
+### paths.static
+
+Default `"static"`
+
+The directory where static assets are copied from to the client part of the 
+build directory, located in `{paths.build}/client/{build.static}`, where
+`paths.build` and `build.static` are configuration options.
+
 ### paths.types
 
 Default `"types"`
 
 The directory where types are located. [Types](/guide/types) can be
 used to limit the range of possible values that a variable can hold.
+
+### build
+
+Build options.
+
+### build.includes
+
+A list of directories to be included in the server and client build. May not
+include `routes`, `components`, `build`, or any of the configuration options
+`build.static`, `build.app`, `build.modules`.
+
+### build.static
+
+The subdirectory target of files copied from `paths.static` into the
+`client` directory in `paths.build`. If `paths.build` is set to `build` and
+`build.static` to `static`, will be copied to `build/client/static`.
+
+### build.app
+
+The subdirectory target of files copied from `paths.components` into the
+`server` and `client` directories in `paths.build`. If `paths.build` is set to
+`build` and `build.app` to `app`, will be copied to `build/server/app` and
+`build/client/app`.
+
+### build.modules
+
+The subdirectory target of module imports copied into the `server` and `client` 
+directories in `paths.build`. If `paths.build` is set to `build` and
+`build.modules` to `modules`, will be copied to `build/server/modules` and
+`build/client/modules`.
+
+### build.index
+
+Filename of the index JavaScript used to export all components.
 
 ### modules
 
@@ -265,22 +315,14 @@ Instantiated modules. The order of loading modules affects the order in which
 their hooks will be evaluated, and modules can depend on each using implicit or
 explicit [load hooks][hooks-load].
 
-### dist
-
-Default `"app"`
-
-The name of consolidated JavaScript and CSS files to be generated by bundlers.
-This is relevant for modules which need to know where to call entry
-components from.
-
-## layouts/index.html
+## pages/app.html
 
 If you use the `view` or `html` [handler](/guide/requests#view), Primate will
-embed the generated HTML from the handler into this file. If an `index.html`
-doesn't exist in the `layouts` directory, Primate will fall back to its default
+embed the generated HTML from the handler into this file. If an `app.html`
+doesn't exist in the `pages` directory, Primate will fall back to its default
 index file.
 
-```html caption=layouts/index.html | default fallback
+```html caption=pages/app.html
 <!doctype html>
 <html>
   <head>
@@ -292,7 +334,7 @@ index file.
 </html>
 ```
 
-If you create an `index.html` file inside the `layouts` directory, Primate will
+If you create an `app.html` file inside the `pages` directory, Primate will
 use it instead. When creating your own file, remember to include the `%head%`
 and `%body%` placeholders.
 
@@ -311,6 +353,8 @@ handler generates.
 [security-logging]: /guide/security#logging
 [security-csp]: /guide/security#csp
 [hooks-load]: /guide/hooks#load
+[default-app-html]:
+https://github.com/primatejs/primate/blob/master/packages/primate/src/defaults/app-html
 [default-config]:
 https://github.com/primatejs/primate/blob/master/packages/primate/src/defaults/primate.config.js
 [runtime]:

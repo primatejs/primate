@@ -7,8 +7,8 @@ setup you would use.
 .
 ├─ static/
 │  └─ [static assets]
-├─ layouts/
-│  └─ index.html
+├─ pages /
+│  └─ app.html
 ├─ primate.config.js
 ├─ package.json
 ├─ routes/
@@ -29,10 +29,11 @@ Static assets take precedence over [routes][routes]. You can configure
 Primate to serve static assets from a different path by setting the
 `http.static.root` option in your configuration to something else.
 
-## layouts
+## pages
 
-This directory contains a collection of layouts you use with your components,
-including the [default `index.html`][default-index] that you can override.
+This directory contains a collection of page templates you use with your
+components, including the [default `app.html`][default-page] that you can
+override.
 
 ## primate.config.js
 
@@ -107,5 +108,5 @@ frameworks](/modules/frameworks) such as React, Vue, Svelte or HTMX.
 [components]: /guide/components
 [default-config]:
 https://github.com/primatejs/primate/blob/master/packages/primate/src/defaults/primate.config.js
-[default-index]:
-https://github.com/primatejs/primate/blob/master/packages/primate/src/defaults/index.html
+[default-page]:
+https://github.com/primatejs/primate/blob/master/packages/primate/src/defaults/page.html

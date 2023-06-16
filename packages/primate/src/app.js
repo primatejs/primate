@@ -1,5 +1,5 @@
 import crypto from "runtime-compat/crypto";
-import {tryreturn} from "runtime-compat/flow";
+import {tryreturn} from "runtime-compat/async";
 import {File, Path} from "runtime-compat/fs";
 import {bold, blue} from "runtime-compat/colors";
 import {transform, valmap} from "runtime-compat/object";
@@ -17,8 +17,8 @@ const library = import.meta.runtime?.library ?? "node_modules";
 
 // use user-provided file or fall back to default
 const index = (app, name) =>
-  tryreturn(async _ => File.read(`${app.paths.pages.join(name)}`))
-    .orelse(async _ => base.join("defaults", app.config.index).text());
+  tryreturn(_ => File.read(`${app.paths.pages.join(name)}`))
+    .orelse(_ => base.join("defaults", app.config.index).text());
 
 const hash = async (string, algorithm = "sha-384") => {
   const encoder = new TextEncoder();
@@ -75,17 +75,20 @@ export default async (config, root, log) => {
     },
     headers: _ => {
       const csp = Object.keys(http.csp).reduce((policy_string, key) =>
-        `${policy_string}${key} ${http.csp[key]};`, "");
-      const scripts = app.assets
-        .filter(({type}) => type !== "style")
-        .map(asset => `'${asset.integrity}'`).join(" ");
-      const _csp = scripts === "" ? csp : `${csp}script-src 'self' ${scripts};`;
-      // remove inline assets
-      app.assets = app.assets.filter(({inline, type}) => !inline
-        || type === "importmap");
+        `${policy_string}${key} ${http.csp[key]};`, "")
+        .replace("script-src 'self'", `script-src 'self' ${
+          app.assets
+            .filter(({type}) => type !== "style")
+            .map(asset => `'${asset.integrity}'`).join(" ")
+        } `)
+        .replace("style-src 'self'", `style-src 'self' ${
+          app.assets
+            .filter(({type}) => type === "style")
+            .map(asset => `'${asset.integrity}'`).join(" ")
+        } `);
 
       return {
-        "Content-Security-Policy": _csp,
+        "Content-Security-Policy": csp,
         "Referrer-Policy": "same-origin",
       };
     },
@@ -109,6 +112,9 @@ export default async (config, root, log) => {
             ? style({inline, code, href: src})
             : script({inline, code, type, integrity, src})
         ).join("\n");
+      // remove inline assets
+      app.assets = app.assets.filter(({inline, type}) => !inline
+        || type === "importmap");
       return html
         .replace("%body%", _ => body)
         .replace("%head%", _ => `${head}${heads}`);
@@ -119,10 +125,11 @@ export default async (config, root, log) => {
         await base.directory.file.create();
         await base.file.write(code);
       }
-      const integrity = await hash(code);
       const _src = new Path(http.static.root).join(src ?? "");
-      app.assets.push({src: `${_src}`, code: inline ? code : "", type, inline, integrity});
-      return integrity;
+      if (inline || type === "style") {
+        app.assets.push({src: `${_src}`, code: inline ? code : "", type,
+          inline, integrity: await hash(code)});
+      }
     },
     bootstrap: ({type, code}) => {
       app.entrypoints.push({type, code});

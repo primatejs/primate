@@ -1,5 +1,5 @@
 import {keymap} from "runtime-compat/object";
-import {tryreturn} from "runtime-compat/flow";
+import {tryreturn} from "runtime-compat/sync";
 import errors from "../errors.js";
 
 // insensitive-case equal

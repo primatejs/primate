@@ -4,6 +4,7 @@ export default {
   base: "/",
   logger: {
     level: Logger.Warn,
+    trace: false,
   },
   http: {
     host: "localhost",
@@ -11,6 +12,7 @@ export default {
     csp: {
       "default-src": "'self'",
       "style-src": "'self'",
+      "script-src": "'self'",
       "object-src": "'none'",
       "frame-ancestors": "'none'",
       "form-action": "'self'",
@@ -23,12 +25,11 @@ export default {
   index: "app.html",
   paths: {
     build: "build",
-    static: "static",
     components: "components",
-    routes: "routes",
-    types: "types",
     pages: "pages",
-    layouts: "layouts",
+    routes: "routes",
+    static: "static",
+    types: "types",
   },
   build: {
     includes: [],

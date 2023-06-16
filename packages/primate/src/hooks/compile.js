@@ -1,8 +1,7 @@
-import copy_includes from "./copy_includes.js"
+import copy_includes from "./copy_includes.js";
 
 const pre = async app => {
-  const {paths, config} = app;
-  const build = config.build;
+  const {paths, config: {build}} = app;
 
   // remove build directory in case exists
   if (await paths.build.exists) {

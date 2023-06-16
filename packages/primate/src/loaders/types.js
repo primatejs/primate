@@ -1,6 +1,8 @@
 import {Path} from "runtime-compat/fs";
 import errors from "../errors.js";
-import {default as fs, lc_first as filter} from "./common.js";
+import fs from "./common.js";
+
+const filter = path => /^[a-z]/u.test(path.name);
 
 export default async (log, directory, load = fs) => {
   const types = await load({log, directory, name: "types", filter});

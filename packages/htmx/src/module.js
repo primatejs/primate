@@ -13,9 +13,14 @@ const getBody = async (app, partial, file) => {
 
 const handler = path => (name, {status = 200, partial = false} = {}) =>
   async app => {
+    const code = "import {htmx} from \"app\";";
+    await app.publish({code, type: "module", inline: true});
+
     const headers = app.headers();
-    const styleSrc = "style-src 'self' 'unsafe-inline';";
-    const csp = `${headers["Content-Security-Policy"]}${styleSrc}`;
+    const csp = headers["Content-Security-Policy"].replace(
+      "style-src 'self'", "style-src 'self' 'unsafe-inline'"
+    );
+
     const options = {
       status,
       headers: {
@@ -36,7 +41,7 @@ export default directory => ({
   async publish(app, next) {
     const name = "htmx.org";
     await app.import(name);
-    app.bootstrap({type: "script", code: `import * as htmx from "${name}";`});
+    app.bootstrap({type: "script", code: `export * as htmx from "${name}";`});
     return next(app);
   },
 });

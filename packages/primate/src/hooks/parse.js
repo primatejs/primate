@@ -1,5 +1,6 @@
 import {URL} from "runtime-compat/http";
-import {tryreturn} from "runtime-compat/flow";
+import {tryreturn} from "runtime-compat/sync";
+import {stringify} from "runtime-compat/streams";
 import errors from "../errors.js";
 
 const {fromEntries: from} = Object;
@@ -10,7 +11,6 @@ const contents = {
       .map(subpart => decodeURIComponent(subpart).replaceAll("+", " ")))),
   "application/json": body => JSON.parse(body),
 };
-const decoder = new TextDecoder();
 
 export default dispatch => async request => {
   const parseContentType = (contentType, body) => {
@@ -18,26 +18,13 @@ export default dispatch => async request => {
     return type === undefined ? body : type(body);
   };
 
-  const parseContent = async (contentType, body) =>
+  const parseContent = (contentType, body) =>
     tryreturn(_ => parseContentType(contentType, body))
       .orelse(_ => errors.CannotParseBody.throw(body, contentType));
 
-  const parseBody = async request => {
-    if (request.body === null) {
-      return null;
-    }
-    const reader = request.body.getReader();
-    const chunks = [];
-    let result;
-    do {
-      result = await reader.read();
-      if (result.value !== undefined) {
-        chunks.push(decoder.decode(result.value));
-      }
-    } while (!result.done);
-
-    return parseContent(request.headers.get("content-type"), chunks.join());
-  };
+  const parseBody = async ({body, headers}) => body === null
+    ? null
+    : parseContent(headers.get("content-type"), await stringify(body));
 
   const cookies = request.headers.get("cookie");
   const url = new URL(request.url);

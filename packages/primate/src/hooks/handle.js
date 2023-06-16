@@ -1,5 +1,5 @@
 import {Response, Status} from "runtime-compat/http";
-import {tryreturn} from "runtime-compat/flow";
+import {tryreturn} from "runtime-compat/async";
 import {mime, isResponse, respond} from "./respond/exports.js";
 import {invalid} from "./route.js";
 import {error as clientError} from "../handlers/exports.js";
@@ -8,7 +8,7 @@ import errors from "../errors.js";
 const guardError = Symbol("guardError");
 
 export default app => {
-  const {config: {http, build}, paths} = app;
+  const {config: {http: {static: {root}}, build}, paths} = app;
 
   const run = async request => {
     const {pathname} = request.url;
@@ -38,7 +38,7 @@ export default app => {
 
     // handle request
     const handlers = [...app.modules.route, handler]
-      .reduceRight((chain, next) => input => next(input, chain));
+      .reduceRight((next, last) => input => last(input, next));
 
     return (await respond(await handlers({...request, path})))(app, {
       layouts: await Promise.all(layouts.map(layout => layout(request))),
@@ -64,7 +64,6 @@ export default app => {
 
   const handle = async request => {
     const {pathname} = request.url;
-    const {root} = http.static;
     if (pathname.startsWith(root)) {
       const debased = pathname.replace(root, _ => "");
       // try static first
@@ -79,5 +78,5 @@ export default app => {
   };
 
   return [...app.modules.handle, handle]
-    .reduceRight((acc, handler) => input => handler(input, acc));
+    .reduceRight((next, last) => input => last(input, next));
 };

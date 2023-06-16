@@ -46,7 +46,6 @@ const handler = ({path}) => (name, props = {}, {status = 200, page} = {}) =>
     if (as_layout) {
       return make(name, props);
     }
-    const headers = app.headers();
     const components = (await Promise.all(layouts.map(layout =>
       layout(app, {as_layout: true})
     )))
@@ -76,10 +75,9 @@ const handler = ({path}) => (name, props = {}, {status = 200, page} = {}) =>
       });
     `;
 
-    const integrity = await app.publish({code, type, inline: true});
-    // hacky, CSP should be a map that gets flattened in the end
-    headers["Content-Security-Policy"] = headers["Content-Security-Policy"]
-      .replace("script-src 'self' ", `script-src 'self' '${integrity}' `);
+    await app.publish({code, type, inline: true});
+    // needs to be called before app.render
+    const headers = app.headers();
 
     // -> spread into new Response()
     return [await app.render({body: html, page}), {

@@ -22,6 +22,7 @@ const post = async app => {
     });
   }
 
+  // copy JavaScript and CSS files from `app.paths.static`
   const imports = await Path.collect(app.paths.static, /\.(?:js|css)$/u);
   await Promise.all(imports.map(async file => {
     const code = await file.text();
@@ -40,9 +41,8 @@ const post = async app => {
   // copy additional subdirectories to build/client
   await copy_includes(app, "client", async to =>
     Promise.all((await to.collect(/\.js$/u)).map(async script => {
-      const code = await script.text();
       const src = new Path(root, script.path.replace(source, () => ""));
-      await app.publish({src, code, type: "module"});
+      await app.publish({src, code: await script.text(), type: "module"});
     }))
   );
 };

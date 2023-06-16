@@ -1,5 +1,5 @@
 import {serve, Response, Status} from "runtime-compat/http";
-import {tryreturn} from "runtime-compat/flow";
+import {tryreturn} from "runtime-compat/async";
 import {identity} from "runtime-compat/function";
 import * as hooks from "./hooks/exports.js";
 

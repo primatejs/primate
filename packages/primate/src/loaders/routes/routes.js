@@ -8,7 +8,8 @@ const normalize = route => {
 };
 
 // index -> ""
-const deindex = path => path.endsWith("index") ? path.replace("index", "") : path;
+const deindex = path => path.endsWith("index") ?
+  path.replace("index", "") : path;
 
 export default async (log, directory, load) => {
   const filter = path => /^[^+].*.js$/u.test(path.name);

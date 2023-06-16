@@ -1,4 +1,4 @@
-import {tryreturn} from "runtime-compat/flow";
+import {tryreturn} from "runtime-compat/sync";
 import errors from "../errors.js";
 import {invalid} from "../hooks/route.js";
 import {default as fs, doubled} from "./common.js";

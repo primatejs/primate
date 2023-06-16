@@ -1,4 +1,4 @@
-import {tryreturn} from "runtime-compat/flow";
+import {tryreturn} from "runtime-compat/async";
 import {Path} from "runtime-compat/fs";
 import {extend} from "runtime-compat/object";
 import app from "./app.js";

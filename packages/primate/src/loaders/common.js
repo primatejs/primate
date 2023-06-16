@@ -28,7 +28,5 @@ export default async ({
   return objects;
 };
 
-export const lc_first = path => /^[a-z]/u.test(path.name);
-
 export const doubled = set => set.find((part, i, array) =>
   array.filter((_, j) => i !== j).includes(part));
