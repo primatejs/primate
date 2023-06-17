@@ -29,11 +29,11 @@ export default {
 };
 ```
 
-The `view` handler will use the `static/index.html` if exists or otherwise a
-fallback provided by Primate to render a full HTML page, replacing `%body%`
-with the component's content.
+The `view` handler will use the `pages/app.html` to render a full HTML page,
+replacing `%body` with the component's contents. If `pages/app.html` doesn't
+exist, Primate will use a default fallback.
 
-```html caption=static/index.html (default)
+```html caption=pages/app.html
 <!doctype html>
 <html>
   <head>
@@ -45,8 +45,8 @@ with the component's content.
 </html>
 ```
 
-The combination of these files will result in the following HTML page served to
-a client requesting `GET /hello`.
+The combination of the route's output and the page will result in the following
+HTML page served to a client requesting `GET /hello`.
 
 ```html caption=response body at GET /hello
 <html>
@@ -62,16 +62,16 @@ a client requesting `GET /hello`.
 
 ## Partials
 
-It is sometimes necessary to serve a bare component without the `index.html`,
-especially if you're replacing some parts of the page. To this end, you can use
-the `partial` option of the `view` handler.
+It is sometimes necessary to serve a bare component without the `app.html`
+page, especially if you're replacing some parts of the page. To this end, you
+can use the `partial` option of the `view` handler.
 
 ```js caption=routes/partial-hello.js
 import {view} from "primate";
 
 export default {
   get() {
-    return view("hello.html", {partial: true});
+    return view("hello.html", {}, {partial: true});
   },
 };
 ```

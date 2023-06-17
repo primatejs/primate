@@ -1,14 +1,14 @@
 # Types
 
-On the web, values are inherently strings. Whether it's a URL's path, its
-query string parameters, or the submitted fields of a form, everything boils
-down to strings. When working on the backend with Primate, it is often imporant
-to establish and assert a runtime type concept, including a way to coerce
-strings into a given type and validate that the coerced value lies within an
-expected range or satisfies other conditions.
+On the web, values are inherently strings. Whether it's a URL's path, query
+string parts, or the submitted fields of a form, everything boils down to
+strings. When working on the backend with Primate, it is often imporant to
+establish and assert a runtime type concept, including a way to coerce strings
+into a given type and validate that the coerced value lies within an expected
+range or satisfies other conditions.
 
 !!!
-Primate types aren't programming types in the true sense. They translate to one
+Primate types aren't programming types in a real sense. They translate to one
 of JavaScript's underlying types, and unlike static types, they provide a form
 of runtime safety. You can think of them as coercive value predicates; a
 `boolean` runtime type would consider both boolean `true` and string `"true"`
@@ -23,22 +23,23 @@ filenames are alphanumeric and lowercase-first -- any files not starting with a
 lowercase letter will be ignored.
 
 Type files must export a function as their default export, and Primate will
-refuse to start if it detects a type that's not a function.
+refuse to start if it detects a type that is not a function.
 
 Here is an example for a `number` type, a type that makes sure a string is
 convertible to a number and outputs a number.
 
 ```js caption=types/number.js
 import {is} from "runtime-compat/dyndef";
-
 const numeric = n => !Number.isNaN(Number.parseFloat(n)) && Number.isFinite(n);
 
 export default value => {
+  /* make sure value is a string, otherwise throw */
   is(value).string();
+
   try {
     return numeric(value) && Number(value);
   } catch() {
-    throw new Error(`${value} is not a number`);
+    throw new Error(`\`${value}\` is not a number`);
   }
 }
 ```
@@ -47,28 +48,28 @@ If a string can be successfully converted to a number, a `number` type will
 returned. Otherwise the type function will throw.
 
 !!!
-There is nothing stopping you from accepting other base types like `number` or
-`bigint` as input, but your main input type will usually be strings.
+Unlike the example, there is nothing stopping you from accepting other base
+types like `number` or `bigint` as input, but your main input type will usually
+be strings.
 !!!
 
 You can also create more elaborate types, like `uuid`.
 
 ```js caption=types/uuid.js
-import {is} from "runtime-compat/dyndef";
-import crypto from "runtime-compat/crypto";
-
 const valid = /^[^\W_]{8}-[^\W_]{4}-[^\W_]{4}-[^\W_]{4}-[^\W_]{12}$/u;
 
+const test = value => typeof value === "string" && valid.test(value);
+
 export default value => {
-  is(value).string();
-  if (valid(value)) {
+  if (test(value)) {
     return value;
   }
   throw new Error(`${value} is not a valid UUID`);
 };
 ```
 
-The `uuid` type makes sure a string is a valid UUID.
+The `uuid` type makes sure a string is a valid UUID. Here no type conversion is
+necessary, as UUIDs are strings.
 
 !!!
 The `number` and `uuid` types are so common that they're included in a Primate
@@ -88,7 +89,7 @@ In Primate's [filesystem-based routes](/guide/routes), path parameters may be
 additionally specified with types to ensure the path adheres to a certain
 format.
 
-```js caption=routes/user/{userId=uuid}.js | typed path
+```js caption=routes/user/{userId=uuid}.js
 export default {
   /*
     GET /user/b8c5b7b2-4f4c-4939-81d8-d1bdadd888c5
@@ -108,11 +109,11 @@ In the above example, using the `uuid` type we previously defined in `types`,
 we make sure the route function is only executed if the `GET` request is to a
 pathname starting with `user/` and followed by a valid UUID.
 
-Parameters named in the same way as types will be automatically typed. Assume
-that we created the following `userId` type that makes sure a dataset user
-exists with the given type.
+Parameters named the same as types will be automatically typed. Assume that we
+created the following `userId` type that makes sure a dataset user exists with
+the given type.
 
-```js caption=types/userId.js | asserted user id
+```js caption=types/userId.js
 import number from "./number.js";
 
 const users = [
@@ -124,10 +125,11 @@ const users = [
 
 export default id => {
   /* IDs must be numbers */
-  const nid = number(id);
-  const user = users.find(user => user.id === nid);
+  const n = number(id);
+
+  const user = users.find(user => user.id === n);
   if (user !== undefined) {
-    return nid;
+    return n;
   }
   throw new Error(`${id} is not a valid user ID`);
 }
@@ -136,7 +138,7 @@ export default id => {
 With that definition, using `{userId}` in any route will autotype it to the
 `userId` type.
 
-```js caption=routes/user/{userId}.js | autotyped path
+```js caption=routes/user/{userId}.js
 export default {
   get(request) {
     /*
@@ -152,7 +154,7 @@ export default {
 }
 ```
 
-Here, we avoided typing out the route as `user/{userId=userId}.js` and relied
+Here we avoided typing out the route as `user/{userId=userId}.js` and relied
 on Primate to match the type to the parameter name. In this case, `GET
 /user/1616` cannot be matched to a route, as `1616` is not an ID of a user in
 our dataset.
@@ -164,7 +166,7 @@ different classes of errors: the input being a proper numeric string vs.
 supplying the ID of an actual dataset user.
 
 !!!
-If you do not wish Primate to automatically type your path parameters, set
+If you do not wish Primate to autotype your path parameters, set
 `types.explicit` to `true` in your configuration. In that case, you would need
 to use the route filename `routes/user/{userId=userId}.js` instead.
 !!!
@@ -174,10 +176,10 @@ to use the route filename `routes/user/{userId=userId}.js` instead.
 Likewise, the request's query string parts, which we previously accessed using
 `request.query.get`, may be typed to ensure adherence to a given format. This
 can be achieved manually by importing the type function. Here we'll also create
-an additional `user` type coercing the ID into a user object, to be able to
-return it as the response body.
+an additional `user` type coercing the ID into a user object, to get a proper
+user object and not just the ID.
 
-```js caption=types/user.js | asserted id coerced to user
+```js caption=types/user.js
 import number from "./number.js";
 
 const users = [
@@ -189,8 +191,9 @@ const users = [
 
 export default id => {
   /* ids must be numbers */
-  const nid = number(id);
-  const user = users.find(user => user.id === nid);
+  const n = number(id);
+
+  const user = users.find(user => user.id === n);
   if (user !== undefined) {
     return user;
   }
@@ -198,9 +201,10 @@ export default id => {
 }
 ```
 
-We then use the type to assert the id is a user id and coerce it into a user.
+We then use the type to assert the id is a user id and coerce it into a user,
+returning the user object as JSON.
 
-```js caption=routes/user.js | typed query (manually)
+```js caption=routes/user.js
 import user from "../types/user.js";
 
 export default {
@@ -219,10 +223,9 @@ export default {
 
 This is generally OK, but as routes may arbitrarily nested, it can make
 importing from relative paths unseemly. For that, Primate enhances the `query`
-object with functions for sending a property's value to the runtime type for
-validation.
+object with dispatcher functions for validating a property's value.
 
-```js caption=routes/user.js | typed query (using dispatchers)
+```js caption=routes/user.js
 export default {
   /*
     GET /user?userId=6161
@@ -257,7 +260,7 @@ In identical fashion to the request query, you can make sure certain headers or
 cookies follow a given format, by retrieving them using the appropriate type
 function.
 
-```js caption=routes/user.js | typed headers
+```js caption=routes/user.js
 export default {
   /*
     GET /user
@@ -274,7 +277,7 @@ export default {
 }
 ```
 
-```js caption=routes/user.js | typed cookies
+```js caption=routes/user.js
 export default {
   /*
     GET /user

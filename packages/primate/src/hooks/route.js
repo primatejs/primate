@@ -18,8 +18,9 @@ export default app => {
     .filter(([name]) => name.includes("$"))
     .map(([name, value]) => [name.split("$")[1], value])
     .every(([name, value]) =>
-      tryreturn(_ => types?.[name](value) === true)
-        .orelse(({message}) => errors.MismatchedPath.throw(pathname, message)));
+      tryreturn(_ => types?.[name].type(value) === true)
+        .orelse(({message}) => errors.MismatchedPath.throw(pathname, message))
+    );
   const isPath = ({route, pathname}) => {
     const result = route.pathname.exec(pathname);
     return result === null ? false : isType(result.groups, pathname);
@@ -29,7 +30,7 @@ export default app => {
   const find = (method, pathname) => routes.find(route =>
     isMethod({route, method, pathname}));
 
-  const index = path => `${paths.routes}${path === "" ? "index" : path}`;
+  const index = path => `${paths.routes}${path === "/" ? "/index" : path}`;
   const deroot = pathname => pathname.endsWith("/") && pathname !== "/"
     ? pathname.slice(0, -1) : pathname;
 

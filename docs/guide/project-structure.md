@@ -7,7 +7,7 @@ setup you would use.
 .
 ├─ static/
 │  └─ [static assets]
-├─ pages /
+├─ pages/
 │  └─ app.html
 ├─ primate.config.js
 ├─ package.json

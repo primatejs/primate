@@ -38,12 +38,12 @@ verbs will return a plain-text response as specified.
 
 ## The request object
 
-All verb functions accept a single parameter representing request data. This
+Route verb functions accept a single parameter representing request data. This
 aggregate object allows easy access to the request `body`, any `path`
-parameters defined with braces, the analyzed `query` string, `cookies` as well
-as other `headers` and a reference to the `original` WHATWG Request object. The
-aggregate nature of this object allows you to pull in what you need using
-object destructuring.
+parameters defined with braces, the `query` string split into parts, `cookies`
+as well as other `headers` and a reference to the `original` WHATWG Request 
+object. The aggregate nature of this object allows you to pull in what you need
+using object destructuring.
 
 ### body
 
@@ -51,7 +51,7 @@ The request body. For requests that have no body (such as GET requests) it
 defaults to `null`.
 
 ```js caption=routes/your-name.js
-export default() {
+export default {
   post(request) {
     const body = request.body.get();
 
@@ -71,7 +71,7 @@ decodes the form fields into object properties
 * `application/json` will decode the given JSON string using `JSON.parse`
 
 ```js caption=routes/your-full-name.js
-export default() {
+export default {
   post(request) {
     const {name} = request.body.get();
 
@@ -111,7 +111,7 @@ import {error} from "primate";
 
 const users = ["Donald", "Ryan"];
 
-export default() {
+export default {
   post(request) {
     const {user} = request.path.get();
 
@@ -139,7 +139,7 @@ import {error} from "primate";
 
 const users = ["Donald", "Ryan"];
 
-export default() {
+export default {
   post(request) {
     const {user} = request.query.get();
 
@@ -157,15 +157,14 @@ will respond with `200`, otherwise with `404`.
 
 ### cookies
 
-The request's `Cookie` header, broken down into individual cookies as a
-key-value object.
+The request's `Cookie` header, broken down into individual cookies.
 
 ```js caption=routes/current-user.js
 import {error} from "primate";
 
 const users = ["Donald", "Ryan"];
 
-export default() {
+export default {
   post(request) {
     const {user} = request.cookies.get();
 
@@ -184,14 +183,14 @@ If a user requests POST `/current-user` with the `Cookie` header set to
 
 ### headers
 
-The request's headers, compacted into a key-value object.
+The request's individual headers.
 
 ```js caption=routes/current-x-user.js
 import {error} from "primate";
 
 const users = ["Donald", "Ryan"];
 
-export default() {
+export default {
   post(request) {
     const user = request.headers.get("X-User");
 
@@ -231,13 +230,13 @@ Such a path will thus be matched by all the following requests.
 * `/users/1a`
 * `/users/aa`
 * `/users/ba?key=value`
+* `/users//a` (repeated `/` are only processed ones)
 
 The same path won't be matched by any of the following requests.
 
 * `/user/1a` (does not begin with `/users`)
 * `/users/a` (must match at least one character)
 * `/users/aA` (paths are case-sensitive, path does not end with `a`)
-* `/users//a` (does not match `/`)
 * `/users/?a` (`?` denotes end of path)
 
 Parameters can be also typed, in which case their value can be restricted.
