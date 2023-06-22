@@ -20,15 +20,15 @@ const index = (app, name) =>
   tryreturn(_ => File.read(`${app.paths.pages.join(name)}`))
     .orelse(_ => base.join("defaults", app.config.index).text());
 
+const encoder = new TextEncoder();
 const hash = async (string, algorithm = "sha-384") => {
-  const encoder = new TextEncoder();
   const bytes = await crypto.subtle.digest(algorithm, encoder.encode(string));
   const algo = algorithm.replace("-", _ => "");
   return `${algo}-${btoa(String.fromCharCode(...new Uint8Array(bytes)))}`;
 };
 
-const attribute = attributes => Object.keys(attributes).length > 0 ?
-  " ".concat(Object.entries(attributes)
+const attribute = attributes => Object.keys(attributes).length > 0
+  ? " ".concat(Object.entries(attributes)
     .map(([key, value]) => `${key}="${value}"`).join(" "))
   : "";
 const tag = ({name, attributes = {}, code = "", close = true}) =>
@@ -93,7 +93,7 @@ export default async (config, root, log) => {
       };
     },
     handlers: {...handlers},
-    render: async ({body = "", head = "", page} = {}) => {
+    render: async ({body = "", page} = {}) => {
       const html = await index(app, page ?? config.index);
       // inline: <script type integrity>...</script>
       // outline: <script type integrity src></script>
@@ -105,7 +105,7 @@ export default async (config, root, log) => {
       const style = ({inline, code, href, rel = "stylesheet"}) => inline
         ? tag({name: "style", code})
         : tag({name: "link", attributes: {rel, href}, close: false});
-      const heads = toSorted(app.assets,
+      const head = toSorted(app.assets,
         ({type}) => -1 * (type === "importmap"))
         .map(({src, code, type, inline, integrity}) =>
           type === "style"
@@ -115,9 +115,7 @@ export default async (config, root, log) => {
       // remove inline assets
       app.assets = app.assets.filter(({inline, type}) => !inline
         || type === "importmap");
-      return html
-        .replace("%body%", _ => body)
-        .replace("%head%", _ => `${head}${heads}`);
+      return html.replace("%body%", _ => body).replace("%head%", _ => head);
     },
     publish: async ({src, code, type = "", inline = false}) => {
       if (!inline) {
@@ -125,10 +123,9 @@ export default async (config, root, log) => {
         await base.directory.file.create();
         await base.file.write(code);
       }
-      const _src = new Path(http.static.root).join(src ?? "");
       if (inline || type === "style") {
-        app.assets.push({src: `${_src}`, code: inline ? code : "", type,
-          inline, integrity: await hash(code)});
+        app.assets.push({src: new Path(http.static.root).join(src ?? "").path,
+          code: inline ? code : "", type, inline, integrity: await hash(code)});
       }
     },
     bootstrap: ({type, code}) => {
@@ -142,10 +139,10 @@ export default async (config, root, log) => {
       const exports = pkg.exports === undefined
         ? {[module]: `/${module}/${pkg.main}`}
         : transform(pkg.exports, entry => entry
-          .filter(([, _export]) => _export.import !== undefined)
+          .filter(([, _export]) => _export.import !== undefined || _export.default !== undefined)
           .map(([key, value]) => [
             key.replace(".", module),
-            value.import.replace(".", `./${module}`),
+            value.import?.replace(".", `./${module}`) ?? value.default.replace(".", `./${module}`),
           ]));
       await Promise.all(Object.values(exports).map(async name => app.publish({
           code: await Path.resolve().join(library, name).text(),

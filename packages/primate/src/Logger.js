@@ -17,8 +17,7 @@ const reference = "https://primatejs.com/reference/errors";
 
 const hyphenate = classCased => classCased
   .split("")
-  .map(character => character
-    .replace(/[A-Z]/u, capital => `-${capital.toLowerCase()}`))
+  .map(letter => letter.replace(/[A-Z]/u, upper => `-${upper.toLowerCase()}`))
   .join("")
   .slice(1);
 

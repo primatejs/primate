@@ -12,32 +12,27 @@ const contents = {
   "application/json": body => JSON.parse(body),
 };
 
+const parse = {
+  content(content_type, body) {
+    return tryreturn(_ => {
+      const type = contents[content_type];
+      return type === undefined ? body : type(body);
+    }).orelse(_ => errors.CannotParseBody.throw(body, content_type));
+  },
+  async body({body, headers}) {
+    return body === null
+      ? null
+      : this.content(headers.get("content-type"), await stringify(body));
+  },
+};
+
 export default dispatch => async request => {
-  const parseContentType = (contentType, body) => {
-    const type = contents[contentType];
-    return type === undefined ? body : type(body);
-  };
-
-  const parseContent = (contentType, body) =>
-    tryreturn(_ => parseContentType(contentType, body))
-      .orelse(_ => errors.CannotParseBody.throw(body, contentType));
-
-  const parseBody = async ({body, headers}) => body === null
-    ? null
-    : parseContent(headers.get("content-type"), await stringify(body));
-
-  const cookies = request.headers.get("cookie");
+  const body = dispatch(await parse.body(request));
+  const cookies = dispatch(from(request.headers.get("cookie")?.split(";")
+    .map(cookie => cookie.trim().split("=")) ?? []));
+  const headers = dispatch(from(request.headers));
   const url = new URL(request.url);
+  const query = dispatch(from(url.searchParams));
 
-  const body = await parseBody(request);
-  return {
-    original: request,
-    url,
-    body: dispatch(body),
-    cookies: dispatch(cookies === null
-      ? {}
-      : from(cookies.split(";").map(c => c.trim().split("=")))),
-    headers: dispatch(from(request.headers)),
-    query: dispatch(from(url.searchParams)),
-  };
+  return {original: request, url, body, cookies, headers, query};
 };

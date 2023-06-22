@@ -1,7 +1,7 @@
 import crypto from "runtime-compat/crypto";
 import {Path} from "runtime-compat/fs";
 import * as compiler from "svelte/compiler";
-import {tryreturn} from "runtime-compat/flow";
+import {tryreturn} from "runtime-compat/async";
 import errors from "./errors.js";
 
 const endings = {

@@ -18,10 +18,10 @@ export default app => {
 
     // handle guards
     try {
-      guards.map(guard => {
+      guards.every(guard => {
         const result = guard(request);
         if (result === true) {
-          return undefined;
+          return true;
         }
         const error = new Error();
         error.result = result;
