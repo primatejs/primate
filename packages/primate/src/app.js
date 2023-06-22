@@ -144,11 +144,9 @@ export default async (config, root, log) => {
             key.replace(".", module),
             value.import?.replace(".", `./${module}`) ?? value.default.replace(".", `./${module}`),
           ]));
-      await Promise.all(Object.values(exports).map(async name => app.publish({
-          code: await Path.resolve().join(library, name).text(),
-          src: new Path(root, build.modules, name),
-          type: "module",
-        })));
+      const dependency = Path.resolve().join(...path);
+      const to = new Path(paths.client, build.modules, dependency.name);
+      await dependency.file.copy(to);
       this.importmaps = {
         ...valmap(exports, value => new Path(root, build.modules, value).path),
         ...this.importmaps};
