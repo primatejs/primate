@@ -1,6 +1,6 @@
 {
   "name": "@primate/svelte",
-  "version": "0.13.1",
+  "version": "0.14.0",
   "description": "Primate Svelte module",
   "homepage": "https://primatejs.com/modules/svelte",
   "bugs": "https://github.com/primatejs/primate/issues",
@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "runtime-compat": "^0.21.0",
-    "svelte": "^3.59.2"
+    "svelte": "^4.0.0"
   },
   "peerDependencies": {
     "primate": "0.20"

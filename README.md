@@ -1,7 +1,6 @@
 # Primate 
 
-Expressive, minimal and extensible web framework. For documentation
-[read guide][guide].
+Expressive, minimal and extensible web framework. To start [read guide][guide].
 
 ## Packages
 
@@ -14,7 +13,6 @@ Expressive, minimal and extensible web framework. For documentation
 |[@primate/htmx](packages/htmx)               | Serving HTMX files            |
 |[@primate/types](packages/types)             | Runtime types                 |
 |[@primate/store](packages/store)             | Data store                    |
-|[@primate/website](packages/website)         | Primate website (private)     |
 |[@primate/esbuild](packages/esbuild)         | Bundling JS/CSS               |
 |[@primate/session](packages/session)         | User sessions                 |
 |[@primate/ws](packages/ws)                   | Web sockets                   |

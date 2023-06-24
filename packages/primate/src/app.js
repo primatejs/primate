@@ -139,10 +139,14 @@ export default async (config, root, log) => {
       const exports = pkg.exports === undefined
         ? {[module]: `/${module}/${pkg.main}`}
         : transform(pkg.exports, entry => entry
-          .filter(([, _export]) => _export.import !== undefined || _export.default !== undefined)
+          .filter(([, _export]) => _export.browser?.default !== undefined
+            || _export.import !== undefined
+            || _export.default !== undefined)
           .map(([key, value]) => [
             key.replace(".", module),
-            value.import?.replace(".", `./${module}`) ?? value.default.replace(".", `./${module}`),
+            value.browser?.default.replace(".", `./${module}`)
+              ?? value.default?.replace(".", `./${module}`)
+              ?? value.import?.replace(".", `./${module}`),
           ]));
       const dependency = Path.resolve().join(...path);
       const to = new Path(paths.client, build.modules, dependency.name);
