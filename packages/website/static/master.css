@@ -1,3 +1,14 @@
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #000;
+  }
+}
+@media (prefers-color-scheme: light) {
+  body {
+    background: #fff;
+  }
+}
+
 @font-face {
   font-family: pt-sans;
   font-weight: 400;
@@ -416,7 +427,7 @@ img.background {
 }
 
 .dark img.background {
-  filter: opacity(15%)
+  filter: opacity(15%);
 }
 
 .hero::before {
