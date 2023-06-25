@@ -1,14 +1,3 @@
-@media (prefers-color-scheme: dark) {
-  body {
-    background: #000;
-  }
-}
-@media (prefers-color-scheme: light) {
-  body {
-    background: #fff;
-  }
-}
-
 @font-face {
   font-family: pt-sans;
   font-weight: 400;
@@ -86,11 +75,12 @@ body {
   background-color: #161616;
 }
 
+body.dark,
 .dark header,
 .dark a,
 .dark button,
 .dark aside {
-  color: #000;
+  color: #fff;
 }
 
 .dark a:hover,
@@ -426,7 +416,7 @@ img.background {
 }
 
 .dark img.background {
-  filter: opacity(15%);
+  filter: opacity(15%)
 }
 
 .hero::before {
@@ -478,7 +468,7 @@ img.background {
   border: 1px solid var(--prs-primary);
 }
 
-.dark .hero .buttons a.secondary {
+.dark .hero .buttons a.secondary{
   color: #bababa;
   border: 1px solid #bababa;
   background-color: #000;
