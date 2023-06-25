@@ -86,7 +86,6 @@ body {
   background-color: #161616;
 }
 
-body.dark,
 .dark header,
 .dark a,
 .dark button,
@@ -479,7 +478,7 @@ img.background {
   border: 1px solid var(--prs-primary);
 }
 
-.dark .hero .buttons a.secondary{
+.dark .hero .buttons a.secondary {
   color: #bababa;
   border: 1px solid #bababa;
   background-color: #000;
