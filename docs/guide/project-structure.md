@@ -58,7 +58,7 @@ commit this file into your version control system.
 This directory contains all your [app routes][routes] hierarchically. If you
 were creating a blog, this is how a typical layout could look like.
 
-```sh caption=routes | web app
+```sh caption=web app routes
 .
 ├─ index.js # view homepage -> /
 └─ post/
@@ -81,14 +81,14 @@ web app that uses the same route for showing and submitting a form. However, if
 you were developing an API, you might opt for using a wider variety of HTTP
 verbs. In that case, your layout might look a little different.
 
-```sh caption=routes | API
+```sh caption=API routes
 .
-├─ post/
-│  ├─ {postId}/
-│  │  ├─ comment.js # create comment, read comments -> /post/1/comment
-│  │  └─ {commentId}.js # read, update, delete comment -> post/1/comment/2
-│  └─ {postId}.js # read, update, delete post -> post/1
-└─ post.js # create post, read posts -> /post
+├─ post.js # create post, read posts -> /post
+└─ post/
+   ├─ {postId}.js # read, update, delete post -> post/1
+   └─ {postId}/
+      ├─ comment.js # create comment, read comments -> /post/1/comment
+      └─ {commentId}.js # read, update, delete comment -> post/1/comment/2
 ```
 
 ## components
@@ -109,4 +109,4 @@ frameworks](/modules/frameworks) such as React, Vue, Svelte or HTMX.
 [default-config]:
 https://github.com/primatejs/primate/blob/master/packages/primate/src/defaults/primate.config.js
 [default-page]:
-https://github.com/primatejs/primate/blob/master/packages/primate/src/defaults/page.html
+https://github.com/primatejs/primate/blob/master/packages/primate/src/defaults/app.html

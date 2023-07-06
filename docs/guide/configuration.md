@@ -9,11 +9,13 @@ If Primate doesn't find a `primate.config.js` in your project root directory
 (the directory where your `package.json` resides) or this file does not export
 a default object, Primate will fall back to its default configuration file.
 
-```js caption=primate.config.js | default configuration
+```js caption=default configuration
 import {Logger} from "primate";
 
 export default {
   base: "/",
+  modules: [],
+  index: "app.html",
   logger: {
     level: Logger.Warn,
   },
@@ -32,7 +34,6 @@ export default {
       root: "/",
     },
   },
-  index: "app.html",
   paths: {
     build: "build",
     components: "components",
@@ -48,7 +49,6 @@ export default {
     modules: "modules",
     index: "index.js",
   },
-  modules: [],
   types: {
     explicit: false,
   },
@@ -63,7 +63,7 @@ To illustrate this, if you wanted to change the default logging level to
 `Info` instead of `Warn` and the HTTP port to `6262` you would create a
 `primate.config.js` with the following changes.
 
-```js caption=primate.config.js | custom configuration
+```js caption=custom configuration
 import {Logger} from "primate";
 
 export default {
@@ -79,11 +79,13 @@ export default {
 Primate will merge your custom configuration with its default, resulting in
 effectively the following configuration.
 
-```js caption=primate.config.js | merged configuration
+```js caption=merged configuration
 import {Logger} from "primate";
 
 export default {
   base: "/",
+  modules: [],
+  index: "app.html",
   logger: {
     level: Logger.Info,
   },
@@ -102,7 +104,6 @@ export default {
       root: "/",
     },
   },
-  index: "app.html",
   paths: {
     build: "build",
     components: "components",
@@ -118,12 +119,13 @@ export default {
     modules: "modules",
     index: "index.js",
   },
-  modules: [],
   types: {
     explicit: false,
   },
 };
 ```
+
+## General options
 
 ### base
 
@@ -134,17 +136,33 @@ the default as is. If your app is running from a subpath, adjust accordingly.
 
 This is used in CSP paths.
 
-### logger
+### index
 
-Configuring [Logging in Primate](/guide/logging).
+Default: `app.html`
+
+Name of the default HTML page located in `paths.pages`. If `paths.pages` does
+not exist or contain this file, Primate will use its
+[default app.html](default-app-html).
+
+### modules
+
+Default `[]`
+
+Instantiated modules. The order of loading modules affects the order in which
+their hooks will be evaluated, and modules can depend on each using implicit or
+explicit [load hooks][hooks-load].
+
+## Logging options
+
+For more info on logging, refer to the 
+[Logging in Primate](/guide/logging) section.
 
 ### logger.level
 
 Default `Logger.Warn`
 
 The logging level to be used. Primate has three logging levels, `Error`, `Warn`
-and `Info`. For what they mean and how they are used, refer to the
-[security section][security-logging].
+and `Info`.
 
 ### logger.trace
 
@@ -153,7 +171,7 @@ Default `false`
 Whether Primate should show the original stack trace of errors in addition to
 its own errors.
 
-### http
+## HTTP options
 
 Configuring the underlying HTTP server.
 
@@ -216,15 +234,7 @@ Primate does not load the key or certificate into memory. It only resolves
 the paths as necessary and passes them to the [runtime][runtime].
 !!!
 
-### index
-
-Default: `app.html`
-
-Name of the default HTML page located in `paths.pages`. If `paths.pages` does
-not exist or contain this file, Primate will use its
-[default app.html](default-app-html).
-
-### paths
+### Path options
 
 Locations of standard directories for different aspects of Primate. If any of
 these paths are relative, they will be relative to project root.
@@ -273,11 +283,13 @@ Default `"types"`
 The directory where types are located. [Types](/guide/types) can be
 used to limit the range of possible values that a variable can hold.
 
-### build
+### Build options
 
-Build options.
+Modifying aspects of the build system and the resulting server/client code.
 
 ### build.includes
+
+Default `[]`
 
 A list of directories to be included in the server and client build. May not
 include `routes`, `components`, `build`, or any of the configuration options
@@ -285,11 +297,15 @@ include `routes`, `components`, `build`, or any of the configuration options
 
 ### build.static
 
+Default `"static"`
+
 The subdirectory target of files copied from `paths.static` into the
 `client` directory in `paths.build`. If `paths.build` is set to `build` and
 `build.static` to `static`, will be copied to `build/client/static`.
 
 ### build.app
+
+Default `"app"`
 
 The subdirectory target of files copied from `paths.components` into the
 `server` and `client` directories in `paths.build`. If `paths.build` is set to
@@ -298,6 +314,8 @@ The subdirectory target of files copied from `paths.components` into the
 
 ### build.modules
 
+Default `"modules"`
+
 The subdirectory target of module imports copied into the `server` and `client` 
 directories in `paths.build`. If `paths.build` is set to `build` and
 `build.modules` to `modules`, will be copied to `build/server/modules` and
@@ -305,15 +323,20 @@ directories in `paths.build`. If `paths.build` is set to `build` and
 
 ### build.index
 
-Filename of the index JavaScript used to export all components.
+Default `"index.js"`
 
-### modules
+Filename of the index JavaScript file used to export all components.
 
-Default `[]`
+## Type options
 
-Instantiated modules. The order of loading modules affects the order in which
-their hooks will be evaluated, and modules can depend on each using implicit or
-explicit [load hooks][hooks-load].
+Configuring [runtime types](/guide/types).
+
+### types.explicit
+
+Default `false`
+
+Whether Primate should autotype path parameters. If set to false, path
+parameters and types having the exact same name won't be automatically typed.
 
 ## pages/app.html
 

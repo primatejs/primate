@@ -2,6 +2,8 @@ import Logger from "../Logger.js";
 
 export default {
   base: "/",
+  modules: [],
+  index: "app.html",
   logger: {
     level: Logger.Warn,
     trace: false,
@@ -22,7 +24,6 @@ export default {
       root: "/",
     },
   },
-  index: "app.html",
   paths: {
     build: "build",
     components: "components",
@@ -38,7 +39,6 @@ export default {
     modules: "modules",
     index: "index.js",
   },
-  modules: [],
   types: {
     explicit: false,
   },

@@ -2,14 +2,14 @@
 
 ## Why Primate?
 
-Primate is an expressive, minimal, and extensible web framework. It maps
+Primate is an expressive, minimal and extensible web framework. It maps
 requests to responses using filesystem-based routes, includes only the bare
 essentials for web app development and can be easily extended with additional
 modules for common scenarios. 
 
 To illustrate this, if you want an app that responds with a `200 OK` saying
-"Hello, world!" at its index route (`/`), create a route file inside your
-project directory.
+"Hello, world!" at its index route (`/`), create a project directory and in it
+a route file under `routes`.
 
 ```js caption=routes/index.js
 export default {
@@ -159,7 +159,7 @@ code itself, asking in chat, or raising an issue.
 
 [Primate's monorepo][repo] contains the core framework code under
 `packages/primate` as well code for the official modules and the
-website.
+website under `packages`.
 
 ### Chat
 
