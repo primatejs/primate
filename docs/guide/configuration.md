@@ -136,14 +136,6 @@ the default as is. If your app is running from a subpath, adjust accordingly.
 
 This is used in CSP paths.
 
-### index
-
-Default: `app.html`
-
-Name of the default HTML page located in `paths.pages`. If `paths.pages` does
-not exist or contain this file, Primate will use its
-[default app.html](default-app-html).
-
 ### modules
 
 Default `[]`
@@ -151,6 +143,14 @@ Default `[]`
 Instantiated modules. The order of loading modules affects the order in which
 their hooks will be evaluated, and modules can depend on each using implicit or
 explicit [load hooks][hooks-load].
+
+### index
+
+Default: `app.html`
+
+Name of the default HTML page located in `paths.pages`. If `paths.pages` does
+not exist or contain this file, Primate will use its
+[default app.html][default-app-html].
 
 ## Logging options
 
@@ -217,7 +217,7 @@ information, consult the [security section][security-csp].
 Default `"/"`
 
 The path from which to serve static assets (those located in the `static`
-directory and copied during runtome to the `build/client/static` directory).
+directory and copied during runtime to the `build/client/static` directory).
 Static assets take precedence over routes. This option allows you to have all
 static assets served from a subpath, like `/public`.
 
@@ -236,15 +236,14 @@ the paths as necessary and passes them to the [runtime][runtime].
 
 ### Path options
 
-Locations of standard directories for different aspects of Primate. If any of
-these paths are relative, they will be relative to project root.
+Locations of Primate standard directories. If any of these paths are relative,
+they will be relative to project root.
 
 ### paths.build
 
 Default `"build"`
 
-The directory where your app's server and client files are created and served
-from.
+The directory where server and client files are created and served from.
 
 ### paths.components
 
@@ -252,7 +251,7 @@ Default `"components"`
 
 The directory where components are located. [Components](/guide/components) are
 used as HTML files or by frontend frameworks. The `view` handler will try to
-load any referenced component file from this directory.
+load any referenced component filename from this directory.
 
 ### paths.pages
 
@@ -272,7 +271,7 @@ The directory where the hierarchy of route files resides.
 
 Default `"static"`
 
-The directory where static assets are copied from to the client part of the 
+The directory which static assets are copied from to the client part of the 
 build directory, located in `{paths.build}/client/{build.static}`, where
 `paths.build` and `build.static` are configuration options.
 
@@ -335,7 +334,7 @@ Configuring [runtime types](/guide/types).
 
 Default `false`
 
-Whether Primate should autotype path parameters. If set to false, path
+Whether Primate should autotype path parameters. If set to `true`, path
 parameters and types having the exact same name won't be automatically typed.
 
 ## pages/app.html
@@ -343,9 +342,9 @@ parameters and types having the exact same name won't be automatically typed.
 If you use the `view` or `html` [handler](/guide/requests#view), Primate will
 embed the generated HTML from the handler into this file. If an `app.html`
 doesn't exist in the `pages` directory, Primate will fall back to its default
-index file.
+app page.
 
-```html caption=pages/app.html
+```html caption=dafault app page
 <!doctype html>
 <html>
   <head>
@@ -376,9 +375,5 @@ handler generates.
 [security-logging]: /guide/security#logging
 [security-csp]: /guide/security#csp
 [hooks-load]: /guide/hooks#load
-[default-app-html]:
-https://github.com/primatejs/primate/blob/master/packages/primate/src/defaults/app-html
-[default-config]:
-https://github.com/primatejs/primate/blob/master/packages/primate/src/defaults/primate.config.js
-[runtime]:
-https://github.com/flogjs/std/blob/master/runtime-compat/http/src/serve.js
+[default-app-html]: https://github.com/primatejs/primate/blob/master/packages/primate/src/defaults/app.html
+[runtime]: https://github.com/flogjs/std/blob/master/runtime-compat/http/src/serve.js
