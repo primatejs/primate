@@ -1,6 +1,6 @@
 import {Path} from "runtime-compat/fs";
-import json from "./json.js";
-import base from "./base.test.js";
+import json from "./driver.js";
+import base from "../base.test.js";
 
 const path = new Path(import.meta.url).up(1).join("db.json");
 

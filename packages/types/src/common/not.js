@@ -1,1 +1,1 @@
-export default type => value => `${value} is not a ${type}`;
+export default type => value => `\`${value}\` is not a ${type}`;

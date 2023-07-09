@@ -1,4 +1,4 @@
-import {tryreturn} from "runtime-compat/flow";
+import {tryreturn} from "runtime-compat/sync";
 import * as object from "runtime-compat/object";
 import validate from "./validate.js";
 import errors from "./errors.js";
@@ -19,7 +19,7 @@ const transform = direction => ({types, schema, document, path}) =>
     ));
 
 const actions = [
-  "validate", "new",
+  "validate",
   "get", "find",
   "insert", "update", "save", "delete",
 ];
@@ -39,9 +39,6 @@ export default (name, schema = {}, options = {}) => {
       },
       unpack(document) {
         return transform("out")({document, path, schema, types});
-      },
-      generate() {
-        return driver.primary().then(({generate}) => generate());
       },
       validate(input) {
         return validate({input, driver, schema, strict: config.strict});
@@ -63,31 +60,24 @@ export default (name, schema = {}, options = {}) => {
         const document = await driver.get(config.name, config.primary, value);
 
         document === undefined &&
-          errors.NoDocumentFound.throw(value, `${path}.exists(id)`);
+          errors.NoDocumentFound.throw(value, `${path}.exists(${value})`);
 
         return this.unpack(document);
-      },
-      new() {
-        return this.generate().then(primary => ({[config.primary]: primary}));
       },
       async find(criteria) {
         const documents = await driver.find(config.name, criteria);
         return documents.map(document => this.unpack(document));
       },
-      async insert(document = {}) {
-        const {primary} = this;
-
-        return this.write({
-          ...document,
-          [primary]: document[primary] ?? await this.generate(),
-        }, validated => driver.insert(config.name, validated));
+      insert(document = {}) {
+        return this.write(document,
+          validated => driver.insert(config.name, config.primary, validated));
       },
-      async update(criteria, document = {}) {
-        return this.write(document, validated =>
-          driver.update(config.name, criteria, validated));
+      update(criteria, document = {}) {
+        return this.write(document,
+          validated => driver.update(config.name, criteria, validated));
       },
       save(document) {
-        const {primary} = this;
+        const {primary} = config;
 
         return document[primary] === undefined
           ? this.insert(document)

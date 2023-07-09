@@ -6,6 +6,11 @@
       "fix": "populate {0} with stores or remove it",
       "level": "Warn"
     },
+    "CannotFindDriver": {
+      "message": "cannot find {0}",
+      "fix": "install driver by issuing {1}",
+      "level": "Error"
+    },
     "CannotUnpackValue": {
       "message": "cannot unpack {0} to {1}",
       "fix": "change type for {2} or correct data in databases",

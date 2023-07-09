@@ -1,3 +1,4 @@
+import {is} from "runtime-compat/dyndef";
 import crypto from "runtime-compat/crypto";
 const NOT_FOUND = -1;
 
@@ -19,13 +20,6 @@ export default db => {
     some(collection, "findIndex", criteria);
 
   return {
-    primary() {
-      return {
-        validate: value => typeof value === "string",
-        message: "Must be a valid UUID",
-        generate: () => crypto.randomUUID(),
-      };
-    },
     find(collection, criteria) {
       return criteria === undefined
         ? use(collection)
@@ -38,7 +32,9 @@ export default db => {
       const index = findIndex(collection, {[key]: value});
       return index === NOT_FOUND ? undefined : use(collection)[index];
     },
-    insert(collection, document) {
+    insert(collection, primary, document) {
+      // generate id
+      document[primary] = crypto.randomUUID();
       use(collection).push(document);
       return document;
     },

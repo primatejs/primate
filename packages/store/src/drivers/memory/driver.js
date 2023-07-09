@@ -1,6 +1,10 @@
-import driver from "./driver.js";
-import TransactionManager from "./TransactionManager.js";
-import common from "./common.js";
+import driver from "../base.js";
+import TransactionManager from "../TransactionManager.js";
+import common from "../common.js";
+
+// we can't depend on @primate/types here
+const valid = /^[^\W_]{8}-[^\W_]{4}-[^\W_]{4}-[^\W_]{4}-[^\W_]{12}$/u;
+const test = value => typeof value === "string" && valid.test(value);
 
 export default async () => {
   let storage = "{}";
@@ -14,7 +18,10 @@ export default async () => {
     ...driver("memory", {
       primary: {
         validate(value) {
-          return value;
+          if (test(value)) {
+            return value;
+          }
+          throw new Error(`\`${value}\` is not a valid primary key value`);
         },
       },
     }, new TransactionManager({
@@ -24,7 +31,7 @@ export default async () => {
       async write() {
         write(db.collections);
       },
-      operations: common(db),
+      actions: common(db),
     })),
     client: {read, write},
   };
