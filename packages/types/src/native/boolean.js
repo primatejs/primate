@@ -9,6 +9,6 @@ export default {
     if (typeof coerced === "boolean") {
       return coerced;
     }
-    throw new Error(`${value} is not a boolean`);
+    throw new Error(`\`${value}\` is not a boolean`);
   },
 };

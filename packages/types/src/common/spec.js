@@ -5,6 +5,7 @@ export const reassert = (test, {type}) => {
     },
     same: (...args) => args.map(arg => assert(type(arg)).equals(arg)),
     fail: (...args) => args.map(arg => assert(() => type(arg)).throws()),
+    assert,
   }));
 };
 
