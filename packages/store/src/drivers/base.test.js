@@ -39,6 +39,9 @@ export default async (test, driver, lifecycle) => {
     const result = await insert("user", "id", {});
     assert(await get("user", "id", result.id)).equals({id: result.id});
 
+    // empty get returns undefined
+    assert(await get("user", "id", 300)).equals(undefined);
+
     // embedded
     const {id} = await insert("user", "id", i(types));
     const r = await get("user", "id", id);

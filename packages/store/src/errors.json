@@ -36,9 +36,9 @@
       "fix": "create {0} and populate it",
       "level": "Warn"
     },
-    "NoDocumentfound": {
-      "message": "no document found with primary key {0}",
-      "fix": "check for existence with {1} first",
+    "NoDocumentFound": {
+      "message": "no document found with primary key {0}={1}",
+      "fix": "check first for existence with {2} or use {3}",
       "level": "Warn"
     },
     "TransactionRolledBack": {

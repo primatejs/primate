@@ -119,7 +119,9 @@ export default ({
       const result = client.prepare(`
         SELECT * FROM ${collection} WHERE ${primary}=@primary
       `).get({primary: value});
-      return filter(result, ([, value]) => value !== null);
+      return result === undefined
+        ? result
+        : filter(result, ([, value]) => value !== null);
     },
     insert(collection, primary, document) {
       const columns = Object.keys(document);

@@ -20,7 +20,7 @@ const transform = direction => ({types, schema, document, path}) =>
 
 const actions = [
   "validate",
-  "get", "find",
+  "get", "get$", "find", "exists",
   "insert", "update", "save", "delete",
 ];
 
@@ -60,13 +60,28 @@ export default (name, schema = {}, options = {}) => {
         const document = await driver.get(config.name, config.primary, value);
 
         document === undefined &&
-          errors.NoDocumentFound.throw(value, `${path}.exists(${value})`);
+          errors.NoDocumentFound.throw(config.primary, value,
+            `${path}.exists({${config.primary}: ${value}})`, `${path}.get$`);
 
         return this.unpack(document);
+      },
+      async get$(value) {
+        const document = await driver.get(config.name, config.primary, value);
+
+        if (document === undefined) {
+          const {message} = errors.NoDocumentFound.new(config.primary, value);
+          return {failed: true, reason: message};
+        }
+
+        return {failed: false, value: document};
       },
       async find(criteria) {
         const documents = await driver.find(config.name, criteria);
         return documents.map(document => this.unpack(document));
+      },
+      async exists(criteria) {
+        const count = await driver.count(config.name, criteria);
+        return count > 0;
       },
       insert(document = {}) {
         return this.write(document,
