@@ -1,13 +1,36 @@
 import {numeric} from "runtime-compat/dyndef";
-import {filter, valmap} from "runtime-compat/object";
+import {filter, keymap, valmap} from "runtime-compat/object";
 import load from "../load.js";
 
 const types = {
   string: "TEXT",
   embedded: "TEXT",
+  number: "REAL",
   primary: "INTEGER PRIMARY KEY",
 };
 const type = value => types[value];
+
+const filterNull = results =>
+  results.map(result => filter(result, ([, value]) => value !== null));
+
+const predicate = criteria => {
+  const keys = Object.keys(criteria);
+  if (keys.length === 0) {
+    return {where: "", bindings: {}};
+  }
+
+  const where = `WHERE ${keys.map(key => `${key}=@${key}`)}`;
+
+  return {where, bindings: criteria};
+};
+
+const change = delta => {
+  const set = Object.keys(delta).map(field => `${field}=@s_${field}`).join(",");
+  return {
+    set: `SET ${set}`,
+    bindings: keymap(delta, key => `s_${key}`),
+  };
+};
 
 export default ({
   /* filename to be used for storing the database, defaults to in-memory */
@@ -28,9 +51,10 @@ export default ({
     commit() {
       /* noop */
       /* SQLite's COMMIT transaction is an alias for END */
+      client.prepare("COMMIT TRANSACTION").run();
     },
     end() {
-      client.prepare("COMMIT TRANSACTION").run();
+      //client.prepare("COMMIT TRANSACTION").run();
     },
     types: {
       primary: {
@@ -66,6 +90,11 @@ export default ({
         },
       },
     },
+    exists(collection) {
+      return client.prepare(`
+        SELECT name FROM sqlite_master WHERE type='table' AND name=@collection
+      `).get({collection}) !== undefined;
+    },
     create(collection, schema) {
       const body = Object.entries(valmap(schema, value => type(value)))
         .map(([column, dataType]) => `${column} ${dataType}`).join(",");
@@ -75,12 +104,16 @@ export default ({
         )
       `).run();
     },
-    find(collection, criteria) {
-      const results = client.prepare(`SELECT * FROM ${collection}`).all();
+    find(collection, criteria = {}) {
+      const {where, bindings} = predicate(criteria);
+      const results = client.prepare(`SELECT * FROM ${collection} ${where}`)
+        .all(bindings);
+      return filterNull(results);
     },
-    count(collection, criteria) {
-      return client.prepare(`SELECT COUNT(*) FROM ${collection}`).pluck(true)
-        .get();
+    count(collection, criteria = {}) {
+      const {where, bindings} = predicate(criteria);
+      return client.prepare(`SELECT COUNT(*) FROM ${collection} ${where}`)
+        .pluck(true).get(bindings);
     },
     get(collection, primary, value) {
       const result = client.prepare(`
@@ -91,7 +124,7 @@ export default ({
     insert(collection, primary, document) {
       const columns = Object.keys(document);
       const values = columns.map(column => `@${column}`).join(",");
-      const predicate  = columns.length > 0
+      const predicate = columns.length > 0
         ? `(${columns.join(",")}) VALUES (${values})`
         : "DEFAULT VALUES";
       const {lastInsertRowid: id} = client.prepare(`
@@ -99,7 +132,16 @@ export default ({
       `).run(document);
       return {...document, id};
     },
-    update(collection, criteria, document) {},
-    delete(collection, criteria) {},
+    update(collection, criteria = {}, delta) {
+      const {where, bindings} = predicate(criteria);
+      const {set, bindings: bindings2} = change(delta);
+      const query = `UPDATE ${collection} ${set} ${where}`;
+      return client.prepare(query).run({...bindings, ...bindings2}).changes;
+    },
+    delete(collection, criteria = {}) {
+      const {where, bindings} = predicate(criteria);
+      const query = `DELETE FROM ${collection} ${where}`;
+      return client.prepare(query).run({...bindings}).changes;
+    },
   };
 };

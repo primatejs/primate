@@ -15,8 +15,7 @@ export default test => {
     },
   });
 
-  test.case("types", async assert => {
-    const {types: {datetime, bigint}} = await driver();
+  test.case("types", async ({assert, types: {datetime, bigint}}) => {
     const d = new Date();
     assert(datetime.out(datetime.in(d))).equals(d);
     assert(bigint.out(bigint.in(1n))).equals(1n);

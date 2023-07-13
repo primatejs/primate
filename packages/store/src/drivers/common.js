@@ -1,5 +1,5 @@
-import {is} from "runtime-compat/dyndef";
 import crypto from "runtime-compat/crypto";
+import {filter} from "runtime-compat/object";
 const NOT_FOUND = -1;
 
 export default db => {
@@ -19,6 +19,32 @@ export default db => {
   const findIndex = (collection, criteria) =>
     some(collection, "findIndex", criteria);
 
+  const filterBy = (collection, criteria) => {
+    const keys = Object.keys(criteria);
+    return use(collection).filter(document =>
+      keys.some(criterion => document[criterion] !== criteria[criterion])
+    );
+  };
+
+  const removeByNull = (document, delta) =>
+    filter(document, ([key]) => delta[key] !== null);
+
+  const removeNull = delta => filter(delta , ([, value]) => value !== null);
+
+  const update = (collection, criteria, delta) => {
+    const keys = Object.keys(criteria);
+    let changed = 0;
+    db.collections[collection] = use(collection).map(document => {
+      // criteria satisfied
+      if (!keys.some(by => document[by] !== criteria[by])) {
+        changed++;
+        return {...removeByNull(document, delta), ...removeNull(delta)};
+      }
+      return document;
+    });
+    return changed;
+  };
+
   return {
     find(collection, criteria) {
       return criteria === undefined
@@ -33,25 +59,23 @@ export default db => {
       return index === NOT_FOUND ? undefined : use(collection)[index];
     },
     insert(collection, primary, document) {
+      const result = JSON.parse(JSON.stringify(document));
       // generate id
-      document[primary] = crypto.randomUUID();
-      use(collection).push(document);
-      return document;
+      result[primary] = crypto.randomUUID();
+      use(collection).push(result);
+      return result;
     },
-    update(collection, criteria, document) {
-      const index = findIndex(collection, criteria);
-      use(collection).splice(index, 1, document);
-      return document;
+    update(collection, criteria = {}, delta) {
+      const result = JSON.parse(JSON.stringify(delta));
+      return update(collection, criteria, result);
     },
     delete(collection, criteria) {
-      if (criteria === undefined) {
-        use(collection).splice(0);
-        return;
-      }
-      const index = findIndex(collection, criteria);
-      if (index !== NOT_FOUND) {
-        use(collection).splice(index, 1);
-      }
+      const original = db.collections[collection].length;
+      db.collections[collection] = criteria === undefined
+        ? []
+        : filterBy(collection, criteria);
+      const current = db.collections[collection].length;
+      return original - current;
     },
   };
 };

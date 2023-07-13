@@ -8,6 +8,7 @@ const client = async () => {
     name: "string",
     sex: "string",
     traits: "embedded",
+    age: "number",
   });
   d.create("comment", {
     title: "string",
@@ -17,4 +18,9 @@ const client = async () => {
 
 export default test => {
   base(test, client);
+
+  test.case("exists", async ({assert, exists}) => {
+    assert(exists("user")).true();
+    assert(exists("users")).false();
+  });
 };

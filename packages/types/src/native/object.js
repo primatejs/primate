@@ -14,8 +14,8 @@ const object = {
   of(schema) {
     return {
       type(subobject) {
-        object.type(subobject);
-        return map(subobject, ([key, value]) => [key, schema[key].type(value)]);
+        const typed = object.type(subobject);
+        return map(typed, ([key, value]) => [key, schema[key].type(value)]);
       },
       base,
     };

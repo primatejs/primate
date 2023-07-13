@@ -15,20 +15,18 @@
     "url": "https://github.com/primatejs/primate",
     "directory": "packages/store"
   },
-  "dependencies": {
-    "runtime-compat": "^0.22.1"
+  "devDependencies": {
+    "runtime-compat": "^0.22.1",
+    "better-sqlite3": "^8.4.0"
   },
   "peerDependencies": {
-    "primate": "0.20",
-    "better-sqlite3": "8.4"
+    "better-sqlite3": "8.4",
+    "primate": "0.20"
   },
   "peerDependenciesMeta": {
     "better-sqlite3": {
       "optional": true
     }
-  },
-  "devDependencies": {
-    "better-sqlite3": "^8.4.0"
   },
   "type": "module",
   "exports": "./src/exports.js"

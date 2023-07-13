@@ -64,7 +64,8 @@ export default ({
         !await root.exists && errors.MissingStoreDirectory.throw(root);
 
         env.defaults = {
-          driver: await driver,
+          // start driver
+          driver: await driver(),
           primary,
           strict,
           readonly: false,
@@ -131,6 +132,8 @@ export default ({
 
         return clientError();
       } finally {
+        // some drivers do not explicitly end transactions, in which case this
+        // is a noop
         await transaction.end();
       }
     },
