@@ -1,6 +1,7 @@
 import {assert, is} from "runtime-compat/dyndef";
 import {blue, bold, green, red, yellow, dim} from "runtime-compat/colors";
 import {map} from "runtime-compat/object";
+import console from "runtime-compat/console";
 
 const levels = {
   Error: 0,
