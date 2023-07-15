@@ -102,7 +102,11 @@ export default test => {
 
     assert(response1.headers.get()).equals({"x-user": "Donald"});
     assert(response1.headers.get("x-user")).equals("Donald");
+    assert(response1.headers.get("X-User")).equals("Donald");
+    assert(response1.headers.get("X-USER")).equals("Donald");
     assert(response1.headers.get("x-user2")).undefined();
+    assert(response1.headers.get("X-User2")).undefined();
+    assert(response1.headers.get("X-USER2")).undefined();
   });
   test.case("cookies double as headers", async assert => {
     const response = await r.get("/?key=value", {
