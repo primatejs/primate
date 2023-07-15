@@ -1,9 +1,8 @@
 import {URL} from "runtime-compat/http";
 import {tryreturn} from "runtime-compat/sync";
 import {stringify} from "runtime-compat/streams";
+import {from, valmap} from "runtime-compat/object";
 import errors from "../errors.js";
-
-const {fromEntries: from} = Object;
 
 const contents = {
   "application/x-www-form-urlencoded": body => from(body.split("&")
@@ -12,27 +11,23 @@ const contents = {
   "application/json": body => JSON.parse(body),
 };
 
-const parse = {
-  content(content_type, body) {
-    return tryreturn(_ => {
-      const type = contents[content_type];
-      return type === undefined ? body : type(body);
-    }).orelse(_ => errors.CannotParseBody.throw(body, content_type));
-  },
-  async body({body, headers}) {
-    return body === null
-      ? null
-      : this.content(headers.get("content-type"), await stringify(body));
-  },
-};
+const content = (type, body) =>
+  tryreturn(_ => contents[type]?.(body) ?? body)
+    .orelse(_ => errors.CannotParseBody.throw(body, type));
 
-export default dispatch => async request => {
-  const body = dispatch(await parse.body(request));
-  const cookies = dispatch(from(request.headers.get("cookie")?.split(";")
-    .map(cookie => cookie.trim().split("=")) ?? []));
-  const headers = dispatch(from(request.headers));
-  const url = new URL(request.url);
-  const query = dispatch(from(url.searchParams));
+export default dispatch => async original => {
+  const {headers} = original;
+  const url = new URL(original.url);
+  const body = await stringify(original.body);
+  const cookies = headers.get("cookie");
 
-  return {original: request, url, body, cookies, headers, query};
+  return {original, url,
+    ...valmap({
+      body: [content(headers.get("content-type"), body), body],
+      query: [from(url.searchParams), url.search],
+      headers: [from(headers), headers],
+      cookies: [from(cookies?.split(";").map(cookie => cookie.trim().split("="))
+        ?? []), cookies],
+    }, value => dispatch(...value)),
+  };
 };

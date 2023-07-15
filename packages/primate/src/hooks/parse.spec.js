@@ -134,8 +134,21 @@ export default test => {
 
     const pre = "mismatched type :: {0}";
     const nan = "is not a number";
-    assert(() => body.number("foo")).throws(mark(pre, `foo ${nan}`));
-    assert(() => body.number("bar")).throws(mark(pre, `bar ${nan}`));
-    assert(body.number("val")).equals(3);
+    assert(() => body.getNumber("foo")).throws(mark(pre, `foo ${nan}`));
+    assert(() => body.getNumber("bar")).throws(mark(pre, `bar ${nan}`));
+    assert(body.getNumber("val")).equals(3);
+  });
+  test.case("raw", async assert => {
+    const body = JSON.stringify({foo: "bar"});
+    const contentType = "application/json";
+    const headers = {
+      "Content-Type": contentType,
+      Cookie: "key=value",
+    };
+    const response = await r.post("/?foo=bar", {body, headers});
+    assert(response.body.raw).equals("{\"foo\":\"bar\"}");
+    assert(response.query.raw).equals("?foo=bar");
+    assert(response.headers.raw.get("content-type")).equals(contentType);
+    assert(response.cookies.raw).equals("key=value");
   });
 };
