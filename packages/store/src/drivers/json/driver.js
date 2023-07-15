@@ -1,7 +1,7 @@
 import {Path} from "runtime-compat/fs";
 import {is} from "runtime-compat/dyndef";
 
-import driver from "../base.js";
+import {default as driver, ident} from "../base.js";
 import TransactionManager from "../TransactionManager.js";
 import common from "../common.js";
 
@@ -28,19 +28,11 @@ export default async ({path}) => {
           }
           throw new Error(`\`${value}\` is not a valid primary key value`);
         },
+        ...ident,
       },
-      float: {
-        in(value) {
-          return value;
-        },
-        out(value) {
-          const out = Number(value);
-          if (Number.isNaN(out)) {
-            throw new Error();
-          }
-          return out;
-        },
-      },
+      object: ident,
+      boolean: ident,
+      number: ident,
       bigint: {
         in(value) {
           return value.toString();
@@ -49,7 +41,7 @@ export default async ({path}) => {
           return BigInt(value);
         },
       },
-      datetime: {
+      date: {
         in(value) {
           return value.toJSON();
         },
@@ -57,6 +49,7 @@ export default async ({path}) => {
           return new Date(value);
         },
       },
+      string: ident,
     }, new TransactionManager({
         async read() {
           db.collections = await read();

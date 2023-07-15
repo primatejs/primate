@@ -1,3 +1,5 @@
+import {identity} from "runtime-compat/function";
+
 const actions = [
   "find",
   "count",
@@ -7,6 +9,8 @@ const actions = [
   "delete",
 ];
 const write = ["insert", "update", "delete"];
+
+export const ident = {in: identity, out: identity};
 
 export default (name, types, manager) => ({
   /* driver name, must be unique */

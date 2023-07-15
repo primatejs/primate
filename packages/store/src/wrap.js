@@ -2,15 +2,14 @@ import {tryreturn} from "runtime-compat/sync";
 import * as object from "runtime-compat/object";
 import validate from "./validate.js";
 import errors from "./errors.js";
+import bases from "./bases.js";
 
 const {FailedDocumentValidation} = errors;
 
-const transform = direction => ({types, schema, document, path}) =>
+const transform = to => ({types, schema, document, path}) =>
   object.transform(document, entry => entry
-    .filter(([field]) => schema[field]?.type !== undefined)
     .map(([field, value]) =>
-      tryreturn(_ =>
-        [field, types[schema[field].base]?.[direction](value) ?? value])
+      tryreturn(_ => [field, types[bases[schema[field].base]][to](value)])
         .orelse(_ => {
           const {name} = schema[field];
           const command = `(await ${path}.get("${document.id}")).${field}`;

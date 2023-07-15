@@ -59,15 +59,13 @@ export default db => {
       return index === NOT_FOUND ? undefined : use(collection)[index];
     },
     insert(collection, primary, document) {
-      const result = JSON.parse(JSON.stringify(document));
       // generate id
-      result[primary] = crypto.randomUUID();
+      const result = {[primary]: crypto.randomUUID(), ...document};
       use(collection).push(result);
       return result;
     },
     update(collection, criteria = {}, delta) {
-      const result = JSON.parse(JSON.stringify(delta));
-      return update(collection, criteria, result);
+      return update(collection, criteria, delta);
     },
     delete(collection, criteria) {
       const original = db.collections[collection].length;

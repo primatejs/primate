@@ -1,12 +1,26 @@
 import {numeric} from "runtime-compat/dyndef";
 import {filter, keymap, valmap} from "runtime-compat/object";
 import load from "../load.js";
+import {ident} from "../base.js";
 
 const types = {
-  string: "TEXT",
+  /* array */
+  blob: "BLOB",
+  boolean: "INTEGER",
+  datetime: "TEXT",
   embedded: "TEXT",
-  number: "REAL",
+  f64: "REAL",
+  i8: "INTEGER",
+  i16: "INTEGER",
+  i32: "INTEGER",
+  i64: "INTEGER",
+  json: "TEXT",
   primary: "INTEGER PRIMARY KEY",
+  string: "TEXT",
+  time: "TEXT",
+  u8: "INTEGER",
+  u16: "INTEGER",
+  u32: "INTEGER",
 };
 const type = value => types[value];
 
@@ -64,24 +78,12 @@ export default ({
           }
           throw new Error(`\`${value}\` is not a valid primary key value`);
         },
-      },
-      datetime: {
-        in(value) {
-          return value;
-        },
+        ...ident,
         out(value) {
-          return new Date(value);
+          return Number(value);
         },
       },
-      boolean: {
-        in(value) {
-          return value === true ? 1 : 0;
-        },
-        out(value) {
-          return value === 1;
-        },
-      },
-      embedded: {
+      object: {
         in(value) {
           return JSON.stringify(value);
         },
@@ -89,6 +91,35 @@ export default ({
           return JSON.parse(value);
         },
       },
+      number: {
+        in(value) {
+          return value;
+        },
+        out(value) {
+          return Number(value);
+        },
+      },
+      // in: driver accepts both number and bigint
+      // out: find/get currently set statement.safeIntegers(true);
+      bigint: ident,
+      boolean: {
+        in(value) {
+          return value === true ? 1 : 0;
+        },
+        out(value) {
+          // out: find/get currently set statement.safeIntegers(true);
+          return Number(value) === 1;
+        },
+      },
+      date: {
+        in(value) {
+          return value.toJSON();
+        },
+        out(value) {
+          return new Date(value);
+        },
+      },
+      string: ident,
     },
     exists(collection) {
       return client.prepare(`
@@ -98,17 +129,14 @@ export default ({
     create(collection, schema) {
       const body = Object.entries(valmap(schema, value => type(value)))
         .map(([column, dataType]) => `${column} ${dataType}`).join(",");
-      client.prepare(`
-        CREATE TABLE ${collection} (
-          ${body} 
-        )
-      `).run();
+      const query = `CREATE TABLE ${collection} (${body})`;
+      client.prepare(query).run();
     },
     find(collection, criteria = {}) {
       const {where, bindings} = predicate(criteria);
-      const results = client.prepare(`SELECT * FROM ${collection} ${where}`)
-        .all(bindings);
-      return filterNull(results);
+      const statement = client.prepare(`SELECT * FROM ${collection} ${where}`);
+      statement.safeIntegers(true);
+      return filterNull(statement.all(bindings));
     },
     count(collection, criteria = {}) {
       const {where, bindings} = predicate(criteria);
@@ -116,9 +144,11 @@ export default ({
         .pluck(true).get(bindings);
     },
     get(collection, primary, value) {
-      const result = client.prepare(`
+      const statement = client.prepare(`
         SELECT * FROM ${collection} WHERE ${primary}=@primary
-      `).get({primary: value});
+      `);
+      statement.safeIntegers(true);
+      const result = statement.get({primary: value});
       return result === undefined
         ? result
         : filter(result, ([, value]) => value !== null);

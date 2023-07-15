@@ -34,7 +34,7 @@ const makeTransaction = (env) => {
 };
 
 const validType = type =>
-  typeof type === "function" || typeof type?.type === "function";
+  type.base !== undefined && typeof type?.type === "function";
 
 const valid = (type, name, store) => validType(type)
   ? type
@@ -84,13 +84,7 @@ export default ({
           .map(async ([store, path]) => {
             const exports = await import(path);
             const schema = transform(exports.default, entry => entry
-              .filter(([property, type]) => valid(type, property, store))
-              .map(([property, type]) =>
-                [property, typeof type === "function" ? type : type.type])
-              .map(([property, type]) => {
-                const base = type?.base ?? "string";
-                return [property, {type, base}];
-              }));
+              .filter(([property, type]) => valid(type, property, store)));
 
             exports.ambiguous !== true && schema.id === undefined
               && errors.MissingPrimaryKey.throw(primary, store, "id",
@@ -100,8 +94,10 @@ export default ({
 
             env.log.info(`loading ${bold(pathed)}`, {module: "primate/store"});
 
+            const {default: _, ...rest} = exports;
+
             return [pathed, {
-              ...exports,
+              ...rest,
               schema,
               name: exports.name ?? store.replaceAll("/", "_"),
             }];

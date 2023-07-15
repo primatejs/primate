@@ -16,8 +16,9 @@
     "directory": "packages/store"
   },
   "devDependencies": {
-    "runtime-compat": "^0.22.1",
-    "better-sqlite3": "^8.4.0"
+    "@primate/types": "^0.4.1",
+    "better-sqlite3": "^8.4.0",
+    "runtime-compat": "^0.22.1"
   },
   "peerDependencies": {
     "better-sqlite3": "8.4",

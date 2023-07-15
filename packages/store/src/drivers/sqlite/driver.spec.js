@@ -4,11 +4,14 @@ import base from "../base.test.js";
 const client = async () => {
   const d = await driver()();
   d.create("user", {
-    id: "primary",
-    name: "string",
+    id: "primary",       // primary
+    name: "string",      // string
     sex: "string",
-    traits: "embedded",
-    age: "number",
+    traits: "embedded",  // object
+    age: "u8",           // number
+    smart: "boolean",    // boolean
+    money: "i64",        // bigint
+    created: "datetime", // date
   });
   d.create("comment", {
     title: "string",

@@ -1,4 +1,4 @@
-import driver from "../base.js";
+import {default as driver, ident} from "../base.js";
 import TransactionManager from "../TransactionManager.js";
 import common from "../common.js";
 
@@ -23,7 +23,21 @@ export default async () => {
           }
           throw new Error(`\`${value}\` is not a valid primary key value`);
         },
+        ...ident,
       },
+      object: ident,
+      boolean: ident,
+      number: ident,
+      bigint: {
+        in(value) {
+          return value.toString();
+        },
+        out(value) {
+          return BigInt(value);
+        },
+      },
+      date: ident,
+      string: ident,
     }, new TransactionManager({
       async read() {
         db.collections = read();
