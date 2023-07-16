@@ -12,6 +12,7 @@ const client = async () => {
     smart: "boolean",    // boolean
     money: "i64",        // bigint
     created: "datetime", // date
+    from: "string",
   });
   d.create("comment", {
     title: "string",

@@ -13,6 +13,7 @@ const schema = {
   smart: boolean,
   money: i64,
   created: date,
+  from: string,
 };
 
 /* stolen from wrap.js */
@@ -261,5 +262,20 @@ export default async (test, driver, lifecycle) => {
 
     const {id} = await user.insert(user1);
     assert(await user.get(id)).equals({id, ...user1, traits: {...traits}});
+  });
+
+  test.case("reserved keywords", async ({assert, user}) => {
+    const user1 = {
+      from: "test",
+    };
+
+    const {id} = await user.insert(user1);
+    assert(await user.get(id)).equals({id, ...user1});
+
+    await user.update({id}, {from: "test2"});
+    assert((await user.find({id}))[0]).equals({id, from: "test2"});
+
+    await user.delete({from: "test2"});
+    assert(await user.count()).equals(0);
   });
 };

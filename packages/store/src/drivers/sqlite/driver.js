@@ -33,13 +33,14 @@ const predicate = criteria => {
     return {where: "", bindings: {}};
   }
 
-  const where = `WHERE ${keys.map(key => `${key}=@${key}`)}`;
+  const where = `WHERE ${keys.map(key => `"${key}"=@${key}`)}`;
 
   return {where, bindings: criteria};
 };
 
 const change = delta => {
-  const set = Object.keys(delta).map(field => `${field}=@s_${field}`).join(",");
+  const keys = Object.keys(delta);
+  const set = keys.map(field => `"${field}"=@s_${field}`).join(",");
   return {
     set: `SET ${set}`,
     bindings: keymap(delta, key => `s_${key}`),
@@ -122,31 +123,31 @@ export default ({
       string: ident,
     },
     exists(collection) {
-      return client.prepare(`
-        SELECT name FROM sqlite_master WHERE type='table' AND name=@collection
-      `).get({collection}) !== undefined;
+      const where = "type='table' AND name=@collection";
+      const query = `SELECT name FROM sqlite_master WHERE ${where}`;
+      return client.prepare(query).get({collection}) !== undefined;
     },
     create(collection, schema) {
       const body = Object.entries(valmap(schema, value => type(value)))
-        .map(([column, dataType]) => `${column} ${dataType}`).join(",");
+        .map(([column, dataType]) => `"${column}" ${dataType}`).join(",");
       const query = `CREATE TABLE ${collection} (${body})`;
       client.prepare(query).run();
     },
     find(collection, criteria = {}) {
       const {where, bindings} = predicate(criteria);
-      const statement = client.prepare(`SELECT * FROM ${collection} ${where}`);
+      const query = `SELECT * FROM ${collection} ${where}`;
+      const statement = client.prepare(query);
       statement.safeIntegers(true);
       return filterNull(statement.all(bindings));
     },
     count(collection, criteria = {}) {
       const {where, bindings} = predicate(criteria);
-      return client.prepare(`SELECT COUNT(*) FROM ${collection} ${where}`)
-        .pluck(true).get(bindings);
+      const query = `SELECT COUNT(*) FROM ${collection} ${where}`;
+      return client.prepare(query).pluck(true).get(bindings);
     },
     get(collection, primary, value) {
-      const statement = client.prepare(`
-        SELECT * FROM ${collection} WHERE ${primary}=@primary
-      `);
+      const query = `SELECT * FROM ${collection} WHERE ${primary}=@primary`;
+      const statement = client.prepare(query);
       statement.safeIntegers(true);
       const result = statement.get({primary: value});
       return result === undefined
@@ -154,14 +155,14 @@ export default ({
         : filter(result, ([, value]) => value !== null);
     },
     insert(collection, primary, document) {
-      const columns = Object.keys(document);
-      const values = columns.map(column => `@${column}`).join(",");
+      const keys = Object.keys(document);
+      const columns = keys.map(key => `"${key}"`);
+      const values = keys.map(key => `@${key}`).join(",");
       const predicate = columns.length > 0
         ? `(${columns.join(",")}) VALUES (${values})`
         : "DEFAULT VALUES";
-      const {lastInsertRowid: id} = client.prepare(`
-        INSERT INTO ${collection} ${predicate}
-      `).run(document);
+      const query = `INSERT INTO ${collection} ${predicate}`;
+      const {lastInsertRowid: id} = client.prepare(query).run(document);
       return {...document, id};
     },
     update(collection, criteria = {}, delta) {
