@@ -34,7 +34,6 @@ export default () => {
             "ws", "message", "{message(payload) { return payload; }}");
           wss.handleUpgrade(req, socket, head, up(response));
         } catch (error) {
-          console.log(error);
           socket.destroy();
           if (error.level !== undefined) {
             app.log.auto(error);

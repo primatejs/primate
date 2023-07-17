@@ -73,6 +73,7 @@ const handler = ({path}) => (name, props = {}, {status = 200, page} = {}) =>
           data: JSON.parse(${JSON.stringify(JSON.stringify(data))}),
         },
       });
+      ${app.liveview ? "console.log('test')" : ""}
     `;
 
     await app.publish({code, type, inline: true});
