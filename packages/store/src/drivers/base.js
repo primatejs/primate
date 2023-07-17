@@ -7,6 +7,7 @@ const actions = [
   "insert",
   "update",
   "delete",
+  "exists",
 ];
 const write = ["insert", "update", "delete"];
 

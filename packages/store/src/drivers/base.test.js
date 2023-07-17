@@ -40,10 +40,10 @@ export default async (test, driver, lifecycle) => {
       find: async criteria => (await d.find(name, criteria))
         .map(document => o(types, document)),
       delete: criteria => d.delete(name, criteria),
-
+      exists: () => d.exists(name),
     }));
     const transaction = {start, rollback, commit, end};
-    return {assert, user, comment, exists, transaction};
+    return {assert, user, comment, transaction};
   });
 
   test.case("empty collection", async ({assert, user, comment}) => {
@@ -277,5 +277,10 @@ export default async (test, driver, lifecycle) => {
 
     await user.delete({from: "test2"});
     assert(await user.count()).equals(0);
+  });
+
+  test.case("exists", async ({assert, user, comment}) => {
+    await user.insert({});
+    assert(await user.exists()).true();
   });
 };

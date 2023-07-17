@@ -46,6 +46,9 @@ export default db => {
   };
 
   return {
+    exists(collection) {
+      return db.collections[collection] !== undefined;
+    },
     find(collection, criteria) {
       return criteria === undefined
         ? use(collection)
