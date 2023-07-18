@@ -7,33 +7,36 @@ const cookie = (name, value, {path, secure, sameSite}) =>
 // gets a cookie id and returns it if exists, otherwise generates a new one
 const inMemorySessionManager = () => {
   const store = new Map();
-  return id => ({
-    id,
-    has() {
-      return store.has(this.id);
-    },
-    get() {
-      return store.get(this.id) ?? {};
-    },
-    set(key, value) {
-      if (this.has()) {
-        store.set(this.id, {...this.get(), [key]: value});
-      }
-    },
-    async create(data = {}) {
-      /* dynamic to prevent multiple calls to create */
-      if (!this.has()) {
-        this.id = crypto.randomUUID();
-        store.set(this.id, data);
-      }
-    },
-      /* dynamic to prevent multiple calls to destroy */
-    destroy() {
-      if (this.has()) {
-        store.delete(this.id);
-      }
-    },
-  });
+  return id => {
+    let _id = id;
+    return {
+      get exists() {
+        return store.has(_id);
+      },
+      get() {
+        return store.get(_id) ?? {};
+      },
+      set(key, value) {
+        if (this.exists) {
+          store.set(_id, {...this.get(), [key]: value});
+        }
+      },
+      async create(data = {}) {
+        console.log("CREATE");
+        /* dynamic to prevent multiple calls to create */
+        if (!this.exists) {
+          _id = crypto.randomUUID();
+          store.set(_id, data);
+        }
+      },
+        /* dynamic to prevent multiple calls to destroy */
+      destroy() {
+        if (this.exists) {
+          store.delete(_id);
+        }
+      },
+    };
+  };
 };
 
 export default ({
