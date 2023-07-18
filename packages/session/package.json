@@ -1,6 +1,6 @@
 {
   "name": "@primate/session",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "Primate session module",
   "homepage": "https://primatejs.com/modules/session",
   "bugs": "https://github.com/primatejs/primate/issues",
