@@ -1,6 +1,6 @@
 {
   "name": "@primate/surrealdb",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Primate SurrealDB driver module",
   "homepage": "https://primatejs.com/modules/surrealdb",
   "bugs": "https://github.com/primatejs/primate/issues",
@@ -15,8 +15,8 @@
     "directory": "packages/surrealdb"
   },
   "dependencies": {
-    "runtime-compat": "^0.20.2",
-    "surrealdb.js": "^0.8.0"
+    "runtime-compat": "^0.22.3",
+    "surrealdb.js": "^0.8.3"
   },
   "peerDependencies": {
     "primate": "0.20"
