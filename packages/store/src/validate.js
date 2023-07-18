@@ -1,12 +1,17 @@
+const normalize = string => string.trim() === "" ? undefined : string;
+
 export default async ({driver, input, schema, strict}) =>
   Object.entries(schema).reduce(({errors, document}, [name, field]) => {
+    const value = input[name];
     // skip empty fields if not in strict mode
-    if (!strict && input[name] === undefined) {
+    if (!strict && value === undefined) {
       return {errors, document};
     }
 
     try {
-      const coerced = field.type(input[name], driver);
+      // empty strings are considered undefind
+      const normalized = typeof value === "string" ? normalize(value) : value;
+      const coerced = field.type(normalized, driver);
       return {
         errors,
         document: {...document, [name]: coerced},

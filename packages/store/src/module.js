@@ -62,7 +62,6 @@ export default ({
 
         const root = app.root.join(directory);
         !await root.exists && errors.MissingStoreDirectory.throw(root);
-
         env.defaults = {
           // start driver
           driver: await driver(),

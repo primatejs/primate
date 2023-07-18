@@ -19,7 +19,7 @@ export default async ({path}) => {
   };
   const db = {collections: await read()};
 
-  return {
+  return () => ({
     ...driver("json", {
       primary: {
         validate(value) {
@@ -60,5 +60,5 @@ export default async ({path}) => {
         actions: common(db),
     })),
     client: {read, write},
-  };
+  });
 };

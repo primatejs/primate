@@ -39,21 +39,22 @@ export default (name, schema = {}, options = {}) => {
       unpack(document) {
         return transform("out")({document, path, schema, types});
       },
-      validate(input) {
-        return validate({input, driver, schema, strict: config.strict});
+      async validate(input) {
+        const result = await validate({input, driver, schema,
+          strict: config.strict});
+        if (Object.keys(result.errors).length > 0) {
+          const error = FailedDocumentValidation.new(Object.keys(result));
+          error.errors = result.errors;
+          throw error;
+        } else {
+          return result.document;
+        }
       },
       async write(input, writer) {
-        const result = await this.validate(input);
-        const {document} = result;
-
-        return Object.keys(result.errors).length > 0
-          ? (() => {
-            const error = FailedDocumentValidation.new(Object.keys(result));
-            error.errors = result.errors;
-            throw error;
-          })()
-          : config.readonly ? document :
-            this.unpack(await writer(this.pack(document)));
+        const document = await this.validate(input);
+        return config.readonly
+          ? document
+          : this.unpack(await writer(this.pack(document)));
       },
       async get(value) {
         const document = await driver.get(config.name, config.primary, value);

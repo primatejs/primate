@@ -6,7 +6,7 @@ import common from "../common.js";
 const valid = /^[^\W_]{8}-[^\W_]{4}-[^\W_]{4}-[^\W_]{4}-[^\W_]{12}$/u;
 const test = value => typeof value === "string" && valid.test(value);
 
-export default async () => {
+export default () => {
   let storage = "{}";
   const read = () => JSON.parse(storage);
   const write = collections => {
@@ -14,7 +14,7 @@ export default async () => {
   };
   const db = {collections: read()};
 
-  return {
+  return () => ({
     ...driver("memory", {
       primary: {
         validate(value) {
@@ -48,5 +48,5 @@ export default async () => {
       actions: common(db),
     })),
     client: {read, write},
-  };
+  });
 };
