@@ -21,7 +21,7 @@ export default test => {
     assert(() => routes([[path, undefined]])).throws(throws);
     assert(() => routes([[path, {}]])).throws(throws);
   });
-  test.case("error DoublePathParameter", async assert => {
+  test.case("errors.DoublePathParameter", async assert => {
     const path = "{user}/{user}";
     const throws = mark("double path parameter {0} in route {1}", "user", path);
     try {
@@ -30,7 +30,7 @@ export default test => {
       assert(error.message).equals(throws);
     }
   });
-  test.case("error InvalidPathParameter", assert => {
+  test.case("errors.InvalidPathParameter", assert => {
     const path = "{us$er}";
     const err1 = mark("invalid path parameter {0} in route {1}", "us$er", path);
     assert(() => routes([[path, {get}]])).throws(err1);
@@ -38,7 +38,7 @@ export default test => {
     const err2 = mark("invalid path parameter {0} in route {1}", "", path2);
     assert(() => routes([[path2, {get}]])).throws(err2);
   });
-  test.case("error InvalidRouteName", async assert => {
+  test.case("errors.InvalidRouteName", async assert => {
     const post = ["po.st", {get}];
     const throws = mark("invalid route name {0}", "po.st");
     try {
