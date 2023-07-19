@@ -1,3 +1,5 @@
+import {Status, MediaType} from "runtime-compat/http";
+
 const script = /(?<=<script)>(?<code>.*?)(?=<\/script>)/gus;
 const style = /(?<=<style)>(?<code>.*?)(?=<\/style>)/gus;
 
@@ -10,7 +12,7 @@ const integrate = async (html, publish) => {
 };
 
 export default (component, options = {}) => {
-  const {status = 200, partial = false, load = false} = options;
+  const {status = Status.OK, partial = false, load = false} = options;
 
   return async app => {
     const body = await integrate(await load ?
@@ -21,7 +23,7 @@ export default (component, options = {}) => {
 
     return [partial ? body : await app.render({body}), {
       status,
-      headers: {...headers, "Content-Type": "text/html"},
+      headers: {...headers, "Content-Type": MediaType.TEXT_HTML},
     }];
   };
 };

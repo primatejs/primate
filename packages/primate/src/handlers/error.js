@@ -1,9 +1,9 @@
-import {Status} from "runtime-compat/http";
+import {Status, MediaType} from "runtime-compat/http";
 
-export default (body = "Not Found", {status = Status.NotFound} = {}) =>
+export default (body = "Not Found", {status = Status.NOT_FOUND} = {}) =>
   async app => [
     await app.render({body}), {
       status,
-      headers: {...app.headers(), "Content-Type": "text/html"},
+      headers: {...app.headers(), "Content-Type": MediaType.TEXT_HTML},
     },
   ];

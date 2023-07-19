@@ -1,12 +1,13 @@
+import {Path} from "runtime-compat/fs";
+import {Status, MediaType} from "runtime-compat/http";
 import ReactDOMServer from "react-dom/server";
 import React from "react";
-import {Path} from "runtime-compat/fs";
 import babel from "@babel/core";
 
 const render = (component, attributes) =>
   ReactDOMServer.renderToString(React.createElement(component, attributes));
 
-const handler = _ => (name, props = {}, {status = 200} = {}) =>
+const handler = _ => (name, props = {}, {status = Status.OK} = {}) =>
   async app => {
     const {paths, config} = app;
     const target = paths.server.join(config.build.app).join(`${name}.js`);
@@ -15,7 +16,7 @@ const handler = _ => (name, props = {}, {status = 200} = {}) =>
     // -> spread into new Response()
     return [await app.render({body}), {
       status,
-      headers: {...app.headers(), "Content-Type": "text/html"},
+      headers: {...app.headers(), "Content-Type": MediaType.TEXT_HTML},
     }];
   };
 

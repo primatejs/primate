@@ -1,6 +1,6 @@
-import {Response, Status} from "runtime-compat/http";
+import {Response, Status, MediaType} from "runtime-compat/http";
 import {tryreturn} from "runtime-compat/async";
-import {mime, isResponse, respond} from "./respond/exports.js";
+import {isResponse, respond} from "./respond/exports.js";
 import {invalid} from "./route.js";
 import {error as clientError} from "../handlers/exports.js";
 import errors from "../errors.js";
@@ -57,7 +57,7 @@ export default app => {
   const asset = async file => new Response(file.readable, {
     status: Status.OK,
     headers: {
-      "Content-Type": mime(file.name),
+      "Content-Type": MediaType.resolve(file.name),
       Etag: await file.modified,
     },
   });

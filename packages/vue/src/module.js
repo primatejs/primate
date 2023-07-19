@@ -1,3 +1,4 @@
+import {Status, MediaType} from "runtime-compat/http";
 import {createSSRApp} from "vue";
 import {renderToString} from "vue/server-renderer";
 import {parse} from "vue/compiler-sfc";
@@ -7,7 +8,9 @@ const render = (template, props) => {
   return renderToString(app);
 };
 
-const handler = _ => (name, props = {}, {status = 200} = {}) => async app => {
+const handler = _ => (name, props = {}, {
+  status = Status.OK,
+} = {}) => async app => {
   const {paths, config} = app;
   const target = paths.server.join(config.build.app).join(`${name}.js`);
   const body = await render(await target.text(), props);
@@ -15,7 +18,7 @@ const handler = _ => (name, props = {}, {status = 200} = {}) => async app => {
   // -> spread into new Response()
   return [await app.render({body}), {
     status,
-    headers: {...app.headers(), "Content-Type": "text/html"},
+    headers: {...app.headers(), "Content-Type": MediaType.TEXT_HTML},
   }];
 };
 

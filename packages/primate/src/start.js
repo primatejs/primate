@@ -21,7 +21,7 @@ export default async (app, operations = {}) => {
     tryreturn(async _ => hooks.handle(app)(await app.parse(request)))
       .orelse(error => {
         app.log.auto(error);
-        return new Response(null, {status: Status.InternalServerError});
+        return new Response(null, {status: Status.INTERNAL_SERVER_ERROR});
       }),
   app.config.http);
 

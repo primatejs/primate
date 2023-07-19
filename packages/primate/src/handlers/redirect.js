@@ -1,6 +1,6 @@
 import {Status} from "runtime-compat/http";
 
-export default (Location, {status = Status.Found} = {}) => app => [
+export default (Location, {status = Status.FOUND} = {}) => app => [
   /* no body */
   null, {
     status,

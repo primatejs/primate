@@ -1,5 +1,6 @@
 import crypto from "runtime-compat/crypto";
 import {Path} from "runtime-compat/fs";
+import {Status, MediaType} from "runtime-compat/http";
 import * as compiler from "svelte/compiler";
 import {tryreturn} from "runtime-compat/async";
 import errors from "./errors.js";
@@ -40,7 +41,10 @@ const make_component = base => async (name, props) =>
 
 const encoder = new TextEncoder();
 
-const handler = ({path}) => (name, props = {}, {status = 200, page} = {}) =>
+const handler = ({path}) => (name, props = {}, {
+  status = Status.OK,
+  page,
+} = {}) =>
   async (app, {layouts = [], as_layout} = {}) => {
     const make = make_component(path);
     if (as_layout) {
@@ -83,7 +87,7 @@ const handler = ({path}) => (name, props = {}, {status = 200, page} = {}) =>
     // -> spread into new Response()
     return [await app.render({body: html, page}), {
       status,
-      headers: {...headers, "Content-Type": "text/html"},
+      headers: {...headers, "Content-Type": MediaType.TEXT_HTML},
     }];
   };
 

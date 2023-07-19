@@ -1,7 +1,9 @@
+import {MediaType} from "runtime-compat/http";
 import parse from "./parse.js";
 import {mark} from "../Logger.js";
 import dispatch from "../dispatch.js";
 
+const contentType = MediaType.APPLICATION_JSON;
 const r = await (async () => {
   const p = "https://p.com";
   const request = (method, path = "/", options = {}) =>
@@ -27,7 +29,6 @@ export default test => {
   });
   test.case("body is application/json", async assert => {
     const body = JSON.stringify({foo: "bar"});
-    const contentType = "application/json";
     const headers = {"Content-Type": contentType};
     const response = await r.post("/", {body, headers});
     assert(response.body.get()).equals({foo: "bar"});
@@ -144,7 +145,6 @@ export default test => {
   });
   test.case("raw", async assert => {
     const body = JSON.stringify({foo: "bar"});
-    const contentType = "application/json";
     const headers = {
       "Content-Type": contentType,
       Cookie: "key=value",

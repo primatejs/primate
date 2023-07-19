@@ -1,11 +1,13 @@
+import {MediaType as MT} from "runtime-compat/http";
+
 const mimes = {
-  binary: "application/octet-stream",
+  binary: MT.APPLICATION_OCTET_STREAM,
   css: "text/css",
-  html: "text/html",
+  html: MT.TEXT_HTML,
   jpg: "image/jpeg",
   js: "text/javascript",
   mjs: "text/javascript",
-  json: "application/json",
+  json: MT.APPLICATION_JSON,
   png: "image/png",
   svg: "image/svg+xml",
   woff2: "font/woff2",

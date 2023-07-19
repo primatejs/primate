@@ -20,7 +20,7 @@
     "babel-plugin-replace-import-extension": "^1.1.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "runtime-compat": "^0.22.3"
+    "runtime-compat": "^0.24.0"
   },
   "peerDependencies": {
     "primate": "0.20"

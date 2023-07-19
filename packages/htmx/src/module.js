@@ -1,3 +1,5 @@
+import {Status, MediaType} from "runtime-compat/http";
+
 const loadComponent = async (file) => {
   try {
     return await file.read();
@@ -11,7 +13,7 @@ const getBody = async (app, partial, file) => {
   return partial ? body : app.render({body});
 };
 
-const handler = path => (name, {status = 200, partial = false} = {}) =>
+const handler = path => (name, {status = Status.OK, partial = false} = {}) =>
   async app => {
     const code = "import {htmx} from \"app\";";
     await app.publish({code, type: "module", inline: true});
@@ -25,7 +27,7 @@ const handler = path => (name, {status = 200, partial = false} = {}) =>
       status,
       headers: {
         ...headers,
-        "Content-Type": "text/html",
+        "Content-Type": MediaType.TEXT_HTML,
         "Content-Security-Policy": csp,
       },
     };

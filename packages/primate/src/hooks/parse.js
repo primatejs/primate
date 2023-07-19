@@ -1,14 +1,16 @@
-import {URL} from "runtime-compat/http";
+import {URL, MediaType} from "runtime-compat/http";
 import {tryreturn} from "runtime-compat/sync";
 import {stringify} from "runtime-compat/streams";
 import {from, valmap} from "runtime-compat/object";
 import errors from "../errors.js";
 
+const {APPLICATION_FORM_URLENCODED, APPLICATION_JSON} = MediaType;
+
 const contents = {
-  "application/x-www-form-urlencoded": body => from(body.split("&")
+  [APPLICATION_FORM_URLENCODED]: body => from(body.split("&")
     .map(part => part.split("=")
       .map(subpart => decodeURIComponent(subpart).replaceAll("+", " ")))),
-  "application/json": body => JSON.parse(body),
+  [APPLICATION_JSON]: body => JSON.parse(body),
 };
 
 const content = (type, body) =>

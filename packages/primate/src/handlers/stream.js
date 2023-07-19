@@ -1,6 +1,9 @@
-export default (body, {status = 200} = {}) => app => [
+import {Status, MediaType} from "runtime-compat/http";
+
+export default (body, {status = Status.OK} = {}) => app => [
   body, {
     status,
-    headers: {...app.headers(), "Content-Type": "application/octet-stream"},
+    headers: {...app.headers(), "Content-Type":
+      MediaType.APPLICATION_OCTET_STREAM},
   },
 ];
