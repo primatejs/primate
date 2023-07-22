@@ -134,7 +134,7 @@ export default async (config, root, log) => {
     async import(module) {
       const {build} = config;
       const {root} = http.static;
-      const path = [library, module];
+      const path = [library, ...module.split("/")];
       const pkg = await Path.resolve().join(...path, packager).json();
       const exports = pkg.exports === undefined
         ? {[module]: `/${module}/${pkg.main}`}
@@ -149,7 +149,7 @@ export default async (config, root, log) => {
               ?? value.import?.replace(".", `./${module}`),
           ]));
       const dependency = Path.resolve().join(...path);
-      const to = new Path(paths.client, build.modules, dependency.name);
+      const to = new Path(paths.client, build.modules, ...module.split("/"));
       await dependency.file.copy(to);
       this.importmaps = {
         ...valmap(exports, value => new Path(root, build.modules, value).path),

@@ -42,8 +42,7 @@ export default app => {
   const deroot = pathname => pathname.endsWith("/") && pathname !== "/"
     ? pathname.slice(0, -1) : pathname;
 
-  return request => {
-    const {original: {method}, url} = request;
+  return ({original: {method}, url}) => {
     const pathname = deroot(url.pathname);
     const route = find(method, pathname) ??
       errors.NoRouteToPath.throw(method, pathname, index(pathname));

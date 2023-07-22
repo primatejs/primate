@@ -1,6 +1,6 @@
 import {Path} from "runtime-compat/fs";
 import {identity} from "runtime-compat/function";
-import copy_includes from "./copy_includes.js"
+import copy_includes from "./copy_includes.js";
 
 const post = async app => {
   const {config} = app;
@@ -14,10 +14,9 @@ const post = async app => {
 
     await app.copy(app.paths.components, app.paths.client.join(build));
 
-    const imports = {...app.importmaps, app: src.path};
     await app.publish({
       inline: true,
-      code: JSON.stringify({imports}, null, 2),
+      code: JSON.stringify({...app.importmaps, app: src.path}, null, 2),
       type: "importmap",
     });
   }
