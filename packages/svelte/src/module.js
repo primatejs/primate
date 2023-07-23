@@ -45,19 +45,29 @@ const handler = ({path}) => (name, props = {}, {
   status = Status.OK,
   page,
 } = {}) =>
-  async (app, {layouts = [], as_layout} = {}) => {
+  async (app, {layouts = [], as_layout} = {}, request) => {
     const make = make_component(path);
     if (as_layout) {
       return make(name, props);
     }
     const components = (await Promise.all(layouts.map(layout =>
-      layout(app, {as_layout: true})
+      layout(app, {as_layout: true}, request)
     )))
       /* set the actual page as the last component */
       .concat(await make(name, props));
 
     const data = components.map(component => component.props);
+    const names = (await Promise.all(components.map(component =>
+      normalize(component.name))));
 
+    const liveview = app.liveview !== undefined;
+    if (liveview && request.headers.get(app.liveview.header) !== undefined) {
+      return new Response(JSON.stringify({names, data}), {
+        status,
+        headers: {...await app.headers(),
+          "Content-Type": MediaType.APPLICATION_JSON},
+      });
+    }
     const root = app.paths.server.join(filename);
     const imported = (await import(root)).default;
     const {html} = imported.render({
@@ -65,25 +75,35 @@ const handler = ({path}) => (name, props = {}, {
       data,
     });
 
-    const names = (await Promise.all(components.map(component =>
-      normalize(component.name)))).join(", ");
     const code = `
-      import {${rootname}, ${names}} from "app";
-      new ${rootname}({
+      import * as components from "app";
+      const getComponents = names =>
+        Object.entries(components).filter(([name, component]) =>
+          names.includes(name))
+          .map(([, component]) => component);
+      const root = new components.${rootname}({
         target: document.body,
         hydrate: true,
         props: {
-          components: [${names}],
+          components: getComponents([${names.map(name => `"${name}"`)}]),
           data: JSON.parse(${JSON.stringify(JSON.stringify(data))}),
         },
       });
-      ${app.liveview ? "console.log('test')" : ""}
+
+      ${liveview ? `
+      import liveview from "@primate/liveview";
+      window.addEventListener("DOMContentLoaded", _ => liveview(props => {
+        root.$set({
+          components: getComponents(props.names),
+          data: props.data,
+        })
+      }));
+      ` : ""}
     `;
 
     await app.publish({code, type, inline: true});
-    // needs to be called before app.render
-    const headers = app.headers();
 
+    const headers = await app.headers();
     // -> spread into new Response()
     return [await app.render({body: html, page}), {
       status,
