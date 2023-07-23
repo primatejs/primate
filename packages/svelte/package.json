@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "runtime-compat": "^0.24.0",
-    "svelte": "^4.1.0"
+    "svelte": "^4.1.1"
   },
   "peerDependencies": {
     "primate": "0.20"
