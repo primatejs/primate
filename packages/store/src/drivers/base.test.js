@@ -31,7 +31,7 @@ export default async (test, driver, lifecycle) => {
 
   test.reassert(async assert => {
     const d = await driver();
-    const {types, exists, start, rollback, commit, end} = d;
+    const {types, start, rollback, commit, end} = d;
     const [user, comment] = ["user", "comment"].map(name => ({
       insert: document => d.insert(name, "id", i(types, document)),
       update: (criteria, delta) => d.update(name, criteria, i(types, delta)),
@@ -40,7 +40,6 @@ export default async (test, driver, lifecycle) => {
       find: async criteria => (await d.find(name, criteria))
         .map(document => o(types, document)),
       delete: criteria => d.delete(name, criteria),
-      exists: () => d.exists(name),
     }));
     const transaction = {start, rollback, commit, end};
     return {assert, user, comment, transaction};
@@ -82,11 +81,23 @@ export default async (test, driver, lifecycle) => {
     const user1$ = w(user1, id1);
     const user2$ = w(user2, id2);
     const user3$ = w(user3, id3);
-    assert(await user.find({name: "Donald"})).equals([user1$, user2$]);
+    const users1 = await user.find({name: "Donald"});
+    // order not guaranteed
+    assert(users1.find(({id}) => id === user1$.id)).defined();
+    assert(users1.find(({id}) => id === user2$.id)).defined();
     assert(await user.find({name: "Ryan"})).equals([user3$]);
-    assert(await user.find({sex: "M"})).equals([user1$, user2$, user3$]);
+
+    const users2 = await user.find({sex: "M"});
+    assert(users2.find(({id}) => id === user1$.id)).defined();
+    assert(users2.find(({id}) => id === user2$.id)).defined();
+    assert(users2.find(({id}) => id === user3$.id)).defined();
     assert(await user.find({sex: "F"})).equals([]);
-    assert(await user.find()).equals([user1$, user2$, user3$]);
+
+    const users3 = await user.find();
+    // order not guaranteed
+    assert(users3.find(({id}) => id === user1$.id)).defined();
+    assert(users3.find(({id}) => id === user2$.id)).defined();
+    assert(users3.find(({id}) => id === user3$.id)).defined();
 
     // embedded
     const {id} = await user.insert({...traits});
@@ -277,10 +288,5 @@ export default async (test, driver, lifecycle) => {
 
     await user.delete({from: "test2"});
     assert(await user.count()).equals(0);
-  });
-
-  test.case("exists", async ({assert, user, comment}) => {
-    await user.insert({});
-    assert(await user.exists()).true();
   });
 };

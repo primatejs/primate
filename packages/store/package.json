@@ -18,14 +18,19 @@
   "devDependencies": {
     "@primate/types": "^0.4.1",
     "better-sqlite3": "^8.4.0",
-    "runtime-compat": "^0.22.3"
+    "runtime-compat": "^0.22.3",
+    "surrealdb.js": "^0.8.3"
   },
   "peerDependencies": {
+    "primate": "0.20",
     "better-sqlite3": "8.4",
-    "primate": "0.20"
+    "surrealdb.js": "0.8"
   },
   "peerDependenciesMeta": {
     "better-sqlite3": {
+      "optional": true
+    },
+    "surrealdb.js": {
       "optional": true
     }
   },
