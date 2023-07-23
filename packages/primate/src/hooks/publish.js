@@ -14,9 +14,10 @@ const post = async app => {
 
     await app.copy(app.paths.components, app.paths.client.join(build));
 
+    const imports = {...app.importmaps, app: src.path};
     await app.publish({
       inline: true,
-      code: JSON.stringify({...app.importmaps, app: src.path}, null, 2),
+      code: JSON.stringify({imports}, null, 2),
       type: "importmap",
     });
   }
