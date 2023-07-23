@@ -14,7 +14,7 @@ const contents = {
 };
 
 const content = (type, body) =>
-  tryreturn(_ => contents[type]?.(body) ?? body)
+  tryreturn(_ => contents[type?.split(";")[0]]?.(body) ?? body)
     .orelse(_ => errors.CannotParseBody.throw(body, type));
 
 export default dispatch => async original => {
