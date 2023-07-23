@@ -71,12 +71,15 @@ export default db => {
       return update(collection, criteria, delta);
     },
     delete(collection, criteria) {
-      const original = db.collections[collection].length;
-      db.collections[collection] = criteria === undefined
-        ? []
-        : filterBy(collection, criteria);
-      const current = db.collections[collection].length;
-      return original - current;
+      if (db.collections[collection]) {
+        const original = db.collections[collection].length;
+        db.collections[collection] = criteria === undefined
+          ? []
+          : filterBy(collection, criteria);
+        const current = db.collections[collection].length;
+        return original - current;
+      }
+      return 0;
     },
   };
 };

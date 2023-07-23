@@ -20,6 +20,4 @@ const client = async () => {
   return d;
 };
 
-export default test => {
-  base(test, client);
-};
+export default test => base(test, client);

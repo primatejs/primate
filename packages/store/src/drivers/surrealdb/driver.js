@@ -1,31 +1,6 @@
-import {numeric} from "runtime-compat/dyndef";
-import {filter, keymap, valmap} from "runtime-compat/object";
+import {keymap, valmap} from "runtime-compat/object";
 import load from "../load.js";
 import {ident} from "../base.js";
-
-const types = {
-  /* array */
-  blob: "BLOB",
-  boolean: "INTEGER",
-  datetime: "TEXT",
-  embedded: "TEXT",
-  f64: "REAL",
-  i8: "INTEGER",
-  i16: "INTEGER",
-  i32: "INTEGER",
-  i64: "INTEGER",
-  json: "TEXT",
-  primary: "INTEGER PRIMARY KEY",
-  string: "TEXT",
-  time: "TEXT",
-  u8: "INTEGER",
-  u16: "INTEGER",
-  u32: "INTEGER",
-};
-const type = value => types[value];
-
-const filterNull = results =>
-  results.map(result => filter(result, ([, value]) => value !== null));
 
 const nullToUndefined = delta =>
   valmap(delta, value => value === null ? undefined : value);
@@ -99,9 +74,14 @@ export default ({
           return Number(value);
         },
       },
-      // in: driver accepts both number and bigint
-      // out: find/get currently set statement.safeIntegers(true);
-      bigint: ident,
+      bigint: {
+        in(value) {
+          return value.toString();
+        },
+        out(value) {
+          return BigInt(value);
+        },
+      },
       boolean: ident,
       date: {
         in(value) {
