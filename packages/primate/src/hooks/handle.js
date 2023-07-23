@@ -42,7 +42,7 @@ export default app => {
 
     return (await respond(await handlers({...request, path})))(app, {
       layouts: await Promise.all(layouts.map(layout => layout(request))),
-    });
+    }, request);
   };
 
   const route = async request =>
