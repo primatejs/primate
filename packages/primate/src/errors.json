@@ -98,7 +98,7 @@
     },
     "NoRouteToPath": {
       "message": "no {0} route to {1}",
-      "fix": "if unintentional create a route at {2}.js",
+      "fix": "if unintentional create a {3} route function at {2}.js",
       "level": "Info"
     },
     "ReservedTypeName": {

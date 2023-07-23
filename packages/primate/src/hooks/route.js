@@ -44,8 +44,8 @@ export default app => {
 
   return ({original: {method}, url}) => {
     const pathname = deroot(url.pathname);
-    const route = find(method, pathname) ??
-      errors.NoRouteToPath.throw(method, pathname, index(pathname));
+    const route = find(method, pathname) ?? errors.NoRouteToPath
+      .throw(method, pathname, index(pathname), method.toLowerCase());
 
     const path = app.dispatch(keymap(route.pathname?.exec(pathname).groups,
       key => key.split("$")[0]));
