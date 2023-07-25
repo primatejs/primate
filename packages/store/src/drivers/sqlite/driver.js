@@ -33,14 +33,14 @@ const predicate = criteria => {
     return {where: "", bindings: {}};
   }
 
-  const where = `WHERE ${keys.map(key => `"${key}"=@${key}`)}`;
+  const where = `where ${keys.map(key => `"${key}"=$${key}`).join(" and ")}`;
 
   return {where, bindings: criteria};
 };
 
 const change = delta => {
   const keys = Object.keys(delta);
-  const set = keys.map(field => `"${field}"=@s_${field}`).join(",");
+  const set = keys.map(field => `"${field}"=$s_${field}`).join(",");
   return {
     set: `SET ${set}`,
     bindings: keymap(delta, key => `s_${key}`),
@@ -58,18 +58,16 @@ export default ({
     name: "sqlite",
     client,
     start() {
-      client.prepare("BEGIN TRANSACTION").run();
+      client.prepare("begin transaction").run();
     },
     rollback() {
-      client.prepare("ROLLBACK TRANSACTION").run();
+      client.prepare("rollback transaction").run();
     },
     commit() {
-      /* noop */
-      /* SQLite's COMMIT transaction is an alias for END */
-      client.prepare("COMMIT TRANSACTION").run();
+      client.prepare("commit transaction").run();
     },
     end() {
-      //client.prepare("COMMIT TRANSACTION").run();
+      // noop
     },
     types: {
       primary: {
@@ -123,30 +121,30 @@ export default ({
       string: ident,
     },
     exists(collection) {
-      const where = "type='table' AND name=@collection";
-      const query = `SELECT name FROM sqlite_master WHERE ${where}`;
+      const where = "type='table' and name=$collection";
+      const query = `select name from sqlite_master where ${where}`;
       return client.prepare(query).get({collection}) !== undefined;
     },
     create(collection, schema) {
       const body = Object.entries(valmap(schema, value => type(value)))
         .map(([column, dataType]) => `"${column}" ${dataType}`).join(",");
-      const query = `CREATE TABLE ${collection} (${body})`;
+      const query = `create table ${collection} (${body})`;
       client.prepare(query).run();
     },
     find(collection, criteria = {}) {
       const {where, bindings} = predicate(criteria);
-      const query = `SELECT * FROM ${collection} ${where}`;
+      const query = `select * from ${collection} ${where}`;
       const statement = client.prepare(query);
       statement.safeIntegers(true);
       return filterNull(statement.all(bindings));
     },
     count(collection, criteria = {}) {
       const {where, bindings} = predicate(criteria);
-      const query = `SELECT COUNT(*) FROM ${collection} ${where}`;
+      const query = `select count(*) from ${collection} ${where}`;
       return client.prepare(query).pluck(true).get(bindings);
     },
     get(collection, primary, value) {
-      const query = `SELECT * FROM ${collection} WHERE ${primary}=@primary`;
+      const query = `select * from ${collection} where ${primary}=$primary`;
       const statement = client.prepare(query);
       statement.safeIntegers(true);
       const result = statement.get({primary: value});
@@ -157,23 +155,23 @@ export default ({
     insert(collection, primary, document) {
       const keys = Object.keys(document);
       const columns = keys.map(key => `"${key}"`);
-      const values = keys.map(key => `@${key}`).join(",");
+      const values = keys.map(key => `$${key}`).join(",");
       const predicate = columns.length > 0
-        ? `(${columns.join(",")}) VALUES (${values})`
-        : "DEFAULT VALUES";
-      const query = `INSERT INTO ${collection} ${predicate}`;
+        ? `(${columns.join(",")}) values (${values})`
+        : "default values";
+      const query = `insert into ${collection} ${predicate}`;
       const {lastInsertRowid: id} = client.prepare(query).run(document);
       return {...document, id};
     },
     update(collection, criteria = {}, delta) {
       const {where, bindings} = predicate(criteria);
       const {set, bindings: bindings2} = change(delta);
-      const query = `UPDATE ${collection} ${set} ${where}`;
+      const query = `update ${collection} ${set} ${where}`;
       return client.prepare(query).run({...bindings, ...bindings2}).changes;
     },
     delete(collection, criteria = {}) {
       const {where, bindings} = predicate(criteria);
-      const query = `DELETE FROM ${collection} ${where}`;
+      const query = `delete from ${collection} ${where}`;
       return client.prepare(query).run({...bindings}).changes;
     },
   };

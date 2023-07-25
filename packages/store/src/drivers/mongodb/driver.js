@@ -1,11 +1,17 @@
-import {map} from "runtime-compat/object";
+import {filter} from "runtime-compat/object";
 import load from "../load.js";
 import {ident} from "../base.js";
 
 const toid = ({_id, ...rest}) => ({id: _id, ...rest});
-const to_id = ({id, ...rest}) => ({_id: id, ...rest});
+const to_id = ({id, ...rest}) => id === undefined ? rest : {_id: id, ...rest};
 
 const cid = criteria => criteria.id === undefined ? criteria : to_id(criteria);
+
+const nullToSetUnset = delta => {
+  const $set = filter(delta, ([, value]) => value !== null);
+  const $unset = filter(delta, ([, value]) => value === null);
+  return {$set, $unset};
+};
 
 export default ({
   host = "localhost",
@@ -74,17 +80,16 @@ export default ({
       return this.with(collection).count(criteria);
     },
     async get(collection, primary, value) {
-      const result = await this.with(collection).findOne({"_id": value});
+      const result = await this.with(collection).findOne({_id: value});
       return result === null ? undefined : toid(result);
     },
     async insert(collection, primary, document) {
       await this.with(collection).insertOne(document);
       return toid(document);
     },
-    async update(collection, criteria = {}, _delta) {
-      const delta = map(_delta, ([key, value]) => ["$set", {[key]: value}]);
-      return (await this.with(collection).updateMany(to_id(criteria), delta))
-        .modifiedCount;
+    async update(collection, criteria = {}, delta = {}) {
+      return (await this.with(collection).updateMany(to_id(criteria),
+        nullToSetUnset(delta))).modifiedCount;
     },
     async delete(collection, criteria = {}) {
       return (await this.with(collection).deleteMany(cid(criteria)))

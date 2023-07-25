@@ -11,7 +11,7 @@ const predicate = criteria => {
     return {where: "", bindings: {}};
   }
 
-  const where = `WHERE ${keys.map(key => `${key}=$${key}`)}`;
+  const where = `where ${keys.map(key => `${key}=$${key}`).join(" and ")}`;
 
   return {where, bindings: criteria};
 };
@@ -20,7 +20,7 @@ const change = delta => {
   const keys = Object.keys(delta);
   const set = keys.map(field => `${field}=$s_${field}`).join(",");
   return {
-    set: `SET ${set}`,
+    set: `set ${set}`,
     bindings: keymap(delta, key => `s_${key}`),
   };
 };
@@ -47,13 +47,13 @@ export default ({
     name: "surrealdb",
     client,
     async start() {
-      await client.query("BEGIN TRANSACTION;");
+      await client.query("begin transaction;");
     },
     async rollback() {
-      await client.query("CANCEL TRANSACTION;");
+      await client.query("cancel transaction;");
     },
     async commit() {
-      await client.query("COMMIT TRANSACTION;");
+      await client.query("commit transaction;");
     },
     end() {
       // noop
@@ -95,18 +95,18 @@ export default ({
     },
     async find(collection, criteria = {}) {
       const {where, bindings} = predicate(criteria);
-      const query = `SELECT * FROM ${collection} ${where}`;
+      const query = `select * from ${collection} ${where}`;
       const [{result}] = await client.query(query, bindings);
       return result;
     },
     async count(collection, criteria = {}) {
       const {where, bindings} = predicate(criteria);
-      const query = `SELECT count() FROM ${collection} ${where}`;
+      const query = `select count() from ${collection} ${where}`;
       const [{result}] = await client.query(query, bindings);
       return result.length;
     },
     async get(collection, primary, value) {
-      const query = `SELECT * FROM ${collection} WHERE ${primary}=$primary`;
+      const query = `select * from ${collection} where ${primary}=$primary`;
       const [{result}] = await client.query(query, {primary: value});
       return result.length === 0
         ? undefined
@@ -117,22 +117,22 @@ export default ({
       const columns = keys.map(key => `${key}`);
       const values = keys.map(key => `$${key}`).join(",");
       const predicate = columns.length > 0
-        ? `(${columns.join(",")}) VALUES (${values})`
+        ? `(${columns.join(",")}) values (${values})`
         : "{}";
-      const query = `INSERT INTO ${collection} ${predicate}`;
+      const query = `insert into ${collection} ${predicate}`;
       const [{result: [{id}]}] = await client.query(query, document);
       return {...document, id};
     },
     async update(collection, criteria = {}, delta) {
       const {where, bindings} = predicate(criteria);
       const {set, bindings: bindings2} = change(nullToUndefined(delta));
-      const query = `UPDATE ${collection} ${set} ${where}`;
+      const query = `update ${collection} ${set} ${where}`;
       const [{result}] = await client.query(query, {...bindings, ...bindings2});
       return result.length;
     },
     async delete(collection, criteria = {}) {
       const {where, bindings} = predicate(criteria);
-      const query = `DELETE FROM ${collection} ${where} RETURN DIFF`;
+      const query = `delete from ${collection} ${where} return diff`;
       const [{result}] = await client.query(query, bindings);
       return result.length;
     },
