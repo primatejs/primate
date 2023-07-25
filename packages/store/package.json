@@ -19,12 +19,14 @@
     "@primate/types": "^0.4.1",
     "better-sqlite3": "^8.4.0",
     "mongodb": "^5.7.0",
+    "postgres": "^3.3.5",
     "runtime-compat": "^0.22.3",
     "surrealdb.js": "^0.8.3"
   },
   "peerDependencies": {
-    "better-sqlite3": "8.4",
-    "mongodb": "5.7",
+    "better-sqlite3": "8",
+    "mongodb": "5",
+    "postgres": "3",
     "primate": "0.20",
     "surrealdb.js": "0.8"
   },
