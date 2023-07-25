@@ -84,7 +84,7 @@ export default async (test, driver, lifecycle = {}) => {
   });
   test.case("find", async ({assert, user}) => {
     const user1 = {name: "Donald", sex: "M"};
-    const user2 = {name: "Donald", sex: "M"};
+    const user2 = {name: "Donald", sex: "M", age: 20};
     const user3 = {name: "Ryan", sex: "M"};
     const {id: id1} = await user.insert(user1);
     const {id: id2} = await user.insert(user2);
@@ -110,13 +110,18 @@ export default async (test, driver, lifecycle = {}) => {
     assert(users3.find(({id}) => id === user2$.id)).defined();
     assert(users3.find(({id}) => id === user3$.id)).defined();
 
+    // multiple criteria
+    const users4 = await user.find({name: "Donald", age: 20});
+    assert(users4.length).equals(1);
+    assert(users4.find(({id}) => id === user2$.id)).defined();
+
     // embedded
     const {id} = await user.insert({...traits});
     assert(await user.find({id})).equals([{id, ...traits}]);
   });
   test.case("count", async ({assert, user}) => {
     const user1 = {name: "Donald", sex: "M"};
-    const user2 = {name: "Donald", sex: "M"};
+    const user2 = {name: "Donald", sex: "M", age: 20};
     const user3 = {name: "Ryan", sex: "M"};
     await user.insert(user1);
     await user.insert(user2);
@@ -126,6 +131,7 @@ export default async (test, driver, lifecycle = {}) => {
     assert(await user.count({sex: "M"})).equals(3);
     assert(await user.count({sex: "F"})).equals(0);
     assert(await user.count()).equals(3);
+    assert(await user.count({name: "Donald", age: 20})).equals(1);
 
   });
   test.case("update", async ({assert, user}) => {
@@ -141,7 +147,6 @@ export default async (test, driver, lifecycle = {}) => {
 
       const updated = await user.update({id: id1}, {id: id1, name: "Ryan"});
       assert(updated).equals(1);
-      return;
       // doesn't delete
       assert(await user.count()).equals(2);
       // only modifies documents adhering to criteria
