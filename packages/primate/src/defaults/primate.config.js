@@ -3,7 +3,10 @@ import Logger from "../Logger.js";
 export default {
   base: "/",
   modules: [],
-  index: "app.html",
+  pages: {
+    index: "app.html",
+    error: "error.html",
+  },
   logger: {
     level: Logger.Warn,
     trace: false,

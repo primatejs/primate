@@ -1,4 +1,4 @@
-import {Status, MediaType} from "runtime-compat/http";
+import {Response, Status, MediaType} from "runtime-compat/http";
 
 const script = /(?<=<script)>(?<code>.*?)(?=<\/script>)/gus;
 const style = /(?<=<style)>(?<code>.*?)(?=<\/style>)/gus;
@@ -21,9 +21,9 @@ export default (component, options = {}) => {
     // needs to happen before app.render()
     const headers = app.headers();
 
-    return [partial ? body : await app.render({body}), {
+    return new Response(partial ? body : await app.render({body}), {
       status,
       headers: {...headers, "Content-Type": MediaType.TEXT_HTML},
-    }];
+    });
   };
 };

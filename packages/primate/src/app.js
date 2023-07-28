@@ -15,10 +15,14 @@ const base = new Path(import.meta.url).up(1);
 const packager = import.meta.runtime?.packager ?? "package.json";
 const library = import.meta.runtime?.library ?? "node_modules";
 
+const fallback = (app, page) =>
+  tryreturn(_ => base.join("defaults", page).text())
+    .orelse(_ => base.join("defaults", app.config.pages.index).text());
+
 // use user-provided file or fall back to default
-const index = (app, name) =>
+const index = (app, page) =>
   tryreturn(_ => File.read(`${app.paths.pages.join(name)}`))
-    .orelse(_ => base.join("defaults", app.config.index).text());
+    .orelse(_ => fallback(app, page));
 
 const encoder = new TextEncoder();
 const hash = async (string, algorithm = "sha-384") => {
@@ -94,7 +98,7 @@ export default async (config, root, log) => {
     },
     handlers: {...handlers},
     render: async ({body = "", page} = {}) => {
-      const html = await index(app, page ?? config.index);
+      const html = await index(app, page ?? config.pages.index);
       // inline: <script type integrity>...</script>
       // outline: <script type integrity src></script>
       const script = ({inline, code, type, integrity, src}) => inline

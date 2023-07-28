@@ -1,58 +1,60 @@
 import {Response, Status, MediaType} from "runtime-compat/http";
 import {tryreturn} from "runtime-compat/async";
-import {isResponse, respond} from "./respond/exports.js";
+import {respond} from "./respond/exports.js";
 import {invalid} from "./route.js";
 import {error as clientError} from "../handlers/exports.js";
-import errors from "../errors.js";
+import _errors from "../errors.js";
+const {NoFileForPath} = _errors;
 
 const guardError = Symbol("guardError");
 
 export default app => {
   const {config: {http: {static: {root}}, build}, paths} = app;
 
-  const run = async request => {
+  const route = async request => {
     const {pathname} = request.url;
-    const {path, guards, layouts, handler} = invalid(pathname)
-      ? errors.NoFileForPath.throw(pathname, paths.static)
-      : await app.route(request);
+    // if NoFileForPath is thrown, this will remain undefined
+    let errorHandler = undefined;
 
-    // handle guards
-    try {
-      guards.every(guard => {
-        const result = guard(request);
-        if (result === true) {
-          return true;
+    return tryreturn(async _ => {
+      const {path, guards, errors, layouts, handler} = invalid(pathname)
+        ? NoFileForPath.throw(pathname, paths.static)
+        : await app.route(request);
+      errorHandler = errors?.at(-1);
+
+      // handle guards
+      try {
+        guards.every(guard => {
+          const result = guard(request);
+          if (result === true) {
+            return true;
+          }
+          const error = new Error();
+          error.result = result;
+          error.type = guardError;
+          throw error;
+        });
+      } catch (error) {
+        if (error.type === guardError) {
+          return (await respond(error.result))(app);
         }
-        const error = new Error();
-        error.result = result;
-        error.type = guardError;
+        // rethrow if not guard error
         throw error;
-      });
-    } catch (error) {
-      if (error.type === guardError) {
-        return (await respond(error.result))(app);
       }
-      // rethrow if not guard error
-      throw error;
-    }
 
-    // handle request
-    const handlers = [...app.modules.route, handler]
-      .reduceRight((next, last) => input => last(input, next));
-
-    return (await respond(await handlers({...request, path})))(app, {
-      layouts: await Promise.all(layouts.map(layout => layout(request))),
-    }, request);
-  };
-
-  const route = async request =>
-    tryreturn(async _ => {
-      const response = await run(request);
-      return isResponse(response) ? response : new Response(...response);
+      // handle request
+      const handlers = [...app.modules.route, handler]
+        .reduceRight((next, last) => input => last(input, next));
+      return (await respond(await handlers({...request, path})))(app, {
+        layouts: await Promise.all(layouts.map(layout => layout(request))),
+      }, request);
     }).orelse(async error => {
       app.log.auto(error);
-      return new Response(...await clientError()(app, {}));
+      // the +error.js page itself could fail
+      return tryreturn(_ => respond(errorHandler())(app, {}, request))
+        .orelse(_ => clientError()(app, {}, request));
     });
+  };
 
   const asset = async file => new Response(file.readable, {
     status: Status.OK,

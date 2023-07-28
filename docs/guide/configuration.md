@@ -15,7 +15,10 @@ import {Logger} from "primate";
 export default {
   base: "/",
   modules: [],
-  index: "app.html",
+  pages: {
+    index: "app.html",
+    error: "error.html",
+  },
   logger: {
     level: Logger.Warn,
   },
@@ -85,7 +88,10 @@ import {Logger} from "primate";
 export default {
   base: "/",
   modules: [],
-  index: "app.html",
+  pages: {
+    index: "app.html",
+    error: "error.html",
+  },
   logger: {
     level: Logger.Info,
   },
@@ -144,13 +150,23 @@ Instantiated modules. The order of loading modules affects the order in which
 their hooks will be evaluated, and modules can depend on each using implicit or
 explicit [load hooks][hooks-load].
 
-### index
+## Page options
+
+### `index`
 
 Default: `app.html`
 
 Name of the default HTML page located in `paths.pages`. If `paths.pages` does
 not exist or contain this file, Primate will use its
 [default app.html][default-app-html].
+
+### `error`
+
+Default: `error.html`
+
+Name of the default error HTML page located in `paths.pages`. If `paths.pages`
+does not exist or contain this file, Primate will use its
+[default error.html][default-error-html].
 
 ## Logging options
 
@@ -376,4 +392,5 @@ handler generates.
 [security-csp]: /guide/security#csp
 [hooks-load]: /guide/hooks#load
 [default-app-html]: https://github.com/primatejs/primate/blob/master/packages/primate/src/defaults/app.html
+[default-error-html]: https://github.com/primatejs/primate/blob/master/packages/primate/src/defaults/error.html
 [runtime]: https://github.com/flogjs/std/blob/master/runtime-compat/http/src/serve.js

@@ -1,4 +1,4 @@
-import {Status, MediaType} from "runtime-compat/http";
+import {Response, Status, MediaType} from "runtime-compat/http";
 import {createSSRApp} from "vue";
 import {renderToString} from "vue/server-renderer";
 import {parse} from "vue/compiler-sfc";
@@ -15,11 +15,10 @@ const handler = _ => (name, props = {}, {
   const target = paths.server.join(config.build.app).join(`${name}.js`);
   const body = await render(await target.text(), props);
 
-  // -> spread into new Response()
-  return [await app.render({body}), {
+  return new Response(await app.render({body}), {
     status,
     headers: {...app.headers(), "Content-Type": MediaType.TEXT_HTML},
-  }];
+  });
 };
 
 export default ({directory} = {}) => ({

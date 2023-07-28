@@ -1,6 +1,6 @@
 import crypto from "runtime-compat/crypto";
 import {Path} from "runtime-compat/fs";
-import {Status, MediaType} from "runtime-compat/http";
+import {Response, Status, MediaType} from "runtime-compat/http";
 import * as compiler from "svelte/compiler";
 import {tryreturn} from "runtime-compat/async";
 import errors from "./errors.js";
@@ -57,8 +57,8 @@ const handler = ({path}) => (name, props = {}, {
       .concat(await make(name, props));
 
     const data = components.map(component => component.props);
-    const names = (await Promise.all(components.map(component =>
-      normalize(component.name))));
+    const names = await Promise.all(components.map(component =>
+      normalize(component.name)));
 
     const liveview = app.liveview !== undefined;
     if (liveview && request.headers.get(app.liveview.header) !== undefined) {
@@ -104,11 +104,11 @@ const handler = ({path}) => (name, props = {}, {
     await app.publish({code, type, inline: true});
 
     const headers = await app.headers();
-    // -> spread into new Response()
-    return [await app.render({body: html, page}), {
+
+    return new Response(await app.render({body: html, page}), {
       status,
       headers: {...headers, "Content-Type": MediaType.TEXT_HTML},
-    }];
+    });
   };
 
 const create_root = (length, data) => {

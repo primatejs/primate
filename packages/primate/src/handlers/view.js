@@ -1,4 +1,4 @@
-import errors from "../errors.js";
+ import errors from "../errors.js";
 
 export default (name, props, options) => async (app, ...rest) => {
   const ending = name.slice(name.lastIndexOf(".") + 1);

@@ -1,4 +1,5 @@
 import {tryreturn} from "runtime-compat/sync";
+import {from, filter, valmap} from "runtime-compat/object";
 import errors from "../errors.js";
 import {invalid} from "../hooks/route.js";
 import {default as fs, doubled} from "./common.js";
@@ -22,10 +23,11 @@ const make = path => {
   return new RegExp(`^/${route}$`, "u");
 };
 
+const specials = ["guards", "errors", "layouts"];
 export default async (log, directory, load = fs) => {
   const routes = await get.routes(log, directory, load);
-  const guards = await get.guards(log, directory, load);
-  const layouts = await get.layouts(log, directory, load);
+  const $routes = from(await Promise.all(specials.map(async extra =>
+    [extra, await get[extra](log, directory, load)])));
   const filter = path => ([name]) => path.includes(name);
 
   return routes.map(([path, imported]) => {
@@ -38,8 +40,9 @@ export default async (log, directory, load = fs) => {
       method,
       handler,
       pathname: make(path.endsWith("/") ? path.slice(0, -1) : path),
-      guards: guards.filter(filter(path)).map(([, guard]) => guard),
-      layouts: layouts.filter(filter(path)).map(([, layout]) => layout),
+      guards: $routes.guards.filter(filter(path)).map(([, guard]) => guard),
+      errors: $routes.errors.filter(filter(path)).map(([, error]) => error),
+      layouts: $routes.layouts.filter(filter(path)).map(([, layout]) => layout),
     }));
   }).flat();
 };

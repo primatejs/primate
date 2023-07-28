@@ -1,4 +1,4 @@
-import {Status, MediaType} from "runtime-compat/http";
+import {Response, Status, MediaType} from "runtime-compat/http";
 
 const loadComponent = async (file) => {
   try {
@@ -23,15 +23,14 @@ const handler = path => (name, {status = Status.OK, partial = false} = {}) =>
       "style-src 'self'", "style-src 'self' 'unsafe-inline'"
     );
 
-    const options = {
+    return new Response(await getBody(app, partial, path.join(name).file), {
       status,
       headers: {
         ...headers,
         "Content-Type": MediaType.TEXT_HTML,
         "Content-Security-Policy": csp,
       },
-    };
-    return [await getBody(app, partial, path.join(name).file), options];
+    });
   };
 
 export default directory => ({

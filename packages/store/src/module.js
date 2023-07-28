@@ -125,7 +125,8 @@ export default ({
         await transaction.rollback();
         errors.TransactionRolledBack.warn(env.log, id, error.name);
 
-        return clientError();
+        // let core handle error
+        throw error;
       } finally {
         // some drivers do not explicitly end transactions, in which case this
         // is a noop
