@@ -1,0 +1,19 @@
+import {text} from "../prompts.js";
+
+export default async () => {
+  const filename = await text({
+    message: "Enter database file path",
+    validate: value => value.length === 0 ? "Path required" : undefined,
+  });
+
+  return {
+    imports: {
+     "{sqlite}" : "@primatejs/store",
+    },
+    driver: {
+      name: "sqlite",
+      options: {filename},
+    },
+  };
+};
+

@@ -14,7 +14,21 @@
     "directory": "packages/create-primate"
   },
   "dependencies": {
-    "@clack/prompts": "^0.6.3"
+    "@clack/prompts": "^0.6.3",
+    "runtime-compat": "^0.24.0"
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "@primate/esbuild": "^0.7.0",
+    "@primate/htmx": "^0.15.0",
+    "@primate/liveview": "^0.1.0",
+    "@primate/react": "^0.7.0",
+    "@primate/session": "^0.8.1",
+    "@primate/store": "^0.9.3",
+    "@primate/svelte": "^0.14.0",
+    "@primate/types": "^0.4.2",
+    "@primate/vue": "^0.6.0",
+    "@primate/ws": "^0.2.2",
+    "primate": "^0.20.5"
+  }
 }
