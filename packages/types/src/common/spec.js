@@ -1,10 +1,10 @@
-export const reassert = (test, {type}) => {
+export const reassert = (test, {validate}) => {
   test.reassert(assert => ({
     match: (value, expected) => {
-      assert(type(value)).equals(expected ?? value);
+      assert(validate(value)).equals(expected ?? value);
     },
-    same: (...args) => args.map(arg => assert(type(arg)).equals(arg)),
-    fail: (...args) => args.map(arg => assert(() => type(arg)).throws()),
+    same: (...args) => args.map(arg => assert(validate(arg)).equals(arg)),
+    fail: (...args) => args.map(arg => assert(() => validate(arg)).throws()),
     assert,
   }));
 };

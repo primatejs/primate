@@ -1,6 +1,8 @@
-export default {
-  base: "json",
-  type(value) {
+const base = "json";
+
+const json = {
+  base,
+  validate(value) {
     try {
       return JSON.parse(value);
     } catch (_) {
@@ -8,3 +10,5 @@ export default {
     }
   },
 };
+
+export default json;

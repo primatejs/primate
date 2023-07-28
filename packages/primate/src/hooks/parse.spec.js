@@ -137,7 +137,7 @@ export default test => {
       },
     });
 
-    const pre = "mismatched type :: {0}";
+    const pre = "mismatched type: {0}";
     const nan = "is not a number";
     assert(() => body.getNumber("foo")).throws(mark(pre, `foo ${nan}`));
     assert(() => body.getNumber("bar")).throws(mark(pre, `bar ${nan}`));

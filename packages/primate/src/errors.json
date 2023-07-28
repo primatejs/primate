@@ -32,7 +32,7 @@
       "level": "Warn"
     },
     "ErrorInConfigFile": {
-      "message": "error in config file :: {0}",
+      "message": "error in config file: {0}",
       "fix": "check errors in config file by running {1}",
       "level": "Error"
     },
@@ -57,12 +57,12 @@
       "level": "Error"
     },
     "MismatchedPath": {
-      "message": "mismatched {0} path :: {1}",
+      "message": "mismatched path {0}: {1}",
       "fix": "if unintentional, fix the type or the caller",
       "level": "Info"
     },
     "MismatchedType": {
-      "message": "mismatched type :: {0}",
+      "message": "mismatched type: {0}",
       "fix": "if unintentional, fix the type or the caller",
       "level": "Info"
     },

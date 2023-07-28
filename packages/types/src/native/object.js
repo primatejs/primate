@@ -5,7 +5,7 @@ const base = "embedded";
 
 const object = {
   base,
-  type(value) {
+  validate(value) {
     if (typeof value === "object" && !fake(value)) {
       return value;
     }
@@ -13,9 +13,9 @@ const object = {
   },
   of(schema) {
     return {
-      type(subobject) {
-        const typed = object.type(subobject);
-        return map(typed, ([key, value]) => [key, schema[key].type(value)]);
+      validate(subobject) {
+        const typed = object.validate(subobject);
+        return map(typed, ([key, value]) => [key, schema[key].validate(value)]);
       },
       base,
     };

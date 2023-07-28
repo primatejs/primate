@@ -9,6 +9,16 @@ const number = (value, name) => {
   return n;
 };
 
+const number2 = {
+  validate(value, name) {
+    const n = Number(value);
+    if (Number.isNaN(n)) {
+      throw new Error(`\`${name}\` is not a number`);
+    }
+    return n;
+  },
+};
+
 export default test => {
   test.case("get", async assert => {
     const d = dispatch();
@@ -21,11 +31,14 @@ export default test => {
     assert(d({foo: "bar", bar: "baz"}).get("bar")).equals("baz");
   });
   test.case("patch", async assert => {
-    const d = dispatch({number});
-    const error = mark("mismatched type :: {0}", "`foo` is not a number");
+    const d = dispatch({number, number2});
+    const error = mark("mismatched type: {0}", "`foo` is not a number");
     assert(() => d({}).getNumber()).throws("`number` called without property");
+    assert(() => d({}).getNumber2())
+      .throws("`number2` called without property");
     assert(() => d({}).getNumber("foo")).throws(error);
-    assert(() => d({}).getNumber("foo")).throws(error);
+    assert(() => d({}).getNumber2("foo")).throws(error);
     assert(() => d({foo: "bar"}).getNumber("foo")).throws(error);
+    assert(() => d({foo: "bar"}).getNumber2("foo")).throws(error);
   });
 };

@@ -9,10 +9,10 @@ import common from "../common.js";
 const valid = /^[^\W_]{8}-[^\W_]{4}-[^\W_]{4}-[^\W_]{4}-[^\W_]{12}$/u;
 const test = value => typeof value === "string" && valid.test(value);
 
-export default async ({path}) => {
-  is(path).string();
+export default async ({filename}) => {
+  is(filename).string();
 
-  const {file} = new Path(path);
+  const {file} = new Path(filename);
   const read = async () => await file.exists ? file.json() : {};
   const write = async collections => {
     await file.write(JSON.stringify(collections));

@@ -33,8 +33,8 @@ const makeTransaction = (env) => {
   };
 };
 
-const validType = type =>
-  type.base !== undefined && typeof type?.type === "function";
+const validType = ({base, validate}) =>
+  base !== undefined && typeof validate === "function";
 
 const valid = (type, name, store) => validType(type)
   ? type
@@ -77,9 +77,9 @@ export default ({
             `${path}`.replace(`${root}/`, () => "").slice(0, ending),
             path,
           ])
-          /* accept only uppercase-first directories in store path */
+          /* accept only lowercase-first directories in store path */
           .filter(([name]) =>
-            name.split("/").slice(0, last).every(part => /^[A-Z]/u.test(part)))
+            name.split("/").slice(0, last).every(part => /^[a-z]/u.test(part)))
           .map(async ([store, path]) => {
             const exports = await import(path);
             const schema = transform(exports.default, entry => entry

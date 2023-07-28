@@ -4,6 +4,19 @@ import route from "./route.js";
 import {mark} from "../Logger.js";
 const undef = undefined;
 
+const numeric = (id, property) => {
+  if (/^\d*$/u.test(id)) {
+    return Number(id);
+  }
+  throw new Error(`\`${property}\` not numeric`);
+};
+const id = name => (value, property) => {
+  if (value === name) {
+    return value;
+  }
+  throw new Error(`\`${property}\` not equal \`${name}\` (given \`${value}\`)`);
+};
+
 const app = {
   config: {
     paths: {
@@ -31,19 +44,35 @@ const app = {
     "users2/{_userId}/{commentId}",
     "users3/{_userId}/{_commentId=_commentId}",
     "users4/{_userId}/{_commentId}",
-    "users5/{truthy}",
-    "{uuid}/{Uuid}/{UUID}",
+    "users5/{n}",
+    "users6/{nv}",
+    "{id}/{Id}/{ID}",
   ] : []).map(pathname => [pathname, {get: request => request}])
   ),
   types: {
-    user: id => /^\d*$/u.test(id),
-    comment: id => /^\d*$/u.test(id),
-    _userId: id => /^\d*$/u.test(id),
-    _commentId: id => /^\d*$/u.test(id),
-    truthy: () => 1,
-    uuid: _ => _ === "uuid",
-    Uuid: _ => _ === "Uuid",
-    UUID: _ => _ === "UUID",
+    user: numeric,
+    comment: numeric,
+    _userId: numeric,
+    _commentId: numeric,
+    n(value, property) {
+      const n = Number(value);
+      if (!Number.isNaN(n)) {
+        return n;
+      }
+      throw new Error(`\`${property}\` not numeric`);
+    },
+    nv: {
+      validate(value, property) {
+        const n = Number(value);
+        if (!Number.isNaN(n)) {
+          return n;
+        }
+        throw new Error(`\`${property}\` not numeric`);
+      },
+    },
+    id: id("id"),
+    Id: id("Id"),
+    ID: id("ID"),
   },
   dispatch: dispatch(),
 };
@@ -66,8 +95,12 @@ export default test => {
       assert(r(url).pathname.toString()).equals(expected.toString());
     },
     fail: (url, result) => {
-      const throws = mark("no {0} route to {1}", "GET", result ?? url);
-      assert(() => r(url)).throws(throws);
+      const reason = mark("no {0} route to {1}", "GET", result ?? url);
+      assert(() => r(url)).throws(reason);
+    },
+    typefail: (url, failure) => {
+      const reason = mark("mismatched path {0}: {1}", url, failure);
+      assert(() => r(url)).throws(reason);
     },
     path: (url, result) => {
       assert(r(url).path.get()).equals(result);
@@ -98,50 +131,53 @@ export default test => {
   test.case("single param", ({path}) => {
     path("/users/1a", {userId: "1"});
   });
-  test.case("params", ({path, fail}) => {
+  test.case("params", ({path, typefail}) => {
     path("/users/1/comments/2", {userId: "1", commentId: "2"});
     path("/users/1/comments/2/b", {userId: "1", commentId: "2"});
-    fail("/users/d/comments/2/b");
-    fail("/users/1/comments/d/b");
-    fail("/users/d/comments/d/b");
+    typefail("/users/d/comments/2/b", "`user` not numeric");
+    typefail("/users/1/comments/d/b", "`comment` not numeric");
+    typefail("/users/d/comments/d/b", "`user` not numeric");
   });
-  test.case("single typed param", ({path, fail}) => {
+  test.case("single typed param", ({path, fail, typefail}) => {
     path("/comments/1", {commentId: "1"});
     fail("/comments/ ", "/comments");
-    fail("/comments/1d");
+    typefail("/comments/1d", "`comment` not numeric");
   });
-  test.case("mixed untyped and typed params", ({path, fail}) => {
+  test.case("mixed untyped and typed params", ({path, typefail}) => {
     path("/users/1/comments/2/a", {userId: "1", commentId: "2"});
-    fail("/users/d/comments/2/a");
+    typefail("/users/d/comments/2/a", "`user` not numeric");
   });
-  test.case("single implicit typed param", ({path, fail}) => {
+  test.case("single implicit typed param", ({path, typefail}) => {
     path("/comments2/1", {_commentId: "1"});
-    fail("/comments2/d");
+    typefail("/comments2/d", "`_commentId` not numeric");
   });
-  test.case("mixed implicit and untyped params", ({path, fail}) => {
+  test.case("mixed implicit and untyped params", ({path, typefail, fail}) => {
     path("/users2/1/2", {_userId: "1", commentId: "2"});
-    fail("/users2/d/2");
+    typefail("/users2/d/2", "`_userId` not numeric");
     fail("/users2/d");
   });
-  test.case("mixed implicit and explicit params", ({path, fail}) => {
+  test.case("mixed implicit and explicit params", ({path, typefail, fail}) => {
     path("/users3/1/2", {_userId: "1", _commentId: "2"});
-    fail("/users3/d/2");
-    fail("/users3/1/d");
+    typefail("/users3/d/2", "`_userId` not numeric");
+    typefail("/users3/1/d", "`_commentId` not numeric");
     fail("/users3");
   });
-  test.case("implicit params", ({path, fail}) => {
+  test.case("implicit params", ({path, typefail, fail}) => {
     path("/users4/1/2", {_userId: "1", _commentId: "2"});
-    fail("/users4/d/2");
-    fail("/users4/1/d");
+    typefail("/users4/d/2", "`_userId` not numeric");
+    typefail("/users4/1/d", "`_commentId` not numeric");
     fail("/users4");
   });
-  test.case("fail not strictly true implicit params", ({fail}) => {
-    fail("/users5/any");
+  test.case("fail not strictly true implicit params", ({path, typefail}) => {
+    typefail("/users5/any", "`n` not numeric");
+    path("/users5/1", {n: "1"});
+    typefail("/users6/any", "`nv` not numeric");
+    path("/users6/1", {nv: "1"});
   });
-  test.case("different case params", ({path, fail}) => {
-    path("/uuid/Uuid/UUID", {uuid: "uuid", Uuid: "Uuid", UUID: "UUID"});
-    fail("/uuid/uuid/uuid");
-    fail("/Uuid/UUID/uuid");
-    fail("/UUID/uuid/Uuid");
+  test.case("different case params", ({path, typefail}) => {
+    path("/id/Id/ID", {id: "id", Id: "Id", ID: "ID"});
+    typefail("/id/id/id", "`Id` not equal `Id` (given `id`)");
+    typefail("/Id/ID/id", "`id` not equal `id` (given `Id`)");
+    typefail("/id/Id/id", "`ID` not equal `ID` (given `id`)");
   });
 };

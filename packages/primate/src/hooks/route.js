@@ -1,21 +1,13 @@
 import {keymap} from "runtime-compat/object";
 import {tryreturn} from "runtime-compat/sync";
-import {is} from "runtime-compat/dyndef";
 import errors from "../errors.js";
+import validate from "../validate.js";
 
 // insensitive-case equal
 const ieq = (left, right) => left.toLowerCase() === right.toLowerCase();
 
 /* routes may not contain dots */
 export const invalid = route => /\./u.test(route);
-
-const check_type = (type, value) => {
-  if (type.type) {
-    return type.type(value) === true;
-  }
-  is(type).function();
-  return type(value) === true;
-};
 
 export default app => {
   const {types, routes, config: {explicit, paths}} = app;
@@ -27,7 +19,7 @@ export default app => {
     .filter(([name]) => name.includes("$"))
     .map(([name, value]) => [name.split("$")[1], value])
     .every(([name, value]) =>
-      tryreturn(_ => check_type(types[name], value))
+      tryreturn(_ => validate(types[name], value, name))
         .orelse(({message}) => errors.MismatchedPath.throw(pathname, message)));
   const isPath = ({route, pathname}) => {
     const result = route.pathname.exec(pathname);

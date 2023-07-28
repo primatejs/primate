@@ -42,7 +42,7 @@ const change = delta => {
   const keys = Object.keys(delta);
   const set = keys.map(field => `"${field}"=$s_${field}`).join(",");
   return {
-    set: `SET ${set}`,
+    set: `set ${set}`,
     bindings: keymap(delta, key => `s_${key}`),
   };
 };

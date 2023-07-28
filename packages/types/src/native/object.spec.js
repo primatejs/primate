@@ -20,20 +20,21 @@ export default test => {
     });
 
     [undefined, [], "True", "False"].forEach(value => {
-      assert(() => o.type(value)).throws();
+      assert(() => o.validate(value)).throws();
     });
     [{}, Object(), new Object()].forEach(value => {
-      assert(() => o.type(value)).not_throws();
+      assert(() => o.validate(value)).not_throws();
     });
-    assert(() => o.type({age: "twenty"})).throws("`twenty` is not a number");
-    assert(() => o.type({pretty: "fals"})).throws("`fals` is not a boolean");
-    assert(() => o.type({age: "twenty", pretty: "fals"}))
+    assert(() => o.validate({age: "twenty"}))
       .throws("`twenty` is not a number");
-    assert(o.type({age: "20"})).equals({age: 20});
-    assert(o.type({age: 20})).equals({age: 20});
-    assert(o.type({pretty: "false"})).equals({pretty: false});
-    assert(o.type({pretty: false})).equals({pretty: false});
-    assert(o.type({age: "20", pretty: "false"}))
+    assert(() => o.validate({pretty: "fals"})).throws("`fals` is not a boolean");
+    assert(() => o.validate({age: "twenty", pretty: "fals"}))
+      .throws("`twenty` is not a number");
+    assert(o.validate({age: "20"})).equals({age: 20});
+    assert(o.validate({age: 20})).equals({age: 20});
+    assert(o.validate({pretty: "false"})).equals({pretty: false});
+    assert(o.validate({pretty: false})).equals({pretty: false});
+    assert(o.validate({age: "20", pretty: "false"}))
       .equals({age: 20, pretty: false});
   });
 };

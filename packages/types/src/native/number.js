@@ -1,4 +1,4 @@
-import {numeric} from "runtime-compat/dyndef";
+import {assert, numeric} from "runtime-compat/dyndef";
 import {range} from "../predicates/exports.js";
 
 const coercibles = {
@@ -20,7 +20,7 @@ const base = "f64";
 
 const number = {
   base,
-  type(value) {
+  validate(value) {
     const coerced = coerce(value);
     if (typeof coerced === "number" && nrange(coerced)) {
       return coerced;
@@ -28,17 +28,14 @@ const number = {
     throw new Error(`\`${value}\` is not a number`);
   },
   range(min, max) {
-    if (min < bounds.min || max > bounds.max) {
-      throw new Error(`range ${min}-${max} not within safe integer range`);
-    }
+    assert(min < bounds.min || max > bounds.max,
+      `range ${min}-${max} not within safe integer range`);
+
+    const customRange = range(min, max);
     return {
-      type(value) {
-        const customRange = range(min, max);
-        const coerced = coerce(value);
-        if (typeof coerced === "number" && customRange(coerced)) {
-          return value;
-        }
-        throw new Error(`\`${value}\` is not in the range of ${min} of ${max}`);
+      validate(value) {
+        // throws
+        return customRange(number.validate(value));
       },
       base,
     };

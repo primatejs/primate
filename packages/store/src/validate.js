@@ -11,10 +11,10 @@ export default async ({driver, input, schema, strict}) =>
     try {
       // empty strings are considered undefind
       const normalized = typeof value === "string" ? normalize(value) : value;
-      const coerced = field.type(normalized, driver);
+      const validated = field.validate(normalized, driver);
       return {
         errors,
-        document: {...document, [name]: coerced},
+        document: {...document, [name]: validated},
       };
     } catch (error) {
       return {
