@@ -123,6 +123,8 @@ All modules are just subscription objects. You can therefore easily create and
 pass modules directly in your configuration file.
 
 ```js caption=primate.config.js
+import console from "runtime-compat/console";
+
 export default {
   modules: [{
     name: "ad-hoc module",

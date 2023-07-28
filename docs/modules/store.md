@@ -36,26 +36,29 @@ Import and initialize the module in your configuration.
 import store from "@primate/store";
 
 export default {
-  modules: [store()],
+  modules: [
+    store(),
+  ],
 };
 ```
 
-By default the module uses an in-memory driver which persists the data only as
-long as the application runs. Alternatively you can use the JSON driver which
-persists onto a file.
+By default the module uses an [in-memory][in-memory] driver which keeps the
+data only as long as the application runs. Alternatively you can use the
+[JSON file][json-file] driver which persists onto a file.
 
 ```js caption=primate.config.js | using the JSON driver
 import {default as store, json} from "@primate/store";
 
 export default {
-  modules: [store({driver: json({path: "/tmp/db.json"})})],
+  modules: [
+    store({
+      driver: json({
+        filename: "/tmp/db.json",
+      }),
+    }),
+  ],
 };
 ```
-
-The JSON driver accepts a configuration object with the `path` property to
-indicate in which file the data will be managed. This file doesn't have to
-exist and will be created for you if it doesn't, but you must have permissions
-to write to the path.
 
 ### Use
 
@@ -65,14 +68,15 @@ range of values this field may hold. We here define a `User` store representing
 a user of our application.
 
 ```js caption=stores/User.js
-import {id, string, u8, email} from "primate/@types";
+import {primary, string, u8, email, date} from "primate/@types";
 
 export default {
-  id,
+  id: primary,
   name: string,
   age: u8,
   email,
-}
+  created: date,
+};
 ```
 
 Adding that store definition to `stores` makes the `User` store available to
@@ -96,22 +100,21 @@ Unless you [configure this module](#configuration-options) elsewise, all store
 definitions are loaded from the `stores` directory. Store files must start with
 a capital letter; any other JavaScript files will be ignored. You may
 arbitrarily nest store files using directories, creating namespaces:
-`stores/Comment.js` and `stores/Post/Comment.js` describe different stores.
-Directories must also start with a capital letter and will be otherwise
-ignored.
+`stores/Comment.js` and `stores/post/Comment.js` describe different stores.
+Directories must start with a lowercase letter and will be otherwise ignored.
 
 ```js caption=stores/Comment.js
 /* this store will be available as `request.store.Comment` in routes */
-import {id, string} from "primate/@types";
+import {primary, string} from "primate/@types";
 
 export default {
-  id,
+  id: primary,
   text: string,
 };
 ```
 
-```js caption=stores/Post/Comment.js
-/* this store will be available as `request.store.Post.Comment` in routes */
+```js caption=stores/post/Comment.js
+/* this store will be available as `request.store.post.Comment` in routes */
 import {id, string} from "primate/@types";
 
 export default {
@@ -138,11 +141,11 @@ export default {
 ```
 
 !!!
-If you define your database field `user.age` as a string (for example,
-`varchar` in PostGreSQL) and use the above store definition, Primate will
-attempt to unpack the value into a JavaScript number that is between 0 and 120.
-In case it fails (because you have something like "thirty-two" in this field),
-Primate will throw a
+If you define your database field `user.age` as a string (for example, `text`
+in PostGreSQL) and use the above store definition, Primate will attempt to
+unpack the value into a JavaScript number that is between 0 and 120. In case it
+fails (because you have something like "thirty-two" in this field), it will
+throw a
 [`CannotUnpackValue`](/reference/errors/primate/store#cannot-unpack-value)
 error and roll back the transaction.
 !!!
@@ -150,25 +153,32 @@ error and roll back the transaction.
 Types are not only used for mapping to database fields, but also for validating
 data before saving it. One of the store actions you can use in routes is
 `validate`, which allows you to check that a document is valid before
-saving it.
+saving it. Normally, you wouldn't call `validate` directly but have `insert` or
+`update` call it for you.
 
 ```js caption=routes/create-user.js | POST /create-user
+import {redirect} from "primate";
+
 export default {
   post(request) {
-    /* prepare a user */
+    // prepare a user, normally this data would come from a form
     const user = {
       name: "Donald",
       age: 32,
       hobbies: ["Fishing"],
     };
 
-    /* get the User store */
+    // get the User store
     const {User} = request.store;
 
-    /* save if valid */
-    if (await User.validate(user)) {
-      await User.insert(user);
-    };
+    // save if valid
+    try {
+      const {id} = await User.insert(user);
+      return redirect(`/user/${id}`);
+    } catch (error) {
+      // return validation errors as JSON to the client
+      return error.errors;
+    }
   }
 }
 ```
@@ -177,12 +187,11 @@ export default {
 You may have noticed that the document passed validation despite `id` being
 unset. This is because unless configured otherwise, stores permit empty field
 values. Additionally, `id` is taken to be the primary field, which is
-automatically generated on an insert. Had we tried to `update`, Primate would
-have thrown an error.
+automatically generated on an insert.
 !!!
 
 In addition to using type functions, Primate supports using an object with a
-`type` function property for validation.
+`validate` function property for validation.
 
 ```js
 import {id, u8, array} from "primate/@types"
@@ -192,7 +201,7 @@ const between = ({length}, min, max) => length >= min && length <= max;
 export default {
   id,
   name: {
-    type(value) {
+    validate(value) {
       if (typeof value === "string" && between(value, 2, 20)) {
         return value;
       }
@@ -205,10 +214,11 @@ export default {
 };
 ```
 
-When trying to validate the `name` field, Primate will run the `type` function
-to determine if the field has passed validation. In case of failure, it would
-stop the execution of the route function with the given error. For saving
-this field into the database, it will use the driver's base type `"string"`
+When trying to validate the `name` field, Primate will run the `validate` 
+function to determine if the field has passed validation. In case of failure, 
+it would stop the execution of the route function with the given error. For 
+saving this field into the database, it will use the driver's base type
+`"string"`.
 
 ### Strict
 
@@ -456,3 +466,5 @@ using `export const strict = false;`.
 
 [repo]: https://github.com/primatejs/primate/tree/master/packages/store
 [memory]: https://github.com/primatejs/primate/blob/master/packages/store/src/drivers/memory.js
+[in-memory]: /modules/drivers#in-memory
+[json-file]: /modules/drivers#json-file

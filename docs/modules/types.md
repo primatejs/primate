@@ -1,6 +1,6 @@
 # Types
 
-This module adds prefined runtime types to your application.
+This module adds common runtime types to your application.
 
 ## Install
 

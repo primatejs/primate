@@ -22,18 +22,20 @@ Types are defined in the `types` directory, unless specified
 filenames are alphanumeric and lowercase-first -- any files not starting with a 
 lowercase letter will be ignored.
 
-Type files must export a function as their default export, and Primate will
-refuse to start if it detects a type that is not a function.
+Type files can be described using either implicit or explicit notation. They 
+either export a function as their default export, or an object containing a
+`validate` function property.
 
 Here is an example for a `number` type, a type that makes sure a string is
-convertible to a number and outputs a number.
+convertible to a number and outputs a number. This example uses implicit
+notation.
 
 ```js caption=types/number.js
 import {is} from "runtime-compat/dyndef";
 const numeric = n => !Number.isNaN(Number.parseFloat(n)) && Number.isFinite(n);
 
 export default value => {
-  /* make sure value is a string, otherwise throw */
+  // make sure value is a string, otherwise throw
   is(value).string();
 
   try {
@@ -41,7 +43,7 @@ export default value => {
   } catch() {
     throw new Error(`\`${value}\` is not a number`);
   }
-}
+};
 ```
 
 If a string can be successfully converted to a number, a `number` type will
@@ -51,6 +53,34 @@ returned. Otherwise the type function will throw.
 Unlike the example, there is nothing stopping you from accepting other base
 types like `number` or `bigint` as input, but your main input type will usually
 be strings.
+!!!
+
+Here is the same example using explicit notation.
+
+```js caption=types/number.js
+import {is} from "runtime-compat/dyndef";
+const numeric = n => !Number.isNaN(Number.parseFloat(n)) && Number.isFinite(n);
+
+export default {
+  validate(value) {
+    // make sure value is a string, otherwise throw
+    is(value).string();
+
+    try {
+      return numeric(value) && Number(value);
+    } catch() {
+      throw new Error(`\`${value}\` is not a number`);
+    }
+  },
+};
+```
+
+!!!
+Which notation you use is up to you. If you're only using types for validating
+input provided by `request.{body,path,query,headers,cookies}`, the implicit
+notation should be enough. If you're planning on store values of those types in
+a data store, the explicit notation is better as it allows you to define
+additional properties relevant for persisting values.
 !!!
 
 You can also create more elaborate types, like `uuid`.
