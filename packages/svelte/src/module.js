@@ -34,7 +34,7 @@ const type = "module";
 
 const load = async path =>
   tryreturn(async () => (await import(`${path}.js`)).default)
-    .orelse(() => errors.MissingComponent.throw(path.name, path));
+    .orelse(_ => errors.MissingComponent.throw(path.name, path));
 
 const make_component = base => async (name, props) =>
   ({name, component: await load(base.join(name)), props});
@@ -68,7 +68,7 @@ const handler = ({path}) => (name, props = {}, {
           "Content-Type": MediaType.APPLICATION_JSON},
       });
     }
-    const root = app.paths.server.join(filename);
+    const root = app.build.paths.server.join(filename);
     const imported = (await import(root)).default;
     const {html} = imported.render({
       components: components.map(({component}) => component),
@@ -81,7 +81,7 @@ const handler = ({path}) => (name, props = {}, {
         Object.entries(components).filter(([name, component]) =>
           names.includes(name))
           .map(([, component]) => component);
-      const root = new components.${rootname}({
+      let root = new components.${rootname}({
         target: document.body,
         hydrate: true,
         props: {
@@ -93,10 +93,19 @@ const handler = ({path}) => (name, props = {}, {
       ${liveview ? `
       import liveview from "@primate/liveview";
       window.addEventListener("DOMContentLoaded", _ => liveview(props => {
-        root.$set({
-          components: getComponents(props.names),
-          data: props.data,
-        })
+        root.$destroy();
+        root = new components.${rootname}({
+          target: document.body,
+          hydrate: true,
+          props: {
+            components: getComponents(props.names),
+            data: props.data,
+          },
+        });
+        //root.$set({
+        //  components: getComponents(props.names),
+        //  data: props.data,
+        //})
       }));
       ` : ""}
     `;
@@ -134,68 +143,52 @@ const create_root = (length, data) => {
 };
 
 const {svelte, js} = endings;
-export default ({
-  directory,
-  dynamicProps = "data",
-} = {}) => {
-  const env = {};
+export default ({dynamicProps = "data"} = {}) => {
   return {
     name: "@primate/svelte",
-    async init(app) {
-      const source = directory ?? app.paths.components;
-      env.copyJS = source !== app.paths.components;
-      env.copy = app.copy;
-      env.source = source;
-      env.components = await source.collect(/^.*.svelte$/u);
-      env.build = app.config.build.app;
-      env.paths = {
-        server: app.paths.server.join(env.build),
-        client: app.paths.client.join(env.build),
-      };
-    },
     register(app, next) {
-      app.register("svelte", handler({path: env.paths.server}));
+      app.register("svelte", handler({path: app.build.paths.server}));
       return next(app);
     },
     async compile(app, next) {
-      const target = env.paths.server;
+      const source = app.build.paths.components;
+      // copy components to build/components
+      await app.copy(app.paths.components, source, /^.*.(?:js|svelte)$/u);
+      const components = await source.collect(/^.*.svelte$/u);
+      const target = app.build.paths.server;
       await target.file.create();
-      // copy any JS files from an alternative components directory
-      if (env.copyJS) {
-        await app.copy(env.source, env.paths.server);
-        await app.copy(env.source, env.paths.client);
-      }
 
-      await Promise.all(env.components.map(async component => {
+      await Promise.all(components.map(async component => {
         const file = await component.file.read();
         const server = compiler.compile(file, options.server);
-        const to = target.join(`${component.path}.js`.replace(env.source, ""));
+        const to = target.join(`${component.path}.js`.replace(source, ""));
         await to.directory.file.create();
         await to.file.write(server.js.code.replaceAll(svelte, js));
       }));
 
       const root = create_root(app.layoutDepth, dynamicProps);
       const server = compiler.compile(root, options.server).js.code;
-      const to = app.paths.server.join(filename);
+      const to = app.build.paths.server.join(filename);
       await to.file.write(server);
 
       return next(app);
     },
     async publish(app, next) {
+      const source = app.build.paths.components;
+      const components = await source.collect(/^.*.svelte$/u);
       await app.import("svelte");
-      const {source, build} = env;
 
-      const target = env.paths.client;
-      await target.file.create();
-
-      await Promise.all(env.components.map(async component => {
+      await Promise.all(components.map(async component => {
         const name = component.path.replace(`${source}/`, "");
         const file = await component.file.read();
         const client = compiler.compile(file, options.client);
+        const build = app.config.build.app;
+        const {path} = component;
+
         {
           {
             const code = client.js.code.replaceAll(svelte, js);
-            const src = `${component.path}.js`.replace(`${source}`, build);
+            const src = `${path}.js`.replace(`${source}`, _ => build);
             await app.publish({src, code, type});
           }
           const imported = await normalize(name);
@@ -207,11 +200,13 @@ export default ({
         if (client.css.code !== null) {
           {
             const {code} = client.css;
-            const src = `${component.path}.css`.replace(`${source}`, build);
+            const src = `${path}.css`.replace(`${source}`, _ => build);
             await app.publish({src, code, type: "style"});
           }
           {
-            const src = `${component.path}.css`.replace(`${source}`, "");
+            // sans app.config.build.app removal, for a bundler to resolve,
+            // irrelevant without bundling
+            const src = `${path}.css`.replace(`${source}`, "");
             app.bootstrap({type: "style", code: `import ".${src}";`});
           }
         }
@@ -228,7 +223,6 @@ export default ({
         const code = `export {default as ${rootname}} from "../${filename}";\n`;
         app.bootstrap({type: "script", code});
       }
-
       return next(app);
     },
   };
