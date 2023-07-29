@@ -17,6 +17,7 @@ Expressive, minimal and extensible web framework. To start [read guide][guide].
 |[@primate/esbuild](packages/esbuild)         | Bundling JS/CSS               |
 |[@primate/session](packages/session)         | User sessions                 |
 |[@primate/ws](packages/ws)                   | Web sockets                   |
+|[@primate/liveview](packages/liview)         | Liveview client (SPA)         |
 
 ## Resources
 
