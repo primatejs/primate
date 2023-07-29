@@ -52,7 +52,6 @@ const go = async (href, updater, event) => {
   const current = global.location.pathname;
   // hosts must match
   if (url.host === global.location.host) {
-    console.log(current, next);
     // pathname must differ
     if (current !== next) {
       event?.preventDefault();
