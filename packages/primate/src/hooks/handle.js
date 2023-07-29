@@ -68,12 +68,13 @@ export default app => {
     const {pathname} = request.url;
     if (pathname.startsWith(root)) {
       const debased = pathname.replace(root, _ => "");
+      const {client} = app.build.paths;
       // try static first
-      const _static = paths.client.join(build.static, debased);
+      const _static = client.join(build.static, debased);
       if (await _static.isFile) {
         return asset(_static.file);
       }
-      const _app = app.paths.client.join(debased);
+      const _app = client.join(debased);
       return await _app.isFile ? asset(_app.file) : route(request);
     }
     return route(request);

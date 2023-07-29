@@ -8,11 +8,9 @@ const render = (template, props) => {
   return renderToString(app);
 };
 
-const handler = _ => (name, props = {}, {
-  status = Status.OK,
-} = {}) => async app => {
-  const {paths, config} = app;
-  const target = paths.server.join(config.build.app).join(`${name}.js`);
+const handler = (name, props = {}, {status = Status.OK} = {}) => async app => {
+  const {build, config} = app;
+  const target = build.paths.server.join(config.build.app).join(`${name}.js`);
   const body = await render(await target.text(), props);
 
   return new Response(await app.render({body}), {
@@ -21,15 +19,15 @@ const handler = _ => (name, props = {}, {
   });
 };
 
-export default ({directory} = {}) => ({
+export default _ => ({
   name: "@primate/vue",
   register(app, next) {
-    app.register("vue", handler(directory ?? app.paths.components));
+    app.register("vue", handler);
     return next(app);
   },
   async compile(app, next) {
-    const source = directory ?? app.paths.components;
-    const target = app.paths.server.join(app.config.build.app);
+    const source = app.build.paths.components;
+    const target = app.build.paths.server.join(app.config.build.app);
     await target.file.create();
     const vue = ".vue";
     const components = await source.list(filename => filename.endsWith(vue));

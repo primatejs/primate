@@ -1,7 +1,7 @@
 const system = ["routes", "components", "build"];
 
 export default async (app, type, post = () => undefined) => {
-  const {paths, config} = app;
+  const {config} = app;
   const {build} = config;
   const {includes} = build;
 
@@ -14,7 +14,7 @@ export default async (app, type, post = () => undefined) => {
       .map(async include => {
         const path = app.root.join(include);
         if (await path.exists) {
-          const to = paths[type].join(include);
+          const to = app.build.paths[type].join(include);
           await to.file.create();
           await app.copy(path, to);
           await post(to);

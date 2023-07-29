@@ -15,8 +15,8 @@
     "directory": "packages/htmx"
   },
   "dependencies": {
-    "htmx.org": "^1.9.3",
-    "runtime-compat": "^0.24.0"
+    "htmx.org": "^1.9.4",
+    "runtime-compat": "^0.24.1"
   },
   "peerDependencies": {
     "primate": "0.20"

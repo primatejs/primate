@@ -7,27 +7,26 @@ import babel from "@babel/core";
 const render = (component, attributes) =>
   ReactDOMServer.renderToString(React.createElement(component, attributes));
 
-const handler = _ => (name, props = {}, {status = Status.OK} = {}) =>
-  async app => {
-    const {paths, config} = app;
-    const target = paths.server.join(config.build.app).join(`${name}.js`);
-    const body = render((await import(target)).default, props);
+const handler = (name, props = {}, {status = Status.OK} = {}) => async app => {
+  const {build, config} = app;
+  const target = build.paths.server.join(config.build.app).join(`${name}.js`);
+  const body = render((await import(target)).default, props);
 
-    return new Response(await app.render({body}), {
-      status,
-      headers: {...app.headers(), "Content-Type": MediaType.TEXT_HTML},
-    });
-  };
+  return new Response(await app.render({body}), {
+    status,
+    headers: {...app.headers(), "Content-Type": MediaType.TEXT_HTML},
+  });
+};
 
-export default ({directory} = {}) => ({
+export default _ => ({
   name: "@primate/react",
   register(app, next) {
-    app.register("jsx", handler(directory ?? app.paths.components));
+    app.register("jsx", handler);
     return next(app);
   },
   async compile(app, next) {
-    const source = directory ?? app.paths.components;
-    const target = app.paths.server.join(app.config.build.app);
+    const source = app.build.paths.components;
+    const target = app.build.paths.server.join(app.config.build.app);
     await target.file.create();
     const jsx = ".jsx";
     const js = ".js";

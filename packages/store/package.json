@@ -16,11 +16,11 @@
     "directory": "packages/store"
   },
   "devDependencies": {
-    "@primate/types": "^0.4.1",
-    "better-sqlite3": "^8.4.0",
+    "@primate/types": "^0.4.2",
+    "better-sqlite3": "^8.5.0",
     "mongodb": "^5.7.0",
     "postgres": "^3.3.5",
-    "runtime-compat": "^0.22.3",
+    "runtime-compat": "^0.24.1",
     "surrealdb.js": "^0.8.3"
   },
   "peerDependencies": {

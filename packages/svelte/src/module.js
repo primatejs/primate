@@ -9,6 +9,7 @@ const endings = {
   svelte: ".svelte",
   js: ".svelte.js",
 };
+const rootname = "root";
 
 const hash = async (string, algorithm = "sha-256") => {
   const base = 16;
@@ -22,7 +23,6 @@ const hash = async (string, algorithm = "sha-256") => {
 };
 const normalize = async path => `_${await hash(path)}`;
 
-const rootname = "root";
 const filename = `${rootname}.js`;
 
 const options = {
@@ -41,12 +41,10 @@ const make_component = base => async (name, props) =>
 
 const encoder = new TextEncoder();
 
-const handler = ({path}) => (name, props = {}, {
-  status = Status.OK,
-  page,
-} = {}) =>
+const handler = (name, props = {}, {status = Status.OK, page} = {}) =>
   async (app, {layouts = [], as_layout} = {}, request) => {
-    const make = make_component(path);
+    const {paths} = app.build;
+    const make = make_component(paths.server.join(app.config.build.app));
     if (as_layout) {
       return make(name, props);
     }
@@ -68,7 +66,7 @@ const handler = ({path}) => (name, props = {}, {
           "Content-Type": MediaType.APPLICATION_JSON},
       });
     }
-    const root = app.build.paths.server.join(filename);
+    const root = paths.server.join(filename);
     const imported = (await import(root)).default;
     const {html} = imported.render({
       components: components.map(({component}) => component),
@@ -91,7 +89,7 @@ const handler = ({path}) => (name, props = {}, {
       });
 
       ${liveview ? `
-      import liveview from "@primate/liveview";
+      const {liveview} = components;
       window.addEventListener("DOMContentLoaded", _ => liveview(props => {
         root.$destroy();
         root = new components.${rootname}({
@@ -102,10 +100,6 @@ const handler = ({path}) => (name, props = {}, {
             data: props.data,
           },
         });
-        //root.$set({
-        //  components: getComponents(props.names),
-        //  data: props.data,
-        //})
       }));
       ` : ""}
     `;
@@ -143,87 +137,92 @@ const create_root = (length, data) => {
 };
 
 const {svelte, js} = endings;
-export default ({dynamicProps = "data"} = {}) => {
-  return {
-    name: "@primate/svelte",
-    register(app, next) {
-      app.register("svelte", handler({path: app.build.paths.server}));
-      return next(app);
-    },
-    async compile(app, next) {
-      const source = app.build.paths.components;
-      // copy components to build/components
-      await app.copy(app.paths.components, source, /^.*.(?:js|svelte)$/u);
-      const components = await source.collect(/^.*.svelte$/u);
-      const target = app.build.paths.server;
-      await target.file.create();
+export default ({dynamicProps = "data"} = {}) => ({
+  name: "@primate/svelte",
+  register(app, next) {
+    app.register("svelte", handler);
+    return next(app);
+  },
+  async compile(app, next) {
+    const source = app.build.paths.components;
+    // copy components to build/components
+    await app.copy(app.paths.components, source, /^.*.(?:js|svelte)$/u);
+    const components = await source.collect(/^.*.svelte$/u);
+    const target = app.build.paths.server.join(app.config.build.app);
+    await target.file.create();
 
-      await Promise.all(components.map(async component => {
-        const file = await component.file.read();
-        const server = compiler.compile(file, options.server);
-        const to = target.join(`${component.path}.js`.replace(source, ""));
-        await to.directory.file.create();
-        await to.file.write(server.js.code.replaceAll(svelte, js));
-      }));
+    await Promise.all(components.map(async component => {
+      const file = await component.file.read();
+      const server = compiler.compile(file, options.server);
+      const to = target.join(`${component.path}.js`.replace(source, ""));
+      await to.directory.file.create();
+      await to.file.write(server.js.code.replaceAll(svelte, js));
+    }));
 
-      const root = create_root(app.layoutDepth, dynamicProps);
-      const server = compiler.compile(root, options.server).js.code;
-      const to = app.build.paths.server.join(filename);
-      await to.file.write(server);
+    const root = create_root(app.layoutDepth, dynamicProps);
+    const server = compiler.compile(root, options.server).js.code;
+    const to = app.build.paths.server.join(filename);
+    await to.file.write(server);
 
-      return next(app);
-    },
-    async publish(app, next) {
-      const source = app.build.paths.components;
-      const components = await source.collect(/^.*.svelte$/u);
-      await app.import("svelte");
+    return next(app);
+  },
+  async publish(app, next) {
+    const source = app.build.paths.components;
+    const components = await source.collect(/^.*.svelte$/u);
+    await app.import("svelte");
 
-      await Promise.all(components.map(async component => {
-        const name = component.path.replace(`${source}/`, "");
-        const file = await component.file.read();
-        const client = compiler.compile(file, options.client);
-        const build = app.config.build.app;
-        const {path} = component;
+    // liveview
+    if (app.liveview !== undefined) {
+      app.bootstrap({
+        type: "script",
+        code: "export {default as liveview} from \"@primate/liveview\";\n",
+      });
+    }
+    await Promise.all(components.map(async component => {
+      const name = component.path.replace(`${source}/`, "");
+      const file = await component.file.read();
+      const client = compiler.compile(file, options.client);
+      const build = app.config.build.app;
+      const {path} = component;
 
+      {
         {
-          {
-            const code = client.js.code.replaceAll(svelte, js);
-            const src = `${path}.js`.replace(`${source}`, _ => build);
-            await app.publish({src, code, type});
-          }
-          const imported = await normalize(name);
-          app.bootstrap({
-            type: "script",
-            code: `export {default as ${imported}} from "./${name}.js";\n`,
-          });
+          const code = client.js.code.replaceAll(svelte, js);
+          const src = `${path}.js`.replace(`${source}`, _ => build);
+          await app.publish({src, code, type});
         }
-        if (client.css.code !== null) {
-          {
-            const {code} = client.css;
-            const src = `${path}.css`.replace(`${source}`, _ => build);
-            await app.publish({src, code, type: "style"});
-          }
-          {
-            // sans app.config.build.app removal, for a bundler to resolve,
-            // irrelevant without bundling
-            const src = `${path}.css`.replace(`${source}`, "");
-            app.bootstrap({type: "style", code: `import ".${src}";`});
-          }
+        const imported = await normalize(name);
+        app.bootstrap({
+          type: "script",
+          code: `export {default as ${imported}} from "./${name}.js";\n`,
+        });
+      }
+      if (client.css.code !== null) {
+        {
+          const {code} = client.css;
+          const src = `${path}.css`.replace(`${source}`, _ => build);
+          await app.publish({src, code, type: "style"});
         }
-      }));
+        {
+          // sans app.config.build.app removal, for a bundler to resolve,
+          // irrelevant without bundling
+          const src = `${path}.css`.replace(`${source}`, "");
+          app.bootstrap({type: "style", code: `import ".${src}";`});
+        }
+      }
+    }));
 
-      {
-        const root = create_root(app.layoutDepth, dynamicProps);
-        const client = compiler.compile(root, options.client);
-        const code = client.js.code.replaceAll(svelte, js);
-        const src = new Path(app.config.http.static.root, filename);
-        await app.publish({src, code, type});
-      }
-      {
-        const code = `export {default as ${rootname}} from "../${filename}";\n`;
-        app.bootstrap({type: "script", code});
-      }
-      return next(app);
-    },
-  };
-};
+    {
+      const root = create_root(app.layoutDepth, dynamicProps);
+      const client = compiler.compile(root, options.client);
+      const code = client.js.code.replaceAll(svelte, js);
+      const src = new Path(app.config.http.static.root, filename);
+      await app.publish({src, code, type});
+    }
+    {
+      const code = `export {default as ${rootname}} from "../${filename}";\n`;
+      app.bootstrap({type: "script", code});
+    }
+    return next(app);
+  },
+});

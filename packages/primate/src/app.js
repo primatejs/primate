@@ -43,8 +43,6 @@ export default async (config, root, log) => {
   const secure = http?.ssl !== undefined;
   const {name, version} = await base.up(1).join(packager).json();
   const paths = valmap(config.paths, value => root.join(value));
-  paths.client = paths.build.join("client");
-  paths.server = paths.build.join("server");
 
   const at = `at http${secure ? "s" : ""}://${http.host}:${http.port}\n`;
   print(blue(bold(name)), blue(version), at);
@@ -58,6 +56,13 @@ export default async (config, root, log) => {
   const types = await loaders.types(log, paths.types);
 
   const app = {
+    build: {
+      paths: {
+        client: paths.build.join("client"),
+        server: paths.build.join("server"),
+        components: paths.build.join("components"),
+      },
+    },
     config,
     secure,
     name,
@@ -77,7 +82,7 @@ export default async (config, root, log) => {
         await to.file.write(file);
       }));
     },
-    headers: _ => {
+    headers() {
       const csp = Object.keys(http.csp).reduce((policy_string, key) =>
         `${policy_string}${key} ${http.csp[key]};`, "")
         .replace("script-src 'self'", `script-src 'self' ${
@@ -97,7 +102,7 @@ export default async (config, root, log) => {
       };
     },
     handlers: {...handlers},
-    render: async ({body = "", page} = {}) => {
+    async render({body = "", page} = {}) {
       const html = await index(app, page ?? config.pages.index);
       // inline: <script type integrity>...</script>
       // outline: <script type integrity src></script>
@@ -109,7 +114,7 @@ export default async (config, root, log) => {
       const style = ({inline, code, href, rel = "stylesheet"}) => inline
         ? tag({name: "style", code})
         : tag({name: "link", attributes: {rel, href}, close: false});
-      const head = toSorted(app.assets,
+      const head = toSorted(this.assets,
         ({type}) => -1 * (type === "importmap"))
         .map(({src, code, type, inline, integrity}) =>
           type === "style"
@@ -117,23 +122,23 @@ export default async (config, root, log) => {
             : script({inline, code, type, integrity, src})
         ).join("\n");
       // remove inline assets
-      app.assets = app.assets.filter(({inline, type}) => !inline
+      this.assets = this.assets.filter(({inline, type}) => !inline
         || type === "importmap");
       return html.replace("%body%", _ => body).replace("%head%", _ => head);
     },
-    publish: async ({src, code, type = "", inline = false}) => {
+    async publish({src, code, type = "", inline = false}) {
       if (!inline) {
-        const base = paths.client.join(src);
+        const base = this.build.paths.client.join(src);
         await base.directory.file.create();
         await base.file.write(code);
       }
       if (inline || type === "style") {
-        app.assets.push({src: new Path(http.static.root).join(src ?? "").path,
+        this.assets.push({src: new Path(http.static.root).join(src ?? "").path,
           code: inline ? code : "", type, inline, integrity: await hash(code)});
       }
     },
-    bootstrap: ({type, code}) => {
-      app.entrypoints.push({type, code});
+    bootstrap({type, code}) {
+      this.entrypoints.push({type, code});
     },
     async import(module) {
       const {build} = config;
@@ -153,7 +158,7 @@ export default async (config, root, log) => {
               ?? value.import?.replace(".", `./${module}`),
           ]));
       const dependency = Path.resolve().join(...path);
-      const to = new Path(paths.client, build.modules, ...module.split("/"));
+      const to = new Path(this.build.paths.client, build.modules, ...module.split("/"));
       await dependency.file.copy(to);
       this.importmaps = {
         ...valmap(exports, value => new Path(root, build.modules, value).path),

@@ -4,7 +4,7 @@ import esbuild from "esbuild";
 export default () => ({
   name: "@primate/esbuild",
   async bundle(app, next) {
-    const {paths: {client, build}, config} = app;
+    const {build, paths, config} = app;
     if (app.entrypoints.length > 0) {
       while (app.assets.length > 0) {
         app.assets.pop();
@@ -13,19 +13,19 @@ export default () => ({
       await esbuild.build({
         stdin: {
           contents: dist,
-          resolveDir: `${client.join(app.config.build.app)}`,
+          resolveDir: `${build.paths.client.join(app.config.build.app)}`,
         },
         entryNames: "app-[hash]",
         bundle: true,
         minify: true,
         format: "esm",
-        outdir: `${build}`,
+        outdir: `${paths.build}`,
         logLevel: app.debug ? "warning" : "error",
         external: ["*.woff2", "*.png", "*.jpg"],
       });
-      await client.join(config.build.app).file.remove();
-      await client.join(config.build.modules).file.remove();
-      for (const f of await build.collect(/\.(?:js|css)$/u, {recursive: false})) {
+      await build.paths.client.join(config.build.app).file.remove();
+      await build.paths.client.join(config.build.modules).file.remove();
+      for (const f of await paths.build.collect(/\.(?:js|css)$/u, {recursive: false})) {
         const code = await f.file.text();
         const src = f.name;
         const type = f.extension === ".css" ? "style" : "module";

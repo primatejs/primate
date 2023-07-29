@@ -1,10 +1,10 @@
 import {File} from "runtime-compat/fs";
 
 const pre = async app => {
-  const {paths, config} = app;
+  const {paths, config, build} = app;
   if (await paths.static.exists) {
-    // copy static files to build/client/_static
-    await File.copy(paths.static, paths.client.join(config.build.static));
+    // copy static files to build/client/static
+    await File.copy(paths.static, build.paths.client.join(config.build.static));
   }
 };
 

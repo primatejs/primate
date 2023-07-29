@@ -13,8 +13,9 @@ const getBody = async (app, partial, file) => {
   return partial ? body : app.render({body});
 };
 
-const handler = path => (name, {status = Status.OK, partial = false} = {}) =>
+const handler = (name, {status = Status.OK, partial = false} = {}) =>
   async app => {
+    const {build: {paths: {components}}} = app;
     const code = "import {htmx} from \"app\";";
     await app.publish({code, type: "module", inline: true});
 
@@ -22,8 +23,9 @@ const handler = path => (name, {status = Status.OK, partial = false} = {}) =>
     const csp = headers["Content-Security-Policy"].replace(
       "style-src 'self'", "style-src 'self' 'unsafe-inline'"
     );
+    const body = await getBody(app, partial, components.join(name).file);
 
-    return new Response(await getBody(app, partial, path.join(name).file), {
+    return new Response(body, {
       status,
       headers: {
         ...headers,
@@ -33,10 +35,10 @@ const handler = path => (name, {status = Status.OK, partial = false} = {}) =>
     });
   };
 
-export default directory => ({
+export default _ => ({
   name: "@primate/htmx",
   register(app, next) {
-    app.register("htmx", handler(directory ?? app.paths.components));
+    app.register("htmx", handler);
     return next(app);
   },
   async publish(app, next) {

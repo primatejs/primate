@@ -3,7 +3,7 @@ import {identity} from "runtime-compat/function";
 import copy_includes from "./copy_includes.js";
 
 const post = async app => {
-  const {config} = app;
+  const {config, paths} = app;
   const build = config.build.app;
   {
     // after hook, publish a zero assumptions app.js (no css imports)
@@ -12,7 +12,10 @@ const post = async app => {
     const src = new Path(config.http.static.root, build, config.build.index);
     await app.publish({src, code, type: "module"});
 
-    await app.copy(app.paths.components, app.paths.client.join(build));
+    if (await paths.components.exists) {
+      // copy .js files from components to build/server
+      await app.copy(app.paths.components, app.build.paths.client.join(build));
+    }
 
     const imports = {...app.importmaps, app: src.path};
     await app.publish({
@@ -36,7 +39,7 @@ const post = async app => {
     }
   }));
 
-  const source = `${app.paths.client}`;
+  const source = `${app.build.paths.client}`;
   const {root} = app.config.http.static;
   // copy additional subdirectories to build/client
   await copy_includes(app, "client", async to =>
