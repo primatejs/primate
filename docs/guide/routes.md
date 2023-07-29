@@ -22,7 +22,7 @@ of the type `uuid`, for example `/user/f6a3fac2-7c1d-432d-9e1c-68d0db925adc`
 
 Every route file exports an object containing one or many HTTP verb functions.
 
-```js filename=routes/user/profile.js
+```js caption=routes/user/profile.js
 export default {
   get() {
     return "this is a GET request";

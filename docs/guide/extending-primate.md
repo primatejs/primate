@@ -23,7 +23,7 @@ A common pattern when writing modules is to design them as a function that
 accepts configuration options and returns a subscription object. Here is an
 excerpt from the Primate session module, adding cookie-based sessions.
 
-```js filename=Session module
+```js caption=Session module
 /* module configuration options, `name` is the session cookie name */
 export default ({name = "sessionId"} = {}) => {
   return {

@@ -1,14 +1,13 @@
 import priss from "priss";
-//import blog from "@priss/blog";
 //import {master} from "@priss/themes";
 const master = i => i;
-const blog = () => undefined;
 
 export default {
   http: {
     host: "0.0.0.0",
   },
   modules: [priss({
+    blog: true,
     title: "Primate",
     description: "Expressive, minimal and extensible web framework",
     root: "content",
@@ -16,7 +15,7 @@ export default {
       navbar: [
         {label: "Guide", link: "/guide/getting-started"},
         {label: "Modules", link: "/modules/official"},
-        /*{label: "Blog", link: "/blog"},*/
+        {label: "Blog", link: "/blog"},
       ],
       sidebar: {
         guide: [
@@ -74,6 +73,5 @@ export default {
       twitter: "primatejs",
       chat: "https://web.libera.chat/gamja#primate",
     }),
-    uses: [blog()],
   })],
 };

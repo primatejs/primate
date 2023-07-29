@@ -244,15 +244,19 @@ main {
   padding: 0.3rem 0.5rem;
 }
 
-.edit-this-page {
+.edit-this-page, .blog-metadata {
   align-items: center;
   display: flex;
   font-size: var(--prs-text-s);
   padding-bottom: 0.5rem;
 }
 
-.edit-this-page .icon {
+.edit-this-page .icon, .blog-metadata .icon {
   margin-right: 0.5rem;
+}
+
+.blog-metadata .author {
+  margin-left: 0.5rem;
 }
 
 a,

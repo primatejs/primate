@@ -142,7 +142,7 @@ export default {
 
 !!!
 If you define your database field `user.age` as a string (for example, `text`
-in PostGreSQL) and use the above store definition, Primate will attempt to
+in PostgreSQL) and use the above store definition, Primate will attempt to
 unpack the value into a JavaScript number that is between 0 and 120. In case it
 fails (because you have something like "thirty-two" in this field), it will
 throw a

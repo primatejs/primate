@@ -13,6 +13,6 @@ to write to the path.
 
 ## MongoDB
 
-## PostGreSQL
+## PostgreSQL
 
 ## SurrealDB
