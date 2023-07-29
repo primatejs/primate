@@ -14,7 +14,7 @@ export default app => {
   const route = async request => {
     const {pathname} = request.url;
     // if NoFileForPath is thrown, this will remain undefined
-    let errorHandler = undefined;
+    let errorHandler = app.error.default;
 
     return tryreturn(async _ => {
       const {path, guards, errors, layouts, handler} = invalid(pathname)
@@ -50,8 +50,9 @@ export default app => {
       }, request);
     }).orelse(async error => {
       app.log.auto(error);
+
       // the +error.js page itself could fail
-      return tryreturn(_ => respond(errorHandler())(app, {}, request))
+      return tryreturn(_ => respond(errorHandler(request))(app, {}, request))
         .orelse(_ => clientError()(app, {}, request));
     });
   };

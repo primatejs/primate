@@ -169,10 +169,14 @@ export default async (config, root, log) => {
     dispatch: dispatch(types),
   };
 
+  const error = await app.paths.routes.join("+error.js");
   const modules = await loaders.modules(app, root, config);
 
   return {...app,
     modules,
+    error: {
+      default: await error.exists ? (await import(error)).default : undefined,
+    },
     layoutDepth: Math.max(...app.routes.map(({layouts}) => layouts.length)) + 1,
     route: hooks.route({...app, modules}),
     parse: hooks.parse(dispatch(types)),
