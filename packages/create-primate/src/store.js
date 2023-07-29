@@ -9,7 +9,7 @@ const labels = map({
   json: "JSON file",
   sqlite: "SQLite",
   mongodb: "MongoDB",
-  postgresql: "PostGreSQL",
+  postgresql: "PostgreSQL",
   surrealdb: "SurrealDB",
 }, ([key, label]) => [drivers[key],
   `${label} ${link(`drivers#${label.toLowerCase().replaceAll(" ", "-")}`)}`]);
