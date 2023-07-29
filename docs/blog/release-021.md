@@ -208,7 +208,7 @@ looking at building on the foundation laid forth by this release.
 
 Things we plan to tackle in the upcoming weeks are,
 
-* Add transactions to PostgreSQL and MongoDB
+* Add transactions to the PostgreSQL and MongoDB drivers
 * Introduce IDE TypeScript support
 * Add a `command` hook that would allow modules to register command line
   namespaces, to be able to run `npx primate [namespace] [command] [flags]`
@@ -220,8 +220,8 @@ Things we plan to tackle in the upcoming weeks are,
 * Support the `multipart/form-data` content type
 * Introduce a `Result` class as an alternative return value for store functions
 
-This is list isn't exhaustive or binding. None, some or all of these features
-may be included in 0.22, and other features may be prioritized according to
+This list isn't exhaustive or binding. None, some or all of these features may
+be included in 0.22, and other features may be prioritized according to
 feedback.
 
 ## Fin
