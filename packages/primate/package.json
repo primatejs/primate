@@ -1,6 +1,6 @@
 {
   "name": "primate",
-  "version": "0.21.0",
+  "version": "0.21.1",
   "description": "Expressive, minimal and extensible web framework",
   "homepage": "https://primatejs.com",
   "bugs": "https://github.com/primatejs/primate/issues",
@@ -8,7 +8,7 @@
   "files": [
     "src/**/*.js",
     "src/errors.json",
-    "src/defaults/app.html",
+    "src/defaults/*.html",
     "!src/**/*.spec.js"
   ],
   "bin": "src/bin.js",
