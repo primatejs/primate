@@ -1,5 +1,5 @@
-Today, we announce the availability of the Primate 0.21 preview release. This
-release comes along with 3 new data stores (SQLite, PostgreSQL, MongoDB), 
+Today we're announcing the availability of the Primate 0.21 preview release. 
+This release comes along with 3 new data stores (SQLite, PostgreSQL, MongoDB), 
 custom error routes, and a client liveview mode (SPA). On the tooling side,
 we've all added a GUI for creating Primate apps, available via
 `npm create primate`. With this release, we're also officially inaugurating our
