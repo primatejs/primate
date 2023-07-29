@@ -23,10 +23,14 @@ const handle = async (response, updater) => {
 };
 
 const get = async (pathname, updater, state = false) => {
-  const response = await fetch(pathname, {headers});
-  await handle(response, updater);
-  if (state) {
-    history.pushState({}, "", pathname);
+  try {
+    const response = await fetch(pathname, {headers});
+    await handle(response, updater);
+    if (state) {
+      history.pushState({}, "", pathname);
+    }
+  } catch(error) {
+    console.warn(error);
   }
 };
 
@@ -34,7 +38,7 @@ const post = async (pathname, body, updater) => {
   try {
     const response = await fetch(pathname, {method: "POST", body, headers});
     if (response.redirected) {
-      return go(response.url);
+      return go(response.url, updater);
     }
     await handle(response, updater);
   } catch (error) {
@@ -42,21 +46,22 @@ const post = async (pathname, body, updater) => {
   }
 };
 
-const go = async (href, updater) => {
+const go = async (href, updater, event) => {
   const url = new URL(href);
   const next = url.pathname;
   const current = global.location.pathname;
-  // hosts must match for internal get
+  // hosts must match
   if (url.host === global.location.host) {
+    console.log(current, next);
     // pathname must differ
     if (current !== next) {
+      event?.preventDefault();
       await get(next, updater, true);
       global.scrollTo(0, 0);
     }
-  // external get
-  } else {
-    window.location = url;
+    // click on same page, or hash jump
   }
+  // external redirect
 };
 
 export default updater => {
@@ -67,8 +72,7 @@ export default updater => {
   global.addEventListener("click", event => {
     const target = event.target.closest("a");
     if (target?.tagName === "A") {
-      event.preventDefault();
-      return go(target.href, updater);
+      return go(target.href, updater, event);
     }
   });
 

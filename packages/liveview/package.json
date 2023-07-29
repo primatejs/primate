@@ -1,6 +1,6 @@
 {
   "name": "@primate/liveview",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Primate liveview module",
   "homepage": "https://primatejs.com/modules/liveview",
   "bugs": "https://github.com/primatejs/primate/issues",
