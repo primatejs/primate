@@ -23,8 +23,8 @@ install `better-sqlite3`. Which package should be installed is documented in
 the [driver section][drivers]. Primate will also direct you to install the 
 correct package should it be missing.
 
-Using the new stores is a similar to how all stores work. You import them and
-pass them to the `driver` property of the `store` module.
+Using the new store drivers is a similar to how all drivers work. You import 
+them and pass them to the `driver` property of the `store` module.
 
 ```js caption=primate.config.js
 import {sqlite, default as store} from "@primate/store";
