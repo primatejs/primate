@@ -88,8 +88,7 @@ thus serves as a classical `404 Not Found` error route.
 
 All error routes use the error page in `pages/error.html`. This file, like
 `app.html`, can have placeholders for embedding head scripts and the body. In
-case it does not exist. Primate will otherwise fallback to its default 
-`error.html`.
+case it does not exist, Primate will fall back to its default `error.html`.
 
 ```html caption=pages/error.html
 <!doctype html>
@@ -158,7 +157,7 @@ export default {
 
 !!!
 Liveview is equally relevant for `@primate/react` and `@primate/vue`, as well
-as theotically for the standard HTML handler, for rendering partial responses. 
+as theoretically for the standard HTML handler, for rendering partial responses. 
 For the former two, we plan on supporting it as soon as we implement hydration.
 For the latter, there is some conflict of interest with the `@primate/htmx` 
 module that merits further investigation into the utility of supporting 
@@ -168,14 +167,14 @@ liveview for HTML.
 ## App creation GUI
 
 On the tooling side, we have added a `create-primate` package which allows you
-to generate new Primate apps using a GUI. To start it, enter 
-`npm create primate` into your terminal.
+to generate new Primate apps using a GUI. To start it, run `npm create primate`
+in your terminal.
 
 This GUI will walk you through the process of creating a new Primate app, 
 allowing you to choose from the three common templates (web app, API, static
-server) and asking you follow-up questions depending on the template used. Most
-of the questions provide a link to the relevant section of the modules
-documentation that explains the utility of adding certain functionality.
+server) and asking you follow-up questions depending on the chosen template.
+Most of the questions provide a link to the relevant section of the modules
+documentation that explains the utility of adding certain functionalities.
 
 In future releases, we plan to expand this tool in order to be able to quickly
 scaffold apps by creating routes and other common files.
@@ -219,6 +218,9 @@ Things we plan to tackle in the upcoming weeks are,
 * Add hydration and liveview support for `@primate/react` and `@primate/vue`
 * Support the `multipart/form-data` content type
 * Introduce a `Result` class as an alternative return value for store functions
+* Flesh out stores with default values, additional predicates and relations
+  between tables/collections
+* Add more type variants
 
 This list isn't exhaustive or binding. None, some or all of these features may
 be included in 0.22, and other features may be prioritized according to
