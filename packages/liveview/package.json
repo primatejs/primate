@@ -1,6 +1,6 @@
 {
   "name": "@primate/liveview",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Primate liveview module",
   "homepage": "https://primatejs.com/modules/liveview",
   "bugs": "https://github.com/primatejs/primate/issues",
@@ -15,7 +15,7 @@
     "directory": "packages/liveview"
   },
   "dependencies": {
-    "runtime-compat": "^0.24.0"
+    "runtime-compat": "^0.24.1"
   },
   "peerDependencies": {
     "primate": "0.20"
