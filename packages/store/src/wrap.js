@@ -19,7 +19,7 @@ const transform = to => ({types, schema, document, path}) =>
 
 const actions = [
   "validate",
-  "get", "get$", "find", "exists",
+  "get", "count", "find", "exists",
   "insert", "update", "save", "delete",
 ];
 
@@ -65,7 +65,7 @@ export default (name, schema = {}, options = {}) => {
 
         return this.unpack(document);
       },
-      async get$(value) {
+      /*async get$(value) {
         const document = await driver.get(config.name, config.primary, value);
 
         if (document === undefined) {
@@ -74,6 +74,9 @@ export default (name, schema = {}, options = {}) => {
         }
 
         return {failed: false, value: document};
+      },*/
+      count(criteria) {
+        return driver.count(config.name, criteria);
       },
       async find(criteria) {
         const documents = await driver.find(config.name, criteria);
