@@ -17,7 +17,7 @@ import {Logger} from "primate";
 
 export default {
   logger: {
-    /* show all logs */
+    // show all logs
     level: Logger.Info,
   },
 };
@@ -32,9 +32,9 @@ import {Logger} from "primate";
 
 export default {
   logger: {
-    /* show all logs */
+    // show all logs
     level: Logger.Info,
-    /* show stack traces for errors and warnings */
+    // show stack traces for errors and warnings
     trace: true,
   },
 };

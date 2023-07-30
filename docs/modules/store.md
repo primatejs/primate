@@ -104,7 +104,7 @@ arbitrarily nest store files using directories, creating namespaces:
 Directories must start with a lowercase letter and will be otherwise ignored.
 
 ```js caption=stores/Comment.js
-/* this store will be available as `request.store.Comment` in routes */
+// this store will be available as `request.store.Comment` in routes
 import {primary, string} from "primate/@types";
 
 export default {
@@ -114,7 +114,7 @@ export default {
 ```
 
 ```js caption=stores/post/Comment.js
-/* this store will be available as `request.store.post.Comment` in routes */
+// this store will be available as `request.store.post.Comment` in routes
 import {id, string} from "primate/@types";
 
 export default {
@@ -271,7 +271,7 @@ the same database store.
 ```js caption=stores/Post/Comment.js | overriding name
 import {id, string} from "primate/@types";
 
-/* would use `post_comment` if not overriden */
+// would use `post_comment` if not overriden
 export const name = "comment";
 
 export default {

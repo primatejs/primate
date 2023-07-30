@@ -20,17 +20,17 @@ import {redirect} from "primate";
 export default request => {
   const {headers} = request;
 
-  /* only let in logged in users */
+  // only let in logged in users
   if (headers.get("X-User") === "robin" && headers.get("X-Pass") === "h00d") {
     return true;
   }
 
-  /* make an exception for the /login pathname */
+  // make an exception for the /login pathname
   if (request.url.pathname === "/login") {
     return true;
   }
 
-  /* redirect to login page */
+  // redirect to login page
   return redirect(`/login?next=${request.url.pathname}`);
 };
 ```

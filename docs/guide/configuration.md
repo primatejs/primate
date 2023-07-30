@@ -209,17 +209,17 @@ Default
 
 ```js
 {
-/* all content must come from own origin, excluding subdomains */
+// all content must come from own origin, excluding subdomains
 "default-src": "'self'",
-/* styles must come from own origin, excluding subdomains */
+// styles must come from own origin, excluding subdomains
 "style-src": "'self'",
-/* disallow <object>, <embed> and <applet> elements */
+// disallow <object>, <embed> and <applet> elements
 "object-src": "'none'",
-/* disallow embedding */
+// disallow embedding
 "frame-ancestors": "'none'",
-/* all form submissions must be to own origin */
+// all form submissions must be to own origin
 "form-action": "'self'",
-/* allow only own origin in <base> */
+// allow only own origin in <base>
 "base-uri": "'self'",
 }
 ```

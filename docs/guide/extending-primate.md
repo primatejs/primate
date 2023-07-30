@@ -24,23 +24,22 @@ accepts configuration options and returns a subscription object. Here is an
 excerpt from the Primate session module, adding cookie-based sessions.
 
 ```js caption=Session module
-/* module configuration options, `name` is the session cookie name */
+// module configuration options, `name` is the session cookie name
 export default ({name = "sessionId"} = {}) => {
   return {
-    /* module name, must be unique */
+    // module name, must be unique
     name: "@primate/session",
-    /* subscriber function for the `handle` hook, executing before a request is
-    handled by Primate itself */
+    // `handle` hook subscriber, executed before `Primate` handles the request
     async handle(request, next) {
-      /* extract session cookie value */
-      const id = request.cookies[name];
-      /* generate new session or return existing (implementation omitted) */
+      // extract session cookie value
+      const id = request.cookies.get(name);
+      // generate new session or return existing (implementation omitted)
       const session = generateOrReturnSession(id);
 
-      /* execute the next `handle` module in line and record response */
+      // execute the next `handle` module in line and record response
       const response = await next({...request, session});
 
-      /* if new session, set the `Set-Cookie` header to inform client */
+      // if new session, set the `Set-Cookie` header to inform client
       if (session.id !== id) {
         const cookie = createCookie(name, session.id, options);
         response.headers.set("Set-Cookie", cookie);
@@ -91,7 +90,7 @@ import session from "@primate/session";
 
 export default {
   modules: [
-    /* initialize the session module with default configuration */
+    // initialize the session module with default configuration
     session(),
   ],
 };
@@ -105,7 +104,7 @@ import session from "@primate/session";
 
 export default {
   modules: [
-    /* initialize the session module with `"id"` as session cookie name */
+    // initialize the session module with `"id"` as session cookie name
     session({name: "id"}),
   ],
 };

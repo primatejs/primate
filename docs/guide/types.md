@@ -154,7 +154,7 @@ const users = [
 ];
 
 export default id => {
-  /* IDs must be numbers */
+  // IDs must be numbers
   const n = number(id);
 
   const user = users.find(user => user.id === n);
@@ -220,7 +220,7 @@ const users = [
 ];
 
 export default id => {
-  /* ids must be numbers */
+  // ids must be numbers
   const n = number(id);
 
   const user = users.find(user => user.id === n);
@@ -265,8 +265,8 @@ export default {
     -> Error
   */
   get(request) {
-    /* get the "userId" property from the request query, running it through the
-    `user` type, returning the user object or throwing in case of a failure */
+    // get the "userId" property from the request query, running it through the
+    // `user` type, returning the user object or throwing in case of a failure
     return request.query.user("userId");
   }
 }

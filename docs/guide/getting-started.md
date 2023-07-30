@@ -142,11 +142,11 @@ variety of officially supported modules that extend it.
 
 * No dependencies aside from [`runtime-compat`][runtime-compat], a
 cross-runtime compatibility layer
-* Under 0.8K lines of JavaScript code (Express > 1.8K, Fastify > 5.3K)
+* Under 1K lines of JavaScript code (Express > 1.8K, Fastify > 5.3K)
 
 ### Extensible
 
-* Different hooks available (`load`, `register`, `compile`, `publish`,
+* Different hooks available (`load`, `init`, `register`, `compile`, `publish`,
 `bundle`, `serve`, `handle`, `route`)
 * Officially supported modules that are updated alongside Primate itself
 

@@ -50,7 +50,7 @@ modules.
 export default {
   modules: [{
     name: "load-hook-example-module",
-    /* receives the app object, augmented with a `load` function */
+    // receives the app object, augmented with a `load` function
     load(app) {
       app.load({
         name: "dependent-module",
@@ -82,13 +82,13 @@ by `view`.
 /* @param {options} options any additional options passed to the component
  */
 const mustacheHandler = (name, props, options) => {
-  /* load the component file and render it into HTML using props */
+  // load the component file and render it into HTML using props
 };
 
 export default {
   modules: [{
     name: "register-hook-example-module",
-    /* receives the app object augmented with a `register` function */
+    // receives the app object augmented with a `register` function
     register(app, next) {
       app.register("mustache", mustacheHandler);
       return next(app);
@@ -216,7 +216,7 @@ const augment = request => {
 export default {
   modules: [{
     name: "handle-hook-example-module",
-    /* receives the request object without the `path` property */
+    // receives the request object without the `path` property
     handle(request, next) {
       return next(augment(request));
     },
@@ -243,13 +243,13 @@ assets), use the `handle` hook instead.
 
 ```js caption=primate.config.js
 const delegate = request => {
-  /* pass the request to admin app */
+  // pass the request to admin app
 };
 
 export default {
   modules: [{
     name: "route-hook-example-module",
-    /* receives the request object without the `path` property */
+    // receives the request object without the `path` property
     route(request, next) {
       if (request.url.pathname.startsWith("/admin")) {
         // delegate request to admin app
