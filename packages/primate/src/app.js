@@ -86,12 +86,12 @@ export default async (config, root, log) => {
       const csp = Object.keys(http.csp).reduce((policy, key) =>
         `${policy}${key} ${http.csp[key]};`, "")
         .replace("script-src 'self'", `script-src 'self' ${
-          app.assets
+          this.assets
             .filter(({type}) => type !== "style")
             .map(asset => `'${asset.integrity}'`).join(" ")
         } `)
         .replace("style-src 'self'", `style-src 'self' ${
-          app.assets
+          this.assets
             .filter(({type}) => type === "style")
             .map(asset => `'${asset.integrity}'`).join(" ")
         } `);
@@ -103,7 +103,7 @@ export default async (config, root, log) => {
     },
     handlers: {...handlers},
     async render({body = "", page} = {}) {
-      const html = await index(app, page ?? config.pages.index);
+      const html = await index(this, page ?? config.pages.index);
       // inline: <script type integrity>...</script>
       // outline: <script type integrity src></script>
       const script = ({inline, code, type, integrity, src}) => inline
