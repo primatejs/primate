@@ -11,7 +11,7 @@ runtime, it will copy its contents to `build/client/static` and they will be
 served from there. If you just need a static server, simply create a `static`
 directory and put any files you want to serve in it.
 
-By default those files will be served from the root path. If you have an
+By default those files will be served at the root path. If you have an
 `image.png` in `static`, it will be served at the path `/image.png`. If you
 want to change that, set [`http.static.root`][http-static-root] to something else
 (default is `/`).
@@ -28,25 +28,25 @@ parameters easily accessible to the route function.
 
 ```js caption=routes/comment/{commentId}.js
 export default {
-    put(request) {
-      const {path, query, cookies, headers, body} = request;
+  post(request) {
+    const {path, query, cookies, headers, body} = request;
 
-      return `
-      You've sent a PUT request with the following data:
+    return `
+    You've sent a POST request with the following data:
 
-      Path:
-        /comment/${path.get("commentId")}
-      Query:
-        timestamps: ${query.get("timestamps")}
-      Cookies:
-        jar: ${cookies.get("jar")}
-      Headers:
-        host: ${headers.get("host")}
-      Body:
-        title: ${body.get("title")}
-        text: ${body.get("text")}
-      `;
-    },
+    Path:
+      /comment/${path.get("commentId")}
+    Query:
+      timestamps: ${query.get("timestamps")}
+    Cookies:
+      jar: ${cookies.get("jar")}
+    Headers:
+      host: ${headers.get("host")}
+    Body:
+      title: ${body.get("title")}
+      text: ${body.get("text")}
+    `;
+  },
 };
 ```
 

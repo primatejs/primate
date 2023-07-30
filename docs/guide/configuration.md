@@ -232,10 +232,10 @@ information, consult the [security section][security-csp].
 
 Default `"/"`
 
-The path from which to serve static assets (those located in the `static`
+The path at which to serve static assets (those located in the `static`
 directory and copied during runtime to the `build/client/static` directory).
 Static assets take precedence over routes. This option allows you to have all
-static assets served from a subpath, like `/public`.
+static assets served at a subpath, like `/public`.
 
 ### http.ssl.{key,cert}
 

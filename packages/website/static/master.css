@@ -172,7 +172,7 @@ main {
 
 .sidebar {
   flex-basis: var(--sidebar-width);
-  background: #f7fafd;
+  background-color: #f7fafd;
   border-right: 1px solid #c2cdd6;
   padding-left: var(--prs-page-padding-side);
   padding-right: 0;
@@ -184,7 +184,8 @@ main {
 }
 
 .dark .sidebar {
-  background: #080502;
+  background-color: #080502;
+
   border-right: 1px solid #3d3229;
 }
 
@@ -373,6 +374,28 @@ pre {
   box-shadow: inset 1px 1px 6px #1d56800f;
   padding: 1rem;
   margin-top: 0;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 1rem;
+  border: 1px solid #c2cdd6;
+  text-align: center;
+}
+
+.dark th, .dark td {
+  border: 1px solid #3d3229;
+}
+
+th {
+  background-color: #f7fafd;
+}
+
+.dark th {
+  background-color: #080502;
 }
 
 .caption {
