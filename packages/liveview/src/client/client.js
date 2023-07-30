@@ -58,7 +58,11 @@ const go = async (href, updater, event) => {
       await get(next, updater, true);
       global.scrollTo(0, 0);
     }
-    // click on same page, or hash jump
+    // no hash, prevent event
+    if (url.hash === "") {
+      event?.preventDefault();
+    }
+    // let event roll, jump to hash
   }
   // external redirect
 };
