@@ -21,7 +21,7 @@ const fallback = (app, page) =>
 
 // use user-provided file or fall back to default
 const index = (app, page) =>
-  tryreturn(_ => File.read(`${app.paths.pages.join(name)}`))
+  tryreturn(_ => File.read(`${app.paths.pages.join(page)}`))
     .orelse(_ => fallback(app, page));
 
 const encoder = new TextEncoder();
@@ -83,8 +83,8 @@ export default async (config, root, log) => {
       }));
     },
     headers() {
-      const csp = Object.keys(http.csp).reduce((policy_string, key) =>
-        `${policy_string}${key} ${http.csp[key]};`, "")
+      const csp = Object.keys(http.csp).reduce((policy, key) =>
+        `${policy}${key} ${http.csp[key]};`, "")
         .replace("script-src 'self'", `script-src 'self' ${
           app.assets
             .filter(({type}) => type !== "style")
@@ -141,16 +141,16 @@ export default async (config, root, log) => {
       this.entrypoints.push({type, code});
     },
     async import(module) {
-      const {build} = config;
-      const {root} = http.static;
-      const path = [library, ...module.split("/")];
+      const {build: {modules}, http: {static: {root}}} = this.config;
+      const parts = module.split("/");
+      const path = [library, ...parts];
       const pkg = await Path.resolve().join(...path, packager).json();
       const exports = pkg.exports === undefined
         ? {[module]: `/${module}/${pkg.main}`}
         : transform(pkg.exports, entry => entry
-          .filter(([, _export]) => _export.browser?.default !== undefined
-            || _export.import !== undefined
-            || _export.default !== undefined)
+          .filter(([, export$]) => export$.browser?.default !== undefined
+            || export$.import !== undefined
+            || export$.default !== undefined)
           .map(([key, value]) => [
             key.replace(".", module),
             value.browser?.default.replace(".", `./${module}`)
@@ -158,10 +158,10 @@ export default async (config, root, log) => {
               ?? value.import?.replace(".", `./${module}`),
           ]));
       const dependency = Path.resolve().join(...path);
-      const to = new Path(this.build.paths.client, build.modules, ...module.split("/"));
+      const to = new Path(this.build.paths.client, modules, ...parts);
       await dependency.file.copy(to);
       this.importmaps = {
-        ...valmap(exports, value => new Path(root, build.modules, value).path),
+        ...valmap(exports, value => new Path(root, modules, value).path),
         ...this.importmaps};
     },
     types,
