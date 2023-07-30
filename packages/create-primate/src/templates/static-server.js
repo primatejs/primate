@@ -1,7 +1,7 @@
 import {text} from "../prompts.js";
 
 export default async () => {
-  const confs = [];
+  const configs = [];
 
   const root = await text({
     message: "Enter the path to serve static assets from",
@@ -13,8 +13,8 @@ export default async () => {
     },
   });
 
-  confs.push({
-    conf: root === undefined ? {} : {
+  configs.push({
+    config: root === undefined ? {} : {
       http: `{
     static: {
       root: "${root}",
@@ -23,5 +23,5 @@ export default async () => {
     },
   });
 
-  return confs;
+  return configs;
 };

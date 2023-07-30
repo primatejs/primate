@@ -8,7 +8,7 @@ export default async () => {
   })
     ? {
       dependencies: {
-        "@primate/live": dependencies["@primate/liveview"],
+        "@primate/liveview": dependencies["@primate/liveview"],
       },
       modules: {
         liveview: "",
@@ -22,7 +22,7 @@ export default async () => {
       ...liveview.dependencies,
     },
     imports: {
-      svelte: "@primatejs/svelte",
+      svelte: "@primate/svelte",
     },
     modules: {
       svelte: "",

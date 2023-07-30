@@ -1,4 +1,5 @@
 import {text} from "../prompts.js";
+import dependencies from "../dependencies.js";
 
 export default async () => {
   const filename = await text({
@@ -7,8 +8,11 @@ export default async () => {
   });
 
   return {
+    dependencies: {
+      "better-sqlite3": dependencies["better-sqlite3"],
+    },
     imports: {
-     "{sqlite}" : "@primatejs/store",
+     "{sqlite}" : "@primate/store",
     },
     driver: {
       name: "sqlite",

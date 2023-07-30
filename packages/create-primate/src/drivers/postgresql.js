@@ -1,4 +1,5 @@
 import {text} from "../prompts.js";
+import dependencies from "../dependencies.js";
 
 const defaults = {
   host: "localhost",
@@ -24,8 +25,11 @@ export default async () => {
   });
 
   return {
+    dependencies: {
+      postgres: dependencies.postgres,
+    },
     imports: {
-     "{postgresql}" : "@primatejs/store",
+     "{postgresql}" : "@primate/store",
     },
     driver: {
       name: "postgresql",

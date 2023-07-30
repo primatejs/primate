@@ -15,7 +15,7 @@ const labels = new Map([
 const options = [...labels.entries()].map(([value, label]) => ({value, label}));
 
 export default async () => {
-  const confs = [];
+  const configs = [];
 
   const frontend = await (await select({
     message: "Choose frontend framework",
@@ -23,17 +23,20 @@ export default async () => {
   }))();
 
   if (frontend !== undefined) {
-    confs.push({frontend});
+    configs.push(frontend);
   }
 
   if (await confirm({message: `Add a data store? ${link("store")}`})) {
-    confs.push({...await store()});
+    configs.push({...await store()});
   }
 
   if (await confirm({message: `Add user sessions? ${link("session")}`})) {
-    confs.push({
+    configs.push({
       dependencies: {
         "@primate/session": dependencies["@primate/session"],
+      },
+      imports: {
+        session: "@primate/session",
       },
       modules: {
         session: "",
@@ -41,9 +44,12 @@ export default async () => {
     });
   }
   if (await confirm({message: `Add WebSocket support? ${link("websocket")}`})) {
-    confs.push({
+    configs.push({
       dependencies: {
         "@primate/ws": dependencies["@primate/ws"],
+      },
+      imports: {
+        ws: "@primate/ws",
       },
       modules: {
         ws: "",
@@ -52,9 +58,12 @@ export default async () => {
   }
 
   if (await confirm({message: `Enable esbuild? ${link("esbuild")}`})) {
-    confs.push({
+    configs.push({
       dependencies: {
         "@primate/esbuild": dependencies["@primate/esbuild"],
+      },
+      imports: {
+        esbuild: "@primate/esbuild",
       },
       modules: {
         esbuild: "",
@@ -62,5 +71,5 @@ export default async () => {
     });
   }
 
-  return confs;
+  return configs;
 };

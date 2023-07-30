@@ -1,4 +1,5 @@
 import {text} from "../prompts.js";
+import dependencies from "../dependencies.js";
 
 const defaults = {
   host: "localhost",
@@ -24,8 +25,11 @@ export default async () => {
   });
 
   return {
+    dependencies: {
+      mongodb: dependencies.mongodb,
+    },
     imports: {
-     "{mongodb}" : "@primatejs/store",
+     "{mongodb}" : "@primate/store",
     },
     driver: {
       name: "mongodb",

@@ -1,4 +1,5 @@
 import {text} from "../prompts.js";
+import dependencies from "../dependencies.js";
 
 const defaults = {
   host: "localhost",
@@ -29,8 +30,11 @@ export default async () => {
   });
 
   return {
+    dependencies: {
+      "surrealdb.js": dependencies["surrealdb.js"],
+    },
     imports: {
-     "{surrealdb}" : "@primatejs/store",
+     "{surrealdb}" : "@primate/store",
     },
     driver: {
       name: "surrealdb",

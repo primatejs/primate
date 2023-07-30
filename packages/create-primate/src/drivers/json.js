@@ -8,7 +8,7 @@ export default async () => {
 
   return {
     imports: {
-     "{json}" : "@primatejs/store",
+     "{json}" : "@primate/store",
     },
     driver: {
       name: "json",

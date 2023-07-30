@@ -5,7 +5,7 @@ export default () => ({
     "@primate/vue": dependencies["@primate/vue"],
   },
   imports: {
-    vue: "@primatejs/vue",
+    vue: "@primate/vue",
   },
   modules: {
     vue: "",

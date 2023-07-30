@@ -11,16 +11,14 @@ const labels = map({
   mongodb: "MongoDB",
   postgresql: "PostgreSQL",
   surrealdb: "SurrealDB",
-}, ([key, label]) => [drivers[key],
+}, ([key, label]) => [key,
   `${label} ${link(`drivers#${label.toLowerCase().replaceAll(" ", "-")}`)}`]);
 
 export default async () => {
-  const driver = await select({
+  const driver = await (await select({
     message: "Choose driver",
-    options: to(labels).map(([value, label]) => ({value, label})),
-  });
-
-  const conf = await driver();
+    options: to(labels).map(([key, label]) => ({value: drivers[key], label})),
+  }))();
 
   const strict = await confirm({
     message: `Turn strict validation on? ${link("store#strict")}`,
@@ -44,19 +42,20 @@ export default async () => {
   return {
     dependencies: {
       "@primate/store": dependencies["@primate/store"],
+      ...driver.dependencies,
       ...types.dependencies,
     },
     imports: {
       store: "@primate/store",
-      ...conf.imports,
+      ...driver.imports,
       ...types.imports,
     },
     modules: {
-      store: `{\n      strict: ${strict}${
-        conf.driver ? `,\n$      driver: ${conf.driver.name}({${Object
-          .entries(conf.driver.options).map(([name, option]) =>
+      store: `{\n      strict: ${strict},\n    ${
+        driver.driver ? `  driver: ${driver.driver.name}({${Object
+          .entries(driver.driver.options).map(([name, option]) =>
             `\n        ${name}: ${typeof option === "number"
-              ? option : `"${option}"`}`).join(",")},\n     }}),\n    `
+              ? option : `"${option}"`}`).join(",")},\n      }),\n    `
           : ""
       }}`,
       ...types.modules,

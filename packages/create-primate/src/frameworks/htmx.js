@@ -5,7 +5,7 @@ export default () => ({
     "@primate/htmx": dependencies["@primate/htmx"],
   },
   imports: {
-    htmx: "@primatejs/htmx",
+    htmx: "@primate/htmx",
   },
   modules: {
     htmx: "",
