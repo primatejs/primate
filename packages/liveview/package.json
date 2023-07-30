@@ -24,7 +24,7 @@
   "exports": {
     ".": {
       "browser": {
-        "default": "./src/client/index.js"
+        "default": "./src/client/exports.js"
       },
       "default": "./src/exports.js"
     }
