@@ -22,12 +22,15 @@ const handle = async (response, updater) => {
   await (handlers[content_type] ?? handlers[TEXT_PLAIN])(response, updater);
 };
 
-const get = async (pathname, updater, state = false) => {
+const get = async ({pathname, hash}, updater, state = false) => {
   try {
     const response = await fetch(pathname, {headers});
-    await handle(response, updater);
+    await handle(response, props =>
+      updater(props, () => hash !== ""
+        ? global.document.getElementsByName(hash.slice(1))[0]?.scrollIntoView()
+        : global.scrollTo(0, 0)));
     if (state) {
-      history.pushState({}, "", pathname);
+      history.pushState({}, "", `${pathname}${hash}`);
     }
   } catch(error) {
     console.warn(error);
@@ -48,15 +51,14 @@ const post = async (pathname, body, updater) => {
 
 const go = async (href, updater, event) => {
   const url = new URL(href);
-  const next = url.pathname;
+  const {pathname} = url;
   const current = global.location.pathname;
   // hosts must match
   if (url.host === global.location.host) {
     // pathname must differ
-    if (current !== next) {
+    if (current !== pathname) {
       event?.preventDefault();
-      await get(next, updater, true);
-      global.scrollTo(0, 0);
+      await get(url, updater, true);
     }
     // no hash, prevent event
     if (url.hash === "") {
@@ -69,7 +71,7 @@ const go = async (href, updater, event) => {
 
 export default updater => {
   global.addEventListener("popstate", async () => {
-    await get(global.location.pathname, updater);
+    await get(global.location, updater);
   });
 
   global.addEventListener("click", event => {
