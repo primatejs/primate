@@ -2,8 +2,6 @@ import {is, maybe} from "runtime-compat/dyndef";
 
 const base = "array";
 
-const types = ["string", "number", "boolean"];
-
 const array = {
   base,
   validate(value) {
@@ -30,11 +28,11 @@ const array = {
     maybe(size).usize();
 
     // condition strict-guarded by maybe
-    const sized = value => size ? array.sized(size) : array.validate(value);
+    const validator = size ? array.sized(size) : array;
 
     return {
       validate(value) {
-        const typed = sized(value);
+        const typed = validator.validate(value);
 
         try {
           return typed.map(item => type.validate(item));

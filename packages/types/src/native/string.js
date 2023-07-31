@@ -27,6 +27,9 @@ const string = {
       base,
     };
   },
+  toString() {
+    return "string (runtime)";
+  },
 };
 
 export default string;
