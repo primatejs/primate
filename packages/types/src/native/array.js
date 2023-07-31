@@ -36,10 +36,11 @@ const array = {
       validate(value) {
         const typed = sized(value);
 
-        if (typed.every(item => types.includes(typeof item))) {
-          return typed;
+        try {
+          return typed.map(item => type.validate(item));
+        } catch (_) {
+          throw new Error(`array is not composed of only ${type}`);
         }
-        throw new Error(`array is not composed of only ${type}`);
       },
       base,
     };
