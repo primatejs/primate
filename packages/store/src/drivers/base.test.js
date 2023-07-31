@@ -1,6 +1,7 @@
 import {transform} from "runtime-compat/object";
 import {primary, string, object, u8, boolean, i64, date}  from "@primate/types";
 import bases from "../bases.js";
+import primary$ from "../primary.js";
 
 const w = (document, id) => ({...document, id});
 
@@ -43,11 +44,12 @@ export default async (test, driver, lifecycle = {}) => {
     const {types, start, rollback, commit, end} = d;
     const [user, comment] = ["user", "comment"].map(name => ({
       insert: async document => o(types,
-        await d.insert(name, "id", i(types, document))),
+        await d.insert(name, primary$, i(types, document))),
       update: (criteria, delta) => d.update(name, i(types, criteria),
         i(types, delta)),
       count: criteria => d.count(name, criteria),
-      get: async id => o(types, await d.get(name, "id", types.primary.in(id))),
+      get: async id => o(types, await d.get(name, primary$,
+        types.primary.in(id))),
       find: async criteria => (await d.find(name, i(types, criteria)))
         .map(document => o(types, document)),
       delete: criteria => d.delete(name, i(types, criteria)),

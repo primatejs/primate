@@ -1,10 +1,10 @@
 import crypto from "runtime-compat/crypto";
 import {bold} from "runtime-compat/colors";
 import {extend, inflate, map, transform} from "runtime-compat/object";
-import {error as clientError} from "primate";
 import wrap from "./wrap.js";
 import {memory} from "./drivers/exports.js";
 import errors from "./errors.js";
+import primary from "./primary.js";
 
 const last = -1;
 const ending = -3;
@@ -45,8 +45,6 @@ export default ({
   directory = "stores",
   /* default database driver */
   driver = memory(),
-  /* default primary key */
-  primary = "id",
   /* whether all fields should be non-empty before saving */
   strict = false,
 } = {}) => {
@@ -65,7 +63,6 @@ export default ({
         env.defaults = {
           // start driver
           driver: await driver(),
-          primary,
           strict,
           readonly: false,
           ambiguous: false,
@@ -86,7 +83,7 @@ export default ({
               .filter(([property, type]) => valid(type, property, store)));
 
             exports.ambiguous !== true && schema.id === undefined
-              && errors.MissingPrimaryKey.throw(primary, store, "id",
+              && errors.MissingPrimaryKey.throw(primary, store,
                 "export const ambiguous = true;");
 
             const pathed = store.replaceAll("/", ".");

@@ -3,6 +3,7 @@ import * as object from "runtime-compat/object";
 import validate from "./validate.js";
 import errors from "./errors.js";
 import bases from "./bases.js";
+import primary from "./primary.js";
 
 const {FailedDocumentValidation} = errors;
 
@@ -57,19 +58,19 @@ export default (name, schema = {}, options = {}) => {
           : this.unpack(await writer(this.pack(document)));
       },
       async get(value) {
-        const document = await driver.get(config.name, config.primary, value);
+        const document = await driver.get(config.name, primary, value);
 
         document === undefined &&
-          errors.NoDocumentFound.throw(config.primary, value,
-            `${path}.exists({${config.primary}: ${value}})`, `${path}.get$`);
+          errors.NoDocumentFound.throw(primary, value,
+            `${path}.exists({${primary}: ${value}})`, `${path}.get$`);
 
         return this.unpack(document);
       },
       /*async get$(value) {
-        const document = await driver.get(config.name, config.primary, value);
+        const document = await driver.get(config.name, primary, value);
 
         if (document === undefined) {
-          const {message} = errors.NoDocumentFound.new(config.primary, value);
+          const {message} = errors.NoDocumentFound.new(primary, value);
           return {failed: true, reason: message};
         }
 
@@ -88,15 +89,13 @@ export default (name, schema = {}, options = {}) => {
       },
       insert(document = {}) {
         return this.write(document,
-          validated => driver.insert(config.name, config.primary, validated));
+          validated => driver.insert(config.name, primary, validated));
       },
       update(criteria, document = {}) {
         return this.write(document,
           validated => driver.update(config.name, criteria, validated));
       },
       save(document) {
-        const {primary} = config;
-
         return document[primary] === undefined
           ? this.insert(document)
           : this.update({[primary]: document[primary]}, document);

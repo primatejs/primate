@@ -28,7 +28,7 @@
     },
     "MissingPrimaryKey": {
       "message": "missing primary key {0} in store {1}",
-      "fix": "add an {2} field or set {3} to the store",
+      "fix": "add an {0} field or set {2} to the store",
       "level": "Error"
     },
     "MissingStoreDirectory": {
