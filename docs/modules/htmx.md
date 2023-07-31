@@ -14,7 +14,9 @@ Import and initialize the module in your configuration.
 import htmx from "@primate/htmx";
 
 export default {
-  modules: [htmx()],
+  modules: [
+    htmx(),
+  ],
 };
 ```
 

@@ -14,7 +14,9 @@ Import and initialize the module in your configuration.
 import session from "@primate/session";
 
 export default {
-  modules: [session()],
+  modules: [
+    session(),
+  ],
 };
 ```
 

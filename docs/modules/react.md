@@ -15,7 +15,9 @@ Import and initialize the module in your configuration.
 import react from "@primate/react";
 
 export default {
-  modules: [react()],
+  modules: [
+    react(),
+  ],
 };
 ```
 

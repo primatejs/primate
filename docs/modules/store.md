@@ -46,7 +46,7 @@ By default the module uses an [in-memory][in-memory] driver which keeps the
 data only as long as the application runs. Alternatively you can use the
 [JSON file][json-file] driver which persists onto a file.
 
-```js caption=primate.config.js | using the JSON driver
+```js caption=primate.config.js
 import {default as store, json} from "@primate/store";
 
 export default {
@@ -115,10 +115,10 @@ export default {
 
 ```js caption=stores/post/Comment.js
 // this store will be available as `request.store.post.Comment` in routes
-import {id, string} from "primate/@types";
+import {primary, string} from "primate/@types";
 
 export default {
-  id,
+  id: primary,
   text: string,
 };
 ```
@@ -153,10 +153,10 @@ error and roll back the transaction.
 Types are not only used for mapping to database fields, but also for validating
 data before saving it. One of the store actions you can use in routes is
 `validate`, which allows you to check that a document is valid before
-saving it. Normally, you wouldn't call `validate` directly but have `insert` or
-`update` call it for you.
+saving it. Normally though, you wouldn't call `validate` directly but have
+`insert` or `update` call it for you.
 
-```js caption=routes/create-user.js | POST /create-user
+```js caption=routes/create-user.js
 import {redirect} from "primate";
 
 export default {
@@ -193,13 +193,13 @@ automatically generated on an insert.
 In addition to using type functions, Primate supports using an object with a
 `validate` function property for validation.
 
-```js
-import {id, u8, array} from "primate/@types"
+```js caption=stores/User.js
+import {primary, u8, array} from "primate/@types"
 
 const between = ({length}, min, max) => length >= min && length <= max;
 
 export default {
-  id,
+  id: primary,
   name: {
     validate(value) {
       if (typeof value === "string" && between(value, 2, 20)) {
@@ -226,36 +226,41 @@ By default, fields aren't required to be non-empty (not `undefined` or `null`)
 to save a new document into the document. If you wish to strictly enforce all
 fields to be non-empty, export `strict = true`.
 
-```js caption=stores/Comment.js | opting-in into strict validation
-import {id, string} from "primate/@types";
+```js caption=stores/Comment.js
+import {primary, string} from "primate/@types";
 
 export const strict = true;
 
 export default {
-  id,
+  id: primary,
   text: string,
 };
 ```
 
 You can also globally enforce strictness for all stores by configuring this
-module with `strict: true`. In that case, you can opt-out on individual store
-level by exporting `strict = false`.
+module with `strict: true`. 
 
-```js caption=primate.config.js | enforcing strictness for all stores
+```js caption=primate.config.js
 import store from "@primate/store";
 
 export default {
-  modules: [store({strict: true})],
+  modules: [
+    store({
+      strict: true,
+    }),
+  ],
 };
 ```
+In that case, you can opt-out on individual store level by exporting
+`strict = false`.
 
-```js caption=stores/Comment.js | opting-out of strict validation
-import {id, string} from "primate/@types";
+```js caption=stores/Comment.js
+import {primary, string} from "@primate/types";
 
 export const strict = false;
 
 export default {
-  id,
+  id: primary,
   text: string,
 };
 ```
@@ -268,14 +273,14 @@ mapped. `stores/Comment.js` will be mapped to `comment`, while
 this behavior by exporting a `name`, allowing you to map several store files to
 the same database store.
 
-```js caption=stores/Post/Comment.js | overriding name
-import {id, string} from "primate/@types";
+```js caption=stores/Post/Comment.js
+import {primary, string} from "@primate/types";
 
 // would use `post_comment` if not overriden
 export const name = "comment";
 
 export default {
-  id,
+  id: primary,
   text: string,
 };
 ```
@@ -286,21 +291,21 @@ Unless specified elsewise, stores use the driver specified when loading the
 module (which defaults to the in-memory driver). A store can override this
 default by exporting a `driver`.
 
-```js caption=stores/Comment.js | overriding driver
-import {id, string} from "primate/@types";
+```js caption=stores/Comment.js
+import {primary, string} from "@primate/types";
 import mongodb from "@primate/mongodb";
 
 export const driver = mongodb();
 
 export default {
-  id,
+  id: primary,
   text: string,
 };
 ```
 
 If you need to share the same alternative driver across several stores, we
 recommend initializing it in a separate file (lowercase-first files in the
-`stores` directory are ignored by Primate) and importing the driver as needed.
+`stores` directory are ignored by Primate).
 
 ```js caption=stores/mongodb.js
 import mongodb from "@primate/mongodb";
@@ -308,70 +313,39 @@ import mongodb from "@primate/mongodb";
 export default mongodb();
 ```
 
-```js caption=stores/Post.js | sharing overridden driver
-import {id, string} from "primate/@types";
+You can then import and reexport the driver as needed across files.
+
+```js caption=stores/Post.js
+import {primary, string} from "@primate/types";
 
 export {default as driver} from "./mongodb.js";
 
 export default {
-  id,
+  id: primary,
   title: string,
   text: string
 };
 ```
 
-```js caption=stores/Comment.js | sharing overriden driver
-import {id, string} from "primate/@types";
+```js caption=stores/Comment.js
+import {primary, string} from "@primate/types";
 
 export {default as driver} from "./mongodb.js";
 
 export default {
-  id,
+  id: primary,
   text: string,
-};
-```
-
-### Primary
-
-By default, Primate assumes every store has a primary field called `id`.
-Some drivers such as MongoDB have different conventions on the naming of
-primary fields, like `_id`. To reflect that, use the `primary` export to
-override the primary field's name for the given store.
-
-```js caption=stores/Comment.js | overriding name of primary field
-import {id, string} from "@primate/types";
-import mongodb from "@primate/mongodb";
-
-export const driver = mongodb();
-
-export const primary = "_id";
-
-export default {
-  [primary]: id,
-  text: string,
-};
-```
-
-You can also globally change the primary field for all stores by configuring
-this module with a different value for `primary`. This is useful if you're
-using drivers like MongoDB across the board.
-
-```js caption=primate.config.js | changing the primary field for all stores
-import store from "@primate/store";
-import mongodb from "@primate/mongodb";
-
-export default {
-  modules: [store({driver: mongodb(), primary: "_id"})],
 };
 ```
 
 ### Ambiguous
 
-Many database systems rely on the existence of a primary field for indexing.
-This module, too, uses the primary field automatically for a store's `get`
-operation. If you create a store without a primary key, Primate will complain.
+Many database systems rely on the existence of a primary `id` field for 
+indexing. This module, too, uses the primary field automatically for a store's
+`get` operation. If you create a store without a primary key, Primate will
+complain.
 
-```js caption=stores/Comment.js | missing primary key
+```js caption=stores/Comment.js
 import {string} from "@primate/types";
 
 export default {
@@ -379,14 +353,13 @@ export default {
 };
 ```
 
-If you run your Primate app with such a store in your `stores` directory,
-Primate will show a
+If you run your app with a store thus configured, Primate will show a
 [`MissingPrimaryKey`](/reference/errors/primate/store#missing-primary-key)
 warning.
 
-If this ambiguity is intended, export `ambiguous = true` in your store.
+If this ambiguity is intentional, export `ambiguous = true` in your store.
 
-```js caption=stores/Comment.js | ambiguous store
+```js caption=stores/Comment.js
 import {string} from "@primate/types";
 
 export const ambiguous = true;
@@ -398,9 +371,8 @@ export default {
 
 !!!
 As noted, Primate relies on the primary field for the `get` operation. For
-stores that export `ambiguous = true`, using this operation will always throw.
+stores that export `ambiguous = true`, this action will always throw.
 !!!
-
 
 ## Store actions
 
@@ -421,34 +393,6 @@ The database driver used to persist data. This module also exports `json` as a
 non-volatile alternative driver which stores its data in a JSON file. Other
 supported DMBSs are [MongoDB](/modules/mongodb),
 [PostgreSQL](/modules/postgresql) and [SQLite](/modules/sqlite).
-
-### primary
-
-Default `"id"`
-
-Name of the primary field in every store. Stores can deviate from this
-default by exporting a different value for `primary`. Assuming that all stores
-in your application use the JSON store and the default `"id"` for value for the
-primary field, and that you want to add a single store using MongoDB with `_id`
-used as the primary field, you would use the following.
-
-```js caption=stores/User.js (using different primary field for a store)
-import {id, string} from "@primate/types";
-import mongodb from "@primate/mongodb";
-
-export const driver = mongodb();
-
-export const primary = "_id";
-
-export default {
-   [primary]: id,
-   username: string,
-};
-```
-
-Primary fields have a special meaning in many database systems. They are often
-unique and indexed. In Primate specifically, the store `get` operation uses the
-primary field.
 
 ### strict
 

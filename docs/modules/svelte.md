@@ -15,17 +15,9 @@ Import and initialize the module in your configuration.
 import svelte from "@primate/svelte";
 
 export default {
-  modules: [svelte()],
-};
-```
-
-If you're using a bundler, specify an array of entry points.
-
-```js caption=primate.config.js
-import svelte from "@primate/svelte";
-
-export default {
-  modules: [svelte({entryPoints: ["PostIndex.svelte"]})],
+  modules: [
+    svelte(),
+  ],
 };
 ```
 
@@ -35,10 +27,10 @@ Create a Svelte component in `components`.
 
 ```html caption=components/PostIndex.svelte
 <script>
-  export let posts;
+  export let data;
 </script>
 <h1>All posts</h1>
-{#each posts as {id, title}}
+{#each data.posts as {id, title}}
 <h2><a href="/svelte/post/{id}">{title}</a></h2>
 {/each}
 
@@ -70,24 +62,20 @@ export default {
 };
 ```
 
-Your rendered Svelte route will be accessible at
-http://localhost:6161/svelte.
+Your rendered Svelte route will be accessible at http://localhost:6161/svelte.
+
+!!!
+Any props you pass to your Svelte component will be available as a property of
+its `data` export.
+!!!
 
 ## Configuration options
 
-### directory
+### dynamicProps
 
-Default `config.paths.components`
+Default `"data"`
 
-Directory where the Svelte components reside.
-
-### entryPoints
-
-Default `[]`
-
-Array of component names that serve as entry points. This information is
-valuable to a bundle for deciding what files are relevant as starting input for
-bundling.
+Name of the props passed to a Svelte component from its route.
 
 ## Resources
 

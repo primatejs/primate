@@ -16,7 +16,9 @@ Import and initialize the module in your configuration.
 import esbuild from "@primate/esbuild";
 
 export default {
-  modules: [esbuild()],
+  modules: [
+    esbuild(),
+  ],
 };
 ```
 

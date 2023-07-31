@@ -15,7 +15,9 @@ Import and initialize the module in your configuration.
 import vue from "@primate/vue";
 
 export default {
-  modules: [vue()],
+  modules: [
+    vue(),
+  ],
 };
 ```
 

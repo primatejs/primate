@@ -14,7 +14,9 @@ Import and initialize the module in your configuration.
 import types from "@primate/types";
 
 export default {
-  modules: [types()],
+  modules: [
+    types(),
+  ],
 };
 ```
 
@@ -22,8 +24,8 @@ export default {
 
 Similar to the types you define in `types`, the types included in this module
 will be injected into the `body`, `path`, `query`, `cookies` and `headers`
-properties of a request. In addition, all the types are exported for use in
-stores.
+properties of a request, as `get**X**` function, where `x` is the type's name. In
+addition, all the types are exported for use in stores.
 
 ## Configuration options
 

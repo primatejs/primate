@@ -14,7 +14,9 @@ Import and initialize the module in your configuration.
 import ws from "@primate/ws";
 
 export default {
-  modules: [ws()],
+  modules: [
+    ws(),
+  ],
 };
 ```
 
@@ -26,7 +28,7 @@ which you could use to send the JavaScript client used to connect. Like all
 other routes, you can have multiple WebSocket routes each with their different
 logic.
 
-```js caption=routes/chat.js | GET+WS /chat 
+```js caption=routes/chat.js
 import {view} from "primate";
 
 export default {
@@ -48,7 +50,7 @@ export default {
 };
 ```
 
-```html caption=components/chat.html | chat client
+```html caption=components/chat.html
 <script>
   window.addEventListener("load", () => {
     const ws = new WebSocket("ws://localhost:6161/chat?limit=20");
