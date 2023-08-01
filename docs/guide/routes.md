@@ -14,9 +14,8 @@ To illustrate this, consider that inside `routes`
 [route with parameters](#parameters), for example `/user/1` (but also
 `/user/donald`)
 * `user/{userId=uuid}.js` is mapped to a
-[route with typed parameters](/types#path-parameters) route where `userId` is
-of the type `uuid`, for example `/user/f6a3fac2-7c1d-432d-9e1c-68d0db925adc`
-(but not `/user/1`)
+[route with typed parameters][types] route where `userId` is of the type `uuid`,
+for example `/user/f6a3fac2-7c1d-432d-9e1c-68d0db925adc` (but not `/user/1`)
 
 ## HTTP verbs
 
@@ -240,5 +239,7 @@ The same path won't be matched by any of the following requests.
 * `/users/?a` (`?` denotes end of path)
 
 Parameters can be also typed, in which case their value can be restricted.
-The types section elaborates on the use of
-[types in path parameters](/guide/types#path-parameters).
+The types section elaborates on the use of [types in path parameters][types].
+
+
+[types]: /guide/types#path-parameters
