@@ -9,6 +9,9 @@ const ieq = (left, right) => left.toLowerCase() === right.toLowerCase();
 /* routes may not contain dots */
 export const invalid = route => /\./u.test(route);
 
+const deroot = pathname => pathname.endsWith("/") && pathname !== "/"
+    ? pathname.slice(0, -1) : pathname;
+
 export default app => {
   const {types, routes, config: {explicit, paths}} = app;
 
@@ -31,8 +34,6 @@ export default app => {
     isMethod({route, method, pathname}));
 
   const index = path => `${paths.routes}${path === "/" ? "/index" : path}`;
-  const deroot = pathname => pathname.endsWith("/") && pathname !== "/"
-    ? pathname.slice(0, -1) : pathname;
 
   return ({original: {method}, url}) => {
     const pathname = deroot(url.pathname);

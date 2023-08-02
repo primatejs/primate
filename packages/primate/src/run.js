@@ -26,19 +26,16 @@ const getConfig = async root => {
     : defaults;
 };
 
-export default async name => {
-  try {
-    // use module root if possible, fall back to current directory
-    const root = await tryreturn(_ => Path.root()).orelse(_ => Path.resolve());
-    const config = await getConfig(root);
-    logger = new Logger(config.logger);
-    await command(name)(await app(config, root, logger));
-  } catch (error) {
-    if (error.level === Logger.Error) {
-      logger.auto(error);
-      bye();
-    } else {
-      throw error;
-    }
+export default async name => tryreturn(async _ => {
+  // use module root if possible, fall back to current directory
+  const root = await tryreturn(_ => Path.root()).orelse(_ => Path.resolve());
+  const config = await getConfig(root);
+  logger = new Logger(config.logger);
+  await command(name)(await app(logger, root, config));
+}).orelse(error => {
+  if (error.level === Logger.Error) {
+    logger.auto(error);
+    return bye();
   }
-};
+  throw error;
+});

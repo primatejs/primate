@@ -38,7 +38,7 @@ const attribute = attributes => Object.keys(attributes).length > 0
 const tag = ({name, attributes = {}, code = "", close = true}) =>
   `<${name}${attribute(attributes)}${close ? `>${code}</${name}>` : "/>"}`;
 
-export default async (config, root, log) => {
+export default async (log, root, config) => {
   const {http} = config;
   const secure = http?.ssl !== undefined;
   const {name, version} = await base.up(1).join(packager).json();

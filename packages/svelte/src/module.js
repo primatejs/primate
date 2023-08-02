@@ -11,6 +11,7 @@ const endings = {
   js: ".svelte.js",
 };
 
+const encoder = new TextEncoder();
 const hash = async (string, algorithm = "sha-256") => {
   const base = 16;
   const target_pad_length = 2;
@@ -33,8 +34,6 @@ const load = async path =>
 
 const make_component = base => async (name, props) =>
   ({name, component: await load(base.join(name)), props});
-
-const encoder = new TextEncoder();
 
 const handler = (name, props = {}, {status = Status.OK, page} = {}) =>
   async (app, {layouts = [], as_layout} = {}, request) => {
