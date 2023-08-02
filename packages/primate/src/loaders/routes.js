@@ -1,5 +1,5 @@
 import {tryreturn} from "runtime-compat/sync";
-import {from, filter, valmap} from "runtime-compat/object";
+import {from} from "runtime-compat/object";
 import errors from "../errors.js";
 import {invalid} from "../hooks/route.js";
 import {default as fs, doubled} from "./common.js";
