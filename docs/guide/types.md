@@ -8,11 +8,10 @@ into a given type and validate that the coerced value lies within an expected
 range or satisfies other conditions.
 
 !!!
-Primate types aren't programming types in a real sense. They translate to one
-of JavaScript's underlying types, and unlike static types, they provide a form
-of runtime safety. You can think of them as coercive value predicates; a
-`boolean` runtime type would consider both boolean `true` and string `"true"`
-as true, which is what you would expect on the web.
+Primate types aren't programming types in a real sense. Unlike static types,
+they provide a form of runtime safety. You can think of them as coercive value
+predicates; a `boolean` runtime type would consider both boolean `true` and
+string `"true"` as true, which is what you would expect on the web.
 !!!
 
 ## Defining
@@ -27,22 +26,20 @@ either export a function as their default export, or an object containing a
 `validate` function property.
 
 Here is an example for a `number` type, a type that makes sure a string is
-convertible to a number and outputs a number. This example uses implicit
-notation.
+numeric and outputs its as a number. This example uses implicit notation.
 
 ```js caption=types/number.js
-import {is} from "runtime-compat/dyndef";
-const numeric = n => !Number.isNaN(Number.parseFloat(n)) && Number.isFinite(n);
+import {is, numeric} from "runtime-compat/dyndef";
 
 export default value => {
   // make sure value is a string, otherwise throw
   is(value).string();
 
-  try {
-    return numeric(value) && Number(value);
-  } catch() {
-    throw new Error(`\`${value}\` is not a number`);
+  const n = numeric(value) ? Number(value) : value;
+  if (typeof n === "number") {
+    return n;
   }
+  throw new Error(`\`${value}\` is not a number`);
 };
 ```
 
@@ -58,19 +55,18 @@ be strings.
 Here is the same example using explicit notation.
 
 ```js caption=types/number.js
-import {is} from "runtime-compat/dyndef";
-const numeric = n => !Number.isNaN(Number.parseFloat(n)) && Number.isFinite(n);
+import {is, numeric} from "runtime-compat/dyndef";
 
 export default {
   validate(value) {
     // make sure value is a string, otherwise throw
     is(value).string();
 
-    try {
-      return numeric(value) && Number(value);
-    } catch() {
-      throw new Error(`\`${value}\` is not a number`);
+    const n = numeric(value) ? Number(value) : value;
+    if (typeof n === "number") {
+      return n;
     }
+    throw new Error(`\`${value}\` is not a number`);
   },
 };
 ```
@@ -86,12 +82,15 @@ additional properties relevant for persisting values.
 You can also create more elaborate types, like `uuid`.
 
 ```js caption=types/uuid.js
+import {is} from "runtime-compat/dyndef";
+
 const valid = /^[^\W_]{8}-[^\W_]{4}-[^\W_]{4}-[^\W_]{4}-[^\W_]{12}$/u;
 
-const test = value => typeof value === "string" && valid.test(value);
-
 export default value => {
-  if (test(value)) {
+  // make sure value is a string, otherwise throw
+  is(value).string();
+
+  if (valid.test(value)) {
     return value;
   }
   throw new Error(`${value} is not a valid UUID`);
@@ -253,7 +252,8 @@ export default {
 
 This is generally OK, but as routes may arbitrarily nested, it can make
 importing from relative paths unseemly. For that, Primate enhances the `query`
-object with dispatcher functions for validating a property's value.
+object with dispatcher functions in the form `getX`, where `x` is the type name,
+for validating a property's value.
 
 ```js caption=routes/user.js
 export default {
@@ -267,28 +267,21 @@ export default {
   get(request) {
     // get the "userId" property from the request query, running it through the
     // `user` type, returning the user object or throwing in case of a failure
-    return request.query.user("userId");
+    return request.query.getUser("userId");
   }
 }
 ```
 
-Primate here adds any defined types as dispatcher functions of the
-`request.query` object, in addition to the `get()` function which allows direct
+Primate here adds any defined types as dispatcher `getX` functions of the
+`request.query` object, in addition to the `get` function which allows direct
 access to the query string parts. As there is no user in our dataset with the
 ID `1616`, if a client tries to access `GET /user?userId=1616`, the route will
 throw with the client redirected to an error page.
 
-!!!
-As `get` is already defined on `request.query`, it is considered a reserved
-keyword -- Primate will refuse to start if you try to define a type with this
-name.
-!!!
-
 ### Headers and cookies
 
-In identical fashion to the request query, you can make sure certain headers or
-cookies follow a given format, by retrieving them using the appropriate type
-function.
+In identical fashion to the request query, you can make sure certain headers
+follow a given format, by retrieving them using the appropriate type getter.
 
 ```js caption=routes/user.js
 export default {
@@ -302,10 +295,12 @@ export default {
     -> Error
   */
   get(request) {
-    return request.headers.user("X-User-Id");
+    return request.headers.getUser("X-User-Id");
   }
 }
 ```
+
+The same applies to cookies.
 
 ```js caption=routes/user.js
 export default {
@@ -319,24 +314,24 @@ export default {
     -> Error
   */
   get(request) {
-    return request.cookies.user("userId");
+    return request.cookies.getUser("userId");
   }
 }
 ```
 
 ## Related modules
 
-Primate's ecosystem extends the concept of types by providing many defaults
-and integrating with database types.
+Primate's ecosystem extends the concept of runtime types by providing many 
+defaults and integrating with database types.
 
 ### Types
 
-Most of the time you won't need to define your own types unless you have very
-specific use cases. Primate's [Types module](/modules/types) comes with a
-handful of common types. By importing and loading this module, its
-types will be injected and available wherever types are used.
+Most of the time you won't need to define your own runtime types unless you
+have very specific use cases. Primate's [Types module](/modules/types) comes
+with a handful of common types. By importing and loading this module, its types
+will be injected and available wherever types are used.
 
 ### Store
 
 The Primate [Store module](/modules/store), used for data persistance, also
-integrates with Primate's type concept and extends upon it.
+integrates with Primate's runtime type concept and extends upon it.
