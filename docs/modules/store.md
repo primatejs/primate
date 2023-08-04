@@ -376,6 +376,52 @@ stores that export `ambiguous = true`, this action will always throw.
 
 ## Store actions
 
+If the default store actions `get`, `count`, `find`, `exists`, `insert`,
+`update`, `save`, `delete` aren't powerful enough for you, you can access the
+underlying driver and the store itself to create your own actions. To do so,
+export `actions` as an object containing individual, additional actions.
+
+```js caption=store/User.js
+import {id, string, u8, array} from "primate/@types";
+
+export const actions = (client, store) => {
+  return {
+    findByHobbies(hobbies) {
+      return store.find({hobbies});
+    },
+  };
+};
+
+export default {
+  id,
+  name: string.between(0, 20),
+  age: u8.range(0, 120),
+  hobbies: array.of(string),
+};
+```
+
+The first argument of the function that `actions` returns, `client`, represents
+a client of the underlying driver package itself. For example, if you're using
+the SQLite driver, which uses the `better-sqlite3` package, you'd be getting a
+client that's been initialized using the following code:
+
+```js
+import Database from "better-sqlite3";
+const client = new Database(filename);
+```
+
+Where `filename` is the filename property you supplied when initializing the
+SQLite driver module.
+
+While using the underlying driver directly can be useful in specialized cases,
+most of the time you would want to stick to the Primate store action
+primitives. The second argument of the `actions` function, `store`, gives you
+access to all base actions of the Primate store that you can otherwise use
+in your routes, allowing you to create tailored actions.
+
+Thus defined, the `findByHobbies` action will be available at
+`request.store.user.findByHobbies`, in all routes.
+
 ## Configuration options
 
 ### directory

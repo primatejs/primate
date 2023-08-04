@@ -11,13 +11,12 @@ published under the `@primate` namespace on NPM. They address common use cases
 and include handlers for popular frontend frameworks, transactionalized data
 stores for various database systems, user sessions and bundling.
 
-Like Primate itself, all the official modules are licensed under the MIT
-license.
+Like Primate itself, the official modules are licensed under the MIT license.
 
 ## Handlers
 
 Handler modules extend Primate's component support to popular frontend
-frameworks such as React, Vue, Svelte or HTMX. They register new file types
+frameworks such as Svelte, React, Vue or HTMX. They register new file types
 that allow you to write components for these frameworks and use them with the
 `view` handler.
 

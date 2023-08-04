@@ -42,7 +42,6 @@ export default {
           {
             errors: [
               "primate",
-              "primate/guard",
               "primate/store",
               "primate/ws",
             ],
@@ -63,8 +62,8 @@ export default {
           "Store",
           "Drivers",
           {heading: "Others"},
+          "Liveview",
           "Session",
-          "Guard",
           "WebSocket",
           "esbuild",
         ],

@@ -64,13 +64,20 @@ The cookie's `Path` attribute.
 
 Default [in-memory session manager][inMemorySessionManager]
 
-The session manager. This is a function that is given an id identifying a
-session and returns a session object to be set on `request`. The return
-object must contain a `id` property. If the given id and the returned
+The session manager. When called, it returns a function that is given an id 
+identifying a session and returns a session object to be set on `request`. The
+return object must contain a `id` property. If the given id and the returned
 `session.id` differ, a `Set-Cookie` header is added to the response.
 
 Unless set, a default in-memory manager will be used, such that sessions do not
 survive an app restart.
+
+### implicit
+
+Default `false`
+
+Whether sessions should be automatically created, without explicitly calling
+`request.session.create()`.
 
 ## Security
 
@@ -85,4 +92,4 @@ attribute
 * [Repository][repo]
 
 [repo]: https://github.com/primatejs/primate/tree/master/packages/session
-[inMemorySessionManager]: https://github.com/primatejs/primate/blob/master/packages/session/src/module.js#L7-L19
+[inMemorySessionManager]: https://github.com/primatejs/primate/blob/master/packages/session/src/module.js#L7-L37

@@ -6,7 +6,7 @@ List of errors in the [WebSocket module](/modules/websocket).
 
 Level [`Error`][error]
 
-WebSocket routes must return a valid handler, such as.
+WebSocket routes must return a valid handler, such as,
 
 ```js caption=routes/websocket-route.js | valid handler
 export default {
