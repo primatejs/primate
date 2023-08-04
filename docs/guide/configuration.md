@@ -152,7 +152,7 @@ explicit [load hooks][hooks-load].
 
 ## Page options
 
-### `index`
+### index
 
 Default: `app.html`
 
@@ -160,7 +160,7 @@ Name of the default HTML page located in `paths.pages`. If `paths.pages` does
 not exist or contain this file, Primate will use its
 [default app.html][default-app-html].
 
-### `error`
+### error
 
 Default: `error.html`
 

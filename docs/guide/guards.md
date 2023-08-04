@@ -59,12 +59,12 @@ Consider the following route layout inside `routes`.
 
 ```sh
 .
-├─ admin/
-│  └─ index.js
-│  └─ +guard.js
+│  +guard.js
 │  login.js
 │  logout.js
-│  +guard.js
+├─ admin/
+│  └─ +guard.js
+│  └─ index.js
 └─ post/
    └─ index.js
    └─ add.js

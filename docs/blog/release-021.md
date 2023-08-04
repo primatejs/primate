@@ -75,13 +75,14 @@ moment an `+error.js` file is found, it will be used to handle the response.
 
 !!!
 Quick recap on guards and layouts: all guards must be fulfilled for a route to
-be executed, starting with the nearest and going up until the root guard, if 
-exists. Layouts are included in each other, with the innermost layout including 
-the output of the route, and being recursively included itself, up to the root
-layout.
+be executed, starting with the root guard and going down until the nearest
+guard, if it exists. Layouts work in the opposite indirection: they are
+included in each other, with the innermost layout including the output of the
+route, and being recursively included itself, up to the root layout. With error
+routes, the first one to be found, down from to up, is applied.
 !!!
 
-The root error file located at `routes/+error.js`, if exists, has a special
+The root error file located at `routes/+error.js`, if it exists, has a special
 meaning. It applies normally for every route for which no other error file
 can be found, but it also applies in cases where no route could be matched. It
 thus serves as a classical `404 Not Found` error route.

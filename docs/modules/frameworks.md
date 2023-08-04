@@ -56,13 +56,13 @@ Every frontend framework registers its own file extension with the
 [`view`][view] handler and needs to be loaded in `primate.config.js`. You can
 use different frontend frameworks alongside each other, in different routes.
 
-| Name     | File Extension | Package           | SSR | Hydration | Liveview |
-|----------|----------------|-------------------|-----|-----------|----------|
-| HTML     | `.html`        | `primate`         | ✗   | ✗         | ✗        |
-| [Svelte] | `.svelte`      | `@primate/svelte` | ✓   | ✓         | ✓        |
-| [React]  | `.jsx`         | `@primate/react`  | ✓   | ✗         | ✗        |
-| [Vue]    | `.vue`         | `@primate/vue`    | ✓   | ✗         | ✗        |
-| [HTMX]   | `.htmx`        | `@primate/htmx`   | ✗   | ✗         | ✗        |
+|Name    |File Extension|Package          |[Layouts]|SSR|Hydration|[Liveview]|
+|--------|--------------|-----------------|---------|---|---------|----------|
+|HTML    |`.html`       |`primate`        |✗        |✗  |✗        |✗         |
+|[Svelte]|`.svelte`     |`@primate/svelte`|✓        |✓  |✓        |✓         |
+|[React] |`.jsx`        |`@primate/react` |✗        |✓  |✗        |✗         |
+|[Vue]   |`.vue`        |`@primate/vue`   |✗        |✓  |✗        |✗         |
+|[HTMX]  |`.htmx`       |`@primate/htmx`  |✗        |✗  |✗        |✗         |
 
 [html]: /guide/responses#html
 [view]: /guide/responses#view
@@ -70,3 +70,5 @@ use different frontend frameworks alongside each other, in different routes.
 [React]: /modules/react
 [Vue]: /modules/vue
 [HTMX]: /modules/htmx
+[Layouts]: /guide/layouts
+[Liveview]: /modules/liveview

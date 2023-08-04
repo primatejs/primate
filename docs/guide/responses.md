@@ -34,7 +34,7 @@ import {text, Status} from "primate";
 
 export default {
   get() {
-    return text("Donald", {status: Status.Accepted});
+    return text("Donald", {status: Status.ACCEPTED});
   },
 };
 ```
@@ -107,8 +107,8 @@ This route function handles GET requests to the path `/redirect` by sending
 them to the given URL.
 
 !!!
-We here used Primate's `URL` export, which guarantees [cross-runtime
-compatibility](/guide/compatibility). In Node's case, it simply mirrors `globalThis.URL`.
+We here used Primate's `URL` export, which guarantees cross-runtime
+compatibility. In Node's case, it simply mirrors `globalThis.URL`.
 !!!
 
 As `URL` objects can only be used with fully-qualified domains, it is often
@@ -120,7 +120,7 @@ import {redirect, Status} from "primate";
 
 export default {
   get() {
-    return redirect("/success", {status: Status.MovedPermanently});
+    return redirect("/success", {status: Status.MOVED_PERMANENTLY});
   },
 };
 ```
@@ -144,12 +144,12 @@ export default {
 ```
 
 In this case, Primate will inject the HTML code passed to the handler into the
-index file located at `static/index.html` and serve the resulting file at the
+index file located at `pages/app.html` and serve the resulting file at the
 path GET `/html`. In case no such file exists, Primate will fall back to its
-[default index.html][default-index].
+[default app.html][default-index].
 
 The `html` handler also supports partial responses, without embedding it into
-`index.html`, by setting the `partial` flag to `true`. Like with every other
+`app.html`, by setting the `partial` flag to `true`. Like with every other
 explicit handler, you can also change the status code.
 
 ```js caption=routes/html.js
@@ -157,7 +157,7 @@ import {html, Status} from "primate";
 
 export default {
   get() {
-    const status = Status.Accepted;
+    const status = Status.ACCEPTED;
     return html("<p>Hello, world!</p>", {partial: true, status});
   },
 };
@@ -185,7 +185,7 @@ In this case, Primate will load the HTML component at `components/hello.html`.
 ```
 
 Similarly to the `html` handler, this handler will also embed the content of
-the component into `static/index.html`, either your custom one or its default.
+the component into `pages/app.html`, either your custom one or its default.
 
 ### Error
 
@@ -212,7 +212,8 @@ import {error, Status} from "primate";
 
 export default {
   get() {
-    return error("Internal Server Error", {status: Status.InternalServerError});
+    const status = Status.INTERNAL_SERVER_ERROR;
+    return error("Internal Server Error", {status});
   },
 };
 ```
@@ -230,7 +231,7 @@ import {Response, Status} from "primate";
 
 export default {
   get() {
-    return new Response("created!", {status: Status.Created});
+    return new Response("created!", {status: Status.CREATED});
   },
 };
 ```
@@ -241,5 +242,5 @@ This isn't actually a handler, but what all handlers eventually become, a
 WHATWG [`Response`][whatwg-response] object.
 
 [default-index]:
-https://github.com/primatejs/primate/blob/master/packages/primate/src/defaults/index.html
+https://github.com/primatejs/primate/blob/master/packages/primate/src/defaults/app.html
 [whatwg-response]: https://fetch.spec.whatwg.org/#response-class

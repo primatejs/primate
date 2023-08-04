@@ -29,6 +29,7 @@ Here is an example for a `number` type, a type that makes sure a string is
 numeric and outputs its as a number. This example uses implicit notation.
 
 ```js caption=types/number.js
+// `is` asserts invariants, `numeric` returns true if a string is numeric
 import {is, numeric} from "runtime-compat/dyndef";
 
 export default value => {
@@ -55,6 +56,7 @@ be strings.
 Here is the same example using explicit notation.
 
 ```js caption=types/number.js
+// `is` asserts invariants, `numeric` returns true if a string is numeric
 import {is, numeric} from "runtime-compat/dyndef";
 
 export default {
@@ -74,7 +76,7 @@ export default {
 !!!
 Which notation you use is up to you. If you're only using types for validating
 input provided by `request.{body,path,query,headers,cookies}`, the implicit
-notation should be enough. If you're planning on store values of those types in
+notation should suffice. If you're planning on storing values of those types in
 a data store, the explicit notation is better as it allows you to define
 additional properties relevant for persisting values.
 !!!

@@ -63,7 +63,7 @@ export default {
 Your rendered HTMX component will be accessible at http://localhost:6161/htmx.
 
 Here, we used the `html` handler to return HTML directly from the POST route,
-indicating it should not include the `index.html` layout by setting `partial`
+indicating it should not include the `app.html` layout by setting `partial`
 to `true`. 
 
 ## Configuration options
