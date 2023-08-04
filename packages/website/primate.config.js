@@ -35,7 +35,6 @@ export default {
           "Hooks",
           {heading: "Extras"},
           "Logging",
-          "Security",
         ],
         reference: [
           {heading: "Errors"},

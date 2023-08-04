@@ -224,9 +224,8 @@ Default
 }
 ```
 
-The Content Security Policy (CSP) to be used. Primate's defaults are strictly
-secure, you would need to change them for decreased security. For more
-information, consult the [security section][security-csp].
+The Content Security Policy (CSP) to be used. Primate's defaults are intended
+to be secure, and you would need to change them for decreased security.
 
 ### http.static.root
 
@@ -388,8 +387,6 @@ with the [http.static.root](#http-static-root) setting.
 This placeholder is replaced by whatever HTML code the `view` or `html`
 handler generates.
 
-[security-logging]: /guide/security#logging
-[security-csp]: /guide/security#csp
 [hooks-load]: /guide/hooks#load
 [default-app-html]: https://github.com/primatejs/primate/blob/master/packages/primate/src/defaults/app.html
 [default-error-html]: https://github.com/primatejs/primate/blob/master/packages/primate/src/defaults/error.html
