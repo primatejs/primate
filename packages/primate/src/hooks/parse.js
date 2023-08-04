@@ -6,10 +6,13 @@ import errors from "../errors.js";
 
 const {APPLICATION_FORM_URLENCODED, APPLICATION_JSON} = MediaType;
 
+const {decodeURIComponent: decode} = globalThis;
+const deslash = url => url.replaceAll(/(?<!http:)\/{2,}/gu, _ => "/");
+
 const contents = {
   [APPLICATION_FORM_URLENCODED]: body => from(body.split("&")
     .map(part => part.split("=")
-      .map(subpart => decodeURIComponent(subpart).replaceAll("+", " ")))),
+      .map(subpart => decode(subpart).replaceAll("+", " ")))),
   [APPLICATION_JSON]: body => JSON.parse(body),
 };
 
@@ -19,7 +22,7 @@ const content = (type, body) =>
 
 export default dispatch => async original => {
   const {headers} = original;
-  const url = new URL(original.url);
+  const url = new URL(deslash(decode(original.url)));
   const body = await stringify(original.body);
   const cookies = headers.get("cookie");
 

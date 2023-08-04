@@ -52,6 +52,32 @@ export default test => {
     assert(body.get("bar")).equals("baz");
     assert(body.get("baz")).undefined();
   });
+  test.case("url / path traversal", async assert => {
+    const matches = (urls, expected) =>
+      Promise.all(urls.map(async url => {
+        const {pathname} = (await r.get(`/${url}`)).url;
+        assert(await pathname).equals(expected.toString());
+      }));
+    await matches([
+      "..",
+      "../",
+      "/",
+      "//",
+      "../..",
+      "../../",
+      "../../.",
+      "%2E",
+      "%2e",
+      "%2E%2e",
+      "%2e%2e",
+      "%2E%2e",
+      "%2e%2e%2f",
+      "%2e%2e/",
+      "..%2f",
+      "..%5c",
+      "..\\",
+    ], "/");
+  });
   test.case("query", async assert => {
     assert((await r.get("/")).query.get()).equals({});
     const response1 = await r.get("/?foo=bar");
