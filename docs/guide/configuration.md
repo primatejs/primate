@@ -354,7 +354,7 @@ parameters and types having the exact same name won't be automatically typed.
 
 ## pages/app.html
 
-If you use the `view` or `html` [handler](/guide/requests#view), Primate will
+If you use the `view` or `html` [handler](/guide/responses#view), Primate will
 embed the generated HTML from the handler into this file. If an `app.html`
 doesn't exist in the `pages` directory, Primate will fall back to its default
 app page.
