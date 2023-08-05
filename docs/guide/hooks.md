@@ -8,31 +8,54 @@ subscribers accept different types of parameters, depending on the hook.
 
 ```sh caption=Primate app lifecycle
 ┌─ # read configuration and merge with defaults
+│
 ├─ `load`
-│   └─ # modules initialize / load other modules
+│   └─ # modules load other modules
+│
+├─ `init`
+│   └─ # modules initialize
+│
 ├─ # *begin* start-up phase, all hooks in this phase are called once
+│
 ├─ `register`
 │   └─ # modules register component file extensions for the `view` handler
+│
+├─ # create `build/{server,components}` directory
+├─ # copy all files from `components` to `build/components`
+├─ # copy .js files from `components` to `build/server`
+│
 ├─ `compile`
 │   └─ # modules compile server-side files into JavaScript
+│
 ├─ `publish`
-│   └─ # modules publish client-side code and entry points to memory
-├─ # evaluate entry points, load JavaScript/CSS files in `static` to memory
-├─ # create `public` and copy files from `static` to `public`
+│   └─ # modules publish client-side code and announce entry points
+│
+├─ # evaluate entry points
+│
 ├─ `bundle` # if `npx primate serve` is run, otherwise skipped
-│   └─ # modules transform in-memory client-side code
+│   └─ # modules transform `build` directory
+│
 ├─ `serve`
 │   └─ # modules modify the underlying server to access low-level operations
+│
 ├─ # *end* start-up phase
+│
 ├─ # *begin* client request phase, hooks here are called per request
+│
 ├─ `handle` # on client request
 │   └─ # modules handle client request themselves or yield to `next`
+│
 ├─ # if yielded through, match request against static assets in `public`
+│
 ├─ # if unmatched, match request against in-memory assets
+│
 | # if yielded through, match route
+│
 ├─ `route` # if previously unmatched
 │   └─ # modules handle routing request themselves or yield to `next`
+│
 | # if yielded through, execute route function
+│
 └─ # *end* client request phase due to program shutdown
 ```
 
@@ -50,11 +73,13 @@ modules.
 export default {
   modules: [{
     name: "load-hook-example-module",
-    // receives the app object, augmented with a `load` function
-    load(app) {
-      app.load({
-        name: "dependent-module",
-      });
+    // return a list of modules
+    load() {
+      return [
+        {
+          name: "dependent-name"
+        },
+      ];
     },
   }],
 };
@@ -65,6 +90,34 @@ Dependent modules loaded using `app.load` **are not** currently triggered
 by `load` hook themselves. Also, unlike all other hooks, the `load` hook does
 not accept a final `next` parameter.
 !!!
+
+## init
+
+**Executed** once
+
+**Precondition** all modules have been loaded
+
+The hook allows modules to initialize state before any other hooks are called.
+
+```js caption=primate.config.js
+const module = () => {
+  let app;
+
+  return {
+    name: "init-hook-example-module",
+    init(app$) {
+      // storage reference to app
+      app = app$;
+    },
+  };
+};
+
+export default {
+  modules: [
+    module(),
+  ],
+};
+```
 
 ## register
 
