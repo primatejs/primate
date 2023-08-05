@@ -1,4 +1,6 @@
 import header from "./header.js";
+import storage from "./storage.js";
+
 const headers = {
   [header]: "true",
 };
@@ -7,25 +9,14 @@ const APPLICATION_JSON = "application/json";
 const MULTIPART_FORM_DATA = "multipart/form-data";
 const global = globalThis;
 
-const storage = {
-  name: "liveview.history",
-  storage: global.localStorage,
-  get() {
-    return JSON.parse(this.storage.getItem(this.name)) ?? [];
-  },
-  set(item) {
-    this.storage.setItem(this.name, JSON.stringify(item));
-  },
-  push(entry) {
-    const entries = this.get();
-    this.set([...entries, entry]);
-  },
-  pop() {
-    const entries = this.get();
-    this.set(entries.slice(0, -1));
-    return entries.at(-1);
-  },
-};
+const scroll = (x, y) => global.scrollTo(x, y);
+const scroll_hash = hash => {
+  if (hash === "") {
+    scroll(0, 0);
+  } else {
+    global.document.getElementsByName(hash.slice(1))[0]?.scrollIntoView();
+  }
+}
 
 const handlers = {
   [TEXT_PLAIN]: async response => {
@@ -47,10 +38,10 @@ const get = async ({pathname, hash}, updater, state = false) => {
     const response = await fetch(pathname, {headers});
     // save before loading next
     const {scrollTop} = global.document.scrollingElement;
-    const {pathname: currentPathname} = global.location;
+    const {pathname: currentPathname, hash: currentHash} = global.location;
     await handle(response, updater);
     if (state) {
-      storage.push({scrollTop, pathname: currentPathname});
+      storage.new({scrollTop, pathname: currentPathname, hash: currentHash});
       history.pushState({}, "", `${pathname}${hash}`);
     }
   } catch(error) {
@@ -72,35 +63,44 @@ const post = async (pathname, body, updater) => {
 
 const go = async (href, updater, event) => {
   const url = new URL(href);
-  const {pathname} = url;
+  const {pathname, hash} = url;
   const current = global.location.pathname;
   // hosts must match
   if (url.host === global.location.host) {
-    // pathname must differ
+    // prevent event
+    event?.preventDefault();
+
+    // pathname differs
     if (current !== pathname) {
-      event?.preventDefault();
-      const {hash} = url;
-      await get(url, props =>
-        updater(props, () => hash !== ""
-        ? global.document.getElementsByName(hash.slice(1))[0]?.scrollIntoView()
-        : global.scrollTo(0, 0)), true);
+      await get(url, props => updater(props, () => scroll_hash(hash)), true);
     }
-    // no hash, prevent event
-    if (url.hash === "") {
-      event?.preventDefault();
+    // different hash on same page, jump to hash
+    if (hash !== global.location.hash) {
+      storage.new({stop: true, pathname: current, hash: global.location.hash});
+      history.pushState(null, "", `${current}${hash}`);
+      scroll_hash(hash);
     }
-    // let event roll, jump to hash
   }
   // external redirect
 };
 
 export default updater => {
   global.addEventListener("popstate", async _ => {
-    const state = storage.pop() ?? {scrollTop: 0};
+    const state = storage.peek() ?? {scrollTop: 0};
+    let {scrollTop} = state;
+    if (state.stop) {
+      storage.back();
+      return;
+    }
     const {pathname} = global.location;
-    const restore = state.pathname === pathname;
+    const back = state.pathname === pathname;
+    if (back) {
+      storage.back();
+    } else {
+      scrollTop = storage.forward().scrollTop;
+    }
     await get(global.location, props =>
-      updater(props, () => global.scrollTo(0, restore ? state.scrollTop : 0)));
+      updater(props, () => scroll(0, scrollTop ?? 0)));
   });
 
   global.addEventListener("click", event => {
