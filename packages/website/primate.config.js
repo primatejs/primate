@@ -30,6 +30,8 @@ export default {
           "Types",
           "Guards",
           "Components",
+          "Layouts",
+          "Errors",
           {heading: "Modules"},
           "Extending Primate",
           "Hooks",
