@@ -1,7 +1,7 @@
 const global = globalThis;
 
 const last = -1;
-const scrollTop = () => global.document.scrollElement.scrollTop;
+const scrollTop = () => global.document.scrollingElement.scrollTop;
 
 export default {
   name: "$$liveview$$",
