@@ -1,7 +1,7 @@
 # Responses
 
-Every route function represents an HTTP verb that receives a request and
-returns a response.
+Every route function represents an HTTP verb that accepts a request and returns
+a response.
 
 Depending on the type of content returned from a route, Primate will guess a
 content type for you automatically. This applies to strings, objects, readable

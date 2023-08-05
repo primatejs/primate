@@ -4,7 +4,7 @@ Many web applications have some form of privilege separation, for instance
 between guest and authenticated users. In Primate, excluding certain clients
 from accessing routes is achieved with guards.
 
-A guard is a function that, like all route functions, receives a `request`
+A guard is a function that, like all route functions, accepts a `request`
 object as its sole parameter. Guards are tasked with deciding whether to let
 clients pass through, and they do so by returning exactly `true`. If the guard
 returns anything else, including `undefined`, the route function won't execute.

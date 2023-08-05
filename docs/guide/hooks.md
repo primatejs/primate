@@ -66,8 +66,7 @@ subscribers accept different types of parameters, depending on the hook.
 **Precondition** configuration has been loaded and merged with defaults
 
 The first hook to be called, directly after app start-up and loading the
-configuration file. This hook is for modules to initialize state or load other
-modules.
+configuration file. This hook is for modules to load other modules.
 
 ```js caption=primate.config.js
 export default {
@@ -87,7 +86,7 @@ export default {
 
 !!!
 Dependent modules loaded using `app.load` **are not** currently triggered
-by `load` hook themselves. Also, unlike all other hooks, the `load` hook does
+by `load` hook themselves. Also, unlike most other hooks, the `load` hook does
 not accept a final `next` parameter.
 !!!
 
@@ -119,6 +118,11 @@ export default {
 };
 ```
 
+!!!
+Unlike most other hooks, the `init` hook does not accept a final `next`
+parameter.
+!!!
+
 ## register
 
 **Executed** once
@@ -129,19 +133,14 @@ This hook allows modules to register a component file extension to be handled
 by `view`.
 
 ```js caption=primate.config.js
-/**
-/* @param {string} name the component name, for example `clock.mustache` 
-/* @param {object} props any props passed to the component
-/* @param {options} options any additional options passed to the component
- */
 const mustacheHandler = (name, props, options) => {
-  // load the component file and render it into HTML using props
+  // load the component file using its name and render it into HTML with props
 };
 
 export default {
   modules: [{
     name: "register-hook-example-module",
-    // receives the app object augmented with a `register` function
+    // accepts the app object augmented with a `register` function
     register(app, next) {
       app.register("mustache", mustacheHandler);
       return next(app);
@@ -180,7 +179,7 @@ it particularly useful for [frontend frameworks][frontend-frameworks] which use
 their own domain-specific languages (React's `.jsx`, Vue's `.vue` (SFC),
 Svelte's `.svelte` etc.) to be served through server-side rendering.
 
-This hook receives the app as its first and the next subscriber as its second
+This hook accepts the app as its first and the next subscriber as its second
 parameter.
 
 ## publish
@@ -189,16 +188,14 @@ parameter.
 
 **Precondition** none
 
-This hook allows modules to publish client-side code and entry points to
-memory. Primate loads and serves JavaScript/CSS files in the `static`
-directory directly from memory, and this hook is particularly useful for
-[frontend frameworks][frontend-frameworks], which might need to register their
-own core scripts.
+This hook allows modules to publish client-side code and entry points. It is
+particularly useful for [frontend frameworks][frontend-frameworks], which may
+need to register their own core scripts.
 
 Publishing entry points allow bundler modules to effectively consolidate code
 during the `bundle` hook.
 
-This hook receives the app as its first and the next subscriber as its second
+This hook accepts the app as its first and the next subscriber as its second
 parameter.
 
 ## bundle
@@ -220,7 +217,7 @@ have been loaded into memory previously, either during the `publish` hook or by
 Primate loading them from the `static` directory, into consolidated code. It is
 particularly useful for bundler modules such as [esbuild](/modules/esbuild).
 
-This hook receives the app as its first and the next subscriber as its second
+This hook accepts the app as its first and the next subscriber as its second
 parameter.
 
 ## serve
@@ -235,7 +232,7 @@ modules can add support for additional verbs aside from the official HTTP
 verbs. For example, the [WebSocket](/modules/ws) module adds support for
 a `ws` verb.
 
-This hook receives the app, augmented with a `server` property, as its first
+This hook accepts the app, augmented with a `server` property, as its first
 and the next subscriber as its second parameter.
 
 ## handle
@@ -269,7 +266,7 @@ const augment = request => {
 export default {
   modules: [{
     name: "handle-hook-example-module",
-    // receives the request object without the `path` property
+    // accepts the request object without the `path` property
     handle(request, next) {
       return next(augment(request));
     },
@@ -302,7 +299,7 @@ const delegate = request => {
 export default {
   modules: [{
     name: "route-hook-example-module",
-    // receives the request object without the `path` property
+    // accepts the request object without the `path` property
     route(request, next) {
       if (request.url.pathname.startsWith("/admin")) {
         // delegate request to admin app

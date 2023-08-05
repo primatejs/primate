@@ -61,7 +61,8 @@ Content-Type: application/json
 {"title":"Comment title","text":"Comment text"}
 ```
 
-Then Primate will respond in plain text as follows.
+Then, given the above route definition, Primate will respond in plain text as
+follows.
 
 ```text
 You've sent a PUT request with the following data:
@@ -107,9 +108,9 @@ login, sessions). The Primate website uses Priss itself.
 [view-handler]: /guide/responses#view
 [quick-start]: /guide/getting-started#quick-start
 [frameworks]: /modules/frameworks
-[stores]: /modules/stores
+[stores]: /modules/store
 [bundling]: /modules/esbuild
-[sessions]: /modules/sessions
+[sessions]: /modules/session
 [extending-primate]: /guide/extending-primate
 [official-modules]: /modules/official
 [priss]: https://github.com/primatejs/priss

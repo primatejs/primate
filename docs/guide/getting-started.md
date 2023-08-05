@@ -135,7 +135,7 @@ variety of officially supported modules that extend it.
 ### Expressive
 
 * Routes are pure functions that transform requests into responses
-* Route functions receive a prepared request object with easily accessible
+* Route functions accept a prepared request object with easily accessible
 `body`, `path`, `query`, `cookies` and `headers` fields
 
 ### Minimal
