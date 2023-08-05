@@ -8,7 +8,7 @@ window.addEventListener("DOMContentLoaded", _ => liveview((props, update) => {
     target: document.body,
     hydrate: true,
     props: {
-      components: getComponents(props.names),
+      components: props.names.map(name => components[name]),
       data: props.data,
       update,
     },

@@ -55,7 +55,6 @@ const handler = (name, props = {}, {status = Status.OK, page} = {}) =>
     const data = components.map(component => component.props);
     const names = await Promise.all(components.map(component =>
       normalize(component.name)));
-
     if (options.liveview && headers.get(app.liveview.header) !== undefined) {
       return new Response(JSON.stringify({names, data}), {
         status,
@@ -63,6 +62,7 @@ const handler = (name, props = {}, {status = Status.OK, page} = {}) =>
           "Content-Type": MediaType.APPLICATION_JSON},
       });
     }
+
     const root = paths.server.join(filename);
     const imported = (await import(root)).default;
     const {html} = imported.render({
@@ -73,7 +73,7 @@ const handler = (name, props = {}, {status = Status.OK, page} = {}) =>
     const code = client({names, data}, options);
 
     await app.publish({code, type, inline: true});
-
+    // needs to be called before app.render
     const headers$ = await app.headers();
 
     return new Response(await app.render({body: html, page}), {
