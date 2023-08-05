@@ -12,7 +12,7 @@ started](/guide/getting-started) page to get an idea of the framework.
 
 ## New date stores
 
-This release adds 3 new data store type, SQLite, PostgreSQL and MongoDB. In
+This release adds 3 new data store types, SQLite, PostgreSQL and MongoDB. In
 addition, SurrealDB support has been moved from its own package into
 `@primate/store`. All data store driver wrappers are now available as 
 `@primate/store` exports, where the user is responsible for installing the 
@@ -23,8 +23,8 @@ install `better-sqlite3`. Which package should be installed is documented in
 the [driver section][drivers]. Primate will also direct you to install the 
 correct package should it be missing.
 
-Using the new store drivers is a similar to how all drivers work. You import 
-them and pass them to the `driver` property of the `store` module.
+Using the new store drivers is similar to how all drivers work. You import and
+pass them to the `driver` property of the `store` module.
 
 ```js caption=primate.config.js
 import {sqlite, default as store} from "@primate/store";
@@ -57,8 +57,8 @@ routes export, like guards and layouts, a default function which is executed in
 case a normal route alongside it (or below it in the filesystem hierarchy)
 encounters an error during execution.
 
-Similarly to guards and layouts, the error route gets a `request` parameter
-and can respond with a proper handler. Here is an example with an error route
+Similarly to guards and layouts, the error route accepts a `request` parameter
+and responds with a proper handler. Here is an example with an error route
 file rendering a Svelte component.
  
 ```js caption=routes/+error.js
@@ -76,16 +76,16 @@ moment an `+error.js` file is found, it will be used to handle the response.
 !!!
 Quick recap on guards and layouts: all guards must be fulfilled for a route to
 be executed, starting with the root guard and going down until the nearest
-guard, if it exists. Layouts work in the opposite indirection: they are
+guard, if it exists. Layouts work in the opposite direction: they are
 included in each other, with the innermost layout including the output of the
 route, and being recursively included itself, up to the root layout. With error
-routes, the first one to be found, down from to up, is applied.
+routes, the first one to be found, from down to up, is applied.
 !!!
 
-The root error file located at `routes/+error.js`, if it exists, has a special
-meaning. It applies normally for every route for which no other error file
-can be found, but it also applies in cases where no route could be matched. It
-thus serves as a classical `404 Not Found` error route.
+The root error file located at `routes/+error.js`, if existing, has a special
+meaning. It applies normally to every route for which no other error file can
+be found, but it also applies in cases where no route at all could be matched.
+It thus serves as a classical `404 Not Found` error route.
 
 All error routes use the error page in `pages/error.html`. This file, like
 `app.html`, can have placeholders for embedding head scripts and the body. In
@@ -109,8 +109,8 @@ case it does not exist, Primate will fall back to its default `error.html`.
 ```
 
 Like normal routes, error routes can use a different error page if desired, by
-passing a `page` property to the third handler parameter. The page itself must
-be located under `pages`.
+passing a `page` property to the third handler parameter. The page file itself
+must be located under `pages`.
 
 ```js caption=routes/+error.js
 import {view} from "primate";
@@ -132,7 +132,7 @@ Although Primate's frontend framework wrappers have all implemented SSR and
 some (like Svelte) also hydration, there was until now a gap in achieving true
 SPA (single-page application) functionality. This release bridges this gap by 
 adding a new module, `@primate/liveview`, that injects a small JavaScript client 
-into the build. This file uses `fetch` to manage clicking on links and
+into the build. This client uses `fetch` to manage clicking on links and
 submitting forms instead of reloading the entire page, and also manages browsing
 the history.
 
