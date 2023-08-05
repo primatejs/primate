@@ -171,7 +171,6 @@ main {
 }
 
 .sidebar {
-  flex-basis: var(--sidebar-width);
   background-color: #f7fafd;
   border-right: 1px solid #c2cdd6;
   padding-left: var(--prs-page-padding-side);
@@ -179,7 +178,6 @@ main {
   width: var(--sidebar-width);
   position: fixed;
   height: 100%;
-  overflow-x: hidden;
   overflow-y: auto;
 }
 
@@ -226,6 +224,9 @@ main {
   padding: 0 1rem;
   font-size: var(--prs-text-s);
   border-left: 1px solid rgba(60, 60, 67, 0.12);
+  overflow-y: auto;
+  height: 100%;
+  width: 100%;
 }
 
 .on-this-page h4 {
@@ -235,6 +236,10 @@ main {
   font-weight: normal;
   font-size: var(--prs-text-xs);
   text-transform: uppercase;
+}
+
+.on-this-page ul {
+  margin-bottom: 12rem;
 }
 
 .dark .on-this-page h4 {
