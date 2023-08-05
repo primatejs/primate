@@ -26,11 +26,11 @@ const change = delta => {
 };
 
 export default ({
-  host = "http://127.0.0.1",
+  host = "http://localhost",
   port = 8000,
   path = "rpc",
   ns = "default",
-  db = "default",
+  db,
   user,
   pass,
 } = {}) => async () => {

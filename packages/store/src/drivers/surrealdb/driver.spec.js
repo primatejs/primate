@@ -5,6 +5,7 @@ const client = async () => {
   const d = await driver({
     user: "test",
     pass: "test",
+    db: "default",
   })();
   return d;
 };

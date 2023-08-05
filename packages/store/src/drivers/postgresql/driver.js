@@ -30,17 +30,17 @@ const filterNulls = objects => objects.map(object => filterNull(object));
 export default ({
   host = "localhost",
   port = 5432,
+  db,
   user,
   pass,
-  db,
 } = {}) => async () => {
   const Driver = await load("postgres");
   const sql = new Driver({
     host,
     port,
+    db,
     user,
     pass,
-    db,
   });
 
   return {
