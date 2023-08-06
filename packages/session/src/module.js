@@ -48,10 +48,12 @@ export default ({
   is(path).string();
   is(manager).function();
   const options = {sameSite, path};
+
   return {
     name: "@primate/session",
-    init(app = {}) {
+    init(app, next) {
       options.secure = app.secure ? ";Secure" : "";
+      return next(app);
     },
     async handle(request, next) {
       const id = request.cookies.get(name);

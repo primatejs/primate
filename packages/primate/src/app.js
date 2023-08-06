@@ -6,7 +6,7 @@ import {transform, valmap} from "runtime-compat/object";
 import * as handlers from "./handlers/exports.js";
 import * as hooks from "./hooks/exports.js";
 import * as loaders from "./loaders/exports.js";
-import dispatch from "./dispatch.js";
+import dispatch$ from "./dispatch.js";
 import {print} from "./Logger.js";
 import toSorted from "./toSorted.js";
 
@@ -54,6 +54,10 @@ export default async (log, root, config) => {
   }
 
   const types = await loaders.types(log, paths.types);
+  const error = await paths.routes.join("+error.js");
+  const routes = await loaders.routes(log, paths.routes);
+  const dispatch = dispatch$(types);
+  const modules = await loaders.modules(log, root, config);
 
   const app = {
     build: {
@@ -73,6 +77,16 @@ export default async (log, root, config) => {
     paths,
     root,
     log,
+    error: {
+      default: await error.exists ? (await import(error)).default : undefined,
+    },
+    handlers: {...handlers},
+    types,
+    routes,
+    layoutDepth: Math.max(...routes.map(({layouts}) => layouts.length)) + 1,
+    dispatch,
+    parse: hooks.parse(dispatch),
+    modules,
     async copy(source, target, filter = /^.*.js$/u) {
       const jss = await source.collect(filter);
       await Promise.all(jss.map(async js => {
@@ -101,7 +115,6 @@ export default async (log, root, config) => {
         "Referrer-Policy": "same-origin",
       };
     },
-    handlers: {...handlers},
     async render({body = "", page} = {}) {
       const html = await index(this, page ?? config.pages.index);
       // inline: <script type integrity>...</script>
@@ -140,6 +153,9 @@ export default async (log, root, config) => {
     bootstrap({type, code}) {
       this.entrypoints.push({type, code});
     },
+    register(name, handler) {
+      this.handlers[name] = handler;
+    },
     async import(module) {
       const {build: {modules}, http: {static: {root}}} = this.config;
       const parts = module.split("/");
@@ -164,21 +180,7 @@ export default async (log, root, config) => {
         ...valmap(exports, value => new Path(root, modules, value).path),
         ...this.importmaps};
     },
-    types,
-    routes: await loaders.routes(log, paths.routes),
-    dispatch: dispatch(types),
   };
 
-  const error = await app.paths.routes.join("+error.js");
-  const modules = await loaders.modules(app, root, config);
-
-  return {...app,
-    modules,
-    error: {
-      default: await error.exists ? (await import(error)).default : undefined,
-    },
-    layoutDepth: Math.max(...app.routes.map(({layouts}) => layouts.length)) + 1,
-    route: hooks.route({...app, modules}),
-    parse: hooks.parse(dispatch(types)),
-  };
+  return {...app, route: hooks.route(app)};
 };

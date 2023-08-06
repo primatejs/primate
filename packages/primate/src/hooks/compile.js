@@ -1,3 +1,4 @@
+import {cascade} from "runtime-compat/async";
 import copy_includes from "./copy_includes.js";
 
 const pre = async app => {
@@ -19,11 +20,8 @@ const pre = async app => {
 
   // copy additional subdirectories to build/server
   await copy_includes(app, "server");
+
+  return app;
 };
 
-export default async app => {
-  await pre(app);
-  app.log.info("running compile hooks", {module: "primate"});
-  await [...app.modules.compile, _ => _]
-    .reduceRight((acc, handler) => input => handler(input, acc))(app);
-};
+export default async app => cascade(app.modules.compile)(await pre(app));

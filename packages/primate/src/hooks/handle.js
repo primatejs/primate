@@ -1,5 +1,5 @@
 import {Response, Status, MediaType} from "runtime-compat/http";
-import {tryreturn} from "runtime-compat/async";
+import {cascade, tryreturn} from "runtime-compat/async";
 import {respond} from "./respond/exports.js";
 import {invalid} from "./route.js";
 import {error as clientError} from "../handlers/exports.js";
@@ -43,9 +43,8 @@ export default app => {
       }
 
       // handle request
-      const handlers = [...app.modules.route, handler]
-        .reduceRight((next, last) => input => last(input, next));
-      return (await respond(await handlers({...request, path})))(app, {
+      const response = cascade(app.modules.route, handler)({...request, path});
+      return (await respond(await response))(app, {
         layouts: await Promise.all(layouts.map(layout => layout(request))),
       }, request);
     }).orelse(async error => {
@@ -81,6 +80,5 @@ export default app => {
     return route(request);
   };
 
-  return [...app.modules.handle, handle]
-    .reduceRight((next, last) => input => last(input, next));
+  return cascade(app.modules.handle, handle);
 };

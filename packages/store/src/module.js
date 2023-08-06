@@ -54,7 +54,7 @@ export default ({
   };
   return {
     name: "@primate/store",
-    async init(app) {
+    async init(app, next) {
       try {
         env.log = app.log;
 
@@ -106,6 +106,7 @@ export default ({
         enabled = false;
         return env.log.auto(error);
       }
+      return next(app);
     },
     async route(request, next) {
       if (!enabled) {

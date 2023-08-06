@@ -8,7 +8,7 @@ const log = {
   },
 };
 const root = new Path("/");
-const modules = defs => loader({log}, root, defs);
+const modules = defs => loader(log, root, defs);
 
 export default test => {
   test.case("errors.ModulesMustBeArray", assert => {

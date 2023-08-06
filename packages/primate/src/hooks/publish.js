@@ -1,5 +1,5 @@
-import {Path} from "runtime-compat/fs";
-import {identity} from "runtime-compat/function";
+import {File, Path} from "runtime-compat/fs";
+import {cascade} from "runtime-compat/async";
 import copy_includes from "./copy_includes.js";
 
 const post = async app => {
@@ -48,11 +48,13 @@ const post = async app => {
       await app.publish({src, code: await script.text(), type: "module"});
     }))
   );
+
+  if (await paths.static.exists) {
+    // copy static files to build/client/static
+    await File.copy(paths.static, app.build.paths.client.join(config.build.static));
+  }
+
+  return app;
 };
 
-export default async app => {
-  app.log.info("running publish hooks", {module: "primate"});
-  await [...app.modules.publish, identity]
-    .reduceRight((acc, handler) => input => handler(input, acc))(app);
-  await post(app);
-};
+export default async app => post(await cascade(app.modules.publish)(app));

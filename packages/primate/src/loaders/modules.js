@@ -4,13 +4,10 @@ import errors from "../errors.js";
 
 const filter = (key, array) => array?.flatMap(m => m[key] ?? []) ?? [];
 
-const load = (app, modules = []) => {
-  return modules.map(module =>
-    [module, load(app, module.load?.(app) ?? [])]
-  ).flat();
-};
+const load = (modules = []) => modules.map(module =>
+  [module, load(module.load?.() ?? [])]).flat();
 
-export default async (app, root, config) => {
+export default async (log, root, config) => {
   const modules = config.modules ?? [];
 
   Array.isArray(modules) || errors.ModulesMustBeArray.throw("modules");
@@ -23,17 +20,12 @@ export default async (app, root, config) => {
     errors.DoubleModule.throw(doubled(names), root.join("primate.config.js"));
 
   const hookless = modules.filter(module => !Object.keys(module).some(key =>
-    [...Object.keys(hooks), "load", "init"].includes(key)));
-  hookless.length > 0 && errors.ModuleHasNoHooks.warn(app.log,
+    [...Object.keys(hooks), "load"].includes(key)));
+  hookless.length > 0 && errors.ModuleHasNoHooks.warn(log,
     hookless.map(({name}) => name).join(", "));
 
   // collect modules
-  const loaded = load(app, modules).flat(2);
-
-  // initialize modules
-  await Promise.all(loaded
-    .filter(module => module.init !== undefined)
-    .map(module => module.init(app)));
+  const loaded = load(modules).flat(2);
 
   return Object.fromEntries(Object.keys(hooks)
     .map(hook => [hook, filter(hook, loaded)]));
