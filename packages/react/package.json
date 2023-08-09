@@ -15,14 +15,14 @@
     "directory": "packages/react"
   },
   "dependencies": {
-    "@babel/core": "^7.22.9",
+    "@babel/core": "^7.22.10",
     "@babel/preset-react": "^7.22.5",
     "babel-plugin-react-require": "^4.0.1",
     "babel-plugin-replace-import-extension": "^1.1.3",
     "esact": "^0.18.2-p1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "runtime-compat": "^0.25.0"
+    "runtime-compat": "^0.25.1"
   },
   "peerDependencies": {
     "primate": "0.21"

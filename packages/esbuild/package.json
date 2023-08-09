@@ -15,8 +15,8 @@
     "directory": "packages/esbuild"
   },
   "dependencies": {
-    "esbuild": "^0.18.17",
-    "runtime-compat": "^0.24.1"
+    "esbuild": "^0.19.0",
+    "runtime-compat": "^0.25.1"
   },
   "peerDependencies": {
     "primate": "0.21"
