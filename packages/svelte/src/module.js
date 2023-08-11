@@ -65,7 +65,7 @@ const handler = (name, props = {}, {status = Status.OK, page} = {}) =>
 
     const root = paths.server.join(filename);
     const imported = (await import(root)).default;
-    const {html} = imported.render({
+    const {html: body} = imported.render({
       components: components.map(({component}) => component),
       data,
     });
@@ -76,7 +76,7 @@ const handler = (name, props = {}, {status = Status.OK, page} = {}) =>
     // needs to be called before app.render
     const headers$ = await app.headers();
 
-    return new Response(await app.render({body: html, page}), {
+    return new Response(await app.render({body, page}), {
       status,
       headers: {...headers$, "Content-Type": MediaType.TEXT_HTML},
     });

@@ -1,7 +1,15 @@
-export default (component, props) => `
-  import {hydrate} from "app";
-  import * as components from "app";
+import rootname from "./rootname.js";
 
-  const data = JSON.parse(${JSON.stringify(JSON.stringify(props))});
-  hydrate(document.body, components.${component}, data);
+export default ({names, data}) => `
+  import * as components from "app";
+  import {hydrate} from "app";
+
+  const root = hydrate(
+    globalThis.window.document.body,
+    components.${rootname}, 
+    {
+      components: [${names.map(name => `components.${name}`).join(", ")}],
+      data: JSON.parse(${JSON.stringify(JSON.stringify(data))}),
+    }
+  );
 `;
