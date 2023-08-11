@@ -3,12 +3,8 @@ import {Path} from "runtime-compat/fs";
 import {Response, Status, MediaType} from "runtime-compat/http";
 import ReactDOMServer from "react-dom/server";
 import React from "react";
-import babel from "@babel/core";
-import {client} from "./client/exports.js";
-
-// do not hard-depend on node
-const packager = import.meta.runtime?.packager ?? "package.json";
-const library = import.meta.runtime?.library ?? "node_modules";
+import esbuild from "esbuild";
+import {client, hydrate} from "./client/exports.js";
 
 const encoder = new TextEncoder();
 const hash = async (string, algorithm = "sha-256") => {
@@ -26,18 +22,21 @@ const normalize = async path => `react_${await hash(path)}`;
 const render = (component, props) =>
   ReactDOMServer.renderToString(React.createElement(component, props));
 
-const import$ = async (module, submodule, importname, app) => {
+const import$ = async (file, submodule, importname, app) => {
   const {config: {build: {modules}}, build: {paths}} = app;
-  const parts = module.split("/");
-  const path = [library, ...parts];
-  const pkg = await Path.resolve().join(...path, packager).json();
-  const {browser} = pkg.exports["."];
-  const dependency = Path.resolve().join(...path, browser[submodule]);
+  const name = "index.js";
+  const r = new Path(import.meta.url).up(1).join("client", "imports", file);
+  const {outputFiles: [{text}]} = await esbuild.build({
+      entryPoints: [`${r}`],
+      bundle: true,
+      format: "esm",
+      write: false,
+    });
   const to = paths.client.join(modules, submodule);
   await to.file.create();
-  await dependency.file.copy(`${to.join("client.js")}`);
-  const client = new Path(`${to}`.replace(paths.client, _ => ""), "client.js");
-  app.importmaps[importname] = `${client}`;
+  await to.join(name).file.write(text);
+  const client$ = new Path(`${to}`.replace(paths.client, _ => ""), name);
+  app.importmaps[importname] = `${client$}`;
 };
 
 const handler = (name, props = {}, {status = Status.OK} = {}) => async app => {
@@ -61,13 +60,6 @@ const handler = (name, props = {}, {status = Status.OK} = {}) => async app => {
 };
 
 const jsx = ".jsx";
-const js = ".js";
-const cwd = new Path(import.meta.url).directory.path;
-const presets = ["@babel/preset-react"];
-const plugins = [
-  ["react-require"],
-  ["replace-import-extension", {extMapping: {[jsx]: js}}],
-];
 
 export default _ => ({
   name: "@primate/react",
@@ -82,8 +74,8 @@ export default _ => ({
     const components = await source.list(filename => filename.endsWith(jsx));
     await Promise.all(components.map(async component => {
       const file = await component.file.read();
-      const {code} = babel.transformSync(file, {cwd, presets, plugins});
       const to = target.join(`${component.path}.js`.replace(source, ""));
+      const {code} = await esbuild.transform(file, {loader: "jsx"});
       await to.file.write(code);
     }));
 
@@ -99,7 +91,7 @@ export default _ => ({
     await Promise.all(components.map(async component => {
       const name = component.path.replace(`${source}/`, "");
       const file = await component.file.read();
-      const {code} = babel.transformSync(file, {cwd, presets, plugins});
+      const {code} = await esbuild.transform(file, {loader: "jsx"});
       const to = target.join(`${component.path}.js`.replace(source, ""));
       await to.file.write(code);
       const imported = await normalize(name);
@@ -109,8 +101,10 @@ export default _ => ({
       });
     }));
 
-    await import$("esact", "react", "react", app);
-    await import$("esact", "react-dom", "react-dom/client", app);
+    await import$("react.js", "react", "react", app);
+    await import$("react-dom.js", "react-dom", "react-dom/client", app);
+
+    app.bootstrap({type: "script", code: hydrate});
     return next(app);
   },
 });
