@@ -6,7 +6,7 @@ import React from "react";
 import {tryreturn} from "runtime-compat/async";
 import errors from "./errors.js";
 import esbuild from "esbuild";
-import {client, create_root, hydrate, rootname} from "./client/exports.js";
+import {client, create_root, rootname} from "./client/exports.js";
 
 const filename = `${rootname}.js`;
 const type = "module";
@@ -55,8 +55,10 @@ const make_component = base => async (name, props) =>
 
 const handler = (name, props = {}, {status = Status.OK} = {}) =>
   async (app, {layouts = [], as_layout} = {}, request) => {
-    const {build, config} = app;
-    const target = build.paths.server.join(config.build.app).join(`${name}.js`);
+    const options = {
+      liveview: app.liveview !== undefined,
+    };
+    const {headers} = request;
     const {paths} = app.build;
     const make = make_component(paths.server.join(app.config.build.app));
     if (as_layout) {
@@ -71,9 +73,13 @@ const handler = (name, props = {}, {status = Status.OK} = {}) =>
     const data = components.map(component => component.props);
     const names = await Promise.all(components.map(component =>
       normalize(component.name)));
-
-    //const body = render((await import(target)).default, data);
-    //const component = await normalize(name);
+    if (options.liveview && headers.get(app.liveview.header) !== undefined) {
+      return new Response(JSON.stringify({names, data}), {
+        status,
+        headers: {...await app.headers(),
+          "Content-Type": MediaType.APPLICATION_JSON},
+      });
+    }
 
     const root = paths.server.join(filename);
     const imported = (await import(root)).default;
@@ -81,7 +87,8 @@ const handler = (name, props = {}, {status = Status.OK} = {}) =>
       components: components.map(({component}) => component),
       data,
     });
-    const code = client({names, data});
+
+    const code = client({names, data}, options);
 
     await app.publish({code, type, inline: true});
     // needs to be called before app.render
@@ -149,7 +156,12 @@ export default ({dynamicProps = "data"} = {}) => ({
     await import$("react-dom/client", app);
     await import$("react/jsx-runtime", app);
 
-    app.bootstrap({type: "script", code: hydrate});
+    app.bootstrap({type: "script", code: `
+      import React from "react";
+      const {createElement} = React;
+      export {createElement};
+      export {hydrateRoot} from "react-dom/client";
+    `});
 
     {
       const code = create_root(app.layoutDepth, dynamicProps);
