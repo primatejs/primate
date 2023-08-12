@@ -1,7 +1,8 @@
 # Layouts
 
 !!!
-Layouts are currently only supported by the Primate [Svelte handler][svelte].
+Layouts are currently only supported by the Primate [Svelte] and [React]
+handler.
 !!!
 
 While you can change the default HTML page in `pages/app.html` or even create
@@ -56,4 +57,5 @@ Unlike guards, which work top-down, layouts work bottom-up: they are included
 in each other, with the innermost layout including the output of the route, 
 and being recursively included itself, up to the root layout.
 
-[svelte]: /modules/svelte
+[Svelte]: /modules/svelte
+[React]: /modules/react

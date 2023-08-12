@@ -30,8 +30,8 @@ Once a complete prerendered page has been sent to client, it is often necessary
 to kick off the frontend framework on the client so it can register events and
 manage the page. This is known as hydration.
 
-Currently only the Svelte module supports hydration, while work on React and
-Vue hydration is planned for future versions.
+Currently the Svelte and React modules support hydration, while work on Vue
+hydration is planned for future versions.
 
 HTMX, having no SSR support, also has no support for hydration. The HTMX client
 is *always* sent along the page and activates on page load.
@@ -43,9 +43,9 @@ and single page applications (SPA). It injects a small JavaScript client into
 the build, which uses `fetch` to manage clicking on links and submitting forms
 instead of reloading the entire page, and also manages browsing the history.
 
-Currently only the Svelte module supports liveview. The React and Vue modules
-are expected to receive liveview support when hydration has been implemented
-for them.
+Currently the Svelte and React modules support liveview. The Vue module is
+expected to receive liveview support when hydration has been implemented
+for it.
 
 HTMX itself stands somewhat in competition to liveview, as it can register
 handles to load links or send forms via `fetch`.
@@ -60,7 +60,7 @@ use different frontend frameworks alongside each other, in different routes.
 |--------|--------------|-----------------|---------|---|---------|----------|
 |HTML    |`.html`       |`primate`        |✗        |✗  |✗        |✗         |
 |[Svelte]|`.svelte`     |`@primate/svelte`|✓        |✓  |✓        |✓         |
-|[React] |`.jsx`        |`@primate/react` |✗        |✓  |✗        |✗         |
+|[React] |`.jsx`        |`@primate/react` |✓        |✓  |✓        |✓         |
 |[Vue]   |`.vue`        |`@primate/vue`   |✗        |✓  |✗        |✗         |
 |[HTMX]  |`.htmx`       |`@primate/htmx`  |✗        |✗  |✗        |✗         |
 

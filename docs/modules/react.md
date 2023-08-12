@@ -1,7 +1,7 @@
 # React
 
-This handler module supports SSR and serves React (JSX) components with the
-`.jsx` extension.
+This handler module supports SSR and hydration and serves React (JSX) components
+with the `.jsx` extension.
 
 ## Install
 
@@ -28,17 +28,13 @@ Create a JSX component in `components`.
 ```jsx caption=components/PostIndex.jsx
 import React from "react";
 
-export default class extends React.Component {
-  render() {
-    const {posts} = this.props;
-
-    return (<>
-      <h1>All posts</h1>
-      {posts.map(({id, title}) => (
-        <h2><a href={`/react/post/${id}`}>{title}</a></h2>
-      ))}
-    </>);
-  }
+export default function PostIndex({data: {posts}}) {
+  return (<>
+    <h1>All posts</h1>
+    {posts.map(({id, title}) => (
+      <h2><a href={`/react/post/${id}`}>{title}</a></h2>
+    ))}
+  </>);
 }
 ```
 

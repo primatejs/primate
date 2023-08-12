@@ -8,9 +8,6 @@ import errors from "./errors.js";
 import esbuild from "esbuild";
 import {client, create_root, rootname} from "./client/exports.js";
 
-const filename = `${rootname}.js`;
-const type = "module";
-
 const encoder = new TextEncoder();
 const hash = async (string, algorithm = "sha-256") => {
   const base = 16;
@@ -30,21 +27,25 @@ const render = (component, props) =>
 const import$ = async (name, app) => {
   const {config: {build: {modules}}, build: {paths}} = app;
   const root = "index";
-  const [module, submodule = root] = name.split("/");
-  const filename = new Path("client", "imports", module, `${submodule}.js`)
-  const r = new Path(import.meta.url).up(1).join(filename);
+  const [module, sub = root] = name.split("/");
+  const submodule = `${sub}.js`;
+  const path = ["client", "imports", module, submodule];
+
   const {outputFiles: [{text}]} = await esbuild.build({
-      entryPoints: [`${r}`],
-      bundle: true,
-      format: "esm",
-      write: false,
-    });
+    entryPoints: [`${new Path(import.meta.url).up(1).join(...path)}`],
+    bundle: true,
+    format: "esm",
+    write: false,
+  });
   const to = paths.client.join(modules, module);
   await to.file.create();
-  await to.join(`${submodule}.js`).file.write(text);
-  const client$ = new Path(`${to}`.replace(paths.client, _ => ""), `${submodule}.js`);
+  await to.join(submodule).file.write(text);
+  const client$ = new Path(`${to}`.replace(paths.client, _ => ""), submodule);
   app.importmaps[name] = `${client$}`;
 };
+
+const filename = `${rootname}.js`;
+const type = "module";
 
 const load = async path =>
   tryreturn(async () => (await import(`${path}.js`)).default)
