@@ -1,6 +1,6 @@
 {
   "name": "@primate/esbuild",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "Primate esbuild module",
   "homepage": "https://primatejs.com/modules/esbuild",
   "bugs": "https://github.com/primatejs/primate/issues",
@@ -15,7 +15,7 @@
     "directory": "packages/esbuild"
   },
   "dependencies": {
-    "esbuild": "^0.19.0",
+    "esbuild": "^0.19.1",
     "runtime-compat": "^0.25.1"
   },
   "peerDependencies": {
