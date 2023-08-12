@@ -101,7 +101,10 @@ const handler = (name, props = {}, {status = Status.OK} = {}) =>
     });
   };
 
-const jsx = ".jsx";
+const options = {
+  loader: "jsx",
+  jsx: "automatic",
+};
 
 export default ({dynamicProps = "data"} = {}) => ({
   name: "@primate/react",
@@ -111,16 +114,17 @@ export default ({dynamicProps = "data"} = {}) => ({
   },
   async compile(app, next) {
     const source = app.build.paths.components;
+    // copy components to build/components
+    await app.copy(app.paths.components, source, /^.*.(?:js|jsx)$/u);
+    const components = await source.collect(/^.*.jsx$/u);
     const target = app.build.paths.server.join(app.config.build.app);
     await target.file.create();
-    const components = await source.list(filename => filename.endsWith(jsx));
+
     await Promise.all(components.map(async component => {
       const file = await component.file.read();
+      const {code} = await esbuild.transform(file, options);
       const to = target.join(`${component.path}.js`.replace(source, ""));
-      const {code} = await esbuild.transform(file, {
-        loader: "jsx",
-        jsx: "automatic",
-      });
+      await to.directory.file.create();
       await to.file.write(code);
     }));
 
@@ -136,21 +140,25 @@ export default ({dynamicProps = "data"} = {}) => ({
     await target.file.create();
 
     // create client components
-    const components = await source.list(filename => filename.endsWith(jsx));
+    const components = await source.collect(/^.*.jsx$/u);
     await Promise.all(components.map(async component => {
       const name = component.path.replace(`${source}/`, "");
       const file = await component.file.read();
-      const {code} = await esbuild.transform(file, {
-        loader: "jsx",
-        jsx: "automatic",
-      });
-      const to = target.join(`${component.path}.js`.replace(source, ""));
-      await to.file.write(code);
-      const imported = await normalize(name);
-      app.bootstrap({
-        type: "script",
-        code: `export {default as ${imported}} from "./${name}.js";\n`,
-      });
+      const {code} = await esbuild.transform(file, options);
+      const build = app.config.build.app;
+      const {path} = component;
+
+      {
+        {
+          const src = `${path}.js`.replace(`${source}`, _ => build);
+          await app.publish({src, code, type});
+        }
+        const imported = await normalize(name);
+        app.bootstrap({
+          type: "script",
+          code: `export {default as ${imported}} from "./${name}.js";\n`,
+        });
+      }
     }));
 
     await import$("react", app);
