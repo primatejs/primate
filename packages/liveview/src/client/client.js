@@ -16,7 +16,7 @@ const scroll_hash = hash => {
   } else {
     global.document.getElementsByName(hash.slice(1))[0]?.scrollIntoView();
   }
-}
+};
 
 const handlers = {
   [TEXT_PLAIN]: async response => {
