@@ -15,18 +15,18 @@
     "directory": "packages/create-primate"
   },
   "dependencies": {
-    "@clack/prompts": "^0.6.3",
-    "runtime-compat": "^0.24.1"
+    "@clack/prompts": "^0.7.0",
+    "runtime-compat": "^0.25.1"
   },
   "type": "module",
   "devDependencies": {
-    "@primate/esbuild": "^0.8.0",
+    "@primate/esbuild": "^0.8.1",
     "@primate/htmx": "^0.16.0",
-    "@primate/liveview": "^0.2.3",
-    "@primate/react": "^0.8.0",
+    "@primate/liveview": "^0.3.5",
+    "@primate/react": "^0.9.3",
     "@primate/session": "^0.9.0",
-    "@primate/store": "^0.10.2",
-    "@primate/svelte": "^0.15.0",
+    "@primate/store": "^0.11.0",
+    "@primate/svelte": "^0.15.3",
     "@primate/types": "^0.5.0",
     "@primate/vue": "^0.7.0",
     "@primate/ws": "^0.3.0",
@@ -34,6 +34,6 @@
     "better-sqlite3": "^8.5.0",
     "mongodb": "^5.7.0",
     "postgres": "^3.3.5",
-    "surrealdb.js": "^0.8.3"
+    "surrealdb.js": "^0.8.4"
   }
 }
