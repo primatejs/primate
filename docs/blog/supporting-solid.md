@@ -123,3 +123,4 @@ irc.libera.chat.
 Otherwise, have a blast with Solid!
 
 [Solid]: https://www.solidjs.com
+[irc]: https://web.libera.chat/gamja#primate
