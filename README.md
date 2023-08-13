@@ -10,6 +10,7 @@ Expressive, minimal and extensible web framework. To start [read guide][guide].
 |[create-primate](packages/create-primate)    | GUI for creating Primate apps |
 |[@primate/svelte](packages/svelte)           | Serving Svelte components     |
 |[@primate/react](packages/react)             | Serving React/JSX components  |
+|[@primate/solid](packages/solid)             | Serving Solid/JSX components  |
 |[@primate/vue](packages/vue)                 | Serving Vue/SFC components    |
 |[@primate/htmx](packages/htmx)               | Serving HTMX files            |
 |[@primate/types](packages/types)             | Runtime types                 |
