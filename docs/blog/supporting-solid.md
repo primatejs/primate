@@ -4,8 +4,8 @@ release.
 
 Support for Solid includes server-side rendering (SSR), hydration, layouting,
 as well liveview integration. Having recently added hydration, layouts and
-liveview to React, this brings to 3 the number of frontend frameworks we fully
-support.
+liveview to React, this brings to three the number of frontend frameworks we
+fully support.
 
 ## Install
 
@@ -24,16 +24,16 @@ Supporting Solid has been challenging in the sense that like React, it uses JSX
 components, but unlike React, it uses them slightly differently, calling for
 a different compiling method to JavaScript. In addition, this is the first time
 we have encountered potential file extension conflicts, as both handlers use
-the `jsx` file extension. To still allow users to work with both frameworks
-side by side, we have added an `extension` option you can pass the Solid
-handler, to override the `jsx` default.
+the `jsx` file extension. To nonetheless allow users to work with both
+frameworks side by side, we have added an `extension` option you can pass the
+Solid handler, to override its `jsx` default.
 
 ```js caption=primate.config.js
 import solid from "@primate/solid";
 
 export default {
   modules: [solid({
-    "extension": "solid",
+    extension: "solid",
   })],
 };
 ```
@@ -64,13 +64,15 @@ export default {
 Next, create a component in `components`.
 
 ```jsx caption=components/PostIndex.solid
+import {For} from "solid-js/web";
+
 export default function (props) {
   return <>
     <h1>All posts</h1>
-    {props.data.posts.map(({id, title}) => (
-      <h2><a href={`/react/post/view/${id}`}>{title}</a></h2>
-    ))}
-    <h3><a href="/solid/post/edit/">add post</a></h3>
+    <For each={props.data.posts}>
+      {(post) => <h2><a href={`/post/view/${post.id}`}>{post.title}</a></h2>}
+    </For>
+    <h3><a href="/post/edit/">add post</a></h3>
   </>;
 }
 ```
