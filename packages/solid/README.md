@@ -1,6 +1,5 @@
 # Solid
 
-This handler module supports SSR and serves SolidJS (JSX) components with the
-.jsx extension.
+This handler serves Solid (JSX) components with the `jsx` file extension.
 
 ## [Documentation](https://primatejs.com/modules/solid)

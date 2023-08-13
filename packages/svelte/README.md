@@ -1,6 +1,5 @@
-# Svelte handler
+# Svelte
 
-This handler module supports SSR and hydration and serves Svelte components
-with the .svelte extension.
+This handler serves Svelte components with the `svelte` file extension.
 
 ## [Documentation](https://primatejs.com/modules/svelte)
