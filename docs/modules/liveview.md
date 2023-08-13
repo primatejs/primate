@@ -29,7 +29,7 @@ The liveview module uses a special `X-Primate-Liveview` header to indicate to
 the handler that instead of rendering the entire HTML page, only the reference
 to the next component and its data are required and should be returned as JSON.
 Accordingly, every frontend handler must implement support for this header, and 
-currently Svelte and React handlers both do.
+currently Svelte, React and Solid handlers do.
 
 ## Configuration options
 

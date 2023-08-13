@@ -16,9 +16,9 @@ Like Primate itself, the official modules are licensed under the MIT license.
 ## Handlers
 
 Handler modules extend Primate's component support to popular frontend
-frameworks such as Svelte, React, Vue or HTMX. They register new file types
-that allow you to write components for these frameworks and use them with the
-`view` handler.
+frameworks such as Svelte, React, Solid, Vue or HTMX. They register new file
+types that allow you to write components for these frameworks and use them with
+the `view` handler.
 
 ## Stores
  
