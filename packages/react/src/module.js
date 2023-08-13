@@ -139,7 +139,7 @@ export default ({
       await Promise.all(components.map(async component => {
         const file = await component.file.read();
         const {code} = await esbuild.transform(file, options);
-        const to = target.join(`${component.path}.js`.replace(this.source, ""));
+        const to = target.join(`${component.path}.js`.replace(env.source, ""));
         await to.directory.file.create();
         await to.file.write(code.replaceAll(extensions.from, extensions.to));
       }));
