@@ -83,7 +83,9 @@ export default async (log, root, config) => {
     handlers: {...handlers},
     types,
     routes,
-    layoutDepth: Math.max(...routes.map(({layouts}) => layouts.length)) + 1,
+    layout: {
+      depth: Math.max(...routes.map(({layouts}) => layouts.length)) + 1,
+    },
     dispatch,
     parse: hooks.parse(dispatch),
     modules,
