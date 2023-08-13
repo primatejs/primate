@@ -60,11 +60,17 @@ http://localhost:6161/react.
 
 ## Configuration options
 
-### directory
+### dynamicProps
 
-Default `config.paths.components`
+Default `"data"`
 
-Directory where the JSX components reside.
+Name of the props passed to a Svelte component from its route.
+
+### extension
+
+Default `"jsx"`
+
+The file extension to be associated with this handler.
 
 ## Resources
 

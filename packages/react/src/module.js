@@ -6,7 +6,7 @@ import React from "react";
 import {tryreturn} from "runtime-compat/async";
 import errors from "./errors.js";
 import esbuild from "esbuild";
-import {client, create_root, rootname} from "./client/exports.js";
+import {client, create_root, rootname, hydrate} from "./client/exports.js";
 
 const encoder = new TextEncoder();
 const hash = async (string, algorithm = "sha-256") => {
@@ -106,82 +106,95 @@ const options = {
   jsx: "automatic",
 };
 
-export default ({dynamicProps = "data"} = {}) => ({
-  name: "@primate/react",
-  register(app, next) {
-    app.register("jsx", handler);
-    return next(app);
-  },
-  async compile(app, next) {
-    const source = app.build.paths.components;
-    // copy components to build/components
-    await app.copy(app.paths.components, source, /^.*.(?:js|jsx)$/u);
-    const components = await source.collect(/^.*.jsx$/u);
-    const target = app.build.paths.server.join(app.config.build.app);
-    await target.file.create();
+export default ({
+  dynamicProps = "data",
+  extension = "jsx",
+} = {}) => {
+  const env = {};
+  const copy_re = new RegExp(`^.*.(?:${extension})$`, "u");
+  const collect_re = new RegExp(`^.*.${extension}$`, "u");
+  const extensions = {
+    from: `.${extension}`,
+    to: `.${extension}.js`,
+  };
 
-    await Promise.all(components.map(async component => {
-      const file = await component.file.read();
-      const {code} = await esbuild.transform(file, options);
-      const to = target.join(`${component.path}.js`.replace(source, ""));
-      await to.directory.file.create();
-      await to.file.write(code);
-    }));
+  return {
+    name: "@primate/react",
+    init(app, next/*0.21 compat, remove >0.21*/ = () => null) {
+      env.source = app.build.paths.components;
 
-    const root = create_root(app.layoutDepth, dynamicProps);
-    const to = app.build.paths.server.join(filename);
-    await to.file.write(root);
+      return next(app);
+    },
+    register(app, next) {
+      app.register(extension, handler);
+      return next(app);
+    },
+    async compile(app, next) {
+      // copy components to build/components
+      await app.copy(app.paths.components, env.source, copy_re);
+      const components = await env.source.collect(collect_re);
+      const target = app.build.paths.server.join(app.config.build.app);
+      await target.file.create();
 
-    return next(app);
-  },
-  async publish(app, next) {
-    const source = app.build.paths.components;
-    const target = app.build.paths.client.join(app.config.build.app);
-    await target.file.create();
+      await Promise.all(components.map(async component => {
+        const file = await component.file.read();
+        const {code} = await esbuild.transform(file, options);
+        const to = target.join(`${component.path}.js`.replace(this.source, ""));
+        await to.directory.file.create();
+        await to.file.write(code.replaceAll(extensions.from, extensions.to));
+      }));
 
-    // create client components
-    const components = await source.collect(/^.*.jsx$/u);
-    await Promise.all(components.map(async component => {
-      const name = component.path.replace(`${source}/`, "");
-      const file = await component.file.read();
-      const {code} = await esbuild.transform(file, options);
-      const build = app.config.build.app;
-      const {path} = component;
+      const root = create_root(app.layoutDepth, dynamicProps);
+      const to = app.build.paths.server.join(filename);
+      await to.file.write(root);
+
+      return next(app);
+    },
+    async publish(app, next) {
+      const target = app.build.paths.client.join(app.config.build.app);
+      await target.file.create();
+
+      // create client components
+      const components = await env.source.collect(collect_re);
+      await Promise.all(components.map(async component => {
+        const name = component.path.replace(`${env.source}/`, "");
+        const file = await component.file.read();
+        const {code} = await esbuild.transform(file, options);
+        const build = app.config.build.app;
+        const {path} = component;
+
+        {
+          {
+            const src = `${path}.js`.replace(`${env.source}`, _ => build);
+            await app.publish({src,
+              code: code.replaceAll(extensions.from, extensions.to),
+            type});
+          }
+          const imported = await normalize(name);
+          app.bootstrap({
+            type: "script",
+            code: `export {default as ${imported}} from "./${name}.js";\n`,
+          });
+        }
+      }));
+
+      await import$("react", app);
+      await import$("react-dom/client", app);
+      await import$("react/jsx-runtime", app);
+
+      app.bootstrap({type: "script", code: hydrate});
 
       {
-        {
-          const src = `${path}.js`.replace(`${source}`, _ => build);
-          await app.publish({src, code, type});
-        }
-        const imported = await normalize(name);
-        app.bootstrap({
-          type: "script",
-          code: `export {default as ${imported}} from "./${name}.js";\n`,
-        });
+        const code = create_root(app.layoutDepth, dynamicProps);
+        const src = new Path(app.config.http.static.root, filename);
+        await app.publish({src, code, type});
       }
-    }));
+      {
+        const code = `export {default as ${rootname}} from "../${filename}";\n`;
+        app.bootstrap({type: "script", code});
+      }
 
-    await import$("react", app);
-    await import$("react-dom/client", app);
-    await import$("react/jsx-runtime", app);
-
-    app.bootstrap({type: "script", code: `
-      import React from "react";
-      const {createElement} = React;
-      export {createElement};
-      export {hydrateRoot} from "react-dom/client";
-    `});
-
-    {
-      const code = create_root(app.layoutDepth, dynamicProps);
-      const src = new Path(app.config.http.static.root, filename);
-      await app.publish({src, code, type});
-    }
-    {
-      const code = `export {default as ${rootname}} from "../${filename}";\n`;
-      app.bootstrap({type: "script", code});
-    }
-
-    return next(app);
-  },
-});
+      return next(app);
+    },
+  };
+};
