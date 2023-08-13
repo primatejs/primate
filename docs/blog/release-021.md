@@ -6,8 +6,8 @@ we've also added a GUI for creating Primate apps, available via
 new website.
 
 !!!
-If you're new to Primate, we recommend reading the [Getting
-started](/guide/getting-started) page to get an idea of the framework.
+If you're new to Primate, we recommend reading the [Getting started] page to
+get an idea of the framework.
 !!!
 
 ## New date stores
