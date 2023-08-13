@@ -7,10 +7,14 @@ const post = async app => {
   const build = config.build.app;
   {
     // after hook, publish a zero assumptions app.js (no css imports)
-    const code = app.entrypoints.filter(({type}) => type === "script")
-      .map(entrypoint => entrypoint.code).join("");
     const src = new Path(config.http.static.root, build, config.build.index);
-    await app.publish({src, code, type: "module"});
+
+    await app.publish({
+      code: app.exports.filter(({type}) => type === "script")
+        .map(({code}) => code).join(""),
+      src,
+      type: "module",
+    });
 
     if (await paths.components.exists) {
       // copy .js files from components to build/server
@@ -34,7 +38,7 @@ const post = async app => {
     await app.publish({src: `${config.build.static}/${src}`, code,
       type: isCSS ? "style" : "module"});
     if (isCSS) {
-      app.bootstrap({type: "style",
+      app.export({type: "style",
         code: `import "../${config.build.static}/${file.name}";`});
     }
   }));

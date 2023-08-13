@@ -73,7 +73,7 @@ export default async (log, root, config) => {
     version,
     importmaps: {},
     assets: [],
-    entrypoints: [],
+    exports: [],
     paths,
     root,
     log,
@@ -152,8 +152,8 @@ export default async (log, root, config) => {
           code: inline ? code : "", type, inline, integrity: await hash(code)});
       }
     },
-    bootstrap({type, code}) {
-      this.entrypoints.push({type, code});
+    export({type, code}) {
+      this.exports.push({type, code});
     },
     register(name, handler) {
       this.handlers[name] = handler;
