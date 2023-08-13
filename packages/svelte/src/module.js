@@ -88,7 +88,9 @@ const options = {
 };
 
 const {svelte, js} = endings;
-export default ({dynamicProps = "data"} = {}) => ({
+export default ({
+  dynamicProps = "data",
+} = {}) => ({
   name: "@primate/svelte",
   register(app, next) {
     app.register("svelte", handler);
@@ -122,13 +124,6 @@ export default ({dynamicProps = "data"} = {}) => ({
     const components = await source.collect(/^.*.svelte$/u);
     await app.import("svelte");
 
-    // liveview
-    if (app.liveview !== undefined) {
-      app.bootstrap({
-        type: "script",
-        code: "export {default as liveview} from \"@primate/liveview\";\n",
-      });
-    }
     await Promise.all(components.map(async component => {
       const name = component.path.replace(`${source}/`, "");
       const file = await component.file.read();
