@@ -1,6 +1,6 @@
 # HTMX
 
-This handler module serves HTMX components with the `.htmx` extension.
+This handler module serves HTMX components with the `htmx` extension.
 
 ## Install
 

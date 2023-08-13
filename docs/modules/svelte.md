@@ -1,7 +1,7 @@
 # Svelte
 
 This handler module supports SSR and hydration and serves Svelte components
-with the `.svelte` extension.
+with the `svelte` filename extension.
 
 ## Install
 
@@ -65,8 +65,8 @@ export default {
 Your rendered Svelte route will be accessible at http://localhost:6161/svelte.
 
 !!!
-Any props you pass to your Svelte component will be available as a property of
-its `data` export.
+Any props you pass to your Svelte component from your route will be exposed
+as a property of its `data` export.
 !!!
 
 ## Configuration options

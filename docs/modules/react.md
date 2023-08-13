@@ -1,7 +1,7 @@
 # React
 
 This handler module supports SSR and hydration and serves React (JSX) components
-with the `.jsx` extension.
+with the `jsx` filename extension.
 
 ## Install
 
@@ -55,6 +55,11 @@ export default {
 
 Your rendered React component will be accessible at
 http://localhost:6161/react.
+
+!!!
+Any props you pass to your React component from your route will be exposed
+as the `data` property of its props.
+!!!
 
 ## Configuration options
 

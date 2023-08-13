@@ -1,7 +1,7 @@
 # Vue
 
-This handler module supports SSR and serves Vue SFC components with the `.vue`
-extension.
+This handler module supports SSR and serves Vue SFC components with the `vue`
+filename extension.
 
 ## Install
 

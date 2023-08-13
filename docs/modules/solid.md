@@ -1,7 +1,7 @@
 # Solid
 
 This handler module supports SSR and hydration and serves Solid (JSX)
-components with the `.jsx` extension.
+components with the `jsx` extension.
 
 ## Install
 
@@ -12,7 +12,7 @@ components with the `.jsx` extension.
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import react from "@primate/solid";
+import solid from "@primate/solid";
 
 export default {
   modules: [
@@ -25,7 +25,7 @@ If you are using another JSX frontend module alongside Solid, consider changing
 the file extension for Solid to something else, to avoid conflicts.
 
 ```js caption=primate.config.js
-import react from "@primate/solid";
+import solid from "@primate/solid";
 
 export default {
   modules: [
@@ -36,16 +36,21 @@ export default {
 
 ## Use
 
-Create a JSX component in `components`.
+Create a JSX component in `components`. This example assumes you have changed
+the Solid component file extension to `solid`.
 
-```jsx caption=components/PostIndex.jsx
-export default function PostIndex({data: {posts}}) {
-  return (<>
+```jsx caption=components/PostIndex.solid
+import {For} from "solid-js/web";
+
+export default function PostIndex(props) {
+  return <>
     <h1>All posts</h1>
-    {posts.map(({id, title}) => (
-      <h2><a href={`/react/post/${id}`}>{title}</a></h2>
-    ))}
-  </>);
+    <For each={props.data.posts}>
+      {(post) => <h2><a href={`/post/view/${post.id}`}>{post.title}</a></h2>}
+    </For>
+    <Test />
+    <h3><a href="/post/edit/">add post</a></h3>
+  </>;
 }
 ```
 
@@ -61,13 +66,18 @@ const posts = [{
 
 export default {
   get() {
-    return view("PostIndex.jsx", {posts});
+    return view("PostIndex.solid", {posts});
   },
 };
 ```
 
 Your rendered Solid component will be accessible at
 http://localhost:6161/solid.
+
+!!!
+Any props you pass to your Solid component from your route will be exposed
+as the `data` property of its props.
+!!!
 
 ## Configuration options
 
@@ -87,4 +97,4 @@ The file extension to be associated with this handler.
 
 * [Repository][repo]
 
-[repo]: https://github.com/primatejs/primate/tree/master/packages/react
+[repo]: https://github.com/primatejs/primate/tree/master/packages/solid

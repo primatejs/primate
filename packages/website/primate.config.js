@@ -56,6 +56,8 @@ export default {
           "Frameworks",
           "Svelte",
           "React",
+          "Solid",
+
           "Vue",
           "HTMX",
           {heading: "Data"},
