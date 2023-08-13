@@ -4,10 +4,6 @@ Any views that your app has are placed in `components`. Primate natively
 supports serving HTML files from this directory, and its official [framework
 modules](/modules/frameworks) extend this support to other formats.
 
-The components in this directory are served using the `view` handler. You also
-have the option of serving HTML directly using the
-[`html` handler](/guide/responses#html).
-
 ## Serving views
 
 To serve views, start by creating an HTML component in `components`.

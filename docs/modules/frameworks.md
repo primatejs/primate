@@ -1,11 +1,10 @@
 # Frontend frameworks
 
 Being a backend framework, Primate isn't tied to any specific frontend
-framework. The core framework comes along with the [`html`][html] handler in
-order to serve pure HTML directly from the route, and the [`view`][view]
-handler to load `.html` files from the `components` directory. Additionally,
-there are officially supported modules that cover popular frontend frameworks.
-When loaded, they extend the `view` with support for additional file extensions.
+framework. The core framework comes along with the [`view`][view] handler that
+loads `html` files from the `components` directory. Additionally, there are
+officially supported modules that cover popular frontend frameworks. When
+loaded, they extend the `view` with support for additional file extensions.
 
 Those frameworks come with different capabilities, like server-side rendering
 (SRR), hydration and support for the [liveview](liveview) module, turning your 
@@ -58,14 +57,13 @@ use different frontend frameworks alongside each other, in different routes.
 
 |Name    |File Extension|Package          |[Layouts]|SSR|Hydration|[Liveview]|
 |--------|--------------|-----------------|---------|---|---------|----------|
-|HTML    |`.html`       |`primate`        |✗        |✗  |✗        |✗         |
-|[Svelte]|`.svelte`     |`@primate/svelte`|✓        |✓  |✓        |✓         |
-|[React] |`.jsx`        |`@primate/react` |✓        |✓  |✓        |✓         |
-|[Solid] |`.jsx`        |`@primate/solid` |✓        |✓  |✓        |✓         |
-|[Vue]   |`.vue`        |`@primate/vue`   |✗        |✓  |✗        |✗         |
-|[HTMX]  |`.htmx`       |`@primate/htmx`  |✗        |✗  |✗        |✗         |
+|HTML    |`html`        |`primate`        |✗        |✗  |✗        |✗         |
+|[Svelte]|`svelte`      |`@primate/svelte`|✓        |✓  |✓        |✓         |
+|[React] |`jsx`         |`@primate/react` |✓        |✓  |✓        |✓         |
+|[Solid] |`jsx`         |`@primate/solid` |✓        |✓  |✓        |✓         |
+|[Vue]   |`vue`         |`@primate/vue`   |✗        |✓  |✗        |✗         |
+|[HTMX]  |`htmx`        |`@primate/htmx`  |✗        |✗  |✗        |✗         |
 
-[html]: /guide/responses#html
 [view]: /guide/responses#view
 [Svelte]: /modules/svelte
 [React]: /modules/react

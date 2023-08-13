@@ -128,41 +128,6 @@ export default {
 This also allows you to use a custom response code alongside the redirect for
 fine-grained control.
 
-### HTML
-
-The `html` handler allows you to serve responses with content type `text/html`
-directly from the route function.
-
-```js caption=routes/html.js
-import {html} from "primate";
-
-export default {
-  get() {
-    return html("<p>Hello, world!</p>");
-  },
-};
-```
-
-In this case, Primate will inject the HTML code passed to the handler into the
-index file located at `pages/app.html` and serve the resulting file at the
-path GET `/html`. In case no such file exists, Primate will fall back to its
-[default app.html][default-index].
-
-The `html` handler also supports partial responses, without embedding it into
-`app.html`, by setting the `partial` flag to `true`. Like with every other
-explicit handler, you can also change the status code.
-
-```js caption=routes/html.js
-import {html, Status} from "primate";
-
-export default {
-  get() {
-    const status = Status.ACCEPTED;
-    return html("<p>Hello, world!</p>", {partial: true, status});
-  },
-};
-```
-
 ### View
 
 The `view` handler allows you to serve responses with content type `text/html`
@@ -178,14 +143,14 @@ export default {
 };
 ```
 
-In this case, Primate will load the HTML component at `components/hello.html`.
+In this case, Primate will load the HTML component at `components/hello.html`,
+inject the HTML component code into the index file located at `pages/app.html`
+and serve the resulting file at the path GET `/html`. In case no such file
+exists, Primate will fall back to its [default app.html][default-index].
 
 ```html caption=components/hello.html
 <p>Hello, world!</p>
 ```
-
-Similarly to the `html` handler, this handler will also embed the content of
-the component into `pages/app.html`, either your custom one or its default.
 
 ### Error
 

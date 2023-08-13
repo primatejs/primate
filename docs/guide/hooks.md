@@ -149,8 +149,8 @@ export default {
 };
 ```
 
-By that definition, any `.mustache` file in `components` will be handled by
-the specified `mustacheHandler` handler function.
+By that definition, any `mustache` file in `components` will be handled by the
+specified `mustacheHandler` handler function.
 
 ```js caption=routes/clock.js
 import {view} from "primate";
@@ -176,8 +176,8 @@ component rendered into HTML.
 
 This hook allows modules to compile server-side components into JavaScript. Is
 it particularly useful for [frontend frameworks][frontend-frameworks] which use
-their own domain-specific languages (React's `.jsx`, Vue's `.vue` (SFC),
-Svelte's `.svelte` etc.) to be served through server-side rendering.
+their own domain-specific languages (React/Solid's `jsx`, Vue's `vue` (SFC),
+Svelte's `svelte` etc.) to be served through server-side rendering.
 
 This hook accepts the app as its first and the next subscriber as its second
 parameter.

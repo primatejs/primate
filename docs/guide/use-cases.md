@@ -82,9 +82,8 @@ Body:
 
 ## Web app
 
-Primate supports serving HTML either directly from a route function using the
-[`html` handler][html-handler] or loaded from the `components` directory using
-the [`view` handler][view-handler].
+Primate supports serving components from the `components` directory using its
+[`view` handler][view-handler].
 
 In the [Getting started][quick-start] section, we showed how to build a simple
 web page that includes form submission. However, modern apps include many
@@ -104,7 +103,6 @@ login, sessions). The Primate website uses Priss itself.
 [paths-static]: /guide/configuration#paths-static
 [paths-build]: /guide/configuration#paths-build
 [routes]: /guide/routes
-[html-handler]: /guide/responses#html
 [view-handler]: /guide/responses#view
 [quick-start]: /guide/getting-started#quick-start
 [frameworks]: /modules/frameworks

@@ -2,22 +2,19 @@ import {Response, Status, MediaType} from "runtime-compat/http";
 
 const script = /(?<=<script)>(?<code>.*?)(?=<\/script>)/gus;
 const style = /(?<=<style)>(?<code>.*?)(?=<\/style>)/gus;
+const remove = /<(?<tag>script|style)>.*?<\/\k<tag>>/gus;
+const inline = true;
 
-const integrate = async (html, publish) => {
-  await Promise.all([...html.matchAll(script)]
-    .map(({groups: {code}}) => publish({code, inline: true})));
-  await Promise.all([...html.matchAll(style)]
-    .map(({groups: {code}}) => publish({code, type: "style", inline: true})));
-  return html.replaceAll(/<(?<tag>script|style)>.*?<\/\k<tag>>/gus, _ => "");
-};
-
-export default (component, options = {}) => {
-  const {status = Status.OK, partial = false, load = false} = options;
+export default (name, options = {}) => {
+  const {status = Status.OK, partial = false} = options;
 
   return async app => {
-    const body = await integrate(await load ?
-      await app.paths.components.join(component).text() : component,
-    app.publish);
+    const html = await app.paths.components.join(name).text();
+    await Promise.all([...html.matchAll(script)]
+      .map(({groups: {code}}) => app.publish({code, inline})));
+    await Promise.all([...html.matchAll(style)]
+      .map(({groups: {code}}) => app.publish({code, type: "style", inline})));
+    const body = html.replaceAll(remove, _ => "");
     // needs to happen before app.render()
     const headers = app.headers();
 
