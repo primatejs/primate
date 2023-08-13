@@ -2,13 +2,17 @@ import crypto from "runtime-compat/crypto";
 import {tryreturn} from "runtime-compat/async";
 import {File, Path} from "runtime-compat/fs";
 import {bold, blue} from "runtime-compat/colors";
+import {is} from "runtime-compat/dyndef";
 import {transform, valmap} from "runtime-compat/object";
+import errors from "./errors.js";
+import {print} from "./Logger.js";
+import dispatch$ from "./dispatch.js";
+import toSorted from "./toSorted.js";
 import * as handlers from "./handlers/exports.js";
 import * as hooks from "./hooks/exports.js";
 import * as loaders from "./loaders/exports.js";
-import dispatch$ from "./dispatch.js";
-import {print} from "./Logger.js";
-import toSorted from "./toSorted.js";
+
+const {DoubleExtension} = errors;
 
 const base = new Path(import.meta.url).up(1);
 // do not hard-depend on node
@@ -155,8 +159,9 @@ export default async (log, root, config) => {
     export({type, code}) {
       this.exports.push({type, code});
     },
-    register(name, handler) {
-      this.handlers[name] = handler;
+    register(extension, handler) {
+      is(this.handlers[extension]).undefined(DoubleExtension.new(extension));
+      this.handlers[extension] = handler;
     },
     async import(module) {
       const {build: {modules}, http: {static: {root}}} = this.config;

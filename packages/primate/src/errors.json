@@ -6,6 +6,11 @@
       "fix": "use a different content type or fix body",
       "level": "Warn"
     },
+    "DoubleFileExtension": {
+      "message": "double file extension {0}",
+      "fix": "unload one of the two handlers registering the file extension",
+      "level": "Error"
+    },
     "DoubleModule": {
       "message": "double module {0} in {1}",
       "fix": "load {0} only once",
