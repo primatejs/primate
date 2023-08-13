@@ -8,6 +8,10 @@ export default _ => {
     },
     async publish(app, next) {
       await app.import("@primate/liveview");
+      app.bootstrap({
+        type: "script",
+        code: "export {default as liveview} from \"@primate/liveview\";\n",
+      });
       return next(app);
     },
   };
