@@ -1,7 +1,7 @@
 import {Response, Status, MediaType} from "runtime-compat/http";
 import {createSSRApp} from "vue";
 import {renderToString} from "vue/server-renderer";
-import {parse, compileScript} from "vue/compiler-sfc";
+import {parse} from "vue/compiler-sfc";
 
 const render = (template, props) => {
   const app = createSSRApp({data: () => props, template});
@@ -40,16 +40,15 @@ export default ({dynamicProps = "data"} = {}) => ({
 
     return next(app);
   },
-  async publish(app, next) {
+  /*async publish(app, next) {
     const source = app.build.paths.components;
     const target = app.build.paths.client.join(app.config.build.app);
     await target.file.create();
     const components = await source.list(filename => filename.endsWith(vue));
     await Promise.all(components.map(async component => {
       const file = await component.file.read();
-//      console.log(parse(file));
     }));
 
     return next(app);
-  },
+  },*/
 });
