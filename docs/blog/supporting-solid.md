@@ -3,7 +3,7 @@ handlers, [Solid]. The new handler is fully compatible with the current 0.21
 release.
 
 Support for Solid includes server-side rendering (SSR), hydration, layouting,
-as well liveview integration. Having recently added hydration, layouts and
+as well as liveview integration. Having recently added hydration, layouts and
 liveview to React, this brings to three the number of frontend frameworks we
 fully support.
 
@@ -104,7 +104,7 @@ Then add a component for the layout in `components`.
 ```jsx caption=components/layout.solid
 export default function layout(props) {
   return <>
-    <div>Hi, {props.data.user}./div>
+    <div>Hi, {props.data.user}.</div>
     {props.children}
   </>;
 }
