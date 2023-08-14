@@ -7,6 +7,11 @@ as well liveview integration. Having recently added hydration, layouts and
 liveview to React, this brings to three the number of frontend frameworks we
 fully support.
 
+!!!
+If you're new to Primate, we recommend reading the [Getting started] page to
+get an idea of the framework.
+!!!
+
 ## Install
 
 To install the Solid module, run `npm i @primate/solid`. Then add it to your
@@ -16,7 +21,9 @@ configuration.
 import solid from "@primate/solid";
 
 export default {
-  modules: [solid()],
+  modules: [
+    solid(),
+  ],
 };
 ```
 
@@ -32,9 +39,11 @@ Solid handler, to override its `jsx` default.
 import solid from "@primate/solid";
 
 export default {
-  modules: [solid({
-    extension: "solid",
-  })],
+  modules: [
+    solid({
+      extension: "solid",
+    }),
+  ],
 };
 ```
 
@@ -111,7 +120,10 @@ import solid from "@primate/solid";
 import liveview from "@primate/liveview";
 
 export default {
-  modules: [solid(), liveview()],
+  modules: [
+    solid(),
+    liveview(),
+  ],
 };
 ```
 
@@ -122,5 +134,6 @@ irc.libera.chat.
 
 Otherwise, have a blast with Solid!
 
+[Getting started]: /guide/getting-started
 [Solid]: https://www.solidjs.com
 [irc]: https://web.libera.chat/gamja#primate
