@@ -2,12 +2,12 @@ import dependencies from "../dependencies.js";
 
 export default () => ({
   dependencies: {
-    "@primate/svelte": dependencies["@primate/svelte"],
+    "@primate/solid": dependencies["@primate/solid"],
   },
   imports: {
-    svelte: "@primate/svelte",
+    solid: "@primate/solid",
   },
   modules: {
-    svelte: "",
+    solid: "",
   },
 });

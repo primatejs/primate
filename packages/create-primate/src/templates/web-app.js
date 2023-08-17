@@ -1,13 +1,15 @@
+import liveview from "../liveview.js";
 import {confirm, select} from "../prompts.js";
 import store from "../store.js";
 import link from "../link.js";
 import dependencies from "../dependencies.js";
-import {none, svelte, react, vue, htmx} from "../frameworks/exports.js";
+import {none, svelte, react, solid, vue, htmx} from "../frameworks/exports.js";
 
 const labels = new Map([
   [none, "None (HTML only)"],
   [svelte, "Svelte"],
   [react, "React"],
+  [solid, "Solid"],
   [vue, "Vue"],
   [htmx, "HTMX"],
 ]);
@@ -17,10 +19,14 @@ const options = [...labels.entries()].map(([value, label]) => ({value, label}));
 export default async () => {
   const configs = [];
 
-  const frontend = await (await select({
+  const selected = await select({
     message: "Choose frontend framework",
     options,
-  }))();
+  });
+
+  const frontend = await selected();
+
+  configs.push(await liveview(selected));
 
   if (frontend !== undefined) {
     configs.push(frontend);
