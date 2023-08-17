@@ -48,7 +48,6 @@ export default {
   build: {
     includes: [],
     static: "static",
-    app: "app",
     modules: "modules",
     index: "index.js",
   },
@@ -121,7 +120,6 @@ export default {
   build: {
     includes: [],
     static: "static",
-    app: "app",
     modules: "modules",
     index: "index.js",
   },
@@ -316,15 +314,6 @@ Default `"static"`
 The subdirectory target of files copied from `paths.static` into the
 `client` directory in `paths.build`. If `paths.build` is set to `build` and
 `build.static` to `static`, will be copied to `build/client/static`.
-
-### build.app
-
-Default `"app"`
-
-The subdirectory target of files copied from `paths.components` into the
-`server` and `client` directories in `paths.build`. If `paths.build` is set to
-`build` and `build.app` to `app`, will be copied to `build/server/app` and
-`build/client/app`.
 
 ### build.modules
 

@@ -1,8 +1,8 @@
 # esbuild
 
 This module bundles your application's assets into single JavaScript and CSS
-files. As it module uses the `bundle` hook, bundling will only occur if you
-run Primate using `npx primate serve`.
+files. As it uses the `bundle` hook, bundling will only occur if you run
+Primate using `npx primate serve`.
 
 ## Install
 

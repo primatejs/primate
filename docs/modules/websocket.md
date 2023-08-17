@@ -36,7 +36,7 @@ export default {
     return view("chat.html");
   },
   ws(request) {
-    const limit = Number(request.query.limit);
+    const limit = Number(request.query.get("limit"));
     let n = 1;
     return {
       message(payload) {

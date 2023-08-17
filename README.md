@@ -1,6 +1,6 @@
-# Primate 
+# Primate
 
-Expressive, minimal and extensible web framework. To start [read guide][guide].
+Expressive, minimal and extensible web framework. To start [read guide].
 
 ## Packages
 
@@ -23,10 +23,10 @@ Expressive, minimal and extensible web framework. To start [read guide][guide].
 ## Resources
 
 * Website: https://primatejs.com
-* IRC: Join the `#primate` channel on `irc.libera.chat`.
+* IRC: Join the `#primate` channel on `irc.libera.chat`
 
 ## License
 
 MIT
 
-[guide]: https://primatejs.com/guide/getting-started
+[read guide]: https://primatejs.com/guide/getting-started

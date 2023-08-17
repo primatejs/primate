@@ -45,7 +45,7 @@ export default {
        // use the JSON file driver, store at the data /tmp/data.json
        driver: json({
          filename: "/tmp/data.json",
-       )},
+       }),
     }),
   ],
 };
@@ -70,7 +70,7 @@ export default {
        // use the SQLite driver, store at the data /tmp/data.db
        driver: sqlite({
          filename: "/tmp/data.db",
-       )},
+       }),
     }),
   ],
 };
@@ -104,7 +104,7 @@ export default {
          // if 27017, can be omitted
          port: 27017,
          db: "app",
-       )},
+       }),
     }),
   ],
 };
@@ -130,17 +130,17 @@ import {default as store, postgresql} from "@primate/store";
 
 export default {
   modules: [
-     store({
-       // use the PostgreSQL server at localhost:5432 and the "app" database
-       driver: mongodb({
-         // if "localhost", can be omitted
-         host: "localhost",
-         // if 5432, can be omitted
-         port: 5432,
-         db: "app",
-         user: "username",
-         pass: "password",
-       )},
+    store({
+      // use the PostgreSQL server at localhost:5432 and the "app" database
+      driver: mongodb({
+        // if "localhost", can be omitted
+        host: "localhost",
+        // if 5432, can be omitted
+        port: 5432,
+        db: "app",
+        user: "username",
+        pass: "password",
+      }),
     }),
   ],
 };
@@ -167,22 +167,22 @@ import {default as store, surrealdb} from "@primate/store";
 
 export default {
   modules: [
-     store({
-       // use the SurrealDB server at http://localhost:8000/rpc, the "default"
-       // namespace and the "app" database
-       driver: mongodb({
-         // if "http://localhost", can be omitted
-         host: "http://localhost",
-         // if 8000, can be omitted
-         port: 800,
-         // if "rpc", can be omitted
-         path: "rpc",
-         // if "default", can be omitted,
-         ns: "default",
-         db: "app",
-         user: "username",
-         pass: "password",
-       )},
+    store({
+      // use the SurrealDB server at http://localhost:8000/rpc, the "default"
+      // namespace and the "app" database
+      driver: mongodb({
+        // if "http://localhost", can be omitted
+        host: "http://localhost",
+        // if 8000, can be omitted
+        port: 800,
+        // if "rpc", can be omitted
+        path: "rpc",
+        // if "default", can be omitted,
+        ns: "default",
+        db: "app",
+        user: "username",
+        pass: "password",
+      }),
     }),
   ],
 };
