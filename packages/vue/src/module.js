@@ -21,7 +21,7 @@ const handler = (name, props = {}, {status = Status.OK} = {}) => async app => {
 
 const vue = ".vue";
 export default ({dynamicProps = "data"} = {}) => ({
-  name: "@primate/vue",
+  name: "primate:vue",
   register(app, next) {
     app.register("vue", handler);
     return next(app);

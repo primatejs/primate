@@ -5,7 +5,7 @@ export default async (app, type, post = () => undefined) => {
   const {build} = config;
   const {includes} = build;
 
-  const reserved = system.concat(build.static, build.app, build.modules);
+  const reserved = system.concat(build.static, build.modules);
 
   if (Array.isArray(includes)) {
     await Promise.all(includes

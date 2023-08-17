@@ -11,7 +11,7 @@ const guardError = Symbol("guardError");
 export default app => {
   const {config: {http: {static: {root}}, build}, paths} = app;
 
-  const route = async request => {
+  const as_route = async request => {
     const {pathname} = request.url;
     // if NoFileForPath is thrown, this will remain undefined
     let errorHandler = app.error.default;
@@ -56,7 +56,7 @@ export default app => {
     });
   };
 
-  const asset = async file => new Response(file.readable, {
+  const as_asset = async file => new Response(file.readable, {
     status: Status.OK,
     headers: {
       "Content-Type": MediaType.resolve(file.name),
@@ -70,14 +70,16 @@ export default app => {
       const debased = pathname.replace(root, _ => "");
       const {client} = app.build.paths;
       // try static first
-      const _static = client.join(build.static, debased);
-      if (await _static.isFile) {
-        return asset(_static.file);
+      const asset = app.paths.build.join(app.config.paths.static, debased);
+      if (await asset.isFile) {
+        return as_asset(asset.file);
       }
-      const _app = client.join(debased);
-      return await _app.isFile ? asset(_app.file) : route(request);
+      const path = client.join(debased);
+      if (await path.isFile) {
+        return as_asset(path.file);
+      }
     }
-    return route(request);
+    return as_route(request);
   };
 
   return cascade(app.modules.handle, handle);

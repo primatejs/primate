@@ -2,30 +2,32 @@ import {Path} from "runtime-compat/fs";
 import esbuild from "esbuild";
 
 export default () => ({
-  name: "@primate/esbuild",
+  name: "primate:esbuild",
   async bundle(app, next) {
     const {build, paths, config} = app;
-    if (app.entrypoints.length > 0) {
+    if (app.exports.length > 0) {
       while (app.assets.length > 0) {
         app.assets.pop();
       }
-      const dist = app.entrypoints.map(({code}) => code).join("");
+      await build.paths.client.join(app.library).file.remove();
+      const dist = app.exports.map(({code}) => code).join("");
+      // remove .js and .css files from static
       await esbuild.build({
         stdin: {
           contents: dist,
-          resolveDir: `${build.paths.client.join(app.config.build.app)}`,
+          resolveDir: `${build.paths.client}`,
         },
         entryNames: "app-[hash]",
         bundle: true,
         minify: true,
         format: "esm",
-        outdir: `${paths.build}`,
+        outdir: `${paths.build.join(config.paths.static)}`,
         logLevel: app.debug ? "warning" : "error",
         external: ["*.woff2", "*.png", "*.jpg"],
       });
-      await build.paths.client.join(config.build.app).file.remove();
-      await build.paths.client.join(config.build.modules).file.remove();
-      for (const f of await paths.build.collect(/\.(?:js|css)$/u, {recursive: false})) {
+      // remove unbundled client
+      await build.paths.client.file.remove();
+      for (const f of await paths.build.join(config.paths.static).collect(/app-.*\.(?:js|css)$/u, {recursive: false})) {
         const code = await f.file.text();
         const src = f.name;
         const type = f.extension === ".css" ? "style" : "module";

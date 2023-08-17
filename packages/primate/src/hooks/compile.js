@@ -1,5 +1,9 @@
+import {is} from "runtime-compat/dyndef";
 import {cascade} from "runtime-compat/async";
 import copy_includes from "./copy_includes.js";
+import cwd from "../cwd.js";
+
+const html = /^.*.html$/u;
 
 const pre = async app => {
   const {build, paths, config} = app;
@@ -9,13 +13,23 @@ const pre = async app => {
     await paths.build.file.remove();
   }
   await build.paths.server.file.create();
+  await build.paths.client.file.create();
   await build.paths.components.file.create();
+  await build.paths.pages.file.create();
 
-  if (await paths.components.exists) {
+  const {pages} = paths;
+  // copy framework pages
+  await app.copy(cwd(import.meta, 2).join("defaults"), build.paths.pages, html);
+  // overwrite transformed pages to build
+  await pages.exists && await app.transcopy(await pages.collect(html));
+
+  const {components} = paths;
+  if (await components.exists) {
     // copy all files to build/components
-    await app.copy(paths.components, build.paths.components, /^.*$/u);
-    // copy .js files from components to build/server
-    await app.copy(paths.components, build.paths.server.join(config.build.app));
+    await app.copy(components, build.paths.components, /^.*$/u);
+    // copy .js files from components to build/server, since frontend
+    // frameworks handle non-js files
+    await app.copy(components, build.paths.server.join(config.paths.components));
   }
 
   // copy additional subdirectories to build/server

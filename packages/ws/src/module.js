@@ -4,7 +4,7 @@ import errors from "./errors.js";
 
 export default () => {
   return {
-    name: "@primate/ws",
+    name: "primate:ws",
     serve: (app, next) => {
       const wss = new WebSocketServer({noServer: true});
       const up = response => socket => wss.emit("connection", socket, response);

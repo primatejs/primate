@@ -1,1 +1,1 @@
-export default "root";
+export default "svelte_root";

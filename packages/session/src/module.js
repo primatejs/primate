@@ -50,7 +50,7 @@ export default ({
   const options = {sameSite, path};
 
   return {
-    name: "@primate/session",
+    name: "primate:session",
     init(app, next) {
       options.secure = app.secure ? ";Secure" : "";
       return next(app);

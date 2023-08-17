@@ -1,8 +1,10 @@
 import crypto from "runtime-compat/crypto";
 import {Path} from "runtime-compat/fs";
 import {Response, Status, MediaType} from "runtime-compat/http";
-import * as compiler from "svelte/compiler";
 import {tryreturn} from "runtime-compat/async";
+
+import * as compiler from "svelte/compiler";
+
 import errors from "./errors.js";
 import {client, create_root, rootname} from "./client/exports.js";
 
@@ -42,7 +44,7 @@ const handler = (name, props = {}, {status = Status.OK, page} = {}) =>
     };
     const {headers} = request;
     const {paths} = app.build;
-    const make = make_component(paths.server.join(app.config.build.app));
+    const make = make_component(paths.server.join(app.config.paths.components));
     if (as_layout) {
       return make(name, props);
     }
@@ -65,7 +67,7 @@ const handler = (name, props = {}, {status = Status.OK, page} = {}) =>
 
     const root = paths.server.join(filename);
     const imported = (await import(root)).default;
-    const {html: body} = imported.render({
+    const {html: body, head} = imported.render({
       components: components.map(({component}) => component),
       data,
     });
@@ -76,7 +78,7 @@ const handler = (name, props = {}, {status = Status.OK, page} = {}) =>
     // needs to be called before app.render
     const headers$ = await app.headers();
 
-    return new Response(await app.render({body, page}), {
+    return new Response(await app.render({body, page, head}), {
       status,
       headers: {...headers$, "Content-Type": MediaType.TEXT_HTML},
     });
@@ -90,85 +92,100 @@ const options = {
 const {svelte, js} = endings;
 export default ({
   dynamicProps = "data",
-} = {}) => ({
-  name: "@primate/svelte",
-  register(app, next) {
-    app.register("svelte", handler);
-    return next(app);
-  },
-  async compile(app, next) {
-    const source = app.build.paths.components;
-    // copy components to build/components
-    await app.copy(app.paths.components, source, /^.*.(?:js|svelte)$/u);
-    const components = await source.collect(/^.*.svelte$/u);
-    const target = app.build.paths.server.join(app.config.build.app);
-    await target.file.create();
+  extension = "svelte",
+} = {}) => {
+  const env = {};
+  const copy_re = new RegExp(`^.*.(?:${extension})$`, "u");
+  const collect_re = new RegExp(`^.*.${extension}$`, "u");
+  const extensions = {
+    from: `.${extension}`,
+    to: `.${extension}.js`,
+  };
 
-    await Promise.all(components.map(async component => {
-      const file = await component.file.read();
-      const server = compiler.compile(file, options.server);
-      const to = target.join(`${component.path}.js`.replace(source, ""));
-      await to.directory.file.create();
-      await to.file.write(server.js.code.replaceAll(svelte, js));
-    }));
+  return {
+    name: "primate:svelte",
+    init(app, next) {
+      env.source = app.build.paths.components;
 
-    const root = create_root(app.layoutDepth, dynamicProps);
-    const server = compiler.compile(root, options.server).js.code;
-    const to = app.build.paths.server.join(filename);
-    await to.file.write(server);
+      return next(app);
+    },
+    register(app, next) {
+      app.register(extension, handler);
+      return next(app);
+    },
+    async compile(app, next) {
+      // copy components to build/components
+      await app.copy(app.paths.components, env.source, copy_re);
+      const components = await env.source.collect(collect_re);
+      const target = app.build.paths.server.join(app.config.paths.components);
+      await target.file.create();
 
-    return next(app);
-  },
-  async publish(app, next) {
-    const source = app.build.paths.components;
-    const components = await source.collect(/^.*.svelte$/u);
-    await app.import("svelte");
+      await Promise.all(components.map(async component => {
+        const file = await component.file.read();
+        const {js: {code}} = compiler.compile(file, options.server);
+        const to = target.join(`${component.path}.js`.replace(env.source, ""));
+        await to.directory.file.create();
+        await to.file.write(code.replaceAll(extensions.from, extensions.to));
+      }));
 
-    await Promise.all(components.map(async component => {
-      const name = component.path.replace(`${source}/`, "");
-      const file = await component.file.read();
-      const client = compiler.compile(file, options.client);
-      const build = app.config.build.app;
-      const {path} = component;
+      const root = create_root(app.layout.depth, dynamicProps);
+      const server = compiler.compile(root, options.server).js.code;
+      const to = app.build.paths.server.join(filename);
+      await to.file.write(server);
 
-      {
+      return next(app);
+    },
+    async publish(app, next) {
+      // import libs
+      await app.import("svelte");
+
+      // create client components
+      const components = await env.source.collect(collect_re);
+
+      await Promise.all(components.map(async component => {
+        const name = component.path.replace(`${env.source}/`, "");
+        const file = await component.file.read();
+        const client = compiler.compile(file, options.client);
+        const build = app.config.paths.components;
+        const {path} = component;
+        const file_string = `./${build}/${name}`;
+
         {
           const code = client.js.code.replaceAll(svelte, js);
-          const src = `${path}.js`.replace(`${source}`, _ => build);
+          const src = `${path}.js`.replace(`${env.source}`, _ => build);
           await app.publish({src, code, type});
-        }
-        const imported = await normalize(name);
-        app.bootstrap({
-          type: "script",
-          code: `export {default as ${imported}} from "./${name}.js";\n`,
-        });
-      }
-      if (client.css.code !== null) {
-        {
-          const {code} = client.css;
-          const src = `${path}.css`.replace(`${source}`, _ => build);
-          await app.publish({src, code, type: "style"});
-        }
-        {
-          // sans app.config.build.app removal, for a bundler to resolve,
-          // irrelevant without bundling
-          const src = `${path}.css`.replace(`${source}`, "");
-          app.bootstrap({type: "style", code: `import ".${src}";`});
-        }
-      }
-    }));
 
-    {
-      const root = create_root(app.layoutDepth, dynamicProps);
-      const client = compiler.compile(root, options.client);
-      const code = client.js.code.replaceAll(svelte, js);
-      const src = new Path(app.config.http.static.root, filename);
-      await app.publish({src, code, type});
-    }
-    {
-      const code = `export {default as ${rootname}} from "../${filename}";\n`;
-      app.bootstrap({type: "script", code});
-    }
-    return next(app);
-  },
-});
+          const imported = await normalize(name);
+          app.export({
+            type: "script",
+            code: `export {default as ${imported}} from "${file_string}.js";\n`,
+          });
+        }
+        if (client.css.code !== null) {
+          const {code} = client.css;
+          const src = `${path}.css`.replace(`${env.source}`, _ => build);
+          await app.publish({src, code, type: "style"});
+
+          // irrelevant without bundling
+          app.export({
+            type: "style",
+            code: `import "${file_string}.css"\n;`,
+          });
+        }
+      }));
+
+      {
+        const root = create_root(app.layout.depth, dynamicProps);
+        const client = compiler.compile(root, options.client);
+        const code = client.js.code.replaceAll(svelte, js);
+        const src = new Path(app.config.http.static.root, filename);
+        await app.publish({src, code, type});
+      }
+      {
+        const code = `export {default as ${rootname}} from "./${filename}";\n`;
+        app.export({type: "script", code});
+      }
+      return next(app);
+    },
+  };
+};

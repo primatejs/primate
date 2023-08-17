@@ -1,3 +1,4 @@
+import {identity} from "runtime-compat/function";
 import Logger from "../Logger.js";
 
 export default {
@@ -37,10 +38,13 @@ export default {
   },
   build: {
     includes: [],
-    static: "static",
     app: "app",
     modules: "modules",
     index: "index.js",
+    transform: {
+      files: [],
+      mapper: identity,
+    },
   },
   types: {
     explicit: false,

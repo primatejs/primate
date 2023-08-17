@@ -53,7 +53,7 @@ export default ({
     defaults: {},
   };
   return {
-    name: "@primate/store",
+    name: "primate:store",
     async init(app, next) {
       try {
         env.log = app.log;

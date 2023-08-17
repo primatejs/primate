@@ -35,16 +35,16 @@ const handler = (name, {status = Status.OK, partial = false} = {}) =>
     });
   };
 
+const name = "htmx.org";
 export default _ => ({
-  name: "@primate/htmx",
+  name: "primate:htmx",
   register(app, next) {
     app.register("htmx", handler);
     return next(app);
   },
   async publish(app, next) {
-    const name = "htmx.org";
     await app.import(name);
-    app.bootstrap({type: "script", code: `export * as htmx from "${name}";`});
+    app.export({type: "script", code: `export * as htmx from "${name}";`});
     return next(app);
   },
 });
