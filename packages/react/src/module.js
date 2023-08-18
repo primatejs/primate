@@ -52,8 +52,8 @@ const import$ = async app => {
 
   app.importmaps = {
     ...app.importmaps,
-    ...valmap(imports, value  => `${new Path("/", library, module, value)}`),
-  }
+    ...valmap(imports, value => `${new Path("/", library, module, value)}`),
+  };
 };
 
 const filename = `${rootname}.js`;
@@ -134,7 +134,6 @@ export default ({
     name: "primate:react",
     init(app, next) {
       env.source = app.build.paths.components;
-
       return next(app);
     },
     register(app, next) {
@@ -171,7 +170,7 @@ export default ({
       const components = await env.source.collect(collect_re);
 
       await Promise.all(components.map(async component => {
-        const name = component.path.replace(`${env.source}/`, "");
+        const name = component.path.replace(`${env.source}/`, _ => "");
         const file = await component.file.read();
         const {code} = await esbuild.transform(file, options);
         const build = app.config.paths.components;
