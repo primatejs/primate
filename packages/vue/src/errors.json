@@ -1,0 +1,10 @@
+{
+  "module": "primate/vue",
+  "errors": {
+    "MissingComponent": {
+      "message": "missing component {0}",
+      "fix": "create {1} or remove route function",
+      "level": "Error"
+    }
+  }
+}
