@@ -1,5 +1,5 @@
 import {Response, Status, MediaType} from "runtime-compat/http";
-import {marked} from "marked";
+import precompile from "./compile.js";
 
 const make_component = base => name => import(base.join(`${name}.js`));
 
@@ -22,13 +22,11 @@ export default ({
 } = {}) => {
   const env = {};
   const re = new RegExp(`^.*.(?:${extension})$`, "u");
-
-  const identity_heading = (text, level) => `<h${level}>${text}</h${level}>`;
-  const monkeyed_heading = options?.renderer?.heading ?? identity_heading;
+  let compile;
 
   return {
     name: "primate:markdown",
-    init(app, next) {
+    async init(app, next) {
       env.directory = directory ?? app.config.location.components;
 
       return next(app);
@@ -42,39 +40,25 @@ export default ({
       const source = app.runpath(directory);
       // copy ${env.directory} to build/${env.directory}
       await app.stage(app.root.join(env.directory), env.directory, re);
+
       const components = await source.collect(re);
       const target = app.runpath(location.server, env.directory);
       await target.file.create();
 
-      await Promise.all(components.map(async component => {
-        const toc = [];
-        const renderer = {
-          ...options?.renderer ?? {},
-          heading(text, level) {
-            const name = text.toLowerCase().replaceAll(/[?{}%]/gu, "");
-            toc.push({level, text, name});
-            return monkeyed_heading(text, level);
-          },
-        };
-        marked.use({
-          ...options,
-          renderer,
-        });
-        const content = marked.parse(await component.file.read());
-        const code = `
-          export function toc() {
-            return JSON.parse(${JSON.stringify(JSON.stringify(toc))});
-          }
-          export function render(props = {}) {
-            ${props.map(prop => `const {${prop} = ""} = props;`).join("\n")}
-            return \`${content}\`;
-          }`;
-        const to = target.join(`${component.path}.js`.replace(source, ""));
-        await to.directory.file.create();
-        await to.file.write(code);
-      }));
+      compile = await precompile({
+        app,
+        directory: env.directory,
+        options,
+        props,
+      });
+
+      await Promise.all(components.map(async component =>
+        compile(component.path, await component.file.read())));
 
       return next(app);
+    },
+    async handle(request, next) {
+      return next({...request, markdown: {compile}});
     },
   };
 };
