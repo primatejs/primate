@@ -28,7 +28,7 @@ export default async ({
     const {path} = component;
 
     const file_string = `./${build}/${name}`;
-    const {js, css} = compile(file);
+    const {js, css} = await compile(file);
     {
       const code = js.replaceAll(extensions.from, extensions.to);
       const src = `${path}.js`.replace(`${source}`, _ => build);
@@ -40,7 +40,7 @@ export default async ({
         code: `export {default as ${imported}} from "${file_string}.js";\n`,
       });
     }
-    if (css !== null) {
+    if (css !== null && css !== undefined) {
       const src = `${path}.css`.replace(`${source}`, _ => build);
       await app.publish({src, code: css, type: "style"});
 
@@ -54,7 +54,7 @@ export default async ({
   {
     const root = create_root(app.layout.depth, dynamicProps);
     // root has no css
-    const {js} = compile(root);
+    const {js} = await compile(root);
     const code = js.replaceAll(extensions.from, extensions.to);
     const src = new Path(app.config.http.static.root, filename);
     await app.publish({src, code, type});

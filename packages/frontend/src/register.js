@@ -2,7 +2,7 @@ import {tryreturn} from "runtime-compat/async";
 import errors from "./errors.js";
 
 const load = async path =>
-  tryreturn(async () => (await import(`${path}.js`)).default)
+  tryreturn(_ => import(`${path}.js`))
     .orelse(_ => errors.MissingComponent.throw(path.name, path));
 
 export default ({app, rootname}) => {
@@ -12,7 +12,8 @@ export default ({app, rootname}) => {
   return {
     root: app.runpath(location.server, filename),
     async make(name, props) {
-      return {name, props, component: await load(base.join(name))};
+      const component = await load(base.join(name));
+      return {name, props, component: component.default ?? component};
     },
   };
 };
