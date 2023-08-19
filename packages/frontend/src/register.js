@@ -6,6 +6,7 @@ const load = async path =>
     .orelse(_ => errors.MissingComponent.throw(path.name, path));
 
 export default ({app, rootname}) => {
+  const {config: {location}} = app;
   const filename = `${rootname}.js`;
   const base = app.runpath(location.server, location.components);
   return {
