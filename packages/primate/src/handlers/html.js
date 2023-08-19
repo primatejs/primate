@@ -9,7 +9,7 @@ export default (name, options = {}) => {
   const {status = Status.OK, partial = false} = options;
 
   return async app => {
-    const html = await app.paths.components.join(name).text();
+    const html = await app.path.components.join(name).text();
     await Promise.all([...html.matchAll(script)]
       .map(({groups: {code}}) => app.publish({code, inline})));
     await Promise.all([...html.matchAll(style)]

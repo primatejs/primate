@@ -13,9 +13,9 @@ const getBody = async (app, partial, file) => {
   return partial ? body : app.render({body});
 };
 
-const handler = (name, {status = Status.OK, partial = false} = {}) =>
-  async app => {
-    const {build: {paths: {components}}} = app;
+const handler = directory =>
+  (name, {status = Status.OK, partial = false} = {}) => async app => {
+    const components = app.runpath(directory);
     const code = "import {htmx} from \"app\";";
     await app.publish({code, type: "module", inline: true});
 
@@ -36,10 +36,14 @@ const handler = (name, {status = Status.OK, partial = false} = {}) =>
   };
 
 const name = "htmx.org";
-export default _ => ({
+export default ({
+  extension = "htmx",
+  directory,
+} = {}) => ({
   name: "primate:htmx",
   register(app, next) {
-    app.register("htmx", handler);
+    app.register(extension, handler(directory
+      ?? app.config.location.components));
     return next(app);
   },
   async publish(app, next) {

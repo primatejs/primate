@@ -17,7 +17,8 @@ want to change that, set [`http.static.root`][http-static-root] to something els
 (default is `/`).
 
 If you want to change the `static` or `build` directory to something else,
-change [`paths.static`][paths-static] or [`paths.build`][paths-build].
+change [`location.static`][location-static] or
+[`location.build`][location-build].
 
 ## API
 
@@ -100,8 +101,8 @@ combining Markdown-based documentation websites with dynamic features (user
 login, sessions). The Primate website uses Priss itself.
 
 [http-static-root]: /guide/configuration#http-static-root
-[paths-static]: /guide/configuration#paths-static
-[paths-build]: /guide/configuration#paths-build
+[location-static]: /guide/configuration#location-static
+[location-build]: /guide/configuration#location-build
 [routes]: /guide/routes
 [view-handler]: /guide/responses#view
 [quick-start]: /guide/getting-started#quick-start

@@ -37,7 +37,7 @@ export default async (log, root, config) => {
   const {http} = config;
   const secure = http?.ssl !== undefined;
   const {name, version} = await base.up(1).join(packager).json();
-  const paths = valmap(config.paths, value => root.join(value));
+  const path = valmap(config.location, value => root.join(value));
 
   const at = `at http${secure ? "s" : ""}://${http.host}:${http.port}\n`;
   print(blue(bold(name)), blue(version), at);
@@ -48,21 +48,13 @@ export default async (log, root, config) => {
     http.ssl.cert = root.join(http.ssl.cert);
   }
 
-  const types = await loaders.types(log, paths.types);
-  const error = await paths.routes.join("+error.js");
-  const routes = await loaders.routes(log, paths.routes);
+  const types = await loaders.types(log, path.types);
+  const error = await path.routes.join("+error.js");
+  const routes = await loaders.routes(log, path.routes);
   const dispatch = dispatch$(types);
   const modules = await loaders.modules(log, root, config);
 
   const app = {
-    build: {
-      paths: {
-        client: paths.build.join("client"),
-        server: paths.build.join("server"),
-        components: paths.build.join("components"),
-        pages: paths.build.join("pages"),
-      },
-    },
     config,
     secure,
     name,
@@ -70,7 +62,7 @@ export default async (log, root, config) => {
     importmaps: {},
     assets: [],
     exports: [],
-    paths,
+    path,
     root,
     log,
     error: {
@@ -87,27 +79,23 @@ export default async (log, root, config) => {
     modules,
     packager,
     library,
-    async copy(source, target, filter = /^.*.js$/u) {
-      const jss = await source.collect(filter);
-      await Promise.all(jss.map(async js => {
-        const file = await js.file.read();
-        const to = await target.join(js.path.replace(source, ""));
-        await to.directory.file.create();
-        await to.file.write(file);
-      }));
-    },
-    async transcopy(source, target = this.paths.build) {
+    // copy files to build folder, potentially transforming them
+    async stage(source, directory, filter) {
       const {files, mapper} = this.config.build.transform;
       is(files).array();
       is(mapper).function();
 
-      await Promise.all(source.map(async path => {
-        const file = await path.file.read();
-        const filename = `${path}`.replace(`${this.root}`, _ => "").slice(1);
-        const contents = files.includes(filename) ? mapper(file) : file;
-        const to = await target.join(filename);
+      const target = this.runpath(directory);
+      await Promise.all((await source.collect(filter)).map(async path => {
+        const filename = new Path(directory).join(path.debase(source));
+        const to = await target.join(filename.debase(directory));
         await to.directory.file.create();
-        await to.file.write(contents);
+        if (files.includes(`${filename}`)) {
+          const contents = mapper(await path.file.read());
+          await to.file.write(contents);
+        } else {
+          await path.file.copy(to);
+        }
       }));
     },
     headers() {
@@ -129,10 +117,13 @@ export default async (log, root, config) => {
         "Referrer-Policy": "same-origin",
       };
     },
+    runpath(...directories) {
+      return this.path.build.join(...directories);
+    },
     async render({body = "", head = "", page = config.pages.index} = {}) {
-      const {assets, build} = this;
+      const {location: {pages}} = this.config;
 
-      const html = await index(build.paths.pages, page, config.pages.index);
+      const html = await index(this.runpath(pages), page, config.pages.index);
       // inline: <script type integrity>...</script>
       // outline: <script type integrity src></script>
       const script = ({inline, code, type, integrity, src}) => inline
@@ -144,7 +135,7 @@ export default async (log, root, config) => {
         ? tag({name: "style", code})
         : tag({name: "link", attributes: {rel, href}, close: false});
 
-      const heads = head.concat("\n", toSorted(assets,
+      const heads = head.concat("\n", toSorted(this.assets,
         ({type}) => -1 * (type === "importmap"))
         .map(({src, code, type, inline, integrity}) =>
           type === "style"
@@ -152,13 +143,13 @@ export default async (log, root, config) => {
             : script({inline, code, type, integrity, src})
         ).join("\n"));
       // remove inline assets
-      this.assets = assets.filter(({inline, type}) => !inline
+      this.assets = this.assets.filter(({inline, type}) => !inline
         || type === "importmap");
       return html.replace("%body%", _ => body).replace("%head%", _ => heads);
     },
     async publish({src, code, type = "", inline = false, copy = true}) {
       if (!inline && copy) {
-        const base = this.build.paths.client.join(src);
+        const base = this.runpath(this.config.location.client).join(src);
         await base.directory.file.create();
         await base.file.write(code);
       }
@@ -185,7 +176,8 @@ export default async (log, root, config) => {
       return `${prefix}-${btoa(String.fromCharCode(...new Uint8Array(bytes)))}`;
     },
     async import(module) {
-      const {http: {static: {root}}} = this.config;
+      const {http: {static: {root}}, location: {client}} = this.config;
+
       const parts = module.split("/");
       const path = [this.library, ...parts];
       const pkg = await Path.resolve().join(...path, this.packager).json();
@@ -202,7 +194,7 @@ export default async (log, root, config) => {
               ?? value.import?.replace(".", `./${module}`),
           ]));
       const dependency = Path.resolve().join(...path);
-      const to = new Path(this.build.paths.client, this.library, ...parts);
+      const to = new Path(this.runpath(client), this.library, ...parts);
       await dependency.file.copy(to);
       this.importmaps = {
         ...valmap(exports, value => new Path(root, this.library, value).path),

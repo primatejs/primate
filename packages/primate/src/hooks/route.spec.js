@@ -19,7 +19,7 @@ const id = name => (value, property) => {
 
 const app = {
   config: {
-    paths: {
+    path: {
       routes: "/routes",
     },
     types: {

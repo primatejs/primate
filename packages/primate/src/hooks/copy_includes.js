@@ -1,11 +1,11 @@
-const system = ["routes", "components", "build"];
+import {Path} from "runtime-compat/fs";
 
 export default async (app, type, post = () => undefined) => {
   const {config} = app;
   const {build} = config;
   const {includes} = build;
 
-  const reserved = system.concat(build.static, build.modules);
+  const reserved = Object.values(app.config.location);
 
   if (Array.isArray(includes)) {
     await Promise.all(includes
@@ -14,9 +14,8 @@ export default async (app, type, post = () => undefined) => {
       .map(async include => {
         const path = app.root.join(include);
         if (await path.exists) {
-          const to = app.build.paths[type].join(include);
-          await to.file.create();
-          await app.copy(path, to);
+          const to = Path.join(type, include);
+          await app.stage(path, to);
           await post(to);
         }
       }));

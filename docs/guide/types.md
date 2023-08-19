@@ -17,7 +17,7 @@ string `"true"` as true, which is what you would expect on the web.
 ## Defining
 
 Types are defined in the `types` directory, unless specified
-[elsewise](/guide/configuration#paths-types) in the configuration. Type
+[elsewise](/guide/configuration#location-types) in the configuration. Type
 filenames are alphanumeric and lowercase-first -- any files not starting with a 
 lowercase letter will be ignored.
 

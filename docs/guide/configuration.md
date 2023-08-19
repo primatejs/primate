@@ -10,6 +10,7 @@ If Primate doesn't find a `primate.config.js` in your project root directory
 a default object, Primate will fall back to its default configuration file.
 
 ```js caption=default configuration
+import {identity} from "runtime-compat/function";
 import {Logger} from "primate";
 
 export default {
@@ -21,6 +22,7 @@ export default {
   },
   logger: {
     level: Logger.Warn,
+    trace: false,
   },
   http: {
     host: "localhost",
@@ -28,6 +30,7 @@ export default {
     csp: {
       "default-src": "'self'",
       "style-src": "'self'",
+      "script-src": "'self'",
       "object-src": "'none'",
       "frame-ancestors": "'none'",
       "form-action": "'self'",
@@ -37,19 +40,23 @@ export default {
       root: "/",
     },
   },
-  paths: {
-    build: "build",
+  location: {
     components: "components",
     pages: "pages",
     routes: "routes",
     static: "static",
     types: "types",
+    build: "build",
+    client: "client",
+    server: "server",
   },
   build: {
     includes: [],
-    static: "static",
-    modules: "modules",
     index: "index.js",
+    transform: {
+      files: [],
+      mapper: identity,
+    },
   },
   types: {
     explicit: false,
@@ -82,6 +89,7 @@ Primate will merge your custom configuration with its default, resulting in
 effectively the following configuration.
 
 ```js caption=merged configuration
+import {identity} from "runtime-compat/function";
 import {Logger} from "primate";
 
 export default {
@@ -93,6 +101,7 @@ export default {
   },
   logger: {
     level: Logger.Info,
+    trace: false,
   },
   http: {
     host: "localhost",
@@ -100,6 +109,7 @@ export default {
     csp: {
       "default-src": "'self'",
       "style-src": "'self'",
+      "script-src": "'self'",
       "object-src": "'none'",
       "frame-ancestors": "'none'",
       "form-action": "'self'",
@@ -109,19 +119,23 @@ export default {
       root: "/",
     },
   },
-  paths: {
-    build: "build",
+  location: {
     components: "components",
     pages: "pages",
     routes: "routes",
     static: "static",
     types: "types",
+    build: "build",
+    client: "client",
+    server: "server",
   },
   build: {
     includes: [],
-    static: "static",
-    modules: "modules",
     index: "index.js",
+    transform: {
+      files: [],
+      mapper: identity,
+    },
   },
   types: {
     explicit: false,
@@ -154,16 +168,16 @@ explicit [load hooks][hooks-load].
 
 Default: `app.html`
 
-Name of the default HTML page located in `paths.pages`. If `paths.pages` does
-not exist or contain this file, Primate will use its
+Name of the default HTML page located in `location.pages`. If `location.pages`
+does not exist or contain this file, Primate will use its
 [default app.html][default-app-html].
 
 ### error
 
 Default: `error.html`
 
-Name of the default error HTML page located in `paths.pages`. If `paths.pages`
-does not exist or contain this file, Primate will use its
+Name of the default error HTML page located in `location.pages`. If
+`location.pages` does not exist or contain this file, Primate will use its
 [default error.html][default-error-html].
 
 ## Logging options
@@ -244,21 +258,15 @@ If specified as a relative path, will be relative to project root.
 
 !!!
 Primate does not load the key or certificate into memory. It only resolves
-the paths as necessary and passes them to the [runtime][runtime].
+their paths as necessary and passes them to the [runtime][runtime].
 !!!
 
-### Path options
+### Location options
 
-Locations of Primate standard directories. If any of these paths are relative,
-they will be relative to project root.
+Locations of Primate standard directories. If any of these locations are
+relative, they will be relative to project root.
 
-### paths.build
-
-Default `"build"`
-
-The directory where server and client files are created and served from.
-
-### paths.components
+### location.components
 
 Default `"components"`
 
@@ -266,7 +274,7 @@ The directory where components are located. [Components](/guide/components) are
 used as HTML files or by frontend frameworks. The `view` handler will try to
 load any referenced component filename from this directory.
 
-### paths.pages
+### location.pages
 
 Default `"pages"`
 
@@ -274,26 +282,43 @@ The directory where pages are loaded from. If this directory doesn't exist and
 you use the `view` or `html` handler, Primate will use its default `app.html`
 as the default page.
 
-### paths.routes
+### location.routes
 
 Default `"routes"`
 
 The directory where the hierarchy of route files resides.
 
-### paths.static
+### location.static
 
 Default `"static"`
 
-The directory which static assets are copied from to the client part of the 
-build directory, located in `{paths.build}/client/{build.static}`, where
-`paths.build` and `build.static` are configuration options.
+The directory from which static assets are copied to the build directory at
+`{location.build}/{location.static}`, where `location.build` and
+`location.static` are configuration options.
 
-### paths.types
+### location.types
 
 Default `"types"`
 
 The directory where types are located. [Types](/guide/types) can be
 used to limit the range of possible values that a variable can hold.
+
+### location.build
+
+Default `"build"`
+
+The directory where the app is to be built in and served from. This directory
+is recreated during every run.
+
+### location.client
+
+The directory into which client files (compiled components, modules) are copied
+and from which they are served at runtime.
+
+### location.server
+
+The directory into which server files (compiled components) are copied and from
+which they are server-rendered at runtime.
 
 ### Build options
 
@@ -304,31 +329,26 @@ Modifying aspects of the build system and the resulting server/client code.
 Default `[]`
 
 A list of directories to be included in the server and client build. May not
-include `routes`, `components`, `build`, or any of the configuration options
-`build.static`, `build.app`, `build.modules`.
-
-### build.static
-
-Default `"static"`
-
-The subdirectory target of files copied from `paths.static` into the
-`client` directory in `paths.build`. If `paths.build` is set to `build` and
-`build.static` to `static`, will be copied to `build/client/static`.
-
-### build.modules
-
-Default `"modules"`
-
-The subdirectory target of module imports copied into the `server` and `client` 
-directories in `paths.build`. If `paths.build` is set to `build` and
-`build.modules` to `modules`, will be copied to `build/server/modules` and
-`build/client/modules`.
+any known Primate location.
 
 ### build.index
 
 Default `"index.js"`
 
 Filename of the index JavaScript file used to export all components.
+
+### build.transform.files
+
+Default `[]`
+
+A list of files in be transformed at runtime, using their path from project
+root.
+
+### build.transform.mapper
+
+Default `_ => _` (identity function)
+
+A file content mapper for the files specified in `build.transform.files`.
 
 ## Type options
 

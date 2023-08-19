@@ -1,39 +1,37 @@
-import {is} from "runtime-compat/dyndef";
+import {Path} from "runtime-compat/fs";
 import {cascade} from "runtime-compat/async";
 import copy_includes from "./copy_includes.js";
 import cwd from "../cwd.js";
 
 const html = /^.*.html$/u;
+const defaults = cwd(import.meta, 2).join("defaults");
 
 const pre = async app => {
-  const {build, paths, config} = app;
+  const {config: {location}, path} = app;
 
   // remove build directory in case exists
-  if (await paths.build.exists) {
-    await paths.build.file.remove();
+  if (await path.build.exists) {
+    await path.build.file.remove();
   }
-  await build.paths.server.file.create();
-  await build.paths.client.file.create();
-  await build.paths.components.file.create();
-  await build.paths.pages.file.create();
+  await Promise.all(["server", "client", "components", "pages"]
+    .map(directory => app.runpath(directory).file.create()));
 
-  const {pages} = paths;
   // copy framework pages
-  await app.copy(cwd(import.meta, 2).join("defaults"), build.paths.pages, html);
+  await app.stage(defaults, location.pages, html);
   // overwrite transformed pages to build
-  await pages.exists && await app.transcopy(await pages.collect(html));
+  await path.pages.exists && await app.stage(path.pages, location.pages, html);
 
-  const {components} = paths;
-  if (await components.exists) {
+  if (await path.components.exists) {
     // copy all files to build/components
-    await app.copy(components, build.paths.components, /^.*$/u);
+    await app.stage(path.components, location.components);
     // copy .js files from components to build/server, since frontend
     // frameworks handle non-js files
-    await app.copy(components, build.paths.server.join(config.paths.components));
+    const to = Path.join(location.server, location.components);
+    await app.stage(path.components, to, /^.*.js$/u);
   }
 
   // copy additional subdirectories to build/server
-  await copy_includes(app, "server");
+  await copy_includes(app, location.server);
 
   return app;
 };

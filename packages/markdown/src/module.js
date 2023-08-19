@@ -4,7 +4,7 @@ import {marked} from "marked";
 const make_component = base => name => import(base.join(`${name}.js`));
 
 const respond = (handler, directory) => (...[name, ...rest]) => app =>
-  make_component(app.build.paths.server.join(directory))(name)
+  make_component(app.runpath(app.config.location.server, directory))(name)
     .then(component => handler(component, ...rest));
 
 const as_html = app => async (component, _, {status = Status.OK} = {}) =>
@@ -21,8 +21,7 @@ export default ({
   props = [],
 } = {}) => {
   const env = {};
-  const copy_re = new RegExp(`^.*.(?:${extension})$`, "u");
-  const collect_re = new RegExp(`^.*.${extension}$`, "u");
+  const re = new RegExp(`^.*.(?:${extension})$`, "u");
 
   const identity_heading = (text, level) => `<h${level}>${text}</h${level}>`;
   const monkeyed_heading = options?.renderer?.heading ?? identity_heading;
@@ -30,8 +29,7 @@ export default ({
   return {
     name: "primate:markdown",
     init(app, next) {
-      console.log(next);
-      env.directory = directory ?? app.config.paths.components;
+      env.directory = directory ?? app.config.location.components;
 
       return next(app);
     },
@@ -40,11 +38,12 @@ export default ({
       return next(app);
     },
     async compile(app, next) {
-      const source = app.paths.build.join(env.directory);
+      const {location} = app.config;
+      const source = app.runpath(directory);
       // copy ${env.directory} to build/${env.directory}
-      await app.copy(app.root.join(env.directory), source, copy_re);
-      const components = await source.collect(collect_re);
-      const target = app.build.paths.server.join(env.directory);
+      await app.stage(app.root.join(env.directory), env.directory, re);
+      const components = await source.collect(re);
+      const target = app.runpath(location.server, env.directory);
       await target.file.create();
 
       await Promise.all(components.map(async component => {

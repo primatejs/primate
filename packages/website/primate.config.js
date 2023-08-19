@@ -57,9 +57,9 @@ export default {
           "Svelte",
           "React",
           "Solid",
-
           "Vue",
           "HTMX",
+          "Markdown",
           {heading: "Data"},
           "Types",
           "Store",

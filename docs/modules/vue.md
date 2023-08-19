@@ -57,9 +57,15 @@ Your rendered Vue component will be accessible at http://localhost:6161/react.
 
 ### directory
 
-Default `config.paths.components`
+Default `config.location.components`
 
 Directory where the Vue SFC components reside.
+
+### extension
+
+Default `"vue"`
+
+The file extension to be associated with this handler.
 
 ## Resources
 

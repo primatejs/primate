@@ -71,11 +71,23 @@ as a property of its `data` export.
 
 ## Configuration options
 
+### directory
+
+Default `config.location.components`
+
+Directory where the React Svelte components reside.
+
 ### dynamicProps
 
 Default `"data"`
 
 Name of the props passed to a Svelte component from its route.
+
+### extension
+
+Default `"svelte"`
+
+The file extension to be associated with this handler.
 
 ## Resources
 

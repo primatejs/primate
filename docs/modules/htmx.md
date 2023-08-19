@@ -70,9 +70,15 @@ to `true`.
 
 ### directory
 
-Default `config.paths.components`
+Default `config.location.components`
 
 Directory where the HTMX components reside.
+
+### extension
+
+Default `"htmx"`
+
+The file extension to be associated with this handler.
 
 ## Resources
 

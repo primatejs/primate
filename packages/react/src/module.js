@@ -1,45 +1,29 @@
-import crypto from "runtime-compat/crypto";
 import {Path} from "runtime-compat/fs";
-import {Response, Status, MediaType} from "runtime-compat/http";
-import {tryreturn} from "runtime-compat/async";
 import {valmap} from "runtime-compat/object";
-
+import {Response, Status, MediaType} from "runtime-compat/http";
+import * as base from "@primate/frontend";
 import ReactDOMServer from "react-dom/server";
 import React from "react";
 import esbuild from "esbuild";
-
-import errors from "./errors.js";
 import {client, create_root, rootname, hydrate} from "./client/exports.js";
 
-const encoder = new TextEncoder();
-const hash = async (string, algorithm = "sha-256") => {
-  const base = 16;
-  const target_pad_length = 2;
-  const target_slice = 12;
-  const bytes = await crypto.subtle.digest(algorithm, encoder.encode(string));
-  return Array.from(new Uint8Array(bytes))
-    .map(byte => byte.toString(base).padStart(target_pad_length, "0"))
-    .join("")
-    .slice(0, target_slice);
-};
-const normalize = async path => `react_${await hash(path)}`;
-
+const normalize = base.normalize("react");
 const render = (component, props) =>
   ReactDOMServer.renderToString(React.createElement(component, props));
 
-const to_path = path => new Path(import.meta.url).up(1).join(...path);
 const import$ = async app => {
-  const {library, build: {paths}} = app;
+  const to_path = path => new Path(import.meta.url).up(1).join(...path);
+  const {library} = app;
   const module = "react";
-  const base = ["client", "imports"];
-  const index = base.concat("index.js");
+  const $base = ["client", "imports"];
+  const index = $base.concat("index.js");
   const imports = {
     react: "react.js",
     "react-dom/client": "react-dom.js",
     "react/jsx-runtime": "jsx-runtime.js",
   };
 
-  const to = paths.client.join(library, module);
+  const to = app.runpath(app.config.location.client, library, module);
   await esbuild.build({
     entryPoints: [`${to_path(index)}`],
     bundle: true,
@@ -48,7 +32,7 @@ const import$ = async app => {
   });
   await to.file.create();
   await Promise.all(Object.values(imports).map(async value =>
-    to.join(value).file.write(await to_path(base.concat(value)).text())));
+    to.join(value).file.write(await to_path($base.concat(value)).text())));
 
   app.importmaps = {
     ...app.importmaps,
@@ -56,24 +40,15 @@ const import$ = async app => {
   };
 };
 
-const filename = `${rootname}.js`;
 const type = "module";
 
-const load = async path =>
-  tryreturn(async () => (await import(`${path}.js`)).default)
-    .orelse(error => {console.log(error); return errors.MissingComponent.throw(path.name, path);});
-
-const make_component = base => async (name, props) =>
-  ({name, component: await load(base.join(name)), props});
-
-const handler = (name, props = {}, {status = Status.OK, page} = {}) =>
+const handler = config => (name, props = {}, {status = Status.OK, page} = {}) =>
   async (app, {layouts = [], as_layout} = {}, request) => {
+    const {make, root} = config;
     const options = {
       liveview: app.liveview !== undefined,
     };
     const {headers} = request;
-    const {paths} = app.build;
-    const make = make_component(paths.server.join(app.config.paths.components));
     if (as_layout) {
       return make(name, props);
     }
@@ -94,7 +69,6 @@ const handler = (name, props = {}, {status = Status.OK, page} = {}) =>
       });
     }
 
-    const root = paths.server.join(filename);
     const imported = (await import(root)).default;
     const body = render(imported, {
       components: components.map(({component}) => component),
@@ -113,97 +87,54 @@ const handler = (name, props = {}, {status = Status.OK, page} = {}) =>
     });
   };
 
-const options = {
-  loader: "jsx",
-  jsx: "automatic",
-};
-
 export default ({
+  directory,
   dynamicProps = "data",
   extension = "jsx",
 } = {}) => {
-  const env = {};
-  const copy_re = new RegExp(`^.*.(?:${extension})$`, "u");
-  const collect_re = new RegExp(`^.*.${extension}$`, "u");
-  const extensions = {
-    from: `.${extension}`,
-    to: `.${extension}.js`,
-  };
+  // server and client side compile the same files
+  const options = {loader: "jsx", jsx: "automatic"};
 
   return {
     name: "primate:react",
-    init(app, next) {
-      env.source = app.build.paths.components;
-      return next(app);
-    },
     register(app, next) {
-      app.register(extension, handler);
+      app.register(extension, handler(base.register({app, rootname})));
+
       return next(app);
     },
     async compile(app, next) {
-      // copy components to build/components
-      await app.copy(app.paths.components, env.source, copy_re);
-      const components = await env.source.collect(collect_re);
-      const target = app.build.paths.server.join(app.config.paths.components);
-      await target.file.create();
-
-      await Promise.all(components.map(async component => {
-        const file = await component.file.read();
-        const {code} = await esbuild.transform(file, options);
-        const to = target.join(`${component.path}.js`.replace(env.source, ""));
-        await to.directory.file.create();
-        await to.file.write(code.replaceAll(extensions.from, extensions.to));
-      }));
-
-      const root = create_root(app.layout.depth, dynamicProps);
-      // already written in compiled form
-      const to = app.build.paths.server.join(filename);
-      await to.file.write(root);
+      await base.compile({
+        app,
+        directory: directory ?? app.config.location.components,
+        extension,
+        rootname,
+        create_root,
+        dynamicProps,
+        async compile(code) {
+          return (await esbuild.transform(code, options)).code;
+        },
+      });
 
       return next(app);
     },
     async publish(app, next) {
       // import libs
       await import$(app);
-
-      // create client components
-      const components = await env.source.collect(collect_re);
-
-      await Promise.all(components.map(async component => {
-        const name = component.path.replace(`${env.source}/`, _ => "");
-        const file = await component.file.read();
-        const {code} = await esbuild.transform(file, options);
-        const build = app.config.paths.components;
-        const {path} = component;
-        const file_string = `./${build}/${name}`;
-
-        {
-          const src = `${path}.js`.replace(`${env.source}`, _ => build);
-          await app.publish({
-            src,
-            code: code.replaceAll(extensions.from, extensions.to),
-            type,
-          });
-
-          const imported = await normalize(name);
-          app.export({
-            type: "script",
-            code: `export {default as ${imported}} from "${file_string}.js";\n`,
-          });
-        }
-      }));
-
+      // export hydration code
       app.export({type: "script", code: hydrate});
 
-      {
-        const code = create_root(app.layout.depth, dynamicProps);
-        const src = new Path(app.config.http.static.root, filename);
-        await app.publish({src, code, type});
-      }
-      {
-        const code = `export {default as ${rootname}} from "./${filename}";\n`;
-        app.export({type: "script", code});
-      }
+      await base.publish({
+        app,
+        directory: directory ?? app.config.location.components,
+        extension,
+        rootname,
+        create_root,
+        dynamicProps,
+        normalize,
+        async compile(code) {
+          return {js: (await esbuild.transform(code, options)).code};
+        },
+      });
 
       return next(app);
     },

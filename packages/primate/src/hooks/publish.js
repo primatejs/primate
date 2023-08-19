@@ -3,12 +3,11 @@ import {cascade} from "runtime-compat/async";
 import copy_includes from "./copy_includes.js";
 
 const post = async app => {
-  const {build: {paths: {client}}, config, paths} = app;
-  const {root} = config.http.static;
-  const {build} = config;
+  const {config: {location, http: {static: {root}}}, path} = app;
+
   {
     // after hook, publish a zero assumptions app.js (no css imports)
-    const src = new Path(root, build.index);
+    const src = new Path(root, app.config.build.index);
 
     await app.publish({
       code: app.exports.filter(({type}) => type === "script")
@@ -17,9 +16,11 @@ const post = async app => {
       type: "module",
     });
 
-    if (await paths.components.exists) {
-      // copy .js files from components to build/client/components
-      await app.copy(paths.components, client.join(config.paths.components));
+    if (await path.components.exists) {
+      // copy .js files from components to build/client, since frontend
+      // frameworks handle non-js files
+      const to = Path.join(location.client, location.components);
+      await app.stage(path.components, to, /^.*.js$/u);
     }
 
     const imports = {...app.importmaps, app: src.path};
@@ -30,27 +31,28 @@ const post = async app => {
     });
   }
 
-  if (await paths.static.exists) {
+  if (await path.static.exists) {
     // copy static files to build/static
-    await app.transcopy(await paths.static.collect());
+    await app.stage(path.static, location.static);
 
     // publish JavaScript and CSS files
-    const imports = await Path.collect(paths.static, /\.(?:js|css)$/u);
+    const imports = await Path.collect(path.static, /\.(?:js|css)$/u);
     await Promise.all(imports.map(async file => {
       const code = await file.text();
       const src = `/${file.name}`;
       const type = file.extension === ".css" ? "style" : "module";
-      // already copied in `app.transcopy`
+      // already copied in `app.stage`
       await app.publish({src, code, type, copy: false});
       type === "style" && app.export({type,
-        code: `import "../${config.paths.static}${src}";`});
+        code: `import "../${location.static}${src}";`});
     }));
   }
 
   // copy additional subdirectories to build/client
-  await copy_includes(app, "client", async to =>
+  const client = app.runpath(location.client);
+  await copy_includes(app, location.client, async to =>
     Promise.all((await to.collect(/\.js$/u)).map(async script => {
-      const src = new Path(root, script.path.replace(`${client}`, () => ""));
+      const src = new Path(root, script.path.replace(client, _ => ""));
       await app.publish({src, code: await script.text(), type: "module"});
     }))
   );

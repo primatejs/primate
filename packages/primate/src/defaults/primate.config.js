@@ -28,18 +28,26 @@ export default {
       root: "/",
     },
   },
-  paths: {
-    build: "build",
+  location: {
+    // renderable components
     components: "components",
+    // HTML pages
     pages: "pages",
+    // hierarchical routes
     routes: "routes",
+    // static assets
     static: "static",
+    // runtime types
     types: "types",
+    // build environment
+    build: "build",
+    // client build
+    client: "client",
+    // server build
+    server: "server",
   },
   build: {
-    includes: [],
-    app: "app",
-    modules: "modules",
+    includes: ["test"],
     index: "index.js",
     transform: {
       files: [],

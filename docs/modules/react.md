@@ -63,6 +63,12 @@ as the `data` property of its props.
 
 ## Configuration options
 
+### directory
+
+Default `config.location.components`
+
+Directory where the React JSX components reside.
+
 ### dynamicProps
 
 Default `"data"`

@@ -9,7 +9,7 @@ const {NoFileForPath} = _errors;
 const guardError = Symbol("guardError");
 
 export default app => {
-  const {config: {http: {static: {root}}, build}, paths} = app;
+  const {config: {http: {static: {root}}}, location} = app;
 
   const as_route = async request => {
     const {pathname} = request.url;
@@ -18,7 +18,7 @@ export default app => {
 
     return tryreturn(async _ => {
       const {path, guards, errors, layouts, handler} = invalid(pathname)
-        ? NoFileForPath.throw(pathname, paths.static)
+        ? NoFileForPath.throw(pathname, location.static)
         : await app.route(request);
       errorHandler = errors?.at(-1);
 
@@ -64,13 +64,13 @@ export default app => {
     },
   });
 
+  const client = app.runpath(app.config.location.client);
   const handle = async request => {
     const {pathname} = request.url;
     if (pathname.startsWith(root)) {
       const debased = pathname.replace(root, _ => "");
-      const {client} = app.build.paths;
       // try static first
-      const asset = app.paths.build.join(app.config.paths.static, debased);
+      const asset = app.path.build.join(app.config.location.static, debased);
       if (await asset.isFile) {
         return as_asset(asset.file);
       }

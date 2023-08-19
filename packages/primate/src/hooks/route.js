@@ -13,7 +13,7 @@ const deroot = pathname => pathname.endsWith("/") && pathname !== "/"
     ? pathname.slice(0, -1) : pathname;
 
 export default app => {
-  const {types, routes, config: {explicit, paths}} = app;
+  const {types, routes, config: {types: {explicit}, location}} = app;
 
   const isType = (groups, pathname) => Object
     .entries(groups ?? {})
@@ -33,7 +33,7 @@ export default app => {
   const find = (method, pathname) => routes.find(route =>
     isMethod({route, method, pathname}));
 
-  const index = path => `${paths.routes}${path === "/" ? "/index" : path}`;
+  const index = path => `${location.routes}${path === "/" ? "/index" : path}`;
 
   return ({original: {method}, url}) => {
     const pathname = deroot(url.pathname);
