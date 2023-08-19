@@ -47,7 +47,7 @@ export default {
     server: "server",
   },
   build: {
-    includes: ["test"],
+    includes: [],
     index: "index.js",
     transform: {
       files: [],
