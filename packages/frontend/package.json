@@ -1,7 +1,7 @@
 {
   "name": "@primate/frontend",
-  "version": "0.1.0",
-  "description": "Primate frontend common code",
+  "version": "0.1.1",
+  "description": "Primate frontend code",
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
   "files": [
