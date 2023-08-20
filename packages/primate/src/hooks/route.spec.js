@@ -19,7 +19,7 @@ const id = name => (value, property) => {
 
 const app = {
   config: {
-    path: {
+    location: {
       routes: "/routes",
     },
     types: {
@@ -41,7 +41,7 @@ const app = {
     "users/{_userId}/comments/{commentId}/d",
     "users/{_userId}/comments/{_commentId}/e",
     "comments2/{_commentId}",
-    "users2/{_userId}/{commentId}",
+    "users2/{_userId}/{_commentId}",
     "users3/{_userId}/{_commentId=_commentId}",
     "users4/{_userId}/{_commentId}",
     "users5/{n}",
@@ -133,46 +133,46 @@ export default test => {
   });
   test.case("params", ({path, typefail}) => {
     path("/users/1/comments/2", {userId: "1", commentId: "2"});
-    path("/users/1/comments/2/b", {userId: "1", commentId: "2"});
-    typefail("/users/d/comments/2/b", "`user` not numeric");
-    typefail("/users/1/comments/d/b", "`comment` not numeric");
-    typefail("/users/d/comments/d/b", "`user` not numeric");
+    path("/users/1/comments/2/b", {userId: 1, commentId: 2});
+    typefail("/users/d/comments/2/b", "`userId` not numeric");
+    typefail("/users/1/comments/d/b", "`commentId` not numeric");
+    typefail("/users/d/comments/d/b", "`userId` not numeric");
   });
   test.case("single typed param", ({path, fail, typefail}) => {
-    path("/comments/1", {commentId: "1"});
+    path("/comments/1", {commentId: 1});
     fail("/comments/ ", "/comments");
-    typefail("/comments/1d", "`comment` not numeric");
+    typefail("/comments/1d", "`commentId` not numeric");
   });
   test.case("mixed untyped and typed params", ({path, typefail}) => {
-    path("/users/1/comments/2/a", {userId: "1", commentId: "2"});
-    typefail("/users/d/comments/2/a", "`user` not numeric");
+    path("/users/1/comments/2/a", {userId: 1, commentId: "2"});
+    typefail("/users/d/comments/2/a", "`userId` not numeric");
   });
   test.case("single implicit typed param", ({path, typefail}) => {
-    path("/comments2/1", {_commentId: "1"});
+    path("/comments2/1", {_commentId: 1});
     typefail("/comments2/d", "`_commentId` not numeric");
   });
   test.case("mixed implicit and untyped params", ({path, typefail, fail}) => {
-    path("/users2/1/2", {_userId: "1", commentId: "2"});
+    path("/users2/1/2", {_userId: 1, _commentId: 2});
     typefail("/users2/d/2", "`_userId` not numeric");
     fail("/users2/d");
   });
   test.case("mixed implicit and explicit params", ({path, typefail, fail}) => {
-    path("/users3/1/2", {_userId: "1", _commentId: "2"});
+    path("/users3/1/2", {_userId: 1, _commentId: 2});
     typefail("/users3/d/2", "`_userId` not numeric");
     typefail("/users3/1/d", "`_commentId` not numeric");
     fail("/users3");
   });
   test.case("implicit params", ({path, typefail, fail}) => {
-    path("/users4/1/2", {_userId: "1", _commentId: "2"});
+    path("/users4/1/2", {_userId: 1, _commentId: 2});
     typefail("/users4/d/2", "`_userId` not numeric");
     typefail("/users4/1/d", "`_commentId` not numeric");
     fail("/users4");
   });
   test.case("fail not strictly true implicit params", ({path, typefail}) => {
     typefail("/users5/any", "`n` not numeric");
-    path("/users5/1", {n: "1"});
+    path("/users5/1", {n: 1});
     typefail("/users6/any", "`nv` not numeric");
-    path("/users6/1", {nv: "1"});
+    path("/users6/1", {nv: 1});
   });
   test.case("different case params", ({path, typefail}) => {
     path("/id/Id/ID", {id: "id", Id: "Id", ID: "ID"});
