@@ -33,12 +33,12 @@ export default app => {
     .map(([[name, type], value]) =>
       tryreturn(_ => [name, validate(types[type], value, name)])
         .orelse(({message}) => errors.MismatchedPath.throw(pathname, message)));
-  const get_path = ({route, pathname}) => {
+  const is_path = ({route, pathname}) => {
     const result = route.pathname.exec(pathname);
-    return result === null ? false : from(is_type(result.groups, pathname));
+    return result === null ? false : is_type(result.groups, pathname);
   };
   const is_method = ({route, method, pathname}) => ieq(route.method, method)
-    && get_path({route, pathname});
+    && is_path({route, pathname});
   const find = (method, pathname) => routes.find(route =>
     is_method({route, method, pathname}));
 
