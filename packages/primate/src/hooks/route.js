@@ -1,4 +1,4 @@
-import {keymap} from "runtime-compat/object";
+import {keymap, from} from "runtime-compat/object";
 import {tryreturn} from "runtime-compat/sync";
 import errors from "../errors.js";
 import validate from "../validate.js";
@@ -15,23 +15,23 @@ const deroot = pathname => pathname.endsWith("/") && pathname !== "/"
 export default app => {
   const {types, routes, config: {types: {explicit}, location}} = app;
 
-  const isType = (groups, pathname) => Object
+  const is_type = (groups, pathname) => Object
     .entries(groups ?? {})
     .map(([name, value]) =>
       [types[name] === undefined || explicit ? name : `${name}$${name}`, value])
     .filter(([name]) => name.includes("$"))
-    .map(([name, value]) => [name.split("$")[1], value])
-    .every(([name, value]) =>
-      tryreturn(_ => validate(types[name], value, name))
+    .map(([name, value]) => [name.split("$"), value])
+    .map(([[name, type], value]) =>
+      tryreturn(_ => [name, validate(types[type], value, name)])
         .orelse(({message}) => errors.MismatchedPath.throw(pathname, message)));
-  const isPath = ({route, pathname}) => {
+  const is_path = ({route, pathname}) => {
     const result = route.pathname.exec(pathname);
-    return result === null ? false : isType(result.groups, pathname);
+    return result === null ? false : from(is_type(result.groups, pathname));
   };
-  const isMethod = ({route, method, pathname}) => ieq(route.method, method)
-    && isPath({route, pathname});
+  const is_method = ({route, method, pathname}) => ieq(route.method, method)
+    && is_path({route, pathname});
   const find = (method, pathname) => routes.find(route =>
-    isMethod({route, method, pathname}));
+    is_method({route, method, pathname}));
 
   const index = path => `${location.routes}${path === "/" ? "/index" : path}`;
 

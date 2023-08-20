@@ -6,15 +6,13 @@ import {is} from "runtime-compat/dyndef";
 import {transform, valmap} from "runtime-compat/object";
 import errors from "./errors.js";
 import {print} from "./Logger.js";
-import dispatch$ from "./dispatch.js";
+import dispatch from "./dispatch.js";
 import toSorted from "./toSorted.js";
 import * as handlers from "./handlers/exports.js";
-import * as hooks from "./hooks/exports.js";
 import * as loaders from "./loaders/exports.js";
 
 const {DoubleFileExtension} = errors;
 
-const base = new Path(import.meta.url).up(1);
 // do not hard-depend on node
 const packager = import.meta.runtime?.packager ?? "package.json";
 const library = import.meta.runtime?.library ?? "node_modules";
@@ -32,6 +30,8 @@ const attribute = attributes => Object.keys(attributes).length > 0
   : "";
 const tag = ({name, attributes = {}, code = "", close = true}) =>
   `<${name}${attribute(attributes)}${close ? `>${code}</${name}>` : "/>"}`;
+
+const base = new Path(import.meta.url).up(1);
 
 export default async (log, root, config) => {
   const {http} = config;
@@ -51,10 +51,9 @@ export default async (log, root, config) => {
   const types = await loaders.types(log, path.types);
   const error = await path.routes.join("+error.js");
   const routes = await loaders.routes(log, path.routes);
-  const dispatch = dispatch$(types);
   const modules = await loaders.modules(log, root, config);
 
-  const app = {
+  return {
     config,
     secure,
     name,
@@ -74,8 +73,7 @@ export default async (log, root, config) => {
     layout: {
       depth: Math.max(...routes.map(({layouts}) => layouts.length)) + 1,
     },
-    dispatch,
-    parse: hooks.parse(dispatch),
+    dispatch: dispatch(types),
     modules,
     packager,
     library,
@@ -201,6 +199,4 @@ export default async (log, root, config) => {
         ...this.importmaps};
     },
   };
-
-  return {...app, route: hooks.route(app)};
 };

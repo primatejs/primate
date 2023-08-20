@@ -11,6 +11,9 @@ export default async (app$, deactivated = []) => {
       return next(await hooks[hook](input));
     }))(app$);
 
+  app.route = hooks.route(app);
+  app.parse = hooks.parse(app.dispatch);
+
   const server = await serve(async request =>
     tryreturn(async _ => hooks.handle(app)(await app.parse(request)))
       .orelse(error => {
