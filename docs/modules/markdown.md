@@ -1,4 +1,4 @@
-# Solid
+# Markdown
 
 This handler module serves Markdown components with the `md` extension.
 
