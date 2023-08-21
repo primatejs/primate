@@ -16,7 +16,7 @@
     "directory": "packages/vue"
   },
   "dependencies": {
-    "@primate/frontend": "^0.1.1",
+    "@primate/frontend": "^0.1.2",
     "runtime-compat": "^0.25.4",
     "vue": "^3.3.4"
   },

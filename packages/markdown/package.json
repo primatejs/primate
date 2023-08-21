@@ -16,8 +16,8 @@
     "directory": "packages/markdown"
   },
   "dependencies": {
-    "marked": "^7.0.2",
-    "runtime-compat": "^0.25.1"
+    "marked": "^7.0.4",
+    "runtime-compat": "^0.25.4"
   },
   "peerDependencies": {
     "primate": "0.21"

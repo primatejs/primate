@@ -16,8 +16,8 @@
     "directory": "packages/svelte"
   },
   "dependencies": {
-    "@primate/frontend": "^0.1.0",
-    "runtime-compat": "^0.25.1",
+    "@primate/frontend": "^0.1.2",
+    "runtime-compat": "^0.25.4",
     "svelte": "^4.2.0"
   },
   "peerDependencies": {
