@@ -1,3 +1,5 @@
+
+
 {
   "module": "primate",
   "errors": {
@@ -63,12 +65,12 @@
     },
     "MismatchedPath": {
       "message": "mismatched path {0}: {1}",
-      "fix": "if unintentional, fix the type or the caller",
+      "fix": "fix the type or the caller",
       "level": "Info"
     },
     "MismatchedType": {
       "message": "mismatched type: {0}",
-      "fix": "if unintentional, fix the type or the caller",
+      "fix": "fix the type or the caller",
       "level": "Info"
     },
     "ModuleHasNoHooks": {
@@ -93,7 +95,7 @@
     },
     "NoFileForPath": {
       "message": "no file for {0}",
-      "fix": "if unintentional create a file at {1}{0}",
+      "fix": "create a file at {1}{0}",
       "level": "Info"
     },
     "NoHandlerForExtension": {
@@ -103,7 +105,7 @@
     },
     "NoRouteToPath": {
       "message": "no {0} route to {1}",
-      "fix": "if unintentional create a {3} route function at {2}.js",
+      "fix": "create a {0} route function at {2}.js",
       "level": "Info"
     },
     "ReservedTypeName": {

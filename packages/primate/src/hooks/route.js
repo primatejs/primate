@@ -47,7 +47,7 @@ export default app => {
   return ({original: {method}, url}) => {
     const pathname = deroot(url.pathname);
     const route = find(method, pathname) ?? errors.NoRouteToPath
-      .throw(method, pathname, index(pathname), method.toLowerCase());
+      .throw(method.toLowerCase(), pathname, index(pathname));
     return {...route, path: to_path(route, pathname)};
   };
 };
