@@ -7,7 +7,7 @@ import {transform, valmap} from "runtime-compat/object";
 import errors from "./errors.js";
 import {print} from "./Logger.js";
 import dispatch from "./dispatch.js";
-import toSorted from "./toSorted.js";
+import to_sorted from "./to_sorted.js";
 import * as handlers from "./handlers/exports.js";
 import * as loaders from "./loaders/exports.js";
 
@@ -133,7 +133,7 @@ export default async (log, root, config) => {
         ? tag({name: "style", code})
         : tag({name: "link", attributes: {rel, href}, close: false});
 
-      const heads = head.concat("\n", toSorted(this.assets,
+      const heads = head.concat("\n", to_sorted(this.assets,
         ({type}) => -1 * (type === "importmap"))
         .map(({src, code, type, inline, integrity}) =>
           type === "style"

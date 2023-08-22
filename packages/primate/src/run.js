@@ -10,7 +10,7 @@ import defaults from "./defaults/primate.config.js";
 let logger = new Logger({level: Logger.Warn});
 const {runtime = "node"} = import.meta;
 
-const getConfig = async root => {
+const get_config = async root => {
   const name = "primate.config.js";
   const config = root.join(name);
   return await config.exists
@@ -29,7 +29,7 @@ const getConfig = async root => {
 export default async name => tryreturn(async _ => {
   // use module root if possible, fall back to current directory
   const root = await tryreturn(_ => Path.root()).orelse(_ => Path.resolve());
-  const config = await getConfig(root);
+  const config = await get_config(root);
   logger = new Logger(config.logger);
   await command(name)(await app(logger, root, config));
 }).orelse(error => {

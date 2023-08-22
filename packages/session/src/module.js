@@ -5,7 +5,7 @@ const cookie = (name, value, {path, secure, sameSite}) =>
   `${name}=${value};HttpOnly;Path=${path};${secure};SameSite=${sameSite}`;
 
 // gets a cookie id and returns it if exists, otherwise generates a new one
-const inMemorySessionManager = () => {
+const in_memory_session_manager = () => {
   const store = new Map();
   return id => ({
     id,
@@ -40,7 +40,7 @@ export default ({
   name = "sessionId",
   sameSite = "Strict",
   path = "/",
-  manager = inMemorySessionManager(),
+  manager = in_memory_session_manager(),
   implicit = false,
 } = {}) => {
   is(name).string();

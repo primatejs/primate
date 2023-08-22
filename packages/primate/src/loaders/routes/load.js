@@ -1,12 +1,12 @@
 import {Path} from "runtime-compat/fs";
 import errors from "../../errors.js";
-import toSorted from "../../toSorted.js";
+import to_sorted from "../../to_sorted.js";
 
 export default type => async (log, directory, load) => {
   const filter = path => new RegExp(`^\\+${type}.js$`, "u").test(path.name);
 
   const replace = new RegExp(`\\+${type}`, "u");
-  const objects = toSorted((await load({log, directory, filter, warn: false}))
+  const objects = to_sorted((await load({log, directory, filter, warn: false}))
     .map(([name, object]) => [name.replace(replace, () => ""), object]),
   ([a], [b]) => a.length - b.length);
 

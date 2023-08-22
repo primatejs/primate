@@ -9,7 +9,7 @@ import primary from "./primary.js";
 const last = -1;
 const ending = -3;
 
-const openStores = (stores, defaults) =>
+const open_stores = (stores, defaults) =>
   stores.map(([name, module]) =>
     [name, wrap(module.name, module.schema, {
       ...map(defaults, ([key, value]) => [key, module[key] ?? value]),
@@ -17,8 +17,8 @@ const openStores = (stores, defaults) =>
     })]
   );
 
-const makeTransaction = (env) => {
-  const stores = openStores(env.stores, env.defaults);
+const make_transaction = (env) => {
+  const stores = open_stores(env.stores, env.defaults);
 
   const drivers = [...new Set(stores.map(([, store]) => store.driver)).keys()];
   return {
@@ -112,7 +112,7 @@ export default ({
       if (!enabled) {
         return next(request);
       }
-      const {id, transaction, store} = makeTransaction(env);
+      const {id, transaction, store} = make_transaction(env);
       await transaction.start();
       try {
         const response = await next({...request, transaction, store});
