@@ -115,13 +115,12 @@ export default updater => {
     const {target} = event;
     const {enctype} = target;
     const action = target.action ?? global.location.pathname;
-    const method = target.getAttribute("method") ?? "get";
     const url = new URL(action);
     const to = url.pathname;
     const data = new FormData(target);
     const form = enctype === MULTIPART_FORM_DATA
       ? data
       : new URLSearchParams(data);
-    await submit(to, form, method, updater);
+    await submit(to, form, target.method, updater);
   });
 };
