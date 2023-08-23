@@ -4,6 +4,7 @@ import {File, Path} from "runtime-compat/fs";
 import {bold, blue} from "runtime-compat/colors";
 import {is} from "runtime-compat/dyndef";
 import {transform, valmap} from "runtime-compat/object";
+import {globify} from "runtime-compat/string";
 import errors from "./errors.js";
 import {print} from "./Logger.js";
 import dispatch from "./dispatch.js";
@@ -79,17 +80,19 @@ export default async (log, root, config) => {
     library,
     // copy files to build folder, potentially transforming them
     async stage(source, directory, filter) {
-      const {files, mapper} = this.config.build.transform;
-      is(files).array();
+      const {paths, mapper} = this.config.build.transform;
+      is(paths).array();
       is(mapper).function();
 
+      const regexs = paths.map(file => globify(file));
       const target = this.runpath(directory);
+
       await Promise.all((await source.collect(filter)).map(async path => {
         const filename = new Path(directory).join(path.debase(source));
         const to = await target.join(filename.debase(directory));
         await to.directory.file.create();
-        if (files.includes(`${filename}`)) {
-          const contents = mapper(await path.file.read());
+        if (regexs.some(regex => regex.test(filename))) {
+          const contents = mapper(await path.text());
           await to.file.write(contents);
         } else {
           await path.file.copy(to);

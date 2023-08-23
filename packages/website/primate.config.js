@@ -59,7 +59,7 @@ export default {
           "Solid",
           "Vue",
           "HTMX",
-          "Markdown",
+          // "Markdown",
           {heading: "Data"},
           "Types",
           "Store",

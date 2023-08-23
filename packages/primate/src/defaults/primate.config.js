@@ -50,7 +50,7 @@ export default {
     includes: [],
     index: "index.js",
     transform: {
-      files: [],
+      paths: [],
       mapper: identity,
     },
   },

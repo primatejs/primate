@@ -1,7 +1,7 @@
 # Configuration
 
-Primate is a zero-configuration framework and can be used without creating a
-custom configuration. In most cases the defaults can be used as is.
+Primate is a zero-configuration framework and can be used without a custom
+configuration. In most cases the defaults can be left as is.
 
 ## primate.config.js
 
@@ -54,7 +54,7 @@ export default {
     includes: [],
     index: "index.js",
     transform: {
-      files: [],
+      paths: [],
       mapper: identity,
     },
   },
@@ -64,13 +64,13 @@ export default {
 };
 ```
 
-In case you want to make adjustments to the defaults, create a
-`primate.config.js` file in your project root. Primate will read it and merge
-any overrides with the default configuration.
+In case you want to override the defaults, create a `primate.config.js` file
+in your project root. Primate will read it and merge any overrides with the
+default configuration.
 
 To illustrate this, if you wanted to change the default logging level to
 `Info` instead of `Warn` and the HTTP port to `6262` you would create a
-`primate.config.js` with the following changes.
+`primate.config.js` in your project root with the following overrides.
 
 ```js caption=custom configuration
 import {Logger} from "primate";
@@ -133,7 +133,7 @@ export default {
     includes: [],
     index: "index.js",
     transform: {
-      files: [],
+      paths: [],
       mapper: identity,
     },
   },
@@ -159,8 +159,8 @@ This is used in CSP paths.
 Default `[]`
 
 Instantiated modules. The order of loading modules affects the order in which
-their hooks will be evaluated, and modules can depend on each using implicit or
-explicit [load hooks][hooks-load].
+their hooks will be evaluated, and modules can depend on each using
+[load hooks][hooks-load].
 
 ## Page options
 
@@ -182,8 +182,8 @@ Name of the default error HTML page located in `location.pages`. If
 
 ## Logging options
 
-For more info on logging, refer to the 
-[Logging in Primate](/guide/logging) section.
+For more info on logging, refer to the [Logging in Primate](/guide/logging)
+section.
 
 ### logger.level
 
@@ -337,12 +337,13 @@ Default `"index.js"`
 
 Filename of the index JavaScript file used to export all components.
 
-### build.transform.files
+### build.transform.paths
 
 Default `[]`
 
-A list of files in be transformed at runtime, using their path from project
-root.
+A list of paths for which the contents are to be transformed at runtime before
+being copied to the [build directory][#location-build]. Relative paths will be
+relative to project root. Glob patterns are supported.
 
 ### build.transform.mapper
 
