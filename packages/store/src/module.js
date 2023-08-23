@@ -55,7 +55,6 @@ export default ({
   return {
     name: "primate:store",
     async init(app, next) {
-      console.log("TEST");
       try {
         env.log = app.log;
 
