@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@primate/frontend": "^0.1.2",
-    "runtime-compat": "^0.25.4",
+    "runtime-compat": "^0.25.7",
     "vue": "^3.3.4"
   },
   "peerDependencies": {

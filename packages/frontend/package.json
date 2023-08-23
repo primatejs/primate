@@ -15,7 +15,7 @@
     "directory": "packages/frontend"
   },
   "dependencies": {
-    "runtime-compat": "^0.25.4"
+    "runtime-compat": "^0.25.7"
   },
   "peerDependencies": {
     "primate": "0.21"
