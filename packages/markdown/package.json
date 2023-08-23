@@ -1,6 +1,6 @@
 {
   "name": "@primate/markdown",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Primate Markdown module",
   "homepage": "https://primatejs.com/modules/markdown",
   "bugs": "https://github.com/primatejs/primate/issues",
@@ -20,7 +20,7 @@
     "runtime-compat": "^0.25.7"
   },
   "peerDependencies": {
-    "primate": "0.21"
+    "primate": "0.22"
   },
   "type": "module",
   "exports": "./src/exports.js"

@@ -1,6 +1,6 @@
 {
   "name": "@primate/solid",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Primate Solid module",
   "homepage": "https://primatejs.com/modules/solid",
   "bugs": "https://github.com/primatejs/primate/issues",
@@ -16,12 +16,13 @@
     "directory": "packages/solid"
   },
   "dependencies": {
+    "@primate/frontend": "^0.2.0",
     "babel-preset-solid": "^1.7.7",
     "runtime-compat": "^0.25.7",
     "solid-js": "^1.7.11"
   },
   "peerDependencies": {
-    "primate": "0.21"
+    "primate": "0.22"
   },
   "type": "module",
   "exports": "./src/exports.js"

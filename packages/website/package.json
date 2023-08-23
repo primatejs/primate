@@ -2,8 +2,8 @@
   "name": "@primate/website",
   "private": true,
   "dependencies": {
-    "primate": "^0.21.4",
-    "priss": "^0.18.10"
+    "primate": "^0.22.0",
+    "priss": "^0.19.0"
   },
   "scripts": {
     "local": "scripts/local.sh",

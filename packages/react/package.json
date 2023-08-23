@@ -1,6 +1,6 @@
 {
   "name": "@primate/react",
-  "version": "0.9.3",
+  "version": "0.10.0",
   "description": "Primate React module",
   "homepage": "https://primatejs.com/modules/react",
   "bugs": "https://github.com/primatejs/primate/issues",
@@ -16,13 +16,14 @@
     "directory": "packages/react"
   },
   "dependencies": {
+    "@primate/frontend": "^0.2.0",
     "esbuild": "^0.19.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "runtime-compat": "^0.25.7"
   },
   "peerDependencies": {
-    "primate": "0.21"
+    "primate": "0.22"
   },
   "type": "module",
   "exports": "./src/exports.js"

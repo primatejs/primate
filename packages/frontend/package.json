@@ -1,6 +1,6 @@
 {
   "name": "@primate/frontend",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Primate frontend code",
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
@@ -18,7 +18,7 @@
     "runtime-compat": "^0.25.7"
   },
   "peerDependencies": {
-    "primate": "0.21"
+    "primate": "0.22"
   },
   "type": "module",
   "exports": "./src/exports.js"
