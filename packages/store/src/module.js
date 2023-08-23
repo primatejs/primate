@@ -62,7 +62,7 @@ export default ({
         !await root.exists && errors.MissingStoreDirectory.throw(root);
         env.defaults = {
           // start driver
-          driver: (await driver)(),
+          driver: await (await driver)(),
           strict,
           readonly: false,
           ambiguous: false,
