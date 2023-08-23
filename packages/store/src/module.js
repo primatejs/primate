@@ -55,6 +55,7 @@ export default ({
   return {
     name: "primate:store",
     async init(app, next) {
+      console.log("TEST");
       try {
         env.log = app.log;
 
@@ -62,7 +63,7 @@ export default ({
         !await root.exists && errors.MissingStoreDirectory.throw(root);
         env.defaults = {
           // start driver
-          driver: await driver(),
+          driver: (await driver)(),
           strict,
           readonly: false,
           ambiguous: false,
