@@ -73,13 +73,6 @@ Default `undefined`
 An alternative handler. The default handler renders the compiled Markdown as
 HTML.
 
-### props
-
-Default `[]`
-
-Any dynamic props to replace when calling the `render` function of the compiled
-Markdown JS file.
-
 ## Resources
 
 * [Repository][repo]

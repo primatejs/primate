@@ -1,14 +1,19 @@
 import {Response, Status, MediaType} from "runtime-compat/http";
 import precompile from "./compile.js";
 
-const make_component = base => name => import(base.join(`${name}.js`));
+const respond = (handler, directory) => (...[name, ...rest]) => async app => {
+  const base = app.runpath(app.config.location.server, directory);
+  const content = await base.join(`${name}.html`).text();
+  const toc = await base.join(`${name}.json`).json();
 
-const respond = (handler, directory) => (...[name, ...rest]) => app =>
-  make_component(app.runpath(app.config.location.server, directory))(name)
-    .then(component => handler(component, ...rest));
+  return handler({
+    content,
+    toc,
+  }, ...rest);
+};
 
-const as_html = app => async (component, _, {status = Status.OK} = {}) =>
-  new Response(await app.render({body: component.render()}), {
+const as_html = app => async ({content}, _, {status = Status.OK} = {}) =>
+  new Response(await app.render({body: content}), {
     status,
     headers: {...await app.headers(), "Content-Type": MediaType.TEXT_HTML},
 });
@@ -18,7 +23,6 @@ export default ({
   extension = "md",
   options,
   handler,
-  props = [],
 } = {}) => {
   const env = {};
   const re = new RegExp(`^.*.(?:${extension})$`, "u");
@@ -49,7 +53,6 @@ export default ({
         app,
         directory: env.directory,
         options,
-        props,
       });
 
       await Promise.all(components.map(async component =>

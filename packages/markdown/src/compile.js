@@ -6,7 +6,6 @@ export default async ({
   app,
   directory,
   options,
-  props = [],
 }) => {
   const {location} = app.config;
   const monkeyed_heading = options?.renderer?.heading ?? identity_heading;
@@ -28,17 +27,13 @@ export default async ({
       ...options,
       renderer,
     });
+
     const content = marked.parse(input);
-    const code = `
-      export function toc() {
-        return JSON.parse(${JSON.stringify(JSON.stringify(toc))});
-      }
-      export function render(props = {}) {
-        ${props.map(prop => `const {${prop} = ""} = props;`).join("\n")}
-        return \`${content}\`;
-      }`;
-    const to = target.join(`${filename}.js`.replace(source, ""));
-    await to.directory.file.create();
-    await to.file.write(code);
+    const html = target.join(`${filename}.html`.replace(source, ""));
+    await html.directory.file.create();
+    await html.file.write(content);
+
+    const json = target.join(`${filename}.json`.replace(source, ""));
+    await json.file.write(JSON.stringify(toc));
   };
 };
