@@ -41,7 +41,7 @@ export default ({
     },
     async compile(app, next) {
       const {location} = app.config;
-      const source = app.runpath(directory);
+      const source = app.runpath(env.directory);
       // copy ${env.directory} to build/${env.directory}
       await app.stage(app.root.join(env.directory), env.directory, re);
 
