@@ -33,7 +33,7 @@ const post = async app => {
 
   if (await path.static.exists) {
     // copy static files to build/static
-    await app.stage(path.static, location.static);
+    await app.stage(path.static, new Path(location.client, location.static));
 
     // publish JavaScript and CSS files
     const imports = await Path.collect(path.static, /\.(?:js|css)$/u);
@@ -44,7 +44,7 @@ const post = async app => {
       // already copied in `app.stage`
       await app.publish({src, code, type, copy: false});
       type === "style" && app.export({type,
-        code: `import "../${location.static}${src}";`});
+        code: `import "../${location.client}/${location.static}${src}";`});
     }));
   }
 

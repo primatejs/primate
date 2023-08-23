@@ -23,15 +23,13 @@ export default () => ({
         bundle: true,
         minify: true,
         format: "esm",
-        outdir: `${app.path.build.join(location.static)}`,
+        outdir: `${client}`,
         logLevel: app.debug ? "warning" : "error",
         external: ["*.woff2", "*.png", "*.jpg"],
       });
       // remove unbundled client
-      await client.file.remove();
-      const re = new RegExp(`${location.static}/app-.*\\.(?:js|css)$`, "u");
-      for (const path of await app.path.build.join(location.static)
-        .collect(re, {recursive: false})) {
+      const re = new RegExp(`${location.client}/app-.*\\.(?:js|css)$`, "u");
+      for (const path of await client.collect(re, {recursive: false})) {
         const code = await path.text();
         const src = path.name;
         const type = path.extension === ".css" ? "style" : "module";

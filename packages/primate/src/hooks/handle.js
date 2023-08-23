@@ -9,7 +9,7 @@ const {NoFileForPath} = _errors;
 const guardError = Symbol("guardError");
 
 export default app => {
-  const {config: {http: {static: {root}}}, location} = app;
+  const {config: {http: {static: {root}}, location}} = app;
 
   const as_route = async request => {
     const {pathname} = request.url;
@@ -64,13 +64,13 @@ export default app => {
     },
   });
 
-  const client = app.runpath(app.config.location.client);
+  const client = app.runpath(location.client);
   const handle = async request => {
     const {pathname} = request.url;
     if (pathname.startsWith(root)) {
       const debased = pathname.replace(root, _ => "");
       // try static first
-      const asset = app.path.build.join(app.config.location.static, debased);
+      const asset = client.join(location.static, debased);
       if (await asset.isFile) {
         return as_asset(asset.file);
       }
