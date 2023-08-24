@@ -164,7 +164,7 @@ import markdown from "@primate/markdown";
 export default {
   modules: [
     markdown({
-      async handler({content, toc}) {
+      handler({content, toc}) {
         return (app, ...rest) =>
           app.handlers.svelte("Markdown.svelte", {content, toc})(app, ...rest);
       },
@@ -177,10 +177,9 @@ This allows you to circumvent the default Markdown handler and hand over the
 compiled HTML content and JSON table of contents to a dynamic component, in
 this case Svelte, for embedding.
 
-In addition to all of the above, you can also access the the Markdown
-compilation function directly as an export of `@primate/markdown`. This allows
-you to compile and serve Markdown content from a dynamic source (like a
-database).
+In addition to all of the above, you can also access the Markdown compilation
+function directly as an export of `@primate/markdown`. This allows you to
+compile and serve Markdown content from a dynamic source (like a database).
 
 ```js caption=routes/markdown/{page}.js
 import {view} from "primate";
@@ -237,7 +236,7 @@ export default {
 }
 ```
 
-The above code will replace every occurrence of `"%BASE"` in every Svelte
+The above code will replace every occurrence of `"%BASE%"` in every Svelte
 component under `components` and its subdirectories with `"/"` at build time.
 
 !!!
