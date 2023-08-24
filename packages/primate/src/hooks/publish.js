@@ -31,19 +31,19 @@ const post = async app => {
   }
 
   if (await path.static.exists) {
-    // copy static files to build/static
+    // copy static files to build/client/static
     await app.stage(path.static, new Path(location.client, location.static));
 
     // publish JavaScript and CSS files
     const imports = await Path.collect(path.static, /\.(?:js|css)$/u);
     await Promise.all(imports.map(async file => {
       const code = await file.text();
-      const src = `/${file.name}`;
+      const src = file.debase(path.static);
       const type = file.extension === ".css" ? "style" : "module";
       // already copied in `app.stage`
       await app.publish({src, code, type, copy: false});
       type === "style" && app.export({type,
-        code: `import "../${location.client}/${location.static}${src}";`});
+        code: `import "./${location.static}${src}";`});
     }));
   }
 
