@@ -2,12 +2,12 @@
   "name": "@primate/website",
   "private": true,
   "dependencies": {
-    "primate": "^0.22.0",
-    "priss": "^0.19.0"
+    "primate": "^0.22.3",
+    "priss": "^0.19.1"
   },
   "scripts": {
     "local": "scripts/local.sh",
-    "start": "npm i && npx primate"
+    "start": "npm i && npx primate serve"
   },
   "type": "module"
 }
