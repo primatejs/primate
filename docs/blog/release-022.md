@@ -200,30 +200,31 @@ export default {
 ```
 
 !!!
-The above example compiles the Markdown on every request without any form of 
-caching or checking for changes. Normally you would add a layer of
+The above example compiles the Markdown text on every request without any form
+of caching or checking for changes. Normally you would add a layer of
 on-disk-caching in such a scenario.
 !!!
 
 ## Full React support
 
-During this release cycle, we have added full support to the React handler,
-including hydration, layouts, and liveview. See the general
-[frontend frameworks](/modules/frameworks) page for more information.
+During this release cycle, we have moved to fully support the React handler,
+including hydration, layouts, and liveview. For more information see the
+[frontend frameworks](/modules/frameworks) overview page.
 
-This brings to 3 the number of frameworks we fully support: Svelte, React
+This brings to 3 the number of frameworks we completely support: Svelte, React
 and Solid.
 
 ## Build transformations
 
 We've added a new configuration option, `build.transform`, having two
-properties, `paths` and `mapper`. In `paths`, you specify a list of paths (glob
-patterns are supported) and `mapper`, you specify a mapping function that gets
-the original content and returns a transformed version of it. The mapper output
-is then copied onto the `config.location.build` directory.
+properties, `paths` and `mapper`. `paths` is a list of paths (glob patterns
+are supported) for which the transformation should apply, and `mapper` is a
+function that transforms the content of the files at the given paths. The
+output of this function for each file is then copied onto the
+`config.location.build` directory.
 
-This is useful if you have environment variables (secret keys, etc.) that you
-want to impart into different files in your build.
+This is useful if you have placeholders for environment variables that you want
+to replace in different files in your build.
 
 ```js
 export default {
