@@ -55,7 +55,7 @@ export default {
 If you then run Primate, your Markdown component should be served at
 `GET /about-us` as HTML.
 
-Unlike other frontend handler, the Markdown handler is not dynamic. Passing
+Unlike other frontend handlers, the Markdown handler is not dynamic. Passing
 props to it is meaningless. However, you can still use a different page with it
 by modifying the `page` property of the third (options) parameter.
 
@@ -74,7 +74,7 @@ The above route will serve the compiled Markdown component embedded into the
 
 Like other frontend handlers, you can change the directory from which Markdown
 components are loaded and the file extension associated with them by changing
-the module configuration at load.
+the module configuration.
 
 ```js caption=primate.config.js
 import markdown from "@primate/markdown";
