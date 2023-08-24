@@ -9,8 +9,9 @@ get an idea of the framework.
 
 ## New frontend handlers
 
-This release adds 2 new frontend handler, for Solid and Markdown. We've already
-written separately about [Solid in our last post](/blog/supporting-solid).
+This release adds 2 new frontend handlers, for Solid and Markdown. We've
+already written separately about
+[Solid in our last post](/blog/supporting-solid).
 
 In addition, support for Markdown (`.md`) files has been introduced with
 `@primate/markdown`. This frontend handler currently supports basic Markdown
