@@ -88,10 +88,11 @@ export default async (log, root, config) => {
       const target = this.runpath(directory);
 
       await Promise.all((await source.collect(filter)).map(async path => {
+        const debased = path.debase(this.root).path.slice(1);
         const filename = new Path(directory).join(path.debase(source));
         const to = await target.join(filename.debase(directory));
         await to.directory.file.create();
-        if (regexs.some(regex => regex.test(filename))) {
+        if (regexs.some(regex => regex.test(debased))) {
           const contents = mapper(await path.text());
           await to.file.write(contents);
         } else {

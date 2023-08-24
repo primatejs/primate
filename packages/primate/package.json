@@ -18,7 +18,7 @@
     "directory": "packages/primate"
   },
   "dependencies": {
-    "runtime-compat": "^0.25.7"
+    "runtime-compat": "^0.25.8"
   },
   "engines": {
     "node": ">=18.16"

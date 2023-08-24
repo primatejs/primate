@@ -1,5 +1,6 @@
 import {Path} from "runtime-compat/fs";
 import {cascade} from "runtime-compat/async";
+import {stringify} from "runtime-compat/object";
 import copy_includes from "./copy_includes.js";
 
 const post = async app => {
@@ -17,18 +18,16 @@ const post = async app => {
     });
 
     if (await path.components.exists) {
-      // copy .js files from components to build/client, since frontend
-      // frameworks handle non-js files
+      // copy .js files from components to build/client/components, since
+      // frontend frameworks handle non-js files
       const to = Path.join(location.client, location.components);
       await app.stage(path.components, to, /^.*.js$/u);
     }
 
     const imports = {...app.importmaps, app: src.path};
-    await app.publish({
-      inline: true,
-      code: JSON.stringify({imports}, null, 2),
-      type: "importmap",
-    });
+    const inline = true;
+    const type = "importmap";
+    await app.publish({inline, code: stringify({imports}), type});
   }
 
   if (await path.static.exists) {
