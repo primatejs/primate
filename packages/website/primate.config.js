@@ -72,7 +72,7 @@ export default {
         ],
       },
       github: "primatejs/primate",
-      twitter: "primatejs",
+      x: "primatejs",
       chat: "https://web.libera.chat/gamja#primate",
     }),
   })],
