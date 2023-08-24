@@ -192,7 +192,7 @@ export default {
     // this assumes you have a data store called Markdown
     const [markdown] = await request.store.Markdown.find({page});
 
-    const {content, toc} = compile(markdown);
+    const {content, toc} = compile(markdown.text);
 
     return view("Markdown.svelte", {content, toc});
   },
