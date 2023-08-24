@@ -3,15 +3,16 @@ import {confirm, select} from "../prompts.js";
 import store from "../store.js";
 import link from "../link.js";
 import dependencies from "../dependencies.js";
-import {none, svelte, react, solid, vue, htmx} from "../frameworks/exports.js";
+import * as framework from "../frameworks/exports.js";
 
 const labels = new Map([
-  [none, "None (HTML only)"],
-  [svelte, "Svelte"],
-  [react, "React"],
-  [solid, "Solid"],
-  [vue, "Vue"],
-  [htmx, "HTMX"],
+  [framework.none, "None (HTML only)"],
+  [framework.svelte, "Svelte"],
+  [framework.react, "React"],
+  [framework.solid, "Solid"],
+  [framework.vue, "Vue"],
+  [framework.htmx, "HTMX"],
+  [framework.markdown, "Markdown"],
 ]);
 
 const options = [...labels.entries()].map(([value, label]) => ({value, label}));

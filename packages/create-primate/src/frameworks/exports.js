@@ -4,3 +4,4 @@ export {default as react} from "./react.js";
 export {default as solid} from "./solid.js";
 export {default as vue} from "./vue.js";
 export {default as htmx} from "./htmx.js";
+export {default as markdown} from "./markdown.js";

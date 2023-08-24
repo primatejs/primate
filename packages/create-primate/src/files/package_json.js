@@ -1,7 +1,5 @@
+import {stringify} from "runtime-compat/object";
 import dependencies from "../dependencies.js";
-
-const space = 2;
-const stringify = contents => JSON.stringify(contents, undefined, space);
 
 export default async (root, config) => {
   const json = {
