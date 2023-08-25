@@ -18,7 +18,29 @@
     "runtime-compat": "^0.25.7"
   },
   "peerDependencies": {
+    "esbuild": "0.19",
+    "react": "18",
+    "react-dom": "18",
+    "marked": "7",
+    "htmx.org": "1.9",
     "primate": "0.22"
+  },
+  "peerDependenciesMeta": {
+    "htmx.org": {
+      "optional": true
+    },
+    "marked": {
+      "optional": true
+    },
+    "esbuild": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
   },
   "type": "module",
   "exports": "./src/exports.js"

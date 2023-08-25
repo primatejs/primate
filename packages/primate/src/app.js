@@ -12,7 +12,7 @@ import to_sorted from "./to_sorted.js";
 import * as handlers from "./handlers/exports.js";
 import * as loaders from "./loaders/exports.js";
 
-const {DoubleFileExtension, CannotFindModule} = errors;
+const {DoubleFileExtension, MissingDependencies} = errors;
 
 // do not hard-depend on node
 const packager = import.meta.runtime?.packager ?? "npm";
@@ -178,10 +178,17 @@ export default async (log, root, config) => {
       const prefix = algorithm.replace("-", _ => "");
       return `${prefix}-${btoa(String.fromCharCode(...new Uint8Array(bytes)))}`;
     },
-    async depend(module, from) {
-      const install = `${packager} install ${module}`;
-      return tryreturn(async () => (await import(module)).default)
-        .orelse(_ => CannotFindModule.throw(module, install, from));
+    async depend(module_s, from) {
+      const modules = Array.isArray(module_s) ? module_s : [module_s];
+      const results = await Promise.all(modules.map(module =>
+        tryreturn(_ => import(module)).orelse(_ => module)
+      ));
+      const errored = results.filter(result => typeof result === "string");
+      if (errored.length > 0) {
+        const install = module => `${packager} install ${module.join(" ")}`;
+        MissingDependencies.throw(errored.join(", "), from, install(errored));
+      }
+      return results.filter(result => typeof result !== "string");
     },
     async import(module) {
       const {http: {static: {root}}, location: {client}} = this.config;

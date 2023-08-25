@@ -1,11 +1,6 @@
 {
   "module": "primate",
   "errors": {
-    "CannotFindModule": {
-      "message": "cannot find {0} (imported from {2})",
-      "fix": "install module by issuing {1}",
-      "level": "Error"
-    },
     "CannotParseBody": {
       "message": "cannot parse body {0} as {1}",
       "fix": "use a different content type or fix body",
@@ -75,6 +70,11 @@
       "message": "mismatched type: {0}",
       "fix": "fix the type or the caller",
       "level": "Info"
+    },
+    "MissingDependencies": {
+      "message": "cannot find {0} (imported from {1})",
+      "fix": "install dependencies by issuing {2}",
+      "level": "Error"
     },
     "ModuleHasNoHooks": {
       "message": "module {0} has no hooks",

@@ -1,0 +1,1 @@
+export {marked} from "marked";
