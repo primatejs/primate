@@ -21,7 +21,7 @@
     "runtime-compat": "^0.25.9"
   },
   "engines": {
-    "node": ">=18.16"
+    "node": ">=18"
   },
   "type": "module",
   "exports": "./src/exports.js"
