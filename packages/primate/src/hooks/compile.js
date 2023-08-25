@@ -36,4 +36,5 @@ const pre = async app => {
   return app;
 };
 
-export default async app => cascade(app.modules.compile)(await pre(app));
+export default async app =>
+  (await cascade(app.modules.compile))(await pre(app));

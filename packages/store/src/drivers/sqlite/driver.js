@@ -1,6 +1,5 @@
 import {numeric} from "runtime-compat/dyndef";
 import {filter, keymap, valmap} from "runtime-compat/object";
-import load from "../load.js";
 import {ident} from "../base.js";
 
 const types = {
@@ -24,7 +23,7 @@ const types = {
 };
 const type = value => types[value];
 
-const filterNull = results =>
+const filter_null = results =>
   results.map(result => filter(result, ([, value]) => value !== null));
 
 const predicate = criteria => {
@@ -50,8 +49,8 @@ const change = delta => {
 export default ({
   /* filename to be used for storing the database, defaults to in-memory */
   filename = ":memory:",
-} = {}) => async () => {
-  const Driver = await load("better-sqlite3");
+} = {}) => async app => {
+  const Driver = await app.depend("better-sqlite3", "store:sqlite");
   const client = new Driver(filename, {});
 
   return {
@@ -136,7 +135,7 @@ export default ({
       const query = `select * from ${collection} ${where}`;
       const statement = client.prepare(query);
       statement.safeIntegers(true);
-      return filterNull(statement.all(bindings));
+      return filter_null(statement.all(bindings));
     },
     count(collection, criteria = {}) {
       const {where, bindings} = predicate(criteria);

@@ -1,6 +1,5 @@
 import {numeric} from "runtime-compat/dyndef";
 import {filter, valmap} from "runtime-compat/object";
-import load from "../load.js";
 import {ident} from "../base.js";
 
 const types = {
@@ -24,8 +23,8 @@ const types = {
 };
 const type = value => types[value];
 
-const filterNull = object => filter(object, ([, value]) => value !== null);
-const filterNulls = objects => objects.map(object => filterNull(object));
+const filter_null = object => filter(object, ([, value]) => value !== null);
+const filter_nulls = objects => objects.map(object => filter_null(object));
 
 export default ({
   host = "localhost",
@@ -33,8 +32,8 @@ export default ({
   db,
   user,
   pass,
-} = {}) => async () => {
-  const Driver = await load("postgres");
+} = {}) => async app => {
+  const Driver = await app.depend("postgres", "store:postgres");
   const sql = new Driver({
     host,
     port,
@@ -113,7 +112,7 @@ export default ({
       await sql`drop table if exists ${sql(collection)};`;
     },
     async find(collection, criteria = {}) {
-      return filterNulls(await sql`
+      return filter_nulls(await sql`
         select *
         from ${sql(collection)}
         where ${
@@ -139,7 +138,7 @@ export default ({
         from ${sql(collection)} 
         where ${sql(primary)}=${value};
       `;
-      return result === undefined ? result : filterNull(result);
+      return result === undefined ? result : filter_null(result);
     },
     async insert(collection, primary, document) {
       const columns = Object.keys(document);
@@ -152,7 +151,7 @@ export default ({
         }
         returning *;
       `;
-      return filterNull(result);
+      return filter_null(result);
     },
     async update(collection, criteria = {}, delta = {}) {
       return (await sql`

@@ -59,4 +59,5 @@ const post = async app => {
   return app;
 };
 
-export default async app => post(await cascade(app.modules.publish)(app));
+export default async app =>
+  post(await (await cascade(app.modules.publish))(app));

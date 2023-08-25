@@ -1,3 +1,3 @@
 import {cascade} from "runtime-compat/async";
 
-export default app => cascade(app.modules.register)(app);
+export default async app => (await cascade(app.modules.register))(app);

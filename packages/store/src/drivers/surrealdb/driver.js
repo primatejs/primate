@@ -1,8 +1,7 @@
 import {keymap, valmap} from "runtime-compat/object";
-import load from "../load.js";
 import {ident} from "../base.js";
 
-const nullToUndefined = delta =>
+const null_to_undefined = delta =>
   valmap(delta, value => value === null ? undefined : value);
 
 const predicate = criteria => {
@@ -33,8 +32,8 @@ export default ({
   db,
   user,
   pass,
-} = {}) => async () => {
-  const Driver = await load("surrealdb.js");
+} = {}) => async app => {
+  const Driver = await app.depend("surrealdb.js", "store:surrealdb");
   const client = new Driver(`${host}:${port}/${path}`);
   if (user !== undefined && pass !== undefined) {
     await client.signin({user, pass});
@@ -125,7 +124,7 @@ export default ({
     },
     async update(collection, criteria = {}, delta) {
       const {where, bindings} = predicate(criteria);
-      const {set, bindings: bindings2} = change(nullToUndefined(delta));
+      const {set, bindings: bindings2} = change(null_to_undefined(delta));
       const query = `update ${collection} ${set} ${where}`;
       const [{result}] = await client.query(query, {...bindings, ...bindings2});
       return result.length;

@@ -12,11 +12,13 @@ import to_sorted from "./to_sorted.js";
 import * as handlers from "./handlers/exports.js";
 import * as loaders from "./loaders/exports.js";
 
-const {DoubleFileExtension} = errors;
+const {DoubleFileExtension, CannotFindModule} = errors;
 
 // do not hard-depend on node
-const packager = import.meta.runtime?.packager ?? "package.json";
+const packager = import.meta.runtime?.packager ?? "npm";
+const manifest = import.meta.runtime?.manifest ?? "package.json";
 const library = import.meta.runtime?.library ?? "node_modules";
+const runtime = {packager, manifest, library};
 
 // use user-provided file or fall back to default
 const index = (base, page, fallback) =>
@@ -37,7 +39,7 @@ const base = new Path(import.meta.url).up(1);
 export default async (log, root, config) => {
   const {http} = config;
   const secure = http?.ssl !== undefined;
-  const {name, version} = await base.up(1).join(packager).json();
+  const {name, version} = await base.up(1).join(manifest).json();
   const path = valmap(config.location, value => root.join(value));
 
   const at = `at http${secure ? "s" : ""}://${http.host}:${http.port}\n`;
@@ -76,8 +78,7 @@ export default async (log, root, config) => {
     },
     dispatch: dispatch(types),
     modules,
-    packager,
-    library,
+    ...runtime,
     // copy files to build folder, potentially transforming them
     async stage(source, directory, filter) {
       const {paths, mapper} = this.config.build.transform;
@@ -177,12 +178,17 @@ export default async (log, root, config) => {
       const prefix = algorithm.replace("-", _ => "");
       return `${prefix}-${btoa(String.fromCharCode(...new Uint8Array(bytes)))}`;
     },
+    async depend(module, from) {
+      const install = `${packager} install ${module}`;
+      return tryreturn(async () => (await import(module)).default)
+        .orelse(_ => CannotFindModule.throw(module, install, from));
+    },
     async import(module) {
       const {http: {static: {root}}, location: {client}} = this.config;
 
       const parts = module.split("/");
       const path = [this.library, ...parts];
-      const pkg = await Path.resolve().join(...path, this.packager).json();
+      const pkg = await Path.resolve().join(...path, this.manifest).json();
       const exports = pkg.exports === undefined
         ? {[module]: `/${module}/${pkg.main}`}
         : transform(pkg.exports, entry => entry

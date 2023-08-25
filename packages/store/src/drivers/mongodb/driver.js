@@ -1,5 +1,4 @@
 import {filter} from "runtime-compat/object";
-import load from "../load.js";
 import {ident} from "../base.js";
 
 const toid = ({_id, ...rest}) => ({id: _id, ...rest});
@@ -7,7 +6,7 @@ const to_id = ({id, ...rest}) => id === undefined ? rest : {_id: id, ...rest};
 
 const cid = criteria => criteria.id === undefined ? criteria : to_id(criteria);
 
-const nullToSetUnset = delta => {
+const null_to_set_unset = delta => {
   const $set = filter(delta, ([, value]) => value !== null);
   const $unset = filter(delta, ([, value]) => value === null);
   return {$set, $unset};
@@ -17,8 +16,9 @@ export default ({
   host = "localhost",
   port = 27017,
   db,
-} = {}) => async () => {
-  const {MongoClient, ObjectId, Decimal128} = await load("mongodb");
+} = {}) => async app => {
+  const {MongoClient, ObjectId, Decimal128} = await app
+    .depend("mongodb", "store:mongodb");
   const url = `mongodb://${host}:${port}`;
   const connection = new MongoClient(url);
   await connection.connect();
@@ -89,7 +89,7 @@ export default ({
     },
     async update(collection, criteria = {}, delta = {}) {
       return (await this.with(collection).updateMany(to_id(criteria),
-        nullToSetUnset(delta))).modifiedCount;
+        null_to_set_unset(delta))).modifiedCount;
     },
     async delete(collection, criteria = {}) {
       return (await this.with(collection).deleteMany(cid(criteria)))

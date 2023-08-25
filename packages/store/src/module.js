@@ -55,57 +55,53 @@ export default ({
   return {
     name: "primate:store",
     async init(app, next) {
-      try {
-        env.log = app.log;
+      env.log = app.log;
 
-        const root = app.root.join(directory);
-        !await root.exists && errors.MissingStoreDirectory.throw(root);
-        env.defaults = {
-          // start driver
-          driver: await (await driver)(),
-          strict,
-          readonly: false,
-          ambiguous: false,
-        };
-        env.stores = await Promise.all((await root.collect(/^.*.js$/u))
-          /* accept only uppercase-first files in store filename */
-          .filter(path => /^[A-Z]/u.test(path.name))
-          .map(path => [
-            `${path}`.replace(`${root}/`, () => "").slice(0, ending),
-            path,
-          ])
-          /* accept only lowercase-first directories in store path */
-          .filter(([name]) =>
-            name.split("/").slice(0, last).every(part => /^[a-z]/u.test(part)))
-          .map(async ([store, path]) => {
-            const exports = await import(path);
-            const schema = transform(exports.default, entry => entry
-              .filter(([property, type]) => valid(type, property, store)));
+      const root = app.root.join(directory);
+      !await root.exists && errors.MissingStoreDirectory.throw(root);
+      env.defaults = {
+        // start driver
+        driver: await (await driver)(app),
+        strict,
+        readonly: false,
+        ambiguous: false,
+      };
+      env.stores = await Promise.all((await root.collect(/^.*.js$/u))
+        /* accept only uppercase-first files in store filename */
+        .filter(path => /^[A-Z]/u.test(path.name))
+        .map(path => [
+          `${path}`.replace(`${root}/`, () => "").slice(0, ending),
+          path,
+        ])
+        /* accept only lowercase-first directories in store path */
+        .filter(([name]) =>
+          name.split("/").slice(0, last).every(part => /^[a-z]/u.test(part)))
+        .map(async ([store, path]) => {
+          const exports = await import(path);
+          const schema = transform(exports.default, entry => entry
+            .filter(([property, type]) => valid(type, property, store)));
 
-            exports.ambiguous !== true && schema.id === undefined
-              && errors.MissingPrimaryKey.throw(primary, store,
-                "export const ambiguous = true;");
+          exports.ambiguous !== true && schema.id === undefined
+            && errors.MissingPrimaryKey.throw(primary, store,
+              "export const ambiguous = true;");
 
-            const pathed = store.replaceAll("/", ".");
+          const pathed = store.replaceAll("/", ".");
 
-            env.log.info(`loading ${bold(pathed)}`, {module: "primate/store"});
+          env.log.info(`loading ${bold(pathed)}`, {module: "primate/store"});
 
-            const {default: _, ...rest} = exports;
+          const {default: _, ...rest} = exports;
 
-            return [pathed, {
-              ...rest,
-              schema,
-              name: exports.name ?? store.replaceAll("/", "_"),
-            }];
-          })
-        );
-        Object.keys(env.stores).length === 0
-          && errors.EmptyStoreDirectory.throw(root);
-        env.log.info("all stores nominal", {module: "primate/store"});
-      } catch (error) {
-        enabled = false;
-        return env.log.auto(error);
-      }
+          return [pathed, {
+            ...rest,
+            schema,
+            name: exports.name ?? store.replaceAll("/", "_"),
+          }];
+        })
+      );
+      Object.keys(env.stores).length === 0
+        && errors.EmptyStoreDirectory.throw(root);
+      env.log.info("all stores nominal", {module: "primate/store"});
+
       return next(app);
     },
     async route(request, next) {

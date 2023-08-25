@@ -17,10 +17,10 @@
   },
   "devDependencies": {
     "@primate/types": "^0.6.0",
-    "better-sqlite3": "^8.5.1",
+    "better-sqlite3": "^8.5.2",
     "mongodb": "^5.8.1",
     "postgres": "^3.3.5",
-    "runtime-compat": "^0.25.7",
+    "runtime-compat": "^0.25.9",
     "surrealdb.js": "^0.8.4"
   },
   "peerDependencies": {

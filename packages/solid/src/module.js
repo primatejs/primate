@@ -9,11 +9,11 @@ import {client, create_root, rootname, hydrate} from "./client/exports.js";
 const normalize = base.normalize("solid");
 
 const import$ = async (module, app, copy_dependency) => {
-  const {library, packager} = app;
+  const {library, manifest} = app;
   const {http: {static: {root}}} = app.config;
   const parts = module.split("/");
   const path = [library, ...parts];
-  const pkg = await Path.resolve().join(...path, packager).json();
+  const pkg = await Path.resolve().join(...path, manifest).json();
   if (copy_dependency) {
     const dependency = Path.resolve().join(...path);
     const to = app.runpath(app.config.location.client, library, ...parts);

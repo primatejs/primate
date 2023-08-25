@@ -43,7 +43,7 @@ export default app => {
       }
 
       // handle request
-      const response = cascade(app.modules.route, handler)({...request, path});
+      const response = (await cascade(app.modules.route, handler))({...request, path});
       return (await respond(await response))(app, {
         layouts: await Promise.all(layouts.map(layout => layout(request))),
       }, request);

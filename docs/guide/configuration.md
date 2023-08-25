@@ -329,7 +329,7 @@ Modifying aspects of the build system and the resulting server/client code.
 Default `[]`
 
 A list of directories to be included in the server and client build. May not
-any known Primate location.
+be any known Primate location.
 
 ### build.index
 

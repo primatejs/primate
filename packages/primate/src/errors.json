@@ -1,8 +1,11 @@
-
-
 {
   "module": "primate",
   "errors": {
+    "CannotFindModule": {
+      "message": "cannot find {0} (imported from {2})",
+      "fix": "install module by issuing {1}",
+      "level": "Error"
+    },
     "CannotParseBody": {
       "message": "cannot parse body {0} as {1}",
       "fix": "use a different content type or fix body",
