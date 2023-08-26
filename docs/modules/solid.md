@@ -103,4 +103,4 @@ The file extension to be associated with this handler.
 
 * [Repository][repo]
 
-[repo]: https://github.com/primatejs/primate/tree/master/packages/solid
+[repo]: https://github.com/primatejs/primate/tree/master/packages/frontend

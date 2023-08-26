@@ -71,4 +71,4 @@ The file extension to be associated with this handler.
 
 * [Repository][repo]
 
-[rep]: https://github.com/primatejs/primate/tree/master/packages/vue
+[repo]: https://github.com/primatejs/primate/tree/master/packages/frontend

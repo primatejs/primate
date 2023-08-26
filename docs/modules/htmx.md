@@ -84,4 +84,4 @@ The file extension to be associated with this handler.
 
 * [Repository][repo]
 
-[repo]: https://github.com/primatejs/primate/tree/master/packages/htmx
+[repo]: https://github.com/primatejs/primate/tree/master/packages/frontend
