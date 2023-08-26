@@ -14,31 +14,63 @@
     "url": "https://github.com/primatejs/primate",
     "directory": "packages/frontend"
   },
+  "devDependencies": {
+    "@babel/core": "^7.22.11",
+    "babel-preset-solid": "^1.7.7",
+    "esbuild": "^0.19.2",
+    "htmx.org": "^1.9.5",
+    "marked": "^7.0.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "solid-js": "^1.7.11",
+    "svelte": "^4.2.0",
+    "vue": "^3.3.4"
+  },
   "dependencies": {
-    "runtime-compat": "^0.25.7"
+    "runtime-compat": "^0.26.0"
   },
   "peerDependencies": {
+    "@babel/core": "7",
+    "babel-preset-solid": "1",
     "esbuild": "0.19",
+    "htmx.org": "1",
+    "marked": "7",
+    "primate": "0.22",
     "react": "18",
     "react-dom": "18",
-    "marked": "7",
-    "htmx.org": "1.9",
-    "primate": "0.22"
+    "solid-js": "1",
+    "svelte": "4",
+    "vue": "3"
   },
   "peerDependenciesMeta": {
+    "@babel/core": {
+      "optional": true
+    },
+    "babel-preset-solid": {
+      "optional": true
+    },
+    "esbuild": {
+      "optional": true
+    },
     "htmx.org": {
       "optional": true
     },
     "marked": {
       "optional": true
     },
-    "esbuild": {
-      "optional": true
-    },
     "react": {
       "optional": true
     },
     "react-dom": {
+      "optional": true
+    },
+    "solid-js": {
+      "optional": true
+    },
+    "svelte": {
+      "optional": true
+    },
+    "vue": {
       "optional": true
     }
   },
