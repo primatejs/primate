@@ -5,7 +5,10 @@ import {renderToString} from "react-dom/server";
 import {createElement} from "react";
 import esbuild from "esbuild";
 
-export const render = (...args) => renderToString(createElement(...args));
+import {hydrate} from "./client/exports.js";
+
+export const render = (...args) =>
+  ({body: renderToString(createElement(...args))});
 
 const options = {loader: "jsx", jsx: "automatic"};
 export const compile = {
@@ -17,7 +20,7 @@ export const compile = {
   },
 };
 
-export const depend = async app => {
+export const prepare = async app => {
   const to_path = path => new Path(import.meta.url).up(1).join(...path);
   const {library} = app;
   const module = "react";
@@ -44,4 +47,7 @@ export const depend = async app => {
     ...app.importmaps,
     ...valmap(imports, value => `${new Path("/", library, module, value)}`),
   };
+
+  // export hydration code
+  app.export({type: "script", code: hydrate});
 };

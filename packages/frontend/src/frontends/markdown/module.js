@@ -1,5 +1,6 @@
 import {Response, Status, MediaType} from "runtime-compat/http";
-import {stringify} from "runtime-compat/object";
+import {stringify, filter} from "runtime-compat/object";
+import {peers} from "../common/exports.js";
 
 const respond = (handler, directory) => (...[name, ...rest]) =>
   async (app, ...noapp) => {
@@ -16,6 +17,9 @@ const as_html = ({content}, _, {status = Status.OK, page} = {}) => async app =>
     headers: {...await app.headers(), "Content-Type": MediaType.TEXT_HTML},
 });
 
+const name = "markdown";
+const dependencies = ["marked"];
+
 const markdown = ({
   directory,
   extension = "md",
@@ -24,11 +28,12 @@ const markdown = ({
 } = {}) => {
   const env = {};
   const re = new RegExp(`^.*.(?:${extension})$`, "u");
+  const on = filter(peers, ([key]) => dependencies.includes(key));
 
   return {
-    name: "primate:markdown",
+    name: `primate:${name}`,
     async init(app, next) {
-      await app.depend("marked", "frontend:markdown");
+      await app.depend(on, `frontend:${name}`);
       markdown.compile = (await import("./compile.js")).default;
       env.directory = directory ?? app.config.location.components;
 

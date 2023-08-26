@@ -1,4 +1,6 @@
 import {Response, Status, MediaType} from "runtime-compat/http";
+import {filter} from "runtime-compat/object";
+import {peers} from "../common/exports.js";
 
 const load_component = async (file) => {
   try {
@@ -35,24 +37,35 @@ const handler = directory =>
     });
   };
 
-const name = "htmx.org";
+const name = "htmx";
+const dependencies = ["htmx.org"];
+const default_extension = "htmx";
+const on = filter(peers, ([key]) => dependencies.includes(key));
+
 export default ({
-  extension = "htmx",
   directory,
+  extension = default_extension,
 } = {}) => ({
-  name: "primate:htmx",
+  name: `primate:${name}`,
   async init(app, next) {
-    await app.depend("htmx.org", "frontend:htmx");
+    await app.depend(on, `frontend:${name}`);
+
     return next(app);
   },
   register(app, next) {
-    app.register(extension, handler(directory
-      ?? app.config.location.components));
+    const {config} = app;
+
+    app.register(extension, handler(directory ?? config.location.components));
+
     return next(app);
   },
   async publish(app, next) {
-    await app.import(name);
-    app.export({type: "script", code: `export * as htmx from "${name}";`});
+    const [dependency] = dependencies;
+    await app.import(dependencies);
+    const code = `export * as ${name} from "${dependency}";`;
+
+    app.export({type: "script", code});
+
     return next(app);
   },
 });

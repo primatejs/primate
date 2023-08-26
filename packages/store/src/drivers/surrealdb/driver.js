@@ -1,5 +1,6 @@
-import {keymap, valmap} from "runtime-compat/object";
+import {keymap, valmap, filter} from "runtime-compat/object";
 import {ident} from "../base.js";
+import {peers} from "../common/exports.js";
 
 const null_to_undefined = delta =>
   valmap(delta, value => value === null ? undefined : value);
@@ -24,17 +25,27 @@ const change = delta => {
   };
 };
 
+const name = "surrealdb";
+const dependencies = ["surrealdb.js"];
+const on = filter(peers, ([key]) => dependencies.includes(key));
+const defaults = {
+  host: "http://localhost",
+  port: 8000,
+  path: "rpc",
+};
+
 export default ({
-  host = "http://localhost",
-  port = 8000,
-  path = "rpc",
-  ns = "default",
+  host = defaults.host,
+  port = defaults.port,
+  path = defaults.path,
+  ns,
   db,
   user,
   pass,
 } = {}) => async app => {
-  const Driver = await app.depend("surrealdb.js", "store:surrealdb");
+  const [{default: Driver}] = await app.depend(on, `store:${name}`);
   const client = new Driver(`${host}:${port}/${path}`);
+
   if (user !== undefined && pass !== undefined) {
     await client.signin({user, pass});
   }
@@ -43,7 +54,7 @@ export default ({
   }
 
   return {
-    name: "surrealdb",
+    name,
     client,
     async start() {
       await client.query("begin transaction;");

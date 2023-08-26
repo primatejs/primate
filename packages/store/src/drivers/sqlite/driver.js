@@ -1,6 +1,7 @@
 import {numeric} from "runtime-compat/dyndef";
 import {filter, keymap, valmap} from "runtime-compat/object";
 import {ident} from "../base.js";
+import {peers} from "../common/exports.js";
 
 const types = {
   /* array */
@@ -46,15 +47,21 @@ const change = delta => {
   };
 };
 
+const name = "sqlite";
+const dependencies = ["better-sqlite3"];
+const on = filter(peers, ([key]) => dependencies.includes(key));
+const defaults = {
+  filename: ":memory",
+};
+
 export default ({
-  /* filename to be used for storing the database, defaults to in-memory */
-  filename = ":memory:",
+  filename = defaults.filename,
 } = {}) => async app => {
-  const Driver = await app.depend("better-sqlite3", "store:sqlite");
+  const [{default: Driver}] = await app.depend(on, `store:${name}`);
   const client = new Driver(filename, {});
 
   return {
-    name: "sqlite",
+    name,
     client,
     start() {
       client.prepare("begin transaction").run();

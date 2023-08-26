@@ -3,7 +3,7 @@ import {tryreturn} from "runtime-compat/async";
 import {File, Path} from "runtime-compat/fs";
 import {bold, blue} from "runtime-compat/colors";
 import {is} from "runtime-compat/dyndef";
-import {transform, valmap} from "runtime-compat/object";
+import {transform, valmap, to} from "runtime-compat/object";
 import {globify} from "runtime-compat/string";
 import errors from "./errors.js";
 import {print} from "./Logger.js";
@@ -178,15 +178,19 @@ export default async (log, root, config) => {
       const prefix = algorithm.replace("-", _ => "");
       return `${prefix}-${btoa(String.fromCharCode(...new Uint8Array(bytes)))}`;
     },
-    async depend(module_s, from) {
-      const modules = Array.isArray(module_s) ? module_s : [module_s];
+    async depend(dependencies, from) {
+      const modules = Object.keys(dependencies);
+
       const results = await Promise.all(modules.map(module =>
         tryreturn(_ => import(module)).orelse(_ => module)
       ));
       const errored = results.filter(result => typeof result === "string");
+      const versions = to(dependencies)
+        .filter(([dependency]) => errored.includes(dependency))
+        .map(([key, value]) => `${key}@${value}`);
       if (errored.length > 0) {
         const install = module => `${packager} install ${module.join(" ")}`;
-        MissingDependencies.throw(errored.join(", "), from, install(errored));
+        MissingDependencies.throw(errored.join(", "), from, install(versions));
       }
       return results.filter(result => typeof result !== "string");
     },

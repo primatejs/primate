@@ -1,5 +1,10 @@
 import {Response, Status, MediaType} from "runtime-compat/http";
-import * as base from "../common/exports.js";
+import {filter} from "runtime-compat/object";
+import {register, compile, peers} from "../common/exports.js";
+
+const name = "vue";
+const dependencies = ["vue"];
+const default_extension = "vue";
 
 const handler = config => (name, props = {}, {status = Status.OK, page} = {}) =>
   async app => {
@@ -21,30 +26,33 @@ const handler = config => (name, props = {}, {status = Status.OK, page} = {}) =>
 export default ({
   directory,
   dynamicProps,
-  extension = "vue",
+  extension = default_extension,
 } = {}) => {
-  const rootname = "vue";
+  const on = filter(peers, ([key]) => dependencies.includes(key));
+  const rootname = name;
   let imports = {};
 
   return {
-    name: "primate:vue",
+    name: `primate:${name}`,
     async init(app, next) {
-      await app.depend(["vue"], "frontend:vue");
+      await app.depend(on, `frontend:${name}`);
 
       imports = await import("./imports.js");
 
       return next(app);
     },
     register(app, next) {
-      const {createSSRApp, render} = imports;
-
-      app.register(extension, handler(base.register({app, rootname,
-        createSSRApp, render})));
+      app.register(extension, handler(register({
+        app,
+        rootname,
+        createSSRApp: imports.createSSRApp,
+        render: imports.render,
+      })));
 
       return next(app);
     },
     async compile(app, next) {
-      await base.compile({
+      await compile({
         app,
         directory: directory ?? app.config.location.components,
         extension,

@@ -1,6 +1,7 @@
 import {numeric} from "runtime-compat/dyndef";
 import {filter, valmap} from "runtime-compat/object";
 import {ident} from "../base.js";
+import {peers} from "../common/exports.js";
 
 const types = {
   /* array */
@@ -26,14 +27,22 @@ const type = value => types[value];
 const filter_null = object => filter(object, ([, value]) => value !== null);
 const filter_nulls = objects => objects.map(object => filter_null(object));
 
+const name = "postgresql";
+const dependencies = ["postgres"];
+const on = filter(peers, ([key]) => dependencies.includes(key));
+const defaults = {
+  host: "localhost",
+  port: 5432,
+};
+
 export default ({
-  host = "localhost",
-  port = 5432,
+  host = defaults.host,
+  port = defaults.port,
   db,
   user,
   pass,
 } = {}) => async app => {
-  const Driver = await app.depend("postgres", "store:postgres");
+  const [{default: Driver}] = await app.depend(on, `store:${name}`);
   const sql = new Driver({
     host,
     port,
@@ -43,7 +52,7 @@ export default ({
   });
 
   return {
-    name: "postgresql",
+    name,
     client: sql,
     start() {
       // noop
