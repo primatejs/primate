@@ -1,6 +1,6 @@
 {
   "name": "@primate/esbuild",
-  "version": "0.9.3",
+  "version": "0.10.0",
   "description": "Primate esbuild module",
   "homepage": "https://primatejs.com/modules/esbuild",
   "bugs": "https://github.com/primatejs/primate/issues",
