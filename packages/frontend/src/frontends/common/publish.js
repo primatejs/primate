@@ -7,7 +7,6 @@ export default async ({
   extension,
   rootname,
   create_root,
-  dynamicProps = "data",
   normalize,
   compile,
 }) => {
@@ -52,7 +51,7 @@ export default async ({
     }
   }));
   {
-    const root = create_root(app.layout.depth, dynamicProps);
+    const root = create_root(app.layout.depth);
     // root has no css
     const {js} = await compile(root);
     const code = js.replaceAll(extensions.from, extensions.to);

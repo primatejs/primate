@@ -25,7 +25,6 @@ const handler = config => (name, props = {}, {status = Status.OK, page} = {}) =>
 
 export default ({
   directory,
-  dynamicProps,
   extension = default_extension,
 } = {}) => {
   const on = filter(peers, ([key]) => dependencies.includes(key));
@@ -57,7 +56,6 @@ export default ({
         directory: directory ?? app.config.location.components,
         extension,
         rootname,
-        dynamicProps,
         compile: imports.compile.server,
       });
 

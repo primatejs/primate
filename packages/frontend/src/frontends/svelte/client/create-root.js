@@ -1,15 +1,15 @@
-export default (length, data) => {
+export default length => {
   const n = length - 1;
   const body = Array.from({length: n}, (_, i) => i - 1)
     .reduceRight((child, _, i) => `
       {#if components[${i + 1}]}
-        <svelte:component this={components[${i}]} ${data}={data[${i}]}>
+        <svelte:component this={components[${i}]} {...data[${i}]}>
           ${child}
         </svelte:component>
       {:else}
-        <svelte:component this={components[${i}]} ${data}={data[${i}]} />
+        <svelte:component this={components[${i}]} {...data[${i}]} />
       {/if}
-    `, `<svelte:component this={components[${n}]} ${data}={data[${n}]} />`);
+    `, `<svelte:component this={components[${n}]} {...data[${n}]} />`);
 
   return `
     <script>

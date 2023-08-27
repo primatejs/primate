@@ -22,7 +22,6 @@ export default async ({
 
   return ({
     directory,
-    dynamicProps,
     extension = default_extension,
   } = {}) => {
 
@@ -51,7 +50,6 @@ export default async ({
           extension,
           rootname,
           create_root,
-          dynamicProps,
           compile: imports.compile.server,
         });
 
@@ -66,7 +64,6 @@ export default async ({
           extension,
           rootname,
           create_root,
-          dynamicProps,
           normalize: normalized,
           compile: imports.compile.client,
         });

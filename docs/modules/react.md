@@ -69,12 +69,6 @@ Default `config.location.components`
 
 Directory where the React JSX components reside.
 
-### dynamicProps
-
-Default `"data"`
-
-Name of the props passed to a Svelte component from its route.
-
 ### extension
 
 Default `"jsx"`

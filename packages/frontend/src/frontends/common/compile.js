@@ -4,7 +4,6 @@ export default async ({
   extension,
   rootname,
   create_root,
-  dynamicProps = "data",
   compile,
 }) => {
   const {location} = app.config;
@@ -33,7 +32,7 @@ export default async ({
 
   // vue does not yet support layouting
   if (create_root !== undefined) {
-    const root = await compile(create_root(app.layout.depth, dynamicProps));
+    const root = await compile(create_root(app.layout.depth));
     const to = app.runpath(location.server, filename);
     await to.file.write(root);
   }

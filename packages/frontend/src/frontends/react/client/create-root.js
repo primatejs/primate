@@ -1,10 +1,10 @@
-export default (length, data) => {
+export default length => {
   const n = length - 1;
   const body = Array.from({length: n}, (_, i) => i - 1)
     .reduceRight((child, _, i) => `components[${i + 1}] !== undefined
-        ? createElement(components[${i}], {${data}: data[${i}]}, ${child})
-        : createElement(components[${i}], {${data}: data[${i}]})
-    `, `createElement(components[${n}], {${data}: data[${n}]})`);
+        ? createElement(components[${i}], {...data[${i}]}, ${child})
+        : createElement(components[${i}], {...data[${i}]})
+    `, `createElement(components[${n}], {...data[${n}]})`);
 
   return `
     import React from "react";
