@@ -22,6 +22,14 @@ export default {
 };
 ```
 
+## Configuration options
+
+### ignores
+
+Default `[]`
+
+A list of extensions that esbuild should ignore when bundling.
+
 ## Resources
 
 * [Repository][repo]
