@@ -1,7 +1,9 @@
 import {Path} from "runtime-compat/fs";
 import esbuild from "esbuild";
 
-export default () => ({
+export default ({
+  ignores = [],
+} = {}) => ({
   name: "primate:esbuild",
   async bundle(app, next) {
     const {config: {location, http}} = app;
@@ -25,7 +27,7 @@ export default () => ({
         format: "esm",
         outdir: `${client}`,
         logLevel: app.debug ? "warning" : "error",
-        external: ["*.woff2", "*.png", "*.jpg"],
+        external: ignores.map(ignore => `*.${ignore}`),
       });
       // remove unbundled client
       const re = new RegExp(`${location.client}/app-.*\\.(?:js|css)$`, "u");
