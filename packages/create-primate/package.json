@@ -16,14 +16,14 @@
   },
   "dependencies": {
     "@clack/prompts": "^0.7.0",
-    "@primate/markdown": "^0.2.0",
-    "runtime-compat": "^0.25.8"
+    "runtime-compat": "^0.26.2"
   },
   "type": "module",
   "devDependencies": {
-    "@primate/esbuild": "^0.9.3",
+    "@primate/esbuild": "^0.10.0",
     "@primate/htmx": "^0.17.0",
     "@primate/liveview": "^0.4.0",
+    "@primate/markdown": "^0.2.0",
     "@primate/react": "^0.10.0",
     "@primate/session": "^0.10.0",
     "@primate/store": "^0.12.3",
