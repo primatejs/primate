@@ -1,4 +1,4 @@
 #!/usr/bin/env node
-import create from "./commands/create.js";
-
-create();
+import args from "runtime-compat/args";
+import * as commands from "./commands/exports.js";
+commands[args[0]]?.() ?? commands.create();

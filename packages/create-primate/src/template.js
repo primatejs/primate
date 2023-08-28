@@ -1,11 +1,11 @@
 import {select} from "./prompts.js";
-import {staticServer, api, webApp} from "./templates/exports.js";
+import {static_server, api, web_app} from "./templates/exports.js";
 
 export default async () => (await select({
   message: "Choose template",
   options: [
-    {value: webApp, label: "Web app"},
+    {value: web_app, label: "Web app"},
     {value: api, label: "API"},
-    {value: staticServer, label: "Static server"},
+    {value: static_server, label: "Static server"},
   ],
 }))();

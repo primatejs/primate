@@ -3,7 +3,7 @@ import {intro, outro} from "@clack/prompts";
 
 import run from "../run.js";
 import {Bailout} from "../prompts.js";
-import {gitignore, package_json, primate_config_js} from "../files/exports.js";
+import * as files from "../files/exports.js";
 
 const filter = (configs, property) =>
   configs.filter(conf => conf[property] !== undefined).reduce((acc, conf) =>
@@ -17,9 +17,12 @@ const create = async ([root, configs]) => {
     config: filter(configs, "config"),
   };
 
-  await gitignore(root, config);
-  await package_json(root, config);
-  await primate_config_js(root, config);
+  await files.gitignore(root, config);
+  await files.package_json(root, config);
+  await files.primate_config_js(root, config);
+  await root.join("pages").file.create();
+  await files.app_html(root);
+  await files.error_html(root);
 };
 
 export default async () => {
