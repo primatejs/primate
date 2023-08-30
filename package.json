@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "debris": "^0.13.1",
-    "maximin": "^0.1.5"
+    "maximin": "^0.1.7"
   },
   "type": "module",
   "private": true
