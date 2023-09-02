@@ -34,12 +34,12 @@ const attribute = attributes => Object.keys(attributes).length > 0
 const tag = ({name, attributes = {}, code = "", close = true}) =>
   `<${name}${attribute(attributes)}${close ? `>${code}</${name}>` : "/>"}`;
 
-const base = new Path(import.meta.url).up(1);
+const {name, version} = await new Path(import.meta.url).up(2).join(manifest)
+  .json();
 
 export default async (log, root, config) => {
   const {http} = config;
   const secure = http?.ssl !== undefined;
-  const {name, version} = await base.up(1).join(manifest).json();
   const path = valmap(config.location, value => root.join(value));
 
   const at = `at http${secure ? "s" : ""}://${http.host}:${http.port}\n`;
@@ -54,7 +54,6 @@ export default async (log, root, config) => {
   const types = await loaders.types(log, path.types);
   const error = await path.routes.join("+error.js");
   const routes = await loaders.routes(log, path.routes);
-  const modules = await loaders.modules(log, root, config);
 
   return {
     config,
@@ -77,7 +76,7 @@ export default async (log, root, config) => {
       depth: Math.max(...routes.map(({layouts}) => layouts.length)) + 1,
     },
     dispatch: dispatch(types),
-    modules,
+    modules: await loaders.modules(log, root, config),
     ...runtime,
     // copy files to build folder, potentially transforming them
     async stage(source, directory, filter) {

@@ -30,6 +30,11 @@ const pre = async app => {
     await app.stage(path.components, to, /^.*.js$/u);
   }
 
+  if (await path.static.exists) {
+    // copy static files to build/server/static
+    await app.stage(path.static, new Path(location.server, location.static));
+  }
+
   // copy additional subdirectories to build/server
   await copy_includes(app, location.server);
 
