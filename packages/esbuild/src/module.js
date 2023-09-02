@@ -23,6 +23,7 @@ export default ({
         },
         entryNames: "app-[hash]",
         bundle: true,
+        splitting: true,
         minify: true,
         format: "esm",
         outdir: `${client}`,
