@@ -1,9 +1,4 @@
-import {tryreturn} from "runtime-compat/async";
-import errors from "./errors.js";
-
-const load = async path =>
-  tryreturn(_ => import(`${path}.js`))
-    .orelse(_ => errors.MissingComponent.throw(path.name, path));
+import load from "./load.js";
 
 export default ({app, rootname, ...rest}) => {
   const {config: {location}} = app;

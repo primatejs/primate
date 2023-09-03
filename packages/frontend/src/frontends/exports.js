@@ -4,3 +4,4 @@ export {default as react} from "./react/module.js";
 export {default as solid} from "./solid/module.js";
 export {default as svelte} from "./svelte/module.js";
 export {default as vue} from "./vue/module.js";
+export {default as handlebars} from "./handlebars/module.js";
