@@ -18,6 +18,7 @@
     "@babel/core": "^7.22.11",
     "babel-preset-solid": "^1.7.7",
     "esbuild": "^0.19.2",
+    "handlebars": "^4.7.8",
     "htmx.org": "^1.9.5",
     "marked": "^7.0.4",
     "react": "^18.2.0",
@@ -33,6 +34,7 @@
     "@babel/core": "7",
     "babel-preset-solid": "1",
     "esbuild": "0.19",
+    "handlebars": "4",
     "htmx.org": "1",
     "marked": "7",
     "primate": "0.22",
@@ -50,6 +52,9 @@
       "optional": true
     },
     "esbuild": {
+      "optional": true
+    },
+    "handlebars": {
       "optional": true
     },
     "htmx.org": {
