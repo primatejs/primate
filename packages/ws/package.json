@@ -16,8 +16,8 @@
     "directory": "packages/ws"
   },
   "dependencies": {
-    "runtime-compat": "^0.25.7",
-    "ws": "^8.13.0"
+    "runtime-compat": "^0.26.2",
+    "ws": "^8.14.1"
   },
   "peerDependencies": {
     "primate": "0.22"
