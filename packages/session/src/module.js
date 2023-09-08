@@ -1,8 +1,8 @@
 import crypto from "runtime-compat/crypto";
 import {is} from "runtime-compat/dyndef";
 
-const cookie = (name, value, {path, secure, sameSite}) =>
-  `${name}=${value};HttpOnly;Path=${path};${secure};SameSite=${sameSite}`;
+const cookie = (name, value, {path, secure, httpOnly, sameSite}) =>
+  `${name}=${value};${httpOnly};Path=${path};${secure};SameSite=${sameSite}`;
 
 // gets a cookie id and returns it if exists, otherwise generates a new one
 const in_memory_session_manager = () => {
@@ -18,6 +18,8 @@ const in_memory_session_manager = () => {
     set(key, value) {
       if (this.exists) {
         store.set(this.id, {...this.get(), [key]: value});
+      } else {
+        throw new Error("cannot call set on an uninitialized session");
       }
     },
     async create(data = {}) {
@@ -39,15 +41,21 @@ const in_memory_session_manager = () => {
 export default ({
   name = "sessionId",
   sameSite = "Strict",
+  httpOnly = true,
   path = "/",
   manager = in_memory_session_manager(),
   implicit = false,
 } = {}) => {
   is(name).string();
   is(sameSite).string();
+  is(httpOnly).boolean();
   is(path).string();
   is(manager).function();
-  const options = {sameSite, path};
+  const options = {
+    sameSite,
+    path,
+    httpOnly: httpOnly ? ";HttpOnly" : "",
+  };
 
   return {
     name: "primate:session",

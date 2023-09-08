@@ -1,15 +1,16 @@
 import module from "./module.js";
 
 const response = () => ({headers: new Map()});
-const init = (config, app) => {
+const init = (config, app = {}) => {
   const session = module(config);
-  session.load(app);
+  session.init(app, _ => _);
   return session;
 };
 
-const initi = (config, app) => init({...config, implicit: true}, app);
+const initi = (config, app = {}) => init({...config, implicit: true}, app);
 
-const request = () => ({cookies: {}});
+const create_cookies = data => ({cookies: {get: () => data}});
+const request = () => create_cookies();
 
 const UUID = /^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$/u;
 
@@ -58,8 +59,8 @@ export default test => {
 
     const r = await session.handle(request(), next);
     const [cookie] = r.headers.get("Set-Cookie").split(";");
-    const [, sessionId] = cookie.split("=");
-    const request2 = {cookies: {sessionId}};
+    const [, session_id] = cookie.split("=");
+    const request2 = create_cookies(session_id);
 
     const next2 = sessionId => ({session}) => {
       assert(session).defined();
@@ -68,7 +69,7 @@ export default test => {
       return response();
     };
 
-    const r2 = await session.handle(request2, next2(sessionId));
+    const r2 = await session.handle(request2, next2(session_id));
     assert(r2.headers.has("Set-Cookie")).false();
   });
   test.case("name: default to 'sessionId'", async assert => {
@@ -92,6 +93,18 @@ export default test => {
     const r = await session.handle(request(), () => response());
     const parts = r.headers.get("Set-Cookie").split(";");
     assert(parts.some(part => part === "SameSite=Lax")).true();
+  });
+  test.case("HttpOnly: default to true", async assert => {
+    const session = initi();
+    const r = await session.handle(request(), () => response());
+    const parts = r.headers.get("Set-Cookie").split(";");
+    assert(parts.some(part => part === "HttpOnly")).true();
+  });
+  test.case("HttpOnly: make configurable", async assert => {
+    const session = initi({httpOnly: false});
+    const r = await session.handle(request(), () => response());
+    const parts = r.headers.get("Set-Cookie").split(";");
+    assert(parts.every(part => part !== "HttpOnly")).true();
   });
   test.case("Path: default to \"/\"", async assert => {
     const session = initi();
@@ -157,4 +170,18 @@ export default test => {
       assert(() => destroy.handle(request(), () => response())).throws();
     }
   );
+  test.case("set: throw when no session", async assert => {
+    const explicit = init({});
+    const next = async ({session}) => {
+      assert(session).defined();
+      assert(session.id).undefined();
+      assert(session.data).undefined();
+      assert(() => session.set({})).throws();
+      await session.create();
+      assert(() => session.set({})).not_throws();
+      return response();
+    };
+
+    await explicit.handle(request(), next);
+  });
 };
