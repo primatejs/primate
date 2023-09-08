@@ -7,4 +7,4 @@ export const compile = {
   },
 };
 
-export const render = precompiled => runtime.template(precompiled);
+export const render = (component, data) => runtime.template(component)(data);

@@ -7,7 +7,7 @@ const handler = ({directory, render}) =>
     const components = app.runpath(app.config.location.server, directory);
     const {default : component} = await load(components.join(name));
 
-    const body = render(component)(props);
+    const body = render(component, props);
 
     const headers = await app.headers();
 
