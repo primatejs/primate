@@ -15,12 +15,12 @@
     "directory": "packages/frontend"
   },
   "devDependencies": {
-    "@babel/core": "^7.22.11",
+    "@babel/core": "^7.22.17",
     "babel-preset-solid": "^1.7.7",
     "esbuild": "^0.19.2",
     "handlebars": "^4.7.8",
     "htmx.org": "^1.9.5",
-    "marked": "^7.0.4",
+    "marked": "^8.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "solid-js": "^1.7.11",
