@@ -16,7 +16,7 @@
     "directory": "packages/store"
   },
   "dependencies": {
-    "runtime-compat": "^0.27.0"
+    "runtime-compat": "^0.27.1"
   },
   "devDependencies": {
     "@primate/types": "^0.6.0",
