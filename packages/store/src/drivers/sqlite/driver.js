@@ -1,79 +1,60 @@
 import {numeric} from "runtime-compat/dyndef";
-import {filter, keymap, valmap} from "runtime-compat/object";
+import {filter} from "runtime-compat/object";
 import {ident} from "../base.js";
 import {peers} from "../common/exports.js";
-
-const types = {
-  /* array */
-  blob: "BLOB",
-  boolean: "INTEGER",
-  datetime: "TEXT",
-  embedded: "TEXT",
-  f64: "REAL",
-  i8: "INTEGER",
-  i16: "INTEGER",
-  i32: "INTEGER",
-  i64: "INTEGER",
-  json: "TEXT",
-  primary: "INTEGER PRIMARY KEY",
-  string: "TEXT",
-  time: "TEXT",
-  u8: "INTEGER",
-  u16: "INTEGER",
-  u32: "INTEGER",
-};
-const type = value => types[value];
-
-const filter_null = results =>
-  results.map(result => filter(result, ([, value]) => value !== null));
-
-const predicate = criteria => {
-  const keys = Object.keys(criteria);
-  if (keys.length === 0) {
-    return {where: "", bindings: {}};
-  }
-
-  const where = `where ${keys.map(key => `"${key}"=$${key}`).join(" and ")}`;
-
-  return {where, bindings: criteria};
-};
-
-const change = delta => {
-  const keys = Object.keys(delta);
-  const set = keys.map(field => `"${field}"=$s_${field}`).join(",");
-  return {
-    set: `set ${set}`,
-    bindings: keymap(delta, key => `s_${key}`),
-  };
-};
+import depend from "../../depend.js";
+import Pool from "../../pool/exports.js";
+import Facade from "./Facade.js";
 
 const name = "sqlite";
 const dependencies = ["better-sqlite3"];
 const on = filter(peers, ([key]) => dependencies.includes(key));
 const defaults = {
-  filename: ":memory",
+  filename: ":memory:",
 };
 
 export default ({
   filename = defaults.filename,
-} = {}) => async app => {
-  const [{default: Driver}] = await app.depend(on, `store:${name}`);
-  const client = new Driver(filename, {});
+} = {}) => async () => {
+  const [{default: Driver}] = await depend(on, `store:${name}`);
+  const pool = new Pool({
+    manager: {
+      new: () => new Driver(filename, {}),
+      kill: db => db.close(),
+    },
+  });
 
   return {
     name,
-    client,
-    start() {
-      client.prepare("begin transaction").run();
+    async acquire() {
+      const connection = await pool.acquire();
+      return async logic => {
+        await logic(connection);
+        pool.release(connection);
+      };
     },
-    rollback() {
-      client.prepare("rollback transaction").run();
-    },
-    commit() {
-      client.prepare("commit transaction").run();
-    },
-    end() {
-      // noop
+    async transact(preparing) {
+      const connection = await pool.acquire();
+      return {
+        stores: await preparing(new Facade(connection)),
+        // extending to multistores: first get the other stores, and at last
+        // return the route fn
+        execute: async next => {
+          try {
+            connection.prepare("begin transaction").run();
+            const response = await next();
+            connection.prepare("commit transaction").run();
+            return response;
+          } catch (error) {
+            connection.prepare("rollback transaction").run();
+            // bubble up
+            throw error;
+          } finally {
+            // noop, no end transaction
+            pool.release(connection);
+          }
+        },
+      };
     },
     types: {
       primary: {
@@ -125,60 +106,6 @@ export default ({
         },
       },
       string: ident,
-    },
-    exists(collection) {
-      const where = "type='table' and name=$collection";
-      const query = `select name from sqlite_master where ${where}`;
-      return client.prepare(query).get({collection}) !== undefined;
-    },
-    create(collection, schema) {
-      const body = Object.entries(valmap(schema, value => type(value)))
-        .map(([column, dataType]) => `"${column}" ${dataType}`).join(",");
-      const query = `create table ${collection} (${body})`;
-      client.prepare(query).run();
-    },
-    find(collection, criteria = {}) {
-      const {where, bindings} = predicate(criteria);
-      const query = `select * from ${collection} ${where}`;
-      const statement = client.prepare(query);
-      statement.safeIntegers(true);
-      return filter_null(statement.all(bindings));
-    },
-    count(collection, criteria = {}) {
-      const {where, bindings} = predicate(criteria);
-      const query = `select count(*) from ${collection} ${where}`;
-      return client.prepare(query).pluck(true).get(bindings);
-    },
-    get(collection, primary, value) {
-      const query = `select * from ${collection} where ${primary}=$primary`;
-      const statement = client.prepare(query);
-      statement.safeIntegers(true);
-      const result = statement.get({primary: value});
-      return result === undefined
-        ? result
-        : filter(result, ([, value]) => value !== null);
-    },
-    insert(collection, primary, document) {
-      const keys = Object.keys(document);
-      const columns = keys.map(key => `"${key}"`);
-      const values = keys.map(key => `$${key}`).join(",");
-      const predicate = columns.length > 0
-        ? `(${columns.join(",")}) values (${values})`
-        : "default values";
-      const query = `insert into ${collection} ${predicate}`;
-      const {lastInsertRowid: id} = client.prepare(query).run(document);
-      return {...document, id};
-    },
-    update(collection, criteria = {}, delta) {
-      const {where, bindings} = predicate(criteria);
-      const {set, bindings: bindings2} = change(delta);
-      const query = `update ${collection} ${set} ${where}`;
-      return client.prepare(query).run({...bindings, ...bindings2}).changes;
-    },
-    delete(collection, criteria = {}) {
-      const {where, bindings} = predicate(criteria);
-      const query = `delete from ${collection} ${where}`;
-      return client.prepare(query).run({...bindings}).changes;
     },
   };
 };

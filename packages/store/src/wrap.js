@@ -1,8 +1,8 @@
 import {tryreturn} from "runtime-compat/sync";
 import * as object from "runtime-compat/object";
-import validate from "./validate.js";
 import errors from "./errors.js";
 import bases from "./bases.js";
+import validate from "./validate.js";
 import primary from "./primary.js";
 
 const {FailedDocumentValidation} = errors;
@@ -18,98 +18,75 @@ const transform = to => ({types, schema, document, path}) =>
         })
     ));
 
-const actions = [
-  "validate",
-  "get", "count", "find", "exists",
-  "insert", "update", "save", "delete",
-];
-
-export default (name, schema = {}, options = {}) => {
+export default (config, connection, types) => {
+  const name = config.name.toLowerCase();
   const path = name.replaceAll("_", ".");
-  const config = {name: name.toLowerCase(), ...options};
-  const {driver} = config;
-  const {types} = driver;
+  const {schema, actions = _ => ({})} = config;
 
-  return {
-    driver,
-    store: {
-      config,
-      pack(document) {
-        return transform("in")({document, path, schema, types});
-      },
-      unpack(document) {
-        return transform("out")({document, path, schema, types});
-      },
-      async validate(input) {
-        const result = await validate({input, driver, schema,
-          strict: config.strict});
-        if (Object.keys(result.errors).length > 0) {
-          const error = FailedDocumentValidation.new(Object.keys(result));
-          error.errors = result.errors;
-          throw error;
-        } else {
-          return result.document;
-        }
-      },
-      async write(input, writer) {
-        const document = await this.validate(input);
-        return config.readonly
-          ? document
-          : this.unpack(await writer(this.pack(document)));
-      },
-      async get(value) {
-        const document = await driver.get(config.name, primary, value);
+  const pack = document => transform("in")({document, path, schema, types});
+  const unpack = document => transform("out")({document, path, schema, types});
 
-        document === undefined &&
-          errors.NoDocumentFound.throw(primary, value,
-            `${path}.exists({${primary}: ${value}})`, `${path}.get$`);
-
-        return this.unpack(document);
-      },
-      /*async get$(value) {
-        const document = await driver.get(config.name, primary, value);
-
-        if (document === undefined) {
-          const {message} = errors.NoDocumentFound.new(primary, value);
-          return {failed: true, reason: message};
-        }
-
-        return {failed: false, value: document};
-      },*/
-      count(criteria) {
-        return driver.count(config.name, criteria);
-      },
-      async find(criteria) {
-        const documents = await driver.find(config.name, criteria);
-        return documents.map(document => this.unpack(document));
-      },
-      async exists(criteria) {
-        const count = await driver.count(config.name, criteria);
-        return count > 0;
-      },
-      insert(document = {}) {
-        return this.write(document,
-          validated => driver.insert(config.name, primary, validated));
-      },
-      update(criteria, document = {}) {
-        return this.write(document,
-          validated => driver.update(config.name, criteria, validated));
-      },
-      save(document) {
-        return document[primary] === undefined
-          ? this.insert(document)
-          : this.update({[primary]: document[primary]}, document);
-      },
-      delete(criteria) {
-        return driver.delete(config.name, criteria);
-      },
+  const store = {
+    async validate(input) {
+      const result = await validate({input, connection, schema,
+        strict: config.strict});
+      if (Object.keys(result.errors).length > 0) {
+        const error = FailedDocumentValidation.new(Object.keys(result));
+        error.errors = result.errors;
+        throw error;
+      } else {
+        return result.document;
+      }
     },
-    actions(client, store) {
-      return {
-        ...Object.fromEntries(actions
-          .map(action => [action, (...args) => store[action](...args)])),
-        ...config.actions(client, store),
-      };
+    async write(input, writer) {
+      const document = await this.validate(input);
+      return config.readonly ? document : unpack(await writer(pack(document)));
+    },
+    async get(value) {
+      const document = await connection.get(name, primary, value);
+
+      document === undefined &&
+        errors.NoDocumentFound.throw(primary, value,
+          `${path}.exists({${primary}: ${value}})`, `${path}.get$`);
+
+      return unpack(document);
+    },
+    async count(criteria) {
+      return connection.count(name, criteria);
+    },
+    async find(criteria) {
+      const documents = await connection.find(name, criteria);
+      return documents.map(document => unpack(document));
+    },
+    async exists(criteria) {
+      const count = await connection.count(name, criteria);
+      return count > 0;
+    },
+    async insert(document = {}) {
+      return this.write(document,
+        validated => connection.insert(name, primary, validated));
+    },
+    async update(criteria, document = {}) {
+      return this.write(document,
+        validated => connection.update(name, criteria, validated));
+    },
+    async save(document) {
+      return document[primary] === undefined
+        ? this.insert(document)
+        : this.update({[primary]: document[primary]}, document);
+    },
+    async delete(criteria) {
+      return connection.delete(name, criteria);
+    },
+    schema: {
+      async create(description) {
+        return connection.schema.create(name, description);
+      },
+      async delete() {
+        return connection.schema.delete(name);
+      },
     },
   };
+
+  return {...store, ...actions(store, connection)};
 };

@@ -1,6 +1,6 @@
 import crypto from "runtime-compat/crypto";
 import {bold} from "runtime-compat/colors";
-import {extend, inflate, map, transform} from "runtime-compat/object";
+import {extend, inflate, transform} from "runtime-compat/object";
 import wrap from "./wrap.js";
 import {memory} from "./drivers/exports.js";
 import errors from "./errors.js";
@@ -9,34 +9,25 @@ import primary from "./primary.js";
 const last = -1;
 const ending = -3;
 
-const open_stores = (stores, defaults) =>
-  stores.map(([name, module]) =>
-    [name, wrap(module.name, module.schema, {
-      ...map(defaults, ([key, value]) => [key, module[key] ?? value]),
-      actions: module.actions ?? (() => ({})),
-    })]
-  );
+const make_transaction = async env => {
+  const [transaction] = await Promise.all(env.drivers.map(driver =>
+    driver.transact(async facade => env.stores
+      .filter(store => (store.driver ?? env.defaults.driver) === driver)
+      .map(([name, store]) => [name, wrap(store, facade, driver.types)]))));
 
-const make_transaction = (env) => {
-  const stores = open_stores(env.stores, env.defaults);
-
-  const drivers = [...new Set(stores.map(([, store]) => store.driver)).keys()];
   return {
     id: crypto.randomUUID(),
-    transaction: Object.fromEntries(["start", "commit", "rollback", "end"]
-      .map(action =>
-        [action, () => Promise.all(drivers.map(driver => driver[action]()))]
-      )),
-    store: stores.reduce((base, [name, {actions, driver, store}]) =>
-      extend(base, inflate(name, actions(driver.client, store)))
+    transaction: transaction.execute,
+    store: transaction.stores.reduce((base, [name, store]) =>
+      extend(base, inflate(name, store))
     , {}),
   };
 };
 
-const validType = ({base, validate}) =>
+const valid_type = ({base, validate}) =>
   base !== undefined && typeof validate === "function";
 
-const valid = (type, name, store) => validType(type)
+const valid = (type, name, store) => valid_type(type)
   ? type
   : errors.InvalidType.throw(name, store);
 
@@ -48,25 +39,16 @@ export default ({
   /* whether all fields should be non-empty before saving */
   strict = false,
 } = {}) => {
-  let enabled = true;
-  const env = {
-    defaults: {},
-  };
+  let env = {};
+
   return {
     name: "primate:store",
     async init(app, next) {
-      env.log = app.log;
+      const log = app.log;
 
       const root = app.root.join(directory);
       !await root.exists && errors.MissingStoreDirectory.throw(root);
-      env.defaults = {
-        // start driver
-        driver: await (await driver)(app),
-        strict,
-        readonly: false,
-        ambiguous: false,
-      };
-      env.stores = await Promise.all((await root.collect(/^.*.js$/u))
+      const stores = await Promise.all((await root.collect(/^.*.js$/u))
         /* accept only uppercase-first files in store filename */
         .filter(path => /^[A-Z]/u.test(path.name))
         .map(path => [
@@ -87,7 +69,7 @@ export default ({
 
           const pathed = store.replaceAll("/", ".");
 
-          env.log.info(`loading ${bold(pathed)}`, {module: "primate/store"});
+          log.info(`loading ${bold(pathed)}`, {module: "primate/store"});
 
           const {default: _, ...rest} = exports;
 
@@ -98,33 +80,37 @@ export default ({
           }];
         })
       );
-      Object.keys(env.stores).length === 0
+      Object.keys(stores).length === 0
         && errors.EmptyStoreDirectory.throw(root);
-      env.log.info("all stores nominal", {module: "primate/store"});
+      log.info("all stores nominal", {module: "primate/store"});
+
+      const default_driver = await driver();
+
+      env = {
+        log,
+        stores,
+        defaults: {
+          driver: default_driver,
+          strict,
+          readonly: false,
+          ambiguous: false,
+        },
+        drivers: [...new Set(stores.map(({driver: d}) => d ?? default_driver))],
+      };
 
       return next(app);
     },
     async route(request, next) {
-      if (!enabled) {
-        return next(request);
-      }
-      const {id, transaction, store} = make_transaction(env);
-      await transaction.start();
+      const {id, transaction, store} = await make_transaction(env);
+
       try {
-        const response = await next({...request, transaction, store});
-        await transaction.commit();
-        return response;
+        return await transaction(() => next({...request, store}));
       } catch (error) {
         env.log.auto(error);
-        await transaction.rollback();
         errors.TransactionRolledBack.warn(env.log, id, error.name);
 
         // let core handle error
         throw error;
-      } finally {
-        // some drivers do not explicitly end transactions, in which case this
-        // is a noop
-        await transaction.end();
       }
     },
   };
