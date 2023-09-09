@@ -1,11 +1,11 @@
 import {Path} from "runtime-compat/fs";
 import {filter} from "runtime-compat/object";
-
 import handler from "./handler.js";
 import compile from "./compile.js";
 import publish from "./publish.js";
 import normalize from "./normalize.js";
 import peers from "./peers.js";
+import depend from "../../depend.js";
 
 export default async ({
   name,
@@ -28,7 +28,7 @@ export default async ({
     return {
       name: `primate:${name}`,
       async init(app, next) {
-        await app.depend(on, `frontend:${name}`);
+        await depend(on, `frontend:${name}`);
 
         return next(app);
       },

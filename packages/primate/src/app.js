@@ -14,7 +14,7 @@ import to_sorted from "./to_sorted.js";
 import * as handlers from "./handlers/exports.js";
 import * as loaders from "./loaders/exports.js";
 
-const {DoubleFileExtension, MissingDependencies} = errors;
+const {DoubleFileExtension} = errors;
 
 // use user-provided file or fall back to default
 const index = (base, page, fallback) =>
@@ -172,22 +172,6 @@ export default async (log, root, config) => {
       const bytes = await crypto.subtle.digest(algorithm, encoder.encode(data));
       const prefix = algorithm.replace("-", _ => "");
       return `${prefix}-${btoa(String.fromCharCode(...new Uint8Array(bytes)))}`;
-    },
-    async depend(dependencies, from) {
-      const modules = Object.keys(dependencies);
-
-      const results = await Promise.all(modules.map(module =>
-        tryreturn(_ => import(module)).orelse(_ => module)
-      ));
-      const errored = results.filter(result => typeof result === "string");
-      const versions = to(dependencies)
-        .filter(([dependency]) => errored.includes(dependency))
-        .map(([key, value]) => `${key}@${value}`);
-      if (errored.length > 0) {
-        const install = module => `${this.packager} install ${module.join(" ")}`;
-        MissingDependencies.throw(errored.join(", "), from, install(versions));
-      }
-      return results.filter(result => typeof result !== "string");
     },
     async import(module) {
       const {http: {static: {root}}, location: {client}} = this.config;

@@ -2,6 +2,7 @@ import {numeric} from "runtime-compat/dyndef";
 import {filter, valmap} from "runtime-compat/object";
 import {ident} from "../base.js";
 import {peers} from "../common/exports.js";
+import depend from "../../depend.js";
 
 const types = {
   /* array */
@@ -41,8 +42,8 @@ export default ({
   db,
   user,
   pass,
-} = {}) => async app => {
-  const [{default: Driver}] = await app.depend(on, `store:${name}`);
+} = {}) => async _ => {
+  const [{default: Driver}] = await depend(on, `store:${name}`);
   const sql = new Driver({
     host,
     port,

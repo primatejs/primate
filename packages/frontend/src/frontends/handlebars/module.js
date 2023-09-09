@@ -1,6 +1,7 @@
 import {Response, Status} from "runtime-compat/http";
 import {filter} from "runtime-compat/object";
 import {compile, peers, load} from "../common/exports.js";
+import depend from "../../depend.js";
 
 const handler = ({directory, render}) =>
   (name, props = {}, {status = Status.OK, page} = {}) => async app => {
@@ -29,7 +30,7 @@ export default ({
   return {
     name: `primate:${name}`,
     async init(app, next) {
-      await app.depend(on, `frontend:${name}`);
+      await depend(on, `frontend:${name}`);
 
       imports = await import("./imports.js");
 

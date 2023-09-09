@@ -1,6 +1,7 @@
 import {Response, Status, MediaType} from "runtime-compat/http";
 import {filter} from "runtime-compat/object";
 import {register, compile, peers} from "../common/exports.js";
+import depend from "../../depend.js";
 
 const name = "vue";
 const dependencies = ["vue"];
@@ -34,7 +35,7 @@ export default ({
   return {
     name: `primate:${name}`,
     async init(app, next) {
-      await app.depend(on, `frontend:${name}`);
+      await depend(on, `frontend:${name}`);
 
       imports = await import("./imports.js");
 

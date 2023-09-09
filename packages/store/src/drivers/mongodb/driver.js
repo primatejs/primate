@@ -1,6 +1,7 @@
 import {filter} from "runtime-compat/object";
 import {ident} from "../base.js";
 import {peers} from "../common/exports.js";
+import depend from "../../depend.js";
 
 const toid = ({_id, ...rest}) => ({id: _id, ...rest});
 const to_id = ({id, ...rest}) => id === undefined ? rest : {_id: id, ...rest};
@@ -25,9 +26,12 @@ export default ({
   host = defaults.host,
   port = defaults.port,
   db,
-} = {}) => async app => {
-  const module = `store:${name}`;
-  const [{MongoClient, ObjectId, Decimal128}] = await app.depend(on, module);
+} = {}) => async _ => {
+  const [{
+    MongoClient,
+    ObjectId,
+    Decimal128,
+  }] = await depend(on, `store:${name}`);
   const url = `mongodb://${host}:${port}`;
   const connection = new MongoClient(url);
   await connection.connect();

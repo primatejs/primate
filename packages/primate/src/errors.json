@@ -71,11 +71,6 @@
       "fix": "fix the type or the caller",
       "level": "Info"
     },
-    "MissingDependencies": {
-      "message": "cannot find {0} (imported from {1})",
-      "fix": "install dependencies by issuing {2}",
-      "level": "Error"
-    },
     "ModuleHasNoHooks": {
       "message": "module {0} has no hooks",
       "fix": "ensure every module uses at least one hook or deactivate it",

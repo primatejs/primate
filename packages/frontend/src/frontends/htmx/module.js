@@ -1,6 +1,7 @@
 import {Response, Status, MediaType} from "runtime-compat/http";
 import {filter} from "runtime-compat/object";
 import {peers} from "../common/exports.js";
+import depend from "../../depend.js";
 
 const load_component = async (file) => {
   try {
@@ -48,7 +49,7 @@ export default ({
 } = {}) => ({
   name: `primate:${name}`,
   async init(app, next) {
-    await app.depend(on, `frontend:${name}`);
+    await depend(on, `frontend:${name}`);
 
     return next(app);
   },

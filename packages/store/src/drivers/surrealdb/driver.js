@@ -1,6 +1,7 @@
 import {keymap, valmap, filter} from "runtime-compat/object";
 import {ident} from "../base.js";
 import {peers} from "../common/exports.js";
+import depend from "../../depend.js";
 
 const null_to_undefined = delta =>
   valmap(delta, value => value === null ? undefined : value);
@@ -42,8 +43,8 @@ export default ({
   db,
   user,
   pass,
-} = {}) => async app => {
-  const [{default: Driver}] = await app.depend(on, `store:${name}`);
+} = {}) => async _ => {
+  const [{default: Driver}] = await depend(on, `store:${name}`);
   const client = new Driver(`${host}:${port}/${path}`);
 
   if (user !== undefined && pass !== undefined) {
