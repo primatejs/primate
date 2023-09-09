@@ -5,6 +5,8 @@ import {bold, blue} from "runtime-compat/colors";
 import {is} from "runtime-compat/dyndef";
 import {transform, valmap, to} from "runtime-compat/object";
 import {globify} from "runtime-compat/string";
+import * as runtime from "runtime-compat/meta";
+
 import errors from "./errors.js";
 import {print} from "./Logger.js";
 import dispatch from "./dispatch.js";
@@ -13,12 +15,6 @@ import * as handlers from "./handlers/exports.js";
 import * as loaders from "./loaders/exports.js";
 
 const {DoubleFileExtension, MissingDependencies} = errors;
-
-// do not hard-depend on node
-const packager = import.meta.runtime?.packager ?? "npm";
-const manifest = import.meta.runtime?.manifest ?? "package.json";
-const library = import.meta.runtime?.library ?? "node_modules";
-const runtime = {packager, manifest, library};
 
 // use user-provided file or fall back to default
 const index = (base, page, fallback) =>
@@ -34,8 +30,8 @@ const attribute = attributes => Object.keys(attributes).length > 0
 const tag = ({name, attributes = {}, code = "", close = true}) =>
   `<${name}${attribute(attributes)}${close ? `>${code}</${name}>` : "/>"}`;
 
-const {name, version} = await new Path(import.meta.url).up(2).join(manifest)
-  .json();
+const {name, version} = await new Path(import.meta.url).up(2)
+  .join(runtime.manifest).json();
 
 export default async (log, root, config) => {
   const {http} = config;
@@ -188,7 +184,7 @@ export default async (log, root, config) => {
         .filter(([dependency]) => errored.includes(dependency))
         .map(([key, value]) => `${key}@${value}`);
       if (errored.length > 0) {
-        const install = module => `${packager} install ${module.join(" ")}`;
+        const install = module => `${this.packager} install ${module.join(" ")}`;
         MissingDependencies.throw(errored.join(", "), from, install(versions));
       }
       return results.filter(result => typeof result !== "string");
