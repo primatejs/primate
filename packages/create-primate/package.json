@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@clack/prompts": "^0.7.0",
-    "runtime-compat": "^0.26.2"
+    "runtime-compat": "^0.27.0"
   },
   "type": "module",
   "devDependencies": {
@@ -31,7 +31,7 @@
     "@primate/types": "^0.6.0",
     "@primate/vue": "^0.8.0",
     "@primate/ws": "^0.4.0",
-    "better-sqlite3": "^8.5.2",
+    "better-sqlite3": "^8.6.0",
     "mongodb": "^5.8.1",
     "postgres": "^3.3.5",
     "primate": "^0.22.3",
