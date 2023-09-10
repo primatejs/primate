@@ -1,7 +1,6 @@
 import crypto from "runtime-compat/crypto";
 import {bold} from "runtime-compat/colors";
 import {extend, inflate, transform} from "runtime-compat/object";
-import wrap from "./wrap.js";
 import {memory} from "./drivers/exports.js";
 import errors from "./errors.js";
 import primary from "./primary.js";
@@ -11,16 +10,13 @@ const ending = -3;
 
 const make_transaction = async env => {
   const [transaction] = await Promise.all(env.drivers.map(driver =>
-    driver.transact(async facade => env.stores
+    driver.transact(env.stores
       .filter(store => (store.driver ?? env.defaults.driver) === driver)
-      .map(([name, store]) => [name, wrap(store, facade, driver.types)]))));
+    )));
 
   return {
     id: crypto.randomUUID(),
-    transaction: transaction.execute,
-    store: transaction.stores.reduce((base, [name, store]) =>
-      extend(base, inflate(name, store))
-    , {}),
+    transaction,
   };
 };
 
@@ -44,8 +40,6 @@ export default ({
   return {
     name: "primate:store",
     async init(app, next) {
-      const log = app.log;
-
       const root = app.root.join(directory);
       !await root.exists && errors.MissingStoreDirectory.throw(root);
       const stores = await Promise.all((await root.collect(/^.*.js$/u))
@@ -69,7 +63,7 @@ export default ({
 
           const pathed = store.replaceAll("/", ".");
 
-          log.info(`loading ${bold(pathed)}`, {module: "primate/store"});
+          app.log.info(`loading ${bold(pathed)}`, {module: "primate/store"});
 
           const {default: _, ...rest} = exports;
 
@@ -82,12 +76,12 @@ export default ({
       );
       Object.keys(stores).length === 0
         && errors.EmptyStoreDirectory.throw(root);
-      log.info("all stores nominal", {module: "primate/store"});
+      app.log.info("all stores nominal", {module: "primate/store"});
 
       const default_driver = await driver();
 
       env = {
-        log,
+        log: app.log,
         stores,
         defaults: {
           driver: default_driver,
@@ -101,10 +95,16 @@ export default ({
       return next(app);
     },
     async route(request, next) {
-      const {id, transaction, store} = await make_transaction(env);
+      const {id, transaction} = await make_transaction(env);
 
       try {
-        return await transaction(() => next({...request, store}));
+        return await transaction([], stores => {
+          const store = stores.reduce((base, [name, store]) =>
+            extend(base, inflate(name, store))
+          , {});
+          return next({...request, store});
+        }
+        );
       } catch (error) {
         env.log.auto(error);
         errors.TransactionRolledBack.warn(env.log, id, error.name);

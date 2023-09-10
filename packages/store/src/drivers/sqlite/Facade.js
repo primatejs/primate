@@ -62,19 +62,6 @@ export default class Connection {
     this.connection = connection;
   }
 
-  exists(collection) {
-    const where = "type='table' and name=$collection";
-    const query = `select name from sqlite_master where ${where}`;
-    return this.connection.prepare(query).get({collection}) !== undefined;
-  }
-
-  create(collection, schema) {
-    const body = Object.entries(valmap(schema, value => type(value)))
-      .map(([column, dataType]) => `"${column}" ${dataType}`).join(",");
-    const query = `create table ${collection} (${body})`;
-    this.connection.prepare(query).run();
-  }
-
   find(collection, criteria = {}) {
     const {where, bindings} = predicate(criteria);
     const query = `select * from ${collection} ${where}`;

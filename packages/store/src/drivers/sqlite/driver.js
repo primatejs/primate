@@ -4,6 +4,7 @@ import {ident} from "../base.js";
 import {peers} from "../common/exports.js";
 import depend from "../../depend.js";
 import Pool from "../../pool/exports.js";
+import wrap from "../../wrap.js";
 import Facade from "./Facade.js";
 
 const name = "sqlite";
@@ -16,96 +17,89 @@ const defaults = {
 export default ({
   filename = defaults.filename,
 } = {}) => async () => {
-  const [{default: Driver}] = await depend(on, `store:${name}`);
+  const [{default: Connection}] = await depend(on, `store:${name}`);
   const pool = new Pool({
     manager: {
-      new: () => new Driver(filename, {}),
-      kill: db => db.close(),
+      new: () => new Connection(filename, {}),
+      kill: connection => connection.close(),
     },
   });
 
+  const types = {
+    primary: {
+      validate(value) {
+        if (numeric(value)) {
+          return Number(value);
+        }
+        throw new Error(`\`${value}\` is not a valid primary key value`);
+      },
+      ...ident,
+      out(value) {
+        return Number(value);
+      },
+    },
+    object: {
+      in(value) {
+        return JSON.stringify(value);
+      },
+      out(value) {
+        return JSON.parse(value);
+      },
+    },
+    number: {
+      in(value) {
+        return value;
+      },
+      out(value) {
+        return Number(value);
+      },
+    },
+    // in: driver accepts both number and bigint
+    // out: find/get currently set statement.safeIntegers(true);
+    bigint: ident,
+    boolean: {
+      in(value) {
+        return value === true ? 1 : 0;
+      },
+      out(value) {
+        // out: find/get currently set statement.safeIntegers(true);
+        return Number(value) === 1;
+      },
+    },
+    date: {
+      in(value) {
+        return value.toJSON();
+      },
+      out(value) {
+        return new Date(value);
+      },
+    },
+    string: ident,
+  };
+
   return {
     name,
-    async acquire() {
-      const connection = await pool.acquire();
-      return async logic => {
-        await logic(connection);
-        pool.release(connection);
+    types,
+    async transact(stores) {
+      return async (others, next) => {
+        const connection = await pool.acquire();
+        const facade = new Facade(connection);
+        try {
+          connection.prepare("begin transaction").run();
+          const response = await next([...others, ...stores.map(([_, store]) =>
+            [_, wrap(store, facade, types)]),
+          ]);
+          connection.prepare("commit transaction").run();
+          return response;
+        } catch (error) {
+          connection.prepare("rollback transaction").run();
+          // bubble up
+          throw error;
+        } finally {
+          // noop, no end transaction
+          pool.release(connection);
+        }
       };
-    },
-    async transact(preparing) {
-      const connection = await pool.acquire();
-      return {
-        stores: await preparing(new Facade(connection)),
-        // extending to multistores: first get the other stores, and at last
-        // return the route fn
-        execute: async next => {
-          try {
-            connection.prepare("begin transaction").run();
-            const response = await next();
-            connection.prepare("commit transaction").run();
-            return response;
-          } catch (error) {
-            connection.prepare("rollback transaction").run();
-            // bubble up
-            throw error;
-          } finally {
-            // noop, no end transaction
-            pool.release(connection);
-          }
-        },
-      };
-    },
-    types: {
-      primary: {
-        validate(value) {
-          if (numeric(value)) {
-            return Number(value);
-          }
-          throw new Error(`\`${value}\` is not a valid primary key value`);
-        },
-        ...ident,
-        out(value) {
-          return Number(value);
-        },
-      },
-      object: {
-        in(value) {
-          return JSON.stringify(value);
-        },
-        out(value) {
-          return JSON.parse(value);
-        },
-      },
-      number: {
-        in(value) {
-          return value;
-        },
-        out(value) {
-          return Number(value);
-        },
-      },
-      // in: driver accepts both number and bigint
-      // out: find/get currently set statement.safeIntegers(true);
-      bigint: ident,
-      boolean: {
-        in(value) {
-          return value === true ? 1 : 0;
-        },
-        out(value) {
-          // out: find/get currently set statement.safeIntegers(true);
-          return Number(value) === 1;
-        },
-      },
-      date: {
-        in(value) {
-          return value.toJSON();
-        },
-        out(value) {
-          return new Date(value);
-        },
-      },
-      string: ident,
     },
   };
 };
