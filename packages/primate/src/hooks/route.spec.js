@@ -95,7 +95,7 @@ export default test => {
       assert(r(url).pathname.toString()).equals(expected.toString());
     },
     fail: (url, result) => {
-      const reason = mark("no {0} route to {1}", "GET", result ?? url);
+      const reason = mark("no {0} route to {1}", "get", result ?? url);
       assert(() => r(url)).throws(reason);
     },
     typefail: (url, failure) => {
