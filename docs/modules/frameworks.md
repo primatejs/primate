@@ -55,14 +55,15 @@ Every frontend framework registers its own file extension with the
 [`view`][view] handler and needs to be loaded in `primate.config.js`. You can
 use different frontend frameworks alongside each other, in different routes.
 
-|Name    |File Extension|Package          |[Layouts]|SSR|Hydration|[Liveview]|
-|--------|--------------|-----------------|---------|---|---------|----------|
-|HTML    |`html`        |`primate`        |✗        |✗  |✗        |✗         |
-|[Svelte]|`svelte`      |`@primate/svelte`|✓        |✓  |✓        |✓         |
-|[React] |`jsx`         |`@primate/react` |✓        |✓  |✓        |✓         |
-|[Solid] |`jsx`         |`@primate/solid` |✓        |✓  |✓        |✓         |
-|[Vue]   |`vue`         |`@primate/vue`   |✗        |✓  |✗        |✗         |
-|[HTMX]  |`htmx`        |`@primate/htmx`  |✗        |✗  |✗        |✗         |
+|Name         |File Extension|[Layouts]|SSR|Hydration|[Liveview]|
+|-------------|--------------|---------|---|---------|----------|
+|HTML         |`html`        |✗        |✗  |✗        |✗         |
+|[Svelte]     |`svelte`      |✓        |✓  |✓        |✓         |
+|[React]      |`jsx`         |✓        |✓  |✓        |✓         |
+|[Solid]      |`jsx`         |✓        |✓  |✓        |✓         |
+|[Vue]        |`vue`         |✗        |✓  |✗        |✗         |
+|[HTMX]       |`htmx`        |✗        |✗  |✗        |✗         |
+|[Handlebars] |`handlebars`  |✗        |✓  |✗        |✗         |
 
 [view]: /guide/responses#view
 [Svelte]: /modules/svelte
@@ -70,5 +71,6 @@ use different frontend frameworks alongside each other, in different routes.
 [Solid]: /modules/solid
 [Vue]: /modules/vue
 [HTMX]: /modules/htmx
+[Handlebars]: /modules/handlebars
 [Layouts]: /guide/layouts
 [Liveview]: /modules/liveview
