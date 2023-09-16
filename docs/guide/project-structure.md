@@ -101,9 +101,10 @@ served with the `view` handler.
 If your app is an API or doesn't have any views, you don't need to create this
 directory.
 
-Primate's official modules includes support for various [frontend
-frameworks](/modules/frameworks) such as React, Vue, Svelte or HTMX.
+Primate's official modules includes support for various [frontend frameworks]
+such as React, Vue, Svelte, Solid or HTMX.
 
+[frontend frameworks](/modules/frontend)
 [routes]: /guide/routes
 [components]: /guide/components
 [default-config]:

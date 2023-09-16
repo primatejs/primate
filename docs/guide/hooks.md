@@ -175,9 +175,9 @@ component rendered into HTML.
 **Precondition** none
 
 This hook allows modules to compile server-side components into JavaScript. Is
-it particularly useful for [frontend frameworks][frontend-frameworks] which use
-their own domain-specific languages (React/Solid's `jsx`, Vue's `vue` (SFC),
-Svelte's `svelte` etc.) to be served through server-side rendering.
+it particularly useful for [frontend frameworks] which use their own
+domain-specific languages (React/Solid's `jsx`, Vue's `vue` (SFC), Svelte's 
+`svelte` etc.) to be served through server-side rendering.
 
 This hook accepts the app as its first and the next subscriber as its second
 parameter.
@@ -189,8 +189,8 @@ parameter.
 **Precondition** none
 
 This hook allows modules to publish client-side code and entry points. It is
-particularly useful for [frontend frameworks][frontend-frameworks], which may
-need to register their own core scripts.
+particularly useful for [frontend frameworks], which may need to register their
+own core scripts.
 
 Publishing entry points allow bundler modules to effectively consolidate code
 during the `bundle` hook.
@@ -324,4 +324,4 @@ completely on your own. In some circumstances, a hybrid solution makes the most
 sense: some requests you're handling on your own, and for some you want the
 normal Primate logic to run its due course.
 
-[frontend-frameworks]: /modules/frameworks
+[frontend frameworks]: /modules/frontend

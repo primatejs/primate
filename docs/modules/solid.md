@@ -25,7 +25,7 @@ If you are using another JSX frontend module alongside Solid, consider changing
 the file extension for Solid to something else, to avoid conflicts.
 
 ```js caption=primate.config.js
-import solid from "@primate/solid";
+import {solid} from "@primate/frontend";
 
 export default {
   modules: [

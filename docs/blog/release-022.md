@@ -209,7 +209,7 @@ on-disk-caching in such a scenario.
 
 During this release cycle, we have moved to fully support the React handler,
 including hydration, layouts, and liveview. For more information see the
-[frontend frameworks](/modules/frameworks) overview page.
+[frontend frameworks](/modules/frontend) overview page.
 
 This brings to 3 the number of frameworks we completely support: Svelte, React
 and Solid.

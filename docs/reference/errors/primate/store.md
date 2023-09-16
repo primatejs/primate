@@ -27,6 +27,21 @@ property, itself a function.
 
 **Use a valid type.**
 
+## Missing Dependencies
+
+Level [`Error`][error] | [`Bailout`][bailout]
+
+A store module was loaded in the configuration for which dependencies are
+missing.
+
+**Install the dependency according to the instructions in the error message.**
+
+The store module only provides wrappers for data store drivers. The actual
+package needs to be installed by the user. Primate will inform you which
+dependency is missing and what command you need to issue to install it.
+
+[bailout]: /guide/logging#bailout
+
 ## Missing Primary Key
 
 Level [`Error`][error] | [`Bailout`][bailout]

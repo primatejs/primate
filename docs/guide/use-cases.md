@@ -88,7 +88,7 @@ Primate supports serving components from the `components` directory using its
 
 In the [Getting started][quick-start] section, we showed how to build a simple
 web page that includes form submission. However, modern apps include many
-aspects such as [frontend frameworks][frameworks] with server-side rendering
+aspects such as [frontend frameworks] with server-side rendering
 and hydration, [data stores][stores] with transactions, [bundling][bundling]
 and [user sessions][sessions]. Primate's [module system][extending-primate]
 allows these extensions to be easily added to an app. Primate's
@@ -106,7 +106,7 @@ login, sessions). The Primate website uses Priss itself.
 [routes]: /guide/routes
 [view-handler]: /guide/responses#view
 [quick-start]: /guide/getting-started#quick-start
-[frameworks]: /modules/frameworks
+[frontend frameworks]: /modules/frontend
 [stores]: /modules/store
 [bundling]: /modules/esbuild
 [sessions]: /modules/session
