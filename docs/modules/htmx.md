@@ -2,16 +2,16 @@
 
 This handler module serves HTMX components with the `htmx` extension.
 
-## Install
+# Install
 
-`npm i @primate/htmx`
+`npm i @primate/frontend`
 
 ## Configure
 
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import htmx from "@primate/htmx";
+import {htmx} from "@primate/frontend";
 
 export default {
   modules: [

@@ -2,16 +2,16 @@
 
 This handler module serves Markdown components with the `md` extension.
 
-## Install
+# Install
 
-`npm i @primate/markdown`
+`npm i @primate/frontend`
 
 ## Configure
 
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import solid from "@primate/markdown";
+import {markdown} from "@primate/frontend";
 
 export default {
   modules: [

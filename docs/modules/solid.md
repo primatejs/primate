@@ -3,16 +3,16 @@
 This handler module supports SSR and hydration and serves Solid (JSX)
 components with the `jsx` extension.
 
-## Install
+# Install
 
-`npm i @primate/solid`
+`npm i @primate/frontend`
 
 ## Configure
 
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import solid from "@primate/solid";
+import {solid} from "@primate/frontend";
 
 export default {
   modules: [

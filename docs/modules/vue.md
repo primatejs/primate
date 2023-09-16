@@ -1,18 +1,18 @@
 # Vue
 
 This handler module supports SSR and serves Vue SFC components with the `vue`
-filename extension.
+extension.
 
-## Install
+# Install
 
-`npm i @primate/vue`
+`npm i @primate/frontend`
 
 ## Configure
 
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import vue from "@primate/vue";
+import {vue} from "@primate/frontend";
 
 export default {
   modules: [

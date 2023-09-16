@@ -59,6 +59,7 @@ export default {
           "Solid",
           "Vue",
           "HTMX",
+          "Handlebars",
           "Markdown",
           {heading: "Data"},
           "Types",

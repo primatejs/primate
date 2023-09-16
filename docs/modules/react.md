@@ -1,18 +1,18 @@
 # React
 
-This handler module supports SSR and hydration and serves React (JSX) components
-with the `jsx` filename extension.
+This handler module supports SSR and hydration and serves React (JSX)
+components with the `jsx` extension.
 
-## Install
+# Install
 
-`npm i @primate/react`
+`npm i @primate/frontend`
 
 ## Configure
 
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import react from "@primate/react";
+import {react} from "@primate/frontend";
 
 export default {
   modules: [
