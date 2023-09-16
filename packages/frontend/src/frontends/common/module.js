@@ -18,17 +18,19 @@ export default async ({
   const on = filter(peers, ([key]) => dependencies.includes(key));
 
   const {rootname, create_root, default: client} = await import(exports_path);
-  const imports = await import(imports_path);
 
   return ({
     directory,
     extension = default_extension,
   } = {}) => {
+    let imports;
 
     return {
       name: `primate:${name}`,
       async init(app, next) {
         await depend(on, `frontend:${name}`);
+
+        imports = await import(imports_path);
 
         return next(app);
       },
