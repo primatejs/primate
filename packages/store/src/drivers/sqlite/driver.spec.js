@@ -1,23 +1,15 @@
+import {Path} from "runtime-compat/fs";
 import driver from "./driver.js";
 import base from "../base.test.js";
 
-const client = async () => {
-  const d = await driver()();
-  d.create("user", {
-    id: "primary",       // primary
-    name: "string",      // string
-    sex: "string",
-    traits: "embedded",  // object
-    age: "u8",           // number
-    smart: "boolean",    // boolean
-    money: "i64",        // bigint
-    created: "datetime", // date
-    from: "string",
-  });
-  d.create("comment", {
-    title: "string",
-  });
-  return d;
-};
+const filename = new Path(import.meta.url).up(1).join("db.json");
 
-export default test => base(test, client);
+export default async test => {
+  base(test, () => driver({filename: `${filename}`})(), {
+    after: async () => {
+      if (await filename.exists) {
+        await filename.file.remove();
+      }
+    },
+  });
+};

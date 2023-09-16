@@ -15,13 +15,16 @@
     "url": "https://github.com/primatejs/primate",
     "directory": "packages/store"
   },
+  "scripts": {
+    "db:surreal": "surreal start --user test --pass test"
+  },
   "dependencies": {
     "runtime-compat": "^0.27.1"
   },
   "devDependencies": {
     "@primate/types": "^0.6.0",
     "better-sqlite3": "^8.6.0",
-    "mongodb": "^5.8.1",
+    "mongodb": "^5.9.0",
     "postgres": "^3.3.5",
     "surrealdb.js": "^0.8.4"
   },

@@ -4,7 +4,15 @@ import {filter} from "runtime-compat/object";
 const remove_null = delta => filter(delta , ([, value]) => value !== null);
 const remove_by_null = (document, delta) =>
   filter(document, ([key]) => delta[key] !== null);
-const filter_by = (collection, criteria) => {
+const filter_in = (collection, criteria) => {
+  if (criteria === undefined) {
+    return collection;
+  }
+  const keys = Object.keys(criteria);
+  return collection.filter(document =>
+    keys.every(criterion => document[criterion] === criteria[criterion]));
+};
+const filter_out = (collection, criteria) => {
   if (criteria === undefined) {
     return collection;
   }
@@ -49,7 +57,7 @@ export default class Connection {
   }
 
   async #filter(name, criteria) {
-    return filter_by(await this.#read(name), criteria);
+    return filter_in(await this.#read(name), criteria);
   }
 
   async exists(name) {
@@ -67,7 +75,7 @@ export default class Connection {
 
   async get(name, primary, value) {
     const collection = await this.#read(name);
-    return collection[this.#find_index(name, {[primary]: value})];
+    return collection[await this.#find_index(name, {[primary]: value})];
   }
 
   async insert(name, primary, document) {
@@ -94,7 +102,7 @@ export default class Connection {
   async delete(name, criteria) {
     const original_size = await this.count(name);
     await this.#write(name, collection =>
-      criteria === undefined ? [] : filter_by(collection, criteria));
-    return original_size - this.count(name);
+      criteria === undefined ? [] : filter_out(collection, criteria));
+    return original_size - await this.count(name);
   }
 }

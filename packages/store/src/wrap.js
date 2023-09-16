@@ -24,11 +24,13 @@ export default (config, connection, types) => {
   const {schema, actions = _ => ({})} = config;
 
   const pack = document => transform("in")({document, path, schema, types});
-  const unpack = document => transform("out")({document, path, schema, types});
+  const unpack = result => typeof result === "object"
+    ? transform("out")({document: result, path, schema, types})
+    : result;
 
   const store = {
     async validate(input) {
-      const result = await validate({input, connection, schema,
+      const result = await validate({input, types, schema,
         strict: config.strict});
       if (Object.keys(result.errors).length > 0) {
         const error = FailedDocumentValidation.new(Object.keys(result));
@@ -43,11 +45,12 @@ export default (config, connection, types) => {
       return config.readonly ? document : unpack(await writer(pack(document)));
     },
     async get(value) {
-      const document = await connection.get(name, primary, value);
+      const id = types.primary.in(value);
+      const document = await connection.get(name, primary, id);
 
       document === undefined &&
-        errors.NoDocumentFound.throw(primary, value,
-          `${path}.exists({${primary}: ${value}})`, `${path}.get$`);
+        errors.NoDocumentFound.throw(primary, id,
+          `${path}.exists({${primary}: ${id}})`, `${path}.get$`);
 
       return unpack(document);
     },
@@ -55,7 +58,7 @@ export default (config, connection, types) => {
       return connection.count(name, criteria);
     },
     async find(criteria) {
-      const documents = await connection.find(name, criteria);
+      const documents = await connection.find(name, pack(criteria));
       return documents.map(document => unpack(document));
     },
     async exists(criteria) {
@@ -68,7 +71,7 @@ export default (config, connection, types) => {
     },
     async update(criteria, document = {}) {
       return this.write(document,
-        validated => connection.update(name, criteria, validated));
+        validated => connection.update(name, pack(criteria), validated));
     },
     async save(document) {
       return document[primary] === undefined
@@ -76,7 +79,7 @@ export default (config, connection, types) => {
         : this.update({[primary]: document[primary]}, document);
     },
     async delete(criteria) {
-      return connection.delete(name, criteria);
+      return connection.delete(name, pack(criteria));
     },
     schema: {
       async create(description) {

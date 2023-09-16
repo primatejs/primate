@@ -14,8 +14,8 @@ export default class Facade {
     create: async _ => {
       // noop
     },
-    delete: async _ => {
-      // noop
+    delete: async name => {
+      await this.#by(name).drop();
     },
   };
 
@@ -38,7 +38,7 @@ export default class Facade {
   }
 
   async count(name, criteria = {}) {
-    return this.#by(name).count(criteria, this.#options);
+    return this.#by(name).countDocuments(criteria, this.#options);
   }
 
   async get(name, primary, value) {
@@ -53,7 +53,7 @@ export default class Facade {
 
   async update(name, criteria = {}, delta = {}) {
     return (await this.#by(name)
-      .updateMany(to_id(criteria), null_to_set_unset(delta)), this.#options)
+      .updateMany(cid(criteria), null_to_set_unset(delta), this.#options))
       .modifiedCount;
   }
 

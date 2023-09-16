@@ -1,6 +1,6 @@
 const normalize = string => string.trim() === "" ? undefined : string;
 
-export default async ({connection, input, schema, strict}) =>
+export default async ({types, input, schema, strict}) =>
   Object.entries(schema).reduce(({errors, document}, [name, field]) => {
     const value = input[name];
     // skip empty fields if not in strict mode
@@ -9,9 +9,11 @@ export default async ({connection, input, schema, strict}) =>
     }
 
     try {
-      // empty strings are considered undefind
-      const normalized = typeof value === "string" ? normalize(value) : value;
-      const validated = field.validate(normalized, connection);
+      // empty strings are considered undefined
+      const normal = typeof value === "string" ? normalize(value) : value;
+      // null signals *removal* to the driver
+      const validated = !strict && value === null
+        ? null : field.validate(normal, types);
       return {
         errors,
         document: {...document, [name]: validated},

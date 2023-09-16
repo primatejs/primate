@@ -47,8 +47,9 @@ const change = delta => {
 export default class Connection {
   schema = {
     create: async (name, description) => {
-      const body = Object.entries(valmap(description, value => type(value)))
-        .map(([column, dataType]) => `"${column}" ${dataType}`).join(",");
+      const body =
+        Object.entries(valmap(description, value => type(value.base)))
+          .map(([column, dataType]) => `"${column}" ${dataType}`).join(",");
       const query = `create table if not exists ${name} (${body})`;
       this.connection.prepare(query).run();
     },

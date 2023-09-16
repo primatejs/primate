@@ -4,10 +4,9 @@ import base from "../base.test.js";
 
 const filename = new Path(import.meta.url).up(1).join("db.json");
 
-const client = async () => (await json({filename: `${filename}`}))();
+const client = () => json({filename: `${filename}`})();
 
 export default async test => {
-
   base(test, client, {
     after: async () => {
       if (await filename.exists) {

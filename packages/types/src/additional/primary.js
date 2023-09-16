@@ -4,9 +4,9 @@ const error = "types.primary :: driver missing primary key";
 
 export default {
   base: "primary",
-  validate(value, driver) {
-    is(driver?.types.primary).defined(error);
+  validate(value, types) {
+    is(types.primary).defined(error);
 
-    return driver.types.primary.validate(value);
+    return types.primary.validate(value);
   },
 };

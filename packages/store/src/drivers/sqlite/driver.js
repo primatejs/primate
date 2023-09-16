@@ -1,6 +1,6 @@
 import {numeric} from "runtime-compat/dyndef";
 import {filter} from "runtime-compat/object";
-import {ident} from "../base.js";
+import ident from "../ident.js";
 import {peers} from "../common/exports.js";
 import depend from "../../depend.js";
 import Pool from "../../pool/exports.js";
@@ -28,13 +28,14 @@ export default ({
   const types = {
     primary: {
       validate(value) {
-        if (numeric(value)) {
+        if (typeof value === "number" || numeric(value)) {
           return Number(value);
         }
         throw new Error(`\`${value}\` is not a valid primary key value`);
       },
       ...ident,
       out(value) {
+        // bigint
         return Number(value);
       },
     },

@@ -1,5 +1,5 @@
 import {filter} from "runtime-compat/object";
-import {ident} from "../base.js";
+import ident from "../ident.js";
 import {peers} from "../common/exports.js";
 import depend from "../../depend.js";
 import wrap from "../../wrap.js";

@@ -28,7 +28,7 @@ export default class Connection {
   schema = {
     create: async (name, description) => {
       const body =
-        Object.entries(valmap(description, value => type(value)))
+        Object.entries(valmap(description, value => type(value.base)))
           .map(([column, dataType]) => `"${column}" ${dataType}`).join(",");
       await this.sql`
         create table if not exists 
