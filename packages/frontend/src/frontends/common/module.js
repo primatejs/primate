@@ -17,13 +17,11 @@ export default async ({
   const imports_path = new Path("..", name, "imports.js");
   const on = filter(peers, ([key]) => dependencies.includes(key));
 
-  const {rootname, create_root, default: client} = await import(exports_path);
-
   return ({
     directory,
     extension = default_extension,
   } = {}) => {
-    let imports;
+    let imports, exports;
 
     return {
       name: `primate:${name}`,
@@ -31,15 +29,16 @@ export default async ({
         await depend(on, `frontend:${name}`);
 
         imports = await import(imports_path);
+        exports = await import(exports_path);
 
         return next(app);
       },
       async register(app, next) {
         app.register(extension, handler({
           app,
-          rootname,
+          rootname: exports.rootname,
           render: imports.render,
-          client,
+          client: exports.default,
           normalize: normalized,
         }));
 
@@ -50,8 +49,8 @@ export default async ({
           app,
           directory: directory ?? app.config.location.components,
           extension,
-          rootname,
-          create_root,
+          rootname: exports.rootname,
+          create_root: exports.create_root,
           compile: imports.compile.server,
         });
 
@@ -64,8 +63,8 @@ export default async ({
           app,
           directory: directory ?? app.config.location.components,
           extension,
-          rootname,
-          create_root,
+          rootname: exports.rootname,
+          create_root: exports.create_root,
           normalize: normalized,
           compile: imports.compile.client,
         });
