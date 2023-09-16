@@ -1,26 +1,6 @@
 import {keymap, valmap} from "runtime-compat/object";
+import typemap from "./typemap.js";
 
-const types = {
-  /* array */
-  /*blob: "BLOB",*/
-  boolean: "bool",
-  datetime: "datetime",
-  embedded: "object",
-  f64: "float",
-  i8: "int",
-  i16: "int",
-  i32: "int",
-  i64: "string", // bigint cannot be serialised in JSON
-  json: "string",
-  primary: "string",
-  string: "string",
-  time: "duration",
-  u8: "int",
-  u16: "int",
-  u32: "int",
-};
-
-const type = value => types[value];
 const null_to_undefined = delta =>
   valmap(delta, value => value === null ? undefined : value);
 
@@ -48,8 +28,8 @@ export default class Connection {
   schema = {
     create: async (name, description) => {
       const body =
-        Object.entries(valmap(description, value => type(value.base)))
-          .filter(([column]) =>column !== "id")
+        Object.entries(valmap(description, value => typemap(value.base)))
+          .filter(([column]) => column !== "id")
           .map(([column, dataType]) =>
             `define field ${column} on ${name} type option<${dataType}>;`)
           .join("\n");

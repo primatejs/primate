@@ -1,3 +1,4 @@
+import {maybe} from "runtime-compat/dyndef";
 import {tryreturn} from "runtime-compat/sync";
 import * as object from "runtime-compat/object";
 import errors from "./errors.js";
@@ -18,7 +19,7 @@ const transform = to => ({types, schema, document, path}) =>
         })
     ));
 
-export default (config, connection, types) => {
+export default (config, facade, types) => {
   const name = config.name.toLowerCase();
   const path = name.replaceAll("_", ".");
   const {schema, actions = _ => ({})} = config;
@@ -29,6 +30,8 @@ export default (config, connection, types) => {
     : result;
 
   const store = {
+    connection: facade.connection,
+    facade,
     async validate(input) {
       const result = await validate({input, types, schema,
         strict: config.strict});
@@ -46,7 +49,7 @@ export default (config, connection, types) => {
     },
     async get(value) {
       const id = types.primary.in(value);
-      const document = await connection.get(name, primary, id);
+      const document = await facade.get(name, primary, id);
 
       document === undefined &&
         errors.NoDocumentFound.throw(primary, id,
@@ -55,23 +58,27 @@ export default (config, connection, types) => {
       return unpack(document);
     },
     async count(criteria) {
-      return connection.count(name, criteria);
+      maybe(criteria).object();
+      return facade.count(name, criteria);
     },
     async find(criteria) {
-      const documents = await connection.find(name, pack(criteria));
+      maybe(criteria).object();
+      const documents = await facade.find(name, pack(criteria));
       return documents.map(document => unpack(document));
     },
     async exists(criteria) {
-      const count = await connection.count(name, criteria);
+      maybe(criteria).object();
+      const count = await facade.count(name, criteria);
       return count > 0;
     },
     async insert(document = {}) {
       return this.write(document,
-        validated => connection.insert(name, primary, validated));
+        validated => facade.insert(name, primary, validated));
     },
     async update(criteria, document = {}) {
+      maybe(criteria).object();
       return this.write(document,
-        validated => connection.update(name, pack(criteria), validated));
+        validated => facade.update(name, pack(criteria), validated));
     },
     async save(document) {
       return document[primary] === undefined
@@ -79,17 +86,19 @@ export default (config, connection, types) => {
         : this.update({[primary]: document[primary]}, document);
     },
     async delete(criteria) {
-      return connection.delete(name, pack(criteria));
+      maybe(criteria).object();
+      return facade.delete(name, pack(criteria));
     },
     schema: {
       async create(description) {
-        return connection.schema.create(name, description);
+        maybe(description).object();
+        return facade.schema.create(name, description);
       },
       async delete() {
-        return connection.schema.delete(name);
+        return facade.schema.delete(name);
       },
     },
   };
 
-  return {...store, ...actions(store, connection)};
+  return {...store, ...actions(store)};
 };

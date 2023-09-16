@@ -1,25 +1,5 @@
-import {filter, keymap, valmap} from "runtime-compat/object";
-
-const types = {
-  /* array */
-  blob: "bytea",
-  boolean: "boolean",
-  datetime: "timestamp",
-  embedded: "text",
-  f64: "real",
-  i8: "smallint",
-  i16: "integer",
-  i32: "bigint",
-  i64: "decimal",
-  json: "json",
-  primary: "serial primary key",
-  string: "text",
-  time: "time",
-  u8: "smallint",
-  u16: "integer",
-  u32: "integer",
-};
-const type = value => types[value];
+import {filter, valmap} from "runtime-compat/object";
+import typemap from "./typemap.js";
 
 const filter_null = object => filter(object, ([, value]) => value !== null);
 const filter_nulls = objects => objects.map(object => filter_null(object));
@@ -27,78 +7,86 @@ const filter_nulls = objects => objects.map(object => filter_null(object));
 export default class Connection {
   schema = {
     create: async (name, description) => {
+      const {connection} = this;
       const body =
-        Object.entries(valmap(description, value => type(value.base)))
+        Object.entries(valmap(description, value => typemap(value.base)))
           .map(([column, dataType]) => `"${column}" ${dataType}`).join(",");
-      await this.sql`
+      await connection`
         create table if not exists 
-        ${this.sql(name)} (${this.sql.unsafe(body)})
+        ${connection(name)} (${connection.unsafe(body)})
       `;
     },
     delete: async name => {
-      await this.sql`drop table if exists ${this.sql(name)};`;
+      const {connection} = this;
+      await connection`drop table if exists ${connection(name)};`;
     },
   };
 
-  constructor(sql) {
-    this.sql = sql;
+  constructor(connection) {
+    this.connection = connection;
   }
 
   async find(collection, criteria = {}) {
-    return filter_nulls(await this.sql`
+    const {connection} = this;
+    return filter_nulls(await connection`
       select *
-      from ${this.sql(collection)}
+      from ${connection(collection)}
       where ${Object.entries(criteria).reduce((acc, [key, value]) =>
-    this.sql`${acc} and ${this.sql(key)} = ${value}`, this.sql`true`)}
+    connection`${acc} and ${connection(key)} = ${value}`, connection`true`)}
     `);
   }
 
   async count(collection, criteria = {}) {
-    const [{count}] = await this.sql`
+    const {connection} = this;
+    const [{count}] = await connection`
       select count(*)
-      from ${this.sql(collection)}
+      from ${connection(collection)}
       where ${Object.entries(criteria).reduce((acc, [key, value]) =>
-    this.sql`${acc} and ${this.sql(key)} = ${value}`, this.sql`true`)}
+    connection`${acc} and ${connection(key)} = ${value}`, connection`true`)}
     `;
     return Number(count);
   }
 
   async get(collection, primary, value) {
-    const [result] = await this.sql`
+    const {connection} = this;
+    const [result] = await connection`
       select * 
-      from ${this.sql(collection)} 
-      where ${this.sql(primary)}=${value};
+      from ${connection(collection)} 
+      where ${connection(primary)}=${value};
     `;
     return result === undefined ? result : filter_null(result);
   }
 
   async insert(collection, primary, document) {
+    const {connection} = this;
     const columns = Object.keys(document);
-    const [result] = await this.sql`insert into
-      ${this.sql(collection)} 
+    const [result] = await this.connection`insert into
+      ${connection(collection)} 
       ${columns.length > 0
-    ? this.sql`(${this.sql(columns)}) values ${this.sql(document)}`
-    : this.sql.unsafe("default values")}
+    ? connection`(${connection(columns)}) values ${connection(document)}`
+    : connection.unsafe("default values")}
       returning *;
     `;
     return filter_null(result);
   }
 
   async update(collection, criteria = {}, delta = {}) {
-    return (await this.sql`
-      update ${this.sql(collection)}
-      set ${this.sql({...delta})}
+    const {connection} = this;
+    return (await connection`
+      update ${connection(collection)}
+      set ${connection({...delta})}
       where ${Object.entries(criteria).reduce((acc, [key, value]) =>
-        this.sql`${acc} and ${this.sql(key)} = ${value}`, this.sql`true`)}
+        connection`${acc} and ${connection(key)} = ${value}`, connection`true`)}
       returning *;
     `).length;
   }
 
   async delete(collection, criteria = {}) {
-    return (await this.sql`
-      delete from ${this.sql(collection)}
+    const {connection} = this;
+    return (await connection`
+      delete from ${connection(collection)}
       where ${Object.entries(criteria).reduce((acc, [key, value]) =>
-        this.sql`${acc} and ${this.sql(key)} = ${value}`, this.sql`true`)}
+        connection`${acc} and ${connection(key)} = ${value}`, connection`true`)}
       returning *;
     `).length;
   }

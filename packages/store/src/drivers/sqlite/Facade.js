@@ -1,25 +1,5 @@
 import {filter, keymap, valmap} from "runtime-compat/object";
-
-const types = {
-  /* array */
-  blob: "BLOB",
-  boolean: "INTEGER",
-  datetime: "TEXT",
-  embedded: "TEXT",
-  f64: "REAL",
-  i8: "INTEGER",
-  i16: "INTEGER",
-  i32: "INTEGER",
-  i64: "INTEGER",
-  json: "TEXT",
-  primary: "INTEGER PRIMARY KEY",
-  string: "TEXT",
-  time: "TEXT",
-  u8: "INTEGER",
-  u16: "INTEGER",
-  u32: "INTEGER",
-};
-const type = value => types[value];
+import typemap from "./typemap.js";
 
 const filter_null = results =>
   results.map(result => filter(result, ([, value]) => value !== null));
@@ -48,7 +28,7 @@ export default class Connection {
   schema = {
     create: async (name, description) => {
       const body =
-        Object.entries(valmap(description, value => type(value.base)))
+        Object.entries(valmap(description, value => typemap(value.base)))
           .map(([column, dataType]) => `"${column}" ${dataType}`).join(",");
       const query = `create table if not exists ${name} (${body})`;
       this.connection.prepare(query).run();
