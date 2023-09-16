@@ -2,10 +2,10 @@ import dependencies from "../dependencies.js";
 
 export default () => ({
   dependencies: {
-    "@primate/htmx": dependencies["@primate/htmx"],
+    "@primate/frontend": dependencies["@primate/frontend"],
   },
   imports: {
-    htmx: "@primate/htmx",
+    htmx: "@primate/frontend",
   },
   modules: {
     htmx: "",

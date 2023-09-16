@@ -5,3 +5,4 @@ export {default as solid} from "./solid.js";
 export {default as vue} from "./vue.js";
 export {default as htmx} from "./htmx.js";
 export {default as markdown} from "./markdown.js";
+export {default as handlebars} from "./handlebars.js";

@@ -2,10 +2,10 @@ import dependencies from "../dependencies.js";
 
 export default () => ({
   dependencies: {
-    "@primate/solid": dependencies["@primate/solid"],
+    "@primate/frontend": dependencies["@primate/frontend"],
   },
   imports: {
-    solid: "@primate/solid",
+    solid: "@primate/frontend",
   },
   modules: {
     solid: "",

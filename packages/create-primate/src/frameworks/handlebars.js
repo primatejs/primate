@@ -5,9 +5,9 @@ export default () => ({
     "@primate/frontend": dependencies["@primate/frontend"],
   },
   imports: {
-    markdown: "@primate/frontend",
+    handlebars: "@primate/frontend",
   },
   modules: {
-    markdown: "",
+    handlebars: "",
   },
 });

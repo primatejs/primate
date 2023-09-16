@@ -2,10 +2,10 @@ import dependencies from "../dependencies.js";
 
 export default () => ({
   dependencies: {
-    "@primate/svelte": dependencies["@primate/svelte"],
+    "@primate/frontend": dependencies["@primate/frontend"],
   },
   imports: {
-    svelte: "@primate/svelte",
+    svelte: "@primate/frontend",
   },
   modules: {
     svelte: "",

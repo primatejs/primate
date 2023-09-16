@@ -15,7 +15,7 @@
     "directory": "packages/frontend"
   },
   "devDependencies": {
-    "@babel/core": "^7.22.19",
+    "@babel/core": "^7.22.20",
     "babel-preset-solid": "^1.7.7",
     "esbuild": "^0.19.3",
     "handlebars": "^4.7.8",
@@ -28,7 +28,7 @@
     "vue": "^3.3.4"
   },
   "dependencies": {
-    "runtime-compat": "^0.27.1"
+    "runtime-compat": "^0.27.2"
   },
   "peerDependencies": {
     "@babel/core": "7",

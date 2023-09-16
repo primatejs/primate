@@ -16,25 +16,21 @@
   },
   "dependencies": {
     "@clack/prompts": "^0.7.0",
-    "runtime-compat": "^0.27.1"
+    "runtime-compat": "^0.27.2"
   },
   "type": "module",
   "devDependencies": {
-    "@primate/esbuild": "^0.10.0",
-    "@primate/htmx": "^0.17.0",
-    "@primate/liveview": "^0.4.0",
-    "@primate/markdown": "^0.2.0",
-    "@primate/react": "^0.10.0",
-    "@primate/session": "^0.10.0",
-    "@primate/store": "^0.12.3",
-    "@primate/svelte": "^0.16.0",
-    "@primate/types": "^0.6.0",
-    "@primate/vue": "^0.8.0",
-    "@primate/ws": "^0.4.0",
+    "@primate/esbuild": "^0.11.0",
+    "@primate/frontend": "^0.3.2",
+    "@primate/liveview": "^0.5.0",
+    "@primate/session": "^0.11.0",
+    "@primate/store": "^0.13.0",
+    "@primate/types": "^0.7.0",
+    "@primate/ws": "^0.5.0",
     "better-sqlite3": "^8.6.0",
-    "mongodb": "^5.8.1",
+    "mongodb": "^6.1.0",
     "postgres": "^3.3.5",
-    "primate": "^0.22.3",
-    "surrealdb.js": "^0.8.4"
+    "primate": "^0.23.0",
+    "surrealdb.js": "^0.9.0"
   }
 }
