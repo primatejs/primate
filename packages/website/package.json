@@ -5,7 +5,7 @@
     "@primate/frontend": "^0.3.3",
     "marked": "^9.0.2",
     "primate": "^0.23.1",
-    "priss": "^0.20.3",
+    "priss": "^0.20.4",
     "svelte": "^4.2.0"
   },
   "scripts": {
