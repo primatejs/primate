@@ -16,7 +16,7 @@
     "deps": "yarn upgrade-interactive"
   },
   "devDependencies": {
-    "debris": "^0.13.1",
+    "debris": "^0.14.0",
     "maximin": "^0.1.9"
   },
   "type": "module",

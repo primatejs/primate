@@ -23,7 +23,7 @@ export default test => {
       assert(() => o.validate(value)).throws();
     });
     [{}, Object(), new Object()].forEach(value => {
-      assert(() => o.validate(value)).not_throws();
+      assert(() => o.validate(value)).nthrows();
     });
     assert(() => o.validate({age: "twenty"}))
       .throws("`twenty` is not a number");

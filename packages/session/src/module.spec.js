@@ -178,7 +178,7 @@ export default test => {
       assert(session.data).undefined();
       assert(() => session.set({})).throws();
       await session.create();
-      assert(() => session.set({})).not_throws();
+      assert(() => session.set({})).nthrows();
       return response();
     };
 

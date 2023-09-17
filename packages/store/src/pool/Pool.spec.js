@@ -14,7 +14,7 @@ export default test => {
     assert(() => new Pool({manager: {new: () => null}})).throws();
     assert(() => new Pool({
       manager: {new: () => null, kill: () => null},
-    })).not_throws();
+    })).nthrows();
 
     assert(pool.reusable).false();
     assert(pool.inflatable).true();
