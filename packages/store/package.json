@@ -30,7 +30,7 @@
   },
   "peerDependencies": {
     "better-sqlite3": "8",
-    "mongodb": "5",
+    "mongodb": "6",
     "postgres": "3",
     "primate": "0.23",
     "surrealdb.js": "0.9"

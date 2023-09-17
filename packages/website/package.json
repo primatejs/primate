@@ -3,7 +3,7 @@
   "private": true,
   "dependencies": {
     "@primate/frontend": "^0.3.2",
-    "marked": "^9.0.1",
+    "marked": "^9.0.2",
     "primate": "^0.23.1",
     "priss": "^0.20.3",
     "svelte": "^4.2.0"
