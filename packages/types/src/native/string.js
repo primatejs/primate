@@ -1,4 +1,4 @@
-import {is, assert} from "runtime-compat/dyndef";
+import {every, assert} from "runtime-compat/invariant";
 
 const between = ({length}, min, max) => length >= min && length <= max;
 const base = "string";
@@ -12,8 +12,7 @@ const string = {
     throw new Error("not a string");
   },
   between(min, max) {
-    is(min).usize();
-    is(max).usize();
+    every(min, max).usize();
     assert(min >= max, "min has to be smaller than max");
 
     return {

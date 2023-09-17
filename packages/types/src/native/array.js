@@ -1,4 +1,4 @@
-import {is, maybe} from "runtime-compat/dyndef";
+import {is, maybe} from "runtime-compat/invariant";
 
 const base = "array";
 

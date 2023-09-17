@@ -2,7 +2,7 @@ import crypto from "runtime-compat/crypto";
 import {tryreturn} from "runtime-compat/async";
 import {File, Path} from "runtime-compat/fs";
 import {bold, blue} from "runtime-compat/colors";
-import {is} from "runtime-compat/dyndef";
+import {is} from "runtime-compat/invariant";
 import {transform, valmap, to} from "runtime-compat/object";
 import {globify} from "runtime-compat/string";
 import * as runtime from "runtime-compat/meta";

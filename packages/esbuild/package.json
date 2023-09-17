@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "esbuild": "^0.19.3",
-    "runtime-compat": "^0.27.2"
+    "runtime-compat": "^0.28.4"
   },
   "peerDependencies": {
     "primate": "0.23"

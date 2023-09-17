@@ -30,7 +30,7 @@ numeric and outputs its as a number. This example uses implicit notation.
 
 ```js caption=types/number.js
 // `is` asserts invariants, `numeric` returns true if a string is numeric
-import {is, numeric} from "runtime-compat/dyndef";
+import {is, numeric} from "runtime-compat/invariant";
 
 export default value => {
   // make sure value is a string, otherwise throw
@@ -57,7 +57,7 @@ Here is the same example using explicit notation.
 
 ```js caption=types/number.js
 // `is` asserts invariants, `numeric` returns true if a string is numeric
-import {is, numeric} from "runtime-compat/dyndef";
+import {is, numeric} from "runtime-compat/invariant";
 
 export default {
   validate(value) {
@@ -84,7 +84,7 @@ additional properties relevant for persisting values.
 You can also create more elaborate types, like `uuid`.
 
 ```js caption=types/uuid.js
-import {is} from "runtime-compat/dyndef";
+import {is} from "runtime-compat/invariant";
 
 const valid = /^[^\W_]{8}-[^\W_]{4}-[^\W_]{4}-[^\W_]{4}-[^\W_]{12}$/u;
 

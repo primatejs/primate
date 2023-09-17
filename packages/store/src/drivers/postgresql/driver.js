@@ -1,4 +1,4 @@
-import {numeric} from "runtime-compat/dyndef";
+import {numeric} from "runtime-compat/invariant";
 import {filter} from "runtime-compat/object";
 import ident from "../ident.js";
 import {peers} from "../common/exports.js";

@@ -12,7 +12,8 @@
   },
   "scripts": {
     "test": "npx debris",
-    "lint": "npx eslint ."
+    "lint": "npx eslint .",
+    "deps": "yarn upgrade-interactive"
   },
   "devDependencies": {
     "debris": "^0.13.1",

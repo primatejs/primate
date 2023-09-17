@@ -1,4 +1,4 @@
-import {is} from "runtime-compat/dyndef";
+import {is} from "runtime-compat/invariant";
 
 const error = "types.primary :: driver missing primary key";
 

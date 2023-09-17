@@ -28,7 +28,7 @@
     "vue": "^3.3.4"
   },
   "dependencies": {
-    "runtime-compat": "^0.27.2"
+    "runtime-compat": "^0.28.4"
   },
   "peerDependencies": {
     "@babel/core": "7",

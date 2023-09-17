@@ -1,4 +1,4 @@
-import {numeric} from "runtime-compat/dyndef";
+import {numeric} from "runtime-compat/invariant";
 
 const coercibles = {
   string: value => numeric(value) ? Number(value) : value,

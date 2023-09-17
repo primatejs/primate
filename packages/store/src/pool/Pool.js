@@ -1,4 +1,4 @@
-import {is, assert} from "runtime-compat/dyndef";
+import {is, assert, every} from "runtime-compat/invariant";
 import {map} from "runtime-compat/async";
 import errors from "./errors.js";
 
@@ -13,18 +13,16 @@ export default class Pool {
   constructor({
     // maximal connection size
     size = 4,
-    // connection manager, must implement `new` and `kill`
-    manager,
     // timeout to acquire a connection, in milliseconds
     timeout = 500,
     // waitfor reacquiring, in milliseconds
     waitfor = 50,
+    // connection manager, must implement `new` and `kill`
+    manager,
   } = {}) {
-    is(size).usize();
-    is(manager?.new).function();
-    is(manager?.kill).function();
-    is(timeout).usize();
-    is(waitfor).usize();
+    every(size, timeout, waitfor).usize();
+    is(manager).defined();
+    every(manager.new, manager.kill).function();
 
     this.#size = size;
     this.#manager = manager;

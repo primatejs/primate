@@ -1,4 +1,4 @@
-import {maybe} from "runtime-compat/dyndef";
+import {maybe} from "runtime-compat/invariant";
 import {tryreturn} from "runtime-compat/sync";
 import * as object from "runtime-compat/object";
 import errors from "./errors.js";

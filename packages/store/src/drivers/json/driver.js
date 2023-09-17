@@ -1,5 +1,5 @@
 import {Path} from "runtime-compat/fs";
-import {is} from "runtime-compat/dyndef";
+import {is} from "runtime-compat/invariant";
 import wrap from "../../wrap.js";
 import Facade from "../memory/Facade.js";
 import types from "../memory/types.js";

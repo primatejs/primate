@@ -1,5 +1,5 @@
 import crypto from "runtime-compat/crypto";
-import {is} from "runtime-compat/dyndef";
+import {is, every} from "runtime-compat/invariant";
 
 const cookie = (name, value, {path, secure, httpOnly, sameSite}) =>
   `${name}=${value};${httpOnly};Path=${path};${secure};SameSite=${sameSite}`;
@@ -46,11 +46,10 @@ export default ({
   manager = in_memory_session_manager(),
   implicit = false,
 } = {}) => {
-  is(name).string();
-  is(sameSite).string();
+  every(name, sameSite, path).string();
   is(httpOnly).boolean();
-  is(path).string();
   is(manager).function();
+
   const options = {
     sameSite,
     path,
@@ -66,8 +65,7 @@ export default ({
     async handle(request, next) {
       const id = request.cookies.get(name);
       const session = manager(id);
-      is(session.create).function();
-      is(session.destroy).function();
+      every(session.create, session.destroy).function();
 
       const response = await next({...request, session});
 

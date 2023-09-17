@@ -1,4 +1,4 @@
-import {is, maybe} from "runtime-compat/dyndef";
+import {is, maybe} from "runtime-compat/invariant";
 import {tryreturn} from "runtime-compat/sync";
 import {map} from "runtime-compat/object";
 import {camelcased} from "runtime-compat/string";

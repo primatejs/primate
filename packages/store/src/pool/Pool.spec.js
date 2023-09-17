@@ -10,10 +10,8 @@ export default test => {
   });
 
   test.case("constructor invariants", ({assert, pool}) => {
-    assert(() => new Pool()).throws("`undefined` must be of type function");
-    assert(() => new Pool({
-      manager: {new: () => null},
-    })).throws("`undefined` must be of type function");
+    assert(() => new Pool()).throws();
+    assert(() => new Pool({manager: {new: () => null}})).throws();
     assert(() => new Pool({
       manager: {new: () => null, kill: () => null},
     })).not_throws();

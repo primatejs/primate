@@ -1,4 +1,4 @@
-import {assert} from "runtime-compat/dyndef";
+import {assert} from "runtime-compat/invariant";
 import * as predicates from "../predicates/exports.js";
 import {orthrow, not} from "../common/exports.js";
 
