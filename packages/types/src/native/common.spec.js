@@ -1,3 +1,3 @@
 export * from "../common/spec.js";
 
-export default test => {};
+export default _ => {};

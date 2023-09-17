@@ -98,7 +98,7 @@ export default async (test, driver, lifecycle) => {
 
   test.case("find", async ({assert, t}) => {
     await t(async ({User}) => {
-      /*const user1 = {name: "Donald", sex: "M"};
+      const user1 = {name: "Donald", sex: "M"};
       const user2 = {name: "Donald", sex: "M", age: 20};
       const user3 = {name: "Ryan", sex: "M"};
       const {id: id1} = await User.insert(user1);
@@ -128,7 +128,7 @@ export default async (test, driver, lifecycle) => {
       // multiple criteria
       const users4 = await User.find({name: "Donald", age: 20});
       assert(users4.length).equals(1);
-      assert(users4.find(({id}) => id === user2$.id)).defined();*/
+      assert(users4.find(({id}) => id === user2$.id)).defined();
 
       // embedded
       const {id} = await User.insert({...traits});
@@ -261,7 +261,7 @@ export default async (test, driver, lifecycle) => {
       assert(await User.count()).equals(0);
     });
   });
-  /*test.case("transactions", async ({assert, transaction, user}) => {
+  /* test.case("transactions", async ({assert, transaction, user}) => {
     const {start, rollback, commit, end} = transaction;
 
     assert(() => rollback()).throws();

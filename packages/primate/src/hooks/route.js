@@ -10,7 +10,7 @@ const ieq = (left, right) => left.toLowerCase() === right.toLowerCase();
 export const invalid = route => /\./u.test(route);
 
 const deroot = pathname => pathname.endsWith("/") && pathname !== "/"
-    ? pathname.slice(0, -1) : pathname;
+  ? pathname.slice(0, -1) : pathname;
 
 export default app => {
   const {types, routes, config: {types: {explicit}, location}} = app;
