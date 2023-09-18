@@ -5,10 +5,22 @@ import {renderToString} from "react-dom/server";
 import {createElement} from "react";
 import esbuild from "esbuild";
 
-import {hydrate} from "./client/exports.js";
+import {expose} from "./client/exports.js";
 
-export const render = (...args) =>
-  ({body: renderToString(createElement(...args))});
+export const render = (component, props) => {
+  const heads = [];
+  const push_head = (_heads) => {
+    heads.push(..._heads);
+  };
+  const body = renderToString(createElement(component, {...props, push_head}));
+  if (heads.filter(head => head.startsWith("<title")).length > 1) {
+    const error = `May only contain one <title> across component hierarchy`;
+    throw new Error(error);
+  }
+  const head = heads.join("\n");
+
+  return {body, head};
+}
 
 const options = {loader: "jsx", jsx: "automatic"};
 export const compile = {
@@ -48,6 +60,7 @@ export const prepare = async app => {
     ...valmap(imports, value => `${new Path("/", library, module, value)}`),
   };
 
-  // export hydration code
-  app.export({type: "script", code: hydrate});
+  await app.import("@primate/frontend");
+  // expose code through "app", for bundlers
+  await app.export({type: "script", code: expose});
 };

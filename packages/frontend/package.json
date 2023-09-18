@@ -80,5 +80,12 @@
     }
   },
   "type": "module",
-  "exports": "./src/exports.js"
+  "exports": {
+    ".": {
+      "browser": {
+        "default": "./src/client/exports.js"
+      },
+      "default": "./src/exports.js"
+    }
+  }
 }

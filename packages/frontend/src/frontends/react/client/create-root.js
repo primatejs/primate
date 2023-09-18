@@ -9,9 +9,12 @@ export default length => {
   return `
     import React from "react";
     const {createElement} = React;
+    import {ReactHeadContext, is} from "@primate/frontend";
 
-    export default function Root({components, data}) {
-      return ${body};
+    export default function Root({components, data, push_head: value}) {
+      return is.client
+        ? ${body}
+        : createElement(ReactHeadContext.Provider, {value}, ${body});
     };
   `;
 };

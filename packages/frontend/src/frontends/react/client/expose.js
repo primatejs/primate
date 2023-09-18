@@ -3,4 +3,5 @@ export default `
   const {createElement} = React;
   export {createElement};
   export {hydrateRoot} from "react-dom/client";
+  export {ReactHead} from "@primate/frontend";
 `;
