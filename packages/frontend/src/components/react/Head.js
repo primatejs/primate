@@ -13,18 +13,17 @@ const make_tag = ({type, props}, id) => {
     const element = globalThis.document.createElement(type);
     Object.entries(props).forEach(([name, value]) => {
       element.setAttribute(name, value);
-    })
+    });
     element.dataset.rh = id;
     return element;
-  } else {
-    const attributes = Object.entries(props)
-      .map(([key, value]) => `${key}="${value}"`)
-      .concat(`${data_attribute}="${id}"`)
-      .join(" ");
-
-    return `<${type} ${attributes}/>`;
   }
-}
+  const attributes = Object.entries(props)
+    .map(([key, value]) => `${key}="${value}"`)
+    .concat(`${data_attribute}="${id}"`)
+    .join(" ");
+
+  return `<${type} ${attributes}/>`;
+};
 
 const render = (maybe_children, id) => {
   const children = to_array(maybe_children);
@@ -42,17 +41,16 @@ const render = (maybe_children, id) => {
     titles.forEach(title => {
       globalThis.document.title = title.props.children;
     });
-    for (const child of others) {
-      globalThis.document.head.prepend(make_tag(child, id));
-    }
+    others.forEach(other => {
+      globalThis.document.head.prepend(make_tag(other, id));
+    });
   } else {
     return [
       ...titles.map(title => `<title>${title.props.children}</title>`),
       ...others.map(other => make_tag(other, rh_ssr)),
     ];
   }
-}
-
+};
 
 const ReactHead = class ReactHead extends React.Component {
   // clearing after SSR and before root hydration
@@ -89,7 +87,7 @@ const ReactHead = class ReactHead extends React.Component {
       this.context(render(this.props.children));
     }
   }
-}
+};
 
 ReactHead.contextType = ReactHeadContext;
 

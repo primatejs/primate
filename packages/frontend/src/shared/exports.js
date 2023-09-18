@@ -5,7 +5,6 @@ const is_client = globalThis.document?.createElement !== undefined;
 const is = {
   client: is_client,
   server: !is_client,
-}
-const rh = "react-head";
+};
 
-export {is, rh};
+export {is};

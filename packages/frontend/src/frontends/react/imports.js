@@ -14,13 +14,13 @@ export const render = (component, props) => {
   };
   const body = renderToString(createElement(component, {...props, push_head}));
   if (heads.filter(head => head.startsWith("<title")).length > 1) {
-    const error = `May only contain one <title> across component hierarchy`;
+    const error = "May only contain one <title> across component hierarchy";
     throw new Error(error);
   }
   const head = heads.join("\n");
 
   return {body, head};
-}
+};
 
 const options = {loader: "jsx", jsx: "automatic"};
 export const compile = {
