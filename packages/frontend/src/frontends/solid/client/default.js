@@ -7,12 +7,13 @@ const {groups: {code: hydration_script}} = generateHydrationScript()
 
 export default ({names, data}, options) => `
   import * as components from "app";
-  import {hydrate_solid, render_solid} from "app";
+  import {hydrate_solid, render_solid, SolidHead} from "app";
 
   window._$HY = {events: [], completed: new WeakSet(), r: {}};
 
   ${hydration_script}
 
+  SolidHead.clear();
   let dispose = hydrate_solid(() => components.${rootname}({
       components: [${names.map(name => `components.${name}`).join(", ")}],
       data: JSON.parse(${JSON.stringify(JSON.stringify(data))}),

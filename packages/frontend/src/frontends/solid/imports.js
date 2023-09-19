@@ -4,10 +4,23 @@ import {renderToString} from "solid-js/web";
 import {transformAsync} from "@babel/core";
 import solid from "babel-preset-solid";
 
-import {hydrate} from "./client/exports.js";
+import {expose} from "./client/exports.js";
 
-export const render = (component, ...args) =>
-  ({body: renderToString(() => component(...args))});
+export const render = (component, props) => {
+  const heads = [];
+  const push_head = _heads => {
+    heads.push(..._heads);
+  };
+  const body = renderToString(() => component({...props, push_head}));
+0
+  if (heads.filter(head => head.startsWith("<title")).length > 1) {
+    const error = "May only contain one <title> across component hierarchy";
+    throw new Error(error);
+  }
+  const head = heads.join("\n");
+
+  return {body, head};
+};
 
 export const compile = {
   async server(text) {
@@ -42,7 +55,10 @@ export const prepare = async app => {
   await depend("solid-js", app, true);
   await depend("solid-js/web", app);
 
-  // export hydration code
-  app.export({type: "script", code: hydrate});
+  if (app.importmaps["@primate/frontend"] === undefined) {
+    await app.import("@primate/frontend");
+  }
+  // expose code through "app", for bundlers
+  await app.export({type: "script", code: expose});
 };
 

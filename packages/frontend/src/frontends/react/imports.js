@@ -9,7 +9,7 @@ import {expose} from "./client/exports.js";
 
 export const render = (component, props) => {
   const heads = [];
-  const push_head = (_heads) => {
+  const push_head = _heads => {
     heads.push(..._heads);
   };
   const body = renderToString(createElement(component, {...props, push_head}));
@@ -60,7 +60,9 @@ export const prepare = async app => {
     ...valmap(imports, value => `${new Path("/", library, module, value)}`),
   };
 
-  await app.import("@primate/frontend");
+  if (app.importmaps["@primate/frontend"] === undefined) {
+    await app.import("@primate/frontend");
+  }
   // expose code through "app", for bundlers
   await app.export({type: "script", code: expose});
 };
