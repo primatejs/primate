@@ -102,6 +102,8 @@ const render = (component, props) => {
 And the same for Solid.
 
 ```js caption=server-render-solid.js
+import {renderToString} from "solid-js/web";
+
 export const render = (component, props) => {
   const heads = [];
   const push_heads = sub_heads => {
