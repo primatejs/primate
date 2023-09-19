@@ -112,13 +112,29 @@ export default {
   get(request) {
     const {User} = request.store;
 
-    // as u8 can only contain 0-255, validation will fail, throwing an error
+    // count before
+    const before = await User.count();
+
+    // this works, as `age` it's smaller than 255
+    // user will contain a generated id and {age: 120}
+    const user = await User.insert({
+      age: 120,
+    });
+
+    // after + 1 === before
+    const after = await User.count();
+
+    // at this stage, a new user has been inserted as part of this transaction
+    // it's visible within this route, but not commited yet
+
+    // u8 can only contain 0-255, validation will fail, throwing an error
     // as this is not handled explicitly here, the transaction will be rolled
     // back and the client redirected to an error page
     await User.insert({
       age: 256,
     });
 
+    // the previous insert failed validation, this line will never be reached
     return "user saved!";
   },
 };
