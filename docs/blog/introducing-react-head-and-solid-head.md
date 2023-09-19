@@ -52,8 +52,8 @@ the client components will take over management of their head tags.
 If you use `@primate/liveview` to navigate between pages without a full reload,
 `ReactHead` will manage its head tags between page changes, automatically
 removing the tags used by the previous page's components and inserting new
-ones. Tags in `pages/index.html` won't be managed by `ReactHead` and will be 
-left intact.
+ones. Tags in `pages/app.html` won't be managed by `ReactHead` and will be left
+intact.
 
 ## Use outside of Primate
 
