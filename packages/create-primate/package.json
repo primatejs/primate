@@ -20,17 +20,17 @@
   },
   "type": "module",
   "devDependencies": {
-    "@primate/esbuild": "^0.11.0",
-    "@primate/frontend": "^0.3.2",
+    "@primate/esbuild": "^0.11.1",
+    "@primate/frontend": "^0.4.0",
     "@primate/liveview": "^0.5.0",
-    "@primate/session": "^0.11.0",
-    "@primate/store": "^0.13.0",
-    "@primate/types": "^0.7.0",
-    "@primate/ws": "^0.5.0",
+    "@primate/session": "^0.11.1",
+    "@primate/store": "^0.13.2",
+    "@primate/types": "^0.7.1",
+    "@primate/ws": "^0.5.1",
     "better-sqlite3": "^8.6.0",
     "mongodb": "^6.1.0",
     "postgres": "^3.3.5",
-    "primate": "^0.23.0",
+    "primate": "^0.23.2",
     "surrealdb.js": "^0.9.0"
   }
 }
