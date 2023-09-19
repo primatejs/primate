@@ -124,7 +124,7 @@ import {ReactHeadContext, is} from "@primate/frontend";
 const Provider = ReactHeadContext.Provider;
 
 export default ({components, data, push_heads: value}) =>
-  is.client ? ${body} : <Provider value={value}>{${body}}</Provider>;
+  is.client ? body : <Provider value={value}>{body}</Provider>;
 ```
 
 And the same for Solid.
@@ -134,7 +134,7 @@ import {SolidHeadContext, is} from "@primate/frontend";
 const Provider = SolidHeadContext.Provider;
 
 export default ({components, data, push_heads: value}) =>
-  is.client ? ${body} : <Provider value={value}>{${body}}</Provider>;
+  is.client ? body : <Provider value={value}>{body}</Provider>;
 ```
 
 We use here the `is` export to check if we're on the client or the server. You
