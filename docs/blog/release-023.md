@@ -115,7 +115,7 @@ export default {
     // count before
     const before = await User.count();
 
-    // this works, as `age` it's smaller than 255
+    // this works, as `age` is smaller than 255
     // user will contain a generated id and {age: 120}
     const user = await User.insert({
       age: 120,
