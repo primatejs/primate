@@ -7,14 +7,11 @@ export default length => {
     `, `createElement(components[${n}], {...data[${n}]})`);
 
   return `
-    import React from "react";
-    const {createElement} = React;
+    import {createElement} from "react";
     import {ReactHeadContext, is} from "@primate/frontend";
+    const {Provider} = ReactHeadContext;
 
-    export default function Root({components, data, push_head: value}) {
-      return is.client
-        ? ${body}
-        : createElement(ReactHeadContext.Provider, {value}, ${body});
-    };
+    export default ({components, data, push_heads: value}) =>
+      is.client ? ${body} : createElement(Provider, {value}, ${body});
   `;
 };

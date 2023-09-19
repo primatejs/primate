@@ -9,10 +9,10 @@ import {expose} from "./client/exports.js";
 
 export const render = (component, props) => {
   const heads = [];
-  const push_head = _heads => {
-    heads.push(..._heads);
+  const push_heads = sub_heads => {
+    heads.push(...sub_heads);
   };
-  const body = renderToString(createElement(component, {...props, push_head}));
+  const body = renderToString(createElement(component, {...props, push_heads}));
   if (heads.filter(head => head.startsWith("<title")).length > 1) {
     const error = "May only contain one <title> across component hierarchy";
     throw new Error(error);

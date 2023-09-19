@@ -1,5 +1,4 @@
 import {Path} from "runtime-compat/fs";
-
 import {renderToString} from "solid-js/web";
 import {transformAsync} from "@babel/core";
 import solid from "babel-preset-solid";
@@ -8,11 +7,11 @@ import {expose} from "./client/exports.js";
 
 export const render = (component, props) => {
   const heads = [];
-  const push_head = _heads => {
-    heads.push(..._heads);
+  const push_heads = sub_heads => {
+    heads.push(...sub_heads);
   };
-  const body = renderToString(() => component({...props, push_head}));
-0
+  const body = renderToString(() => component({...props, push_heads}));
+
   if (heads.filter(head => head.startsWith("<title")).length > 1) {
     const error = "May only contain one <title> across component hierarchy";
     throw new Error(error);

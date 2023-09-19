@@ -12,7 +12,7 @@ export default length => {
 
     const Provider = SolidHeadContext.Provider;
 
-    export default ({components, data, push_head: value}) =>
+    export default ({components, data, push_heads: value}) =>
       is.client ? ${body} : <Provider value={value}>{${body}}</Provider>;
   `;
 };
