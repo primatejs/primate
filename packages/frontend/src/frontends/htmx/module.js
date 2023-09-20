@@ -62,7 +62,7 @@ export default ({
   },
   async publish(app, next) {
     const [dependency] = dependencies;
-    await app.import(dependencies);
+    await app.import(dependency);
     const code = `export * as ${name} from "${dependency}";`;
 
     app.export({type: "script", code});
