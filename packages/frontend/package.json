@@ -16,15 +16,15 @@
   },
   "devDependencies": {
     "@babel/core": "^7.22.20",
-    "babel-preset-solid": "^1.7.7",
+    "babel-preset-solid": "^1.7.12",
     "esbuild": "^0.19.3",
     "handlebars": "^4.7.8",
     "htmx.org": "^1.9.5",
-    "marked": "^9.0.2",
+    "marked": "^9.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "solid-js": "^1.7.11",
-    "svelte": "^4.2.0",
+    "solid-js": "^1.7.12",
+    "svelte": "^4.2.1",
     "vue": "^3.3.4"
   },
   "dependencies": {
