@@ -2,10 +2,10 @@
   "name": "@primate/website",
   "private": true,
   "dependencies": {
-    "marked": "^9.0.2",
+    "marked": "^9.0.3",
     "primate": "^0.23.2",
     "priss": "^0.20.5",
-    "svelte": "^4.2.0"
+    "svelte": "^4.2.1"
   },
   "scripts": {
     "local": "scripts/local.sh",
