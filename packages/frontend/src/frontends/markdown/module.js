@@ -1,7 +1,7 @@
 import {Response, Status, MediaType} from "runtime-compat/http";
 import {stringify, filter} from "runtime-compat/object";
 import {peers} from "../common/exports.js";
-import depend from "../../depend.js";
+import depend from "../depend.js";
 
 const respond = (handler, directory) => (...[name, ...rest]) =>
   async (app, ...noapp) => {

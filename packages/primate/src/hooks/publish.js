@@ -25,9 +25,8 @@ const post = async app => {
     }
 
     const imports = {...app.importmaps, app: src.path};
-    const inline = true;
     const type = "importmap";
-    await app.publish({inline, code: stringify({imports}), type});
+    await app.publish({inline: true, code: stringify({imports}), type});
   }
 
   if (await path.static.exists) {

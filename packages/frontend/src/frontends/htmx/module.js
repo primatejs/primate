@@ -1,7 +1,7 @@
 import {Response, Status, MediaType} from "runtime-compat/http";
 import {filter} from "runtime-compat/object";
 import {peers} from "../common/exports.js";
-import depend from "../../depend.js";
+import depend from "../depend.js";
 
 const load_component = async (file) => {
   try {
@@ -11,30 +11,19 @@ const load_component = async (file) => {
   }
 };
 
-const get_body = async (app, partial, file) => {
-  const body = await load_component(file);
-  return partial ? body : app.render({body});
-};
+const style = "'unsafe-inline'";
+const code = "import {htmx} from \"app\";";
 
 const handler = directory =>
   (name, {status = Status.OK, partial = false} = {}) => async app => {
     const components = app.runpath(directory);
-    const code = "import {htmx} from \"app\";";
-    await app.publish({code, type: "module", inline: true});
+    const {head, csp} = await app.inline(code, "module");
+    const headers = {style, script: csp};
+    const body = await load_component(components.join(name).file);
 
-    const headers = app.headers();
-    const csp = headers["Content-Security-Policy"].replace(
-      "style-src 'self'", "style-src 'self' 'unsafe-inline'"
-    );
-    const body = await get_body(app, partial, components.join(name).file);
-
-    return new Response(body, {
+    return new Response(partial ? body : await app.render({body, head}), {
       status,
-      headers: {
-        ...headers,
-        "Content-Type": MediaType.TEXT_HTML,
-        "Content-Security-Policy": csp,
-      },
+      headers: {...app.headers(headers), "Content-Type": MediaType.TEXT_HTML},
     });
   };
 

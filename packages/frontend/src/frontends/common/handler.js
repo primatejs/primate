@@ -12,7 +12,6 @@ export default config => {
       const options = {
         liveview: app.liveview !== undefined,
       };
-      const {headers} = request;
       if (as_layout) {
         return make(name, props);
       }
@@ -25,7 +24,8 @@ export default config => {
       const data = components.map(component => component.props);
       const names = await get_names(components);
 
-      if (options.liveview && headers.get(app.liveview.header) !== undefined) {
+      if (options.liveview &&
+        request.headers.get(app.liveview?.header) !== undefined) {
         return new Response(JSON.stringify({names, data}), {
           status,
           headers: {...await app.headers(),
@@ -40,14 +40,14 @@ export default config => {
       });
 
       const code = client({names, data}, options);
+      const inlined = await app.inline(code, "module");
 
-      await app.publish({code, type: "module", inline: true});
-      // needs to be called before app.render
-      const headers$ = await app.headers();
+      const headers = app.headers({script: inlined.csp});
+      const rendered = {body, page, head: head.concat(inlined.head)};
 
-      return new Response(await app.render({body, page, head}), {
+      return new Response(await app.render(rendered), {
         status,
-        headers: {...headers$, "Content-Type": MediaType.TEXT_HTML},
+        headers: {...headers, "Content-Type": MediaType.TEXT_HTML},
       });
     };
 };

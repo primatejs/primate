@@ -1,7 +1,7 @@
 import {Response, Status, MediaType} from "runtime-compat/http";
 import {filter} from "runtime-compat/object";
 import {register, compile, peers} from "../common/exports.js";
-import depend from "../../depend.js";
+import depend from "../depend.js";
 
 const name = "vue";
 const dependencies = ["vue"];
@@ -10,7 +10,6 @@ const default_extension = "vue";
 const handler = config => (name, props = {}, {status = Status.OK, page} = {}) =>
   async app => {
     const {make, createSSRApp, render} = config;
-
     const imported = await make(name, props);
     const component = createSSRApp({
       render: imported.component.render,

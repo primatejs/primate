@@ -1,15 +1,13 @@
 import {Response, Status} from "runtime-compat/http";
 import {filter} from "runtime-compat/object";
 import {compile, peers, load} from "../common/exports.js";
-import depend from "../../depend.js";
+import depend from "../depend.js";
 
 const handler = ({directory, render}) =>
   (name, props = {}, {status = Status.OK, page} = {}) => async app => {
     const components = app.runpath(app.config.location.server, directory);
     const {default : component} = await load(components.join(name));
-
     const body = render(component, props);
-
     const headers = await app.headers();
 
     return new Response(await app.render({body, page}), {status, headers});

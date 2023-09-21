@@ -1,7 +1,7 @@
 import {tryreturn} from "runtime-compat/async";
 import {to} from "runtime-compat/object";
 import {packager} from "runtime-compat/meta";
-import errors from "./errors.js";
+import errors from "../errors.js";
 
 const {MissingDependencies} = errors;
 const MODULE_NOT_FOUND = "ERR_MODULE_NOT_FOUND";

@@ -3,7 +3,7 @@ import {tryreturn} from "runtime-compat/async";
 import {File, Path} from "runtime-compat/fs";
 import {bold, blue} from "runtime-compat/colors";
 import {is} from "runtime-compat/invariant";
-import {transform, valmap, to} from "runtime-compat/object";
+import {transform, valmap} from "runtime-compat/object";
 import {globify} from "runtime-compat/string";
 import * as runtime from "runtime-compat/meta";
 
@@ -29,6 +29,22 @@ const attribute = attributes => Object.keys(attributes).length > 0
   : "";
 const tag = ({name, attributes = {}, code = "", close = true}) =>
   `<${name}${attribute(attributes)}${close ? `>${code}</${name}>` : "/>"}`;
+const tags = {
+  // inline: <script type integrity>...</script>
+  // outline: <script type integrity src></script>
+  script({inline, code, type, integrity, src}) {
+    return inline
+      ? tag({name: "script", attributes: {type, integrity}, code})
+      : tag({name: "script", attributes: {type, integrity, src}});
+  },
+  // inline: <style>...</style>
+  // outline: <link rel="stylesheet" href/>
+  style({inline, code, href, rel = "stylesheet"}) {
+    return inline
+      ? tag({name: "style", code})
+      : tag({name: "link", attributes: {rel, href}, close: false});
+  },
+};
 
 const {name, version} = await new Path(import.meta.url).up(2)
   .join(runtime.manifest).json();
@@ -96,24 +112,21 @@ export default async (log, root, config) => {
         }
       }));
     },
-    headers() {
+    headers({script = "", style = ""} = {}) {
       const csp = Object.keys(http.csp).reduce((policy, key) =>
         `${policy}${key} ${http.csp[key]};`, "")
-        .replace("script-src 'self'", `script-src 'self' ${
+        .replace("script-src 'self'", `script-src 'self' ${script} ${
           this.assets
             .filter(({type}) => type !== "style")
             .map(asset => `'${asset.integrity}'`).join(" ")
-        } `)
-        .replace("style-src 'self'", `style-src 'self' ${
+        }`)
+        .replace("style-src 'self'", `style-src 'self' ${style} ${
           this.assets
             .filter(({type}) => type === "style")
             .map(asset => `'${asset.integrity}'`).join(" ")
-        } `);
+        }`);
 
-      return {
-        "Content-Security-Policy": csp,
-        "Referrer-Policy": "same-origin",
-      };
+      return {"Content-Security-Policy": csp, "Referrer-Policy": "same-origin"};
     },
     runpath(...directories) {
       return this.path.build.join(...directories);
@@ -122,28 +135,21 @@ export default async (log, root, config) => {
       const {location: {pages}} = this.config;
 
       const html = await index(this.runpath(pages), page, config.pages.index);
-      // inline: <script type integrity>...</script>
-      // outline: <script type integrity src></script>
-      const script = ({inline, code, type, integrity, src}) => inline
-        ? tag({name: "script", attributes: {type, integrity}, code})
-        : tag({name: "script", attributes: {type, integrity, src}});
-      // inline: <style>...</style>
-      // outline: <link rel="stylesheet" href/>
-      const style = ({inline, code, href, rel = "stylesheet"}) => inline
-        ? tag({name: "style", code})
-        : tag({name: "link", attributes: {rel, href}, close: false});
 
-      const heads = head.concat("\n", to_sorted(this.assets,
+      const heads = to_sorted(this.assets,
         ({type}) => -1 * (type === "importmap"))
         .map(({src, code, type, inline, integrity}) =>
           type === "style"
-            ? style({inline, code, href: src})
-            : script({inline, code, type, integrity, src})
-        ).join("\n"));
-      // remove inline assets
-      this.assets = this.assets.filter(({inline, type}) => !inline
-        || type === "importmap");
+            ? tags.style({inline, code, href: src})
+            : tags.script({inline, code, type, integrity, src})
+        ).join("\n").concat("\n", head);
       return html.replace("%body%", _ => body).replace("%head%", _ => heads);
+    },
+    async inline(code, type) {
+      const integrity = await this.hash(code);
+      const tag_name = type === "style" ? "style" : "script";
+      const head = tags[tag_name]({code, type, inline: true, integrity});
+      return {head, csp: `'${integrity}'`};
     },
     async publish({src, code, type = "", inline = false, copy = true}) {
       if (!inline && copy) {

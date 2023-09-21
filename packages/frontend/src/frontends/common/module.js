@@ -5,7 +5,7 @@ import compile from "./compile.js";
 import publish from "./publish.js";
 import normalize from "./normalize.js";
 import peers from "./peers.js";
-import depend from "../../depend.js";
+import depend from "../depend.js";
 
 export default async ({
   name,
