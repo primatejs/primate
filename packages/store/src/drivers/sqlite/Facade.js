@@ -1,5 +1,8 @@
 import {filter, keymap, valmap} from "runtime-compat/object";
 import typemap from "./typemap.js";
+import {runtime} from "runtime-compat/meta";
+
+const is_bun = runtime === "bun";
 
 const filter_null = results =>
   results.map(result => filter(result, ([, value]) => value !== null));
@@ -47,20 +50,30 @@ export default class Connection {
     const {where, bindings} = predicate(criteria);
     const query = `select * from ${collection} ${where}`;
     const statement = this.connection.prepare(query);
-    statement.safeIntegers(true);
+    if (!is_bun) {
+      statement.safeIntegers(true);
+    }
     return filter_null(statement.all(bindings));
   }
 
   count(collection, criteria = {}) {
     const {where, bindings} = predicate(criteria);
     const query = `select count(*) from ${collection} ${where}`;
-    return this.connection.prepare(query).pluck(true).get(bindings);
+    const prepared = this.connection.prepare(query);
+    if (is_bun) {
+      const [count] = Object.values(prepared.get(bindings));
+      return count;
+    }
+
+    return prepared.pluck(true).get(bindings);
   }
 
   get(collection, primary, value) {
     const query = `select * from ${collection} where ${primary}=$primary`;
     const statement = this.connection.prepare(query);
-    statement.safeIntegers(true);
+    if (!is_bun) {
+      statement.safeIntegers(true);
+    }
     const result = statement.get({primary: value});
     return result === undefined
       ? result
@@ -75,6 +88,17 @@ export default class Connection {
       ? `(${columns.join(",")}) values (${values})`
       : "default values";
     const query = `insert into ${collection} ${$predicate}`;
+
+    if (is_bun) {
+      const $document = keymap(document, key => `$${key}`);
+      this.connection.prepare(query).all($document);
+
+      // get last id
+      const query_last_id = `select id from ${collection} order by id desc`;
+      const {id} = this.connection.prepare(query_last_id).get();
+      return {...document, id};
+    }
+
     const {lastInsertRowid: id} = this.connection.prepare(query).run(document);
     return {...document, id};
   }
