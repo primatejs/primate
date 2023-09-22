@@ -1,5 +1,7 @@
-import {onMount, onCleanup, useContext} from "solid-js";
-import {SolidHeadContext, is} from "@primate/frontend";
+import {onMount, onCleanup, createContext, useContext} from "solid-js";
+const is_client = globalThis.document?.createElement !== undefined;
+
+const HeadContext = createContext();
 
 const to_array = maybe => Array.isArray(maybe) ? maybe : [maybe];
 
@@ -21,7 +23,7 @@ const get_tag = child => child.match(/^<(?<tag>[a-z]*) .*$/u).groups.tag;
 const render = (maybe_children, id) => {
   const children = to_array(maybe_children);
 
-  if (is.client) {
+  if (is_client) {
     // DOM elements
     const titles = children.filter(({tagName}) => tagName === "TITLE");
     const others = children.filter(({tagName}) => tagName !== "TITLE");
@@ -61,30 +63,30 @@ const clear = (data_value) => {
   });
 };
 
-const SolidHead = function SolidHead(props) {
+const Head = function SolidHead(props) {
   let id;
   onMount(() => {
-    if (is.client) {
+    if (is_client) {
       id = crypto.randomUUID();
       render(props.children, id);
     }
   });
 
   onCleanup(() => {
-    if (is.client) {
+    if (is_client) {
       // remove managed tags
       clear(id);
     }
   });
 
-  if (is.server) {
-    const context = useContext(SolidHeadContext);
+  if (!is_client) {
+    const context = useContext(HeadContext);
     context(render(props.children, data_ssr));
   }
 
   // no return, nothing rendered
 };
 
-SolidHead.clear = (data_value = data_ssr) => clear(data_value);
+Head.clear = (data_value = data_ssr) => clear(data_value);
 
-export default SolidHead;
+export {Head, HeadContext};

@@ -1,5 +1,7 @@
-import React from "react";
-import {ReactHeadContext, is} from "@primate/frontend";
+import {Component, createContext} from "react";
+const is_client = globalThis.document?.createElement !== undefined;
+
+const HeadContext = createContext();
 
 const to_array = maybe => Array.isArray(maybe) ? maybe : [maybe];
 
@@ -8,7 +10,7 @@ const data_ssr = "ssr";
 const allowed = ["title", "meta", "style", "meta", "link", "script", "base"];
 
 const make_tag = ({type, props}, id) => {
-  if (is.client) {
+  if (is_client) {
     const element = globalThis.document.createElement(type);
     Object.entries(props).forEach(([name, value]) => {
       element.setAttribute(name, value);
@@ -37,7 +39,7 @@ const render = (maybe_children, id) => {
   const titles = children.filter(({type}) => type === "title");
   const others = children.filter(({type}) => type !== "title");
 
-  if (is.client) {
+  if (is_client) {
     titles.forEach(title => {
       globalThis.document.title = title.props.children;
     });
@@ -57,37 +59,37 @@ const clear = (data_value) => {
   globalThis.document.querySelectorAll(selector).forEach(element => {
     element.remove();
   });
-}
+};
 
-const ReactHead = class ReactHead extends React.Component {
+const Head = class ReactHead extends Component {
   // clearing after SSR and before root hydration
   static clear(data_value = data_ssr) {
     clear(data_value);
   }
 
   componentDidMount() {
-    if (is.client) {
+    if (is_client) {
       this.id = crypto.randomUUID();
       render(this.props.children, this.id);
     }
   }
 
   componentDidUpdate() {
-    if (is.client) {
+    if (is_client) {
       clear(this.id);
       render(this.props.children, this.id);
     }
   }
 
   componentWillUnmount() {
-    if (is.client) {
+    if (is_client) {
       // remove managed tags
       clear(this.id);
     }
   }
 
   render() {
-    if (is.server) {
+    if (!is_client) {
       this.context(render(this.props.children, data_ssr));
     }
 
@@ -95,6 +97,6 @@ const ReactHead = class ReactHead extends React.Component {
   }
 };
 
-ReactHead.contextType = ReactHeadContext;
+Head.contextType = HeadContext;
 
-export default ReactHead;
+export {Head, HeadContext};
