@@ -187,21 +187,24 @@ main {
   border-right: 1px solid #3d3229;
 }
 
-.sidebar ul {
-  margin-bottom: 12rem;
-}
-
-.sidebar .heading {
+.heading {
   color: #676779;
-  padding-top: var(--prs-page-padding-side);
-  display: inline-block;
   text-transform: uppercase;
   font-size: var(--prs-text-s);
   letter-spacing: 1px;
 }
 
-.dark .sidebar .heading {
+.dark .heading {
   color: #989886;
+}
+
+.sidebar ul {
+  margin-bottom: 12rem;
+}
+
+.sidebar .heading {
+  padding-top: var(--prs-page-padding-side);
+  display: inline-block;
 }
 
 .sidebar li {
@@ -519,6 +522,29 @@ img.background {
 
 .dark .hero .buttons a.secondary:hover {
   border: 1px solid var(--prs-primary);
+}
+
+.controls {
+  border-top: 1px solid #f2f6fa;
+  margin: 6rem 0 0;
+  padding: 1rem 0 0;
+  display: flex;
+}
+
+.controls .previous, .controls .next {
+  flex: 1;
+}
+
+.controls .next {
+  text-align: right;
+}
+
+.controls .heading {
+  font-size: var(--prs-text-s);
+}
+
+.dark .controls {
+  border-top: 1px solid #0d0905;
 }
 
 @media (max-width: 428px) {

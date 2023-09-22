@@ -87,19 +87,10 @@ export default class Connection {
     const $predicate = columns.length > 0
       ? `(${columns.join(",")}) values (${values})`
       : "default values";
-    const query = `insert into ${collection} ${$predicate}`;
-
-    if (is_bun) {
-      const $document = keymap(document, key => `$${key}`);
-      this.connection.prepare(query).all($document);
-
-      // get last id
-      const query_last_id = `select id from ${collection} order by id desc`;
-      const {id} = this.connection.prepare(query_last_id).get();
-      return {...document, id};
-    }
-
-    const {lastInsertRowid: id} = this.connection.prepare(query).run(document);
+    const query = `insert into ${collection} ${$predicate} returning id`;
+    const prepared = this.connection.prepare(query);
+    const $document = is_bun ? keymap(document, key => `$${key}`) : document;
+    const {id} = prepared.get($document);
     return {...document, id};
   }
 

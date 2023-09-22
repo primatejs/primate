@@ -25,9 +25,9 @@ anything else you would want Primate to serve statically.
 Every file in this directory is mapped to the root path, `/`. For example, if
 you have a `style.css` file, it will be served at the path `/style.css`.
 
-Static assets take precedence over [routes][routes]. You can configure 
-Primate to serve static assets from a different path by setting the
-`http.static.root` option in your configuration to something else.
+Static assets take precedence over [routes]. You can configure  Primate to
+serve static assets from a different path by setting the `http.static.root`
+option in your configuration to something else.
 
 ## pages
 
@@ -93,10 +93,10 @@ verbs. In that case, your layout might look a little different.
 
 ## components
 
-This directory contains a collection of [view components][components] for your
-app. These can be any type of file supported by Primate's content handlers. In
-our initial example, we placed an HTML page in this directory which we then
-served with the `view` handler.
+This directory contains a collection of [components] for your app. These can be
+any type of file supported by Primate's content handlers. In our initial
+example, we placed an HTML page in this directory which we then served with the
+`view` handler.
 
 If your app is an API or doesn't have any views, you don't need to create this
 directory.
@@ -104,8 +104,8 @@ directory.
 Primate's official modules includes support for various [frontend frameworks]
 such as React, Vue, Svelte, Solid or HTMX.
 
-[frontend frameworks](/modules/frontend)
 [routes]: /guide/routes
+[frontend frameworks]: /modules/frontend
 [components]: /guide/components
 [default-config]:
 https://github.com/primatejs/primate/blob/master/packages/primate/src/defaults/primate.config.js
