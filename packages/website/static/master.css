@@ -521,6 +521,26 @@ img.background {
   border: 1px solid var(--prs-primary);
 }
 
+@media (max-width: 428px) {
+  .home .title {
+    display: none;
+  }
+  header, article {
+    padding-left: calc(var(--prs-page-padding-side) / 2);
+    padding-right: calc(var(--prs-page-padding-side) / 2);
+  }
+  article {
+    max-width: 100vw;
+    box-sizing: border-box;
+  }
+  .sidebar {
+    display: none;
+  }
+  code {
+    white-space: pre-wrap;
+  }
+}
+
 @media (max-width: 1200px) {
   .on-this-page {
     display: none;
