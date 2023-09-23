@@ -1,6 +1,6 @@
 Today we're announcing the availability of the Primate 0.24 preview release.
 This release introduces native Bun support, enabling you to serve your
-application significantly faster than before.
+applications significantly faster than before.
 
 Bun is a new runtime based on JavaScriptCore and written in Zig. It has
 recently had its first stable version, and has seen an uptick in interest ever
@@ -15,7 +15,7 @@ get an idea of the framework.
 
 When Bun 1.0 came out, we were quick to test running Primate using Bun's NPM
 compatibility. As it turned out, running `bun x primate` works as expected and
-runs a Primate app without issue.
+runs a Primate app without issues.
 
 However, the real promise of Bun lies in its fast HTTP library implementation,
 `Bun.serve`. Bun's NPM compatibility is great, but to get real speed gains over
@@ -44,7 +44,7 @@ Our command for benchmarking was `ab -c 350 -n 100000 [url]`. That is, send
 100000 requests with a concurrency of 350 requests at a time.
 
 The app we used for testing was the [Primate template app][template-app].
-To replicate the benchmarks, clone this repository and run the app.
+To replicate the benchmarks, clone that repository and run the app.
 
 In the following benchmarks, the quantities are:
 * **TT** Time taken for tests (seconds)
