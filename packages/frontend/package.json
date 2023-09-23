@@ -1,6 +1,6 @@
 {
   "name": "@primate/frontend",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Primate frontend code",
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
@@ -83,9 +83,12 @@
   "exports": {
     ".": {
       "browser": {
-        "default": "./src/client/exports.js"
+        "react": "./src/client/react.js",
+        "solid": "./src/client/solid.js"
       },
       "default": "./src/exports.js"
-    }
+    },
+    "./react": "./src/client/react.js",
+    "./solid": "./src/client/solid.js"
   }
 }
