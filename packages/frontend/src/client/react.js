@@ -32,7 +32,7 @@ const render = (maybe_children, id) => {
   if (!all_good) {
     const bad = `<${children.find(({type}) => !allowed.includes(type)).type}>`;
     const alloweds = `${allowed.map(tag => `<${tag}>`).join(", ")}`;
-    const error = `ReactHead may only contain ${alloweds}, found ${bad}`;
+    const error = `Head may only contain ${alloweds}, found ${bad}`;
     throw new Error(error);
   }
 
@@ -61,7 +61,7 @@ const clear = (data_value) => {
   });
 };
 
-const Head = class ReactHead extends Component {
+const Head = class Head extends Component {
   // clearing after SSR and before root hydration
   static clear(data_value = data_ssr) {
     clear(data_value);
@@ -99,4 +99,9 @@ const Head = class ReactHead extends Component {
 
 Head.contextType = HeadContext;
 
-export {Head, HeadContext};
+const is = {
+  client: is_client,
+  server: !is_client,
+};
+
+export {Head, HeadContext, is};

@@ -39,10 +39,9 @@ const render = (maybe_children, id) => {
     const tags = children.map(({t: tag}) => tag);
     const all_good = tags.every(tag => allowed.includes(get_tag(tag)));
     if (!all_good) {
-      const name = "SolidHead";
       const bad = get_tag(tags.find(tag => !allowed.includes(get_tag(tag))));
       const alloweds = `${allowed.map(tag => `<${tag}>`).join(", ")}`;
-      const error = `${name} may only contain ${alloweds}, found <${bad}>`;
+      const error = `Head may only contain ${alloweds}, found <${bad}>`;
       throw new Error(error);
     }
 
@@ -63,7 +62,7 @@ const clear = (data_value) => {
   });
 };
 
-const Head = function SolidHead(props) {
+const Head = function Head(props) {
   let id;
   onMount(() => {
     if (is_client) {
@@ -89,4 +88,9 @@ const Head = function SolidHead(props) {
 
 Head.clear = (data_value = data_ssr) => clear(data_value);
 
-export {Head, HeadContext};
+const is = {
+  client: is_client,
+  server: !is_client,
+};
+
+export {Head, HeadContext, is};

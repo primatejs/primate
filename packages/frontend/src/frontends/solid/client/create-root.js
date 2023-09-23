@@ -8,9 +8,9 @@ export default length => {
 
   return `
     import {createComponent} from "solid-js/web";
-    import {SolidHeadContext, is} from "@primate/frontend";
+    import {HeadContext, is} from "@primate/frontend/solid";
 
-    const Provider = SolidHeadContext.Provider;
+    const Provider = HeadContext.Provider;
 
     export default ({components, data, push_heads: value}) =>
       is.client ? ${body} : <Provider value={value}>{${body}}</Provider>;

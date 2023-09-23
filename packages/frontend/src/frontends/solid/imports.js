@@ -54,9 +54,7 @@ export const prepare = async app => {
   await depend("solid-js", app, true);
   await depend("solid-js/web", app);
 
-  if (app.importmaps["@primate/frontend"] === undefined) {
-    await app.import("@primate/frontend");
-  }
+  await app.import("@primate/frontend", "solid");
   // expose code through "app", for bundlers
   await app.export({type: "script", code: expose});
 };

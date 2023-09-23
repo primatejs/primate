@@ -8,8 +8,8 @@ export default length => {
 
   return `
     import {createElement} from "react";
-    import {ReactHeadContext, is} from "@primate/frontend";
-    const {Provider} = ReactHeadContext;
+    import {HeadContext, is} from "@primate/frontend/react";
+    const {Provider} = HeadContext;
 
     export default ({components, data, push_heads: value}) =>
       is.client ? ${body} : createElement(Provider, {value}, ${body});

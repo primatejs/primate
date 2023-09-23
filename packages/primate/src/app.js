@@ -179,7 +179,7 @@ export default async (log, root, config) => {
       const prefix = algorithm.replace("-", _ => "");
       return `${prefix}-${btoa(String.fromCharCode(...new Uint8Array(bytes)))}`;
     },
-    async import(module) {
+    async import(module, deep_import) {
       const {http: {static: {root}}, location: {client}} = this.config;
 
       const parts = module.split("/");
@@ -188,12 +188,16 @@ export default async (log, root, config) => {
       const exports = pkg.exports === undefined
         ? {[module]: `/${module}/${pkg.main}`}
         : transform(pkg.exports, entry => entry
-          .filter(([, export$]) => export$.browser?.default !== undefined
+          .filter(([, export$]) =>
+            export$.browser?.[deep_import] !== undefined
+            || export$.browser?.default !== undefined
             || export$.import !== undefined
             || export$.default !== undefined)
           .map(([key, value]) => [
-            key.replace(".", module),
-            value.browser?.default.replace(".", `./${module}`)
+            key.replace(".", deep_import === undefined
+              ? module : `${module}/${deep_import}`),
+            value.browser?.[deep_import]?.replace(".", `./${module}`)
+              ?? value.browser?.default.replace(".", `./${module}`)
               ?? value.default?.replace(".", `./${module}`)
               ?? value.import?.replace(".", `./${module}`),
           ]));

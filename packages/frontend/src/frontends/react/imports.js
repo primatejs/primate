@@ -60,9 +60,7 @@ export const prepare = async app => {
     ...valmap(imports, value => `${new Path("/", library, module, value)}`),
   };
 
-  if (app.importmaps["@primate/frontend"] === undefined) {
-    await app.import("@primate/frontend");
-  }
+  await app.import("@primate/frontend", "react");
   // expose code through "app", for bundlers
   await app.export({type: "script", code: expose});
 };
