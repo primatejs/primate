@@ -282,5 +282,5 @@ irc.libera.chat.
 Otherwise, have a blast with the new version!
 
 [Getting started]: /guide/getting-started
-[irc]: https://web.libera.chat/gamja#primate
+[irc]: https://web.libera.chat#primate
 [changelog]: https://github.com/primatejs/primate/releases/tag/0.22.0

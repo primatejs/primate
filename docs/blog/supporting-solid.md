@@ -136,4 +136,4 @@ Otherwise, have a blast with Solid!
 
 [Getting started]: /guide/getting-started
 [Solid]: https://www.solidjs.com
-[irc]: https://web.libera.chat/gamja#primate
+[irc]: https://web.libera.chat#primate

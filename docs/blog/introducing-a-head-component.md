@@ -140,5 +140,5 @@ irc.libera.chat.
 Otherwise, have a blast with `Head`!
 
 [Getting started]: /guide/getting-started
-[irc]: https://web.libera.chat/gamja#primate
+[irc]: https://web.libera.chat#primate
 [ralyodio]: https://github.com/ralyodio
