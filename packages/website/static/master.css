@@ -547,6 +547,10 @@ img.background {
   border-top: 1px solid #0d0905;
 }
 
+.dark article.blog img {
+  filter: invert(88%);
+}
+
 @media (max-width: 428px) {
   .home .title {
     display: none;

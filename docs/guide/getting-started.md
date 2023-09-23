@@ -22,6 +22,12 @@ export default {
 To start your app, run `npx -y primate@latest` and point your browser to
 http://localhost:6161.
 
+!!!
+If you're a Bun user, you can take advantage of [significant speed gains][r24]
+by running `bun --bun x primate` instead. The `--bun` flag makes sure Bun's
+native implementations are used.
+!!!
+
 ## Quick start
 
 Before we continue, we recommend installing Primate by issuing `npm i primate`
@@ -171,8 +177,9 @@ Primate has an IRC channel at `#primate` on irc.libera.chat. You can use the
 Feel free to open an issue on [Primate's issue tracker][issues] if you find a
 bug or have a feature request.
 
+[r24]: /blog/release-024
 [repo]: https://github.com/primatejs/primate
 [issues]: https://github.com/primatejs/primate/issues
 [primate-app]: https://github.com/primatejs/app
-[chat]: https://web.libera.chat/gamja#primate
+[chat]: https://web.libera.chat#primate
 [runtime-compat]: https://github.com/flogjs/std/tree/master/runtime-compat
