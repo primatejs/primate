@@ -1,4 +1,4 @@
-Today we're introducing `Head` component for React and Solid that mimics the 
+Today we're introducing a `Head` component for React and Solid that mimics the 
 behavior of `<svelte:head>` for Svelte.
 
 Primate aims for feature parity across its supported frontend frameworks.

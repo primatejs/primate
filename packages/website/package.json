@@ -4,7 +4,7 @@
   "dependencies": {
     "marked": "^9.0.3",
     "primate": "^0.23.2",
-    "priss": "^0.21.1",
+    "priss": "^0.21.2",
     "svelte": "^4.2.1"
   },
   "scripts": {
