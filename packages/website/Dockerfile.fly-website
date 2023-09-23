@@ -1,16 +1,16 @@
-FROM node:20-alpine as builder
+FROM oven/bun as builder
 
 WORKDIR /app
 
 COPY . primate
 
-RUN npm i --prefix=primate/packages/website
+RUN bun i --cwd=primate/packages/website
 
-FROM node:20-alpine
+FROM oven/bun
 
 WORKDIR /app
 
 COPY --from=builder /app/primate/packages/website .
 COPY --from=builder /app/primate/docs ./content
 
-CMD ["npx", "primate", "serve"]
+CMD ["bun", "--bun", "x", "primate", "serve"]
