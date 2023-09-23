@@ -2,10 +2,10 @@
 
 On the web, values are inherently strings. Whether it's a URL's path, query
 string parts, or the submitted fields of a form, everything boils down to
-strings. When working on the backend with Primate, it is often imporant to
-establish and assert a runtime type concept, including a way to coerce strings
-into a given type and validate that the coerced value lies within an expected
-range or satisfies other conditions.
+strings. When working on the backend with Primate, it is often important to
+assert a runtime type concept, including a way to coerce strings into a given
+type and validate that coerced values lie within an expected range or satisfy
+other conditions.
 
 !!!
 Primate types aren't programming types in a real sense. Unlike static types,

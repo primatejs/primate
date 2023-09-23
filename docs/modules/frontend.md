@@ -13,6 +13,11 @@ loaded. In some cases, some capabilities have simply not been implemented yet
 in the module. In other cases, the frontend framework itself doesn't support
 those.
 
+## Layouts
+
+Svelte, React and Solid currently support [recursive layouting][Layouts] in
+Primate.
+
 ## Server-side rendering (SSR)
 
 This refers to the frontend framework compiling its files on the server and
@@ -49,21 +54,28 @@ it.
 HTMX itself stands somewhat in competition to liveview, as it can register
 handles to load links or send forms via `fetch`.
 
+## Head component
+
+If you need to manipulate the `<head>` part from within an individual
+component, use `<svelte:head>` for Svelte. For React and Solid, you can use the
+`Head` export of `@primate/frontend/react` and `@primate/frontend/solid` for
+the same behavior.
+
 ## Overview
 
 Every frontend framework registers its own file extension with the
 [`view`][view] handler and needs to be loaded in `primate.config.js`. You can
 use different frontend frameworks alongside each other, in different routes.
 
-|Name         |File Extension|[Layouts]|SSR|Hydration|[Liveview]|
-|-------------|--------------|---------|---|---------|----------|
-|HTML         |`html`        |✗        |✗  |✗        |✗         |
-|[Svelte]     |`svelte`      |✓        |✓  |✓        |✓         |
-|[React]      |`jsx`         |✓        |✓  |✓        |✓         |
-|[Solid]      |`jsx`         |✓        |✓  |✓        |✓         |
-|[Vue]        |`vue`         |✗        |✓  |✗        |✗         |
-|[HTMX]       |`htmx`        |✗        |✗  |✗        |✗         |
-|[Handlebars] |`handlebars`  |✗        |✓  |✗        |✗         |
+|Name         |Extension   |[Layouts]|SSR|Hydration|[Liveview]|Head           |
+|-------------|------------|---------|---|---------|----------|---------------|
+|HTML         |`html`      |✗        |✗  |✗        |✗         |✗              |
+|[Svelte]     |`svelte`    |✓        |✓  |✓        |✓         |`<svelte:head>`|
+|[React]      |`jsx`       |✓        |✓  |✓        |✓         |`<Head>`       |
+|[Solid]      |`jsx`       |✓        |✓  |✓        |✓         |`<Head>`       |
+|[Vue]        |`vue`       |✗        |✓  |✗        |✗         |✗              |
+|[HTMX]       |`htmx`      |✗        |✗  |✗        |✗         |✗              |
+|[Handlebars] |`handlebars`|✗        |✓  |✗        |✗         |✗              |
 
 [view]: /guide/responses#view
 [Svelte]: /modules/svelte
