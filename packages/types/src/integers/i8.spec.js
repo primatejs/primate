@@ -1,16 +1,16 @@
 import i8 from "./i8.js";
-import {reassert, imatch, ifail} from "./common.spec.js";
+import { reassert, imatch, ifail } from "./common.spec.js";
 
 export default test => {
   reassert(test, i8);
 
-  test.case("fail", ({fail}) => {
+  test.case("fail", ({ fail }) => {
     ifail(fail);
   });
-  test.case("match", ({match}) => {
+  test.case("match", ({ match }) => {
     imatch(match);
   });
-  test.case("range", ({same, match, fail}) => {
+  test.case("range", ({ same, match, fail }) => {
     same(0, -0, 1, 1, -128, 127);
     match(-128n, -128);
     match("-128", -128);

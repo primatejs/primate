@@ -1,7 +1,7 @@
-import {Blob} from "runtime-compat/fs";
-import {URL} from "runtime-compat/http";
-import {text, json, stream, redirect} from "primate";
-import {isResponse as isResponseDuck} from "./duck.js";
+import { Blob } from "runtime-compat/fs";
+import { URL } from "runtime-compat/http";
+import { text, json, stream, redirect } from "primate";
+import { isResponse as isResponseDuck } from "./duck.js";
 
 const isText = value => {
   if (typeof value === "string") {

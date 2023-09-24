@@ -1,9 +1,9 @@
-import {tryreturn} from "runtime-compat/async";
-import {to} from "runtime-compat/object";
-import {packager} from "runtime-compat/meta";
+import { tryreturn } from "runtime-compat/async";
+import { to } from "runtime-compat/object";
+import { packager } from "runtime-compat/meta";
 import errors from "../errors.js";
 
-const {MissingDependencies} = errors;
+const { MissingDependencies } = errors;
 const MODULE_NOT_FOUND = "ERR_MODULE_NOT_FOUND";
 
 export default async (dependencies, from) => {
@@ -11,7 +11,7 @@ export default async (dependencies, from) => {
 
   const results = await Promise.all(modules.map(module =>
     tryreturn(_ => import(module))
-      .orelse(({code}) => code === MODULE_NOT_FOUND ? module : {})));
+      .orelse(({ code }) => code === MODULE_NOT_FOUND ? module : {})));
 
   const errored = results.filter(result => typeof result === "string");
   const versions = to(dependencies)

@@ -1,23 +1,23 @@
-import {Response, Status, MediaType} from "runtime-compat/http";
-import {cascade, tryreturn} from "runtime-compat/async";
-import {respond} from "./respond/exports.js";
-import {invalid} from "./route.js";
-import {error as clientError} from "../handlers/exports.js";
+import { Response, Status, MediaType } from "runtime-compat/http";
+import { cascade, tryreturn } from "runtime-compat/async";
+import { respond } from "./respond/exports.js";
+import { invalid } from "./route.js";
+import { error as clientError } from "../handlers/exports.js";
 import _errors from "../errors.js";
-const {NoFileForPath} = _errors;
+const { NoFileForPath } = _errors;
 
 const guardError = Symbol("guardError");
 
 export default app => {
-  const {config: {http: {static: {root}}, location}} = app;
+  const { config: { http: { static: { root } }, location } } = app;
 
   const as_route = async request => {
-    const {pathname} = request.url;
+    const { pathname } = request.url;
     // if NoFileForPath is thrown, this will remain undefined
     let error_handler = app.error.default;
 
     return tryreturn(async _ => {
-      const {path, guards, errors, layouts, handler} = invalid(pathname)
+      const { path, guards, errors, layouts, handler } = invalid(pathname)
         ? NoFileForPath.throw(pathname, location.static)
         : await app.route(request);
       error_handler = errors?.at(-1);
@@ -43,7 +43,7 @@ export default app => {
       }
 
       // handle request
-      const response = (await cascade(app.modules.route, handler))({...request, path});
+      const response = (await cascade(app.modules.route, handler))({ ...request, path });
       return (await respond(await response))(app, {
         layouts: await Promise.all(layouts.map(layout => layout(request))),
       }, request);
@@ -66,7 +66,7 @@ export default app => {
 
   const client = app.runpath(location.client);
   const handle = async request => {
-    const {pathname} = request.url;
+    const { pathname } = request.url;
     if (pathname.startsWith(root)) {
       const debased = pathname.replace(root, _ => "");
       // try static first

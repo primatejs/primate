@@ -1,4 +1,4 @@
-import {Component, createContext} from "react";
+import { Component, createContext } from "react";
 const is_client = globalThis.document?.createElement !== undefined;
 
 const HeadContext = createContext();
@@ -9,7 +9,7 @@ const data_attribute = "data-rh";
 const data_ssr = "ssr";
 const allowed = ["title", "meta", "style", "meta", "link", "script", "base"];
 
-const make_tag = ({type, props}, id) => {
+const make_tag = ({ type, props }, id) => {
   if (is_client) {
     const element = globalThis.document.createElement(type);
     Object.entries(props).forEach(([name, value]) => {
@@ -28,16 +28,16 @@ const make_tag = ({type, props}, id) => {
 
 const render = (maybe_children, id) => {
   const children = to_array(maybe_children);
-  const all_good = children.every(({type}) => allowed.includes(type));
+  const all_good = children.every(({ type }) => allowed.includes(type));
   if (!all_good) {
-    const bad = `<${children.find(({type}) => !allowed.includes(type)).type}>`;
+    const bad = `<${children.find(({ type }) => !allowed.includes(type)).type}>`;
     const alloweds = `${allowed.map(tag => `<${tag}>`).join(", ")}`;
     const error = `Head may only contain ${alloweds}, found ${bad}`;
     throw new Error(error);
   }
 
-  const titles = children.filter(({type}) => type === "title");
-  const others = children.filter(({type}) => type !== "title");
+  const titles = children.filter(({ type }) => type === "title");
+  const others = children.filter(({ type }) => type !== "title");
 
   if (is_client) {
     titles.forEach(title => {
@@ -104,4 +104,4 @@ const is = {
   server: !is_client,
 };
 
-export {Head, HeadContext, is};
+export { Head, HeadContext, is };

@@ -1,16 +1,16 @@
-import {Path} from "runtime-compat/fs";
-import {renderToString} from "solid-js/web";
-import {transformAsync} from "@babel/core";
+import { Path } from "runtime-compat/fs";
+import { renderToString } from "solid-js/web";
+import { transformAsync } from "@babel/core";
 import solid from "babel-preset-solid";
 
-import {expose} from "./client/exports.js";
+import { expose } from "./client/exports.js";
 
 export const render = (component, props) => {
   const heads = [];
   const push_heads = sub_heads => {
     heads.push(...sub_heads);
   };
-  const body = renderToString(() => component({...props, push_heads}));
+  const body = renderToString(() => component({ ...props, push_heads }));
 
   if (heads.filter(head => head.startsWith("<title")).length > 1) {
     const error = "May only contain one <title> across component hierarchy";
@@ -18,23 +18,23 @@ export const render = (component, props) => {
   }
   const head = heads.join("\n");
 
-  return {body, head};
+  return { body, head };
 };
 
 export const compile = {
   async server(text) {
-    const presets = [[solid, {generate: "ssr", hydratable: true}]];
-    return (await transformAsync(text, {presets})).code;
+    const presets = [[solid, { generate: "ssr", hydratable: true }]];
+    return (await transformAsync(text, { presets })).code;
   },
   async client(text) {
-    const presets = [[solid, {generate: "dom", hydratable: true}]];
-    return {js: (await transformAsync(text, {presets})).code};
+    const presets = [[solid, { generate: "dom", hydratable: true }]];
+    return { js: (await transformAsync(text, { presets })).code };
   },
 };
 
 const depend = async (module, app, copy_dependency) => {
-  const {library, manifest} = app;
-  const {http: {static: {root}}} = app.config;
+  const { library, manifest } = app;
+  const { http: { static: { root } } } = app.config;
 
   const parts = module.split("/");
   const path = [library, ...parts];
@@ -56,6 +56,6 @@ export const prepare = async app => {
 
   await app.import("@primate/frontend", "solid");
   // expose code through "app", for bundlers
-  await app.export({type: "script", code: expose});
+  await app.export({ type: "script", code: expose });
 };
 

@@ -1,4 +1,4 @@
-import {text} from "../prompts.js";
+import { text } from "../prompts.js";
 
 export default async () => {
   const configs = [];

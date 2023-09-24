@@ -1,22 +1,22 @@
 import module from "./module.js";
 
-const response = () => ({headers: new Map()});
+const response = () => ({ headers: new Map() });
 const init = (config, app = {}) => {
   const session = module(config);
   session.init(app, _ => _);
   return session;
 };
 
-const initi = (config, app = {}) => init({...config, implicit: true}, app);
+const initi = (config, app = {}) => init({ ...config, implicit: true }, app);
 
-const create_cookies = data => ({cookies: {get: () => data}});
+const create_cookies = data => ({ cookies: { get: () => data } });
 const request = () => create_cookies();
 
 const UUID = /^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$/u;
 
 export default test => {
   test.case("implicit", async assert => {
-    const next = ({session}) => {
+    const next = ({ session }) => {
       assert(session).defined();
       assert(session.id).undefined();
       assert(session.data).undefined();
@@ -32,7 +32,7 @@ export default test => {
     assert(i.headers.has("Set-Cookie")).true();
   });
   test.case("set Set-Cookie when no session", async assert => {
-    const next = async ({session}) => {
+    const next = async ({ session }) => {
       assert(session).defined();
       assert(session.id).undefined();
       assert(session.data).undefined();
@@ -50,7 +50,7 @@ export default test => {
   });
   test.case("don't set Set-Cookie when session is found", async assert => {
     const session = initi();
-    const next = async ({session}) => {
+    const next = async ({ session }) => {
       assert(session).defined();
       assert(session.id).undefined();
       assert(session.data).undefined();
@@ -62,7 +62,7 @@ export default test => {
     const [, session_id] = cookie.split("=");
     const request2 = create_cookies(session_id);
 
-    const next2 = sessionId => ({session}) => {
+    const next2 = sessionId => ({ session }) => {
       assert(session).defined();
       assert(session.id).equals(sessionId);
       assert(session.data).undefined();
@@ -78,7 +78,7 @@ export default test => {
     assert(r.headers.get("Set-Cookie").startsWith("sessionId")).true();
   });
   test.case("name: make configurable", async assert => {
-    const session = initi({name: "session_id"});
+    const session = initi({ name: "session_id" });
     const r = await session.handle(request(), () => response());
     assert(r.headers.get("Set-Cookie").startsWith("session_id")).true();
   });
@@ -89,7 +89,7 @@ export default test => {
     assert(parts.some(part => part === "SameSite=Strict")).true();
   });
   test.case("SameSite: make configurable", async assert => {
-    const session = initi({sameSite: "Lax"});
+    const session = initi({ sameSite: "Lax" });
     const r = await session.handle(request(), () => response());
     const parts = r.headers.get("Set-Cookie").split(";");
     assert(parts.some(part => part === "SameSite=Lax")).true();
@@ -101,7 +101,7 @@ export default test => {
     assert(parts.some(part => part === "HttpOnly")).true();
   });
   test.case("HttpOnly: make configurable", async assert => {
-    const session = initi({httpOnly: false});
+    const session = initi({ httpOnly: false });
     const r = await session.handle(request(), () => response());
     const parts = r.headers.get("Set-Cookie").split(";");
     assert(parts.every(part => part !== "HttpOnly")).true();
@@ -113,7 +113,7 @@ export default test => {
     assert(parts.some(part => part === "Path=/")).true();
   });
   test.case("Path: make configurable", async assert => {
-    const session = initi({path: "/blog"});
+    const session = initi({ path: "/blog" });
     const r = await session.handle(request(), () => response());
     const parts = r.headers.get("Set-Cookie").split(";");
     assert(parts.some(part => part === "Path=/blog")).true();
@@ -127,7 +127,7 @@ export default test => {
     assert(parts.every(part => !part.startsWith("Secure"))).true();
   });
   test.case("Secure: set when {secure: true}", async assert => {
-    const session = initi({}, {secure: true});
+    const session = initi({}, { secure: true });
 
     const r = await session.handle(request(), () => response());
     const parts = r.headers.get("Set-Cookie").split(";");
@@ -144,7 +144,7 @@ export default test => {
   });
   test.case("manager: make configurable", async assert => {
     // this manager ignores all input and always returns "1"
-    const session = initi({manager: () => ({
+    const session = initi({ manager: () => ({
       id: 1,
       create() {
         return null;
@@ -152,7 +152,7 @@ export default test => {
       destroy() {
         return null;
       },
-    })});
+    }) });
 
     const r = await session.handle(request(), () => response());
     const [, id] = r.headers.get("Set-Cookie").split(";")[0].split("=");
@@ -164,15 +164,15 @@ export default test => {
   });
   test.case("manager: throw when manager doesn't return a {create, destroy}",
     async assert => {
-      const create = initi({manager: () => ({create: () => null})});
+      const create = initi({ manager: () => ({ create: () => null }) });
       assert(() => create.handle(request(), () => response())).throws();
-      const destroy = initi({manager: () => ({destroy: () => null})});
+      const destroy = initi({ manager: () => ({ destroy: () => null }) });
       assert(() => destroy.handle(request(), () => response())).throws();
-    }
+    },
   );
   test.case("set: throw when no session", async assert => {
     const explicit = init({});
-    const next = async ({session}) => {
+    const next = async ({ session }) => {
       assert(session).defined();
       assert(session.id).undefined();
       assert(session.data).undefined();

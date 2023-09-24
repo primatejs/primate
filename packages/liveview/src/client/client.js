@@ -33,15 +33,15 @@ const handle = async (response, updater) => {
   await (handlers[content_type] ?? handlers[TEXT_PLAIN])(response, updater);
 };
 
-const to = async ({pathname, hash}, updater, state = false) => {
+const to = async ({ pathname, hash }, updater, state = false) => {
   try {
-    const response = await fetch(pathname, {headers});
+    const response = await fetch(pathname, { headers });
     // save before loading next
-    const {scrollTop} = global.document.scrollingElement;
-    const {pathname: currentPathname, hash: currentHash} = global.location;
+    const { scrollTop } = global.document.scrollingElement;
+    const { pathname: currentPathname, hash: currentHash } = global.location;
     await handle(response, updater);
     if (state) {
-      storage.new({scrollTop, pathname: currentPathname, hash: currentHash});
+      storage.new({ scrollTop, pathname: currentPathname, hash: currentHash });
       history.pushState({}, "", `${pathname}${hash}`);
     }
   } catch(error) {
@@ -51,7 +51,7 @@ const to = async ({pathname, hash}, updater, state = false) => {
 
 const submit = async (pathname, body, method, updater) => {
   try {
-    const response = await fetch(pathname, {method, body, headers});
+    const response = await fetch(pathname, { method, body, headers });
     if (response.redirected) {
       return go(response.url, updater);
     }
@@ -63,7 +63,7 @@ const submit = async (pathname, body, method, updater) => {
 
 const go = async (href, updater, event) => {
   const url = new URL(href);
-  const {pathname, hash} = url;
+  const { pathname, hash } = url;
   const current = global.location.pathname;
   // hosts must match
   if (url.host === global.location.host) {
@@ -76,7 +76,7 @@ const go = async (href, updater, event) => {
     }
     // different hash on same page, jump to hash
     if (hash !== global.location.hash) {
-      storage.new({stop: true, pathname: current, hash: global.location.hash});
+      storage.new({ stop: true, pathname: current, hash: global.location.hash });
       history.pushState(null, "", `${current}${hash}`);
       scroll_hash(hash);
     }
@@ -86,13 +86,13 @@ const go = async (href, updater, event) => {
 
 export default updater => {
   global.addEventListener("popstate", async _ => {
-    const state = storage.peek() ?? {scrollTop: 0};
-    let {scrollTop} = state;
+    const state = storage.peek() ?? { scrollTop: 0 };
+    let { scrollTop } = state;
     if (state.stop) {
       storage.back();
       return;
     }
-    const {pathname} = global.location;
+    const { pathname } = global.location;
     const back = state.pathname === pathname;
     if (back) {
       storage.back();
@@ -112,8 +112,8 @@ export default updater => {
 
   global.addEventListener("submit", async event => {
     event.preventDefault();
-    const {target} = event;
-    const {enctype} = target;
+    const { target } = event;
+    const { enctype } = target;
     const action = target.action ?? global.location.pathname;
     const url = new URL(action);
     const to = url.pathname;

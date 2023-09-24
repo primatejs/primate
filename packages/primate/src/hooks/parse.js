@@ -1,12 +1,12 @@
-import {URL, MediaType} from "runtime-compat/http";
-import {tryreturn} from "runtime-compat/sync";
-import {stringify} from "runtime-compat/streams";
-import {from, valmap} from "runtime-compat/object";
+import { URL, MediaType } from "runtime-compat/http";
+import { tryreturn } from "runtime-compat/sync";
+import { stringify } from "runtime-compat/streams";
+import { from, valmap } from "runtime-compat/object";
 import errors from "../errors.js";
 
-const {APPLICATION_FORM_URLENCODED, APPLICATION_JSON} = MediaType;
+const { APPLICATION_FORM_URLENCODED, APPLICATION_JSON } = MediaType;
 
-const {decodeURIComponent: decode} = globalThis;
+const { decodeURIComponent: decode } = globalThis;
 const deslash = url => url.replaceAll(/(?<!http:)\/{2,}/gu, _ => "/");
 
 const contents = {
@@ -21,12 +21,12 @@ const content = (type, body) =>
     .orelse(_ => errors.CannotParseBody.throw(body, type));
 
 export default dispatch => async original => {
-  const {headers} = original;
+  const { headers } = original;
   const url = new URL(deslash(decode(original.url)));
   const body = await stringify(original.body);
   const cookies = headers.get("cookie");
 
-  return {original, url,
+  return { original, url,
     ...valmap({
       body: [content(headers.get("content-type"), body), body],
       query: [from(url.searchParams), url.search],

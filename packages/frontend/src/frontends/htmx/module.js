@@ -1,6 +1,6 @@
-import {Response, Status, MediaType} from "runtime-compat/http";
-import {filter} from "runtime-compat/object";
-import {peers} from "../common/exports.js";
+import { Response, Status, MediaType } from "runtime-compat/http";
+import { filter } from "runtime-compat/object";
+import { peers } from "../common/exports.js";
 import depend from "../depend.js";
 
 const load_component = async (file) => {
@@ -15,15 +15,15 @@ const style = "'unsafe-inline'";
 const code = "import {htmx} from \"app\";";
 
 const handler = directory =>
-  (name, {status = Status.OK, partial = false} = {}) => async app => {
+  (name, { status = Status.OK, partial = false } = {}) => async app => {
     const components = app.runpath(directory);
-    const {head, csp} = await app.inline(code, "module");
-    const headers = {style, script: csp};
+    const { head, csp } = await app.inline(code, "module");
+    const headers = { style, script: csp };
     const body = await load_component(components.join(name).file);
 
-    return new Response(partial ? body : await app.render({body, head}), {
+    return new Response(partial ? body : await app.render({ body, head }), {
       status,
-      headers: {...app.headers(headers), "Content-Type": MediaType.TEXT_HTML},
+      headers: { ...app.headers(headers), "Content-Type": MediaType.TEXT_HTML },
     });
   };
 
@@ -43,7 +43,7 @@ export default ({
     return next(app);
   },
   register(app, next) {
-    const {config} = app;
+    const { config } = app;
 
     app.register(extension, handler(directory ?? config.location.components));
 
@@ -54,7 +54,7 @@ export default ({
     await app.import(dependency);
     const code = `export * as ${name} from "${dependency}";`;
 
-    app.export({type: "script", code});
+    app.export({ type: "script", code });
 
     return next(app);
   },

@@ -1,4 +1,4 @@
-import {int} from "./common.js";
+import { int } from "./common.js";
 
 const base = "u8";
 
@@ -8,4 +8,4 @@ const min = 0;
 // 2 ** 8 - 1
 const max = 255;
 
-export default int({base, name, bounds: {min, max}});
+export default int({ base, name, bounds: { min, max } });

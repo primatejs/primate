@@ -1,4 +1,4 @@
-import {text} from "../prompts.js";
+import { text } from "../prompts.js";
 import dependencies from "../dependencies.js";
 
 const defaults = {
@@ -38,7 +38,7 @@ export default async () => {
     },
     driver: {
       name: "surrealdb",
-      options: {host, port, ns, db},
+      options: { host, port, ns, db },
     },
   };
 };

@@ -1,4 +1,4 @@
-import {text} from "../prompts.js";
+import { text } from "../prompts.js";
 import dependencies from "../dependencies.js";
 
 const defaults = {
@@ -33,7 +33,7 @@ export default async () => {
     },
     driver: {
       name: "mongodb",
-      options: {host, port, db},
+      options: { host, port, db },
     },
   };
 };

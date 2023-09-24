@@ -1,6 +1,6 @@
-import {filter} from "runtime-compat/object";
+import { filter } from "runtime-compat/object";
 import ident from "../ident.js";
-import {peers} from "../common/exports.js";
+import { peers } from "../common/exports.js";
 import depend from "../../depend.js";
 import Facade from "./Facade.js";
 import wrap from "../../wrap.js";
@@ -23,7 +23,7 @@ export default ({
   user,
   pass,
 } = {}) => async _ => {
-  const [{Surreal}] = await depend(on, `store:${name}`);
+  const [{ Surreal }] = await depend(on, `store:${name}`);
   const client = new Surreal();
 
   const address = `${host}:${port}/${path}`;
@@ -35,7 +35,7 @@ export default ({
       pass,
     }
     : {};
-  await client.connect(address, {ns, db, auth});
+  await client.connect(address, { ns, db, auth });
 
   const types = {
     primary: {

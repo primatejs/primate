@@ -8,7 +8,7 @@ const range = {
 
 const check = time => {
   try {
-    const {groups} = format.exec(time);
+    const { groups } = format.exec(time);
     return Object.entries(groups).reduce((valid, [name, unit]) =>
       valid && (value => value > 0 && value <= range[name])(unit), true);
   } catch (_) {

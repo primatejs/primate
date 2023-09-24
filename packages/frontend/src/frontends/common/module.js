@@ -1,5 +1,5 @@
-import {Path} from "runtime-compat/fs";
-import {filter} from "runtime-compat/object";
+import { Path } from "runtime-compat/fs";
+import { filter } from "runtime-compat/object";
 import handler from "./handler.js";
 import compile from "./compile.js";
 import publish from "./publish.js";

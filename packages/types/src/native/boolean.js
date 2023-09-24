@@ -1,4 +1,4 @@
-import {boolish} from "runtime-compat/invariant";
+import { boolish } from "runtime-compat/invariant";
 
 const coerce = value => boolish(value) ? value === "true" : value;
 

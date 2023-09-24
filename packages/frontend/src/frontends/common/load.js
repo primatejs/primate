@@ -1,4 +1,4 @@
-import {tryreturn} from "runtime-compat/async";
+import { tryreturn } from "runtime-compat/async";
 import errors from "./errors.js";
 
 export default async path =>

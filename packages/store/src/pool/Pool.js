@@ -1,5 +1,5 @@
-import {is, assert, every} from "runtime-compat/invariant";
-import {map} from "runtime-compat/async";
+import { is, assert, every } from "runtime-compat/invariant";
+import { map } from "runtime-compat/async";
 import errors from "./errors.js";
 
 export default class Pool {

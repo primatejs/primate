@@ -1,20 +1,20 @@
 import crypto from "runtime-compat/crypto";
-import {tryreturn} from "runtime-compat/async";
-import {File, Path} from "runtime-compat/fs";
-import {bold, blue} from "runtime-compat/colors";
-import {is} from "runtime-compat/invariant";
-import {transform, valmap} from "runtime-compat/object";
-import {globify} from "runtime-compat/string";
+import { tryreturn } from "runtime-compat/async";
+import { File, Path } from "runtime-compat/fs";
+import { bold, blue } from "runtime-compat/colors";
+import { is } from "runtime-compat/invariant";
+import { transform, valmap } from "runtime-compat/object";
+import { globify } from "runtime-compat/string";
 import * as runtime from "runtime-compat/meta";
 
 import errors from "./errors.js";
-import {print} from "./Logger.js";
+import { print } from "./Logger.js";
 import dispatch from "./dispatch.js";
 import to_sorted from "./to_sorted.js";
 import * as handlers from "./handlers/exports.js";
 import * as loaders from "./loaders/exports.js";
 
-const {DoubleFileExtension} = errors;
+const { DoubleFileExtension } = errors;
 
 // use user-provided file or fall back to default
 const index = (base, page, fallback) =>
@@ -27,30 +27,30 @@ const attribute = attributes => Object.keys(attributes).length > 0
   ? " ".concat(Object.entries(attributes)
     .map(([key, value]) => `${key}="${value}"`).join(" "))
   : "";
-const tag = ({name, attributes = {}, code = "", close = true}) =>
+const tag = ({ name, attributes = {}, code = "", close = true }) =>
   `<${name}${attribute(attributes)}${close ? `>${code}</${name}>` : "/>"}`;
 const tags = {
   // inline: <script type integrity>...</script>
   // outline: <script type integrity src></script>
-  script({inline, code, type, integrity, src}) {
+  script({ inline, code, type, integrity, src }) {
     return inline
-      ? tag({name: "script", attributes: {type, integrity}, code})
-      : tag({name: "script", attributes: {type, integrity, src}});
+      ? tag({ name: "script", attributes: { type, integrity }, code })
+      : tag({ name: "script", attributes: { type, integrity, src } });
   },
   // inline: <style>...</style>
   // outline: <link rel="stylesheet" href/>
-  style({inline, code, href, rel = "stylesheet"}) {
+  style({ inline, code, href, rel = "stylesheet" }) {
     return inline
-      ? tag({name: "style", code})
-      : tag({name: "link", attributes: {rel, href}, close: false});
+      ? tag({ name: "style", code })
+      : tag({ name: "link", attributes: { rel, href }, close: false });
   },
 };
 
-const {name, version} = await new Path(import.meta.url).up(2)
+const { name, version } = await new Path(import.meta.url).up(2)
   .join(runtime.manifest).json();
 
 export default async (log, root, config) => {
-  const {http} = config;
+  const { http } = config;
   const secure = http?.ssl !== undefined;
   const path = valmap(config.location, value => root.join(value));
 
@@ -81,18 +81,18 @@ export default async (log, root, config) => {
     error: {
       default: await error.exists ? (await import(error)).default : undefined,
     },
-    handlers: {...handlers},
+    handlers: { ...handlers },
     types,
     routes,
     layout: {
-      depth: Math.max(...routes.map(({layouts}) => layouts.length)) + 1,
+      depth: Math.max(...routes.map(({ layouts }) => layouts.length)) + 1,
     },
     dispatch: dispatch(types),
     modules: await loaders.modules(log, root, config),
     ...runtime,
     // copy files to build folder, potentially transforming them
     async stage(source, directory, filter) {
-      const {paths, mapper} = this.config.build.transform;
+      const { paths, mapper } = this.config.build.transform;
       is(paths).array();
       is(mapper).function();
 
@@ -112,46 +112,46 @@ export default async (log, root, config) => {
         }
       }));
     },
-    headers({script = "", style = ""} = {}) {
+    headers({ script = "", style = "" } = {}) {
       const csp = Object.keys(http.csp).reduce((policy, key) =>
         `${policy}${key} ${http.csp[key]};`, "")
         .replace("script-src 'self'", `script-src 'self' ${script} ${
           this.assets
-            .filter(({type}) => type !== "style")
+            .filter(({ type }) => type !== "style")
             .map(asset => `'${asset.integrity}'`).join(" ")
         }`)
         .replace("style-src 'self'", `style-src 'self' ${style} ${
           this.assets
-            .filter(({type}) => type === "style")
+            .filter(({ type }) => type === "style")
             .map(asset => `'${asset.integrity}'`).join(" ")
         }`);
 
-      return {"Content-Security-Policy": csp, "Referrer-Policy": "same-origin"};
+      return { "Content-Security-Policy": csp, "Referrer-Policy": "same-origin" };
     },
     runpath(...directories) {
       return this.path.build.join(...directories);
     },
-    async render({body = "", head = "", page = config.pages.index} = {}) {
-      const {location: {pages}} = this.config;
+    async render({ body = "", head = "", page = config.pages.index } = {}) {
+      const { location: { pages } } = this.config;
 
       const html = await index(this.runpath(pages), page, config.pages.index);
 
       const heads = to_sorted(this.assets,
-        ({type}) => -1 * (type === "importmap"))
-        .map(({src, code, type, inline, integrity}) =>
+        ({ type }) => -1 * (type === "importmap"))
+        .map(({ src, code, type, inline, integrity }) =>
           type === "style"
-            ? tags.style({inline, code, href: src})
-            : tags.script({inline, code, type, integrity, src})
+            ? tags.style({ inline, code, href: src })
+            : tags.script({ inline, code, type, integrity, src }),
         ).join("\n").concat("\n", head);
       return html.replace("%body%", _ => body).replace("%head%", _ => heads);
     },
     async inline(code, type) {
       const integrity = await this.hash(code);
       const tag_name = type === "style" ? "style" : "script";
-      const head = tags[tag_name]({code, type, inline: true, integrity});
-      return {head, csp: `'${integrity}'`};
+      const head = tags[tag_name]({ code, type, inline: true, integrity });
+      return { head, csp: `'${integrity}'` };
     },
-    async publish({src, code, type = "", inline = false, copy = true}) {
+    async publish({ src, code, type = "", inline = false, copy = true }) {
       if (!inline && copy) {
         const base = this.runpath(this.config.location.client).join(src);
         await base.directory.file.create();
@@ -167,8 +167,8 @@ export default async (log, root, config) => {
         });
       }
     },
-    export({type, code}) {
-      this.exports.push({type, code});
+    export({ type, code }) {
+      this.exports.push({ type, code });
     },
     register(extension, handler) {
       is(this.handlers[extension]).undefined(DoubleFileExtension.new(extension));
@@ -180,13 +180,13 @@ export default async (log, root, config) => {
       return `${prefix}-${btoa(String.fromCharCode(...new Uint8Array(bytes)))}`;
     },
     async import(module, deep_import) {
-      const {http: {static: {root}}, location: {client}} = this.config;
+      const { http: { static: { root } }, location: { client } } = this.config;
 
       const parts = module.split("/");
       const path = [this.library, ...parts];
       const pkg = await Path.resolve().join(...path, this.manifest).json();
       const exports = pkg.exports === undefined
-        ? {[module]: `/${module}/${pkg.main}`}
+        ? { [module]: `/${module}/${pkg.main}` }
         : transform(pkg.exports, entry => entry
           .filter(([, export$]) =>
             export$.browser?.[deep_import] !== undefined
@@ -206,7 +206,7 @@ export default async (log, root, config) => {
       await dependency.file.copy(to);
       this.importmaps = {
         ...valmap(exports, value => new Path(root, this.library, value).path),
-        ...this.importmaps};
+        ...this.importmaps };
     },
   };
 };

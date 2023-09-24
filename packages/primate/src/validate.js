@@ -1,4 +1,4 @@
-import {is, maybe} from "runtime-compat/invariant";
+import { is, maybe } from "runtime-compat/invariant";
 
 export default (type, value, name) => {
   maybe(type.validate).function();

@@ -1,17 +1,17 @@
 import u32 from "./u32.js";
-import {reassert} from "./common.spec.js";
+import { reassert } from "./common.spec.js";
 
 export default test => {
   reassert(test, u32);
 
-  test.case("fail", ({fail}) => {
+  test.case("fail", ({ fail }) => {
     fail(undefined, true, {}, null, [], 1.1, "1n");
   });
-  test.case("match", ({match}) => {
+  test.case("match", ({ match }) => {
     match(1n, 1);
     match("1", 1);
   });
-  test.case("range", ({same, match, fail}) => {
+  test.case("range", ({ same, match, fail }) => {
     same(0, 1, 4_294_967_295);
     match(0n, 0);
     match("0", 0);

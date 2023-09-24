@@ -6,4 +6,4 @@ const is = {
   server: !is_client,
 };
 
-export {is};
+export { is };

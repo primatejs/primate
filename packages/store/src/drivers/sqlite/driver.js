@@ -1,8 +1,8 @@
-import {numeric} from "runtime-compat/invariant";
-import {filter} from "runtime-compat/object";
-import {runtime} from "runtime-compat/meta";
+import { numeric } from "runtime-compat/invariant";
+import { filter } from "runtime-compat/object";
+import { runtime } from "runtime-compat/meta";
 import ident from "../ident.js";
-import {peers} from "../common/exports.js";
+import { peers } from "../common/exports.js";
 import depend from "../../depend.js";
 import Pool from "../../pool/exports.js";
 import wrap from "../../wrap.js";
@@ -18,11 +18,11 @@ const defaults = {
 export default ({
   filename = defaults.filename,
 } = {}) => async () => {
-  const $on = runtime === "bun" ? {"bun:sqlite": null} : on;
-  const [{default: Connection}] = await depend($on, `store:${name}`);
+  const $on = runtime === "bun" ? { "bun:sqlite": null } : on;
+  const [{ default: Connection }] = await depend($on, `store:${name}`);
   const pool = new Pool({
     manager: {
-      new: () => new Connection(filename, {create: true}),
+      new: () => new Connection(filename, { create: true }),
       kill: connection => connection.close(),
     },
   });

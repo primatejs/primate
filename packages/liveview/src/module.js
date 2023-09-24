@@ -4,7 +4,7 @@ export default _ => {
   return {
     name: "primate:liveview",
     init(app, next) {
-      return next({...app, liveview: {header}});
+      return next({ ...app, liveview: { header } });
     },
     async publish(app, next) {
       await app.import("@primate/liveview");

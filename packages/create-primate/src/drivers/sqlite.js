@@ -1,4 +1,4 @@
-import {text} from "../prompts.js";
+import { text } from "../prompts.js";
 import dependencies from "../dependencies.js";
 
 export default async () => {
@@ -16,7 +16,7 @@ export default async () => {
     },
     driver: {
       name: "sqlite",
-      options: {filename},
+      options: { filename },
     },
   };
 };

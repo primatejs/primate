@@ -1,40 +1,40 @@
-import {Path} from "runtime-compat/fs";
-import {valmap} from "runtime-compat/object";
+import { Path } from "runtime-compat/fs";
+import { valmap } from "runtime-compat/object";
 
-import {renderToString} from "react-dom/server";
-import {createElement} from "react";
+import { renderToString } from "react-dom/server";
+import { createElement } from "react";
 import esbuild from "esbuild";
 
-import {expose} from "./client/exports.js";
+import { expose } from "./client/exports.js";
 
 export const render = (component, props) => {
   const heads = [];
   const push_heads = sub_heads => {
     heads.push(...sub_heads);
   };
-  const body = renderToString(createElement(component, {...props, push_heads}));
+  const body = renderToString(createElement(component, { ...props, push_heads }));
   if (heads.filter(head => head.startsWith("<title")).length > 1) {
     const error = "May only contain one <title> across component hierarchy";
     throw new Error(error);
   }
   const head = heads.join("\n");
 
-  return {body, head};
+  return { body, head };
 };
 
-const options = {loader: "jsx", jsx: "automatic"};
+const options = { loader: "jsx", jsx: "automatic" };
 export const compile = {
   async server(text) {
     return (await esbuild.transform(text, options)).code;
   },
   async client(text) {
-    return {js: (await esbuild.transform(text, options)).code};
+    return { js: (await esbuild.transform(text, options)).code };
   },
 };
 
 export const prepare = async app => {
   const to_path = path => new Path(import.meta.url).up(1).join(...path);
-  const {library} = app;
+  const { library } = app;
   const module = "react";
   const $base = ["client", "imports"];
   const index = $base.concat("index.js");
@@ -62,5 +62,5 @@ export const prepare = async app => {
 
   await app.import("@primate/frontend", "react");
   // expose code through "app", for bundlers
-  await app.export({type: "script", code: expose});
+  await app.export({ type: "script", code: expose });
 };

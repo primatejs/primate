@@ -1,4 +1,4 @@
-import {module} from "../common/exports.js";
+import { module } from "../common/exports.js";
 
 export default await module({
   name: "react",

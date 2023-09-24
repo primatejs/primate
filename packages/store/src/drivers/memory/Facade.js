@@ -1,5 +1,5 @@
 import crypto from "runtime-compat/crypto";
-import {filter} from "runtime-compat/object";
+import { filter } from "runtime-compat/object";
 
 const remove_null = delta => filter(delta , ([, value]) => value !== null);
 const remove_by_null = (document, delta) =>
@@ -48,7 +48,7 @@ export default class Connection {
     const collection = await this.#read(name);
     return collection[operation](document =>
       // ¬∃ = ∀
-      !keys.some(criterion => document[criterion] !== criteria[criterion])
+      !keys.some(criterion => document[criterion] !== criteria[criterion]),
     );
   }
 
@@ -75,12 +75,12 @@ export default class Connection {
 
   async get(name, primary, value) {
     const collection = await this.#read(name);
-    return collection[await this.#find_index(name, {[primary]: value})];
+    return collection[await this.#find_index(name, { [primary]: value })];
   }
 
   async insert(name, primary, document) {
     // generate id
-    const result = {[primary]: crypto.randomUUID(), ...document};
+    const result = { [primary]: crypto.randomUUID(), ...document };
     await this.#write(name, collection => [...collection, result]);
     return result;
   }
@@ -92,7 +92,7 @@ export default class Connection {
       // criteria satisfied
       if (!keys.some(by => document[by] !== criteria[by])) {
         changed++;
-        return {...remove_by_null(document, delta), ...remove_null(delta)};
+        return { ...remove_by_null(document, delta), ...remove_null(delta) };
       }
       return document;
     }));

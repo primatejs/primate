@@ -1,6 +1,6 @@
-import {Response, Status, MediaType} from "runtime-compat/http";
-import {stringify, filter} from "runtime-compat/object";
-import {peers} from "../common/exports.js";
+import { Response, Status, MediaType } from "runtime-compat/http";
+import { stringify, filter } from "runtime-compat/object";
+import { peers } from "../common/exports.js";
 import depend from "../depend.js";
 
 const respond = (handler, directory) => (...[name, ...rest]) =>
@@ -9,13 +9,13 @@ const respond = (handler, directory) => (...[name, ...rest]) =>
     const content = await base.join(`${name}.html`).text();
     const toc = await base.join(`${name}.json`).json();
 
-    return handler({content, toc}, ...rest)(app, ...noapp);
+    return handler({ content, toc }, ...rest)(app, ...noapp);
   };
 
-const as_html = ({content}, _, {status = Status.OK, page} = {}) => async app =>
-  new Response(await app.render({body: content, page}), {
+const as_html = ({ content }, _, { status = Status.OK, page } = {}) => async app =>
+  new Response(await app.render({ body: content, page }), {
     status,
-    headers: {...await app.headers(), "Content-Type": MediaType.TEXT_HTML},
+    headers: { ...await app.headers(), "Content-Type": MediaType.TEXT_HTML },
 });
 
 const name = "markdown";
@@ -45,7 +45,7 @@ const markdown = ({
       return next(app);
     },
     async compile(app, next) {
-      const {location} = app.config;
+      const { location } = app.config;
       const source = app.runpath(env.directory);
       // copy ${env.directory} to build/${env.directory}
       await app.stage(app.root.join(env.directory), env.directory, re);
@@ -56,7 +56,7 @@ const markdown = ({
 
       await Promise.all(components.map(async component => {
         const text = await component.text();
-        const {content, toc} = markdown.compile(text, options);
+        const { content, toc } = markdown.compile(text, options);
 
         const filename = component.path;
         const html = target.join(`${filename}.html`.replace(source, ""));

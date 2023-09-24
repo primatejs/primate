@@ -1,7 +1,7 @@
 import * as clack from "@clack/prompts";
 
 const Bailout = class extends Error {};
-export {Bailout};
+export { Bailout };
 
 export const bye = () => {
   throw new Bailout();

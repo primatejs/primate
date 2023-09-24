@@ -1,15 +1,15 @@
-import {Response, Status, MediaType} from "runtime-compat/http";
-import {filter} from "runtime-compat/object";
-import {register, compile, peers} from "../common/exports.js";
+import { Response, Status, MediaType } from "runtime-compat/http";
+import { filter } from "runtime-compat/object";
+import { register, compile, peers } from "../common/exports.js";
 import depend from "../depend.js";
 
 const name = "vue";
 const dependencies = ["vue"];
 const default_extension = "vue";
 
-const handler = config => (name, props = {}, {status = Status.OK, page} = {}) =>
+const handler = config => (name, props = {}, { status = Status.OK, page } = {}) =>
   async app => {
-    const {make, createSSRApp, render} = config;
+    const { make, createSSRApp, render } = config;
     const imported = await make(name, props);
     const component = createSSRApp({
       render: imported.component.render,
@@ -17,9 +17,9 @@ const handler = config => (name, props = {}, {status = Status.OK, page} = {}) =>
     });
     const body = await render(component);
 
-    return new Response(await app.render({body, page}), {
+    return new Response(await app.render({ body, page }), {
       status,
-      headers: {...app.headers(), "Content-Type": MediaType.TEXT_HTML},
+      headers: { ...app.headers(), "Content-Type": MediaType.TEXT_HTML },
     });
   };
 

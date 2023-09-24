@@ -1,14 +1,14 @@
-import {tryreturn} from "runtime-compat/async";
-import {Path} from "runtime-compat/fs";
-import {extend} from "runtime-compat/object";
+import { tryreturn } from "runtime-compat/async";
+import { Path } from "runtime-compat/fs";
+import { extend } from "runtime-compat/object";
 import app from "./app.js";
-import {default as Logger, bye} from "./Logger.js";
+import { default as Logger, bye } from "./Logger.js";
 import errors from "./errors.js";
 import command from "./commands/exports.js";
 import defaults from "./defaults/primate.config.js";
 
-let logger = new Logger({level: Logger.Warn});
-const {runtime = "node"} = import.meta;
+let logger = new Logger({ level: Logger.Warn });
+const { runtime = "node" } = import.meta;
 
 const get_config = async root => {
   const name = "primate.config.js";
@@ -21,7 +21,7 @@ const get_config = async root => {
         errors.EmptyConfigFile.warn(logger, config);
 
       return extend(defaults, imported);
-    }).orelse(({message}) =>
+    }).orelse(({ message }) =>
       errors.ErrorInConfigFile.throw(message, `${runtime} ${config}`))
     : defaults;
 };

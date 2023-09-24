@@ -1,9 +1,9 @@
-import {Path} from "runtime-compat/fs";
+import { Path } from "runtime-compat/fs";
 
 export default async (app, type, post = () => undefined) => {
-  const {config} = app;
-  const {build} = config;
-  const {includes} = build;
+  const { config } = app;
+  const { build } = config;
+  const { includes } = build;
 
   const reserved = Object.values(app.config.location);
 

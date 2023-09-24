@@ -1,4 +1,4 @@
-import {identity} from "runtime-compat/function";
+import { identity } from "runtime-compat/function";
 import Logger from "../Logger.js";
 
 export default {

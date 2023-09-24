@@ -1,4 +1,4 @@
-import {React} from "./index.js";
+import { React } from "./index.js";
 
 const {
   Children,

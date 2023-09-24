@@ -1,4 +1,4 @@
-const ifn0 = ({length}, out) => length > 0 ? out : "";
+const ifn0 = ({ length }, out) => length > 0 ? out : "";
 
 export default async (root, config) => {
   const imports = Object.entries(config.imports).map(([name, identifier]) =>

@@ -1,13 +1,13 @@
 import i128 from "./i128.js";
-import {reassert, ifail} from "./common.spec.js";
+import { reassert, ifail } from "./common.spec.js";
 
 export default test => {
   reassert(test, i128);
 
-  test.case("fail", ({fail}) => {
+  test.case("fail", ({ fail }) => {
     ifail(fail);
   });
-  test.case("match", ({match}) => {
+  test.case("match", ({ match }) => {
     match("1.0", 1n);
     match(1.0, 1n);
     match(0, 0n);
@@ -17,7 +17,7 @@ export default test => {
     match("1", 1n);
     match("-1", -1n);
   });
-  test.case("range", ({same, match, fail}) => {
+  test.case("range", ({ same, match, fail }) => {
     same(0n, -0n, 1n, 1n);
     same(-170_141_183_460_469_231_731_687_303_715_884_105_728n);
     same(170_141_183_460_469_231_731_687_303_715_884_105_727n);

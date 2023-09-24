@@ -1,40 +1,40 @@
-import {maybe} from "runtime-compat/invariant";
-import {tryreturn} from "runtime-compat/sync";
+import { maybe } from "runtime-compat/invariant";
+import { tryreturn } from "runtime-compat/sync";
 import * as object from "runtime-compat/object";
 import errors from "./errors.js";
 import bases from "./bases.js";
 import validate from "./validate.js";
 import primary from "./primary.js";
 
-const {FailedDocumentValidation} = errors;
+const { FailedDocumentValidation } = errors;
 
-const transform = to => ({types, schema, document, path}) =>
+const transform = to => ({ types, schema, document, path }) =>
   object.transform(document, entry => entry
     .map(([field, value]) =>
       tryreturn(_ => [field, types[bases[schema[field].base]][to](value)])
         .orelse(_ => {
-          const {name} = schema[field];
+          const { name } = schema[field];
           const command = `(await ${path}.get("${document.id}")).${field}`;
           return errors.CannotUnpackValue.throw(value, name, command);
-        })
+        }),
     ));
 
 export default (config, facade, types) => {
   const name = config.name.toLowerCase();
   const path = name.replaceAll("_", ".");
-  const {schema, actions = _ => ({})} = config;
+  const { schema, actions = _ => ({}) } = config;
 
-  const pack = document => transform("in")({document, path, schema, types});
+  const pack = document => transform("in")({ document, path, schema, types });
   const unpack = result => typeof result === "object"
-    ? transform("out")({document: result, path, schema, types})
+    ? transform("out")({ document: result, path, schema, types })
     : result;
 
   const store = {
     connection: facade.connection,
     facade,
     async validate(input) {
-      const result = await validate({input, types, schema,
-        strict: config.strict});
+      const result = await validate({ input, types, schema,
+        strict: config.strict });
       if (Object.keys(result.errors).length > 0) {
         const error = FailedDocumentValidation.new(Object.keys(result));
         error.errors = result.errors;
@@ -83,7 +83,7 @@ export default (config, facade, types) => {
     async save(document) {
       return document[primary] === undefined
         ? this.insert(document)
-        : this.update({[primary]: document[primary]}, document);
+        : this.update({ [primary]: document[primary] }, document);
     },
     async delete(criteria) {
       maybe(criteria).object();
@@ -100,5 +100,5 @@ export default (config, facade, types) => {
     },
   };
 
-  return {...store, ...actions(store)};
+  return { ...store, ...actions(store) };
 };

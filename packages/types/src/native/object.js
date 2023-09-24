@@ -1,4 +1,4 @@
-import {map} from "runtime-compat/object";
+import { map } from "runtime-compat/object";
 const fake = value => Array.isArray(value) || value === null;
 
 const base = "embedded";

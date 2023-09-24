@@ -1,16 +1,16 @@
-import {WebSocketServer} from "ws";
-import {URL, Request} from "runtime-compat/http";
+import { WebSocketServer } from "ws";
+import { URL, Request } from "runtime-compat/http";
 import errors from "./errors.js";
 
 export default () => {
   return {
     name: "primate:ws",
     serve: (app, next) => {
-      const wss = new WebSocketServer({noServer: true});
+      const wss = new WebSocketServer({ noServer: true });
       const up = response => socket => wss.emit("connection", socket, response);
 
       wss.on("connection", async (socket, response) => {
-        const {connection, message} = response;
+        const { connection, message } = response;
         const greeting = await connection?.();
         greeting !== undefined && socket.send(greeting);
         socket.on("message", async data => {
@@ -28,8 +28,8 @@ export default () => {
         });
         try {
           const parsed = await app.parse(request);
-          const {handler, path} = await app.route(parsed);
-          const response = await handler({...parsed, path});
+          const { handler, path } = await app.route(parsed);
+          const response = await handler({ ...parsed, path });
           response?.message ?? errors.InvalidHandler.throw(
             "ws", "message", "{message(payload) { return payload; }}");
           wss.handleUpgrade(req, socket, head, up(response));

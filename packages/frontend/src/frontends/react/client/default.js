@@ -1,7 +1,7 @@
 import rootname from "./rootname.js";
 import liveview from "./liveview.js";
 
-export default ({names, data}, options) => `
+export default ({ names, data }, options) => `
   import * as components from "app";
   import {hydrateRoot, createElement, ReactHead} from "app";
 

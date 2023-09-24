@@ -1,5 +1,5 @@
 import priss from "priss";
-//import {master} from "@priss/themes";
+// import {master} from "@priss/themes";
 const master = i => i;
 
 export default {
@@ -13,18 +13,18 @@ export default {
     root: "content",
     theme: master({
       navbar: [
-        {label: "Guide", link: "/guide/getting-started"},
-        {label: "Modules", link: "/modules/official"},
-        {label: "Blog", link: "/blog"},
+        { label: "Guide", link: "/guide/getting-started" },
+        { label: "Modules", link: "/modules/official" },
+        { label: "Blog", link: "/blog" },
       ],
       sidebar: {
         guide: [
-          {heading: "Introduction"},
+          { heading: "Introduction" },
           "Getting started",
           "Project structure",
           "Configuration",
           "Use cases",
-          {heading: "Concepts"},
+          { heading: "Concepts" },
           "Routes",
           "Responses",
           "Types",
@@ -32,14 +32,14 @@ export default {
           "Components",
           "Layouts",
           "Errors",
-          {heading: "Modules"},
+          { heading: "Modules" },
           "Extending Primate",
           "Hooks",
-          {heading: "Extras"},
+          { heading: "Extras" },
           "Logging",
         ],
         reference: [
-          {heading: "Errors"},
+          { heading: "Errors" },
           {
             errors: [
               "primate",
@@ -49,10 +49,10 @@ export default {
           },
         ],
         modules: [
-          {heading: "Modules"},
+          { heading: "Modules" },
           "Official",
           "Third-party",
-          {heading: "Handlers"},
+          { heading: "Handlers" },
           "Frontend",
           "Svelte",
           "React",
@@ -61,11 +61,11 @@ export default {
           "HTMX",
           "Handlebars",
           "Markdown",
-          {heading: "Data"},
+          { heading: "Data" },
           "Types",
           "Store",
           "Drivers",
-          {heading: "Others"},
+          { heading: "Others" },
           "Liveview",
           "Session",
           "WebSocket",

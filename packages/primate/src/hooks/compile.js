@@ -1,5 +1,5 @@
-import {Path} from "runtime-compat/fs";
-import {cascade} from "runtime-compat/async";
+import { Path } from "runtime-compat/fs";
+import { cascade } from "runtime-compat/async";
 import copy_includes from "./copy_includes.js";
 import cwd from "../cwd.js";
 
@@ -7,7 +7,7 @@ const html = /^.*.html$/u;
 const defaults = cwd(import.meta, 2).join("defaults");
 
 const pre = async app => {
-  const {config: {location}, path} = app;
+  const { config: { location }, path } = app;
 
   // remove build directory in case exists
   if (await path.build.exists) {

@@ -1,6 +1,6 @@
-import {createSSRApp} from "vue";
-import {renderToString} from "vue/server-renderer";
-import {parse, compileTemplate} from "vue/compiler-sfc";
+import { createSSRApp } from "vue";
+import { renderToString } from "vue/server-renderer";
+import { parse, compileTemplate } from "vue/compiler-sfc";
 
 export const compile = {
   server(text) {
@@ -11,4 +11,4 @@ export const compile = {
   },
 };
 
-export {createSSRApp, renderToString as render};
+export { createSSRApp, renderToString as render };

@@ -1,12 +1,12 @@
-import {filter} from "runtime-compat/object";
+import { filter } from "runtime-compat/object";
 
-const toid = ({_id, ...rest}) => ({id: _id, ...rest});
-const to_id = ({id, ...rest}) => id === undefined ? rest : {_id: id, ...rest};
+const toid = ({ _id, ...rest }) => ({ id: _id, ...rest });
+const to_id = ({ id, ...rest }) => id === undefined ? rest : { _id: id, ...rest };
 const cid = criteria => criteria.id === undefined ? criteria : to_id(criteria);
 const null_to_set_unset = delta => {
   const $set = filter(delta, ([, value]) => value !== null);
   const $unset = filter(delta, ([, value]) => value === null);
-  return {$set, $unset};
+  return { $set, $unset };
 };
 
 export default class Facade {
@@ -29,7 +29,7 @@ export default class Facade {
   }
 
   get #options() {
-    return {session: this.session};
+    return { session: this.session };
   }
 
   async find(name, criteria = {}) {
@@ -42,7 +42,7 @@ export default class Facade {
   }
 
   async get(name, primary, value) {
-    const result = await this.#by(name).findOne({_id: value}, this.#options);
+    const result = await this.#by(name).findOne({ _id: value }, this.#options);
     return result === null ? undefined : toid(result);
   }
 

@@ -1,7 +1,7 @@
 import crypto from "runtime-compat/crypto";
-import {is, every} from "runtime-compat/invariant";
+import { is, every } from "runtime-compat/invariant";
 
-const cookie = (name, value, {path, secure, httpOnly, sameSite}) =>
+const cookie = (name, value, { path, secure, httpOnly, sameSite }) =>
   `${name}=${value};${httpOnly};Path=${path};${secure};SameSite=${sameSite}`;
 
 // gets a cookie id and returns it if exists, otherwise generates a new one
@@ -17,7 +17,7 @@ const in_memory_session_manager = () => {
     },
     set(key, value) {
       if (this.exists) {
-        store.set(this.id, {...this.get(), [key]: value});
+        store.set(this.id, { ...this.get(), [key]: value });
       } else {
         throw new Error("cannot call set on an uninitialized session");
       }
@@ -67,7 +67,7 @@ export default ({
       const session = manager(id);
       every(session.create, session.destroy).function();
 
-      const response = await next({...request, session});
+      const response = await next({ ...request, session });
 
       implicit && await session.create();
 

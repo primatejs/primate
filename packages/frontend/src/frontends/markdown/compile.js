@@ -1,4 +1,4 @@
-import {marked} from "./imports.js";
+import { marked } from "./imports.js";
 
 const identity_heading = (text, level) => `<h${level}>${text}</h${level}>`;
 const heading = options => options?.renderer?.heading ?? identity_heading;
@@ -8,7 +8,7 @@ export default (input, options) => {
   const renderer = {
     ...options?.renderer ?? {},
     heading(text, level) {
-      toc.push({text, level,
+      toc.push({ text, level,
         name: text.toLowerCase()
           .replaceAll(/[?{}%]/gu, "")
           .replace(/[^\w]+/gu, "-"),
@@ -16,9 +16,9 @@ export default (input, options) => {
       return heading(options)(text, level);
     },
   };
-  marked.use({...options, renderer});
+  marked.use({ ...options, renderer });
 
   const content = marked.parse(input);
 
-  return {content, toc};
+  return { content, toc };
 };

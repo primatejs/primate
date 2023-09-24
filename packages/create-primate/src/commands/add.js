@@ -1,11 +1,11 @@
-import {Path} from "runtime-compat/fs";
-import {intro} from "@clack/prompts";
-import {select} from "../prompts.js";
+import { Path } from "runtime-compat/fs";
+import { intro } from "@clack/prompts";
+import { select } from "../prompts.js";
 
-const options= [
+const options = [
   {
     value: () => undefined,
-    label: "Add route"
+    label: "Add route",
   },
 ];
 

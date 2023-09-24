@@ -1,4 +1,4 @@
-import {filter, valmap} from "runtime-compat/object";
+import { filter, valmap } from "runtime-compat/object";
 import typemap from "./typemap.js";
 
 const filter_null = object => filter(object, ([, value]) => value !== null);
@@ -7,7 +7,7 @@ const filter_nulls = objects => objects.map(object => filter_null(object));
 export default class Connection {
   schema = {
     create: async (name, description) => {
-      const {connection} = this;
+      const { connection } = this;
       const body =
         Object.entries(valmap(description, value => typemap(value.base)))
           .map(([column, dataType]) => `"${column}" ${dataType}`).join(",");
@@ -17,7 +17,7 @@ export default class Connection {
       `;
     },
     delete: async name => {
-      const {connection} = this;
+      const { connection } = this;
       await connection`drop table if exists ${connection(name)};`;
     },
   };
@@ -27,7 +27,7 @@ export default class Connection {
   }
 
   async find(collection, criteria = {}) {
-    const {connection} = this;
+    const { connection } = this;
     return filter_nulls(await connection`
       select *
       from ${connection(collection)}
@@ -37,8 +37,8 @@ export default class Connection {
   }
 
   async count(collection, criteria = {}) {
-    const {connection} = this;
-    const [{count}] = await connection`
+    const { connection } = this;
+    const [{ count }] = await connection`
       select count(*)
       from ${connection(collection)}
       where ${Object.entries(criteria).reduce((acc, [key, value]) =>
@@ -48,7 +48,7 @@ export default class Connection {
   }
 
   async get(collection, primary, value) {
-    const {connection} = this;
+    const { connection } = this;
     const [result] = await connection`
       select * 
       from ${connection(collection)} 
@@ -58,7 +58,7 @@ export default class Connection {
   }
 
   async insert(collection, primary, document) {
-    const {connection} = this;
+    const { connection } = this;
     const columns = Object.keys(document);
     const [result] = await this.connection`insert into
       ${connection(collection)} 
@@ -71,10 +71,10 @@ export default class Connection {
   }
 
   async update(collection, criteria = {}, delta = {}) {
-    const {connection} = this;
+    const { connection } = this;
     return (await connection`
       update ${connection(collection)}
-      set ${connection({...delta})}
+      set ${connection({ ...delta })}
       where ${Object.entries(criteria).reduce((acc, [key, value]) =>
         connection`${acc} and ${connection(key)} = ${value}`, connection`true`)}
       returning *;
@@ -82,7 +82,7 @@ export default class Connection {
   }
 
   async delete(collection, criteria = {}) {
-    const {connection} = this;
+    const { connection } = this;
     return (await connection`
       delete from ${connection(collection)}
       where ${Object.entries(criteria).reduce((acc, [key, value]) =>

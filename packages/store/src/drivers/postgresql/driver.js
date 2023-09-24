@@ -1,7 +1,7 @@
-import {numeric} from "runtime-compat/invariant";
-import {filter} from "runtime-compat/object";
+import { numeric } from "runtime-compat/invariant";
+import { filter } from "runtime-compat/object";
 import ident from "../ident.js";
-import {peers} from "../common/exports.js";
+import { peers } from "../common/exports.js";
 import depend from "../../depend.js";
 import wrap from "../../wrap.js";
 import Facade from "./Facade.js";
@@ -21,7 +21,7 @@ export default ({
   user,
   pass,
 } = {}) => async _ => {
-  const [{default: Driver}] = await depend(on, `store:${name}`);
+  const [{ default: Driver }] = await depend(on, `store:${name}`);
 
   const driver = new Driver({
     host,

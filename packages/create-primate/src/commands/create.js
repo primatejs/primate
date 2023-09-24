@@ -1,13 +1,13 @@
-import {blue} from "runtime-compat/colors";
-import {intro, outro} from "@clack/prompts";
+import { blue } from "runtime-compat/colors";
+import { intro, outro } from "@clack/prompts";
 
 import run from "../run.js";
-import {Bailout} from "../prompts.js";
+import { Bailout } from "../prompts.js";
 import * as files from "../files/exports.js";
 
 const filter = (configs, property) =>
   configs.filter(conf => conf[property] !== undefined).reduce((acc, conf) =>
-    ({...acc, ...conf[property]}), undefined) ?? {};
+    ({ ...acc, ...conf[property] }), undefined) ?? {};
 
 const create = async ([root, configs]) => {
   const config = {

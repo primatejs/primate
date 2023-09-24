@@ -1,8 +1,8 @@
-import {tryreturn} from "runtime-compat/sync";
-import {from} from "runtime-compat/object";
+import { tryreturn } from "runtime-compat/sync";
+import { from } from "runtime-compat/object";
 import errors from "../errors.js";
-import {invalid} from "../hooks/route.js";
-import {default as fs, doubled} from "./common.js";
+import { invalid } from "../hooks/route.js";
+import { default as fs, doubled } from "./common.js";
 import * as get from "./routes/exports.js";
 
 const make = path => {
@@ -13,7 +13,7 @@ const make = path => {
 
   const route = path.replaceAll(/\{(?<named>.*?)\}/gu, (_, named) =>
     tryreturn(_ => {
-      const {name, type} = /^(?<name>\w+)(?<type>=\w+)?$/u.exec(named).groups;
+      const { name, type } = /^(?<name>\w+)(?<type>=\w+)?$/u.exec(named).groups;
       const param = type === undefined ? name : `${name}$${type.slice(1)}`;
       return `(?<${param}>[^/]{1,}?)`;
     }).orelse(_ => errors.InvalidPathParameter.throw(named, path)));

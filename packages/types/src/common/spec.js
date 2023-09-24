@@ -1,4 +1,4 @@
-export const reassert = (test, {validate}) => {
+export const reassert = (test, { validate }) => {
   test.reassert(assert => ({
     match: (value, expected) => {
       assert(validate(value)).equals(expected ?? value);

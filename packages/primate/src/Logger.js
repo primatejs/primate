@@ -1,6 +1,6 @@
-import {assert, is} from "runtime-compat/invariant";
-import {blue, bold, green, red, yellow, dim} from "runtime-compat/colors";
-import {map} from "runtime-compat/object";
+import { assert, is } from "runtime-compat/invariant";
+import { blue, bold, green, red, yellow, dim } from "runtime-compat/colors";
+import { map } from "runtime-compat/object";
 import console from "runtime-compat/console";
 
 const levels = {
@@ -22,7 +22,7 @@ const hyphenate = classCased => classCased
   .join("")
   .slice(1);
 
-const throwable = ({message, level, fix}, name, module) => ({
+const throwable = ({ message, level, fix }, name, module) => ({
   new(...args) {
     const error = new Error(mark(message, ...args));
     error.level = Logger[level];
@@ -35,9 +35,9 @@ const throwable = ({message, level, fix}, name, module) => ({
     throw this.new(...args);
   },
   warn(logger, ...args) {
-    const error = {level: Logger[level], message: mark(message, ...args),
-      fix: mark(fix, ...args)};
-    logger.auto({...error, name, module});
+    const error = { level: Logger[level], message: mark(message, ...args),
+      fix: mark(fix, ...args) };
+    logger.auto({ ...error, name, module });
   },
 });
 
@@ -48,7 +48,7 @@ const Logger = class Logger {
     return map(errors, ([key, value]) => [key, throwable(value, key, module)]);
   }
 
-  constructor({level = levels.Error, trace = false} = {}) {
+  constructor({ level = levels.Error, trace = false } = {}) {
     assert(level !== undefined && level <= levels.Info);
     is(trace).boolean();
     this.#level = level;
@@ -68,7 +68,7 @@ const Logger = class Logger {
   }
 
   #print(pre, color, message, error = {}) {
-    const {fix, module, name, level} = error;
+    const { fix, module, name, level } = error;
     print(color(pre), `${module !== undefined ? `${color(module)} ` : ""}${message}`, "\n");
     if (fix) {
       print(blue("++"), fix);
@@ -96,7 +96,7 @@ const Logger = class Logger {
   }
 
   auto(error) {
-    const {message} = error;
+    const { message } = error;
     const matches = map(levels, ([name, level]) => [level, name.toLowerCase()]);
     return this[matches[error.level] ?? "error"](message, error);
   }
@@ -104,4 +104,4 @@ const Logger = class Logger {
 
 export default Logger;
 
-export {print, bye, mark};
+export { print, bye, mark };

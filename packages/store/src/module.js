@@ -1,7 +1,7 @@
 import crypto from "runtime-compat/crypto";
-import {bold} from "runtime-compat/colors";
-import {extend, inflate, transform} from "runtime-compat/object";
-import {memory} from "./drivers/exports.js";
+import { bold } from "runtime-compat/colors";
+import { extend, inflate, transform } from "runtime-compat/object";
+import { memory } from "./drivers/exports.js";
 import errors from "./errors.js";
 import primary from "./primary.js";
 
@@ -11,7 +11,7 @@ const ending = -3;
 const make_transaction = async env => {
   const [transaction] = await Promise.all(env.drivers.map(driver =>
     driver.transact(env.stores
-      .filter(store => (store.driver ?? env.defaults.driver) === driver)
+      .filter(store => (store.driver ?? env.defaults.driver) === driver),
     )));
 
   return {
@@ -20,7 +20,7 @@ const make_transaction = async env => {
   };
 };
 
-const valid_type = ({base, validate}) =>
+const valid_type = ({ base, validate }) =>
   base !== undefined && typeof validate === "function";
 
 const valid = (type, name, store) => valid_type(type)
@@ -63,20 +63,20 @@ export default ({
 
           const pathed = store.replaceAll("/", ".");
 
-          app.log.info(`loading ${bold(pathed)}`, {module: "primate/store"});
+          app.log.info(`loading ${bold(pathed)}`, { module: "primate/store" });
 
-          const {default: _, ...rest} = exports;
+          const { default: _, ...rest } = exports;
 
           return [pathed, {
             ...rest,
             schema,
             name: exports.name ?? store.replaceAll("/", "_"),
           }];
-        })
+        }),
       );
       Object.keys(stores).length === 0
         && errors.EmptyStoreDirectory.throw(root);
-      app.log.info("all stores nominal", {module: "primate/store"});
+      app.log.info("all stores nominal", { module: "primate/store" });
 
       const default_driver = await driver();
 
@@ -89,21 +89,21 @@ export default ({
           readonly: false,
           ambiguous: false,
         },
-        drivers: [...new Set(stores.map(({driver: d}) => d ?? default_driver))],
+        drivers: [...new Set(stores.map(({ driver: d }) => d ?? default_driver))],
       };
 
       return next(app);
     },
     async route(request, next) {
-      const {id, transaction} = await make_transaction(env);
+      const { id, transaction } = await make_transaction(env);
 
       try {
         return await transaction([], stores => {
           const store = stores.reduce((base, [name, store]) =>
             extend(base, inflate(name, store))
           , {});
-          return next({...request, store});
-        }
+          return next({ ...request, store });
+        },
         );
       } catch (error) {
         env.log.auto(error);

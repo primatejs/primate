@@ -1,1 +1,1 @@
-export {marked} from "marked";
+export { marked } from "marked";

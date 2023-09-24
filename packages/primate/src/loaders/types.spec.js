@@ -1,6 +1,6 @@
-import {Path} from "runtime-compat/fs";
+import { Path } from "runtime-compat/fs";
 import loader from "./types.js";
-import {mark} from "../Logger.js";
+import { mark } from "../Logger.js";
 
 const log = {
   auto(error) {

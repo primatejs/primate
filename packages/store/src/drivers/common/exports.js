@@ -1,1 +1,1 @@
-export {default as peers} from "./peers.js";
+export { default as peers } from "./peers.js";

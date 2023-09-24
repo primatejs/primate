@@ -1,4 +1,4 @@
-import {onMount, onCleanup, createContext, useContext} from "solid-js";
+import { onMount, onCleanup, createContext, useContext } from "solid-js";
 const is_client = globalThis.document?.createElement !== undefined;
 
 const HeadContext = createContext();
@@ -25,8 +25,8 @@ const render = (maybe_children, id) => {
 
   if (is_client) {
     // DOM elements
-    const titles = children.filter(({tagName}) => tagName === "TITLE");
-    const others = children.filter(({tagName}) => tagName !== "TITLE");
+    const titles = children.filter(({ tagName }) => tagName === "TITLE");
+    const others = children.filter(({ tagName }) => tagName !== "TITLE");
 
     titles.forEach(title => {
       globalThis.document.title = title.innerText;
@@ -36,7 +36,7 @@ const render = (maybe_children, id) => {
       globalThis.document.head.prepend(other);
     });
   } else {
-    const tags = children.map(({t: tag}) => tag);
+    const tags = children.map(({ t: tag }) => tag);
     const all_good = tags.every(tag => allowed.includes(get_tag(tag)));
     if (!all_good) {
       const bad = get_tag(tags.find(tag => !allowed.includes(get_tag(tag))));
@@ -93,4 +93,4 @@ const is = {
   server: !is_client,
 };
 
-export {Head, HeadContext, is};
+export { Head, HeadContext, is };

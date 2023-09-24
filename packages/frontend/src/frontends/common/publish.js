@@ -1,4 +1,4 @@
-import {Path} from "runtime-compat/fs";
+import { Path } from "runtime-compat/fs";
 const type = "module";
 
 export default async ({
@@ -24,14 +24,14 @@ export default async ({
     const name = component.path.replace(`${source}/`, "");
     const file = await component.file.read();
     const build = app.config.location.components;
-    const {path} = component;
+    const { path } = component;
 
     const file_string = `./${build}/${name}`;
-    const {js, css} = await compile(file);
+    const { js, css } = await compile(file);
     {
       const code = js.replaceAll(extensions.from, extensions.to);
       const src = `${path}.js`.replace(`${source}`, _ => build);
-      await app.publish({src, code, type});
+      await app.publish({ src, code, type });
 
       const imported = await normalize(name);
       app.export({
@@ -41,7 +41,7 @@ export default async ({
     }
     if (css !== null && css !== undefined) {
       const src = `${path}.css`.replace(`${source}`, _ => build);
-      await app.publish({src, code: css, type: "style"});
+      await app.publish({ src, code: css, type: "style" });
 
       // irrelevant without bundling
       app.export({
@@ -53,13 +53,13 @@ export default async ({
   {
     const root = create_root(app.layout.depth);
     // root has no css
-    const {js} = await compile(root);
+    const { js } = await compile(root);
     const code = js.replaceAll(extensions.from, extensions.to);
     const src = new Path(app.config.http.static.root, filename);
-    await app.publish({src, code, type});
+    await app.publish({ src, code, type });
   }
   {
     const code = `export {default as ${rootname}} from "./${filename}";\n`;
-    app.export({type: "script", code});
+    app.export({ type: "script", code });
   }
 };

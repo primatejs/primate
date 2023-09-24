@@ -1,16 +1,16 @@
 import i32 from "./i32.js";
-import {reassert, imatch, ifail} from "./common.spec.js";
+import { reassert, imatch, ifail } from "./common.spec.js";
 
 export default test => {
   reassert(test, i32);
 
-  test.case("fail", ({fail}) => {
+  test.case("fail", ({ fail }) => {
     ifail(fail);
   });
-  test.case("match", ({match}) => {
+  test.case("match", ({ match }) => {
     imatch(match);
   });
-  test.case("range", ({same, match, fail}) => {
+  test.case("range", ({ same, match, fail }) => {
     same(0, -0, 1, 1, -2_147_483_648, 2_147_483_647);
     match(-2_147_483_648n, -2_147_483_648);
     match("-2147483648", -2_147_483_648);

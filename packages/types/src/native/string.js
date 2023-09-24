@@ -1,6 +1,6 @@
-import {every, assert} from "runtime-compat/invariant";
+import { every, assert } from "runtime-compat/invariant";
 
-const between = ({length}, min, max) => length >= min && length <= max;
+const between = ({ length }, min, max) => length >= min && length <= max;
 const base = "string";
 
 const string = {

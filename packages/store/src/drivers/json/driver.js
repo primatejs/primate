@@ -1,13 +1,13 @@
-import {Path} from "runtime-compat/fs";
-import {is} from "runtime-compat/invariant";
+import { Path } from "runtime-compat/fs";
+import { is } from "runtime-compat/invariant";
 import wrap from "../../wrap.js";
 import Facade from "../memory/Facade.js";
 import types from "../memory/types.js";
 
-export default ({filename}) => async () => {
+export default ({ filename }) => async () => {
   is(filename).string();
 
-  const {file} = new Path(filename);
+  const { file } = new Path(filename);
   const database = {
     collections: await file.exists ? await file.json() : {},
   };

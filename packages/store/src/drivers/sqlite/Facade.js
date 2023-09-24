@@ -1,6 +1,6 @@
-import {filter, keymap, valmap} from "runtime-compat/object";
+import { filter, keymap, valmap } from "runtime-compat/object";
 import typemap from "./typemap.js";
-import {runtime} from "runtime-compat/meta";
+import { runtime } from "runtime-compat/meta";
 
 const is_bun = runtime === "bun";
 
@@ -10,12 +10,12 @@ const filter_null = results =>
 const predicate = criteria => {
   const keys = Object.keys(criteria);
   if (keys.length === 0) {
-    return {where: "", bindings: {}};
+    return { where: "", bindings: {} };
   }
 
   const where = `where ${keys.map(key => `"${key}"=$${key}`).join(" and ")}`;
 
-  return {where, bindings: criteria};
+  return { where, bindings: criteria };
 };
 
 const change = delta => {
@@ -47,7 +47,7 @@ export default class Connection {
   }
 
   find(collection, criteria = {}) {
-    const {where, bindings} = predicate(criteria);
+    const { where, bindings } = predicate(criteria);
     const query = `select * from ${collection} ${where}`;
     const statement = this.connection.prepare(query);
     if (!is_bun) {
@@ -57,7 +57,7 @@ export default class Connection {
   }
 
   count(collection, criteria = {}) {
-    const {where, bindings} = predicate(criteria);
+    const { where, bindings } = predicate(criteria);
     const query = `select count(*) from ${collection} ${where}`;
     const prepared = this.connection.prepare(query);
     if (is_bun) {
@@ -74,7 +74,7 @@ export default class Connection {
     if (!is_bun) {
       statement.safeIntegers(true);
     }
-    const result = statement.get({primary: value});
+    const result = statement.get({ primary: value });
     return result === undefined
       ? result
       : filter(result, ([, $value]) => $value !== null);
@@ -90,21 +90,21 @@ export default class Connection {
     const query = `insert into ${collection} ${$predicate} returning id`;
     const prepared = this.connection.prepare(query);
     const $document = is_bun ? keymap(document, key => `$${key}`) : document;
-    const {id} = prepared.get($document);
-    return {...document, id};
+    const { id } = prepared.get($document);
+    return { ...document, id };
   }
 
   update(collection, criteria = {}, delta = {}) {
-    const {where, bindings} = predicate(criteria);
-    const {set, bindings: bindings2} = change(delta);
+    const { where, bindings } = predicate(criteria);
+    const { set, bindings: bindings2 } = change(delta);
     const query = `update ${collection} ${set} ${where}`;
-    return this.connection.prepare(query).run({...bindings, ...bindings2})
+    return this.connection.prepare(query).run({ ...bindings, ...bindings2 })
       .changes;
   }
 
   delete(collection, criteria = {}) {
-    const {where, bindings} = predicate(criteria);
+    const { where, bindings } = predicate(criteria);
     const query = `delete from ${collection} ${where}`;
-    return this.connection.prepare(query).run({...bindings}).changes;
+    return this.connection.prepare(query).run({ ...bindings }).changes;
   }
 }

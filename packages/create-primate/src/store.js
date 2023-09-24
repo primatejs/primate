@@ -1,8 +1,8 @@
-import {select, confirm} from "./prompts.js";
+import { select, confirm } from "./prompts.js";
 import * as drivers from "./drivers/exports.js";
 import link from "./link.js";
 import dependencies from "./dependencies.js";
-import {map, to} from "runtime-compat/object";
+import { map, to } from "runtime-compat/object";
 
 const labels = map({
   memory: "In Memory",
@@ -17,7 +17,7 @@ const labels = map({
 export default async () => {
   const driver = await (await select({
     message: "Choose driver",
-    options: to(labels).map(([key, label]) => ({value: drivers[key], label})),
+    options: to(labels).map(([key, label]) => ({ value: drivers[key], label })),
   }))();
 
   const strict = await confirm({

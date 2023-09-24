@@ -1,4 +1,4 @@
-import {text} from "../prompts.js";
+import { text } from "../prompts.js";
 
 export default async () => {
   const filename = await text({
@@ -12,7 +12,7 @@ export default async () => {
     },
     driver: {
       name: "json",
-      options: {filename},
+      options: { filename },
     },
   };
 };

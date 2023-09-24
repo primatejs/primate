@@ -1,5 +1,5 @@
-import {assert, numeric} from "runtime-compat/invariant";
-import {range} from "../predicates/exports.js";
+import { assert, numeric } from "runtime-compat/invariant";
+import { range } from "../predicates/exports.js";
 
 const coercibles = {
   string: value => numeric(value) ? Number(value) : value,

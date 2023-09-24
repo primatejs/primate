@@ -1,4 +1,4 @@
-import {doubled} from "../common.js";
+import { doubled } from "../common.js";
 import errors from "../../errors.js";
 
 const normalize = route => {
@@ -13,7 +13,7 @@ const deindex = path => path.endsWith("index") ?
 
 export default async (log, directory, load) => {
   const filter = path => /^[^+].*.js$/u.test(path.name);
-  const routes = (await load({log, directory, filter}))
+  const routes = (await load({ log, directory, filter }))
     .map(([path, handler]) => [deindex(path), handler]);
 
   const double = doubled(routes.map(([route]) => normalize(route)));

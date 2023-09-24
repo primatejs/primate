@@ -1,7 +1,7 @@
-import {Path} from "runtime-compat/fs";
+import { Path } from "runtime-compat/fs";
 
 const up = 2;
-const {url} = import.meta;
+const { url } = import.meta;
 const name = "package.json";
 
 export default {

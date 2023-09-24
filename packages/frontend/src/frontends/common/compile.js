@@ -6,7 +6,7 @@ export default async ({
   create_root,
   compile,
 }) => {
-  const {location} = app.config;
+  const { location } = app.config;
   const filename = `${rootname}.js`;
   const re = new RegExp(`^.*.(?:${extension})$`, "u");
   const extensions = {

@@ -1,11 +1,11 @@
 const normalize = string => string.trim() === "" ? undefined : string;
 
-export default async ({types, input, schema, strict}) =>
-  Object.entries(schema).reduce(({errors, document}, [name, field]) => {
+export default async ({ types, input, schema, strict }) =>
+  Object.entries(schema).reduce(({ errors, document }, [name, field]) => {
     const value = input[name];
     // skip empty fields if not in strict mode
     if (!strict && value === undefined) {
-      return {errors, document};
+      return { errors, document };
     }
 
     try {
@@ -16,12 +16,12 @@ export default async ({types, input, schema, strict}) =>
         ? null : field.validate(normal, types);
       return {
         errors,
-        document: {...document, [name]: validated},
+        document: { ...document, [name]: validated },
       };
     } catch (error) {
       return {
-        errors: {...errors, [name]: error.message},
+        errors: { ...errors, [name]: error.message },
         document,
       };
     }
-  }, {errors: {}, document: {}});
+  }, { errors: {}, document: {} });

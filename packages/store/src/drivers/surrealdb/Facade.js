@@ -1,4 +1,4 @@
-import {keymap, valmap} from "runtime-compat/object";
+import { keymap, valmap } from "runtime-compat/object";
 import typemap from "./typemap.js";
 
 const null_to_undefined = delta =>
@@ -7,12 +7,12 @@ const null_to_undefined = delta =>
 const predicate = criteria => {
   const keys = Object.keys(criteria);
   if (keys.length === 0) {
-    return {where: "", bindings: {}};
+    return { where: "", bindings: {} };
   }
 
   const where = `where ${keys.map(key => `${key}=$${key}`).join(" and ")}`;
 
-  return {where, bindings: criteria};
+  return { where, bindings: criteria };
 };
 
 const change = delta => {
@@ -54,22 +54,22 @@ export default class Connection {
   }
 
   async find(name, criteria = {}) {
-    const {where, bindings} = predicate(criteria);
+    const { where, bindings } = predicate(criteria);
     const query = `select * from ${name} ${where}`;
-    const [{result}] = await this.#query(query, bindings);
+    const [{ result }] = await this.#query(query, bindings);
     return result;
   }
 
   async count(name, criteria = {}) {
-    const {where, bindings} = predicate(criteria);
+    const { where, bindings } = predicate(criteria);
     const query = `select count() from ${name} ${where}`;
-    const [{result}] = await this.#query(query, bindings);
+    const [{ result }] = await this.#query(query, bindings);
     return result.length;
   }
 
   async get(name, primary, value) {
     const query = `select * from ${name} where ${primary}=$primary`;
-    const [{result}] = await this.#query(query, {primary: value});
+    const [{ result }] = await this.#query(query, { primary: value });
     return result.length === 0
       ? undefined
       : result[0];
@@ -83,22 +83,22 @@ export default class Connection {
       ? `(${columns.join(",")}) values (${values})`
       : "{}";
     const query = `insert into ${name} ${predicate}`;
-    const [{result: [{id}]}] = await this.#query(query, document);
-    return {...document, id};
+    const [{ result: [{ id }] }] = await this.#query(query, document);
+    return { ...document, id };
   }
 
   async update(name, criteria = {}, delta = {}) {
-    const {where, bindings} = predicate(criteria);
-    const {set, bindings: bindings2} = change(null_to_undefined(delta));
+    const { where, bindings } = predicate(criteria);
+    const { set, bindings: bindings2 } = change(null_to_undefined(delta));
     const query = `update ${name} ${set} ${where}`;
-    const [{result}] = await this.#query(query, {...bindings, ...bindings2});
+    const [{ result }] = await this.#query(query, { ...bindings, ...bindings2 });
     return result.length;
   }
 
   async delete(collection, criteria = {}) {
-    const {where, bindings} = predicate(criteria);
+    const { where, bindings } = predicate(criteria);
     const query = `delete from ${collection} ${where} return diff`;
-    const [{result}] = await this.#query(query, bindings);
+    const [{ result }] = await this.#query(query, bindings);
     return result.length;
   }
 }

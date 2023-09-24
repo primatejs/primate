@@ -1,5 +1,5 @@
-import {Path} from "runtime-compat/fs";
-import {identity} from "runtime-compat/function";
+import { Path } from "runtime-compat/fs";
+import { identity } from "runtime-compat/function";
 import errors from "../errors.js";
 
 const ending = ".js";
@@ -17,7 +17,7 @@ export default async ({
   warn = true,
 } = {}) => {
   const objects = directory === undefined ? [] : await Promise.all(
-    (await Path.collect(directory, /^.*.js$/u, {recursive}))
+    (await Path.collect(directory, /^.*.js$/u, { recursive }))
       .filter(filter)
       .map(async path => [
         `${path}`.replace(directory, _ => "").slice(1, -ending.length),

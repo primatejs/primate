@@ -1,4 +1,4 @@
-import {JSXRuntime} from "./index.js";
+import { JSXRuntime } from "./index.js";
 
 const {
   Fragment,

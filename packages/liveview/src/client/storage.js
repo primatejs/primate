@@ -14,7 +14,7 @@ export default {
   },
   // placing a new item into the history
   new(entry) {
-    const {stack = []} = this.get();
+    const { stack = [] } = this.get();
     this.set({
       stack: [...stack, entry],
       // pushing a new entry invalidates all old and next items
@@ -24,14 +24,14 @@ export default {
   },
   // going back in the history
   back() {
-    const {stack = [], old = [], next = []} = this.get();
+    const { stack = [], old = [], next = [] } = this.get();
     const top = stack.at(last);
 
     this.set({
       // remove top of stack
       stack: stack.slice(0, last),
       // place the current scrolling state in next
-      next: [...next, {scrollTop: scrollTop()}],
+      next: [...next, { scrollTop: scrollTop() }],
       // add the top of the stack to old
       old: [...old, top],
     });
@@ -40,11 +40,11 @@ export default {
   },
   // going forward in the history
   forward() {
-    const {stack = [], old = [], next = []} = this.get();
+    const { stack = [], old = [], next = [] } = this.get();
 
     this.set({
       // add the top of old to stack, with current scrollTop
-      stack: [...stack, {...old.at(last), scrollTop: scrollTop()}],
+      stack: [...stack, { ...old.at(last), scrollTop: scrollTop() }],
       // remove top of old
       old: old.slice(0, last),
       // remove top of next

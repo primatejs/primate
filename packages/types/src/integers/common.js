@@ -1,8 +1,8 @@
-import {assert} from "runtime-compat/invariant";
+import { assert } from "runtime-compat/invariant";
 import * as predicates from "../predicates/exports.js";
-import {orthrow, not} from "../common/exports.js";
+import { orthrow, not } from "../common/exports.js";
 
-const int = ({base, bounds, name}) => {
+const int = ({ base, bounds, name }) => {
   const inrange = predicates.range(bounds.min, bounds.max);
   return {
     base,
@@ -24,7 +24,7 @@ const int = ({base, bounds, name}) => {
   };
 };
 
-const bigint = ({base, bounds, name}) => {
+const bigint = ({ base, bounds, name }) => {
   const inrange = predicates.range(bounds.min, bounds.max);
   return {
     base,
@@ -46,4 +46,4 @@ const bigint = ({base, bounds, name}) => {
   };
 };
 
-export {bigint, int};
+export { bigint, int };
