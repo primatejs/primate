@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+<channel>
+  <title>Primate Blog</title>
+  <link>https://primatejs.com/blog</link>
+  <description>Primate - Expressive, minimal and extensible web framework</description>
+
+  <item>
+    <title>Release 0.24: Native Bun support</title>
+    <link>https://primatejs.com/blog/release-024</link>
+  </item>
+
+  <item>
+    <title>Introducing a Head component</title>
+    <link>https://primatejs.com/blog/introducing-a-head-component</link>
+  </item>
+
+  <item>
+    <title>Release 0.23: Handlebars support, transactions, bundler code splitting</title>
+    <link>https://primatejs.com/blog/release-023</link>
+  </item>
+
+  <item>
+    <title>Release 0.22: Solid and Markdown support, build transformations</title>
+    <link>https://primatejs.com/blog/release-022</link>
+  </item>
+
+  <item>
+    <title>Adding Solid support</title>
+    <link>https://primatejs.com/blog/supporting-solid</link>
+  </item>
+
+  <item>
+    <title>Release 0.21: More stores, error routes, liveview, `create primate`, and new website</title>
+    <link>https://primatejs.com/blog/release-021</link>
+  </item>
+
+</channel>
+</rss>
