@@ -11,7 +11,7 @@ This handler module serves Markdown components with the `md` extension.
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import {markdown} from "@primate/frontend";
+import { markdown } from "@primate/frontend";
 
 export default {
   modules: [
@@ -34,7 +34,7 @@ This is the **first** post
 Create a route and serve the Markdown `PostIndex` component.
 
 ```js caption=routes/markdown.js
-import {view} from "primate";
+import { view } from "primate";
 
 export default {
   get() {

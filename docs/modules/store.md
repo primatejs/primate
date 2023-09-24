@@ -47,7 +47,7 @@ data only as long as the application runs. Alternatively you can use the
 [JSON file][json-file] driver which persists onto a file.
 
 ```js caption=primate.config.js
-import {default as store, json} from "@primate/store";
+import { default as store, json } from "@primate/store";
 
 export default {
   modules: [
@@ -68,7 +68,7 @@ range of values this field may hold. We here define a `User` store representing
 a user of our application.
 
 ```js caption=stores/User.js
-import {primary, string, u8, email, date} from "primate/@types";
+import { primary, string, u8, email, date } from "primate/@types";
 
 export default {
   id: primary,
@@ -85,7 +85,7 @@ every route.
 ```js caption=routes/user/all.js
 export default {
   get(request) {
-    const {User} = request.store;
+    const { User } = request.store;
     return User.find();
   },
 };
@@ -105,7 +105,7 @@ Directories must start with a lowercase letter and will be otherwise ignored.
 
 ```js caption=stores/Comment.js
 // this store will be available as `request.store.Comment` in routes
-import {primary, string} from "primate/@types";
+import { primary, string } from "primate/@types";
 
 export default {
   id: primary,
@@ -115,7 +115,7 @@ export default {
 
 ```js caption=stores/post/Comment.js
 // this store will be available as `request.store.post.Comment` in routes
-import {primary, string} from "primate/@types";
+import { primary, string } from "primate/@types";
 
 export default {
   id: primary,
@@ -130,7 +130,7 @@ The objects you use for types will be automatically mapped by the driver into
 the appropriate database types.
 
 ```js caption=store/User.js
-import {id, string, u8, array} from "primate/@types";
+import { id, string, u8, array } from "primate/@types";
 
 export default {
   id,
@@ -157,7 +157,7 @@ saving it. Normally though, you wouldn't call `validate` directly but have
 `insert` or `update` call it for you.
 
 ```js caption=routes/create-user.js
-import {redirect} from "primate";
+import { redirect } from "primate";
 
 export default {
   post(request) {
@@ -169,11 +169,11 @@ export default {
     };
 
     // get the User store
-    const {User} = request.store;
+    const { User } = request.store;
 
     // save if valid
     try {
-      const {id} = await User.insert(user);
+      const { id } = await User.insert(user);
       return redirect(`/user/${id}`);
     } catch (error) {
       // return validation errors as JSON to the client
@@ -194,9 +194,9 @@ In addition to using type functions, Primate supports using an object with a
 `validate` function property for validation.
 
 ```js caption=stores/User.js
-import {primary, u8, array} from "primate/@types"
+import { primary, u8, array } from "primate/@types"
 
-const between = ({length}, min, max) => length >= min && length <= max;
+const between = ({ length }, min, max) => length >= min && length <= max;
 
 export default {
   id: primary,
@@ -227,7 +227,7 @@ to save a new document into the document. If you wish to strictly enforce all
 fields to be non-empty, export `strict = true`.
 
 ```js caption=stores/Comment.js
-import {primary, string} from "primate/@types";
+import { primary, string } from "primate/@types";
 
 export const strict = true;
 
@@ -255,7 +255,7 @@ In that case, you can opt-out on individual store level by exporting
 `strict = false`.
 
 ```js caption=stores/Comment.js
-import {primary, string} from "@primate/types";
+import { primary, string } from "@primate/types";
 
 export const strict = false;
 
@@ -274,7 +274,7 @@ this behavior by exporting a `name`, allowing you to map several store files to
 the same database store.
 
 ```js caption=stores/Post/Comment.js
-import {primary, string} from "@primate/types";
+import { primary, string } from "@primate/types";
 
 // would use `post_comment` if not overriden
 export const name = "comment";
@@ -292,7 +292,7 @@ module (which defaults to the in-memory driver). A store can override this
 default by exporting a `driver`.
 
 ```js caption=stores/Comment.js
-import {primary, string} from "@primate/types";
+import { primary, string } from "@primate/types";
 import mongodb from "@primate/mongodb";
 
 export const driver = mongodb();
@@ -316,9 +316,9 @@ export default mongodb();
 You can then import and reexport the driver as needed across files.
 
 ```js caption=stores/Post.js
-import {primary, string} from "@primate/types";
+import { primary, string } from "@primate/types";
 
-export {default as driver} from "./mongodb.js";
+export { default as driver } from "./mongodb.js";
 
 export default {
   id: primary,
@@ -328,9 +328,9 @@ export default {
 ```
 
 ```js caption=stores/Comment.js
-import {primary, string} from "@primate/types";
+import { primary, string } from "@primate/types";
 
-export {default as driver} from "./mongodb.js";
+export { default as driver } from "./mongodb.js";
 
 export default {
   id: primary,
@@ -346,7 +346,7 @@ indexing. This module, too, uses the primary field automatically for a store's
 complain.
 
 ```js caption=stores/Comment.js
-import {string} from "@primate/types";
+import { string } from "@primate/types";
 
 export default {
   text: string,
@@ -360,7 +360,7 @@ warning.
 If this ambiguity is intentional, export `ambiguous = true` in your store.
 
 ```js caption=stores/Comment.js
-import {string} from "@primate/types";
+import { string } from "@primate/types";
 
 export const ambiguous = true;
 
@@ -382,9 +382,9 @@ underlying driver and the store itself to create your own actions. To do so,
 export `actions` as an object containing individual, additional actions.
 
 ```js caption=store/User.js
-import {id, string, u8, array} from "primate/@types";
+import { id, string, u8, array } from "primate/@types";
 
-export const actions = (client, store) => {
+export const actions = store => {
   return {
     findByHobbies(hobbies) {
       return store.find({hobbies});

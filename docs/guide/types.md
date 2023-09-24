@@ -30,7 +30,7 @@ numeric and outputs its as a number. This example uses implicit notation.
 
 ```js caption=types/number.js
 // `is` asserts invariants, `numeric` returns true if a string is numeric
-import {is, numeric} from "runtime-compat/invariant";
+import { is, numeric } from "runtime-compat/invariant";
 
 export default value => {
   // make sure value is a string, otherwise throw
@@ -57,7 +57,7 @@ Here is the same example using explicit notation.
 
 ```js caption=types/number.js
 // `is` asserts invariants, `numeric` returns true if a string is numeric
-import {is, numeric} from "runtime-compat/invariant";
+import { is, numeric } from "runtime-compat/invariant";
 
 export default {
   validate(value) {
@@ -84,7 +84,7 @@ additional properties relevant for persisting values.
 You can also create more elaborate types, like `uuid`.
 
 ```js caption=types/uuid.js
-import {is} from "runtime-compat/invariant";
+import { is } from "runtime-compat/invariant";
 
 const valid = /^[^\W_]{8}-[^\W_]{4}-[^\W_]{4}-[^\W_]{4}-[^\W_]{12}$/u;
 
@@ -241,7 +241,7 @@ import user from "../types/user.js";
 export default {
   /*
     GET /user?userId=6161
-    -> `{id: 6161, name: "Donald"}`
+    -> `{ id: 6161, name: "Donald" }`
 
     GET /user?userId=1616
     -> Error
@@ -261,7 +261,7 @@ for validating a property's value.
 export default {
   /*
     GET /user?userId=6161
-    -> `{id: 6161, name: "Donald"}`
+    -> `{ id: 6161, name: "Donald" }`
 
     GET /user?userId=1616
     -> Error
@@ -290,7 +290,7 @@ export default {
   /*
     GET /user
     X-User-Id: 6161
-    -> `{id: 6161, name: "Donald"}`
+    -> `{ id: 6161, name: "Donald" }`
 
     GET /user
     X-User-Id: 1616
@@ -309,7 +309,7 @@ export default {
   /*
     GET /user
     Cookie: userId=6161
-    -> `{id: 6161, name: "Donald"}`
+    -> `{ id: 6161, name: "Donald" }`
 
     GET /user
     Cookie: userId=1616

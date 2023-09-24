@@ -43,7 +43,7 @@ energy to mankind.
 Lastly, serve your Markdown component from a route of your choice.
 
 ```js caption=routes/about-us.js
-import {view} from "primate";
+import { view } from "primate";
 
 export default {
   get() {
@@ -60,11 +60,11 @@ props to it is meaningless. However, you can still use a different page with it
 by modifying the `page` property of the third (options) parameter.
 
 ```js caption=routes/about-us.js
-import {view} from "primate";
+import { view } from "primate";
 
 export default {
   get() {
-    return view("about-us.md", {}, {page: "alternative-page.html"});
+    return view("about-us.md", {}, { page: "alternative-page.html" });
   },
 };
 ```
@@ -164,10 +164,8 @@ import markdown from "@primate/markdown";
 export default {
   modules: [
     markdown({
-      handler({content, toc}) {
-        return (app, ...rest) =>
-          app.handlers.svelte("Markdown.svelte", {content, toc})(app, ...rest);
-      },
+      handler: ({ content, toc }) => (app, ...rest) =>
+        app.handlers.svelte("Markdown.svelte", { content, toc })(app, ...rest),
     }),
   ],
 };
@@ -182,19 +180,19 @@ function directly as an export of `@primate/markdown`. This allows you to
 compile and serve Markdown content from a dynamic source (like a database).
 
 ```js caption=routes/markdown/{page}.js
-import {view} from "primate";
-import {compile} from "@primate/markdown";
+import { view } from "primate";
+import { compile } from "@primate/markdown";
 
 export default {
   get(request) {
     const page = request.path.get("page");
 
     // this assumes you have a data store called Markdown
-    const [markdown] = await request.store.Markdown.find({page});
+    const [markdown] = await request.store.Markdown.find({ page });
 
-    const {content, toc} = compile(markdown.text);
+    const { content, toc } = compile(markdown.text);
 
-    return view("Markdown.svelte", {content, toc});
+    return view("Markdown.svelte", { content, toc });
   },
 };
 ```

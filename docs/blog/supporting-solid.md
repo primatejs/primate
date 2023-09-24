@@ -56,7 +56,7 @@ To use a Solid component, create a route under `routes`. This example assumes
 you have changed the Solid component file extension to `solid`.
 
 ```js caption=routes/posts.js
-import {view} from "primate";
+import { view } from "primate";
 
 const posts = [{
   id: 1,
@@ -65,7 +65,7 @@ const posts = [{
 
 export default {
   get() {
-    return view("PostIndex.solid", {posts});
+    return view("PostIndex.solid", { posts });
   },
 };
 ```
@@ -73,13 +73,13 @@ export default {
 Next, create a component in `components`.
 
 ```jsx caption=components/PostIndex.solid
-import {For} from "solid-js/web";
+import { For } from "solid-js/web";
 
 export default function (props) {
   return <>
     <h1>All posts</h1>
     <For each={props.data.posts}>
-      {(post) => <h2><a href={`/post/view/${post.id}`}>{post.title}</a></h2>}
+      {post => <h2><a href={`/post/view/${post.id}`}>{post.title}</a></h2>}
     </For>
     <h3><a href="/post/edit/">add post</a></h3>
   </>;
@@ -92,10 +92,10 @@ Create a `+layout.js` file alongside your routes (layouts apply to all routes
 in their directory and its subdirectories, hierarchically).
 
 ```js caption=routes/+layout.js
-import {view} from "primate";
+import { view } from "primate";
 
 export default () => {
-  return view("layout.solid", {user: "Tom"});
+  return view("layout.solid", { user: "Tom" });
 };
 ```
 

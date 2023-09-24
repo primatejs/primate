@@ -12,7 +12,7 @@ extension.
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import {vue} from "@primate/frontend";
+import { vue } from "@primate/frontend";
 
 export default {
   modules: [
@@ -37,7 +37,7 @@ Create a SFC component in `components`.
 Create a route and serve the Vue `PostIndex` component.
 
 ```js caption=routes/vue.js
-import {view} from "primate";
+import { view } from "primate";
 
 const posts = [{
   id: 1,
@@ -46,7 +46,7 @@ const posts = [{
 
 export default {
   get() {
-    return view("PostIndex.vue", {posts});
+    return view("PostIndex.vue", { posts });
   },
 };
 ```

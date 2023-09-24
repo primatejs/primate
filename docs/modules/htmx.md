@@ -11,7 +11,7 @@ This handler module serves HTMX components with the `htmx` extension.
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import {htmx} from "@primate/frontend";
+import { htmx } from "@primate/frontend";
 
 export default {
   modules: [
@@ -43,19 +43,19 @@ Create a route and serve the HTMX `post-add` component, adding a POST route for
 handling its form.
 
 ```js caption=routes/htmx.js
-import {view, html} from "primate";
+import { view, html } from "primate";
 
 const posts = [
 export default {
   get() {
     return view("post-add.htmx");
   },
-  post({body}) {
+  post({ body }) {
     return html(
       `<h2>Adding a post with:</h2>
-      <div><strong>Title</strong> ${body.title}</div>
-      <div><strong>Text</strong> ${body.text}</div>`,
-    {partial: true});
+      <div><strong>Title</strong> ${body.get("title")}</div>
+      <div><strong>Text</strong> ${body.get("text")}</div>`,
+    { partial: true });
   },
 };
 ```

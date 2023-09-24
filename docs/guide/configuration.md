@@ -10,8 +10,8 @@ If Primate doesn't find a `primate.config.js` in your project root directory
 a default object, Primate will fall back to its default configuration file.
 
 ```js caption=default configuration
-import {identity} from "runtime-compat/function";
-import {Logger} from "primate";
+import { identity } from "runtime-compat/function";
+import { Logger } from "primate";
 
 export default {
   base: "/",
@@ -73,7 +73,7 @@ To illustrate this, if you wanted to change the default logging level to
 `primate.config.js` in your project root with the following overrides.
 
 ```js caption=custom configuration
-import {Logger} from "primate";
+import { Logger } from "primate";
 
 export default {
   logger: {
@@ -89,8 +89,8 @@ Primate will merge your custom configuration with its default, resulting in
 effectively the following configuration.
 
 ```js caption=merged configuration
-import {identity} from "runtime-compat/function";
-import {Logger} from "primate";
+import { identity } from "runtime-compat/function";
+import { Logger } from "primate";
 
 export default {
   base: "/",
@@ -248,7 +248,7 @@ directory and copied during runtime to the `build/client/static` directory).
 Static assets take precedence over routes. This option allows you to have all
 static assets served at a subpath, like `/public`.
 
-### http.ssl.{key,cert}
+### http.ssl.{ key, cert }
 
 Default: `undefined`
 

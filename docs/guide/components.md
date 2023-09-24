@@ -16,7 +16,7 @@ Then serve it using the `view` handler, passing in the name of the HTML file
 you just created.
 
 ```js caption=routes/hello.js
-import {view} from "primate";
+import { view } from "primate";
 
 export default {
   get() {
@@ -63,11 +63,11 @@ page, especially if you're replacing some parts of the page. To this end, you
 can use the `partial` option of the `view` handler.
 
 ```js caption=routes/partial-hello.js
-import {view} from "primate";
+import { view } from "primate";
 
 export default {
   get() {
-    return view("hello.html", {}, {partial: true});
+    return view("hello.html", {}, { partial: true });
   },
 };
 ```

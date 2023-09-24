@@ -23,7 +23,7 @@ In a component of your choice, import `Head` from `@primate/frontend/react` and
 use it anywhere within the component.
 
 ```js caption=components/PostIndex.jsx
-import {Head} from "@primate/frontend/react";
+import { Head } from "@primate/frontend/react";
 
 export default function (props) {
   return <>
@@ -32,7 +32,7 @@ export default function (props) {
     </Head>
     <h1>All posts</h1>
     <For each={props.posts}>
-      {(post) => <h2><a href={`/post/view/${post.id}`}>{post.title}</a></h2>}
+      {post => <h2><a href={`/post/view/${post.id}`}>{post.title}</a></h2>}
     </For>
     <h3><a href="/post/edit/">add post</a></h3>
   </>;
@@ -81,8 +81,8 @@ follows.
 This function mimics the signature of a Svelte component's `render` function.
 
 ```js caption=server-render-react.js
-import {renderToString} from "react-dom/server";
-import {createElement} from "react";
+import { renderToString } from "react-dom/server";
+import { createElement } from "react";
 
 const render = (component, props) => {
   const heads = [];
@@ -99,7 +99,7 @@ const render = (component, props) => {
 And the same for Solid.
 
 ```js caption=server-render-solid.js
-import {renderToString} from "solid-js/web";
+import { renderToString } from "solid-js/web";
 
 export const render = (component, props) => {
   const heads = [];
@@ -117,10 +117,10 @@ The only thing left to do is wrap your root component with a context provider.
 It is assumed that `body` here contains your component hierarchy.
 
 ```js caption=root-component-react.jsx
-import {HeadContext, is} from "@primate/frontend/react";
+import { HeadContext, is } from "@primate/frontend/react";
 const Provider = HeadContext.Provider;
 
-export default ({components, data, push_heads: value}) =>
+export default ({ components, data, push_heads: value }) =>
   is.client ? body : <Provider value={value}>{body}</Provider>;
 ```
 

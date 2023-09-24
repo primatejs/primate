@@ -30,7 +30,7 @@ parameters easily accessible to the route function.
 ```js caption=routes/comment/{commentId}.js
 export default {
   post(request) {
-    const {path, query, cookies, headers, body} = request;
+    const { path, query, cookies, headers, body } = request;
 
     return `
     You've sent a POST request with the following data:

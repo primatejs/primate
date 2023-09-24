@@ -12,7 +12,7 @@ components with the `jsx` extension.
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import {react} from "@primate/frontend";
+import { react } from "@primate/frontend";
 
 export default {
   modules: [
@@ -26,12 +26,12 @@ export default {
 Create a JSX component in `components`.
 
 ```jsx caption=components/PostIndex.jsx
-export default function PostIndex({data: {posts}}) {
+export default function PostIndex({ posts }) {
   return (<>
     <h1>All posts</h1>
-    {posts.map(({id, title}) => (
+    { posts.map(({ id, title }) => (
       <h2><a href={`/react/post/${id}`}>{title}</a></h2>
-    ))}
+    )) }
   </>);
 }
 ```
@@ -39,7 +39,7 @@ export default function PostIndex({data: {posts}}) {
 Create a route and serve the React `PostIndex` component.
 
 ```js caption=routes/react.js
-import {view} from "primate";
+import { view } from "primate";
 
 const posts = [{
   id: 1,
@@ -48,18 +48,13 @@ const posts = [{
 
 export default {
   get() {
-    return view("PostIndex.jsx", {posts});
+    return view("PostIndex.jsx", { posts });
   },
 };
 ```
 
 Your rendered React component will be accessible at
 http://localhost:6161/react.
-
-!!!
-Any props you pass to your React component from your route will be exposed
-as the `data` property of its props.
-!!!
 
 ## Configuration options
 

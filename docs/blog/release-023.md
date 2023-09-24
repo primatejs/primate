@@ -17,7 +17,7 @@ The Handlebars handler works like all other frontend handlers. To activate it,
 load the module in your configuration.
 
 ```js caption=primate.config.js
-import {handlebars} from "@primate/frontend";
+import { handlebars } from "@primate/frontend";
 
 export default {
   modules: [
@@ -40,7 +40,7 @@ Then place a Handlebars file in your `components` directory.
 Lastly, serve your Handlebars component from a route of your choice.
 
 ```js caption=routes/index.js
-import {view} from "primate";
+import { view } from "primate";
 
 const posts = [{
   id: 1,
@@ -49,7 +49,7 @@ const posts = [{
 
 export default {
   get() {
-    return view("post-index.hbs", {posts});
+    return view("post-index.hbs", { posts });
   },
 };
 ```
@@ -62,7 +62,7 @@ Handlebars  components are loaded and the file extension associated with them by
 changing the module configuration.
 
 ```js caption=primate.config.js
-import {handlebars} from "@primate/frontend";
+import { handlebars } from "@primate/frontend";
 
 export default {
   modules: [
@@ -90,7 +90,7 @@ changes will be committed to the data store.
 Consider the following store.
 
 ```js caption=stores/User.js
-import {primary, string, u8, email, date} from "primate/@types";
+import { primary, string, u8, email, date } from "primate/@types";
 
 export default {
   id: primary,
@@ -106,17 +106,17 @@ with an `age` value that is larger than 2^8-1. Validation will fail, and the
 record won't be inserted.
 
 ```js caption=routes/index.js
-import {view} from "primate";
+import { view } from "primate";
 
 export default {
   get(request) {
-    const {User} = request.store;
+    const { User } = request.store;
 
     // count before
     const before = await User.count();
 
     // this works, as `age` is smaller than 255
-    // user will contain a generated id and {age: 120}
+    // user will contain a generated id and { age: 120 }
     const user = await User.insert({
       age: 120,
     });
@@ -163,7 +163,7 @@ For example, if you need the Svelte handler, you would use the `svelte` export
 of `@primate/frontend`.
 
 ```js caption=primate.config.js
-import {svelte} from "@primate/frontend";
+import { svelte } from "@primate/frontend";
 
 export default {
   modules: [
@@ -190,7 +190,7 @@ props are made available directly to the frontend component.
 Consider this Svelte route.
 
 ```js caption=routes/svelte.js
-import {view} from "primate";
+import { view } from "primate";
 
 const posts = [{
   id: 1,

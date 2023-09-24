@@ -153,12 +153,12 @@ By that definition, any `mustache` file in `components` will be handled by the
 specified `mustacheHandler` handler function.
 
 ```js caption=routes/clock.js
-import {view} from "primate";
+import { view } from "primate";
 
 export default {
   get(request) {
-    const {time} = request.query;
-    return view("clock.mustache", {time});
+    const { time } = request.query;
+    return view("clock.mustache", { time });
   },
 };
 ```
@@ -257,10 +257,10 @@ use the `route` hook instead.
 
 ```js caption=primate.config.js
 const augment = request => {
-  return {...request, /*
+  return { ...request, /*
     augment request with additional properties such as client ip, by reading
     them from the original request at `request.original`
-  */};
+  */ };
 };
 
 export default {

@@ -30,11 +30,11 @@ them the string "Donald" in plain text.
 To use this handler explicitly, import and use the `text` function.
 
 ```js caption=routes/plain-text.js
-import {text, Status} from "primate";
+import { text, Status } from "primate";
 
 export default {
   get() {
-    return text("Donald", {status: Status.ACCEPTED});
+    return text("Donald", { status: Status.ACCEPTED });
   },
 };
 ```
@@ -51,8 +51,8 @@ Objects (including arrays) are served with the content type
 export default {
   get() {
     return [
-      {name: "Donald"},
-      {name: "Ryan"},
+      { name: "Donald" },
+      { name: "Ryan" },
     ];
   },
 };
@@ -69,7 +69,7 @@ Instances of `ReadableStream` or `Blob` are streamed to the client with the
 content type `application/octet-stream`.
 
 ```js caption=routes/stream.js
-import {File} from "runtime-compat/fs";
+import { File } from "runtime-compat/fs";
 
 export default {
   get() {
@@ -94,7 +94,7 @@ Instances of `URL` redirect the client to the location they represent using the
 status code `302 Found`.
 
 ```js caption=routes/redirect.js
-import {URL} from "primate";
+import { URL } from "primate";
 
 export default {
   get() {
@@ -116,11 +116,11 @@ easier to use the explicit `redirect` handler to redirect to paths within the
 same app.
 
 ```js caption=routes/redirect.js
-import {redirect, Status} from "primate";
+import { redirect, Status } from "primate";
 
 export default {
   get() {
-    return redirect("/success", {status: Status.MOVED_PERMANENTLY});
+    return redirect("/success", { status: Status.MOVED_PERMANENTLY });
   },
 };
 ```
@@ -134,7 +134,7 @@ The `view` handler allows you to serve responses with content type `text/html`
 from the `components` directory.
 
 ```js caption=routes/view.js
-import {view} from "primate";
+import { view } from "primate";
 
 export default {
   get() {
@@ -159,7 +159,7 @@ The `error` handler allows you to generate an error (typically with a 4xx or
 `404 Not Found` using the content type `text/html`.
 
 ```js caption=routes/error.js
-import {error} from "primate";
+import { error } from "primate";
 
 export default {
   get() {
@@ -173,12 +173,12 @@ A request to `/error` will result in a `404 Not Found` response.
 You can customize the body and the status of this handler.
 
 ```js caption=routes/server-error.js
-import {error, Status} from "primate";
+import { error, Status } from "primate";
 
 export default {
   get() {
     const status = Status.INTERNAL_SERVER_ERROR;
-    return error("Internal Server Error", {status});
+    return error("Internal Server Error", { status });
   },
 };
 ```
@@ -192,11 +192,11 @@ Lastly, for a custom response status, you can return a `Response` object from a
 route.
 
 ```js caption=routes/response.js
-import {Response, Status} from "primate";
+import { Response, Status } from "primate";
 
 export default {
   get() {
-    return new Response("created!", {status: Status.CREATED});
+    return new Response("created!", { status: Status.CREATED });
   },
 };
 ```

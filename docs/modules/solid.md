@@ -12,7 +12,7 @@ components with the `jsx` extension.
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import {solid} from "@primate/frontend";
+import { solid } from "@primate/frontend";
 
 export default {
   modules: [
@@ -25,11 +25,11 @@ If you are using another JSX frontend module alongside Solid, consider changing
 the file extension for Solid to something else, to avoid conflicts.
 
 ```js caption=primate.config.js
-import {solid} from "@primate/frontend";
+import { solid } from "@primate/frontend";
 
 export default {
   modules: [
-    solid({extension: "solid"}),
+    solid({ extension: "solid" }),
   ],
 };
 ```
@@ -40,13 +40,13 @@ Create a JSX component in `components`. This example assumes you have changed
 the Solid component file extension to `solid`.
 
 ```jsx caption=components/PostIndex.solid
-import {For} from "solid-js/web";
+import { For } from "solid-js/web";
 
 export default function PostIndex(props) {
   return <>
     <h1>All posts</h1>
-    <For each={props.data.posts}>
-      {(post) => <h2><a href={`/post/view/${post.id}`}>{post.title}</a></h2>}
+    <For each={props.posts}>
+      {post => <h2><a href={`/post/view/${post.id}`}>{post.title}</a></h2>}
     </For>
     <Test />
     <h3><a href="/post/edit/">add post</a></h3>
@@ -57,7 +57,7 @@ export default function PostIndex(props) {
 Create a route and serve the Solid `PostIndex` component.
 
 ```js caption=routes/solid.js
-import {view} from "primate";
+import { view } from "primate";
 
 const posts = [{
   id: 1,
@@ -66,18 +66,13 @@ const posts = [{
 
 export default {
   get() {
-    return view("PostIndex.solid", {posts});
+    return view("PostIndex.solid", { posts });
   },
 };
 ```
 
 Your rendered Solid component will be accessible at
 http://localhost:6161/solid.
-
-!!!
-Any props you pass to your Solid component from your route will be exposed
-as the `data` property of its props.
-!!!
 
 ## Configuration options
 

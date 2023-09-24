@@ -15,10 +15,10 @@ Guards are defined hierarchically alongside routes in the `routes` directory.
 To define a guard, create a `+guard.js` file inside `routes`.
 
 ```js caption=routes/+guard.js
-import {redirect} from "primate";
+import { redirect } from "primate";
 
 export default request => {
-  const {headers} = request;
+  const { headers } = request;
 
   // only let in logged in users
   if (headers.get("X-User") === "robin" && headers.get("X-Pass") === "h00d") {

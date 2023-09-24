@@ -25,10 +25,10 @@ of the route itself (`@primate/frontend` must be installed and loaded in the
 project).
 
 ```js caption=+layout.js
-import {view} from "primate";
+import { view } from "primate";
 
 export default () => {
-  return view("layout.svelte", {hello: "world"});
+  return view("layout.svelte", { hello: "world" });
 };
 ```
 

@@ -72,7 +72,7 @@ decodes the form fields into object properties
 ```js caption=routes/your-full-name.js
 export default {
   post(request) {
-    const {name} = request.body.get();
+    const { name } = request.body.get();
 
     if (name === undefined) {
       return "You haven't specified your name";
@@ -112,7 +112,7 @@ const users = ["Donald", "Ryan"];
 
 export default {
   post(request) {
-    const {user} = request.path.get();
+    const { user } = request.path.get();
 
     if (users.includes(user)) {
       return `Hello, ${user}`;
@@ -134,13 +134,13 @@ We will later handle [routes with parameters](#parameters) in depth.
 The request's query string, broken down into its constituent parts.
 
 ```js caption=routes/users.js
-import {error} from "primate";
+import { error } from "primate";
 
 const users = ["Donald", "Ryan"];
 
 export default {
   post(request) {
-    const {user} = request.query.get();
+    const { user } = request.query.get();
 
     if (users.includes(user)) {
       return `Hello, ${user}`;
@@ -159,13 +159,13 @@ will respond with `200`, otherwise with `404`.
 The request's `Cookie` header, broken down into individual cookies.
 
 ```js caption=routes/current-user.js
-import {error} from "primate";
+import { error } from "primate";
 
 const users = ["Donald", "Ryan"];
 
 export default {
   post(request) {
-    const {user} = request.cookies.get();
+    const { user } = request.cookies.get();
 
     if (users.includes(user)) {
       return `Hello, ${user}`;
@@ -185,7 +185,7 @@ If a user requests POST `/current-user` with the `Cookie` header set to
 The request's individual headers.
 
 ```js caption=routes/current-x-user.js
-import {error} from "primate";
+import { error } from "primate";
 
 const users = ["Donald", "Ryan"];
 

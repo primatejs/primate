@@ -29,7 +29,7 @@ other routes, you can have multiple WebSocket routes each with their different
 logic.
 
 ```js caption=routes/chat.js
-import {view} from "primate";
+import { view } from "primate";
 
 export default {
   get() {
@@ -65,7 +65,7 @@ export default {
     ws.addEventListener("message", message => {
       const chatbox = document.querySelector("#box");
       const div = document.createElement("div");
-      div.innerText = message.data
+      div.innerText = message.data;
       chatbox.appendChild(div);
     })
   });

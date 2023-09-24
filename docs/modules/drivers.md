@@ -37,7 +37,7 @@ the data will be managed. This file doesn't have to exist and will be created
 for you if it doesn't, but you must have permissions to write to it.
 
 ```js caption=primate.config.js
-import {default as store, json} from "@primate/store";
+import { default as store, json } from "@primate/store";
 
 export default {
   modules: [
@@ -62,7 +62,7 @@ property to indicate which file to manage the data in. If unset, it will
 default to `":memory:"`, using SQLite in-memory, volatile database.
 
 ```js caption=primate.config.js
-import {default as store, sqlite} from "@primate/store";
+import { default as store, sqlite } from "@primate/store";
 
 export default {
   modules: [
@@ -92,7 +92,7 @@ This driver uses the `host` (default `"localhost"`), `port` (default `27017`)
 and `db` configuration properties.
 
 ```js caption=primate.config.js
-import {default as store, mongodb} from "@primate/store";
+import { default as store, mongodb } from "@primate/store";
 
 export default {
   modules: [

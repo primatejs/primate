@@ -39,7 +39,7 @@ and redirect users who have submitted the form to a success page. This requires
 first changing the previous route to show a form.
 
 ```js caption=routes/index.js
-import {view} from "primate";
+import { view } from "primate";
 
 export default {
   get() {
@@ -73,14 +73,14 @@ Next, we need to handle the form submission. We'll do that by adding a `post`
 function to our route.
 
 ```js caption=routes/index.js
-import {view, redirect} from "primate";
+import { view, redirect } from "primate";
 
 export default {
   get() {
     return view("form.html");
   },
   post(request) {
-    const {name, age} = request.body.get();
+    const { name, age } = request.body.get();
 
     if (name !== undefined && age !== undefined) {
       return redirect("/success");

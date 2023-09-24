@@ -12,7 +12,7 @@ with the `svelte` extension.
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import {svelte} from "@primate/frontend";
+import { svelte } from "@primate/frontend";
 
 export default {
   modules: [
@@ -27,10 +27,10 @@ Create a Svelte component in `components`.
 
 ```html caption=components/PostIndex.svelte
 <script>
-  export let data;
+  export let posts;
 </script>
 <h1>All posts</h1>
-{#each data.posts as {id, title}}
+{#each posts as { id, title }}
 <h2><a href="/svelte/post/{id}">{title}</a></h2>
 {/each}
 
@@ -48,7 +48,7 @@ Create a Svelte component in `components`.
 Create a route and serve the Svelte `PostIndex` component.
 
 ```js caption=routes/svelte.js
-import {view} from "primate";
+import { view } from "primate";
 
 const posts = [{
   id: 1,
@@ -57,17 +57,12 @@ const posts = [{
 
 export default {
   get() {
-    return view("PostIndex.svelte", {posts});
+    return view("PostIndex.svelte", { posts });
   },
 };
 ```
 
 Your rendered Svelte route will be accessible at http://localhost:6161/svelte.
-
-!!!
-Any props you pass to your Svelte component from your route will be exposed
-as a property of its `data` export.
-!!!
 
 ## Configuration options
 

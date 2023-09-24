@@ -25,7 +25,7 @@ excerpt from the Primate session module, adding cookie-based sessions.
 
 ```js caption=Session module
 // module configuration options, `name` is the session cookie name
-export default ({name = "sessionId"} = {}) => {
+export default ({ name = "sessionId" } = {}) => {
   return {
     // module name, must be unique
     name: "@primate/session",
@@ -37,7 +37,7 @@ export default ({name = "sessionId"} = {}) => {
       const session = generateOrReturnSession(id);
 
       // execute the next `handle` module in line and record response
-      const response = await next({...request, session});
+      const response = await next({ ...request, session });
 
       // if new session, set the `Set-Cookie` header to inform client
       if (session.id !== id) {
@@ -105,7 +105,7 @@ import session from "@primate/session";
 export default {
   modules: [
     // initialize the session module with `"id"` as session cookie name
-    session({name: "id"}),
+    session({ name: "id" }),
   ],
 };
 ```
