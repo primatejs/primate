@@ -54,6 +54,10 @@
       <Icon name="x" />
     </a>
 
+    <a class="ic" href="https://reddit.com/{theme.reddit}">
+      <Icon name="reddit" />
+    </a>
+
     <a class="ic" href="https://github.com/{theme.github}">
       <Icon name="github" />
     </a>
