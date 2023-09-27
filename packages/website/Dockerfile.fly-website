@@ -1,4 +1,4 @@
-FROM oven/bun as builder
+FROM oven/bun:1-alpine as builder
 
 WORKDIR /app
 
@@ -6,7 +6,7 @@ COPY . primate
 
 RUN bun i --cwd=primate/packages/website
 
-FROM oven/bun
+FROM oven/bun:1-alpine
 
 WORKDIR /app
 
