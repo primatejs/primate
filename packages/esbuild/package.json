@@ -15,7 +15,7 @@
     "directory": "packages/esbuild"
   },
   "dependencies": {
-    "esbuild": "^0.19.3",
+    "esbuild": "^0.19.4",
     "runtime-compat": "^0.29.0"
   },
   "peerDependencies": {
