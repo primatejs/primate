@@ -1,6 +1,8 @@
-<img src="https://raw.githubusercontent.com/primatejs/primate/master/assets/logo.svg" alt="Primate" width="200"/>
+<img src="https://raw.githubusercontent.com/primatejs/primate/master/assets/logo.svg" alt="Primate" width="60"/>
 
-<br />
+# Primate
+
+Expressive, minimal and extensible web framework. To start [read guide].
 
 ![npm](https://img.shields.io/npm/v/primate)
 ![npm](https://img.shields.io/npm/dt/primate)
@@ -9,10 +11,6 @@
 ![GitHub stars](https://img.shields.io/github/stars/primatejs/primate)
 ![Node.js Version](https://img.shields.io/node/v/primate)
 ![GitHub last commit](https://img.shields.io/github/last-commit/primatejs/primate)
-
-# Primate
-
-Expressive, minimal and extensible web framework. To start [read guide].
 
 ## Why use Primate?
 
