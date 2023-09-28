@@ -1,7 +1,9 @@
 <img src="https://raw.githubusercontent.com/primatejs/primate/master/assets/logo.svg" alt="Primate" width="200"/>
 
 
-[![NPM](https://nodei.co/npm/primate.png)](https://nodei.co/npm/primate/)
+![npm](https://img.shields.io/npm/v/primate)
+![npm](https://img.shields.io/npm/dt/primate)
+![npm](https://img.shields.io/npm/dt/primate)
 
 # Primate
 
