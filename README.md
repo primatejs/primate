@@ -20,9 +20,14 @@ Expressive, minimal and extensible web framework. To start [read guide].
 
 * Website: https://primatejs.com
 * IRC: Join the `#primate` channel on `irc.libera.chat`
+* Reddit: [r/primatejs](https://reddit.com/r/primatejs)
+* Twitter (X): [@primatejs](https://x.com/primatejs)
+* LinkedIn: https://linkedin.com/company/primatejs
+* Blog: https://primatejs.com/blog
 
 ## License
 
 MIT
 
 [read guide]: https://primatejs.com/guide/getting-started
+
