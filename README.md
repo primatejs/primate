@@ -2,6 +2,29 @@
 
 Expressive, minimal and extensible web framework. To start [read guide].
 
+## Why use Primate?
+
+### Framework Independence:
+
+Primate stands apart as a framework-agnostic tool, allowing you to seamlessly integrate and start coding within any major framework, eliminating the constraints of being tied to specific options like Nuxt, Next, or others.
+
+### Frameworks We Support:
+
+- HTMX
+- Svelte
+- React
+- Vue
+- Solid
+- Angular (Coming Soon)
+- Three.js (Coming Soon)
+
+### Databases We Support:
+
+- SurrealDB
+- Postgresql
+- MySQL/MariaDB
+- SQLite
+
 ## Packages
 
 | Package                                     | Description                   |
