@@ -42,7 +42,7 @@ is *always* sent along the page and activates on page load.
 
 ## Liveview
 
-The Primate [liveview](/modules/liveview) bridges the gap between SSR+hydration
+The Primate [liveview](/modules/liveview) bridges the gap between SSR/hydration
 and single page applications (SPA). It injects a small JavaScript client into 
 the build, which uses `fetch` to manage clicking on links and submitting forms
 instead of reloading the entire page, and also manages browsing the history.
