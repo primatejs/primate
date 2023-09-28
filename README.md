@@ -47,6 +47,12 @@ Primate stands apart as a framework-agnostic tool, allowing you to seamlessly in
 * Twitter (X): [@primatejs](https://x.com/primatejs)
 * Blog: https://primatejs.com/blog
 
+
+## Example Applications
+
+- [hynt.us](https://github.com/profullstack/hynt-web)
+- [starter app](https://github.com/primatejs/app)
+
 ## License
 
 MIT
