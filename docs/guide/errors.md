@@ -30,7 +30,7 @@ moment an `+error.js` file is found, it will be used to handle the response.
 The root error file located at `routes/+error.js`, if it exists, has a special
 meaning. It applies normally for every route for which no other error file
 can be found, but it also applies in cases where no route could be matched. It
-thus serves as a classical `404 Not Found` error route.
+thus serves as a classic `404 Not Found` error route.
 
 All error routes use the error page in `pages/error.html`. This file, like
 `app.html`, can have placeholders for embedding head scripts and the body. In

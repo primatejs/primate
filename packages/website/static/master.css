@@ -561,7 +561,7 @@ img.background {
     display: none;
   }
   code {
-    white-space: pre-wrap;
+    white-space: break-spaces;
   }
 }
 

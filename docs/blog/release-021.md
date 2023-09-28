@@ -85,7 +85,7 @@ routes, the first one to be found, from down to up, is applied.
 The root error file located at `routes/+error.js`, if existing, has a special
 meaning. It applies normally to every route for which no other error file can
 be found, but it also applies in cases where no route at all could be matched.
-It thus serves as a classical `404 Not Found` error route.
+It thus serves as a classic `404 Not Found` error route.
 
 All error routes use the error page in `pages/error.html`. This file, like
 `app.html`, can have placeholders for embedding head scripts and the body. In

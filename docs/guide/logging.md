@@ -51,7 +51,7 @@ quickfix, as well as link to the website for a longer explanation and fix.
 
 ## Error
 
-Marked by two red excalmation marks, `!!`.
+Marked by two red exclamation marks, `!!`.
 
 An error means a severe disruption to the application and must be addressed.
 Errors which occur during runtime indicate a severe mismatch between two parts

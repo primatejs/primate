@@ -252,7 +252,7 @@ export default {
 }
 ```
 
-This is generally OK, but as routes may arbitrarily nested, it can make
+This is generally OK, but as routes may be arbitrarily nested, it can make
 importing from relative paths unseemly. For that, Primate enhances the `query`
 object with dispatcher functions in the form `getX`, where `x` is the type name,
 for validating a property's value.
@@ -335,5 +335,5 @@ will be injected and available wherever types are used.
 
 ### Store
 
-The Primate [Store module](/modules/store), used for data persistance, also
+The Primate [Store module](/modules/store), used for data persistence, also
 integrates with Primate's runtime type concept and extends upon it.

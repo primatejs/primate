@@ -18,7 +18,7 @@ those.
 Svelte, React and Solid currently support [recursive layouting][Layouts] in
 Primate.
 
-## Server-side rendering (SSR)
+## Server-side rendering (SRR)
 
 This refers to the frontend framework compiling its files on the server and
 sending prerendered HTML pages to the client. It avoids having the client

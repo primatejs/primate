@@ -174,8 +174,8 @@ component rendered into HTML.
 
 **Precondition** none
 
-This hook allows modules to compile server-side components into JavaScript. Is
-it particularly useful for [frontend frameworks] which use their own
+This hook allows modules to compile server-side components into JavaScript. It
+is particularly useful for [frontend frameworks] which use their own
 domain-specific languages (React/Solid's `jsx`, Vue's `vue` (SFC), Svelte's 
 `svelte` etc.) to be served through server-side rendering.
 
@@ -279,7 +279,7 @@ export default {
 **Executed** for every request
 
 **Precondition** the request hasn't been completely handled by the `handle`
-phase and a route has been match
+phase and a route has been matched
 
 This hook allows modules to transform requests after they have been matched
 by a route function but before it executes.

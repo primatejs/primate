@@ -22,7 +22,7 @@ the `view` handler.
 
 ## Stores
  
-Primate's store modules add a dimension of data persistance to your app. They
+Primate's store modules add a dimension of data persistence to your app. They
 enhance the `request` object that is passed to your route functions with
 transactions, allowing you to commit and rollback data changes automatically.
 

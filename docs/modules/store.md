@@ -5,10 +5,10 @@ This page assumes you have read the guide, specifically the section about
 [types](/guide/types).
 !!!
 
-This module adds transactionalized data persistance to your application as part
+This module adds transactionalized data persistence to your application as part
 of your routes, backed up by different database systems.
 
-In Primate, the term `store` represents tables in classical RDBMS (such as
+In Primate, the term `store` represents tables in classic RDBMS (such as
 PostgreSQL) or collections in NoSQL databases (such as MongoDB). Stores are
 described by a `schema`. A single row or record in a database is a `document`,
 and a single property of such a document is a `field`. The underlying database
