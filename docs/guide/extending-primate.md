@@ -11,7 +11,7 @@ built-in features that are deemed useful for every web application. For
 specific use cases, it offers a set of hooks that allow extensions, referred to
 as modules, to augment its core functionality.
 
-Modules can be used separately or in conjunction, and can depend on other
+Modules can be used separately or in conjunction and can depend on other
 modules. All modules are loaded in Primate's configuration file by initializing
 them into the `modules` array.
 
