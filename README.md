@@ -1,5 +1,6 @@
 <img src="https://raw.githubusercontent.com/primatejs/primate/master/assets/logo.svg" alt="Primate" width="200"/>
 
+<br />
 
 ![npm](https://img.shields.io/npm/v/primate)
 ![npm](https://img.shields.io/npm/dt/primate)
@@ -64,8 +65,8 @@ Primate stands apart as a framework-agnostic tool, allowing you to seamlessly in
 
 ## Example Applications
 
-- [hynt.us](https://github.com/profullstack/hynt-web)
-- [starter app](https://github.com/primatejs/app)
+- [hynt.us](https://github.com/profullstack/hynt-web) - a link shortner app using surrealdb and svelte
+- [starter app](https://github.com/primatejs/app) - demos must of the features of primate
 
 ## License
 
