@@ -7,7 +7,7 @@ officially supported modules that cover popular frontend frameworks. When
 loaded, they extend the `view` with support for additional file extensions.
 
 Those frameworks come with different capabilities, like server-side rendering
-(SRR), hydration and support for the [liveview](liveview) module, turning your 
+(SSR), hydration and support for the [liveview](liveview) module, turning your 
 application into a single-page application (SPA) after it has been initially
 loaded. In some cases, some capabilities have simply not been implemented yet
 in the module. In other cases, the frontend framework itself doesn't support
@@ -18,7 +18,7 @@ those.
 Svelte, React and Solid currently support [recursive layouting][Layouts] in
 Primate.
 
-## Server-side rendering (SRR)
+## Server-side rendering (SSR)
 
 This refers to the frontend framework compiling its files on the server and
 sending prerendered HTML pages to the client. It avoids having the client
