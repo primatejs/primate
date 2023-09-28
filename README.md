@@ -3,7 +3,14 @@
 
 ![npm](https://img.shields.io/npm/v/primate)
 ![npm](https://img.shields.io/npm/dt/primate)
-![npm](https://img.shields.io/npm/dt/primate)
+![GitHub](https://img.shields.io/github/license/primatejs/primate)
+![Build Status](https://travis-ci.com/primatejs/primate.svg?branch=main)
+![Coverage](https://img.shields.io/coveralls/github/primatejs/primate)
+![David](https://img.shields.io/david/primatejs/primate)
+![GitHub issues](https://img.shields.io/github/issues/primatejs/primate)
+![GitHub stars](https://img.shields.io/github/stars/primatejs/primate)
+![Node.js Version](https://img.shields.io/node/v/primate)
+![GitHub last commit](https://img.shields.io/github/last-commit/primatejs/primate)
 
 # Primate
 
