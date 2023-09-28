@@ -1,3 +1,6 @@
+<img src="https://raw.githubusercontent.com/primatejs/primate/master/assets/logo.svg" alt="Primate" width="200"/>
+
+
 # Primate
 
 Expressive, minimal and extensible web framework. To start [read guide].
