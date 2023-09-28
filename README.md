@@ -61,7 +61,7 @@ Primate stands apart as a framework-agnostic tool, allowing you to seamlessly in
 ## Example Applications
 
 - [hynt.us](https://github.com/profullstack/hynt-web) - a link shortener app using SurrealDB and Svelte
-- [starter app](https://github.com/primatejs/app) - demos must of the features of Primate
+- [starter app](https://github.com/primatejs/app) - demos most of the features of Primate
 
 ## License
 
