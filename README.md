@@ -14,26 +14,26 @@ Expressive, minimal and extensible web framework. To start [read guide].
 
 ## Why use Primate?
 
-### Framework Independence:
+### Framework Independence
 
 Primate stands apart as a framework-agnostic tool, allowing you to seamlessly integrate and start coding within any major framework, eliminating the constraints of being tied to specific options like Nuxt, Next, or others.
 
-### Frameworks We Support:
+### Frameworks We Support
 
 - HTMX
 - Svelte
 - React
 - Vue
 - Solid
-- Angular (Coming Soon)
-- Three.js (Coming Soon)
+- Angular (coming soon)
 
-### Databases We Support:
+### Databases We Support
 
 - SurrealDB
 - Postgresql
-- MySQL/MariaDB
 - SQLite
+- MongoDB
+- MySQL/MariaDB (coming soon)
 
 ## Packages
 
@@ -60,8 +60,8 @@ Primate stands apart as a framework-agnostic tool, allowing you to seamlessly in
 
 ## Example Applications
 
-- [hynt.us](https://github.com/profullstack/hynt-web) - a link shortener app using surrealdb and svelte
-- [starter app](https://github.com/primatejs/app) - demos must of the features of primate
+- [hynt.us](https://github.com/profullstack/hynt-web) - a link shortener app using SurrealDB and Svelte
+- [starter app](https://github.com/primatejs/app) - demos must of the features of Primate
 
 ## License
 
