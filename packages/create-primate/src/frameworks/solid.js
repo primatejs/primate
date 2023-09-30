@@ -5,7 +5,7 @@ export default () => ({
     "@primate/frontend": dependencies["@primate/frontend"],
   },
   imports: {
-    solid: "@primate/frontend",
+    "{solid}": "@primate/frontend",
   },
   modules: {
     solid: "",

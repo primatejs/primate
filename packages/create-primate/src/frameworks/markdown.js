@@ -5,7 +5,7 @@ export default () => ({
     "@primate/frontend": dependencies["@primate/frontend"],
   },
   imports: {
-    markdown: "@primate/frontend",
+    "{markdown}": "@primate/frontend",
   },
   modules: {
     markdown: "",

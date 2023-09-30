@@ -5,7 +5,7 @@ export default () => ({
     "@primate/frontend": dependencies["@primate/frontend"],
   },
   imports: {
-    svelte: "@primate/frontend",
+    "{svelte}": "@primate/frontend",
   },
   modules: {
     svelte: "",

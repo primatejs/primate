@@ -5,7 +5,7 @@ export default () => ({
     "@primate/frontend": dependencies["@primate/frontend"],
   },
   imports: {
-    handlebars: "@primate/frontend",
+    "{handlebars}": "@primate/frontend",
   },
   modules: {
     handlebars: "",
