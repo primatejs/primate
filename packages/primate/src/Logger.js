@@ -2,6 +2,7 @@ import { assert, is } from "runtime-compat/invariant";
 import { blue, bold, green, red, yellow, dim } from "runtime-compat/colors";
 import { map } from "runtime-compat/object";
 import console from "runtime-compat/console";
+import { stdout } from "runtime-compat/stdio";
 
 const levels = {
   Error: 0,
@@ -9,14 +10,14 @@ const levels = {
   Info: 2,
 };
 
-const print = (...messages) => process.stdout.write(messages.join(" "));
+const print = (...messages) => stdout.write(messages.join(" "));
 const bye = _ => print(dim(yellow("~~ bye\n")));
 const mark = (format, ...params) => params.reduce((formatted, param, i) =>
   formatted.replace(`{${i}}`, bold(param)), format);
 
 const reference = "https://primatejs.com/reference/errors";
 
-const hyphenate = classCased => classCased
+const hyphenate = class_cased => class_cased
   .split("")
   .map(letter => letter.replace(/[A-Z]/u, upper => `-${upper.toLowerCase()}`))
   .join("")
