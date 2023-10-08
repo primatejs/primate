@@ -2,7 +2,7 @@
 
 This handler module serves Handlebars components with the `hbs` extension.
 
-# Install
+## Install
 
 `npm i @primate/frontend`
 

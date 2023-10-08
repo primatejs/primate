@@ -2,7 +2,7 @@
 
 This handler module serves Markdown components with the `md` extension.
 
-# Install
+## Install
 
 `npm i @primate/frontend`
 

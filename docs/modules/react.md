@@ -3,7 +3,7 @@
 This handler module supports SSR and hydration and serves React (JSX)
 components with the `jsx` extension.
 
-# Install
+## Install
 
 `npm i @primate/frontend`
 

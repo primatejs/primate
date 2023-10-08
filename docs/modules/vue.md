@@ -3,7 +3,7 @@
 This handler module supports SSR and serves Vue SFC components with the `vue`
 extension.
 
-# Install
+## Install
 
 `npm i @primate/frontend`
 

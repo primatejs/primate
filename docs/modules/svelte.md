@@ -3,7 +3,7 @@
 This handler module supports SSR and hydration and serves Svelte components
 with the `svelte` extension.
 
-# Install
+## Install
 
 `npm i @primate/frontend`
 
