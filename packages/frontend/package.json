@@ -15,15 +15,15 @@
     "directory": "packages/frontend"
   },
   "devDependencies": {
-    "@babel/core": "^7.23.0",
-    "babel-preset-solid": "^1.7.12",
+    "@babel/core": "^7.23.2",
+    "babel-preset-solid": "^1.8.0",
     "esbuild": "^0.19.4",
     "handlebars": "^4.7.8",
     "htmx.org": "^1.9.6",
-    "marked": "^9.0.3",
+    "marked": "^9.1.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "solid-js": "^1.7.12",
+    "solid-js": "^1.8.1",
     "svelte": "^4.2.1",
     "vue": "^3.3.4"
   },

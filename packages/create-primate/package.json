@@ -27,9 +27,9 @@
     "@primate/store": "^0.14.0",
     "@primate/types": "^0.8.0",
     "@primate/ws": "^0.6.0",
-    "better-sqlite3": "^8.6.0",
+    "better-sqlite3": "^8.7.0",
     "mongodb": "^6.1.0",
-    "postgres": "^3.3.5",
+    "postgres": "^3.4.0",
     "primate": "^0.24.0",
     "surrealdb.js": "^0.9.1"
   }
