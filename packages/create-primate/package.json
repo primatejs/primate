@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@clack/prompts": "^0.7.0",
-    "runtime-compat": "^0.30.0"
+    "runtime-compat": "^0.32.0"
   },
   "type": "module",
   "devDependencies": {
