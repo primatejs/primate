@@ -7,21 +7,21 @@ const name = "vue";
 const dependencies = ["vue"];
 const default_extension = "vue";
 
-const handler = config => (name, props = {}, { status = Status.OK, page } = {}) =>
-  async app => {
-    const { make, createSSRApp, render } = config;
-    const imported = await make(name, props);
-    const component = createSSRApp({
+const handler = ({ make, createSSRApp, render }) =>
+  (name, props = {}, { status = Status.OK, page } = {}) =>
+    async app => {
+      const imported = await make(name, props);
+      const component = createSSRApp({
       render: imported.component.render,
       data: () => props,
     });
-    const body = await render(component);
+      const body = await render(component);
 
-    return new Response(await app.render({ body, page }), {
+      return new Response(await app.render({ body, page }), {
       status,
       headers: { ...app.headers(), "Content-Type": MediaType.TEXT_HTML },
     });
-  };
+    };
 
 export default ({
   directory,
