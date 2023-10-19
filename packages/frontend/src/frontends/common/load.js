@@ -1,6 +1,23 @@
 import { tryreturn } from "runtime-compat/async";
+import { Path } from "runtime-compat/fs";
 import errors from "./errors.js";
+
+const MODULE_NOT_FOUND = "ERR_MODULE_NOT_FOUND";
+const in_component = (code, error_path, component_path) =>
+  code === MODULE_NOT_FOUND && Path.same(error_path, component_path);
+
+const MissingComponent = (name, path) => {
+  errors.MissingComponent.throw(name, path);
+};
+const ErrorInComponent = (name, path, error) => {
+  console.log(error);
+  errors.ErrorInComponent.throw(name, path);
+};
+const get_error = ({ code, url }, path) =>
+  in_component(code, new Path(url), new Path(path))
+    ? MissingComponent
+    : ErrorInComponent;
 
 export default async path =>
   tryreturn(_ => import(`${path}.js`))
-    .orelse(_ => errors.MissingComponent.throw(path.name, path));
+    .orelse(error => get_error(error, `${path}.js`)(path.name, path, error));
