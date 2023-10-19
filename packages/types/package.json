@@ -15,7 +15,7 @@
     "directory": "packages/types"
   },
   "dependencies": {
-    "runtime-compat": "^0.32.0"
+    "runtime-compat": "^0.32.2"
   },
   "peerDependencies": {
     "primate": "0.24"
