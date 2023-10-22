@@ -20,13 +20,13 @@ export default async (log, root, config) => {
     errors.DoubleModule.throw(doubled(names), root.join("primate.config.js"));
 
   const hookless = modules.filter(module => !Object.keys(module).some(key =>
-    [...Object.keys(hooks), "load"].includes(key)));
+    [...Object.keys(hooks), "load", "context"].includes(key)));
   hookless.length > 0 && errors.ModuleHasNoHooks.warn(log,
     hookless.map(({ name }) => name).join(", "));
 
   // collect modules
   const loaded = load(modules).flat(2);
 
-  return Object.fromEntries(Object.keys(hooks)
+  return Object.fromEntries([...Object.keys(hooks), "context"]
     .map(hook => [hook, filter(hook, loaded)]));
 };

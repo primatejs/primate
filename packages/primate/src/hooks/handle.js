@@ -42,11 +42,13 @@ export default app => {
         throw error;
       }
 
+      const pathed = { ...request, path };
+
       // handle request
-      const response = (await cascade(app.modules.route, handler))({ ...request, path });
+      const response = (await cascade(app.modules.route, handler))(pathed);
       return (await respond(await response))(app, {
         layouts: await Promise.all(layouts.map(layout => layout(request))),
-      }, request);
+      }, pathed);
     }).orelse(async error => {
       app.log.auto(error);
 

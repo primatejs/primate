@@ -1,7 +1,9 @@
 import { Response, Status, MediaType } from "runtime-compat/http";
-import { map } from "runtime-compat/async";
+import { cascade, map } from "runtime-compat/async";
 import { valmap, filter } from "runtime-compat/object";
 import register from "./register.js";
+
+const noop = _ => ({});
 
 export default config => {
   const { make, root, render, client, normalize } = register(config);
@@ -25,6 +27,7 @@ export default config => {
       const data = components.map(component => component.props);
       const names = await get_names(components);
 
+      const context = await (await cascade(app.modules.context, noop))(request);
       const $request = {
         request: {
           ...valmap(filter(request, ([, { get }]) =>
@@ -46,10 +49,11 @@ export default config => {
       const { body, head } = render(imported, {
         components: components.map(({ component }) => component),
         data,
+        context,
         ...$request,
       });
 
-      const code = client({ names, data, ...$request }, options);
+      const code = client({ names, data, context, ...$request }, options);
       const inlined = await app.inline(code, "module");
 
       const headers = app.headers({ script: inlined.csp });

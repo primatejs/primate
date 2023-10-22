@@ -13,12 +13,15 @@ export default length => {
 
   return `
     <script>
-      import {afterUpdate} from "svelte";
+      import {afterUpdate, setContext} from "svelte";
 
       export let components;
       export let data;
       export let request;
+      export let context;
       export let update = () => undefined;
+
+      setContext("__primate__", context);
 
       afterUpdate(update);
     </script>
