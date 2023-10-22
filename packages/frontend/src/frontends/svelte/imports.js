@@ -1,4 +1,5 @@
 import * as compiler from "svelte/compiler";
+import { expose } from "./client/exports.js";
 
 export const render = (component, ...args) => {
   const { html, head } = component.render(...args);
@@ -7,6 +8,8 @@ export const render = (component, ...args) => {
 
 export const prepare = async app => {
   await app.import("svelte");
+  // expose code through "app", for bundlers
+  await app.export({ type: "script", code: expose });
 };
 
 export const compile = {

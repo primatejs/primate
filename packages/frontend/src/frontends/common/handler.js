@@ -1,5 +1,6 @@
 import { Response, Status, MediaType } from "runtime-compat/http";
 import { map } from "runtime-compat/async";
+import { valmap, filter } from "runtime-compat/object";
 import register from "./register.js";
 
 export default config => {
@@ -24,9 +25,17 @@ export default config => {
       const data = components.map(component => component.props);
       const names = await get_names(components);
 
+      const $request = {
+        request: {
+          ...valmap(filter(request, ([, { get }]) =>
+            get !== undefined), o => o.get()),
+          url: request.url,
+        },
+      };
+
       if (options.liveview &&
         request.headers.get(app.liveview?.header) !== undefined) {
-        return new Response(JSON.stringify({ names, data }), {
+        return new Response(JSON.stringify({ names, data, ...$request }), {
           status,
           headers: { ...await app.headers(),
             "Content-Type": MediaType.APPLICATION_JSON },
@@ -37,9 +46,10 @@ export default config => {
       const { body, head } = render(imported, {
         components: components.map(({ component }) => component),
         data,
+        ...$request,
       });
 
-      const code = client({ names, data }, options);
+      const code = client({ names, data, ...$request }, options);
       const inlined = await app.inline(code, "module");
 
       const headers = app.headers({ script: inlined.csp });

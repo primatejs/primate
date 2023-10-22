@@ -25,10 +25,10 @@
     "react-dom": "^18.2.0",
     "solid-js": "^1.8.3",
     "svelte": "^4.2.2",
-    "vue": "^3.3.4"
+    "vue": "^3.3.6"
   },
   "dependencies": {
-    "runtime-compat": "^0.32.2"
+    "runtime-compat": "^0.32.3"
   },
   "peerDependencies": {
     "@babel/core": "7",

@@ -13,8 +13,8 @@ const ErrorInComponent = (name, path, error) => {
   console.log(error);
   errors.ErrorInComponent.throw(name, path);
 };
-const get_error = ({ code, url }, path) =>
-  in_component(code, new Path(url), new Path(path))
+const get_error = (error, path) =>
+  in_component(error.code, new Path(error.url), new Path(path))
     ? MissingComponent
     : ErrorInComponent;
 
