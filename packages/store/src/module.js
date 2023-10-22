@@ -28,11 +28,11 @@ const valid = (type, name, store) => valid_type(type)
   : errors.InvalidType.throw(name, store);
 
 export default ({
-  /* directory for stores */
+  // directory for stores
   directory = "stores",
-  /* default database driver */
+  // default database driver
   driver = memory(),
-  /* whether all fields should be non-empty before saving */
+  // whether all fields should be non-empty before saving
   strict = false,
 } = {}) => {
   let env = {};
