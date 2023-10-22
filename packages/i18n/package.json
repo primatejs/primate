@@ -1,0 +1,34 @@
+{
+  "name": "@primate/i18n",
+  "version": "0.1.0",
+  "description": "Primate I18N module",
+  "homepage": "https://primatejs.com/modules/i18n",
+  "bugs": "https://github.com/primatejs/primate/issues",
+  "license": "MIT",
+  "files": [
+    "src/**/*.js",
+    "src/errors.json",
+    "!src/**/*.spec.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/primatejs/primate",
+    "directory": "packages/i18n"
+  },
+  "dependencies": {
+    "runtime-compat": "^0.32.3"
+  },
+  "peerDependencies": {
+    "primate": "0.24"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "browser": {
+        "svelte": "./src/svelte/client.js"
+      },
+      "default": "./src/exports.js"
+    },
+    "./svelte": "./src/svelte/server.js"
+  }
+}

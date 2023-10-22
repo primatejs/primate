@@ -1,0 +1,15 @@
+{
+  "module": "primate/i18n",
+  "errors": {
+    "EmptyLocaleDirectory": {
+      "message": "empty locale directory",
+      "fix": "populate {0} with locales or remove it",
+      "level": "Warn"
+    },
+    "MissingLocaleDirectory": {
+      "message": "missing locale directory",
+      "fix": "create {0} and populate it",
+      "level": "Warn"
+    }
+  }
+}
