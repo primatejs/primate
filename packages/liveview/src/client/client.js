@@ -105,7 +105,7 @@ export default updater => {
 
   global.addEventListener("click", event => {
     const target = event.target.closest("a");
-    if (target?.tagName === "A") {
+    if (target?.tagName === "A" && target.href !== "") {
       return go(target.href, updater, event);
     }
   });
