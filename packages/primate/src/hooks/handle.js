@@ -6,7 +6,30 @@ import { error as clientError } from "../handlers/exports.js";
 import _errors from "../errors.js";
 const { NoFileForPath } = _errors;
 
-const guardError = Symbol("guardError");
+const guard_error = Symbol("guard_error");
+const guard = (app, guards) => async (request, next) => {
+  // handle guards
+  try {
+    guards.every(guard => {
+      const result = guard(request);
+      if (result === true) {
+        return true;
+      }
+      const error = new Error();
+      error.result = result;
+      error.type = guard_error;
+      throw error;
+    });
+
+    return next(request);
+  } catch (error) {
+    if (error.type === guard_error) {
+      return (await respond(error.result))(app);
+    }
+    // rethrow if not guard error
+    throw error;
+  }
+};
 
 export default app => {
   const { config: { http: { static: { root } }, location } } = app;
@@ -22,30 +45,12 @@ export default app => {
         : await app.route(request);
       error_handler = errors?.at(-1);
 
-      // handle guards
-      try {
-        guards.every(guard => {
-          const result = guard(request);
-          if (result === true) {
-            return true;
-          }
-          const error = new Error();
-          error.result = result;
-          error.type = guardError;
-          throw error;
-        });
-      } catch (error) {
-        if (error.type === guardError) {
-          return (await respond(error.result))(app);
-        }
-        // rethrow if not guard error
-        throw error;
-      }
-
       const pathed = { ...request, path };
 
+      const hooks = [...app.modules.route, guard(app, guards)];
+
       // handle request
-      const response = (await cascade(app.modules.route, handler))(pathed);
+      const response = (await cascade(hooks, handler))(pathed);
       return (await respond(await response))(app, {
         layouts: await Promise.all(layouts.map(layout => layout(request))),
       }, pathed);
