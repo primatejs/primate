@@ -25,7 +25,7 @@
     "@primate/types": "^0.8.0",
     "better-sqlite3": "^9.0.0",
     "mongodb": "^6.2.0",
-    "postgres": "^3.4.0",
+    "postgres": "^3.4.1",
     "surrealdb.js": "^0.9.1"
   },
   "peerDependencies": {

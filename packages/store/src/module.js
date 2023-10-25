@@ -36,12 +36,17 @@ export default ({
   strict = false,
 } = {}) => {
   let env = {};
+  let active = false;
 
   return {
     name: "primate:store",
     async init(app, next) {
       const root = app.root.join(directory);
-      !await root.exists && errors.MissingStoreDirectory.throw(root);
+      if (!await root.exists) {
+        errors.MissingStoreDirectory.warn(app.log, root);
+        return next(app);
+      }
+
       const stores = await Promise.all((await root.collect(/^.*.js$/u))
         /* accept only uppercase-first files in store filename */
         .filter(path => /^[A-Z]/u.test(path.name))
@@ -74,8 +79,12 @@ export default ({
           }];
         }),
       );
-      Object.keys(stores).length === 0
-        && errors.EmptyStoreDirectory.throw(root);
+
+      if (Object.keys(stores.length === 0)) {
+        errors.EmptyStoreDirectory.warn(app.log, root);
+        return next(app);
+      }
+
       app.log.info("all stores nominal", { module: "primate/store" });
 
       const default_driver = await driver();
@@ -92,9 +101,15 @@ export default ({
         drivers: [...new Set(stores.map(({ driver: d }) => d ?? default_driver))],
       };
 
+      active = true;
+
       return next(app);
     },
     async route(request, next) {
+      if (!active) {
+        return next(request);
+      }
+
       const { id, transaction } = await make_transaction(env);
 
       try {
