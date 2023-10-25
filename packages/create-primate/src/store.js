@@ -14,7 +14,17 @@ const labels = map({
 }, ([key, label]) => [key,
   `${label} ${link(`drivers#${label.toLowerCase().replaceAll(" ", "-")}`)}`]);
 
-export default async () => {
+const example_store = `import { primary } from "@primate/types";
+
+export default {
+  id: primary,
+};
+`;
+
+export default async root => {
+  await root.join("stores").file.create();
+  await root.join("stores", "Example.js").file.write(example_store);
+
   const driver = await (await select({
     message: "Choose driver",
     options: to(labels).map(([key, label]) => ({ value: drivers[key], label })),

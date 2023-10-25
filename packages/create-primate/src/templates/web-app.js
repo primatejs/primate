@@ -17,7 +17,7 @@ const labels = new Map([
 
 const options = [...labels.entries()].map(([value, label]) => ({ value, label }));
 
-export default async () => {
+export default async root => {
   const configs = [];
 
   const selected = await select({
@@ -34,7 +34,7 @@ export default async () => {
   }
 
   if (await confirm({ message: `Add a data store? ${link("store")}` })) {
-    configs.push({ ...await store() });
+    configs.push({ ...await store(root) });
   }
 
   if (await confirm({ message: `Add user sessions? ${link("session")}` })) {
