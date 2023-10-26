@@ -10,9 +10,9 @@ export default async (root, config) => {
       ...config.dependencies,
     },
     scripts: {
-      start: "npx primate",
-      dev: "npx primate dev",
-      serve: "npx primate serve",
+      start: "primate",
+      dev: "primate dev",
+      serve: "primate serve",
     },
     type: "module",
   };
