@@ -19,7 +19,7 @@
     "runtime-compat": "^0.32.3"
   },
   "peerDependencies": {
-    "primate": "0.24"
+    "primate": "0.25"
   },
   "type": "module",
   "exports": {
