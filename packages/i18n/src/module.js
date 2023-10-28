@@ -1,5 +1,6 @@
-import errors from "./errors.js";
+import { bold } from "runtime-compat/colors";
 import { from } from "runtime-compat/object";
+import errors from "./errors.js";
 
 const ending = -5;
 const { MissingLocaleDirectory, EmptyLocaleDirectory } = errors;
@@ -14,29 +15,48 @@ export default ({
   // default locale
   locale = "en",
 } = {}) => {
+  const module = "primate/i18n";
   const env = {};
+  let active = false;
 
   return {
     name: "primate:i18n",
     async init(app, next) {
       const root = app.root.join(directory);
-      !await root.exists && MissingLocaleDirectory.throw(root);
+      if (!await root.exists) {
+        MissingLocaleDirectory.warn(app.log, root);
+        return next(app);
+      }
 
       const locales = await Promise.all((await root.collect(/^.*.json$/u))
-        .map(async path => [
-          `${path}`.replace(`${root}/`, () => "").slice(0, ending),
-          await path.file.json(),
-        ]));
+        .map(async path => {
+          const depathed = `${path}`.replace(`${root}/`, () => "")
+            .slice(0, ending);
+          app.log.info(`loading ${bold(depathed)}`, { module });
+          return [
+            `${path}`.replace(`${root}/`, () => "").slice(0, ending),
+            await path.file.json(),
+          ];
+        }));
 
-      Object.keys(locales).length === 0 && EmptyLocaleDirectory.throw(root);
+      if (Object.keys(locales).length === 0) {
+        EmptyLocaleDirectory.warn(app.log, root);
+        return next(app);
+      }
 
-      app.log.info("all locales nominal", { module: "primate/i18n" });
+      app.log.info("all locales nominal", { module });
 
       env.locales = from(locales);
+
+      active = true;
 
       return next(app);
     },
     async publish(app, next) {
+      if (!active) {
+        return next(app);
+      }
+
       await import_if_active(app, "svelte");
       await import_if_active(app, "react");
       await import_if_active(app, "solid");
@@ -44,6 +64,10 @@ export default ({
       return next(app);
     },
     async context(request, next) {
+      if (!active) {
+        return next(request);
+      }
+
       const context = await next(request);
 
       return { ...context, i18n: { locale, locales: env.locales } };

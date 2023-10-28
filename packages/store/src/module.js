@@ -41,6 +41,7 @@ export default ({
   // whether all fields should be non-empty before saving
   strict = false,
 } = {}) => {
+  const module = "primate/store";
   let env = {};
   let active = false;
 
@@ -74,7 +75,7 @@ export default ({
 
           const pathed = store.replaceAll("/", ".");
 
-          app.log.info(`loading ${bold(pathed)}`, { module: "primate/store" });
+          app.log.info(`loading ${bold(pathed)}`, { module });
 
           const { default: _, ...rest } = exports;
 
@@ -86,12 +87,12 @@ export default ({
         }),
       );
 
-      if (Object.keys(stores.length) === 0) {
+      if (Object.keys(stores).length === 0) {
         EmptyStoreDirectory.warn(app.log, root);
         return next(app);
       }
 
-      app.log.info("all stores nominal", { module: "primate/store" });
+      app.log.info("all stores nominal", { module });
 
       const default_driver = await driver();
 
