@@ -1,11 +1,12 @@
 import { AppContext } from "@primate/frontend/solid";
 import { useContext } from "solid-js";
-import locale from "./locale.js";
+import reactive_locale from "./locale.js";
+import resolve from "../shared/resolve.js";
 
 export default (key, placeholders) => {
-  locale.init();
-  const { i18n } = useContext(AppContext).context();
-  return i18n.locales[i18n.locale][key] ?? key;
+  reactive_locale.init();
+  const { locales, locale } = useContext(AppContext).context().i18n;
+  return resolve(locales[locale], key, placeholders);
 };
 
-export { locale };
+export { reactive_locale as locale };

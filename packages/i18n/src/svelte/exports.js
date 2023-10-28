@@ -1,10 +1,11 @@
 import { derived } from "svelte/store";
 import { getContext } from "svelte";
-import locale_store from "./locale.js";
+import reactive_locale from "./locale.js";
+import resolve from "../shared/resolve.js";
 
-export default derived(locale_store, locale => (key, placeholders) => {
+export default derived(reactive_locale, locale => (key, placeholders) => {
   const { locales } = getContext("__primate__").i18n;
-  return locales[locale][key] ?? key;
+  return resolve(locales[locale], key, placeholders);
 });
 
-export { locale_store as locale };
+export { reactive_locale as locale };
