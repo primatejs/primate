@@ -1,13 +1,17 @@
 import { bold } from "runtime-compat/colors";
 import { from } from "runtime-compat/object";
+import { Response, Status } from "runtime-compat/http";
 import errors from "./errors.js";
 
 const ending = -5;
 const { MissingLocaleDirectory, EmptyLocaleDirectory } = errors;
+const cookie = (name, value, { path, secure, httpOnly, sameSite }) =>
+  `${name}=${value};${httpOnly};Path=${path};${secure};SameSite=${sameSite}`;
 
 const import_if_active = (app, module) =>
   app.modules.names.includes(`primate:${module}`) &&
     app.import("@primate/i18n", module);
+const name = "primate:i18n";
 
 export default ({
   // directory for stores
@@ -19,8 +23,14 @@ export default ({
   const env = {};
   let active = false;
 
+  const options = {
+    sameSite: "Strict" ,
+    path: "/",
+    httpOnly: "HttpOnly",
+  };
+
   return {
-    name: "primate:i18n",
+    name,
     async init(app, next) {
       const root = app.root.join(directory);
       if (!await root.exists) {
@@ -63,6 +73,21 @@ export default ({
 
       return next(app);
     },
+    handle(request, next) {
+      const set_locale = request.headers.get("primate-i18n-locale");
+
+      if (set_locale === undefined) {
+        return next(request);
+      }
+
+      return new Response(null, {
+        status: Status.OK,
+        headers: {
+          "Set-Cookie": cookie(name, set_locale, options),
+        },
+      });
+
+    },
     async context(request, next) {
       if (!active) {
         return next(request);
@@ -74,8 +99,9 @@ export default ({
       const client_locales = request.headers.get("accept-language")
         ?.split(";")[0]?.split(",") ?? [];
 
-      const $locale = client_locales.find(client_locale =>
-        server_locales.includes(client_locale)) ?? locale;
+      const $locale = request.cookies.get(name)
+        ?? client_locales.find(c_locale => server_locales.includes(c_locale))
+        ?? locale;
 
       return { ...context, i18n: { locale: $locale, locales: env.locales } };
     },

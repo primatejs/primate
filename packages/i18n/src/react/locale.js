@@ -1,5 +1,6 @@
 import { AppContext } from "@primate/frontend/react";
 import { useContext } from "react";
+import save from "../shared/save.js";
 
 const $ = {
   context: Symbol("context"),
@@ -22,6 +23,7 @@ export default {
           locales: this[$.context].i18n.locales,
         },
       });
+    save(locale);
   },
   init() {
     if (this[$.context] !== undefined) {
