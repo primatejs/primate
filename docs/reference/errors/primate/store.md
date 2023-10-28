@@ -6,9 +6,9 @@ List of errors in the [data store module](/modules/store).
 
 Level [`Warn`][warn]
 
-The `stores` directory is empty, a no-op.
+The `stores` directory is empty, the module will be deactivated.
 
-**Populate this directory with stores or remove it.**
+**Populate this directory with stores.**
 
 ## Cannot Unpack Value
 
@@ -55,9 +55,9 @@ documents. In other cases an opt-out is available.
 
 Level [`Warn`][warn]
 
-The `stores` directory is missing, the module is not being used.
+The `stores` directory is missing, the module will be deactivated.
 
-**Create this directory and populate it with stores or remove the module.**
+**Create this directory and populate it with stores.**
 
 ## No Document Found
 

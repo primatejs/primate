@@ -6,7 +6,7 @@ export default test => {
 
   test.case("fail", ({ fail }) => {
     fail(undefined, "", 1, true, {}, null, []);
-    /* invalid characters */
+    // invalid characters
     fail("4d0996 b-BDA9-4f95-ad7c-7075b10d4ba6");
     fail("4d0996db-BD$9-4f95-ad7c-7075b10d4ba6");
     fail("4d0996db-BDA9-%f95-ad7c-7075b10d4ba6");

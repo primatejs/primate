@@ -1,6 +1,6 @@
 export default {
   array: "object",
-/*  blob: */
+  // blob:
   boolean: "boolean",
   datetime: "date",
   embedded: "object",

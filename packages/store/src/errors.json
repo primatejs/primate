@@ -3,7 +3,7 @@
   "errors": {
     "EmptyStoreDirectory": {
       "message": "empty store directory",
-      "fix": "populate {0} with stores or remove it",
+      "fix": "populate {0} with stores",
       "level": "Warn"
     },
     "CannotFindDriver": {
