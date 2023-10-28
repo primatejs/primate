@@ -70,7 +70,14 @@ export default ({
 
       const context = await next(request);
 
-      return { ...context, i18n: { locale, locales: env.locales } };
+      const server_locales = Object.keys(env.locales);
+      const client_locales = request.headers.get("accept-language")
+        ?.split(";")[0]?.split(",") ?? [];
+
+      const $locale = client_locales.find(client_locale =>
+        server_locales.includes(client_locale)) ?? locale;
+
+      return { ...context, i18n: { locale: $locale, locales: env.locales } };
     },
   };
 };
