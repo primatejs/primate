@@ -7,8 +7,8 @@ export default length => {
     `, `createElement(components[${n}], {request, ...data[${n}]})`);
 
   return `
-    import {createElement, useState} from "react";
-    import {AppContext, HeadContext, is} from "@primate/frontend/react";
+    import { createElement, useState } from "react";
+    import { AppContext, HeadContext, is } from "@primate/frontend/react";
 
     export default ({
       components,
@@ -18,11 +18,12 @@ export default length => {
       push_heads: value,
     }) => {
       const [context, setContext] = useState(c);
-      const $value = {context, setContext};
+      const $value = { context, setContext };
       return is.client
-        ? createElement(AppContext.Provider, {value: $value}, ${body})
-        : createElement(AppContext.Provider, {value: $value},
-            createElement(HeadContext.Provider, {value}, ${body}));
+        ? createElement(AppContext.Provider, { value: $value }, ${body})
+        : createElement(AppContext.Provider, { value: $value },
+            createElement(HeadContext.Provider, { value }, ${body}))
+      ;
     }
   `;
 };

@@ -13,7 +13,7 @@ export default length => {
 
   return `
     <script>
-      import {afterUpdate, setContext} from "svelte";
+      import { afterUpdate, setContext } from "svelte";
 
       export let components;
       export let data;

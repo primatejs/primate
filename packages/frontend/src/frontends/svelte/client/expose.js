@@ -1,3 +1,3 @@
 export default `
-  export {setContext} from "svelte";
+  export { setContext } from "svelte";
 `;

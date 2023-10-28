@@ -2,6 +2,7 @@ import { onMount, onCleanup, createContext, useContext } from "solid-js";
 const is_client = globalThis.document?.createElement !== undefined;
 
 const HeadContext = createContext();
+const AppContext = createContext({});
 
 const to_array = maybe => Array.isArray(maybe) ? maybe : [maybe];
 
@@ -93,4 +94,4 @@ const is = {
   server: !is_client,
 };
 
-export { Head, HeadContext, is };
+export { Head, HeadContext, AppContext, is };

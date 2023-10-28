@@ -37,6 +37,7 @@ export default ({
       // .svelte?)
       await app.import("@primate/i18n", "svelte");
       await app.import("@primate/i18n", "react");
+      await app.import("@primate/i18n", "solid");
 
       return next(app);
     },

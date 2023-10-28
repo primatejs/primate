@@ -26,11 +26,13 @@
     ".": {
       "browser": {
         "svelte": "./src/svelte/client.js",
-        "react": "./src/react/context.js"
+        "react": "./src/react/context.js",
+        "solid": "./src/solid/context.js"
       },
       "default": "./src/exports.js"
     },
     "./svelte": "./src/svelte/server.js",
-    "./react": "./src/react/context.js"
+    "./react": "./src/react/context.js",
+    "./solid": "./src/solid/context.js"
   }
 }

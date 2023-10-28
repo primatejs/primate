@@ -8,12 +8,25 @@ export default length => {
     `, `createComponent(components[${n}], {request, ...data[${n}]})`);
 
   return `
-    import {createComponent} from "solid-js/web";
-    import {HeadContext, is} from "@primate/frontend/solid";
+    import { createSignal } from "solid-js";
+    import { createComponent } from "solid-js/web";
+    import { AppContext, HeadContext, is } from "@primate/frontend/solid";
 
-    const Provider = HeadContext.Provider;
-
-    export default ({components, data, request, push_heads: value}) =>
-      is.client ? ${body} : <Provider value={value}>{${body}}</Provider>;
+    export default ({
+      components,
+      data,
+      request,
+      context: c,
+      push_heads: value,
+    }) => {
+      const [context, setContext] = createSignal(c);
+      const $value = { context, setContext };
+      
+      return <AppContext.Provider value={$value}>
+        <HeadContext.Provider value={value}>
+          {${body}}
+        </HeadContext.Provider>
+      </AppContext.Provider>
+    }
   `;
 };
