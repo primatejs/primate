@@ -7,6 +7,13 @@ import primary from "./primary.js";
 
 const last = -1;
 const ending = -3;
+const {
+  EmptyStoreDirectory,
+  InvalidType,
+  MissingPrimaryKey,
+  MissingStoreDirectory,
+  TransactionRolledBack,
+} = errors;
 
 const make_transaction = async env => {
   const [transaction] = await Promise.all(env.drivers.map(driver =>
@@ -23,9 +30,8 @@ const make_transaction = async env => {
 const valid_type = ({ base, validate }) =>
   base !== undefined && typeof validate === "function";
 
-const valid = (type, name, store) => valid_type(type)
-  ? type
-  : errors.InvalidType.throw(name, store);
+const valid = (type, name, store) =>
+  valid_type(type) ? type : InvalidType.throw(name, store);
 
 export default ({
   // directory for stores
@@ -43,7 +49,7 @@ export default ({
     async init(app, next) {
       const root = app.root.join(directory);
       if (!await root.exists) {
-        errors.MissingStoreDirectory.warn(app.log, root);
+        MissingStoreDirectory.warn(app.log, root);
         return next(app);
       }
 
@@ -63,7 +69,7 @@ export default ({
             .filter(([property, type]) => valid(type, property, store)));
 
           exports.ambiguous !== true && schema.id === undefined
-            && errors.MissingPrimaryKey.throw(primary, store,
+            && MissingPrimaryKey.throw(primary, store,
               "export const ambiguous = true;");
 
           const pathed = store.replaceAll("/", ".");
@@ -80,8 +86,8 @@ export default ({
         }),
       );
 
-      if (Object.keys(stores.length === 0)) {
-        errors.EmptyStoreDirectory.warn(app.log, root);
+      if (Object.keys(stores.length) === 0) {
+        EmptyStoreDirectory.warn(app.log, root);
         return next(app);
       }
 
@@ -122,7 +128,7 @@ export default ({
         );
       } catch (error) {
         env.log.auto(error);
-        errors.TransactionRolledBack.warn(env.log, id, error.name);
+        TransactionRolledBack.warn(env.log, id, error.name);
 
         // let core handle error
         throw error;
