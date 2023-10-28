@@ -24,11 +24,11 @@ export default config => {
         /* set the actual page as the last component */
         .concat(await make(name, props));
 
-      const data = components.map(component => component.props);
       const names = await get_names(components);
 
-      const context = await (await cascade(app.modules.context, noop))(request);
-      const $request = {
+      const shared = {
+        data: components.map(component => component.props),
+        context: await (await cascade(app.modules.context, noop))(request),
         request: {
           ...valmap(filter(request, ([, { get }]) =>
             get !== undefined), o => o.get()),
@@ -38,7 +38,7 @@ export default config => {
 
       if (options.liveview &&
         request.headers.get(app.liveview?.header) !== undefined) {
-        return new Response(JSON.stringify({ names, data, ...$request }), {
+        return new Response(JSON.stringify({ names, ...shared }), {
           status,
           headers: { ...await app.headers(),
             "Content-Type": MediaType.APPLICATION_JSON },
@@ -48,12 +48,10 @@ export default config => {
       const imported = (await import(root)).default;
       const { body, head } = render(imported, {
         components: components.map(({ component }) => component),
-        data,
-        context,
-        ...$request,
+        ...shared,
       });
 
-      const code = client({ names, data, context, ...$request }, options);
+      const code = client({ names, ...shared }, options);
       const inlined = await app.inline(code, "module");
 
       const headers = app.headers({ script: inlined.csp });

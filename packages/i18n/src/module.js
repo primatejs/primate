@@ -33,7 +33,11 @@ export default ({
       return next(app);
     },
     async publish(app, next) {
+      // TODO: check if those frontend frameworks are loaded (handler for
+      // .svelte?)
       await app.import("@primate/i18n", "svelte");
+      await app.import("@primate/i18n", "react");
+
       return next(app);
     },
     async context(request, next) {

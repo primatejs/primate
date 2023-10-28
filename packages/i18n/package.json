@@ -25,10 +25,12 @@
   "exports": {
     ".": {
       "browser": {
-        "svelte": "./src/svelte/client.js"
+        "svelte": "./src/svelte/client.js",
+        "react": "./src/react/context.js"
       },
       "default": "./src/exports.js"
     },
-    "./svelte": "./src/svelte/server.js"
+    "./svelte": "./src/svelte/server.js",
+    "./react": "./src/react/context.js"
   }
 }
