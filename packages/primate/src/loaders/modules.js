@@ -27,6 +27,9 @@ export default async (log, root, config) => {
   // collect modules
   const loaded = load(modules).flat(2);
 
-  return Object.fromEntries([...Object.keys(hooks), "context"]
-    .map(hook => [hook, filter(hook, loaded)]));
+  return {
+    names: loaded.map(module => module.name),
+    ...Object.fromEntries([...Object.keys(hooks), "context"]
+      .map(hook => [hook, filter(hook, loaded)])),
+  };
 };

@@ -25,14 +25,14 @@
   "exports": {
     ".": {
       "browser": {
-        "svelte": "./src/svelte/client.js",
-        "react": "./src/react/context.js",
-        "solid": "./src/solid/context.js"
+        "svelte": "./src/svelte/exports.js",
+        "react": "./src/react/exports.js",
+        "solid": "./src/solid/exports.js"
       },
       "default": "./src/exports.js"
     },
-    "./svelte": "./src/svelte/server.js",
-    "./react": "./src/react/context.js",
-    "./solid": "./src/solid/context.js"
+    "./svelte": "./src/svelte/exports.js",
+    "./react": "./src/react/exports.js",
+    "./solid": "./src/solid/exports.js"
   }
 }

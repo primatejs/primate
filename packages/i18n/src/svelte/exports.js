@@ -6,3 +6,5 @@ export default derived(locale_store, locale => (key, placeholders) => {
   const { locales } = getContext("__primate__").i18n;
   return locales[locale][key] ?? key;
 });
+
+export { locale_store as locale };

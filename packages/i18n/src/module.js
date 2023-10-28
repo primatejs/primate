@@ -4,6 +4,10 @@ import { from } from "runtime-compat/object";
 const ending = -5;
 const { MissingLocaleDirectory, EmptyLocaleDirectory } = errors;
 
+const import_if_active = (app, module) =>
+  app.modules.names.includes(`primate:${module}`) &&
+    app.import("@primate/i18n", module);
+
 export default ({
   // directory for stores
   directory = "locales",
@@ -33,11 +37,9 @@ export default ({
       return next(app);
     },
     async publish(app, next) {
-      // TODO: check if those frontend frameworks are loaded (handler for
-      // .svelte?)
-      await app.import("@primate/i18n", "svelte");
-      await app.import("@primate/i18n", "react");
-      await app.import("@primate/i18n", "solid");
+      await import_if_active(app, "svelte");
+      await import_if_active(app, "react");
+      await import_if_active(app, "solid");
 
       return next(app);
     },
