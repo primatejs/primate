@@ -54,6 +54,9 @@ subscribers accept different types of parameters, depending on the hook.
 ├─ `route` # if previously unmatched
 │   └─ # modules handle routing request themselves or yield to `next`
 │
+├─ `context` #
+│   └─ # modules provide context information to the frontend framework
+│
 | # if yielded through, execute route function
 │
 └─ # *end* client request phase due to program shutdown

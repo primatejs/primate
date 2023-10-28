@@ -6,6 +6,11 @@
       "fix": "populate {0} with locales or remove it",
       "level": "Warn"
     },
+    "MissingDefaultLocale": {
+      "message": "default locale {0} not found in locales directory {1}",
+      "fix": "add {0} as a locale",
+      "level": "Warn"
+    },
     "MissingLocaleDirectory": {
       "message": "missing locale directory",
       "fix": "create {0} and populate it",

@@ -65,6 +65,7 @@ export default {
             { heading: "Others" },
             "Liveview",
             "Session",
+            "I18N",
             "WebSocket",
             "esbuild",
           ],

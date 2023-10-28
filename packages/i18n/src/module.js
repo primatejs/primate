@@ -4,7 +4,12 @@ import { Response, Status } from "runtime-compat/http";
 import errors from "./errors.js";
 
 const ending = -5;
-const { MissingLocaleDirectory, EmptyLocaleDirectory } = errors;
+const {
+  EmptyLocaleDirectory,
+  MissingDefaultLocale,
+  MissingLocaleDirectory,
+} = errors;
+
 const cookie = (name, value, { path, secure, httpOnly, sameSite }) =>
   `${name}=${value};${httpOnly};Path=${path};${secure};SameSite=${sameSite}`;
 
@@ -12,6 +17,13 @@ const import_if_active = (app, module) =>
   app.modules.names.includes(`primate:${module}`) &&
     app.import("@primate/i18n", module);
 const name = "primate:i18n";
+
+const disable = (condition, error) => {
+  if (condition) {
+    error();
+    throw new Error();
+  }
+};
 
 export default ({
   // directory for stores
@@ -21,7 +33,7 @@ export default ({
 } = {}) => {
   const module = "primate/i18n";
   const env = {};
-  let active = false;
+  let active = true;
 
   const options = {
     sameSite: "Strict" ,
@@ -33,32 +45,38 @@ export default ({
     name,
     async init(app, next) {
       const root = app.root.join(directory);
-      if (!await root.exists) {
-        MissingLocaleDirectory.warn(app.log, root);
-        return next(app);
+
+      try {
+        disable(!await root.exists, () => {
+          MissingLocaleDirectory.warn(app.log, root);
+        });
+
+        const locales = await Promise.all((await root.collect(/^.*.json$/u))
+          .map(async path => {
+            const depathed = `${path}`.replace(`${root}/`, () => "")
+              .slice(0, ending);
+            app.log.info(`loading ${bold(depathed)}`, { module });
+            return [
+              `${path}`.replace(`${root}/`, () => "").slice(0, ending),
+              await path.file.json(),
+            ];
+          }));
+
+        disable(Object.keys(locales).length === 0, () => {
+          EmptyLocaleDirectory.warn(app.log, root);
+        });
+
+        disable(locales[locale] === undefined, () => {
+          MissingDefaultLocale.warn(app.log, locale, root);
+        });
+
+        app.log.info("all locales nominal", { module });
+
+        env.locales = from(locales);
+      } catch (_) {
+        active = false;
+        app.log.warn("module disabled", { module });
       }
-
-      const locales = await Promise.all((await root.collect(/^.*.json$/u))
-        .map(async path => {
-          const depathed = `${path}`.replace(`${root}/`, () => "")
-            .slice(0, ending);
-          app.log.info(`loading ${bold(depathed)}`, { module });
-          return [
-            `${path}`.replace(`${root}/`, () => "").slice(0, ending),
-            await path.file.json(),
-          ];
-        }));
-
-      if (Object.keys(locales).length === 0) {
-        EmptyLocaleDirectory.warn(app.log, root);
-        return next(app);
-      }
-
-      app.log.info("all locales nominal", { module });
-
-      env.locales = from(locales);
-
-      active = true;
 
       return next(app);
     },
@@ -80,7 +98,7 @@ export default ({
         return next(request);
       }
 
-      return new Response(null, {
+      return new Response("", {
         status: Status.OK,
         headers: {
           "Set-Cookie": cookie(name, set_locale, options),

@@ -88,8 +88,32 @@ By that example, a client requesting a `GET` WebSocket upgrade at
 `/chat?limit=20` will be able to start chat communication with the server using
 web sockets, with a limit of 20 messages.
 
+## Error list
+
+### Invalid Handler
+
+Level [`Error`][error]
+
+WebSocket routes must return a valid handler, such as,
+
+```js caption=routes/websocket-route.js | valid handler
+export default {
+  ws() {
+    return {
+      message(payload) {
+        return `You sent ${JSON.stringify(payload)}!`;
+      },
+    };
+  },
+};
+```
+
+*As a handler, return an object that handles at least the `message` event.*
+
 ## Resources
+
 * [Repository][repo]
 * [Error list](/reference/errors/primate/ws)
 
 [repo]: https://github.com/primatejs/primate/tree/master/packages/ws
+[error]: /guide/logging#error

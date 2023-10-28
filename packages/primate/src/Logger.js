@@ -15,7 +15,10 @@ const bye = _ => print(dim(yellow("~~ bye\n")));
 const mark = (format, ...params) => params.reduce((formatted, param, i) =>
   formatted.replace(`{${i}}`, bold(param)), format);
 
-const reference = "https://primatejs.com/reference/errors";
+const reference = (module, error) => {
+  const base = module ? `modules/${module}` : "guide/logging";
+  return `https://primatejs.com/${base}#${hyphenate(error)}`;
+};
 
 const hyphenate = class_cased => class_cased
   .split("")
@@ -73,7 +76,7 @@ const Logger = class Logger {
     print(color(pre), `${module !== undefined ? `${color(module)} ` : ""}${message}`, "\n");
     if (fix) {
       print(blue("++"), fix);
-      name && print(dim(`\n   -> ${reference}/${module ?? "primate"}#${hyphenate(name)}`), "\n");
+      name && print(dim(`\n   -> ${reference(module, name)}`), "\n");
     }
     if (level === levels.Error || level === undefined && error.message) {
       this.#trace && console.log(error);

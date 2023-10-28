@@ -67,15 +67,30 @@ Every frontend framework registers its own file extension with the
 [`view`][view] handler and needs to be loaded in `primate.config.js`. You can
 use different frontend frameworks alongside each other, in different routes.
 
-|Name         |Extension   |[Layouts]|SSR|Hydration|[Liveview]|Head           |
-|-------------|------------|---------|---|---------|----------|---------------|
-|HTML         |`html`      |✗        |✗  |✗        |✗         |✗              |
-|[Svelte]     |`svelte`    |✓        |✓  |✓        |✓         |`<svelte:head>`|
-|[React]      |`jsx`       |✓        |✓  |✓        |✓         |`<Head>`       |
-|[Solid]      |`jsx`       |✓        |✓  |✓        |✓         |`<Head>`       |
-|[Vue]        |`vue`       |✗        |✓  |✗        |✗         |✗              |
-|[HTMX]       |`htmx`      |✗        |✗  |✗        |✗         |✗              |
-|[Handlebars] |`handlebars`|✗        |✓  |✗        |✗         |✗              |
+|          |HTML  |[Svelte]       |[React] |[Solid] |[Vue]|[HTMX]|[Handlebars]|
+|----------|------|---------------|--------|--------|-----|------|------------|
+|Extension |`html`|`svelte`       |`jsx`   |`jsx`   |`vue`|`htmx`|`hbs`       |
+|[Layouts] |✗     |✓              |✓       |✓       |✗    |✗     |✗           | 
+|SSR       |✗     |✓              |✓       |✓       |✓    |✗     |✓           | 
+|Hydration |✗     |✓              |✓       |✓       |✗    |✗     |✗           |
+|[Liveview]|✗     |✓              |✓       |✓       |✗    |✗     |✗           |
+|Head      |✗     |`<svelte:head>`|`<Head>`|`<Head>`|✗    |✗     |✗           |
+|[I18N]    |✗     |✓              |✓       |✓       |✗    |✗     |✗           |
+
+## Error list
+
+### Missing Dependencies
+
+Level [`Error`][error] | [`Bailout`][bailout]
+
+A frontend module was loaded in the configuration for which dependencies are
+missing.
+
+*Install the dependency according to the instructions in the error message.*
+
+The frontend module only provides wrappers for frontend frameworks. The actual
+package needs to be installed by the user. Primate will inform you which
+dependency is missing and what command you need to issue to install it.
 
 [view]: /guide/responses#view
 [Svelte]: /modules/svelte
@@ -86,3 +101,5 @@ use different frontend frameworks alongside each other, in different routes.
 [Handlebars]: /modules/handlebars
 [Layouts]: /guide/layouts
 [Liveview]: /modules/liveview
+[I18N]: /modules/i18n
+[bailout]: /guide/logging#bailout
