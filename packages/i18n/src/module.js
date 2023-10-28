@@ -51,7 +51,7 @@ export default ({
           MissingLocaleDirectory.warn(app.log, root);
         });
 
-        const locales = await Promise.all((await root.collect(/^.*.json$/u))
+        const locales = from(await Promise.all((await root.collect(/^.*.json$/u))
           .map(async path => {
             const depathed = `${path}`.replace(`${root}/`, () => "")
               .slice(0, ending);
@@ -60,7 +60,7 @@ export default ({
               `${path}`.replace(`${root}/`, () => "").slice(0, ending),
               await path.file.json(),
             ];
-          }));
+          })));
 
         disable(Object.keys(locales).length === 0, () => {
           EmptyLocaleDirectory.warn(app.log, root);
@@ -72,7 +72,7 @@ export default ({
 
         app.log.info("all locales nominal", { module });
 
-        env.locales = from(locales);
+        env.locales = locales;
       } catch (_) {
         active = false;
         app.log.warn("module disabled", { module });
