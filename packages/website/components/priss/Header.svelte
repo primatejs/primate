@@ -1,5 +1,5 @@
 <script>
-  import {onMount} from "svelte";
+  import { onMount } from "svelte";
 
   import Icons from "./Icons.svelte";
   import Icon from "./Icon.svelte";
@@ -16,7 +16,7 @@
   });
 
   export let app, title;
-  const {theme} = app;
+  const { theme } = app;
 
   const toggleColorScheme = () =>
     colorscheme.update(value => value === "dark" ? "light" : "dark");

@@ -261,7 +261,7 @@ export default async (test, driver, lifecycle) => {
       assert(await User.count()).equals(0);
     });
   });
-  /* test.case("transactions", async ({assert, transaction, user}) => {
+  /* test.case("transactions", async ({ assert, transaction, user }) => {
     const {start, rollback, commit, end} = transaction;
 
     assert(() => rollback()).throws();

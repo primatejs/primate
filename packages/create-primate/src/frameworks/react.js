@@ -8,7 +8,7 @@ export default () => ({
     esbuild: dependencies.esbuild,
   },
   imports: {
-    "{react}": "@primate/frontend",
+    "{ react }": "@primate/frontend",
   },
   modules: {
     react: "",

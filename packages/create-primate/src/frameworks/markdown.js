@@ -6,7 +6,7 @@ export default () => ({
     marked: dependencies.marked,
   },
   imports: {
-    "{markdown}": "@primate/frontend",
+    "{ markdown }": "@primate/frontend",
   },
   modules: {
     markdown: "",

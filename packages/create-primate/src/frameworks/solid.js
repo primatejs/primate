@@ -7,7 +7,7 @@ export default () => ({
     "babel-preset-solid": dependencies["babel-preset-solid"],
   },
   imports: {
-    "{solid}": "@primate/frontend",
+    "{ solid }": "@primate/frontend",
   },
   modules: {
     solid: "",

@@ -126,7 +126,7 @@ This driver uses the `host` (default `"localhost"`), `port` (default `5432`)
 `db`, `user`, and `pass` configuration properties.
 
 ```js caption=primate.config.js
-import {default as store, postgresql} from "@primate/store";
+import { default as store, postgresql } from "@primate/store";
 
 export default {
   modules: [
@@ -163,7 +163,7 @@ This driver uses the `host` (default `"http://localhost"`), `port` (default
 `user`, and `pass` configuration properties.
 
 ```js caption=primate.config.js
-import {default as store, surrealdb} from "@primate/store";
+import { default as store, surrealdb } from "@primate/store";
 
 export default {
   modules: [

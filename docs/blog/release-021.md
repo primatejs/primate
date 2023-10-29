@@ -27,7 +27,7 @@ Using the new store drivers is similar to how all drivers work. You import and
 pass them to the `driver` property of the `store` module.
 
 ```js caption=primate.config.js
-import {sqlite, default as store} from "@primate/store";
+import { sqlite, default as store } from "@primate/store";
 
 export default {
   modules: [

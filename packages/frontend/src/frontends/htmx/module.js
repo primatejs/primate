@@ -12,7 +12,7 @@ const load_component = async (file) => {
 };
 
 const style = "'unsafe-inline'";
-const code = "import {htmx} from \"app\";";
+const code = "import { htmx } from \"app\";";
 
 const handler = directory =>
   (name, { status = Status.OK, partial = false } = {}) => async app => {

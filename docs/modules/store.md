@@ -387,7 +387,7 @@ import { id, string, u8, array } from "primate/@types";
 export const actions = store => {
   return {
     findByHobbies(hobbies) {
-      return store.find({hobbies});
+      return store.find({ hobbies });
     },
   };
 };

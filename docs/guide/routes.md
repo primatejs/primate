@@ -106,7 +106,7 @@ This applies not only to `body` but to all of the following request sections.
 The request's path, an object containing named parameters.
 
 ```js caption=routes/users/{user}.js
-import {error} from "primate";
+import { error } from "primate";
 
 const users = ["Donald", "Ryan"];
 

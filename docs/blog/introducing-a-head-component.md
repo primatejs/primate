@@ -31,7 +31,7 @@ export default function (props) {
       <title>All posts ({props.posts.length})</title>
     </Head>
     <h1>All posts</h1>
-    {props.posts.map(({id, title}) =>
+    {props.posts.map(({ id, title }) =>
       <h2><a href={`/post/view/${id}`}>{title}</a></h2>
     )}
     <h3><a href="/post/edit/">add post</a></h3>

@@ -6,7 +6,7 @@ export default () => ({
     "htmx.org": dependencies["htmx.org"],
   },
   imports: {
-    "{htmx}": "@primate/frontend",
+    "{ htmx }": "@primate/frontend",
   },
   modules: {
     htmx: "",
