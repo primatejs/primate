@@ -1,3 +1,3 @@
 import { view } from "primate";
 
-export default request => view("priss/Errorpage.svelte", { app: request.config });
+export default request => view("Errorpage.svelte", { app: request.config });
