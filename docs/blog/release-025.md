@@ -17,7 +17,7 @@ run Primate with `bun --bun x primate`, benefitting from significant speed
 gains introduced by Bun.
 
 This release brings the number of runtimes we support up to three, adding native
-Deno support. Native means here that, similar to Bun, Primate will try to use
+Deno support. Native means here that, like with Bun, Primate will try to use
 native Deno routines (like `Deno.serve`) wherever possible and otherwise fall
 back to NPM.
 
@@ -72,8 +72,8 @@ Add another locale.
 }
 ```
 
-Next, use the default export from `@primate/i18n` for your frontend of choice 
-in your component, for example Svelte.
+Next, use the default deep export from `@primate/i18n` for your frontend of 
+choice in your component, for example Svelte.
 
 ### Svelte
 
@@ -157,14 +157,14 @@ export default function ({ username }) {
 }
 ```
 
-This release marks only the introduction of the I18N module. In the future, we
+This release marks only the introduction of the I18N module. In the future we
 plan to extend it with access to different translation backends and other
 features commonly expected in a modern I18N library.
 
 ## Executing guards just before the route function
 
 The only breaking feature of this release is a change to the order of execution
-for guards. Previously, guards were executed *after* a route was matched, but
+for guards. Previously guards were executed *after* a route was matched but
 before all route hook functions and the route function itself were executed.
 One of the most important route hook is the one used by `@primate/store` to
 start a transaction before the route runs and make all
@@ -177,7 +177,11 @@ be available.
 This release changes the order of execution such that guards are executed after
 all route hooks have finished running and right before the route function
 itself is executed. Guards thus have access to exactly the same `request`
-object that the route would see, including stores.
+object that the route function would see, including stores.
+
+## Other changes
+
+Consult the [full changelog][changelog] for a list of all relevant changes.
 
 ## Next on the road
 
@@ -210,5 +214,5 @@ Otherwise, have a blast with the new version!
 
 [Getting started]: /guide/getting-started
 [irc]: https://web.libera.chat#primate
-[last release]: https://primatejs.com/blog/release-025
+[last release]: https://primatejs.com/blog/release-024
 [changelog]: https://github.com/primatejs/primate/releases/tag/0.25.0
