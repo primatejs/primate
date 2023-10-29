@@ -3,7 +3,7 @@ This release introduces native Deno support, meaning Primate now support all
 the three significant runtimes in JS space (Node, Deno, Bun).
 
 In addition, this release introduces `@primate/i18n`, an internationalization
-module with a unified API across our Svelte, React and Solid modules.
+module with a unified API for our Svelte, React and Solid frontend modules.
 
 !!!
 If you're new to Primate, we recommend reading the [Getting started] page to
