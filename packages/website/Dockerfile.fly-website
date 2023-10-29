@@ -1,16 +1,9 @@
-FROM oven/bun:1-alpine as builder
+FROM denoland/deno:alpine as builder
 
-WORKDIR /app
+COPY . /app
 
-COPY . primate
+RUN mv /app/docs /app/packages/website/content
 
-RUN bun i --cwd=primate/packages/website
+WORKDIR /app/packages/website
 
-FROM oven/bun:1-alpine
-
-WORKDIR /app
-
-COPY --from=builder /app/primate/packages/website .
-COPY --from=builder /app/primate/docs ./content
-
-CMD ["bun", "--bun", "x", "primate", "serve"]
+CMD ["deno", "run", "--allow-all", "npm:primate", "serve"]
