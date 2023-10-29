@@ -5,7 +5,7 @@ with the `svelte` extension.
 
 ## Install
 
-`npm i @primate/frontend`
+`npm install @primate/frontend svelte@4`
 
 ## Configure
 
@@ -31,9 +31,8 @@ Create a Svelte component in `components`.
 </script>
 <h1>All posts</h1>
 {#each posts as { id, title }}
-<h2><a href="/svelte/post/{id}">{title}</a></h2>
+<h2><a href="/post/{id}">{title}</a></h2>
 {/each}
-
 <style>
   button {
     border-radius: 4px;

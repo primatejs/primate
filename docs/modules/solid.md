@@ -5,7 +5,7 @@ components with the `jsx` extension.
 
 ## Install
 
-`npm i @primate/frontend`
+`npm install @primate/frontend @babel/core@7 babel-preset-solid@1 solid-js@1`
 
 ## Configure
 
@@ -46,10 +46,8 @@ export default function PostIndex(props) {
   return <>
     <h1>All posts</h1>
     <For each={props.posts}>
-      {post => <h2><a href={`/post/view/${post.id}`}>{post.title}</a></h2>}
+      {post => <h2><a href={`/post/${post.id}`}>{post.title}</a></h2>}
     </For>
-    <Test />
-    <h3><a href="/post/edit/">add post</a></h3>
   </>;
 }
 ```

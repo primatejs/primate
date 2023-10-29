@@ -4,7 +4,7 @@ This module adds WebSocket support in routes to your application.
 
 ## Install
 
-`npm i @primate/ws`
+`npm install @primate/ws`
 
 ## Configure
 

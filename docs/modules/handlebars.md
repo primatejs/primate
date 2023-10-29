@@ -4,7 +4,7 @@ This handler module serves Handlebars components with the `hbs` extension.
 
 ## Install
 
-`npm i @primate/frontend`
+`npm install @primate/frontend handlebars@4`
 
 ## Configure
 
@@ -28,7 +28,7 @@ Create a Handlebars component in `components`.
 <h1>All posts</h1>
 <div>
 {{#each posts}}
-<h2><a href="`vue/post/view/{{this.id}}">{{this.title}}</a></h2>
+<h2><a href="`/post/{{this.id}}">{{this.title}}</a></h2>
 {{/each}}
 </div>
 ```

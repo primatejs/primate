@@ -5,7 +5,7 @@ components with the `jsx` extension.
 
 ## Install
 
-`npm i @primate/frontend`
+`npm install @primate/frontend esbuild@0.19 react@18 react-dom@18`
 
 ## Configure
 
@@ -30,7 +30,7 @@ export default function PostIndex({ posts }) {
   return (<>
     <h1>All posts</h1>
     { posts.map(({ id, title }) => (
-      <h2><a href={`/react/post/${id}`}>{title}</a></h2>
+      <h2><a href={`/post/${id}`}>{title}</a></h2>
     )) }
   </>);
 }

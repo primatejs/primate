@@ -4,7 +4,7 @@ This handler module serves HTMX components with the `htmx` extension.
 
 ## Install
 
-`npm i @primate/frontend`
+`npm install @primate/frontend htmx.org@1`
 
 ## Configure
 

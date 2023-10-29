@@ -24,15 +24,18 @@ http://localhost:6161.
 
 !!!
 If you're a Bun user, you can take advantage of [significant speed gains][r24]
-by running `bun --bun x primate` instead. The `--bun` flag makes sure Bun's
-native implementations are used.
+by running `bun --bun x primate`.
+!!!
+
+!!!
+If you're a Deno user, use `deno run --allow-all npm:primate` to run Primate.
 !!!
 
 ## Quick start
 
-Before we continue, we recommend installing Primate by issuing `npm i primate`
-in your project directory, both to make its exports available within your
-project and to pin the version you're using.
+Before we continue, we recommend installing Primate by issuing
+`npm install primate` in your project directory, both to make its exports
+available within your project and to pin the version you're using.
 
 Building on the last example, imagine you wanted to add a form to your page
 and redirect users who have submitted the form to a success page. This requires

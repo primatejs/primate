@@ -4,7 +4,7 @@ This module adds cookie-based sessions to your application.
 
 ## Install
 
-`npm i @primate/session`
+`npm install @primate/session`
 
 ## Configure
 

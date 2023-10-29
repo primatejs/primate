@@ -5,7 +5,7 @@ SPA.
 
 ## Install
 
-`npm i @primate/liveview`
+`npm install @primate/liveview`
 
 ## Configure
 

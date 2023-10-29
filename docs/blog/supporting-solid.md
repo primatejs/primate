@@ -14,8 +14,8 @@ get an idea of the framework.
 
 ## Install
 
-To install the Solid module, run `npm i @primate/solid`. Then add it to your
-configuration.
+To install the Solid module, run `npm install @primate/solid`. Then add it to
+your Primate configuration.
 
 ```js caption=primate.config.js
 import solid from "@primate/solid";

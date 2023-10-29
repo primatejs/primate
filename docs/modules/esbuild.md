@@ -6,7 +6,7 @@ Primate using `npx primate serve`.
 
 ## Install
 
-`npm i @primate/esbuild`
+`npm install @primate/esbuild`
 
 ## Configure
 

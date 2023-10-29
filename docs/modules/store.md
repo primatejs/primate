@@ -26,7 +26,7 @@ system of a given store is referred to as `driver`.
 
 ### Install
 
-`npm i @primate/store`
+`npm install @primate/store`
 
 ### Load
 

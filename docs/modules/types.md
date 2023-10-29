@@ -4,7 +4,7 @@ This module adds common runtime types to your application.
 
 ## Install
 
-`npm i @primate/types`
+`npm install @primate/types`
 
 ## Configure
 
