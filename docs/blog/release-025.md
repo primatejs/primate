@@ -133,7 +133,7 @@ export default function ({ username }) {
 ```
 
 In this case, since the default export exposes a function that returns a state
-variable, you just use it as (without prefixing it with `$` as with Svelte).
+variable, you just use it as is (without prefixing it with `$` as with Svelte).
 
 Again, to switch between locales, use the `locale` named export and call
 `locale.set` with the new locale.
