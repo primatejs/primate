@@ -30,6 +30,12 @@ Default `[]`
 
 A list of extensions that esbuild should ignore when bundling.
 
+### options
+
+Default `{}`
+
+Any override options to pass to `esbuild` when building.
+
 ## Resources
 
 * [Repository][repo]

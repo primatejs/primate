@@ -3,6 +3,7 @@ import esbuild from "esbuild";
 
 export default ({
   ignores = [],
+  options = {},
 } = {}) => ({
   name: "primate:esbuild",
   async bundle(app, next) {
@@ -29,6 +30,7 @@ export default ({
         outdir: `${client}`,
         logLevel: app.debug ? "warning" : "error",
         external: ignores.map(ignore => `*.${ignore}`),
+        ...options,
       });
       // remove unbundled client
       const re = new RegExp(`${location.client}/app-.*\\.(?:js|css)$`, "u");
