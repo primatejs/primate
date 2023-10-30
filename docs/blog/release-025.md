@@ -1,9 +1,9 @@
 Today we're announcing the availability of the Primate 0.25 preview release.
-This release introduces native Deno support, meaning Primate now support all
+This release introduces native Deno support, meaning Primate now supports all
 the three significant runtimes in JS space (Node, Deno, Bun).
 
 In addition, this release introduces `@primate/i18n`, an internationalization
-module with a unified API for our Svelte, React and Solid frontend modules.
+module with a unified API for our Svelte, React and Solid [frontend modules].
 
 !!!
 If you're new to Primate, we recommend reading the [Getting started] page to
@@ -21,7 +21,7 @@ Deno support. Native means here that, like with Bun, Primate will try to use
 native Deno routines (like `Deno.serve`) wherever possible and otherwise fall
 back to NPM.
 
-To execute your Primate app with Deno, use `deno run --allow-all npm:primate`.
+To run your Primate app with Deno, use `deno run --allow-all npm:primate`.
 
 ## I18N module for Svelte, React and Solid
 
@@ -31,11 +31,11 @@ this stage, this module supports Svelte, React and Solid using a nearly
 completely unified API.
 
 To add support for multiple languages in your application, first install this
-new module by issuing `npm install @primate/i18n`. Then, import and initialize
-it in your Primate configuration file.
+module by issuing `npm install @primate/i18n`. Then, import and initialize it
+in your Primate configuration file.
 
 ```js caption=primate.config.js
-import i18n from "@primate/18n";
+import i18n from "@primate/i18n";
 
 export default {
   modules: [
@@ -213,6 +213,7 @@ irc.libera.chat.
 Otherwise, have a blast with the new version!
 
 [Getting started]: /guide/getting-started
+[frontend modules]: /modules/frontend
 [irc]: https://web.libera.chat#primate
 [last release]: https://primatejs.com/blog/release-024
 [changelog]: https://github.com/primatejs/primate/releases/tag/0.25.0
