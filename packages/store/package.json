@@ -26,7 +26,7 @@
     "better-sqlite3": "^9.0.0",
     "mongodb": "^6.2.0",
     "postgres": "^3.4.2",
-    "surrealdb.js": "^0.9.1"
+    "surrealdb.js": "^0.10.1"
   },
   "peerDependencies": {
     "better-sqlite3": "8",
