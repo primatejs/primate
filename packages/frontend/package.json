@@ -14,21 +14,21 @@
     "url": "https://github.com/primatejs/primate",
     "directory": "packages/frontend"
   },
+  "dependencies": {
+    "runtime-compat": "^0.32.3"
+  },
   "devDependencies": {
     "@babel/core": "^7.23.2",
     "babel-preset-solid": "^1.8.4",
     "esbuild": "^0.19.5",
     "handlebars": "^4.7.8",
     "htmx.org": "^1.9.6",
-    "marked": "^9.1.3",
+    "marked": "^9.1.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "solid-js": "^1.8.4",
+    "solid-js": "^1.8.5",
     "svelte": "^4.2.2",
     "vue": "^3.3.7"
-  },
-  "dependencies": {
-    "runtime-compat": "^0.32.3"
   },
   "peerDependencies": {
     "@babel/core": "7",
