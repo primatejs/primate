@@ -50,7 +50,7 @@ export default class Connection {
   }
 
   #query(...args) {
-    return this.connection.query(...args);
+    return this.connection.query_raw(...args);
   }
 
   async find(name, criteria = {}) {

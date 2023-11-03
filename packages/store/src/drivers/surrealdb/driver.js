@@ -18,24 +18,24 @@ export default ({
   host = defaults.host,
   port = defaults.port,
   path = defaults.path,
-  ns,
-  db,
-  user,
-  pass,
+  namespace,
+  database,
+  username,
+  password,
 } = {}) => async _ => {
   const [{ Surreal }] = await depend(on, `store:${name}`);
   const client = new Surreal();
 
   const address = `${host}:${port}/${path}`;
-  const auth = user !== undefined && pass !== undefined ?
+  const auth = username !== undefined && password !== undefined ?
     {
-      NS: ns,
-      DB: db,
-      user,
-      pass,
+      NS: namespace,
+      DB: database,
+      username,
+      password,
     }
     : {};
-  await client.connect(address, { ns, db, auth });
+  await client.connect(address, { namespace, database, auth });
 
   const types = {
     primary: {
