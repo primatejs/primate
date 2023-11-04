@@ -69,7 +69,7 @@ Your rendered Svelte route will be accessible at http://localhost:6161/svelte.
 
 Default `config.location.components`
 
-Directory where the React Svelte components reside.
+Directory where the Svelte components reside.
 
 ### extension
 
