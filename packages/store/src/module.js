@@ -1,5 +1,5 @@
 import crypto from "runtime-compat/crypto";
-import { bold } from "runtime-compat/colors";
+import { dim } from "runtime-compat/colors";
 import { extend, inflate, transform } from "runtime-compat/object";
 import { memory } from "./drivers/exports.js";
 import errors from "./errors.js";
@@ -54,6 +54,7 @@ export default ({
         return next(app);
       }
 
+      const loaded = [];
       const stores = await Promise.all((await root.collect(/^.*.js$/u))
         // accept only uppercase-first files in store filename
         .filter(path => /^[A-Z]/u.test(path.name))
@@ -75,7 +76,7 @@ export default ({
 
           const pathed = store.replaceAll("/", ".");
 
-          app.log.info(`loading ${bold(pathed)}`, { module });
+          loaded.push(pathed);
 
           const { default: _, ...rest } = exports;
 
@@ -86,6 +87,8 @@ export default ({
           }];
         }),
       );
+
+      app.log.info(`loading ${loaded.map(l => dim(l)).join(" ")}`, { module });
 
       if (Object.keys(stores).length === 0) {
         EmptyStoreDirectory.warn(app.log, root);

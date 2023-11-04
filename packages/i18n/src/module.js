@@ -1,4 +1,4 @@
-import { bold } from "runtime-compat/colors";
+import { dim } from "runtime-compat/colors";
 import { from } from "runtime-compat/object";
 import { Response, Status } from "runtime-compat/http";
 import errors from "./errors.js";
@@ -51,16 +51,19 @@ export default ({
           MissingLocaleDirectory.warn(app.log, root);
         });
 
+        const loaded = [];
         const locales = from(await Promise.all((await root.collect(/^.*.json$/u))
           .map(async path => {
             const depathed = `${path}`.replace(`${root}/`, () => "")
               .slice(0, ending);
-            app.log.info(`loading ${bold(depathed)}`, { module });
+            loaded.push(depathed);
             return [
               `${path}`.replace(`${root}/`, () => "").slice(0, ending),
               await path.file.json(),
             ];
           })));
+
+        app.log.info(`loading ${loaded.map(l => dim(l)).join(" ")}`, { module });
 
         disable(Object.keys(locales).length === 0, () => {
           EmptyLocaleDirectory.warn(app.log, root);
