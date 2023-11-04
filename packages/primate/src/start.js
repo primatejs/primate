@@ -1,15 +1,24 @@
 import { serve, Response, Status } from "runtime-compat/http";
 import { cascade, tryreturn } from "runtime-compat/async";
+import { bold, blue, gray } from "runtime-compat/colors";
 import * as hooks from "./hooks/exports.js";
+import { print } from "./Logger.js";
 
-export default async (app$, deactivated = []) => {
+const base_hooks = ["init", "register", "compile", "publish", "bundle"];
+
+export default async (app$, mode = "development") => {
+  app$.mode = mode;
   // run one-time hooks
   let app = app$;
-  for (const hook of ["init", "register", "compile", "publish", "bundle"]) {
-    if (deactivated.includes(hook)) {
-      continue;
-    }
-    app.log.info(`running ${hook} hooks`, { module: "primate" });
+
+  const { http } = app.config;
+  const address = `http${app.secure ? "s" : ""}://${http.host}:${http.port}`;
+  print(blue(bold(app.name)), blue(app.version), `at ${address}\n`);
+
+  app.log.info(`in ${bold(mode)} mode`, { module: "primate" });
+
+  for (const hook of base_hooks) {
+    app.log.info(`running ${bold(hook)} hooks`, { module: "primate" });
     app = await hooks[hook](app);
   }
 

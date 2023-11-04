@@ -1,6 +1,12 @@
 import { Path } from "runtime-compat/fs";
 import esbuild from "esbuild";
 
+const default_options = {
+  entryNames: "app-[hash]",
+  bundle: true,
+  format: "esm",
+};
+
 export default ({
   ignores = [],
   options = {},
@@ -8,6 +14,7 @@ export default ({
   name: "primate:esbuild",
   async bundle(app, next) {
     const { config: { location, http } } = app;
+    const production = app.mode === "production";
 
     if (app.exports.length > 0) {
       while (app.assets.length > 0) {
@@ -15,19 +22,18 @@ export default ({
       }
       const client = app.runpath(location.client);
       await client.join(app.library).file.remove();
-      const dist = app.exports.map(({ code }) => code).join("");
+      const directory = `${client}`;
+      const contents = app.exports.map(({ code }) => code).join("");
       // remove .js and .css files from static
       await esbuild.build({
+        ...default_options,
         stdin: {
-          contents: dist,
-          resolveDir: `${client}`,
+          contents,
+          resolveDir: directory,
         },
-        entryNames: "app-[hash]",
-        bundle: true,
-        splitting: true,
-        minify: true,
-        format: "esm",
-        outdir: `${client}`,
+        splitting: production,
+        minify: production,
+        outdir: directory,
         logLevel: app.debug ? "warning" : "error",
         external: ignores.map(ignore => `*.${ignore}`),
         ...options,

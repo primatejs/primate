@@ -1,3 +1,3 @@
 import start from "../start.js";
 
-export default app => start(app);
+export default app => start(app, "production");

@@ -1,14 +1,12 @@
 import crypto from "runtime-compat/crypto";
 import { tryreturn } from "runtime-compat/async";
 import { File, Path } from "runtime-compat/fs";
-import { bold, blue } from "runtime-compat/colors";
 import { is } from "runtime-compat/invariant";
 import { transform, valmap } from "runtime-compat/object";
 import { globify } from "runtime-compat/string";
 import * as runtime from "runtime-compat/meta";
 
 import errors from "./errors.js";
-import { print } from "./Logger.js";
 import dispatch from "./dispatch.js";
 import to_sorted from "./to_sorted.js";
 import * as handlers from "./handlers/exports.js";
@@ -53,9 +51,6 @@ export default async (log, root, config) => {
   const { http } = config;
   const secure = http?.ssl !== undefined;
   const path = valmap(config.location, value => root.join(value));
-
-  const at = `at http${secure ? "s" : ""}://${http.host}:${http.port}\n`;
-  print(blue(bold(name)), blue(version), at);
 
   // if ssl activated, resolve key and cert early
   if (secure) {
