@@ -1,0 +1,22 @@
+{
+  "name": "@primate/bindings",
+  "version": "0.1.0",
+  "description": "Primate bindings module",
+  "homepage": "https://primatejs.com/modules/bindings",
+  "bugs": "https://github.com/primatejs/primate/issues",
+  "license": "MIT",
+  "files": [
+    "src/**/*.js",
+    "!src/**/*.spec.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/primatejs/primate",
+    "directory": "packages/bindings"
+  },
+  "dependencies": {
+    "rcompat": "^0.2.0"
+  },
+  "type": "module",
+  "exports": "./src/exports.js"
+}
