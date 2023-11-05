@@ -22,7 +22,7 @@ const get_page = async (env, config, pathname) => {
   const { location } = env.config;
   const base = env.runpath(location.server, config.root);
   const html = await base.join(`${pathname}.md.html`);
-  if (!await html.exists()) {
+  if (!await html.exists) {
     return undefined;
   }
   const toc = await base.join(`${pathname}.md.json`);
@@ -53,7 +53,7 @@ const get_page = async (env, config, pathname) => {
 const handle_blog = async (env, config, pathname) => {
   if (pathname.startsWith("/blog")) {
     const directory = env.root.join(config.root, "blog");
-    if (await directory.exists()) {
+    if (await directory.exists) {
       if (pathname === "/blog") {
         const posts = await Promise.all((await directory.collect(/^.*json$/u))
           .map(async path => ({ ...await path.json(), link: path.base })));
