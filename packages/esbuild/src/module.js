@@ -75,7 +75,7 @@ export default ({ ignores = [], options = {} } = {}) => {
         return new Response(body, {
           status: Status.OK,
           headers: {
-            "Content-Type": "text/event-stream",
+            "Content-Type": MediaType.TEXT_EVENT_STREAM,
           },
         });
       }
