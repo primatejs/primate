@@ -24,9 +24,6 @@ subscribers accept different types of parameters, depending on the hook.
 ├─ # copy all files from `components` to `build/components`
 ├─ # copy .js files from `components` to `build/server`
 │
-├─ `compile`
-│   └─ # modules compile server-side files into JavaScript
-│
 ├─ `publish`
 │   └─ # modules publish client-side code and announce entry points
 │
@@ -170,20 +167,6 @@ Assuming a clock component which takes a time value and shows a clock has been
 defined in `components/clock.mustache`, a client requesting
 `GET /clock?time=11:45am` will have the `view` handler show a mustache
 component rendered into HTML.
-
-## compile
-
-***Executed** once
-
-**Precondition** none
-
-This hook allows modules to compile server-side components into JavaScript. It
-is particularly useful for [frontend frameworks] which use their own
-domain-specific languages (React/Solid's `jsx`, Vue's `vue` (SFC), Svelte's 
-`svelte` etc.) to be served through server-side rendering.
-
-This hook accepts the app as its first and the next subscriber as its second
-parameter.
 
 ## publish
 

@@ -155,8 +155,8 @@ compatibility layer
 
 ### Extensible
 
-* Different hooks available (`load`, `init`, `register`, `compile`, `publish`,
-`bundle`, `serve`, `handle`, `route`)
+* Different hooks available (`load`, `init`, `register`, `publish`, `bundle`,
+`serve`, `handle`, `route`)
 * Officially supported modules that are updated alongside Primate itself
 
 ## Resources
