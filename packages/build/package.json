@@ -1,8 +1,8 @@
 {
-  "name": "@primate/esbuild",
-  "version": "0.13.1",
-  "description": "Primate esbuild module",
-  "homepage": "https://primatejs.com/modules/esbuild",
+  "name": "@primate/build",
+  "version": "0.1.0",
+  "description": "Primate build module",
+  "homepage": "https://primatejs.com/modules/build",
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
   "files": [
@@ -12,14 +12,22 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/primatejs/primate",
-    "directory": "packages/esbuild"
+    "directory": "packages/build"
   },
   "dependencies": {
-    "esbuild": "^0.19.5",
     "rcompat": "^0.2.0"
   },
+  "devDependencies" :{
+    "esbuild": "^0.19.5"
+  },
   "peerDependencies": {
+    "esbuild": "0.19",
     "primate": "0.25"
+  },
+  "peerDependenciesMeta": {
+    "esbuild": {
+      "optional": true
+    }
   },
   "type": "module",
   "exports": "./src/exports.js"

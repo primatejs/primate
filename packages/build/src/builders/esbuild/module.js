@@ -1,14 +1,18 @@
 import { Path, watch } from "rcompat/fs";
 import { Response, MediaType, Status } from "rcompat/http";
+import { filter } from "rcompat/object";
 import { ReadableStream } from "rcompat/streams";
-import esbuild from "esbuild";
+import { peers } from "../common/exports.js";
+import depend from "../depend.js";
 
+const name = "esbuild";
 const default_options = {
   entryNames: "app-[hash]",
   bundle: true,
   format: "esm",
 };
 const watch_options = { recursive: true };
+const dependencies = ["esbuild"];
 
 const publish = async (app, client) => {
   const { config: { location, http } } = app;
@@ -33,7 +37,7 @@ const publish = async (app, client) => {
   }
 };
 
-const message = new TextEncoder().encode("data: hello\n\n");
+const message = new TextEncoder().encode("data: update\n\n");
 const clients = [];
 const inform = () => {
   clients.forEach(client => {
@@ -50,11 +54,15 @@ const code = `
 `;
 
 export default ({ ignores = [], options = {} } = {}) => {
+  const on = filter(peers, ([key]) => dependencies.includes(key));
   const mode = {};
+  let esbuild;
 
   return {
-    name: "primate:esbuild",
+    name: "primate:build",
     async init(app, next) {
+      await depend(on, `build:${name}`);
+      esbuild = await import("esbuild");
       mode.development = app.mode === "development";
       mode.production = app.mode === "production";
 

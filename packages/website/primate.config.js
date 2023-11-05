@@ -49,7 +49,7 @@ export default {
             const caption = [...infostring
               .matchAll(/caption=(?<caption>.*)/ug)][0]?.groups.caption;
             const top = caption ? `<div class="caption">${caption}</div>` : "";
-            const {value} = hljs.highlight(code, {language});
+            const { value } = hljs.highlight(code, { language });
             return `${top}<pre><code>${value}</code></pre>`;
           },
           heading(text, level) {
@@ -138,7 +138,7 @@ export default {
             "Session",
             "I18N",
             "WebSocket",
-            "esbuild",
+            "Build",
           ],
         },
         github: "primatejs/primate",
