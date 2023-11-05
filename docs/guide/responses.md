@@ -69,7 +69,7 @@ Instances of `ReadableStream` or `Blob` are streamed to the client with the
 content type `application/octet-stream`.
 
 ```js caption=routes/stream.js
-import { File } from "runtime-compat/fs";
+import { File } from "rcompat/fs";
 
 export default {
   get() {
@@ -82,8 +82,8 @@ This route function handles GET requests to the path `/stream` by streaming
 them the contents of the file at `/tmp/users.json`.
 
 !!!
-We used here the `File` class from the `runtime-compat/fs` module, which
-subclasses `Blob`.
+We used here the `File` class from the `rcompat/fs` module, which subclasses 
+`Blob`.
 !!!
 
 This handler can be also used explicitly with the `stream` import.

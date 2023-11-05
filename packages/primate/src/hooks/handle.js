@@ -1,5 +1,5 @@
-import { Response, Status, MediaType } from "runtime-compat/http";
-import { cascade, tryreturn } from "runtime-compat/async";
+import { Response, Status, MediaType } from "rcompat/http";
+import { cascade, tryreturn } from "rcompat/async";
 import { respond } from "./respond/exports.js";
 import { invalid } from "./route.js";
 import { error as clientError } from "../handlers/exports.js";
@@ -67,7 +67,7 @@ export default app => {
     status: Status.OK,
     headers: {
       "Content-Type": MediaType.resolve(file.name),
-      Etag: await file.modified,
+      Etag: await file.modified(),
     },
   });
 

@@ -1,4 +1,4 @@
-import { stringify } from "runtime-compat/object";
+import { stringify } from "rcompat/object";
 import dependencies from "../dependencies.js";
 
 export default async (root, config) => {

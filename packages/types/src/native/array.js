@@ -1,4 +1,4 @@
-import { is, maybe } from "runtime-compat/invariant";
+import { is, maybe } from "rcompat/invariant";
 
 const base = "array";
 

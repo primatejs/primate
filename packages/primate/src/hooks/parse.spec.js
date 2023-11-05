@@ -1,4 +1,4 @@
-import { MediaType } from "runtime-compat/http";
+import { MediaType } from "rcompat/http";
 import parse from "./parse.js";
 import { mark } from "../Logger.js";
 import dispatch from "../dispatch.js";

@@ -1,6 +1,6 @@
-import { Response, Status, MediaType } from "runtime-compat/http";
-import { cascade, map } from "runtime-compat/async";
-import { valmap, filter } from "runtime-compat/object";
+import { Response, Status, MediaType } from "rcompat/http";
+import { cascade, map } from "rcompat/async";
+import { valmap, filter } from "rcompat/object";
 import register from "./register.js";
 
 const noop = _ => ({});

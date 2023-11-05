@@ -1,4 +1,4 @@
-import { keymap, valmap } from "runtime-compat/object";
+import { keymap, valmap } from "rcompat/object";
 import typemap from "./typemap.js";
 
 const null_to_undefined = delta =>

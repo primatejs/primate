@@ -1,10 +1,10 @@
-import { serve, Response, Status } from "runtime-compat/http";
-import { cascade, tryreturn } from "runtime-compat/async";
-import { bold, blue, gray } from "runtime-compat/colors";
+import { serve, Response, Status } from "rcompat/http";
+import { cascade, tryreturn } from "rcompat/async";
+import { bold, blue } from "rcompat/colors";
 import * as hooks from "./hooks/exports.js";
 import { print } from "./Logger.js";
 
-const base_hooks = ["init", "register", "compile", "publish", "bundle"];
+const base_hooks = ["init", "register", "publish", "bundle"];
 
 export default async (app$, mode = "development") => {
   app$.mode = mode;

@@ -1,10 +1,10 @@
-import crypto from "runtime-compat/crypto";
-import { tryreturn } from "runtime-compat/async";
-import { File, Path } from "runtime-compat/fs";
-import { is } from "runtime-compat/invariant";
-import { transform, valmap } from "runtime-compat/object";
-import { globify } from "runtime-compat/string";
-import * as runtime from "runtime-compat/meta";
+import crypto from "rcompat/crypto";
+import { tryreturn } from "rcompat/async";
+import { File, Path } from "rcompat/fs";
+import { is } from "rcompat/invariant";
+import { transform, valmap } from "rcompat/object";
+import { globify } from "rcompat/string";
+import * as runtime from "rcompat/meta";
 
 import errors from "./errors.js";
 import dispatch from "./dispatch.js";
@@ -74,9 +74,10 @@ export default async (log, root, config) => {
     root,
     log,
     error: {
-      default: await error.exists ? (await import(error)).default : undefined,
+      default: await error.exists() ? (await import(error)).default : undefined,
     },
     handlers: { ...handlers },
+    extensions: {},
     types,
     routes,
     layout: {
@@ -106,6 +107,27 @@ export default async (log, root, config) => {
           await path.file.copy(to);
         }
       }));
+    },
+    async compile(component) {
+      const { location: { server, client, components } } = this.config;
+
+      const source = this.path.components;
+      const compile = this.extensions[component.extension]?.compile;
+      if (compile === undefined) {
+        const debased = `${component.path}`.replace(source, "");
+
+        const server_target = this.runpath(server, components);
+        await component.file.copy(server_target.join(debased));
+
+        const client_target = this.runpath(client, components);
+        await component.file.copy(client_target.join(debased));
+      } else {
+        // compile server components
+        await compile.server(component);
+
+        // compile client components
+        await compile.client(component);
+      }
     },
     headers({ script = "", style = "" } = {}) {
       const csp = Object.keys(http.csp).reduce((policy, key) =>
@@ -165,9 +187,10 @@ export default async (log, root, config) => {
     export({ type, code }) {
       this.exports.push({ type, code });
     },
-    register(extension, handler) {
+    register(extension, operations) {
       is(this.handlers[extension]).undefined(DoubleFileExtension.new(extension));
-      this.handlers[extension] = handler;
+      this.handlers[extension] = operations.handle;
+      this.extensions[extension] = operations;
     },
     async hash(data, algorithm = "sha-384") {
       const bytes = await crypto.subtle.digest(algorithm, encoder.encode(data));

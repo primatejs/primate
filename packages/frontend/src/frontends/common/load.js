@@ -1,5 +1,5 @@
-import { tryreturn } from "runtime-compat/async";
-import { Path } from "runtime-compat/fs";
+import { tryreturn } from "rcompat/async";
+import { Path } from "rcompat/fs";
 import errors from "./errors.js";
 
 const MODULE_NOT_FOUND = "ERR_MODULE_NOT_FOUND";

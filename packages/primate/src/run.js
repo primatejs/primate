@@ -1,6 +1,6 @@
-import { tryreturn } from "runtime-compat/async";
-import { Path } from "runtime-compat/fs";
-import { extend } from "runtime-compat/object";
+import { tryreturn } from "rcompat/async";
+import { Path } from "rcompat/fs";
+import { extend } from "rcompat/object";
 import app from "./app.js";
 import { default as Logger, bye } from "./Logger.js";
 import errors from "./errors.js";
@@ -13,7 +13,7 @@ const { runtime = "node" } = import.meta;
 const get_config = async root => {
   const name = "primate.config.js";
   const config = root.join(name);
-  return await config.exists
+  return await config.exists()
     ? tryreturn(async _ => {
       const imported = (await import(config)).default;
 

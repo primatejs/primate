@@ -1,6 +1,6 @@
-import { tryreturn } from "runtime-compat/async";
-import { to } from "runtime-compat/object";
-import { packager } from "runtime-compat/meta";
+import { tryreturn } from "rcompat/async";
+import { to } from "rcompat/object";
+import { packager } from "rcompat/meta";
 import errors from "../errors.js";
 
 const { MissingDependencies } = errors;

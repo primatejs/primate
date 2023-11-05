@@ -1,6 +1,6 @@
-import crypto from "runtime-compat/crypto";
-import { dim } from "runtime-compat/colors";
-import { extend, inflate, transform } from "runtime-compat/object";
+import crypto from "rcompat/crypto";
+import { dim } from "rcompat/colors";
+import { extend, inflate, transform } from "rcompat/object";
 import { memory } from "./drivers/exports.js";
 import errors from "./errors.js";
 import primary from "./primary.js";
@@ -49,7 +49,7 @@ export default ({
     name: "primate:store",
     async init(app, next) {
       const root = app.root.join(directory);
-      if (!await root.exists) {
+      if (!await root.exists()) {
         MissingStoreDirectory.warn(app.log, root);
         return next(app);
       }

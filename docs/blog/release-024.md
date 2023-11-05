@@ -21,11 +21,11 @@ However, the real promise of Bun lies in its fast HTTP library implementation,
 `Bun.serve`. Bun's NPM compatibility is great, but to get real speed gains over
 Node, we have to use its native standard library.
 
-As it turns out, Primate already uses a standard library of its own,
-`runtime-compat`. As Primate is not the only project using it, we decided to
-implement native Bun support into it and thus have Primate and other projects
-benefit from it. This release uses the latest release of `runtime-compat`,
-which uses Bun natively wherever possible and falls back to Node/NPM otherwise.
+As it turns out, Primate already uses a standard library of its own, `rcompat`.
+As Primate is not the only project using it, we decided to implement native Bun
+support into it and thus have Primate and other projects benefit from it. This
+release uses the latest release of `rcompat`, which uses Bun natively wherever
+possible and falls back to Node/NPM otherwise.
 
 In addition to the core package, we have also patched `@primate/store` to use
 Bun's native `bun:sqlite` module.

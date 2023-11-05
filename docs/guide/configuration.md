@@ -10,7 +10,7 @@ If Primate doesn't find a `primate.config.js` in your project root directory
 a default object, Primate will fall back to its default configuration file.
 
 ```js caption=default configuration
-import { identity } from "runtime-compat/function";
+import { identity } from "rcompat/function";
 import { Logger } from "primate";
 
 export default {
@@ -89,7 +89,7 @@ Primate will merge your custom configuration with its default, resulting in
 effectively the following configuration.
 
 ```js caption=merged configuration
-import { identity } from "runtime-compat/function";
+import { identity } from "rcompat/function";
 import { Logger } from "primate";
 
 export default {
@@ -258,7 +258,7 @@ If specified as a relative path, will be relative to project root.
 
 !!!
 Primate does not load the key or certificate into memory. It only resolves
-their paths as necessary and passes them to the [runtime][runtime].
+their paths as necessary and passes them to the [rcompat][runtime].
 !!!
 
 ### Location options
@@ -400,4 +400,4 @@ handler generates.
 [hooks-load]: /guide/hooks#load
 [default-app-html]: https://github.com/primatejs/primate/blob/master/packages/primate/src/defaults/app.html
 [default-error-html]: https://github.com/primatejs/primate/blob/master/packages/primate/src/defaults/error.html
-[runtime]: https://github.com/flogjs/std/blob/master/runtime-compat/http/src/serve.js
+[rcompat]: https://github.com/rcompat/rcompat

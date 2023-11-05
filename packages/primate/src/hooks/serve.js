@@ -1,4 +1,4 @@
-import { cascade } from "runtime-compat/async";
+import { cascade } from "rcompat/async";
 
 export default async (app, server) => {
   app.log.info("running serve hooks", { module: "primate" });

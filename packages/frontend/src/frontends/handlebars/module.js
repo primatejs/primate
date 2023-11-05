@@ -1,5 +1,5 @@
-import { Response, Status } from "runtime-compat/http";
-import { filter } from "runtime-compat/object";
+import { Response, Status } from "rcompat/http";
+import { filter } from "rcompat/object";
 import { compile, peers, load } from "../common/exports.js";
 import depend from "../depend.js";
 
@@ -18,10 +18,7 @@ const dependencies = ["handlebars"];
 const default_extension = "hbs";
 const on = filter(peers, ([key]) => dependencies.includes(key));
 
-export default ({
-  directory,
-  extension = default_extension,
-} = {}) => {
+export default ({ extension = default_extension } = {}) => {
   const rootname = name;
   let imports = {};
 
@@ -34,23 +31,24 @@ export default ({
 
       return next(app);
     },
-    register(app, next) {
+    async register(app, next) {
       const { config } = app;
 
-      app.register(extension, handler({
-        directory: directory ?? config.location.components,
-        render: imports.render,
-      }));
-
-      return next(app);
-    },
-    async compile(app, next) {
-      await compile({
-        app,
-        directory: directory ?? app.config.location.components,
-        extension,
-        rootname,
-        compile: imports.compile.server,
+      app.register(extension, {
+        handle: handler({
+          directory: config.location.components,
+          render: imports.render,
+        }),
+        compile: {
+          ...await compile({
+            app,
+            extension,
+            rootname,
+            compile: imports.compile,
+          }),
+          // no support for hydration
+          client: _ => _,
+        },
       });
 
       return next(app);

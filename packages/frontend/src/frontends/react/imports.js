@@ -1,5 +1,5 @@
-import { Path } from "runtime-compat/fs";
-import { valmap } from "runtime-compat/object";
+import { Path } from "rcompat/fs";
+import { valmap } from "rcompat/object";
 
 import { renderToString } from "react-dom/server";
 import { createElement } from "react";

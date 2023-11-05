@@ -149,8 +149,8 @@ variety of officially supported modules that extend it.
 
 ### Minimal
 
-* No dependencies aside from [`runtime-compat`][runtime-compat], a
-cross-runtime compatibility layer
+* No dependencies aside from [`rcompat`][rcompat], a cross-runtime
+compatibility layer
 * Under 1K lines of JavaScript code (Express > 1.8K, Fastify > 5.3K)
 
 ### Extensible
@@ -185,4 +185,4 @@ bug or have a feature request.
 [issues]: https://github.com/primatejs/primate/issues
 [primate-app]: https://github.com/primatejs/app
 [chat]: https://web.libera.chat#primate
-[runtime-compat]: https://github.com/flogjs/std/tree/master/runtime-compat
+[rcompat]: https://github.com/rcompat/rcompat

@@ -1,5 +1,5 @@
-import { blue } from "runtime-compat/colors";
-import { Path } from "runtime-compat/fs";
+import { blue } from "rcompat/colors";
+import { Path } from "rcompat/fs";
 import { intro, outro } from "@clack/prompts";
 
 import run from "../run.js";

@@ -1,4 +1,4 @@
-import { Path } from "runtime-compat/fs";
+import { Path } from "rcompat/fs";
 
 export default async (app, type, post = () => undefined) => {
   const { config } = app;
@@ -13,7 +13,7 @@ export default async (app, type, post = () => undefined) => {
       .filter(include => /^[^/]*$/u.test(include))
       .map(async include => {
         const path = app.root.join(include);
-        if (await path.exists) {
+        if (await path.exists()) {
           const to = Path.join(type, include);
           await app.stage(path, to);
           await post(to);

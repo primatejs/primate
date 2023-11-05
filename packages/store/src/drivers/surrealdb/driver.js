@@ -1,4 +1,4 @@
-import { filter } from "runtime-compat/object";
+import { filter } from "rcompat/object";
 import ident from "../ident.js";
 import { peers } from "../common/exports.js";
 import depend from "../../depend.js";

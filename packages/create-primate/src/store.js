@@ -1,8 +1,8 @@
+import { map, to } from "rcompat/object";
 import { select, confirm } from "./prompts.js";
 import * as drivers from "./drivers/exports.js";
 import link from "./link.js";
 import dependencies from "./dependencies.js";
-import { map, to } from "runtime-compat/object";
 
 const labels = map({
   memory: "In Memory",

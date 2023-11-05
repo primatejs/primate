@@ -1,5 +1,5 @@
 import { WebSocketServer } from "ws";
-import { URL, Request } from "runtime-compat/http";
+import { URL, Request } from "rcompat/http";
 import errors from "./errors.js";
 
 export default () => {

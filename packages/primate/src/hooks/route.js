@@ -1,5 +1,5 @@
-import { from } from "runtime-compat/object";
-import { tryreturn } from "runtime-compat/sync";
+import { from } from "rcompat/object";
+import { tryreturn } from "rcompat/sync";
 import errors from "../errors.js";
 import validate from "../validate.js";
 

@@ -1,6 +1,6 @@
-import { dim } from "runtime-compat/colors";
-import { from } from "runtime-compat/object";
-import { Response, Status } from "runtime-compat/http";
+import { dim } from "rcompat/colors";
+import { from } from "rcompat/object";
+import { Response, Status } from "rcompat/http";
 import errors from "./errors.js";
 
 const ending = -5;
@@ -47,7 +47,7 @@ export default ({
       const root = app.root.join(directory);
 
       try {
-        disable(!await root.exists, () => {
+        disable(!await root.exists(), () => {
           MissingLocaleDirectory.warn(app.log, root);
         });
 

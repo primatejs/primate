@@ -1,5 +1,5 @@
-import { Path } from "runtime-compat/fs";
-import { is } from "runtime-compat/invariant";
+import { Path } from "rcompat/fs";
+import { is } from "rcompat/invariant";
 import wrap from "../../wrap.js";
 import Facade from "../memory/Facade.js";
 import types from "../memory/types.js";
@@ -9,7 +9,7 @@ export default ({ filename }) => async () => {
 
   const { file } = new Path(filename);
   const database = {
-    collections: await file.exists ? await file.json() : {},
+    collections: await file.exists() ? await file.json() : {},
   };
 
   const connection = {

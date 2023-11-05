@@ -1,6 +1,6 @@
-import { maybe } from "runtime-compat/invariant";
-import { tryreturn } from "runtime-compat/sync";
-import * as object from "runtime-compat/object";
+import { maybe } from "rcompat/invariant";
+import { tryreturn } from "rcompat/sync";
+import * as object from "rcompat/object";
 import errors from "./errors.js";
 import bases from "./bases.js";
 import validate from "./validate.js";

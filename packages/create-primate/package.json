@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@clack/prompts": "^0.7.0",
-    "runtime-compat": "^0.32.3"
+    "rcompat": "^0.1.2"
   },
   "type": "module",
   "devDependencies": {
@@ -31,7 +31,7 @@
     "better-sqlite3": "^9.0.0",
     "esbuild": "^0.19.5",
     "handlebars": "^4.7.8",
-    "htmx.org": "^1.9.6",
+    "htmx.org": "^1.9.7",
     "marked": "^9.1.5",
     "mongodb": "^6.2.0",
     "postgres": "^3.4.3",

@@ -1,8 +1,8 @@
-import { assert, is } from "runtime-compat/invariant";
-import { blue, bold, green, red, yellow, dim } from "runtime-compat/colors";
-import { map } from "runtime-compat/object";
-import console from "runtime-compat/console";
-import { stdout } from "runtime-compat/stdio";
+import { assert, is } from "rcompat/invariant";
+import { blue, bold, green, red, yellow, dim } from "rcompat/colors";
+import { map } from "rcompat/object";
+import console from "rcompat/console";
+import { stdout } from "rcompat/stdio";
 
 const levels = {
   Error: 0,

@@ -1,5 +1,5 @@
-import { Path } from "runtime-compat/fs";
-import { identity } from "runtime-compat/function";
+import { Path } from "rcompat/fs";
+import { identity } from "rcompat/function";
 import errors from "../errors.js";
 
 const ending = ".js";

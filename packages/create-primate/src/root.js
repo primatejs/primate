@@ -1,8 +1,8 @@
-import { Path } from "runtime-compat/fs";
+import { Path } from "rcompat/fs";
 import * as prompts from "./prompts.js";
 
 const confirm = async root => {
-  if (!await root.exists) {
+  if (!await root.exists()) {
     await root.file.create();
   }
   if ((await root.list()).length > 0) {

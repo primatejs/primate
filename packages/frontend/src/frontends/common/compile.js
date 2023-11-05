@@ -1,39 +1,92 @@
+import { Path } from "rcompat/fs";
+const type = "module";
+
+const create = {
+  // compile server root
+  async server_root(app, rootname, create_root, compile) {
+    const { location } = app.config;
+    // vue does not yet support layouting
+    if (create_root !== undefined) {
+      const filename = `${rootname}.js`;
+      const root = await compile.server(create_root(app.layout.depth));
+      const to = app.runpath(location.server, filename);
+      await to.file.write(root);
+    }
+  },
+  async client_root(app, rootname, create_root, compile, extensions) {
+    // vue does not yet support layouting
+    if (create_root !== undefined) {
+      const root = create_root(app.layout.depth);
+      const filename = `${rootname}.js`;
+      // root has no css
+      const { js } = await compile.client(root);
+      const code = js.replaceAll(extensions.from, extensions.to);
+      const src = new Path(app.config.http.static.root, filename);
+      await app.publish({ src, code, type });
+      {
+        const code = `export {default as ${rootname}} from "./${filename}";\n`;
+        app.export({ type: "script", code });
+      }
+    }
+  },
+};
+
 export default async ({
   app,
-  directory,
   extension,
   rootname,
   create_root,
   compile,
+  normalize,
 }) => {
-  const { location } = app.config;
-  const filename = `${rootname}.js`;
-  const re = new RegExp(`^.*.(?:${extension})$`, "u");
   const extensions = {
     from: `.${extension}`,
     to: `.${extension}.js`,
   };
-  const source = app.runpath(directory);
+  await create.server_root(app, rootname, create_root, compile);
+  await create.client_root(app, rootname, create_root, compile, extensions);
 
-  // copy ${env.directory} to build/${env.directory}
-  await app.stage(app.root.join(directory), directory, re);
+  const { location } = app.config;
+  const source = app.path.components;
 
-  const components = await source.collect(re);
-  const target = app.runpath(location.server, location.components);
-  await target.file.create();
+  return {
+    async server(component) {
+      const target = app.runpath(location.server, location.components);
+      const file = await component.file.read();
+      const code = await compile.server(file);
+      const to = target.join(`${component.path}.js`.replace(source, ""));
+      await to.directory.file.create();
+      await to.file.write(code.replaceAll(extensions.from, extensions.to));
+    },
+    async client(component) {
+      const name = component.path.replace(`${source}/`, "");
+      const file = await component.file.read();
+      const build = app.config.location.components;
+      const { path } = component;
 
-  await Promise.all(components.map(async component => {
-    const file = await component.file.read();
-    const code = await compile(file);
-    const to = target.join(`${component.path}.js`.replace(source, ""));
-    await to.directory.file.create();
-    await to.file.write(code.replaceAll(extensions.from, extensions.to));
-  }));
+      const file_string = `./${build}/${name}`;
+      const { js, css } = await compile.client(file);
+      {
+        const code = js.replaceAll(extensions.from, extensions.to);
+        const src = `${path}.js`.replace(`${source}`, _ => build);
+        await app.publish({ src, code, type });
 
-  // vue does not yet support layouting
-  if (create_root !== undefined) {
-    const root = await compile(create_root(app.layout.depth));
-    const to = app.runpath(location.server, filename);
-    await to.file.write(root);
-  }
+        const imported = await normalize(name);
+        app.export({
+          type: "script",
+          code: `export {default as ${imported}} from "${file_string}.js";\n`,
+        });
+      }
+      if (css !== null && css !== undefined) {
+        const src = `${path}.css`.replace(`${source}`, _ => build);
+        await app.publish({ src, code: css, type: "style" });
+
+        // irrelevant without bundling
+        app.export({
+          type: "style",
+          code: `import "${file_string}.css"\n;`,
+        });
+      }
+    },
+  };
 };

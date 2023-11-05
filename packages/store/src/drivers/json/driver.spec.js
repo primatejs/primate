@@ -1,4 +1,4 @@
-import { Path } from "runtime-compat/fs";
+import { Path } from "rcompat/fs";
 import json from "./driver.js";
 import base from "../base.test.js";
 
@@ -9,7 +9,7 @@ const client = () => json({ filename: `${filename}` })();
 export default async test => {
   base(test, client, {
     after: async () => {
-      if (await filename.exists) {
+      if (await filename.exists()) {
         await filename.file.remove();
       }
     },

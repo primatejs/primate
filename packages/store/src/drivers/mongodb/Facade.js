@@ -1,4 +1,4 @@
-import { filter } from "runtime-compat/object";
+import { filter } from "rcompat/object";
 
 const toid = ({ _id, ...rest }) => ({ id: _id, ...rest });
 const to_id = ({ id, ...rest }) => id === undefined ? rest : { _id: id, ...rest };

@@ -1,4 +1,4 @@
-import { Status } from "runtime-compat/http";
+import { Status } from "rcompat/http";
 
 import respond from "./respond.js";
 

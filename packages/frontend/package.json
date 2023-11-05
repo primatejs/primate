@@ -15,14 +15,14 @@
     "directory": "packages/frontend"
   },
   "dependencies": {
-    "runtime-compat": "^0.32.3"
+    "rcompat": "^0.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.23.2",
     "babel-preset-solid": "^1.8.4",
     "esbuild": "^0.19.5",
     "handlebars": "^4.7.8",
-    "htmx.org": "^1.9.6",
+    "htmx.org": "^1.9.7",
     "marked": "^9.1.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

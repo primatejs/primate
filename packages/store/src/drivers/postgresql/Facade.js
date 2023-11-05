@@ -1,4 +1,4 @@
-import { filter, valmap } from "runtime-compat/object";
+import { filter, valmap } from "rcompat/object";
 import typemap from "./typemap.js";
 
 const filter_null = object => filter(object, ([, value]) => value !== null);

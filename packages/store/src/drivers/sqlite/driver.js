@@ -1,6 +1,6 @@
-import { numeric } from "runtime-compat/invariant";
-import { filter } from "runtime-compat/object";
-import { runtime } from "runtime-compat/meta";
+import { numeric } from "rcompat/invariant";
+import { filter } from "rcompat/object";
+import { runtime } from "rcompat/meta";
 import ident from "../ident.js";
 import { peers } from "../common/exports.js";
 import depend from "../../depend.js";

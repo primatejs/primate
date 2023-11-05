@@ -1,4 +1,4 @@
-import { Path } from "runtime-compat/fs";
+import { Path } from "rcompat/fs";
 import { renderToString } from "solid-js/web";
 import { transformAsync } from "@babel/core";
 import solid from "babel-preset-solid";

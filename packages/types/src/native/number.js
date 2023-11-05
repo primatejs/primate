@@ -1,4 +1,4 @@
-import { assert, numeric } from "runtime-compat/invariant";
+import { assert, numeric } from "rcompat/invariant";
 import { range } from "../predicates/exports.js";
 
 const coercibles = {

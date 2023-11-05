@@ -1,7 +1,7 @@
-import { URL, MediaType } from "runtime-compat/http";
-import { tryreturn } from "runtime-compat/sync";
-import { stringify } from "runtime-compat/streams";
-import { from, valmap } from "runtime-compat/object";
+import { URL, MediaType } from "rcompat/http";
+import { tryreturn } from "rcompat/sync";
+import { stringify } from "rcompat/streams";
+import { from, valmap } from "rcompat/object";
 import errors from "../errors.js";
 
 const { APPLICATION_FORM_URLENCODED, APPLICATION_JSON } = MediaType;

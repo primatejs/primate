@@ -1,4 +1,4 @@
-import { Response, Status, MediaType } from "runtime-compat/http";
+import { Response, Status, MediaType } from "rcompat/http";
 
 export default (body = "Not Found", { status = Status.NOT_FOUND, page } = {}) =>
   async app => new Response(await app.render({

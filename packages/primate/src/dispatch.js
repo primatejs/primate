@@ -1,7 +1,7 @@
-import { is, maybe } from "runtime-compat/invariant";
-import { tryreturn } from "runtime-compat/sync";
-import { map } from "runtime-compat/object";
-import { camelcased } from "runtime-compat/string";
+import { is, maybe } from "rcompat/invariant";
+import { tryreturn } from "rcompat/sync";
+import { map } from "rcompat/object";
+import { camelcased } from "rcompat/string";
 import errors from "./errors.js";
 import validate from "./validate.js";
 

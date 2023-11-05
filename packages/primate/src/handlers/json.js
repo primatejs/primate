@@ -1,4 +1,4 @@
-import { Response, Status, MediaType } from "runtime-compat/http";
+import { Response, Status, MediaType } from "rcompat/http";
 
 export default (body, { status = Status.OK } = {}) => app =>
   new Response(JSON.stringify(body), {

@@ -1,4 +1,4 @@
-import { Path } from "runtime-compat/fs";
+import { Path } from "rcompat/fs";
 import errors from "../../errors.js";
 import to_sorted from "../../to_sorted.js";
 

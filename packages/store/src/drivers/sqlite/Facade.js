@@ -1,6 +1,6 @@
-import { filter, keymap, valmap } from "runtime-compat/object";
+import { filter, keymap, valmap } from "rcompat/object";
 import typemap from "./typemap.js";
-import { runtime } from "runtime-compat/meta";
+import { runtime } from "rcompat/meta";
 
 const is_bun = runtime === "bun";
 

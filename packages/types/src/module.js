@@ -1,4 +1,4 @@
-import { extend } from "runtime-compat/object";
+import { extend } from "rcompat/object";
 import * as types from "./types.js";
 
 export default _ => {

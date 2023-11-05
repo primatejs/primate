@@ -1,4 +1,4 @@
-import { Response, Status, MediaType } from "runtime-compat/http";
+import { Response, Status, MediaType } from "rcompat/http";
 
 const script_re = /(?<=<script)>(?<code>.*?)(?=<\/script>)/gus;
 const style_re = /(?<=<style)>(?<code>.*?)(?=<\/style>)/gus;

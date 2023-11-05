@@ -1,5 +1,5 @@
-import crypto from "runtime-compat/crypto";
-import { is, every } from "runtime-compat/invariant";
+import crypto from "rcompat/crypto";
+import { is, every } from "rcompat/invariant";
 
 const cookie = (name, value, { path, secure, httpOnly, sameSite }) =>
   `${name}=${value};${httpOnly};Path=${path};${secure};SameSite=${sameSite}`;
@@ -9,14 +9,14 @@ const in_memory_session_manager = () => {
   const store = new Map();
   return id => ({
     id,
-    get exists() {
+    exists() {
       return store.has(this.id);
     },
     get() {
       return store.get(this.id) ?? {};
     },
     set(key, value) {
-      if (this.exists) {
+      if (this.exists()) {
         store.set(this.id, { ...this.get(), [key]: value });
       } else {
         throw new Error("cannot call set on an uninitialized session");
@@ -24,14 +24,14 @@ const in_memory_session_manager = () => {
     },
     async create(data = {}) {
       /* dynamic to prevent multiple calls to create */
-      if (!this.exists) {
+      if (!this.exists()) {
         this.id = crypto.randomUUID();
         store.set(this.id, data);
       }
     },
       /* dynamic to prevent multiple calls to destroy */
     destroy() {
-      if (this.exists) {
+      if (this.exists()) {
         store.delete(this.id);
       }
     },

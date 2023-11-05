@@ -1,8 +1,7 @@
-import { Path } from "runtime-compat/fs";
-import { filter } from "runtime-compat/object";
+import { Path } from "rcompat/fs";
+import { filter } from "rcompat/object";
 import handler from "./handler.js";
 import compile from "./compile.js";
-import publish from "./publish.js";
 import normalize from "./normalize.js";
 import peers from "./peers.js";
 import depend from "../depend.js";
@@ -17,10 +16,7 @@ export default async ({
   const imports_path = new Path("..", name, "imports.js");
   const on = filter(peers, ([key]) => dependencies.includes(key));
 
-  return ({
-    directory,
-    extension = default_extension,
-  } = {}) => {
+  return ({ extension = default_extension } = {}) => {
     let imports, exports;
 
     return {
@@ -34,39 +30,24 @@ export default async ({
         return next(app);
       },
       async register(app, next) {
-        app.register(extension, handler({
-          app,
-          rootname: exports.rootname,
-          render: imports.render,
-          client: exports.default,
-          normalize: normalized,
-        }));
-
-        return next(app);
-      },
-      async compile(app, next) {
-        await compile({
-          app,
-          directory: directory ?? app.config.location.components,
-          extension,
-          rootname: exports.rootname,
-          create_root: exports.create_root,
-          compile: imports.compile.server,
-        });
-
-        return next(app);
-      },
-      async publish(app, next) {
         await imports.prepare(app);
 
-        await publish({
-          app,
-          directory: directory ?? app.config.location.components,
-          extension,
-          rootname: exports.rootname,
-          create_root: exports.create_root,
-          normalize: normalized,
-          compile: imports.compile.client,
+        app.register(extension, {
+          handle: handler({
+            app,
+            rootname: exports.rootname,
+            render: imports.render,
+            client: exports.default,
+            normalize: normalized,
+          }),
+          compile: await compile({
+            app,
+            extension,
+            rootname: exports.rootname,
+            create_root: exports.create_root,
+            normalize: normalized,
+            compile: imports.compile,
+          }),
         });
 
         return next(app);

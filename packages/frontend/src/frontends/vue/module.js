@@ -1,5 +1,5 @@
-import { Response, Status, MediaType } from "runtime-compat/http";
-import { filter } from "runtime-compat/object";
+import { Response, Status, MediaType } from "rcompat/http";
+import { filter } from "rcompat/object";
 import { register, compile, peers } from "../common/exports.js";
 import depend from "../depend.js";
 
@@ -23,10 +23,7 @@ const handler = ({ make, createSSRApp, render }) =>
     });
     };
 
-export default ({
-  directory,
-  extension = default_extension,
-} = {}) => {
+export default ({ extension = default_extension } = {}) => {
   const on = filter(peers, ([key]) => dependencies.includes(key));
   const rootname = name;
   let imports = {};
@@ -40,23 +37,24 @@ export default ({
 
       return next(app);
     },
-    register(app, next) {
-      app.register(extension, handler(register({
-        app,
-        rootname,
-        createSSRApp: imports.createSSRApp,
-        render: imports.render,
-      })));
-
-      return next(app);
-    },
-    async compile(app, next) {
-      await compile({
-        app,
-        directory: directory ?? app.config.location.components,
-        extension,
-        rootname,
-        compile: imports.compile.server,
+    async register(app, next) {
+      app.register(extension, {
+        handle: handler(register({
+          app,
+          rootname,
+          createSSRApp: imports.createSSRApp,
+          render: imports.render,
+        })),
+        compile: {
+          ...await compile({
+            app,
+            extension,
+            rootname,
+            compile: imports.compile,
+          }),
+          // no support yet for hydration
+          client: _ => _,
+        },
       });
 
       return next(app);

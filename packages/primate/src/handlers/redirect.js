@@ -1,4 +1,4 @@
-import { Response, Status } from "runtime-compat/http";
+import { Response, Status } from "rcompat/http";
 
 export default (Location, { status = Status.FOUND } = {}) => app =>
   /* no body */

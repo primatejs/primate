@@ -1,4 +1,4 @@
-import crypto from "runtime-compat/crypto";
+import crypto from "rcompat/crypto";
 
 const encoder = new TextEncoder();
 const hash = async (string, algorithm = "sha-256") => {

@@ -1,5 +1,5 @@
-import crypto from "runtime-compat/crypto";
-import { filter } from "runtime-compat/object";
+import crypto from "rcompat/crypto";
+import { filter } from "rcompat/object";
 
 const remove_null = delta => filter(delta , ([, value]) => value !== null);
 const remove_by_null = (document, delta) =>
