@@ -9,8 +9,7 @@ const create = {
     if (create_root !== undefined) {
       const filename = `${rootname}.js`;
       const root = await compile.server(create_root(app.layout.depth));
-      const to = app.runpath(location.server, filename);
-      await to.write(root);
+      await app.runpath(location.server, filename).write(root);
     }
   },
   async client_root(app, rootname, create_root, compile, extensions) {
@@ -51,11 +50,11 @@ export default async ({
 
   return {
     async server(component) {
-      const target = app.runpath(location.server, location.components);
+      const target_base = app.runpath(location.server, location.components);
       const code = await compile.server(await component.text());
-      const to = target.join(`${component.path}.js`.replace(source, ""));
-      await to.directory.create();
-      await to.write(code.replaceAll(extensions.from, extensions.to));
+      const path = target_base.join(`${component.path}.js`.replace(source, ""));
+      await path.directory.create();
+      await path.write(code.replaceAll(extensions.from, extensions.to));
     },
     async client(component) {
       const name = component.path.replace(`${source}/`, "");

@@ -93,19 +93,16 @@ export default async (log, root, config) => {
       is(mapper).function();
 
       const regexs = paths.map(file => globify(file));
-      const target = this.runpath(directory);
+      const target_base = this.runpath(directory);
 
       await Promise.all((await source.collect(filter)).map(async path => {
         const debased = path.debase(this.root).path.slice(1);
         const filename = new Path(directory).join(path.debase(source));
-        const to = await target.join(filename.debase(directory));
-        await to.directory.create();
-        if (regexs.some(regex => regex.test(debased))) {
-          const contents = mapper(await path.text());
-          await to.write(contents);
-        } else {
-          await path.copy(to);
-        }
+        const target = await target_base.join(filename.debase(directory));
+        await target.directory.create();
+        await (regexs.some(regex => regex.test(debased))
+          ? target.write(mapper(await path.text()))
+          : path.copy(target));
       }));
     },
     async compile(component) {
@@ -220,8 +217,8 @@ export default async (log, root, config) => {
               ?? value.import?.replace(".", `./${module}`),
           ]));
       const dependency = Path.resolve().join(...path);
-      const to = new Path(this.runpath(client), this.library, ...parts);
-      await dependency.copy(to);
+      const target = new Path(this.runpath(client), this.library, ...parts);
+      await dependency.copy(target);
       this.importmaps = {
         ...valmap(exports, value => new Path(root, this.library, value).path),
         ...this.importmaps };

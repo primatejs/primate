@@ -23,8 +23,8 @@ const pre = async app => {
   if (await path.components.exists()) {
     // copy .js files from components to build/client/components, since
     // frontend frameworks handle non-js files
-    const to = Path.join(client, components);
-    await app.stage(path.components, to, /^.*.js$/u);
+    const target = Path.join(client, components);
+    await app.stage(path.components, target, /^.*.js$/u);
   }
 
   return app;

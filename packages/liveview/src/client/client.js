@@ -33,7 +33,7 @@ const handle = async (response, updater) => {
   await (handlers[content_type] ?? handlers[TEXT_PLAIN])(response, updater);
 };
 
-const to = async ({ pathname, hash }, updater, state = false) => {
+const goto = async ({ pathname, hash }, updater, state = false) => {
   try {
     const response = await fetch(pathname, { headers });
     // save before loading next
@@ -72,7 +72,7 @@ const go = async (href, updater, event) => {
 
     // pathname differs
     if (current !== pathname) {
-      await to(url, props => updater(props, () => scroll_hash(hash)), true);
+      await goto(url, props => updater(props, () => scroll_hash(hash)), true);
     }
     // different hash on same page, jump to hash
     if (hash !== global.location.hash) {
@@ -99,7 +99,7 @@ export default updater => {
     } else {
       scrollTop = storage.forward().scrollTop;
     }
-    await to(global.location, props =>
+    await goto(global.location, props =>
       updater(props, () => scroll(0, scrollTop ?? 0)));
   });
 
@@ -116,11 +116,10 @@ export default updater => {
     const { enctype } = target;
     const action = target.action ?? global.location.pathname;
     const url = new URL(action);
-    const to = url.pathname;
     const data = new FormData(target);
     const form = enctype === MULTIPART_FORM_DATA
       ? data
       : new URLSearchParams(data);
-    await submit(to, form, target.method, updater);
+    await submit(url.pathname, form, target.method, updater);
   });
 };

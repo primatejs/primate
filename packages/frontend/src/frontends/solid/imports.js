@@ -41,8 +41,8 @@ const depend = async (module, app, copy_dependency) => {
   const pkg = await Path.resolve().join(...path, manifest).json();
   if (copy_dependency) {
     const dependency = Path.resolve().join(...path);
-    const to = app.runpath(app.config.location.client, library, ...parts);
-    await dependency.copy(`${to}`);
+    const target = app.runpath(app.config.location.client, library, ...parts);
+    await dependency.copy(`${target}`);
   }
 
   const entry = pkg.exports["."].browser.import;

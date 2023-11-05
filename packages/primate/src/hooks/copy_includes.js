@@ -14,9 +14,9 @@ export default async (app, type, post = () => undefined) => {
       .map(async include => {
         const path = app.root.join(include);
         if (await path.exists()) {
-          const to = Path.join(type, include);
-          await app.stage(path, to);
-          await post(to);
+          const target = Path.join(type, include);
+          await app.stage(path, target);
+          await post(target);
         }
       }));
   }

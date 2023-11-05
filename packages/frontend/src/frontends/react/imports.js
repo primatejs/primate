@@ -44,16 +44,16 @@ export const prepare = async app => {
     "react/jsx-runtime": "jsx-runtime.js",
   };
 
-  const to = app.runpath(app.config.location.client, app.library, module);
+  const target = app.runpath(app.config.location.client, app.library, module);
   await esbuild.build({
     entryPoints: [`${to_path(index)}`],
     bundle: true,
     format: "esm",
-    outdir: `${to}`,
+    outdir: `${target}`,
   });
-  await to.create();
+  await target.create();
   await Promise.all(Object.values(imports).map(async value =>
-    to.join(value).write(await to_path($base.concat(value)).text())));
+    target.join(value).write(await to_path($base.concat(value)).text())));
 
   app.importmaps = {
     ...app.importmaps,
