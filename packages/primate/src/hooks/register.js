@@ -10,12 +10,10 @@ const pre = async app => {
   const { config: { location: { pages, client, components } }, path } = app;
 
   // remove build directory in case exists
-  if (await path.build.exists()) {
-    await path.build.file.remove();
-  }
+  await path.build.remove();
 
   await Promise.all(["server", "client", "pages"]
-    .map(directory => app.runpath(directory).file.create()));
+    .map(directory => app.runpath(directory).create()));
 
   // copy framework pages
   await app.stage(defaults, pages, html);

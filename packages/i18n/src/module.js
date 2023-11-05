@@ -59,7 +59,7 @@ export default ({
             loaded.push(depathed);
             return [
               `${path}`.replace(`${root}/`, () => "").slice(0, ending),
-              await path.file.json(),
+              await path.json(),
             ];
           })));
 

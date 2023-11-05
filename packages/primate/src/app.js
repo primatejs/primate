@@ -1,6 +1,6 @@
 import crypto from "rcompat/crypto";
 import { tryreturn } from "rcompat/async";
-import { File, Path } from "rcompat/fs";
+import { Path } from "rcompat/fs";
 import { is } from "rcompat/invariant";
 import { transform, valmap } from "rcompat/object";
 import { globify } from "rcompat/string";
@@ -16,8 +16,8 @@ const { DoubleFileExtension } = errors;
 
 // use user-provided file or fall back to default
 const index = (base, page, fallback) =>
-  tryreturn(_ => File.read(`${base.join(page)}`))
-    .orelse(_ => File.read(`${base.join(fallback)}`));
+  tryreturn(_ => Path.read(`${base.join(page)}`))
+    .orelse(_ => Path.read(`${base.join(fallback)}`));
 
 const encoder = new TextEncoder();
 
@@ -99,12 +99,12 @@ export default async (log, root, config) => {
         const debased = path.debase(this.root).path.slice(1);
         const filename = new Path(directory).join(path.debase(source));
         const to = await target.join(filename.debase(directory));
-        await to.directory.file.create();
+        await to.directory.create();
         if (regexs.some(regex => regex.test(debased))) {
           const contents = mapper(await path.text());
-          await to.file.write(contents);
+          await to.write(contents);
         } else {
-          await path.file.copy(to);
+          await path.copy(to);
         }
       }));
     },
@@ -117,10 +117,10 @@ export default async (log, root, config) => {
         const debased = `${component.path}`.replace(source, "");
 
         const server_target = this.runpath(server, components);
-        await component.file.copy(server_target.join(debased));
+        await component.copy(server_target.join(debased));
 
         const client_target = this.runpath(client, components);
-        await component.file.copy(client_target.join(debased));
+        await component.copy(client_target.join(debased));
       } else {
         // compile server components
         await compile.server(component);
@@ -171,8 +171,8 @@ export default async (log, root, config) => {
     async publish({ src, code, type = "", inline = false, copy = true }) {
       if (!inline && copy) {
         const base = this.runpath(this.config.location.client).join(src);
-        await base.directory.file.create();
-        await base.file.write(code);
+        await base.directory.create();
+        await base.write(code);
       }
       if (inline || type === "style") {
         this.assets.push({
@@ -221,7 +221,7 @@ export default async (log, root, config) => {
           ]));
       const dependency = Path.resolve().join(...path);
       const to = new Path(this.runpath(client), this.library, ...parts);
-      await dependency.file.copy(to);
+      await dependency.copy(to);
       this.importmaps = {
         ...valmap(exports, value => new Path(root, this.library, value).path),
         ...this.importmaps };

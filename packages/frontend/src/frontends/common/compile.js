@@ -10,7 +10,7 @@ const create = {
       const filename = `${rootname}.js`;
       const root = await compile.server(create_root(app.layout.depth));
       const to = app.runpath(location.server, filename);
-      await to.file.write(root);
+      await to.write(root);
     }
   },
   async client_root(app, rootname, create_root, compile, extensions) {
@@ -52,20 +52,18 @@ export default async ({
   return {
     async server(component) {
       const target = app.runpath(location.server, location.components);
-      const file = await component.file.read();
-      const code = await compile.server(file);
+      const code = await compile.server(await component.text());
       const to = target.join(`${component.path}.js`.replace(source, ""));
-      await to.directory.file.create();
-      await to.file.write(code.replaceAll(extensions.from, extensions.to));
+      await to.directory.create();
+      await to.write(code.replaceAll(extensions.from, extensions.to));
     },
     async client(component) {
       const name = component.path.replace(`${source}/`, "");
-      const file = await component.file.read();
       const build = app.config.location.components;
       const { path } = component;
 
       const file_string = `./${build}/${name}`;
-      const { js, css } = await compile.client(file);
+      const { js, css } = await compile.client(await component.text());
       {
         const code = js.replaceAll(extensions.from, extensions.to);
         const src = `${path}.js`.replace(`${source}`, _ => build);

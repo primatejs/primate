@@ -17,5 +17,5 @@ export default async (root, config) => {
     type: "module",
   };
   const contents = `${stringify(json)}\n`;
-  await root.join("package.json").file.write(contents);
+  await root.join("package.json").write(contents);
 };

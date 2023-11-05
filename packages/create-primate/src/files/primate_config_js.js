@@ -17,5 +17,5 @@ export default async (root, config) => {
   };
 
   const contents = `${$.imports}export default {${$.modules}${$.extras}};\n`;
-  await root.join("primate.config.js").file.write(contents);
+  await root.join("primate.config.js").write(contents);
 };

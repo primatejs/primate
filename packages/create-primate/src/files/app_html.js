@@ -1,6 +1,6 @@
 const path = ["pages", "app.html"];
 
-export default root => root.join(...path).file.write(`<!doctype html>
+export default root => root.join(...path).write(`<!doctype html>
 <html>
   <head>
     <title>Primate app</title>

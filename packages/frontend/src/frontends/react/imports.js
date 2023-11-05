@@ -51,9 +51,9 @@ export const prepare = async app => {
     format: "esm",
     outdir: `${to}`,
   });
-  await to.file.create();
+  await to.create();
   await Promise.all(Object.values(imports).map(async value =>
-    to.join(value).file.write(await to_path($base.concat(value)).text())));
+    to.join(value).write(await to_path($base.concat(value)).text())));
 
   app.importmaps = {
     ...app.importmaps,

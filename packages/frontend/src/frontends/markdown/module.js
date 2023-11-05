@@ -51,11 +51,11 @@ const markdown = ({
 
             const filename = component.path;
             const html = target.join(`${filename}.html`.replace(source, ""));
-            await html.directory.file.create();
-            await html.file.write(content);
+            await html.directory.create();
+            await html.write(content);
 
             const json = target.join(`${filename}.json`.replace(source, ""));
-            await json.file.write(stringify(toc));
+            await json.write(stringify(toc));
           },
           // no hydration
           client: _ => _,

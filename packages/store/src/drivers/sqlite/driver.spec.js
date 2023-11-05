@@ -7,9 +7,7 @@ const filename = new Path(import.meta.url).up(1).join("db.json");
 export default async test => {
   base(test, () => driver({ filename: `${filename}` })(), {
     after: async () => {
-      if (await filename.exists()) {
-        await filename.file.remove();
-      }
+      await filename.remove();
     },
   });
 };

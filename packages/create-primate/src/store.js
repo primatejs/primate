@@ -22,8 +22,8 @@ export default {
 `;
 
 export default async root => {
-  await root.join("stores").file.create();
-  await root.join("stores", "Example.js").file.write(example_store);
+  await root.join("stores").create();
+  await root.join("stores", "Example.js").write(example_store);
 
   const driver = await (await select({
     message: "Choose driver",

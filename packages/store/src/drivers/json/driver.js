@@ -7,9 +7,9 @@ import types from "../memory/types.js";
 export default ({ filename }) => async () => {
   is(filename).string();
 
-  const { file } = new Path(filename);
+  const path = new Path(filename);
   const database = {
-    collections: await file.exists() ? await file.json() : {},
+    collections: await path.exists() ? await path.json() : {},
   };
 
   const connection = {
@@ -19,7 +19,7 @@ export default ({ filename }) => async () => {
     async write(name, callback) {
       database.collections[name] = await callback(this.read(name));
       // write to file
-      await file.write(JSON.stringify(database.collections));
+      await path.write(JSON.stringify(database.collections));
     },
   };
 

@@ -21,7 +21,7 @@ const create = async ([root, configs]) => {
   await files.gitignore(root, config);
   await files.package_json(root, config);
   await files.primate_config_js(root, config);
-  await root.join("pages").file.create();
+  await root.join("pages").create();
   await files.app_html(root);
   await files.error_html(root);
 

@@ -1,6 +1,6 @@
 const path = ["pages", "error.html"];
 
-export default root => root.join(...path).file.write(`<!doctype html>
+export default root => root.join(...path).write(`<!doctype html>
 <html>
   <head>
     <title>Error page</title>

@@ -42,7 +42,7 @@ const depend = async (module, app, copy_dependency) => {
   if (copy_dependency) {
     const dependency = Path.resolve().join(...path);
     const to = app.runpath(app.config.location.client, library, ...parts);
-    await dependency.file.copy(`${to}`);
+    await dependency.copy(`${to}`);
   }
 
   const entry = pkg.exports["."].browser.import;

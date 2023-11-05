@@ -9,9 +9,7 @@ const client = () => json({ filename: `${filename}` })();
 export default async test => {
   base(test, client, {
     after: async () => {
-      if (await filename.exists()) {
-        await filename.file.remove();
-      }
+      await filename.remove();
     },
   });
 };

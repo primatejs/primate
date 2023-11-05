@@ -63,11 +63,11 @@ export default app => {
     });
   };
 
-  const as_asset = async file => new Response(file.readable, {
+  const as_asset = async path => new Response(path.stream(), {
     status: Status.OK,
     headers: {
-      "Content-Type": MediaType.resolve(file.name),
-      Etag: await file.modified(),
+      "Content-Type": MediaType.resolve(path.name),
+      Etag: await path.modified(),
     },
   });
 
@@ -79,11 +79,11 @@ export default app => {
       // try static first
       const asset = client.join(location.static, debased);
       if (await asset.isFile) {
-        return as_asset(asset.file);
+        return as_asset(asset);
       }
       const path = client.join(debased);
       if (await path.isFile) {
-        return as_asset(path.file);
+        return as_asset(path);
       }
     }
     return as_route(request);

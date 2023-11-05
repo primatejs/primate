@@ -15,7 +15,7 @@
     "directory": "packages/frontend"
   },
   "dependencies": {
-    "rcompat": "^0.1.3"
+    "rcompat": "^0.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.23.2",

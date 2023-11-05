@@ -3,11 +3,11 @@ import { filter } from "rcompat/object";
 import { peers } from "../common/exports.js";
 import depend from "../depend.js";
 
-const load_component = async (file) => {
+const load_component = async path => {
   try {
-    return await file.read();
+    return await path.text();
   } catch (error) {
-    throw new Error(`cannot load component at ${file.name}`);
+    throw new Error(`cannot load component at ${path.name}`);
   }
 };
 
@@ -19,7 +19,7 @@ const handler = directory =>
     const components = app.runpath(directory);
     const { head, csp } = await app.inline(code, "module");
     const headers = { style, script: csp };
-    const body = await load_component(components.join(name).file);
+    const body = await load_component(components.join(name));
 
     return new Response(partial ? body : await app.render({ body, head }), {
       status,

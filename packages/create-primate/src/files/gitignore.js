@@ -6,5 +6,5 @@ export default async root => {
     ".env*",
   ];
   const contents = `${entries.join("\n")}\n`;
-  await root.join(".gitignore").file.write(contents);
+  await root.join(".gitignore").write(contents);
 };

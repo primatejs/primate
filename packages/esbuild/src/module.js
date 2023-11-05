@@ -97,7 +97,7 @@ export default ({ ignores = [], options = {} } = {}) => {
           app.assets.pop();
         }
         const client = app.runpath(location.client);
-        await client.join(app.library).file.remove();
+        await client.join(app.library).remove();
         const directory = `${client}`;
         const contents = app.exports.map(({ code }) => code).join("");
         // remove .js and .css files from static
