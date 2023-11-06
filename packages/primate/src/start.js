@@ -4,7 +4,7 @@ import { bold, blue } from "rcompat/colors";
 import * as hooks from "./hooks/exports.js";
 import { print } from "./Logger.js";
 
-const base_hooks = ["init", "register", "publish", "bundle"];
+const base_hooks = ["init", "stage", "register", "publish", "bundle"];
 
 export default async (app$, mode = "development") => {
   app$.mode = mode;

@@ -100,6 +100,7 @@ export default ({
       const default_driver = await driver();
 
       env = {
+        root,
         log: app.log,
         stores,
         defaults: {
@@ -112,6 +113,11 @@ export default ({
       };
 
       active = true;
+
+      return next(app);
+    },
+    async stage(app, next) {
+      await app.stage(env.root, directory);
 
       return next(app);
     },

@@ -9,9 +9,6 @@ const defaults = cwd(import.meta, 2).join("defaults");
 const pre = async app => {
   const { config: { location: { pages, client, components } }, path } = app;
 
-  // remove build directory in case exists
-  await path.build.remove();
-
   await Promise.all(["server", "client", "pages"]
     .map(directory => app.runpath(directory).create()));
 

@@ -7,7 +7,6 @@ import { globify } from "rcompat/string";
 import * as runtime from "rcompat/meta";
 
 import errors from "./errors.js";
-import dispatch from "./dispatch.js";
 import to_sorted from "./to_sorted.js";
 import * as handlers from "./handlers/exports.js";
 import * as loaders from "./loaders/exports.js";
@@ -58,9 +57,7 @@ export default async (log, root, config) => {
     http.ssl.cert = root.join(http.ssl.cert);
   }
 
-  const types = await loaders.types(log, path.types);
   const error = await path.routes.join("+error.js");
-  const routes = await loaders.routes(log, path.routes);
 
   return {
     config,
@@ -78,12 +75,6 @@ export default async (log, root, config) => {
     },
     handlers: { ...handlers },
     extensions: {},
-    types,
-    routes,
-    layout: {
-      depth: Math.max(...routes.map(({ layouts }) => layouts.length)) + 1,
-    },
-    dispatch: dispatch(types),
     modules: await loaders.modules(log, root, config),
     ...runtime,
     // copy files to build folder, potentially transforming them

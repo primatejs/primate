@@ -24,7 +24,9 @@ const make = path => {
 };
 
 const specials = ["guards", "errors", "layouts"];
-export default async (log, directory, load = fs) => {
+export default async (app, load = fs) => {
+  const { log } = app;
+  const directory = app.runpath(app.config.location.routes);
   const routes = await get.routes(log, directory, load);
   const routes$ = from(await Promise.all(specials.map(async extra =>
     [extra, await get[extra](log, directory, load)])));
