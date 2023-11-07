@@ -1,9 +1,9 @@
 import { tryreturn } from "rcompat/sync";
 import { from } from "rcompat/object";
-import errors from "../errors.js";
-import { invalid } from "../hooks/route.js";
 import { default as fs, doubled } from "./common.js";
 import * as get from "./routes/exports.js";
+import errors from "../errors.js";
+import { invalid } from "../hooks/route.js";
 
 const make = path => {
   const double = doubled(path.split("/")
@@ -23,28 +23,27 @@ const make = path => {
   return new RegExp(`^/${route}$`, "u");
 };
 
-const specials = ["guards", "errors", "layouts"];
 export default async (app, load = fs) => {
   const { log } = app;
   const directory = app.runpath(app.config.location.routes);
-  const routes = await get.routes(log, directory, load);
-  const routes$ = from(await Promise.all(specials.map(async extra =>
-    [extra, await get[extra](log, directory, load)])));
   const filter = path => ([name]) => path.includes(name);
+  const routes = from(await Promise.all(["guards", "errors", "layouts"]
+    .map(async extra => [extra, await get[extra](log, directory, load)])));
 
-  return routes.map(([path, imported]) => {
+  return (await get.routes(log, directory, load)).map(([path, imported]) => {
     if (imported === undefined || Object.keys(imported).length === 0) {
       errors.EmptyRouteFile.warn(log, directory.join(`${path}.js`).path);
       return [];
     }
+    const filtered = filter(path);
 
     return Object.entries(imported).map(([method, handler]) => ({
       method,
       handler,
       pathname: make(path.endsWith("/") ? path.slice(0, -1) : path),
-      guards: routes$.guards.filter(filter(path)).map(([, guard]) => guard),
-      errors: routes$.errors.filter(filter(path)).map(([, error]) => error),
-      layouts: routes$.layouts.filter(filter(path)).map(([, layout]) => layout),
+      guards: routes.guards.filter(filtered).map(([, guard]) => guard),
+      errors: routes.errors.filter(filtered).map(([, error]) => error),
+      layouts: routes.layouts.filter(filtered).map(([, layout]) => layout),
     }));
   }).flat();
 };

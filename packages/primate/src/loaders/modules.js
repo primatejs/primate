@@ -12,7 +12,7 @@ export default async (log, root, config) => {
 
   Array.isArray(modules) || errors.ModulesMustBeArray.throw("modules");
 
-  modules.some((module, n) => module.name === undefined &&
+  modules.some(({ name }, n) => name === undefined &&
     errors.ModuleHasNoName.throw(n));
 
   const names = modules.map(({ name }) => name);

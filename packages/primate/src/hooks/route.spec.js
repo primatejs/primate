@@ -1,8 +1,8 @@
+import { Path } from "rcompat/fs";
 import dispatch from "../dispatch.js";
 import * as loaders from "../loaders/exports.js";
 import route from "./route.js";
 import { mark } from "../Logger.js";
-const undef = undefined;
 
 const numeric = (id, property) => {
   if (/^\d*$/u.test(id)) {
@@ -15,6 +15,22 @@ const id = name => (value, property) => {
     return value;
   }
   throw new Error(`\`${property}\` not equal \`${name}\` (given \`${value}\`)`);
+};
+
+const $app = {
+  config: {
+    location: {
+
+    },
+  },
+  log: {
+    auto(error) {
+      throw error;
+    },
+  },
+  runpath() {
+    return new Path("/routes");
+  },
 };
 
 const app = {
@@ -30,7 +46,7 @@ const app = {
   modules: {
     route: [],
   },
-  routes: await loaders.routes(undef, undef, ({ warn = true }) => (warn ? [
+  routes: await loaders.routes($app, ({ warn = true }) => (warn ? [
     "index",
     "user",
     "users/{userId}a",

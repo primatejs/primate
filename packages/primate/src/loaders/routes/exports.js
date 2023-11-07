@@ -1,4 +1,6 @@
+import load from "./load.js";
+
 export { default as routes } from "./routes.js";
-export { default as guards } from "./guards.js";
-export { default as errors } from "./errors.js";
-export { default as layouts } from "./layouts.js";
+export const guards = load("guard");
+export const errors = load("error");
+export const layouts = load("layouts");

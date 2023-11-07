@@ -2,14 +2,18 @@ import { Path } from "rcompat/fs";
 import loader from "./routes.js";
 import { mark } from "../Logger.js";
 
-const log = {
-  auto(error) {
-    throw error;
+const app = {
+  log: {
+    auto(error) {
+      throw error;
+    },
+  },
+  runpath() {
+    return new Path("/routes");
   },
 };
-const directory = new Path("/routes");
 
-const routes = defs => loader(log, directory, ({ warn = true }) =>
+const routes = defs => loader(app, ({ warn = true }) =>
   warn ? defs : []);
 
 const get = () => null;

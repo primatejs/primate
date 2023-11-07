@@ -56,6 +56,11 @@
       "fix": "do not use dots in route names",
       "level": "Error"
     },
+    "InvalidTypeExport": {
+      "message": "invalid type export at {0}",
+      "fix": "export object with a `base` string and a `validate` function",
+      "level": "Error"
+    },
     "InvalidTypeName": {
       "message": "invalid type name {0}",
       "fix": "use lowercase-first latin letters and decimals in type names",
