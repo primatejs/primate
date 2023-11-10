@@ -2,9 +2,12 @@ package main
 
 import "syscall/js"
 import "encoding/json"
+%%IMPORTS%%
 
 type t_request func(Request) interface{} 
 type t_response func(js.Value, []js.Value) interface{}
+type Object map[string]interface{}
+type Array []interface{}
 
 type Dispatchable struct {
   Get func(string) string
@@ -59,7 +62,8 @@ func make_url(request js.Value) URL {
 
 func make_dispatchable(key string, request js.Value) Dispatchable {
   properties := make(map[string]interface{});
-  json.Unmarshal([]byte(request.Get(key).String()), &properties);
+  value := request.Get(key)
+  json.Unmarshal([]byte(value.Get("properties").String()), &properties);
 
   return Dispatchable{
     func(property string) string {

@@ -1,11 +1,9 @@
 import { Path } from "rcompat/fs";
 import { upperfirst } from "rcompat/string";
-import { keymap } from "rcompat/object";
 import { execSync } from "node:child_process";
 const default_extension = "go";
 const command = "go";
 const run = name => `${command} build -o ${name.base}wasm ${name} request.go`;
-const name = "go";
 const routes_re = /func (?<route>Get|Post|Put|Delete)/gu;
 const add_setter = route =>
   `js.Global().Set("${route}", js.FuncOf(make_request(${route})));`;
@@ -48,30 +46,57 @@ func main() {
 const get_routes = code => [...code.matchAll(routes_re)]
   .map(({ groups: { route } }) => route);
 
+const type_map = {
+  boolean: { transfer: "Bool", type: "bool" },
+  i8: { transfer: "Int", type: "int8" },
+  i16: { transfer: "Int", type: "int16" },
+  i32: { transfer: "Int", type: "int32" },
+  i64: { transfer: "Int", type: "int64" },
+  f32: { transfer: "Float", type: "float32" },
+  f64: { transfer: "Float", type: "float64" },
+  u8: { transfer: "Int", type: "uint8" },
+  u16: { transfer: "Int", type: "uint16" },
+  u32: { transfer: "Int", type: "uint32", nullval: "0" },
+  u64: { transfer: "Int", type: "uint64" },
+  string: { transfer: "String", type: "string", nullval: "\"\"" },
+};
+const root = new Path(import.meta.url).up(1);
+
 const create_meta_files = async (directory, types) => {
   const meta = { mod: "go.mod", sum: "go.sum", request: "request.go" };
-  const base = new Path(import.meta.url).up(1);
 
   if (!await directory.join(meta.mod).exists()) {
     // copy go.mod file
-    await directory.join(meta.mod).write(await base.join(meta.mod).text());
+    await directory.join(meta.mod).write(await root.join(meta.mod).text());
     // copy go.sum file
-    await directory.join(meta.sum).write(await base.join(meta.sum).text());
+    await directory.join(meta.sum).write(await root.join(meta.sum).text());
     // copy request.go file
-    const struct = Object.keys(keymap(types,
-      type => `Get${upperfirst(type)} func(string) string`))[0];
-    const init = `func(property string) string {
-      return properties[property].(string);
+    const has_types = Object.keys(types).length === 0;
+    const struct = Object.entries(types).map(([name, { base }]) =>
+      `Get${upperfirst(name)} func(string) (${type_map[base].type}, error)`,
+    ).join("\n  ");
+    const init = Object.entries(types).map(([name, { base }]) => {
+      const { transfer, type, nullval } = type_map[base];
+      const upper = upperfirst(name);
+      return `func(property string) (${type}, error) {
+      r := value.Get("get${upper}").Invoke(property);
+      if (r.Type() == 7) {
+        return ${nullval}, errors.New(r.Invoke().String());
+      }
+      return ${type}(r.${transfer}()), nil;
     },`;
-    await directory.join(meta.request).write((await base.join(meta.request)
+    }).join("\n    ");
+    await directory.join(meta.request).write((await root.join(meta.request)
       .text())
       .replace("%%DISPATCH_STRUCT%%", _ => struct)
-      .replace("%%DISPATCH_INIT%%", _ => init),
+      .replace("%%DISPATCH_INIT%%", _ => init)
+      .replace("%%IMPORTS%%", _ => has_types ? "import \"errors\"" : ""),
     );
   }
 };
 
 export default ({ extension = default_extension } = {}) => {
+  const name = "go";
   const env = { GOOS: "js", GOARCH: "wasm" };
 
   return {

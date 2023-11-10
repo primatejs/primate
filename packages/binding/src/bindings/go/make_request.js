@@ -7,8 +7,18 @@ export default request => {
   return {
     url: request.url,
     search_params: make_search_params(request.url),
-    ...from(dispatchables.map(property =>
-      [property, stringify(request[property].get())],
-    )),
+    ...from(dispatchables.map(property => [
+      property, {
+        properties: request[property].get(),
+        ...request[property],
+        getAge() {
+          try {
+            return request[property].getAge();
+          } catch ({ message }) {
+            return () => message;
+          }
+        },
+      },
+    ])),
   };
 };
