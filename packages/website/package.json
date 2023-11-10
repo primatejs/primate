@@ -6,9 +6,9 @@
     "@primate/frontend": "^0.6.0",
     "@primate/liveview": "^0.7.0",
     "highlight.js": "^11.9.0",
-    "marked": "^9.1.5",
+    "marked": "^9.1.6",
     "primate": "^0.25.0",
-    "svelte": "^4.2.2"
+    "svelte": "^4.2.3"
   },
   "scripts": {
     "local": "scripts/local.sh",
