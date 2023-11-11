@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@clack/prompts": "^0.7.0",
-    "rcompat": "^0.2.0"
+    "rcompat": "^0.3.3"
   },
   "type": "module",
   "devDependencies": {
