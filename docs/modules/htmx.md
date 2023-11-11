@@ -84,7 +84,7 @@ HTMX [extensions] to load, as an array of strings denoting the extension name.
 
 Default `[]`
 
-Client side templates to be used by the `[client-side-templates]` extension.
+Client side templates to be used by the [client-side-templates] extension.
 Possible values: `"handlebars"`, `"mustache"` and `"nunjucks"`. Make sure you
 add `"client-side-templates"` to the `extensions` array option.
 
