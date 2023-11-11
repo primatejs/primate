@@ -30,8 +30,8 @@ export default config => {
         data: components.map(component => component.props),
         context: await (await cascade(app.modules.context, noop))(request),
         request: {
-          ...valmap(filter(request, ([, { get }]) =>
-            get !== undefined), o => o.get()),
+          ...valmap(filter(request, ([, { getAll }]) => getAll !== undefined),
+            o => o.getAll()),
           url: request.url,
         },
       };

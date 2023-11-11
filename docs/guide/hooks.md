@@ -157,7 +157,8 @@ import { view } from "primate";
 
 export default {
   get(request) {
-    const { time } = request.query.get();
+    const time = request.query.get("time");
+
     return view("clock.mustache", { time });
   },
 };

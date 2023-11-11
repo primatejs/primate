@@ -52,7 +52,7 @@ defaults to `null`.
 ```js caption=routes/your-name.js
 export default {
   post(request) {
-    const body = request.body.get();
+    const body = request.body.getAll();
 
     return `Hello, ${body}`;
   },
@@ -72,7 +72,7 @@ decodes the form fields into object properties
 ```js caption=routes/your-full-name.js
 export default {
   post(request) {
-    const { name } = request.body.get();
+    const name = request.body.get("name");
 
     if (name === undefined) {
       return "You haven't specified your name";
@@ -89,13 +89,11 @@ URL-encoded form (`application/x-www-form-urlencoded`) or JSON data
 saying Hello and the provided name.
 
 !!!
-The `get` function on `request.body` can be used in two ways. If called without
-parameters, it will return the underlying object, which we can then destructure
-into its properties as in the example. It's also possible to call it with the
-name of a property to retrieve it directly.
+The `get(property)` function on `request.body` retrieves individual properties.
+If you wish to get all properties, use `getAll()`.
 
 ```js
-const name = request.body.get("name");
+const { name } = request.body.getAll();
 ```
 
 This applies not only to `body` but to all of the following request sections.
@@ -112,7 +110,7 @@ const users = ["Donald", "Ryan"];
 
 export default {
   post(request) {
-    const { user } = request.path.get();
+    const user = request.path.get("user");
 
     if (users.includes(user)) {
       return `Hello, ${user}`;
@@ -140,7 +138,7 @@ const users = ["Donald", "Ryan"];
 
 export default {
   post(request) {
-    const { user } = request.query.get();
+    const user = request.query.get("user");
 
     if (users.includes(user)) {
       return `Hello, ${user}`;
@@ -165,7 +163,7 @@ const users = ["Donald", "Ryan"];
 
 export default {
   post(request) {
-    const { user } = request.cookies.get();
+    const user = request.cookies.get("user");
 
     if (users.includes(user)) {
       return `Hello, ${user}`;

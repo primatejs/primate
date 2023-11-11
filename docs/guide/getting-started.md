@@ -83,7 +83,7 @@ export default {
     return view("form.html");
   },
   post(request) {
-    const { name, age } = request.body.get();
+    const { name, age } = request.body.getAll();
 
     if (name !== undefined && age !== undefined) {
       return redirect("/success");
