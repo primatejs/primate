@@ -1,0 +1,10 @@
+{
+  "module": "primate/binding/go",
+  "errors": {
+    "ErrorInGoRoute": {
+      "message": "the Go route {0} contains the following error\n {1}",
+      "fix": "fix the Go error",
+      "level": "Error"
+    }
+  }
+}

@@ -1,6 +1,9 @@
 import { Path } from "rcompat/fs";
 import { upperfirst } from "rcompat/string";
-import { execSync } from "node:child_process";
+import { execute } from "rcompat/stdio";
+import { user } from "rcompat/env";
+import errors from "./errors.js";
+
 const default_extension = "go";
 const command = "go";
 const run = name => `${command} build -o ${name.base}wasm ${name} request.go`;
@@ -103,24 +106,24 @@ export default ({ extension = default_extension } = {}) => {
     name: `primate:${name}`,
     async init(app, next) {
       app.register(extension, {
-        route: async (cwd, file, types) => {
-          await create_meta_files(cwd, types);
+        route: async (directory, file, types) => {
+          await create_meta_files(directory, types);
 
-          const path = cwd.join(file);
+          const path = directory.join(file);
           const code = await path.text();
           const routes = get_routes(code);
           // load file
           await path.write(go_wrapper(code, routes));
 
-          await cwd.join(file.base.slice(0, -1).concat(".js"))
+          await directory.join(file.base.slice(0, -1).concat(".js"))
             .write(js_wrapper(routes));
 
-          execSync(run(file), { cwd: `${cwd}`,
-              env: {
-                ...process.env,
-                ...env,
-              },
-            });
+          try {
+            const cwd = `${directory}`;
+            await execute(run(file), { cwd, env: { HOME: user.HOME, ...env } });
+          } catch (error) {
+            errors.ErrorInGoRoute.throw(file, error);
+          }
         },
       });
       return next(app);
