@@ -68,20 +68,30 @@ to `true`.
 
 ## Configuration options
 
-### directory
-
-Default `config.location.components`
-
-Directory where the HTMX components reside.
-
 ### extension
 
 Default `"htmx"`
 
 The file extension to be associated with this handler.
 
+### extensions
+
+Default `[]`
+
+HTMX [extensions] to load, as an array of strings denoting the extension name.
+
+### client_side_templates
+
+Default `[]`
+
+Client side templates to be used by the `[client-side-templates]` extension.
+Possible values: `"handlebars"`, `"mustache"` and `"nunjucks"`. Make sure you
+add `"client-side-templates"` to the `extensions` array option.
+
 ## Resources
 
 * [Repository][repo]
 
 [repo]: https://github.com/primatejs/primate/tree/master/packages/frontend
+[extensions]: https://htmx.org/extensions
+[client-side-templates]: https://htmx.org/extensions/client-side-templates

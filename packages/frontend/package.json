@@ -22,7 +22,7 @@
     "babel-preset-solid": "^1.8.4",
     "esbuild": "^0.19.5",
     "handlebars": "^4.7.8",
-    "htmx.org": "^1.9.8",
+    "htmx-esm": "^0.1.98",
     "marked": "^9.1.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -35,7 +35,7 @@
     "babel-preset-solid": "1",
     "esbuild": "0.19",
     "handlebars": "4",
-    "htmx.org": "1",
+    "htmx-esm": "0.1",
     "marked": "9",
     "primate": "0.25",
     "react": "18",
@@ -57,7 +57,7 @@
     "handlebars": {
       "optional": true
     },
-    "htmx.org": {
+    "htmx-esm": {
       "optional": true
     },
     "marked": {
