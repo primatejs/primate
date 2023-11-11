@@ -71,7 +71,7 @@ const create_meta_files = async (directory, types) => {
     // copy go.sum file
     await directory.join(meta.sum).write(await root.join(meta.sum).text());
     // copy request.go file
-    const has_types = Object.keys(types).length === 0;
+    const has_types = Object.keys(types).length > 0;
     const struct = Object.entries(types).map(([name, { base }]) =>
       `Get${upperfirst(name)} func(string) (${type_map[base].type}, error)`,
     ).join("\n  ");
