@@ -37,6 +37,7 @@ type Request struct {
   Query Dispatchable
   Cookies Dispatchable
   Headers Dispatchable
+  %%REQUEST_STRUCT%%
 }
 
 func make_url(request js.Value) URL {
@@ -72,7 +73,7 @@ func make_dispatchable(key string, request js.Value) Dispatchable {
     func() map[string]interface{} {
       return properties;
     },
-    %%DISPATCH_INIT%%
+    %%DISPATCH_MAKE%%
   };
 }
 
@@ -86,6 +87,7 @@ func make_request(route t_request) t_response {
       make_dispatchable("query", request),
       make_dispatchable("cookies", request),
       make_dispatchable("headers", request),
+      %%REQUEST_MAKE%%
     };
 
     return route(go_request);

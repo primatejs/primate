@@ -6,7 +6,8 @@ import errors from "./errors.js";
 
 const default_extension = "go";
 const command = "go";
-const run = name => `${command} build -o ${name.base}wasm ${name} request.go`;
+const run = (name, includes = "request.go") =>
+  `${command} build -o ${name.base}wasm ${name} ${includes}`;
 const routes_re = /func (?<route>Get|Post|Put|Delete)/gu;
 const add_setter = route =>
   `js.Global().Set("${route}", js.FuncOf(make_request(${route})));`;
@@ -65,20 +66,43 @@ const type_map = {
 };
 const root = new Path(import.meta.url).up(1);
 
-const create_meta_files = async (directory, types) => {
-  const meta = { mod: "go.mod", sum: "go.sum", request: "request.go" };
+const create_meta_files = async (directory, types, app) => {
+  const meta = {
+    mod: "go.mod",
+    sum: "go.sum",
+    request: "request.go",
+    session: "session.go",
+  };
+  const has_session = app.modules.names.includes("primate:session");
 
   if (!await directory.join(meta.mod).exists()) {
+    const request_struct_items = [];
+    const request_make_items = [];
+
+    if (has_session) {
+      request_struct_items.push(
+        "Session Session",
+      );
+      request_make_items.push(
+        "make_session(request),",
+      );
+    }
+
+    const request_struct = request_struct_items.join("\n");
+    const request_make = request_make_items.join("\n");
+
     // copy go.mod file
     await directory.join(meta.mod).write(await root.join(meta.mod).text());
     // copy go.sum file
     await directory.join(meta.sum).write(await root.join(meta.sum).text());
     // copy request.go file
+    //
+    //
     const has_types = Object.keys(types).length > 0;
-    const struct = Object.entries(types).map(([name, { base }]) =>
+    const dispatch_struct = Object.entries(types).map(([name, { base }]) =>
       `Get${upperfirst(name)} func(string) (${type_map[base].type}, error)`,
     ).join("\n  ");
-    const init = Object.entries(types).map(([name, { base }]) => {
+    const dispatch_make = Object.entries(types).map(([name, { base }]) => {
       const { transfer, type, nullval } = type_map[base];
       const upper = upperfirst(name);
       return `func(property string) (${type}, error) {
@@ -89,13 +113,22 @@ const create_meta_files = async (directory, types) => {
       return ${type}(r.${transfer}()), nil;
     },`;
     }).join("\n    ");
+
     await directory.join(meta.request).write((await root.join(meta.request)
       .text())
-      .replace("%%DISPATCH_STRUCT%%", _ => struct)
-      .replace("%%DISPATCH_INIT%%", _ => init)
-      .replace("%%IMPORTS%%", _ => has_types ? "import \"errors\"" : ""),
+      .replace("%%DISPATCH_STRUCT%%", _ => dispatch_struct)
+      .replace("%%DISPATCH_MAKE%%", _ => dispatch_make)
+      .replace("%%IMPORTS%%", _ => has_types ? "import \"errors\"" : "")
+      .replace("%%REQUEST_STRUCT%%", _ => request_struct)
+      .replace("%%REQUEST_MAKE%%", _ => request_make),
     );
+
+    if (has_session) {
+      directory.join(meta.session).write(await root.join(meta.session).text());
+    }
   }
+
+  return ["request.go"].concat(has_session ? ["session.go"] : []);
 };
 
 export default ({ extension = default_extension } = {}) => {
@@ -107,7 +140,7 @@ export default ({ extension = default_extension } = {}) => {
     async init(app, next) {
       app.register(extension, {
         route: async (directory, file, types) => {
-          await create_meta_files(directory, types);
+          const includes = await create_meta_files(directory, types, app);
 
           const path = directory.join(file);
           const code = await path.text();
@@ -120,7 +153,8 @@ export default ({ extension = default_extension } = {}) => {
 
           try {
             const cwd = `${directory}`;
-            await execute(run(file), { cwd, env: { HOME: user.HOME, ...env } });
+            await execute(run(file, includes.join(" ")),
+              { cwd, env: { HOME: user.HOME, ...env } });
           } catch (error) {
             errors.ErrorInGoRoute.throw(file, error);
           }
