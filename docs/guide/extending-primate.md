@@ -25,7 +25,7 @@ excerpt from the Primate session module, adding cookie-based sessions.
 
 ```js caption=Session module
 // module configuration options, `name` is the session cookie name
-export default ({ name = "sessionId" } = {}) => {
+export default ({ name = "session_id" } = {}) => {
   return {
     // module name, must be unique
     name: "@primate/session",
@@ -51,7 +51,7 @@ export default ({ name = "sessionId" } = {}) => {
 ```
 
 The session module latches onto to the `handle` hook, extracting the value of a
-cookie named (unless otherwise specified) `sessionId` from the request. It then
+cookie named (unless otherwise specified) `session_id` from the request. It then
 either generates a new session or uses an existing one and calls the `next`
 function with that session. The `next` function could be another module using
 the `handle` hook or, at the end of the line, the route function itself, which
@@ -110,7 +110,7 @@ export default {
 };
 ```
 
-This configuration will use `id` instead of `sessionId` as the name of the
+This configuration will use `id` instead of `session_id` as the name of the
 session cookie.
 
 The order of loaded modules in the `modules` array determines the order in

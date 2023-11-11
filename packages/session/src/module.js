@@ -1,5 +1,5 @@
-import crypto from "rcompat/crypto";
 import { is, every } from "rcompat/invariant";
+import make_session from "./make_session.js";
 
 const cookie = (name, value, { path, secure, httpOnly, sameSite }) =>
   `${name}=${value};${httpOnly};Path=${path};${secure};SameSite=${sameSite}`;
@@ -7,39 +7,11 @@ const cookie = (name, value, { path, secure, httpOnly, sameSite }) =>
 // gets a cookie id and returns it if exists, otherwise generates a new one
 const in_memory_session_manager = () => {
   const store = new Map();
-  return id => ({
-    id,
-    exists() {
-      return store.has(this.id);
-    },
-    get() {
-      return store.get(this.id) ?? {};
-    },
-    set(key, value) {
-      if (this.exists()) {
-        store.set(this.id, { ...this.get(), [key]: value });
-      } else {
-        throw new Error("cannot call set on an uninitialized session");
-      }
-    },
-    async create(data = {}) {
-      /* dynamic to prevent multiple calls to create */
-      if (!this.exists()) {
-        this.id = crypto.randomUUID();
-        store.set(this.id, data);
-      }
-    },
-      /* dynamic to prevent multiple calls to destroy */
-    destroy() {
-      if (this.exists()) {
-        store.delete(this.id);
-      }
-    },
-  });
+  return id => make_session(store, id);
 };
 
 export default ({
-  name = "sessionId",
+  name = "session_id",
   sameSite = "Strict",
   httpOnly = true,
   path = "/",
@@ -65,11 +37,12 @@ export default ({
     async handle(request, next) {
       const id = request.cookies.get(name);
       const session = manager(id);
+
       every(session.create, session.destroy).function();
 
       const response = await next({ ...request, session });
 
-      implicit && await session.create();
+      implicit && session.create();
 
       // only send the cookie if different than the received one
       if (session.id !== id && session.id !== undefined) {
