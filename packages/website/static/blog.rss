@@ -6,6 +6,16 @@
   <description>Primate - Expressive, minimal and extensible web framework</description>
 
   <item>
+    <title>Release 0.26: Go Wasm routes, live reload, and HTMX extensions</title>
+    <link>https://primatejs.com/blog/release-026</link>
+  </item>
+
+  <item>
+    <title>Release 0.25: Native Deno support, I18N for Svelte/React/Solid</title>
+    <link>https://primatejs.com/blog/release-025</link>
+  </item>
+
+  <item>
     <title>Release 0.24: Native Bun support</title>
     <link>https://primatejs.com/blog/release-024</link>
   </item>
