@@ -1,12 +1,13 @@
 {
   "name": "@primate/build",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Primate build module",
   "homepage": "https://primatejs.com/modules/build",
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
   "files": [
     "src/**/*.js",
+    "src/**/*.json",
     "!src/**/*.spec.js"
   ],
   "repository": {
@@ -22,7 +23,7 @@
   },
   "peerDependencies": {
     "esbuild": "0.19",
-    "primate": "0.25"
+    "primate": "0.26"
   },
   "peerDependenciesMeta": {
     "esbuild": {

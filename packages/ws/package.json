@@ -1,6 +1,6 @@
 {
   "name": "@primate/ws",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Primate WebSocket module",
   "homepage": "https://primatejs.com/modules/ws",
   "bugs": "https://github.com/primatejs/primate/issues",
@@ -20,7 +20,7 @@
     "ws": "^8.14.2"
   },
   "peerDependencies": {
-    "primate": "0.25"
+    "primate": "0.26"
   },
   "type": "module",
   "exports": "./src/exports.js"

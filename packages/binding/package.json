@@ -1,12 +1,16 @@
 {
   "name": "@primate/binding",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Primate binding module",
   "homepage": "https://primatejs.com/modules/binding",
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
   "files": [
     "src/**/*.js",
+    "src/**/*.json",
+    "src/**/*.go",
+    "src/**/*.sum",
+    "src/**/*.mod",
     "!src/**/*.spec.js"
   ],
   "repository": {
@@ -18,7 +22,7 @@
     "rcompat": "^0.3.3"
   },
   "peerDependencies": {
-    "primate": "0.25"
+    "primate": "0.26"
   },
   "type": "module",
   "exports": {

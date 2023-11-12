@@ -1,6 +1,6 @@
-# esbuild
+# Build
 
 This module bundles your application's resources into a single JavaScript and
 CSS file.
 
-## [Documentation](https://primatejs.com/modules/esbuild)
+## [Documentation](https://primatejs.com/modules/build)
