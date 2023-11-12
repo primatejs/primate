@@ -9,8 +9,14 @@ const command = "go";
 const run = (name, includes = "request.go") =>
   `${command} build -o ${name.base}wasm ${name} ${includes}`;
 const routes_re = /func (?<route>Get|Post|Put|Delete)/gu;
-const add_setter = route =>
-  `js.Global().Set("${route}", js.FuncOf(make_request(${route})));`;
+const add_setter = route => `
+  var cb${route} js.Func;
+  cb${route} = js.FuncOf(func(this js.Value, args[]js.Value) any {
+    cb${route}.Release();
+    return make_request(${route}, args[0]);
+  });
+  js.Global().Set("${route}", cb${route});
+`;
 
 const make_route = route =>
   `  ${route.toLowerCase()}(request) {
@@ -41,9 +47,8 @@ import "syscall/js"
 ${code}
 // {{{ wrapper postfix
 func main() {
-  c := make(chan bool);
   ${routes.map(route => add_setter(route)).join("\n  ")}
-  <-c;
+  select{};
 }
 // }}} end`;
 
@@ -95,9 +100,7 @@ const create_meta_files = async (directory, types, app) => {
     await directory.join(meta.mod).write(await root.join(meta.mod).text());
     // copy go.sum file
     await directory.join(meta.sum).write(await root.join(meta.sum).text());
-    // copy request.go file
-    //
-    //
+
     const has_types = Object.keys(types).length > 0;
     const dispatch_struct = Object.entries(types).map(([name, { base }]) =>
       `Get${upperfirst(name)} func(string) (${type_map[base].type}, error)`,
@@ -114,6 +117,7 @@ const create_meta_files = async (directory, types, app) => {
     },`;
     }).join("\n    ");
 
+    // copy transformed request.go file
     await directory.join(meta.request).write((await root.join(meta.request)
       .text())
       .replace("%%DISPATCH_STRUCT%%", _ => dispatch_struct)
@@ -124,11 +128,14 @@ const create_meta_files = async (directory, types, app) => {
     );
 
     if (has_session) {
+      // copy session.go file
       directory.join(meta.session).write(await root.join(meta.session).text());
     }
   }
 
-  return ["request.go"].concat(has_session ? ["session.go"] : []);
+  return ["request.go"]
+    .concat(has_session ? ["session.go"] : [])
+  ;
 };
 
 export default ({ extension = default_extension } = {}) => {
@@ -137,7 +144,7 @@ export default ({ extension = default_extension } = {}) => {
 
   return {
     name: `primate:${name}`,
-    async init(app, next) {
+    async stage(app, next) {
       app.register(extension, {
         route: async (directory, file, types) => {
           const includes = await create_meta_files(directory, types, app);

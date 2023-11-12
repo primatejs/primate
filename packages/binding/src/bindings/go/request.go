@@ -4,14 +4,14 @@ import "syscall/js"
 import "encoding/json"
 %%IMPORTS%%
 
-type t_request func(Request) interface{} 
-type t_response func(js.Value, []js.Value) interface{}
-type Object map[string]interface{}
-type Array []interface{}
+type t_request func(Request) any
+type t_response func(js.Value, []js.Value) any
+type Object map[string]any
+type Array []any
 
-type Dispatchable struct {
-  Get func(string) string
-  GetAll func() map[string]interface{}
+type Dispatcher struct {
+  Get func(string) any
+  GetAll func() map[string]any
   %%DISPATCH_STRUCT%%
 }
 
@@ -26,23 +26,23 @@ type URL struct {
   Port string
   Pathname string
   Search string
-  SearchParams map[string]interface{}
+  SearchParams map[string]any
   Hash string
 }
 
 type Request struct {
   Url URL
-  Body Dispatchable
-  Path Dispatchable
-  Query Dispatchable
-  Cookies Dispatchable
-  Headers Dispatchable
+  Body Dispatcher
+  Path Dispatcher
+  Query Dispatcher
+  Cookies Dispatcher
+  Headers Dispatcher
   %%REQUEST_STRUCT%%
 }
 
 func make_url(request js.Value) URL {
   url := request.Get("url");
-  search_params := make(map[string]interface{});
+  search_params := make(map[string]any);
   json.Unmarshal([]byte(request.Get("search_params").String()), &search_params);
 
   return URL{
@@ -61,35 +61,55 @@ func make_url(request js.Value) URL {
   };
 }
 
-func make_dispatchable(key string, request js.Value) Dispatchable {
-  properties := make(map[string]interface{});
+func make_dispatcher(key string, request js.Value) Dispatcher {
+  properties := make(map[string]any);
   value := request.Get(key)
   json.Unmarshal([]byte(value.Get("properties").String()), &properties);
 
-  return Dispatchable{
-    func(property string) string {
-      return properties[property].(string);
+  return Dispatcher{
+    func(property string) any {
+      switch properties[property].(type) {
+        case string:
+          return properties[property].(string);
+        default:
+          return nil;
+        }
     },
-    func() map[string]interface{} {
+    func() map[string]any {
       return properties;
     },
     %%DISPATCH_MAKE%%
   };
 }
 
-func make_request(route t_request) t_response {
-  return func(this js.Value, args[] js.Value) interface{} {
-    request := args[0];
-    go_request := Request{
-      make_url(request),
-      make_dispatchable("body", request),
-      make_dispatchable("path", request),
-      make_dispatchable("query", request),
-      make_dispatchable("cookies", request),
-      make_dispatchable("headers", request),
-      %%REQUEST_MAKE%%
-    };
-
-    return route(go_request);
+func make_request(route t_request, request js.Value) any {
+  go_request := Request{
+    make_url(request),
+    make_dispatcher("body", request),
+    make_dispatcher("path", request),
+    make_dispatcher("query", request),
+    make_dispatcher("cookies", request),
+    make_dispatcher("headers", request),
+    %%REQUEST_MAKE%%
   };
+
+  response := route(go_request);
+  switch response.(type) {
+    case js.Func:
+      return response;
+    default:
+      marshalled, _ := json.Marshal(response);
+      return string(marshalled);
+    }
+}
+
+func make_empty(route func() any) any {
+  response := route();
+  switch response.(type) {
+    case js.Func:
+      return response;
+    default:
+      marshalled, _ := json.Marshal(response);
+      return string(marshalled);
+    }
 }

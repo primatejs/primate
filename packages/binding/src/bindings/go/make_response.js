@@ -10,6 +10,8 @@ const handle_function = response => {
   return handlers[handler]?.(args) ?? error();
 };
 
+const handle_other = response => JSON.parse(response);
+
 export default response => typeof response === "function"
   ? handle_function(response())
-  : response;
+  : handle_other(response);

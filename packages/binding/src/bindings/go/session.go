@@ -6,10 +6,10 @@ import "errors"
 
 type Session struct {
   Exists func() bool
-  Get func(string) interface{}
-  GetAll func() map[string]interface{}
-  Set func(string, interface{}) error
-  Create func(map[string]interface{})
+  Get func(string) any
+  GetAll func() map[string]any
+  Set func(string, any) error
+  Create func(map[string]any)
   Destroy func()
 }
 
@@ -22,7 +22,7 @@ func make_session(request js.Value) Session {
       return session.Get("exists").Invoke().Bool();
     },
     // Get
-    func(key string) interface{} {
+    func(key string) any {
       invoked := session.Get("get").Invoke(key);
       jstype := invoked.Type()
       switch jstype {
@@ -45,13 +45,13 @@ func make_session(request js.Value) Session {
       return nil;
     },
     // GetAll
-    func() map[string]interface{} {
-      data := make(map[string]interface{});
+    func() map[string]any {
+      data := make(map[string]any);
       json.Unmarshal([]byte(session.Get("getAll").Invoke().String()), &data);
       return data;
     },
     // Set
-    func(key string, value interface{}) error {
+    func(key string, value any) error {
       r := session.Get("set").Invoke(key, value);
       if (r.Type() == 7) {
         return errors.New(r.Invoke().String());
@@ -59,7 +59,7 @@ func make_session(request js.Value) Session {
       return nil
     },
     // Create
-    func(data map[string]interface{}) {
+    func(data map[string]any) {
       session.Get("create").Invoke(data);
     },
     // Destroy
