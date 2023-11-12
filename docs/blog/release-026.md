@@ -228,6 +228,39 @@ As `esbuild` has become a peer dependency, you will also now need to install
 it explicitly using `npm install esbuild`. Primate will error out if you're
 missing it.
 
+### Convert type functions to type objects
+
+In 0.26, it is no longer possible to export a runtime type as a function. All
+runtime types must instead export an object with `base` string and a  `validate`
+function property. Modify any runtime type functions to the new object format.
+
+```js types/uuid.js
+const uuid = /^[^\W_]{8}-[^\W_]{4}-[^\W_]{4}-[^\W_]{4}-[^\W_]{12}$/u;
+
+// before
+/*
+export default value => {
+  if (uuid.test(value)) {
+    return value;
+  }
+
+  throw new Error(`${JSON.stringify(value)} is not a valid UUID`);
+};
+*/
+
+// now
+export default {
+  base: "string",
+  validate(value) {
+    if (uuid.test(value)) {
+      return value;
+    }
+
+    throw new Error(`${JSON.stringify(value)} is not a valid UUID`);
+  },
+};
+```
+
 ## Other changes
 
 Consult the [full changelog][changelog] for a list of all relevant changes.
