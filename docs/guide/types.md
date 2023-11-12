@@ -18,48 +18,21 @@ string `"true"` as true, which is what you would expect on the web.
 
 Types are defined in the `types` directory, unless specified
 [elsewise](/guide/configuration#location-types) in the configuration. Type
-filenames are alphanumeric and lowercase-first -- any files not starting with a 
+filenames are alphanumeric and lowercase-first. Any files not starting with a 
 lowercase letter will be ignored.
 
-Type files can be described using either implicit or explicit notation. They 
-either export a function as their default export, or an object containing a
-`validate` function property.
+Type files are described using an object containing a `base` (string) and a 
+`validate` (function) property.
 
 Here is an example for a `number` type, a type that makes sure a string is
-numeric and outputs its as a number. This example uses implicit notation.
-
-```js caption=types/number.js
-// `is` asserts invariants, `numeric` returns true if a string is numeric
-import { is, numeric } from "rcompat/invariant";
-
-export default value => {
-  // make sure value is a string, otherwise throw
-  is(value).string();
-
-  const n = numeric(value) ? Number(value) : value;
-  if (typeof n === "number") {
-    return n;
-  }
-  throw new Error(`\`${value}\` is not a number`);
-};
-```
-
-If a string can be successfully converted to a number, a `number` type will
-returned. Otherwise the type function will throw.
-
-!!!
-Unlike the example, there is nothing stopping you from accepting other base
-types like `number` or `bigint` as input, but your main input type will usually
-be strings.
-!!!
-
-Here is the same example using explicit notation.
+numeric and outputs its as a number.
 
 ```js caption=types/number.js
 // `is` asserts invariants, `numeric` returns true if a string is numeric
 import { is, numeric } from "rcompat/invariant";
 
 export default {
+  base: "f64",
   validate(value) {
     // make sure value is a string, otherwise throw
     is(value).string();
@@ -73,13 +46,18 @@ export default {
 };
 ```
 
+If a string can be successfully converted to a number, a `number` type will
+returned. Otherwise the `validate` function will throw.
+
 !!!
-Which notation you use is up to you. If you're only using types for validating
-input provided by `request.{body,path,query,headers,cookies}`, the implicit
-notation should suffice. If you're planning on storing values of those types in
-a data store, the explicit notation is better as it allows you to define
-additional properties relevant for persisting values.
+Unlike the example, there is nothing stopping you from accepting other base
+types like `number` or `bigint` as input, but your main input type will usually
+be strings.
 !!!
+
+!!!
+The `base` property is relevant when you use other languages aside from
+JavaScript (like Go)
 
 You can also create more elaborate types, like `uuid`.
 
@@ -88,14 +66,17 @@ import { is } from "rcompat/invariant";
 
 const valid = /^[^\W_]{8}-[^\W_]{4}-[^\W_]{4}-[^\W_]{4}-[^\W_]{12}$/u;
 
-export default value => {
-  // make sure value is a string, otherwise throw
-  is(value).string();
+export default {
+  base: "string",
+  validate(value) {
+    // make sure value is a string, otherwise throw
+    is(value).string();
 
-  if (valid.test(value)) {
-    return value;
-  }
-  throw new Error(`${value} is not a valid UUID`);
+    if (valid.test(value)) {
+      return value;
+    }
+    throw new Error(`${value} is not a valid UUID`);
+  },
 };
 ```
 
@@ -112,7 +93,7 @@ types.
 
 Primate types can be imported and used anywhere in your application to ensure
 certain code invariants are met. In addition, many of Primate's built-in
-functionalities integrate seamlessly with the types you define.
+features integrate seamlessly with the types you define.
 
 ### Path parameters
 
@@ -155,15 +136,18 @@ const users = [
 ];
 
 export default id => {
-  // IDs must be numbers
-  const n = number(id);
+  type: "f64",
+  validate(id) {
+    // IDs must be numbers
+    const n = number(id);
 
-  const user = users.find(user => user.id === n);
-  if (user !== undefined) {
-    return n;
-  }
-  throw new Error(`${id} is not a valid user ID`);
-}
+    const user = users.find(user => user.id === n);
+    if (user !== undefined) {
+      return n;
+    }
+    throw new Error(`${id} is not a valid user ID`);
+  },
+};
 ```
 
 With that definition, using `{userId}` in any route will autotype it to the
@@ -206,9 +190,9 @@ to use the route filename `routes/user/{userId=userId}.js` instead.
 
 Likewise, the request's query string parts, which we previously accessed using
 `request.query.get`, may be typed to ensure adherence to a given format. This
-can be achieved manually by importing the type function. Here we'll also create
-an additional `user` type coercing the ID into a user object, to get a proper
-user object and not just the ID.
+can be achieved manually by importing the type. Here we'll also create an 
+additional `user` type coercing the ID into a user object, to get a proper user
+object and not just the ID.
 
 ```js caption=types/user.js
 import number from "./number.js";
@@ -220,16 +204,19 @@ const users = [
   },
 ];
 
-export default id => {
-  // ids must be numbers
-  const n = number(id);
+export default {
+  type: "object",
+  validate(id) {
+    // ids must be numbers
+    const n = number(id);
 
-  const user = users.find(user => user.id === n);
-  if (user !== undefined) {
-    return user;
-  }
-  throw new Error(`no user with ID ${id}`);
-}
+    const user = users.find(user => user.id === n);
+    if (user !== undefined) {
+      return user;
+    }
+    throw new Error(`no user with ID ${id}`);
+  },
+};
 ```
 
 We then use the type to assert the id is a user id and coerce it into a user,
@@ -247,7 +234,7 @@ export default {
     -> Error
   */
   get(request) {
-    return user(request.query.get("userId"));
+    return user.validate(request.query.get("userId"));
   }
 }
 ```

@@ -12,6 +12,8 @@ import http from "highlight.js/lib/languages/http";
 import plaintext from "highlight.js/lib/languages/plaintext";
 import md from "highlight.js/lib/languages/markdown";
 import handlebars from "highlight.js/lib/languages/handlebars";
+import go from "highlight.js/lib/languages/go";
+
 hljs.registerLanguage("javascript", javascript);
 hljs.registerLanguage("json", json);
 hljs.registerLanguage("xml", xml);
@@ -20,6 +22,7 @@ hljs.registerLanguage("http", http);
 hljs.registerLanguage("plaintext", plaintext);
 hljs.registerLanguage("md", md);
 hljs.registerLanguage("hbs", handlebars);
+hljs.registerLanguage("go", go);
 
 const master = (i) => i;
 
@@ -133,6 +136,9 @@ export default {
             "Types",
             "Store",
             "Drivers",
+            { heading: "Bindings" },
+            "Bindings",
+            "Go",
             { heading: "Others" },
             "Liveview",
             "Session",

@@ -61,7 +61,7 @@ component, use `<svelte:head>` for Svelte. For React and Solid, you can use the
 `Head` export of `@primate/frontend/react` and `@primate/frontend/solid` for
 the same behavior.
 
-## Overview
+## Support matrix
 
 Every frontend framework registers its own file extension with the
 [`view`][view] handler and needs to be loaded in `primate.config.js`. You can

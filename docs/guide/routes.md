@@ -46,21 +46,21 @@ using object destructuring.
 
 ### body
 
-The request body. For requests that have no body (such as GET requests) it
-defaults to `null`.
+The request body.
 
 ```js caption=routes/your-name.js
 export default {
   post(request) {
-    const body = request.body.getAll();
+    const name = request.body.get("name");
 
     return `Hello, ${body}`;
   },
 }
 ```
 
-If a client sends a POST request to `/your-name` with `text/plain` "Donald" as
-body, this route will respond with 200 saying `Hello, Donald`.
+If a client sends a POST request to `/your-name` using the content type
+`application/json` and `{"name": "Donald"}` as body, this route will respond
+with 200 saying  `Hello, Donald`.
 
 Primate will attempt to decode the body according to the `Content-Type` header
 used in the request.
