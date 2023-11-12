@@ -55,14 +55,14 @@ func Get(request Request) any {
 }
 
 func Post(request Request) any {
-  return map[string]{
+  return map[string]any{
     "name": "Donald",
   };
 }
 ```
 
 If you send a GET request to `/`, you will see a plain text response of
-`"Donald"`. In case it's POST, a JSON response with `{"name": "Donald"}`.
+`"Donald"`. For POST, you'll see a JSON response with `{"name": "Donald"}`.
 
 For your convenience, Primate furnishes you with two types, `Object` which is
 `map[string]any` and `Array` which is `[]any`. If you're returning a JSON
@@ -133,12 +133,15 @@ programming languages in Primate and improving the Go API compatibility to match
 that of JavaScript. As WASI becomes more mature and is supported by more
 programming languages and runtimes, we intend to move to that.
 
+If you have a particular language you wish to see supported in Primate routes,
+please open an issue describing your use case.
+
 ## Live reload
 
 This release features a rewritten `@primate/build` module, formerly named
 `@primate/esbuild`. The `esbuild` export of this module now bundles your
 application both in development (`npx primate`) and production (`npx primate
-serve`) modes. In development mode, this module will insert a small client-side
+serve`) mode. In development mode, this module will insert a small client-side
 script that reloads the browser whenever you edit a component.
 
 For more information, see the `@primate/build` [documentation page][build].
@@ -232,7 +235,7 @@ missing it.
 
 In 0.26, it is no longer possible to export a runtime type as a function. All
 runtime types must instead export an object with `base` string and a  `validate`
-function property. Modify any runtime type functions to the new object format.
+function property. Change any runtime type functions to the new object format.
 
 ```js types/uuid.js
 const uuid = /^[^\W_]{8}-[^\W_]{4}-[^\W_]{4}-[^\W_]{4}-[^\W_]{12}$/u;
