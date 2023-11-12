@@ -189,7 +189,7 @@ called with a property, in which case it would retrieve that property's value
 (or `undefined`), or without a property, which would return the entire
 underlying object.
 
-The latter can has been now extracted from `get` into `getAll`. Calling
+The latter case has been now extracted from `get` into `getAll`. Calling
 `dispatcher.get` without a string argument in 0.26 will throw.
 
 ### New: request.session.getAll()
