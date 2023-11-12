@@ -5,10 +5,14 @@ import { doubled } from "../loaders/common.js";
 import errors from "../errors.js";
 
 const pre = async app => {
-  const { config: { location } } = app;
-
   // remove build directory in case exists
   await app.path.build.remove();
+
+  return { ...app };
+};
+
+const post = async app => {
+  const { config: { location } } = app;
 
   // stage routes
   await app.runpath(location.routes).create();
@@ -27,15 +31,11 @@ const pre = async app => {
     await app.extensions[path.extension]
       ?.route(staged, path.debase(`${staged}/`), types);
   }
-
-  return { ...app, types };
-};
-
-const post = async app => {
   const routes = await loaders.routes(app);
 
   return {
     ...app,
+    types,
     routes,
     dispatch: dispatch(app.types),
     layout: {

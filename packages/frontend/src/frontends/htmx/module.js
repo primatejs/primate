@@ -33,7 +33,7 @@ const dependencies = ["htmx-esm"];
 const default_extension = "htmx";
 
 const base_import_template = async (name, app) => {
-  await app.import("htmx-esm", "client-side-templates/handlebars");
+  await app.import("htmx-esm", `client-side-templates/${name}`);
   const from = `htmx-esm/client-side-templates/${name}`;
   const code = `export * from "${from}";`;
   app.export({ type: "script", code });

@@ -114,7 +114,7 @@ export default ({
 
       active = true;
 
-      return next(app);
+      return next({ ...app, stores });
     },
     async stage(app, next) {
       await app.stage(env.root, directory);
