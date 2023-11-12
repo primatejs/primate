@@ -28,11 +28,11 @@ export default {
 
 ### Plain text
 
-[plain text][Corresponding documentation for JavaScript]
+[JavaScript documentation][plain text]
 
 Strings are served with the content type `text/plain`.
 
-```go caption=routes/plain-text.go```
+```go caption=routes/plain-text.go
 func Get(request Request) any {
   return "Donald";
 }
@@ -43,15 +43,15 @@ them the string "Donald" in plain text.
 
 ### JSON
 
-[JSON][Corresponding documentation for JavaScript]
+[JavaScript documentation][JSON]
 
 Maps (including arrays) are served with the content type `application/json`.
 
-```go caption=routes/json.go```
+```go caption=routes/json.go
 func Get(request Request) any {
   return []any{
-    map[string]any{ "name": "Donald"},
-    map[string]any{ "name": "Ryan"},
+    map[string]any{ "name": "Donald" },
+    map[string]any{ "name": "Ryan" },
   };
 }
 ```
@@ -63,20 +63,20 @@ For your convenience, Primate furnishes you with two types, `Object` which is
 `map[string]any` and `Array` which is `[]any`, allowing you to write the route
 more elegantly.
 
-```go caption=routes/json.go```
+```go caption=routes/json.go
 func Get(request Request) any {
   return Array{
-    Object{ "name": "Donald"},
-    Object{ "name": "Ryan"},
+    Object{ "name": "Donald" },
+    Object{ "name": "Ryan" },
   };
 }
 ```
 
 ### Redirect
 
-[redirect][Corresponding documentation for JavaScript]
+[JavaScript documentation][redirect]
 
-The `Redirect` handler allows you to redirect response.
+The `Redirect` handler allows you to redirect responses.
 
 ```go caption=routes/redirect.go
 import "github.com/primatejs/go/primate"
@@ -94,18 +94,18 @@ import "github.com/primatejs/go/primate"
 
 func Get(request Request) any {
   // moved permanently
-  return primate.Redirect("https://primatejs.com", Object{"status": 301});
+  return primate.Redirect("https://primatejs.com", Object{ "status": 301 });
 }
 ```
 
 ### View
 
-[view][Corresponding documentation for JavaScript]
+[JavaScript documentation][view]
 
 The `View` handler allows you to serve responses with content type `text/html`
 from the `components` directory.
 
-```go caption=routes/view.go`
+```go caption=routes/view.go
 import "github.com/primatejs/go/primate"
 
 func Get(request Request) any {
@@ -157,7 +157,7 @@ func Get(request Request) any {
     "title": "First post",
   }};
 
-  return primate.View("PostIndex.svelte", Object{"posts": posts});
+  return primate.View("PostIndex.svelte", Object{ "posts": posts });
 }
 ```
 
@@ -166,14 +166,14 @@ http://localhost:6161/svelte.
 
 ### The request object
 
-Route verb functions accept an optional, single parameter representing request 
-data. This aggregate object allows easy access to the request `Body`, any `Path`
+Route verb functions accept a single parameter representing request data. This
+aggregate object allows easy access to the request `Body`, any `Path`
 parameters defined with braces, the `Query` string split into parts, `Cookies`
 as well as other `Headers`.
 
 ### Body
 
-[body][Corresponding documentation for JavaScript]
+[JavaScript documentation][body]
 
 The request body.
 
@@ -191,10 +191,10 @@ with 200 saying  `Hello, Donald`.
 
 ### Path, Query, Cookies, Headers
 
-[path][Corresponding documentation for JavaScript]
+[JavaScript documentation][path]
 
-These properties work in the same way that they do in JavaScript. They are all 
-`Dispatcher`s, defined as follows.
+Similar to `Body`, these properties work in the same way that they do in 
+JavaScript. They are all `Dispatcher`s, defined as follows.
 
 ```go caption=Dispatcher struct
 type Dispatcher struct {
@@ -227,7 +227,7 @@ export default {
 };
 ```
 
-The `Dispatcher` would now look a little different.
+The `Dispatcher` struct would now look a little different.
 
 ```go caption=Dispatcher struct
 type Dispatcher struct {
@@ -238,16 +238,16 @@ type Dispatcher struct {
 ```
 
 In Javascript, calling `request.query.getUuid("id")` can throw. In Go, 
-`request.Query.GetUuid("id")` returns a non-nil error in case the type
+`request.Query.GetUuid("id")` returns a non-`nil` error in case the type's
 `validate` function threw.
 
 ### Session
 
-[session][Corresponding documentation for JavaScript]
+[JavaScript documentation][session]
 
-If the `@primate/session` is active, the `Request` object passed to a route
-will contain an additional `Session` property, allowing you to retrieve and set
-session data from within Go.
+If the `@primate/session` module is active, the `Request` object passed to a
+route will contain an additional `Session` property, allowing you to retrieve
+and set session data from within Go.
 
 A `Session` struct is as defined as follows.
 
@@ -263,7 +263,7 @@ type Session struct {
 ```
 
 Here is a Go route that, in case a session does not exist, creates it with a
-`count` equaling 0, and otherwise increments `count` by 1. In both cases, the
+`count` equaling 0 and otherwise increments `count` by 1. In both cases, the
 session data is served to the client as JSON.
 
 ```go caption=routes/session.go
@@ -287,10 +287,12 @@ Default `"go"`
 
 The file extension to be associated with Go routes.
 
-[plain text]: /responses#plain-text
-[json]: /responses#json
-[redirect]: /responses#redirect
-[view]: /responses#view
-[body]: /routes#body
-[path]: /routes#path
+[plain text]: /guide/responses#plain-text
+[json]: /guide/responses#json
+[redirect]: /guide/responses#redirect
+[view]: /guide/responses#view
+[body]: /guide/routes#body
+[path]: /guide/routes#path
 [session]: /modules/session#use
+[default-index]:
+https://github.com/primatejs/primate/blob/master/packages/primate/src/defaults/app.html

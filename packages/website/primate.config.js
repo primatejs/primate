@@ -137,7 +137,7 @@ export default {
             "Store",
             "Drivers",
             { heading: "Bindings" },
-            "Bindings",
+            "Binding",
             "Go",
             { heading: "Others" },
             "Liveview",
