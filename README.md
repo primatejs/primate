@@ -69,5 +69,10 @@ Primate stands apart as a framework-agnostic tool, allowing you to seamlessly in
 
 MIT
 
+## Contributing
+
+By contributing to Primate, you agree that your contributions will be licensed
+under its MIT license.
+
 [read guide]: https://primatejs.com/guide/getting-started
 
