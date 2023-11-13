@@ -26,7 +26,7 @@ To add support for Go, install the `@primate/binding` module.
 `npm install @primate/binding`
 
 In addition, your system needs to have the `go` executable in its path, as it
-is used to compile the Go routes into Wasm.
+is used to compile Go routes into Wasm.
 
 ### Configure
 
@@ -108,7 +108,7 @@ of the field.
 type Dispatcher struct {
   Get func(string) any
   GetAll func() map[string]any
-  // dynamic runtime types
+  // dynamic runtime type getters
 }
 ```
 
@@ -119,7 +119,7 @@ as plain text.
 ```go caption=routes/index.go
 func Get(request Request) any {
   // -> responds with text/plain "Donald"
-  return request.Query.get("name").(string);
+  return request.Query.Get("name").(string);
 }
 ```
 
@@ -142,7 +142,7 @@ This release features a rewritten `@primate/build` module, formerly named
 `@primate/esbuild`. The `esbuild` export of this module now bundles your
 application both in development (`npx primate`) and production (`npx primate
 serve`) mode. In development mode, this module will insert a small client-side
-script that reloads the browser whenever you edit a component.
+script that reloads the browser whenever you edit and save a component.
 
 For more information, see the `@primate/build` [documentation page][build].
 
@@ -211,13 +211,13 @@ module with HTMX, make sure to remove the `htmx.org` dependency and install
 
 ### Use @primate/build instead of @primate/esbuild
 
-The `@primate/esbuild` has been renamed `@primate/build`. If you previously 
-used `@primate/esbuild` with its default export, install `@primate/build` and 
-change your configuration to use the `esbuild` export of `@primate/build`. 
-Remove the old `@primate/esbuild` package.
+The `@primate/esbuild` package has been renamed `@primate/build`. If you
+previously  used `@primate/esbuild` with its default export, install
+`@primate/build` and  change your configuration to use the `esbuild` export of
+`@primate/build`. Remove the old `@primate/esbuild` package.
 
 ```js primate.config.js
-// old: import esbuild from "@primate/esbuild"
+// old: import esbuild from "@primate/esbuild";
 import { esbuild } from "@primate/build";
 
 export default {
@@ -273,7 +273,7 @@ Consult the [full changelog][changelog] for a list of all relevant changes.
 Some of the things we plan to tackle in the upcoming weeks are,
 
 * Add projections and relations to stores
-* Multidriver transaction
+* Multidriver transactions
 * Introduce IDE TypeScript support
 * Add support for TypeScript (.ts) routes in `@primate/binding`
 * Add a `command` hook that would allow modules to register command line

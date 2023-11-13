@@ -95,7 +95,7 @@ Consult the [full changelog][changelog] for a list of all relevant changes.
 Some of the things we plan to tackle in the upcoming weeks are,
 
 * Add projections and relations to stores
-* Multidriver transaction
+* Multidriver transactions
 * Introduce IDE TypeScript support
 * Add a `command` hook that would allow modules to register command line
   namespaces, to be able to run `npx primate [namespace] [command] [flags]`
