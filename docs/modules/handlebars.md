@@ -65,7 +65,7 @@ Directory where the Handlebars components reside.
 
 Default `"hbs"`
 
-The file extension to be associated with this handler.
+The file extension associated with Handlebars components.
 
 ## Resources
 

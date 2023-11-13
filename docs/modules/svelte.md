@@ -75,7 +75,7 @@ Directory where the Svelte components reside.
 
 Default `"svelte"`
 
-The file extension to be associated with this handler.
+The file extension associated with Svelte components.
 
 ## Resources
 

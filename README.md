@@ -44,11 +44,12 @@ Primate stands apart as a framework-agnostic tool, allowing you to seamlessly in
 |[@primate/frontend](packages/frontend)       | Frontend frameworks           |
 |[@primate/store](packages/store)             | Data store                    |
 |[@primate/types](packages/types)             | Runtime types                 |
-|[@primate/esbuild](packages/esbuild)         | Bundling JS/CSS               |
+|[@primate/build](packages/build)             | Bundling JS/CSS               |
 |[@primate/session](packages/session)         | User sessions                 |
 |[@primate/ws](packages/ws)                   | Web sockets                   |
 |[@primate/liveview](packages/liveview)       | Liveview client (SPA)         |
 |[@primate/i18n](packages/i18n)               | Internationalization          |
+|[@primate/binding](packages/binding)         | Other backend languages       |
 |[website](packages/website)                  | Primate website               |
 
 ## Resources

@@ -72,7 +72,7 @@ to `true`.
 
 Default `"htmx"`
 
-The file extension to be associated with this handler.
+The file extension associated with HTMX components.
 
 ### extensions
 

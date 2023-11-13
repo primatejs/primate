@@ -65,7 +65,7 @@ Directory where the Vue SFC components reside.
 
 Default `"vue"`
 
-The file extension to be associated with this handler.
+The file extension associated with Vue SFC components.
 
 ## Resources
 

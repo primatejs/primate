@@ -84,7 +84,7 @@ Directory where the Solid JSX components reside.
 
 Default `"jsx"`
 
-The file extension to be associated with this handler.
+The file extension associated with Solid JSX components.
 
 ## Resources
 

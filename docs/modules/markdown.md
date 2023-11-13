@@ -48,17 +48,11 @@ http://localhost:6161/markdown.
 
 ## Configuration options
 
-### directory
-
-Default `config.location.components`
-
-Directory where the Markdown components reside.
-
 ### extension
 
 Default `"md"`
 
-The file extension to be associated with this handler.
+The file extension associated with Markdown components.
 
 ### options
 

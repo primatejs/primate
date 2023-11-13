@@ -285,7 +285,7 @@ func Get(request Request) any {
 
 Default `"go"`
 
-The file extension to be associated with Go routes.
+The file extension associated with Go routes.
 
 [plain text]: /guide/responses#plain-text
 [json]: /guide/responses#json

@@ -103,3 +103,4 @@ dependency is missing and what command you need to issue to install it.
 [Liveview]: /modules/liveview
 [I18N]: /modules/i18n
 [bailout]: /guide/logging#bailout
+[error]: /guide/logging#error

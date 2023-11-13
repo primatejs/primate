@@ -68,7 +68,7 @@ Directory where the React JSX components reside.
 
 Default `"jsx"`
 
-The file extension to be associated with this handler.
+The file extension associated with React JSX components.
 
 ## Resources
 
