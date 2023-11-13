@@ -26,7 +26,7 @@ To add support for Go, install the `@primate/binding` module.
 `npm install @primate/binding`
 
 In addition, your system needs to have the `go` executable in its path, as it
-is used to compile Go routes into Wasm.
+is used to compile Go routes into WebAssembly.
 
 ### Configure
 
@@ -45,8 +45,8 @@ export default {
 ### Use
 
 When writing routes, you can pretty much do everything you can do in JavaScript
-routes -- in Go. For example, if you return strings or maps from your Go route, 
-Primate will serve them as content type `text/plain` and `application/json`, 
+routes, in Go. For example, if you return strings or maps from your Go route,
+Primate will serve them as content type `text/plain` and `application/json`,
 respectively.
 
 ```go caption=routes/index.go
@@ -81,8 +81,8 @@ Accessing GET at `/json-array` will return a JSON array with this data.
 
 ```json
 [
-  "name": "Donald",
-  "name": "Ryan"
+  { "name": "Donald" },
+  { "name": "Ryan" }
 ]
 ```
 
@@ -151,7 +151,7 @@ For more information, see the `@primate/build` [documentation page][build].
 Primate now supports HTMX extensions, using an ESM version of HTMX (`htmx-esm`
 package) instead of the `htmx.org` package.
 
-To use an HTMX extension, pass it to the HTMX module's `extensions` array 
+To use an HTMX extension, pass it to the HTMX module's `extensions` array
 property in your Primate configuration.
 
 ```js primate.config.js
@@ -159,14 +159,14 @@ import { htmx } from "@primate/frontend";
 
 export default {
   modules: [
-    htmx({ 
-      extensions: ["head-support"], 
+    htmx({
+      extensions: ["head-support"],
     }),
   ],
 };
 ```
 
-If you're using the `client-side-templates` extension, include the individual 
+If you're using the `client-side-templates` extension, include the individual
 client side templates in the `client_side_templates` array property.
 
 ```js primate.config.js
@@ -174,9 +174,9 @@ import { htmx } from "@primate/frontend";
 
 export default {
   modules: [
-    htmx({ 
-      extensions: ["client-side-templates", "head-support"], 
-      client_side_templates: ["handlebars", "mustache"], 
+    htmx({
+      extensions: ["client-side-templates", "head-support"],
+      client_side_templates: ["handlebars", "mustache"],
     }),
   ],
 };
@@ -291,7 +291,7 @@ feedback.
 
 ## Fin
 
-If you like Primate, consider [joining our channel #primate][irc] on 
+If you like Primate, consider [joining our channel #primate][irc] on
 irc.libera.chat.
 
 Otherwise, have a blast with the new version!

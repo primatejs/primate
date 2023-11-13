@@ -70,7 +70,7 @@ Command used `ab -c 350 -n 100000 http://localhost:6161/benchmark/svelte`
 
 |Server               |TT (s) |RPS    |TPR (ms)|TR (Kbytes/s)
 |---------------------|-------|-------|--------|------------|
-|`npx primate`        |117.646|850.01 |1.176   |2560.81     | 
+|`npx primate`        |117.646|850.01 |1.176   |2560.81     |
 |`bun x primate`      |115.408|866.49 |1.154   |2610.48     |
 |`bun --bun x primate`|29.981 |3335.40|0.300   |10058.33    |
 
@@ -113,7 +113,7 @@ feedback.
 
 ## Fin
 
-If you like Primate, consider [joining our channel #primate][irc] on 
+If you like Primate, consider [joining our channel #primate][irc] on
 irc.libera.chat.
 
 Otherwise, have a blast with the new version!

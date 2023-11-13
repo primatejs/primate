@@ -1,4 +1,4 @@
-Today we're announcing the availability of the Primate 0.23 preview release. 
+Today we're announcing the availability of the Primate 0.23 preview release.
 This release comes along with a new frontend handler, Handlebars, transactions
 across most of our database drivers, bundler code splitting, as well as several
 quality of life improvements.
@@ -58,7 +58,7 @@ If you then run Primate, your Handlebars component should be served at `GET /`
 as HTML.
 
 Like other frontend handlers, you can change the directory from which
-Handlebars  components are loaded and the file extension associated with them by 
+Handlebars components are loaded and the file extension associated with them by
 changing the module configuration.
 
 ```js caption=primate.config.js
@@ -258,7 +258,7 @@ feedback.
 
 ## Fin
 
-If you like Primate, consider [joining our channel #primate][irc] on 
+If you like Primate, consider [joining our channel #primate][irc] on
 irc.libera.chat.
 
 Otherwise, have a blast with the new version!

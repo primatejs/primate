@@ -1,4 +1,4 @@
-Today we're announcing the availability of the Primate 0.22 preview release. 
+Today we're announcing the availability of the Primate 0.22 preview release.
 This release comes along with 2 new frontend handlers (Solid, Markdown),
 full React support and build transformations.
 
@@ -250,7 +250,7 @@ Consult the [full changelog][changelog] for a list of all relevant changes.
 
 ## Next on the road
 
-After an extensive 0.21, this was a relatively small release with a fair amount 
+After an extensive 0.21, this was a relatively small release with a fair amount
 of internal changes in addition to the changes here listed.
 
 Some of the things we plan to tackle in the upcoming weeks are,
@@ -274,7 +274,7 @@ feedback.
 
 ## Fin
 
-If you like Primate, consider [joining our channel #primate][irc] on 
+If you like Primate, consider [joining our channel #primate][irc] on
 irc.libera.chat.
 
 Otherwise, have a blast with the new version!

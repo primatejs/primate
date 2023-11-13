@@ -1,5 +1,5 @@
-Today we're announcing the availability of the Primate 0.21 preview release. 
-This release comes along with 3 new data stores (SQLite, PostgreSQL, MongoDB), 
+Today we're announcing the availability of the Primate 0.21 preview release.
+This release comes along with 3 new data stores (SQLite, PostgreSQL, MongoDB),
 custom error routes, and a client liveview mode (SPA). On the tooling side,
 we've also added a GUI for creating Primate apps, available via
 `npm create primate`. With this release, we're also officially inaugurating our
@@ -14,13 +14,13 @@ get an idea of the framework.
 
 This release adds 3 new data store types, SQLite, PostgreSQL and MongoDB. In
 addition, SurrealDB support has been moved from its own package into
-`@primate/store`. All data store driver wrappers are now available as 
-`@primate/store` exports, where the user is responsible for installing the 
+`@primate/store`. All data store driver wrappers are now available as
+`@primate/store` exports, where the user is responsible for installing the
 underlying driver package.
 
 For example, if you want to use the SQLite driver wrapper, you will need to
 install `better-sqlite3`. Which package should be installed is documented in
-the [driver section][drivers]. Primate will also direct you to install the 
+the [driver section][drivers]. Primate will also direct you to install the
 correct package should it be missing.
 
 Using the new store drivers is similar to how all drivers work. You import and
@@ -60,7 +60,7 @@ encounters an error during execution.
 Similarly to guards and layouts, the error route accepts a `request` parameter
 and responds with a proper handler. Here is an example with an error route
 file rendering a Svelte component.
- 
+
 ```js caption=routes/+error.js
 import { view } from "primate";
 
@@ -68,7 +68,7 @@ export default request => view("ErrorPage.svelte");
 ```
 
 Like guards and layouts, error files are recursively applied. For every route,
-the **nearest** error file to it will apply. It will first look in its own 
+the **nearest** error file to it will apply. It will first look in its own
 directory, and then start climbing up the filesystem hierarchy, falling back to
 any `+error.js` file it finds along the way. Unlike guards and layouts, the
 moment an `+error.js` file is found, it will be used to handle the response.
@@ -130,8 +130,8 @@ the future.
 
 Although Primate's frontend framework wrappers have all implemented SSR and
 some (like Svelte) also hydration, there was until now a gap in achieving true
-SPA (single-page application) functionality. This release bridges this gap by 
-adding a new module, `@primate/liveview`, that injects a small JavaScript client 
+SPA (single-page application) functionality. This release bridges this gap by
+adding a new module, `@primate/liveview`, that injects a small JavaScript client
 into the build. This client uses `fetch` to manage clicking on links and
 submitting forms instead of reloading the entire page, and also manages browsing
 the history.
@@ -158,10 +158,10 @@ export default {
 
 !!!
 Liveview is equally relevant for `@primate/react` and `@primate/vue`, as well
-as theoretically for the standard HTML handler, for rendering partial responses. 
+as theoretically for the standard HTML handler, for rendering partial responses.
 For the former two, we plan on supporting it as soon as we implement hydration.
-For the latter, there is some conflict of interest with the `@primate/htmx` 
-module that merits further investigation into the utility of supporting 
+For the latter, there is some conflict of interest with the `@primate/htmx`
+module that merits further investigation into the utility of supporting
 liveview for HTML.
 !!!
 
@@ -171,7 +171,7 @@ On the tooling side, we have added a `create-primate` package which allows you
 to generate new Primate apps using a GUI. To start it, run `npm create primate`
 in your terminal.
 
-This GUI will walk you through the process of creating a new Primate app, 
+This GUI will walk you through the process of creating a new Primate app,
 allowing you to choose from the three common templates (web app, API, static
 server) and asking you follow-up questions depending on the chosen template.
 Most of the questions provide a link to the relevant section of the modules
@@ -229,7 +229,7 @@ feedback.
 
 ## Fin
 
-If you like Primate, consider [joining our channel #primate][irc] on 
+If you like Primate, consider [joining our channel #primate][irc] on
 irc.libera.chat.
 
 Otherwise, have a blast with the new version!

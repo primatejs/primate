@@ -44,7 +44,7 @@ export default {
 };
 ```
 
-To add languages, create a locales directory `locales`. In this directory, 
+To add languages, create a locales directory `locales`. In this directory,
 create a JSON file for every locale you would like to support and add keys and
 translations.
 
@@ -72,7 +72,7 @@ Add another locale.
 }
 ```
 
-Next, use the default deep export from `@primate/i18n` for your frontend of 
+Next, use the default deep export from `@primate/i18n` for your frontend of
 choice in your component, for example Svelte.
 
 ### Svelte
@@ -207,7 +207,7 @@ feedback.
 
 ## Fin
 
-If you like Primate, consider [joining our channel #primate][irc] on 
+If you like Primate, consider [joining our channel #primate][irc] on
 irc.libera.chat.
 
 Otherwise, have a blast with the new version!
