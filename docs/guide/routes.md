@@ -90,10 +90,10 @@ saying Hello and the provided name.
 
 !!!
 The `get(property)` function on `request.body` retrieves individual properties.
-If you wish to get all properties, use `getAll()`.
+If you wish to get all properties, use `all()`.
 
 ```js
-const { name } = request.body.getAll();
+const { name } = request.body.all();
 ```
 
 This applies not only to `body` but to all of the following request sections.

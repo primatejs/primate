@@ -199,7 +199,7 @@ JavaScript. They are all `Dispatcher`s, defined as follows.
 ```go caption=Dispatcher struct
 type Dispatcher struct {
   Get func(string) any
-  GetAll func() map[string]any
+  All func() map[string]any
   // dynamic runtime type getters
 }
 ```
@@ -232,7 +232,7 @@ The `Dispatcher` struct would now look a little different.
 ```go caption=Dispatcher struct
 type Dispatcher struct {
   Get func(string) any
-  GetAll func() map[string]any
+  All func() map[string]any
   GetUuid func(string) (string, error)
 }
 ```
@@ -255,7 +255,7 @@ A `Session` struct is as defined as follows.
 type Session struct {
   Exists func() bool
   Get func(string) any
-  GetAll func() map[string]any
+  All func() map[string]any
   Set func(string, any) error
   Create func(map[string]any)
   Destroy func()
@@ -275,7 +275,7 @@ func Get(request Request) any {
     request.Session.Set("count", foo + 1);
   }
     
-  return request.Session.GetAll();
+  return request.Session.All();
 }
 ```
 

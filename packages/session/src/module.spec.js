@@ -19,7 +19,7 @@ export default test => {
     const next = ({ session }) => {
       assert(session).defined();
       assert(session.id).undefined();
-      assert(session.getAll()).equals({});
+      assert(session.all()).equals({});
       return response();
     };
 
@@ -35,7 +35,7 @@ export default test => {
     const next = async ({ session }) => {
       assert(session).defined();
       assert(session.id).undefined();
-      assert(session.getAll()).equals({});
+      assert(session.all()).equals({});
       await session.create();
       return response();
     };
@@ -53,7 +53,7 @@ export default test => {
     const next = async ({ session }) => {
       assert(session).defined();
       assert(session.id).undefined();
-      assert(session.getAll()).equals({});
+      assert(session.all()).equals({});
       return response();
     };
 
@@ -65,7 +65,7 @@ export default test => {
     const next2 = sessionId => ({ session }) => {
       assert(session).defined();
       assert(session.id).equals(sessionId);
-      assert(session.getAll()).equals({});
+      assert(session.all()).equals({});
       return response();
     };
 
@@ -175,7 +175,7 @@ export default test => {
     const next = async ({ session }) => {
       assert(session).defined();
       assert(session.id).undefined();
-      assert(session.getAll()).equals({});
+      assert(session.all()).equals({});
       assert(() => session.set({})).throws();
       await session.create();
       assert(() => session.set({})).nthrows();

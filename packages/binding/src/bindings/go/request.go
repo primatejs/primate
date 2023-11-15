@@ -11,7 +11,7 @@ type Array []any
 
 type Dispatcher struct {
   Get func(string) any
-  GetAll func() map[string]any
+  All func() map[string]any
   %%DISPATCH_STRUCT%%
 }
 

@@ -8,13 +8,13 @@ export default (store, id) => {
     return store.has($id);
   };
 
-  const getAll = _ => {
+  const all = _ => {
     return store.get($id) ?? {};
   };
 
   const set = (key, value) => {
     if (exists()) {
-      store.set($id, { ...getAll(), [key]: value });
+      store.set($id, { ...all(), [key]: value });
     } else {
       throw new Error("cannot call set on an uninitialized session");
     }
@@ -31,11 +31,11 @@ export default (store, id) => {
       return store.get($id)?.[key];
     },
     set,
-    getAll,
+    all,
     create(data = {}) {
       if (!exists()) {
         $id = crypto.randomUUID();
-        store.set($id, { ...getAll(), ...data });
+        store.set($id, { ...all(), ...data });
       }
     },
     destroy() {

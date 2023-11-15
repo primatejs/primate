@@ -107,7 +107,7 @@ of the field.
 ```go caption=Dispatcher struct
 type Dispatcher struct {
   Get func(string) any
-  GetAll func() map[string]any
+  All func() map[string]any
   // dynamic runtime type getters
 }
 ```
@@ -184,21 +184,21 @@ export default {
 
 ## Migrating from 0.25
 
-### Use getAll() instead of get()
+### Use all() instead of get()
 
 Change any uses of `request.{body, path, query, cookies, headers}.get` without
-parameters to `getAll`. Previously, the `get` function on a dispatcher could be
+parameters to `all`. Previously, the `get` function on a dispatcher could be
 called with a property, in which case it would retrieve that property's value
 (or `undefined`), or without a property, which would return the entire
 underlying object.
 
-The latter case has been now extracted from `get` into `getAll`. Calling
+The latter case has been now extracted from `get` into `all`. Calling
 `dispatcher.get` without a string argument in 0.26 will throw.
 
-### New: request.session.getAll()
+### New: request.session.all()
 
 A `request.session` object is now similar to a dispatcher in that that it has
-both `get` and `getAll`, to query individual session properties and the entire
+both `get` and `all`, to query individual session properties and the entire
 session data. Like real dispatchers, `get` will throw if called without
 arguments or with a non-string first argument.
 

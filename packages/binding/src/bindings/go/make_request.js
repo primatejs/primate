@@ -4,7 +4,7 @@ const make_search_params = url => stringify(from(url.searchParams.entries()));
 const dispatchers = ["body", "path", "query", "cookies", "headers"];
 
 const make_dispatcher = dispatcher => {
-  const { get, getAll: _, raw: _1, ...rest } = dispatcher;
+  const { get, all: _, raw: _1, ...rest } = dispatcher;
   return valmap(rest, getter => {
     try {
       return getter();
@@ -30,7 +30,7 @@ const make_session = session => {
         }
       },
       get: session.get,
-      getAll: () => JSON.stringify(session.getAll()),
+      all: () => JSON.stringify(session.all()),
     },
   };
 };
@@ -43,7 +43,7 @@ export default request => {
     search_params: make_search_params(request.url),
     ...from(dispatchers.map(property => [
       property, {
-        properties: JSON.stringify(request[property].getAll()),
+        properties: JSON.stringify(request[property].all()),
         ...make_dispatcher(request[property]),
       },
     ])),
