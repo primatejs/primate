@@ -29,6 +29,7 @@
     ".": {
       "default": "./src/exports.js"
     },
-    "./go": "./src/bindings/go/exports.js"
+    "./go": "./src/bindings/go/exports.js",
+    "./python": "./src/bindings/python/exports.js"
   }
 }
