@@ -9,9 +9,6 @@ const defaults = cwd(import.meta, 2).join("defaults");
 const pre = async app => {
   const { config: { location: { pages, client, components } }, path } = app;
 
-  await Promise.all(["server", "client", "pages"]
-    .map(directory => app.runpath(directory).create()));
-
   // copy framework pages
   await app.stage(defaults, pages, html);
   // overwrite transformed pages to build

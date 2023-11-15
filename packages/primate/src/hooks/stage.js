@@ -7,6 +7,9 @@ import errors from "../errors.js";
 const pre = async app => {
   // remove build directory in case exists
   await app.path.build.remove();
+  await app.path.build.create();
+  await Promise.all(["server", "client", "pages", "components"]
+    .map(directory => app.runpath(directory).create()));
 
   return { ...app };
 };
