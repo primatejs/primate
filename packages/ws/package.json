@@ -1,6 +1,6 @@
 {
   "name": "@primate/ws",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "Primate WebSocket module",
   "homepage": "https://primatejs.com/modules/ws",
   "bugs": "https://github.com/primatejs/primate/issues",
