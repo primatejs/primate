@@ -104,11 +104,13 @@ export default async (log, root, config) => {
       if (compile === undefined) {
         const debased = `${component.path}`.replace(source, "");
 
-        const server_target = this.runpath(server, components);
-        await component.copy(server_target.join(debased));
+        const server_target = this.runpath(server, components, debased);
+        await server_target.directory.create();
+        await component.copy(server_target);
 
-        const client_target = this.runpath(client, components);
-        await component.copy(client_target.join(debased));
+        const client_target = this.runpath(client, components, debased);
+        await client_target.directory.create();
+        await component.copy(client_target);
       } else {
         // compile server components
         await compile.server(component);
