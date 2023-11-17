@@ -6,8 +6,8 @@ import errors from "./errors.js";
 
 const default_extension = "go";
 const command = "go";
-const run = (name, includes = "request.go") =>
-  `${command} build -o ${name.base}wasm ${name} ${includes}`;
+const run = (wasm, go, includes = "request.go") =>
+  `${command} build -o ${wasm} ${go} ${includes}`;
 const routes_re = /func (?<route>Get|Post|Put|Delete)/gu;
 const add_setter = route => `
   var cb${route} js.Func;
@@ -147,20 +147,26 @@ export default ({ extension = default_extension } = {}) => {
     async stage(app, next) {
       app.register(extension, {
         route: async (directory, file, types) => {
-          const includes = await create_meta_files(directory, types, app);
-
           const path = directory.join(file);
+          const base = path.directory;
+          const go = path.base.concat("go");
+          const wasm = path.base.concat("wasm");
+          const js = path.base.concat("js");
+
+          // create meta files
+          const includes = await create_meta_files(base, types, app);
+
           const code = await path.text();
           const routes = get_routes(code);
-          // load file
+          // write .go file
           await path.write(go_wrapper(code, routes));
-
-          await directory.join(file.base.slice(0, -1).concat(".js"))
-            .write(js_wrapper(routes));
+          // write .js wrapper
+          await base.join(js).write(js_wrapper(routes));
 
           try {
-            const cwd = `${directory}`;
-            await execute(run(file, includes.join(" ")),
+            const cwd = `${base}`;
+            // compile .go to .wasm
+            await execute(run(wasm, go, includes.join(" ")),
               { cwd, env: { HOME: user.HOME, ...env } });
           } catch (error) {
             errors.ErrorInGoRoute.throw(file, error);
