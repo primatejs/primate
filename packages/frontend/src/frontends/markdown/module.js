@@ -7,18 +7,17 @@ import depend from "../depend.js";
 const handle = (handler, directory) => (...[name, ...rest]) =>
   async (app, ...noapp) => {
     const base = app.runpath(app.config.location.server, directory);
-    const content = await base.join(`${name}.html`).text();
+    const body = await base.join(`${name}.html`).text();
     const toc = await base.join(`${name}.json`).json();
 
-    return handler({ content, toc }, ...rest)(app, ...noapp);
+    return handler({ body, toc }, ...rest)(app, ...noapp);
   };
 
-const as_html = ({ content }, _, { status = Status.OK, page } = {}) =>
-  async app =>
-    new Response(await app.render({ body: content, page }), {
-      status,
-      headers: { ...await app.headers(), "Content-Type": MediaType.TEXT_HTML },
-    });
+const render = ({ body }, _, { status = Status.OK, page, placeholders } = {}) =>
+  async app => new Response(await app.render({ body }, page, placeholders), {
+    status,
+    headers: { ...await app.headers(), "Content-Type": MediaType.TEXT_HTML },
+  });
 
 const name = "markdown";
 const dependencies = ["marked"];
@@ -27,7 +26,7 @@ const default_extension = ".md";
 const markdown = ({
   extension = default_extension,
   options,
-  handler,
+  renderer,
 } = {}) => {
   const on = filter(peers, ([key]) => dependencies.includes(key));
 
@@ -44,7 +43,7 @@ const markdown = ({
       const target = app.runpath(location.server, location.components);
 
       app.register(extension, {
-        handle: handle(handler ?? as_html, location.components),
+        handle: handle(renderer ?? render, location.components),
         compile: {
           async server(component) {
             const text = await component.text();

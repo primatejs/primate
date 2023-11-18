@@ -2,7 +2,7 @@ import crypto from "rcompat/crypto";
 import { tryreturn } from "rcompat/async";
 import { Path } from "rcompat/fs";
 import { is } from "rcompat/invariant";
-import { transform, valmap } from "rcompat/object";
+import { transform, valmap, to } from "rcompat/object";
 import { globify } from "rcompat/string";
 import * as runtime from "rcompat/meta";
 
@@ -42,6 +42,14 @@ const tags = {
       : tag({ name: "link", attributes: { rel, href }, close: false });
   },
 };
+
+const render_head = (assets, head) =>
+  to_sorted(assets, ({ type }) => -1 * (type === "importmap"))
+    .map(({ src, code, type, inline, integrity }) =>
+      type === "style"
+        ? tags.style({ inline, code, href: src })
+        : tags.script({ inline, code, type, integrity, src }),
+    ).join("\n").concat("\n", head ?? "");
 
 const { name, version } = await new Path(import.meta.url).up(2)
   .join(runtime.manifest).json();
@@ -138,19 +146,13 @@ export default async (log, root, config) => {
     runpath(...directories) {
       return this.path.build.join(...directories);
     },
-    async render({ body = "", head = "", page = config.pages.index } = {}) {
-      const { location: { pages } } = this.config;
+    async render({ body, head }, page = config.pages.index, placeholders = {}) {
+      const { assets, config: { location, pages } } = this;
 
-      const html = await index(this.runpath(pages), page, config.pages.index);
-
-      const heads = to_sorted(this.assets,
-        ({ type }) => -1 * (type === "importmap"))
-        .map(({ src, code, type, inline, integrity }) =>
-          type === "style"
-            ? tags.style({ inline, code, href: src })
-            : tags.script({ inline, code, type, integrity, src }),
-        ).join("\n").concat("\n", head);
-      return html.replace("%body%", _ => body).replace("%head%", _ => heads);
+      return to({ ...placeholders, body, head: render_head(assets, head) })
+        .reduce((html, [key, value]) => html.replace(`%${key}%`, value ?? ""),
+          await index(this.runpath(location.pages), page, pages.index))
+        .replaceAll(/%.*%/gus, "");
     },
     async inline(code, type) {
       const integrity = await this.hash(code);

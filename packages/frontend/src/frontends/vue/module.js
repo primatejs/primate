@@ -3,27 +3,25 @@ import { filter } from "rcompat/object";
 import { register, compile, peers } from "../common/exports.js";
 import depend from "../depend.js";
 
-const name = "vue";
-const dependencies = ["vue"];
-const default_extension = ".vue";
-
 const handler = ({ make, createSSRApp, render }) =>
-  (name, props = {}, { status = Status.OK, page } = {}) =>
+  (name, props = {}, { status = Status.OK, page, placeholders } = {}) =>
     async app => {
       const imported = await make(name, props);
       const component = createSSRApp({
-      render: imported.component.render,
-      data: () => props,
-    });
+        render: imported.component.render,
+        data: () => props,
+      });
       const body = await render(component);
 
-      return new Response(await app.render({ body, page }), {
-      status,
-      headers: { ...app.headers(), "Content-Type": MediaType.TEXT_HTML },
-    });
+      return new Response(await app.render({ body }, page, placeholders), {
+        status,
+        headers: { ...app.headers(), "Content-Type": MediaType.TEXT_HTML },
+      });
     };
 
-export default ({ extension = default_extension } = {}) => {
+export default ({ extension = ".vue" } = {}) => {
+  const name = "vue";
+  const dependencies = ["vue"];
   const on = filter(peers, ([key]) => dependencies.includes(key));
   const rootname = name;
   let imports = {};

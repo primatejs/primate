@@ -13,20 +13,21 @@ const load_component = async path => {
 };
 
 const style = "'unsafe-inline'";
+const render = (body, head, { partial = false, app, page, placeholders }) =>
+  partial ? body : app.render({ body, head }, page, placeholders);
 
-const handler = directory =>
-  (name, { status = Status.OK, partial = false } = {}) => async app => {
-    const code = "import { htmx } from \"app\";";
-    const components = app.runpath(app.config.location.server, directory);
-    const { head, csp } = await app.inline(code, "module");
-    const headers = { style, script: csp };
-    const body = await load_component(components.join(name));
+const handler = directory => (name, options = {}) => async app => {
+  const code = "import { htmx } from \"app\";";
+  const components = app.runpath(app.config.location.server, directory);
+  const { head, csp } = await app.inline(code, "module");
+  const headers = { style, script: csp };
+  const body = await load_component(components.join(name));
 
-    return new Response(partial ? body : await app.render({ body, head }), {
+  return new Response(await render(body, head, { app, ...options }), {
       status,
       headers: { ...app.headers(headers), "Content-Type": MediaType.TEXT_HTML },
     });
-  };
+};
 
 const name = "htmx";
 const dependencies = ["htmx-esm"];

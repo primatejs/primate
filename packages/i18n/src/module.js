@@ -107,7 +107,6 @@ export default ({
           "Set-Cookie": cookie(name, set_locale, options),
         },
       });
-
     },
     async context(request, next) {
       if (!active) {

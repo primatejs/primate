@@ -10,7 +10,7 @@ export default config => {
 
   const get_names = components => map(components, ({ name }) => normalize(name));
 
-  return (name, props = {}, { status = Status.OK, page } = {}) =>
+  return (name, props = {}, { status = Status.OK, page, placeholders } = {}) =>
     async (app, { layouts = [], as_layout } = {}, request) => {
       const options = {
         liveview: app.liveview !== undefined,
@@ -55,9 +55,9 @@ export default config => {
       const inlined = await app.inline(code, "module");
 
       const headers = app.headers({ script: inlined.csp });
-      const rendered = { body, page, head: head.concat(inlined.head) };
+      const rendered = { body, head: head.concat(inlined.head) };
 
-      return new Response(await app.render(rendered), {
+      return new Response(await app.render(rendered, page, placeholders), {
         status,
         headers: { ...headers, "Content-Type": MediaType.TEXT_HTML },
       });
