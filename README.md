@@ -35,6 +35,13 @@ Primate stands apart as a framework-agnostic tool, allowing you to seamlessly in
 - MongoDB
 - MySQL/MariaDB (coming soon)
 
+### Languages We Support
+
+- JavaScript
+- GoLang
+- TypeScript (coming soon)
+- Python (coming soon)
+
 ## Packages
 
 | Package                                     | Description                   |
