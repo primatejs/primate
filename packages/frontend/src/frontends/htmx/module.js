@@ -24,7 +24,7 @@ const handler = directory => (name, options = {}) => async app => {
   const body = await load_component(components.join(name));
 
   return new Response(await render(body, head, { app, ...options }), {
-      status,
+      status: options.status ?? Status.OK,
       headers: { ...app.headers(headers), "Content-Type": MediaType.TEXT_HTML },
     });
 };

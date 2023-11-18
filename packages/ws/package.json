@@ -16,7 +16,7 @@
     "directory": "packages/ws"
   },
   "dependencies": {
-    "rcompat": "^0.4.1",
+    "rcompat": "^0.5.0",
     "ws": "^8.14.2"
   },
   "peerDependencies": {

@@ -19,7 +19,7 @@
     "db:surreal": "surreal start --user test --pass test"
   },
   "dependencies": {
-    "rcompat": "^0.4.1"
+    "rcompat": "^0.5.0"
   },
   "devDependencies": {
     "@primate/types": "^0.10.2",
