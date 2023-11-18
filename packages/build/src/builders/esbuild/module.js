@@ -24,9 +24,9 @@ const publish = async (app, client) => {
   for (const path of await client.collect(re, { recursive: false })) {
     const code = await path.text();
     const src = path.name;
-    const type = path.extension === "css" ? "style" : "module";
+    const type = path.extension === ".css" ? "style" : "module";
     await app.publish({ src, code, type });
-    if (path.extension === "js") {
+    if (path.extension === ".js") {
       const imports = { app: new Path(http.static.root, src).path };
       await app.publish({
         inline: true,
