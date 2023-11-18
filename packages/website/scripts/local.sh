@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
-rm -r content
-cp -a ../../docs content
+rm -r components/content
+cp -a ../../docs components/content
 npm start

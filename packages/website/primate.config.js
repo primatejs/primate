@@ -1,9 +1,8 @@
-import priss from "./module.js";
-import esbuild from "@primate/esbuild";
+import { Path } from "rcompat/fs";
+import { esbuild } from "@primate/build";
 import liveview from "@primate/liveview";
 import { svelte, markdown } from "@primate/frontend";
 import hljs from "highlight.js/lib/core";
-
 import xml from "highlight.js/lib/languages/xml";
 import javascript from "highlight.js/lib/languages/javascript";
 import json from "highlight.js/lib/languages/json";
@@ -13,6 +12,7 @@ import plaintext from "highlight.js/lib/languages/plaintext";
 import md from "highlight.js/lib/languages/markdown";
 import handlebars from "highlight.js/lib/languages/handlebars";
 import go from "highlight.js/lib/languages/go";
+import priss from "./module.js";
 
 hljs.registerLanguage("javascript", javascript);
 hljs.registerLanguage("json", json);
@@ -38,7 +38,6 @@ export default {
     esbuild({ ignores: ["woff2", "jpg"] }),
     liveview(),
     markdown({
-      directory: "content",
       options: {
         hooks: {
           postprocess(html) {
@@ -85,7 +84,7 @@ export default {
       blog: true,
       title: "Primate",
       description: "Expressive, minimal and extensible web framework",
-      root: "content",
+      root: new Path("components", "content"),
       theme: master({
         navbar: [
           { label: "Guide", link: "/guide/getting-started" },

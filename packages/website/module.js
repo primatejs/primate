@@ -1,3 +1,5 @@
+import { view } from "primate";
+
 const encode_title = title => title.toLowerCase().replaceAll(" ", "-");
 
 const parse_title_object = (section, entry) => entry.heading
@@ -22,7 +24,7 @@ const get_page = async (env, config, pathname) => {
   const { location } = env.config;
   const base = env.runpath(location.server, config.root);
   const html = await base.join(`${pathname}.md.html`);
-  if (!await html.exists) {
+  if (!await html.exists()) {
     return undefined;
   }
   const toc = await base.join(`${pathname}.md.json`);
@@ -53,23 +55,18 @@ const get_page = async (env, config, pathname) => {
 const handle_blog = async (env, config, pathname) => {
   if (pathname.startsWith("/blog")) {
     const directory = env.root.join(config.root, "blog");
-    if (await directory.exists) {
+    if (await directory.exists()) {
       if (pathname === "/blog") {
         const posts = await Promise.all((await directory.collect(/^.*json$/u))
           .map(async path => ({ ...await path.json(), link: path.base })));
         posts.sort((a, b) => b.epoch - a.epoch);
-        return env.handlers.svelte("BlogIndex.svelte", {
-          app: config,
-          posts,
-        });
+        return view("BlogIndex.svelte", { app: config, posts });
       }
       const base = pathname.slice(5);
       try {
         const meta = await directory.join(`${base}.json`).json();
         const { content, toc } = await get_page(env, config, pathname);
-        return env.handlers.svelte("BlogPage.svelte", {
-          content, toc, meta, app: config,
-        });
+        return view("BlogPage.svelte", { content, toc, meta, app: config });
       } catch (error) {
         // ignore the error and let Primate show an error page
       }
@@ -100,7 +97,7 @@ export default config => {
 
       const page = await get_page(env, config, pathname);
       if (page !== undefined) {
-        return env.handlers.svelte("StaticPage.svelte",
+        return view("StaticPage.svelte",
           { ...page, app: config })(env, {}, request);
       }
       return next({ ...request, config });

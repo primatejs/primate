@@ -2,7 +2,7 @@ FROM denoland/deno:alpine as builder
 
 COPY . /app
 
-RUN mv /app/docs /app/packages/website/content
+RUN mv /app/docs /app/packages/website/components/content
 
 WORKDIR /app/packages/website
 
