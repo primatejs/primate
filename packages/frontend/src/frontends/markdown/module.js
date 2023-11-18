@@ -1,5 +1,6 @@
 import { Response, Status, MediaType } from "rcompat/http";
 import { stringify, filter } from "rcompat/object";
+import { Path } from "rcompat/fs";
 import { peers } from "../common/exports.js";
 import depend from "../depend.js";
 
@@ -39,7 +40,6 @@ const markdown = ({
     },
     register(app, next) {
       const { location } = app.config;
-      const source = app.runpath(location.components);
       const target = app.runpath(location.server, location.components);
 
       app.register(extension, {
@@ -49,12 +49,12 @@ const markdown = ({
             const text = await component.text();
             const { content, toc } = markdown.compile(text, options);
 
-            const filename = component.path;
-            const html = target.join(`${filename}.html`.replace(source, ""));
+            const base  = target.join(component.debase(app.path.components));
+            const html = new Path(`${base}.html`);
             await html.directory.create();
             await html.write(content);
 
-            const json = target.join(`${filename}.json`.replace(source, ""));
+            const json = new Path(`${base}.json`);
             await json.write(stringify(toc));
           },
           // no hydration
