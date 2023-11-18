@@ -30,7 +30,7 @@ const handler = directory =>
 
 const name = "htmx";
 const dependencies = ["htmx-esm"];
-const default_extension = "htmx";
+const default_extension = ".htmx";
 
 const base_import_template = async (name, app) => {
   await app.import("htmx-esm", `client-side-templates/${name}`);

@@ -15,7 +15,7 @@ const handler = ({ directory, render }) =>
 
 const name = "handlebars";
 const dependencies = ["handlebars"];
-const default_extension = "hbs";
+const default_extension = ".hbs";
 const on = filter(peers, ([key]) => dependencies.includes(key));
 
 export default ({ extension = default_extension } = {}) => {

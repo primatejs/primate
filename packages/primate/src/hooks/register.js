@@ -39,7 +39,7 @@ const post = async app => {
     await Promise.all(imports.map(async file => {
       const code = await file.text();
       const src = file.debase(path.static);
-      const type = file.extension === "css" ? "style" : "module";
+      const type = file.extension === ".css" ? "style" : "module";
       // already copied in `app.stage`
       await app.publish({ src, code, type, copy: false });
       type === "style" && app.export({ type,

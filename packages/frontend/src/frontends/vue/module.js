@@ -5,7 +5,7 @@ import depend from "../depend.js";
 
 const name = "vue";
 const dependencies = ["vue"];
-const default_extension = "vue";
+const default_extension = ".vue";
 
 const handler = ({ make, createSSRApp, render }) =>
   (name, props = {}, { status = Status.OK, page } = {}) =>

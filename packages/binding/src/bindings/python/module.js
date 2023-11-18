@@ -1,11 +1,11 @@
-const default_extension = "py";
+const default_extension = ".py";
 
 const routes_re = /def (?<route>get|post|put|delete)/gu;
 const get_routes = code => [...code.matchAll(routes_re)]
   .map(({ groups: { route } }) => route);
 
 const make_route = route => `${route.toLowerCase()}(request) {
-  const ${route}_fn = pyodide.globals.get(${route});
+  const ${route}_fn = pyodide.globals.get("${route}");
   return make_response(${route}_fn(make_request(request)));
 }`;
 
@@ -33,7 +33,7 @@ export default ({ extension = default_extension } = {}) => {
           const path = directory.join(file);
           const code = await path.text();
           const routes = get_routes(code);
-          await directory.join(file.base.slice(0, -1).concat(".js"))
+          await directory.join(file.base.concat(".js"))
             .write(await js_wrapper(`${path}`, routes));
         },
       });

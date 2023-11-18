@@ -1,7 +1,7 @@
 # Solid
 
 This handler module supports SSR and hydration and serves Solid (JSX)
-components with the `jsx` extension.
+components with the `.jsx` extension.
 
 ## Install
 
@@ -29,7 +29,9 @@ import { solid } from "@primate/frontend";
 
 export default {
   modules: [
-    solid({ extension: "solid" }),
+    solid({
+      extension: ".solid",
+    }),
   ],
 };
 ```
@@ -37,7 +39,7 @@ export default {
 ## Use
 
 Create a JSX component in `components`. This example assumes you have changed
-the Solid component file extension to `solid`.
+the Solid component file extension to `.solid`.
 
 ```jsx caption=components/PostIndex.solid
 import { For } from "solid-js/web";
@@ -82,7 +84,7 @@ Directory where the Solid JSX components reside.
 
 ### extension
 
-Default `"jsx"`
+Default `".jsx"`
 
 The file extension associated with Solid JSX components.
 

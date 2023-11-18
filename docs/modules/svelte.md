@@ -1,7 +1,7 @@
 # Svelte
 
 This handler module supports SSR and hydration and serves Svelte components
-with the `svelte` extension.
+with the `.svelte` extension.
 
 ## Install
 
@@ -73,7 +73,7 @@ Directory where the Svelte components reside.
 
 ### extension
 
-Default `"svelte"`
+Default `".svelte"`
 
 The file extension associated with Svelte components.
 

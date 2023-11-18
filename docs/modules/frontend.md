@@ -67,15 +67,15 @@ Every frontend framework registers its own file extension with the
 [`view`][view] handler and needs to be loaded in `primate.config.js`. You can
 use different frontend frameworks alongside each other, in different routes.
 
-|          |HTML  |[Svelte]       |[React] |[Solid] |[Vue]|[HTMX]|[Handlebars]|
-|----------|------|---------------|--------|--------|-----|------|------------|
-|Extension |`html`|`svelte`       |`jsx`   |`jsx`   |`vue`|`htmx`|`hbs`       |
-|[Layouts] |✗     |✓              |✓       |✓       |✗    |✗     |✗           | 
-|SSR       |✗     |✓              |✓       |✓       |✓    |✗     |✓           | 
-|Hydration |✗     |✓              |✓       |✓       |✗    |✗     |✗           |
-|[Liveview]|✗     |✓              |✓       |✓       |✗    |✗     |✗           |
-|Head      |✗     |`<svelte:head>`|`<Head>`|`<Head>`|✗    |✗     |✗           |
-|[I18N]    |✗     |✓              |✓       |✓       |✗    |✗     |✗           |
+|          |HTML   |[Svelte]       |[React] |[Solid] |[Vue] |[HTMX] |[Handlebars]|
+|----------|-------|---------------|--------|--------|------|-------|------------|
+|Extension |`.html`|`.svelte`      |`.jsx`  |`.jsx`  |`.vue`|`.htmx`|`.hbs`      |
+|[Layouts] |✗      |✓              |✓       |✓       |✗     |✗      |✗           | 
+|SSR       |✗      |✓              |✓       |✓       |✓     |✗      |✓           | 
+|Hydration |✗      |✓              |✓       |✓       |✗     |✗      |✗           |
+|[Liveview]|✗      |✓              |✓       |✓       |✗     |✗      |✗           |
+|Head      |✗      |`<svelte:head>`|`<Head>`|`<Head>`|✗     |✗      |✗           |
+|[I18N]    |✗      |✓              |✓       |✓       |✗     |✗      |✗           |
 
 ## Error list
 

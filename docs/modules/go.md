@@ -283,7 +283,7 @@ func Get(request Request) any {
 
 ### extension
 
-Default `"go"`
+Default `".go"`
 
 The file extension associated with Go routes.
 

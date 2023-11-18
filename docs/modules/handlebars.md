@@ -1,6 +1,6 @@
 # Handlebars
 
-This handler module serves Handlebars components with the `hbs` extension.
+This handler module serves Handlebars components with the `.hbs` extension.
 
 ## Install
 
@@ -63,7 +63,7 @@ Directory where the Handlebars components reside.
 
 ### extension
 
-Default `"hbs"`
+Default `".hbs"`
 
 The file extension associated with Handlebars components.
 

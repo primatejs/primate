@@ -22,9 +22,10 @@ const as_html = ({ content }, _, { status = Status.OK, page } = {}) =>
 
 const name = "markdown";
 const dependencies = ["marked"];
+const default_extension = ".md";
 
 const markdown = ({
-  extension = "md",
+  extension = default_extension,
   options,
   handler,
 } = {}) => {
@@ -49,7 +50,7 @@ const markdown = ({
             const text = await component.text();
             const { content, toc } = markdown.compile(text, options);
 
-            const base  = target.join(component.debase(app.path.components));
+            const base = target.join(component.debase(app.path.components));
             const html = new Path(`${base}.html`);
             await html.directory.create();
             await html.write(content);

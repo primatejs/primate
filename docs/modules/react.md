@@ -1,7 +1,7 @@
 # React
 
 This handler module supports SSR and hydration and serves React (JSX)
-components with the `jsx` extension.
+components with the `.jsx` extension.
 
 ## Install
 
@@ -66,7 +66,7 @@ Directory where the React JSX components reside.
 
 ### extension
 
-Default `"jsx"`
+Default `".jsx"`
 
 The file extension associated with React JSX components.
 

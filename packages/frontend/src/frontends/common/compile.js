@@ -39,8 +39,8 @@ export default async ({
   normalize,
 }) => {
   const extensions = {
-    from: `.${extension}`,
-    to: `.${extension}.js`,
+    from: extension,
+    to: `${extension}.js`,
   };
   await create.server_root(app, rootname, create_root, compile);
   await create.client_root(app, rootname, create_root, compile, extensions);

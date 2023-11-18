@@ -1,6 +1,6 @@
 # Markdown
 
-This handler module serves Markdown components with the `md` extension.
+This handler module serves Markdown components with the `.md` extension.
 
 ## Install
 
@@ -50,7 +50,7 @@ http://localhost:6161/markdown.
 
 ### extension
 
-Default `"md"`
+Default `".md"`
 
 The file extension associated with Markdown components.
 

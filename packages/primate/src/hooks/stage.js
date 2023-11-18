@@ -21,7 +21,7 @@ const post = async app => {
   await app.runpath(location.routes).create();
   const double = doubled((await app.path.routes.collect())
     .map(path => path.debase(app.path.routes))
-    .map(path => `${path}`.slice(1, -path.extension.length - 1)));
+    .map(path => `${path}`.slice(1, -path.extension.length)));
   double && errors.DoubleRoute.throw(double);
 
   await app.stage(app.path.routes, location.routes);

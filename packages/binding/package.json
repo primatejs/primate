@@ -19,7 +19,7 @@
     "directory": "packages/binding"
   },
   "dependencies": {
-    "rcompat": "^0.3.4"
+    "rcompat": "^0.4.1"
   },
   "peerDependencies": {
     "primate": "0.26"

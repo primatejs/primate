@@ -4,7 +4,7 @@ import { execute } from "rcompat/stdio";
 import { user } from "rcompat/env";
 import errors from "./errors.js";
 
-const default_extension = "go";
+const default_extension = ".go";
 const command = "go";
 const run = (wasm, go, includes = "request.go") =>
   `${command} build -o ${wasm} ${go} ${includes}`;
@@ -149,9 +149,9 @@ export default ({ extension = default_extension } = {}) => {
         route: async (directory, file, types) => {
           const path = directory.join(file);
           const base = path.directory;
-          const go = path.base.concat("go");
-          const wasm = path.base.concat("wasm");
-          const js = path.base.concat("js");
+          const go = path.base.concat(".go");
+          const wasm = path.base.concat(".wasm");
+          const js = path.base.concat(".js");
 
           // create meta files
           const includes = await create_meta_files(base, types, app);

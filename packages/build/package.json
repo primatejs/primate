@@ -16,7 +16,7 @@
     "directory": "packages/build"
   },
   "dependencies": {
-    "rcompat": "^0.3.4"
+    "rcompat": "^0.4.1"
   },
   "devDependencies": {
     "esbuild": "^0.19.5"
