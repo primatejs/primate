@@ -37,8 +37,9 @@ Primate stands apart as a framework-agnostic tool, allowing you to seamlessly in
 
 ### Languages We Support
 
-- JavaScript/TypeScript
+- JavaScript
 - GoLang
+- TypeScript (coming soon)
 - Python (coming soon)
 
 ## Packages
