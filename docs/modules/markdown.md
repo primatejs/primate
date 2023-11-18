@@ -56,15 +56,15 @@ The file extension associated with Markdown components.
 
 ### options
 
-Default `undefined`
+Default `{}`
 
 Options to be passed to the underlying `marked` package.
 
-### handler
+### renderer
 
-Default `undefined`
+Default `(...) => Response`
 
-An alternative handler. The default handler renders the compiled Markdown as
+An alternative renderer. The default renderer renders the compiled Markdown as
 HTML.
 
 ## Resources
