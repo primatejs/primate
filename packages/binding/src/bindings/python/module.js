@@ -1,4 +1,6 @@
-const default_extension = ".py";
+import { filter } from "rcompat/object";
+import { peers } from "../common/exports.js";
+import depend from "../depend.js";
 
 const routes_re = /def (?<route>get|post|put|delete)/gu;
 const get_routes = code => [...code.matchAll(routes_re)]
@@ -22,11 +24,20 @@ const js_wrapper = async (path, routes) => `
   };
 `;
 
-export default ({ extension = default_extension } = {}) => {
+export default ({
+  extension = ".py",
+} = {}) => {
   const name = "python";
+  const dependencies = ["pyodide"];
+  const on = filter(peers, ([key]) => dependencies.includes(key));
 
   return {
     name: `primate:${name}`,
+    async init(app, next) {
+      await depend(on, `frontend:${name}`);
+
+      return next(app);
+    },
     async stage(app, next) {
       app.register(extension, {
         route: async (directory, file) => {

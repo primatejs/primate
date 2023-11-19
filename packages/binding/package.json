@@ -22,7 +22,13 @@
     "rcompat": "^0.5.0"
   },
   "peerDependencies": {
-    "primate": "0.26"
+    "primate": "0.26",
+    "pyodide": "0.24"
+  },
+  "peerDependenciesMeta": {
+    "pyodide": {
+      "optional": true
+    }
   },
   "type": "module",
   "exports": {
