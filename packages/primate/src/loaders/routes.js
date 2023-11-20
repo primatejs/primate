@@ -31,18 +31,19 @@ export default async (app, load = fs) => {
     .map(async extra => [extra, await get[extra](log, directory, load)])));
 
   return (await get.routes(log, directory, load)).map(([path, imported]) => {
-    if (imported === undefined || Object.keys(imported).length === 0) {
+    const route = imported.default;
+    if (route === undefined || Object.keys(route).length === 0) {
       errors.EmptyRouteFile.warn(log, directory.join(`${path}.js`).path);
       return [];
     }
     const filtered = filter(path);
 
-    return Object.entries(imported).map(([method, handler]) => ({
+    return Object.entries(route).map(([method, handler]) => ({
       method,
       handler,
       pathname: make(path.endsWith("/") ? path.slice(0, -1) : path),
-      guards: routes.guards.filter(filtered).map(([, guard]) => guard),
-      errors: routes.errors.filter(filtered).map(([, error]) => error),
+      guards: routes.guards.filter(filtered).map(([, guard]) => guard.default),
+      errors: routes.errors.filter(filtered).map(([, error]) => error.default),
       layouts: routes.layouts.filter(filtered).map(([, layout]) => layout),
     }));
   }).flat();

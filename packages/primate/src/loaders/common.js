@@ -21,7 +21,7 @@ export default async ({
       .filter(filter)
       .map(async path => [
         `${path}`.replace(directory, _ => "").slice(1, -ending.length),
-        (await import(path)).default,
+        (await import(path)),
       ]));
   warn && await Path.exists(directory) && empty(log)(objects, name, directory);
 

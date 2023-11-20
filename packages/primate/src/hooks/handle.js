@@ -31,6 +31,13 @@ const guard = (app, guards) => async (request, next) => {
   }
 };
 
+const get_layouts = async (layouts, request) => {
+  const stop_at = layouts.findIndex(({ recursive }) => recursive === false);
+  return Promise.all(layouts
+    .slice(stop_at === -1 ? 0 : stop_at)
+    .map(layout => layout.default(request)));
+};
+
 export default app => {
   const { config: { http: { static: { root } }, location } } = app;
 
@@ -51,9 +58,8 @@ export default app => {
 
       // handle request
       const response = (await cascade(hooks, handler))(pathed);
-      return (await respond(await response))(app, {
-        layouts: await Promise.all(layouts.map(layout => layout(request))),
-      }, pathed);
+      const $layouts = { layouts: await get_layouts(layouts, request) };
+      return (await respond(await response))(app, $layouts, pathed);
     }).orelse(async error => {
       app.log.auto(error);
 

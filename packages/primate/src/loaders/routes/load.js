@@ -11,7 +11,7 @@ export default type => async (log, directory, load) => {
   ([a], [b]) => a.length - b.length);
 
   const resolve = name => new Path(directory, name, `+${type}.js`);
-  objects.some(([name, value]) => typeof value !== "function"
+  objects.some(([name, value]) => typeof value.default !== "function"
     && errors.InvalidDefaultExport.throw(resolve(name)));
 
   return objects;
