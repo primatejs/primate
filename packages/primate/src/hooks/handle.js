@@ -1,10 +1,7 @@
 import { Response, Status, MediaType } from "rcompat/http";
 import { cascade, tryreturn } from "rcompat/async";
 import { respond } from "./respond/exports.js";
-import { invalid } from "./route.js";
 import { error as clientError } from "../handlers/exports.js";
-import _errors from "../errors.js";
-const { NoFileForPath } = _errors;
 
 const guard_error = Symbol("guard_error");
 const guard = (app, guards) => async (request, next) => {
@@ -40,16 +37,14 @@ const get_layouts = async (layouts, request) => {
 
 export default app => {
   const { config: { http: { static: { root } }, location } } = app;
+  const route = request => app.route(request);
 
   const as_route = async request => {
-    const { pathname } = request.url;
-    // if NoFileForPath is thrown, this will remain undefined
+    // if tryreturn throws, this will default
     let error_handler = app.error.default;
 
     return tryreturn(async _ => {
-      const { path, guards, errors, layouts, handler } = invalid(pathname)
-        ? NoFileForPath.throw(pathname, location.static)
-        : await app.route(request);
+      const { path, guards, errors, layouts, handler } = await route(request);
       error_handler = errors?.at(-1);
 
       const pathed = { ...request, path };

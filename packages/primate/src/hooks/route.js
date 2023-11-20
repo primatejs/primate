@@ -6,9 +6,6 @@ import validate from "../validate.js";
 // insensitive-case equal
 const ieq = (left, right) => left.toLowerCase() === right.toLowerCase();
 
-/* routes may not contain dots */
-export const invalid = route => /\./u.test(route);
-
 const deroot = pathname => pathname.endsWith("/") && pathname !== "/"
   ? pathname.slice(0, -1) : pathname;
 

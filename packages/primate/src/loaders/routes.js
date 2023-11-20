@@ -3,7 +3,6 @@ import { from } from "rcompat/object";
 import { default as fs, doubled } from "./common.js";
 import * as get from "./routes/exports.js";
 import errors from "../errors.js";
-import { invalid } from "../hooks/route.js";
 
 const make = path => {
   const double = doubled(path.split("/")
@@ -17,8 +16,6 @@ const make = path => {
       const param = type === undefined ? name : `${name}$${type.slice(1)}`;
       return `(?<${param}>[^/]{1,}?)`;
     }).orelse(_ => errors.InvalidPathParameter.throw(named, path)));
-
-  invalid(route) && errors.InvalidRouteName.throw(path);
 
   return new RegExp(`^/${route}$`, "u");
 };

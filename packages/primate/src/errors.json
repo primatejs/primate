@@ -51,11 +51,6 @@
       "fix": "use only latin letters and decimal digits in path parameters",
       "level": "Error"
     },
-    "InvalidRouteName": {
-      "message": "invalid route name {0}",
-      "fix": "do not use dots in route names",
-      "level": "Error"
-    },
     "InvalidTypeExport": {
       "message": "invalid type export at {0}",
       "fix": "export object with a `base` string and a `validate` function",
@@ -95,11 +90,6 @@
       "message": "empty config file at {0}",
       "fix": "add configuration options or remove file",
       "level": "Warn"
-    },
-    "NoFileForPath": {
-      "message": "no file for {0}",
-      "fix": "create a file at {1}{0}",
-      "level": "Info"
     },
     "NoHandlerForExtension": {
       "message": "no handler for {0} extension",

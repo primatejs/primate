@@ -42,13 +42,4 @@ export default test => {
     const err2 = mark("invalid path parameter {0} in route {1}", "", path2);
     assert(() => routes([[path2, { get }]])).throws(err2);
   });
-  test.case("errors.InvalidRouteName", async assert => {
-    const post = ["po.st", { get }];
-    const throws = mark("invalid route name {0}", "po.st");
-    try {
-      await routes([post]);
-    } catch (error) {
-      assert(error.message).equals(throws);
-    }
-  });
 };
