@@ -1,10 +1,7 @@
 import { Response, Status } from "rcompat/http";
 import { filter } from "rcompat/object";
-import { compile, peers, load } from "../common/exports.js";
+import { compile, peers, load, render as $render } from "../common/exports.js";
 import depend from "../depend.js";
-
-const render_html = (body, { app, page, placeholders, partial }) =>
-  partial ? body : app.render({ body }, page, placeholders);
 
 const handler = ({ directory, render }) => (name, props = {}, options = {}) =>
   async app => {
@@ -13,7 +10,7 @@ const handler = ({ directory, render }) => (name, props = {}, options = {}) =>
     const body = render(component, props);
     const headers = await app.headers();
 
-    return new Response(await render_html(body, { app, ...options }), {
+    return new Response(await $render(body, null, { app, ...options }), {
       status: options.status ?? Status.OK,
       headers,
     });

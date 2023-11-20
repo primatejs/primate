@@ -2,6 +2,7 @@ import { Response, Status, MediaType } from "rcompat/http";
 import { cascade, map } from "rcompat/async";
 import { valmap, filter } from "rcompat/object";
 import register from "./register.js";
+import $render from "./render.js";
 
 const noop = _ => ({});
 
@@ -10,9 +11,9 @@ export default config => {
 
   const get_names = components => map(components, ({ name }) => normalize(name));
 
-  return (name, props = {}, { status = Status.OK, page, placeholders } = {}) =>
+  return (name, props = {}, options = {}) =>
     async (app, { layouts = [], as_layout } = {}, request) => {
-      const options = {
+      const liveview_options = {
         liveview: app.liveview !== undefined,
       };
       if (as_layout) {
@@ -36,7 +37,9 @@ export default config => {
         },
       };
 
-      if (options.liveview &&
+      const status = options.status ?? Status.OK;
+
+      if (liveview_options.liveview &&
         request.headers.get(app.liveview?.header) !== undefined) {
         return new Response(JSON.stringify({ names, ...shared }), {
           status,
@@ -51,13 +54,13 @@ export default config => {
         ...shared,
       });
 
-      const code = client({ names, ...shared }, options);
+      const code = client({ names, ...shared }, liveview_options);
       const inlined = await app.inline(code, "module");
 
       const headers = app.headers({ script: inlined.csp });
-      const rendered = { body, head: head.concat(inlined.head) };
+      const rendered = [body, head.concat(inlined.head)];
 
-      return new Response(await app.render(rendered, page, placeholders), {
+      return new Response(await $render(...rendered, { app, ...options }), {
         status,
         headers: { ...headers, "Content-Type": MediaType.TEXT_HTML },
       });

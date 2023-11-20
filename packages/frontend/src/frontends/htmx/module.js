@@ -1,7 +1,7 @@
 import { Response, Status, MediaType } from "rcompat/http";
 import { filter } from "rcompat/object";
 import errors from "./errors.js";
-import { peers } from "../common/exports.js";
+import { peers, render } from "../common/exports.js";
 import depend from "../depend.js";
 
 const load_component = async path => {
@@ -13,8 +13,6 @@ const load_component = async path => {
 };
 
 const style = "'unsafe-inline'";
-const render = (body, head, { partial = false, app, page, placeholders }) =>
-  partial ? body : app.render({ body, head }, page, placeholders);
 
 const handler = directory => (name, options = {}) => async app => {
   const code = "import { htmx } from \"app\";";
