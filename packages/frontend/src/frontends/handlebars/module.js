@@ -3,8 +3,8 @@ import { filter } from "rcompat/object";
 import { compile, peers, load } from "../common/exports.js";
 import depend from "../depend.js";
 
-const render_html = (body, { app, page, placeholders }) =>
-  app.render({ body }, page, placeholders);
+const render_html = (body, { app, page, placeholders, partial }) =>
+  partial ? body : app.render({ body }, page, placeholders);
 
 const handler = ({ directory, render }) => (name, props = {}, options = {}) =>
   async app => {
