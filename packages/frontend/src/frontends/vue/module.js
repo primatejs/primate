@@ -1,22 +1,16 @@
-import { Response, Status, MediaType } from "rcompat/http";
 import { filter } from "rcompat/object";
-import { register, compile, peers } from "../common/exports.js";
+import { register, compile, peers, respond } from "../common/exports.js";
 import depend from "../depend.js";
 
-const handler = ({ make, createSSRApp, render }) =>
-  (name, props = {}, { status = Status.OK, page, placeholders } = {}) =>
+const handler = ({ createSSRApp, make, render }) =>
+  (name, props = {}, options = {}) =>
     async app => {
-      const imported = await make(name, props);
       const component = createSSRApp({
-        render: imported.component.render,
+        render: (await make(name, props)).component.render,
         data: () => props,
       });
-      const body = await render(component);
 
-      return new Response(await app.render({ body }, page, placeholders), {
-        status,
-        headers: { ...app.headers(), "Content-Type": MediaType.TEXT_HTML },
-      });
+      return respond({ app, body: await render(component), options });
     };
 
 export default ({ extension = ".vue" } = {}) => {

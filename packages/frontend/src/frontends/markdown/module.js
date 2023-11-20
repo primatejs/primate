@@ -1,7 +1,6 @@
-import { Response, Status, MediaType } from "rcompat/http";
 import { stringify, filter } from "rcompat/object";
 import { Path } from "rcompat/fs";
-import { peers, render as $render } from "../common/exports.js";
+import { peers, respond } from "../common/exports.js";
 import depend from "../depend.js";
 
 const handle = (handler, directory) => (...[name, ...rest]) =>
@@ -13,11 +12,7 @@ const handle = (handler, directory) => (...[name, ...rest]) =>
     return handler({ body, toc }, ...rest)(app, ...noapp);
   };
 
-const render = ({ body }, _, options = {}) => async app =>
-  new Response(await $render(body, null, { app, ...options }), {
-    status: options.status ?? Status.OK,
-    headers: { ...await app.headers(), "Content-Type": MediaType.TEXT_HTML },
-  });
+const render = ({ body }, _, options) => app => respond({ app, body, options });
 
 const name = "markdown";
 const dependencies = ["marked"];

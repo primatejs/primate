@@ -1,19 +1,13 @@
-import { Response, Status } from "rcompat/http";
 import { filter } from "rcompat/object";
-import { compile, peers, load, render as $render } from "../common/exports.js";
+import { compile, peers, load, respond } from "../common/exports.js";
 import depend from "../depend.js";
 
 const handler = ({ directory, render }) => (name, props = {}, options = {}) =>
   async app => {
     const components = app.runpath(app.config.location.server, directory);
     const { default : component } = await load(components.join(name));
-    const body = render(component, props);
-    const headers = await app.headers();
 
-    return new Response(await $render(body, null, { app, ...options }), {
-      status: options.status ?? Status.OK,
-      headers,
-    });
+    return respond({ app, body: render(component, props), options });
   };
 
 const name = "handlebars";

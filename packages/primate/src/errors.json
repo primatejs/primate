@@ -103,7 +103,7 @@
     },
     "NoHandlerForExtension": {
       "message": "no handler for {0} extension",
-      "fix": "add handler module for .{0} files or remove {1}",
+      "fix": "add handler module for {0} files or remove {1}",
       "level": "Error"
     },
     "NoRouteToPath": {

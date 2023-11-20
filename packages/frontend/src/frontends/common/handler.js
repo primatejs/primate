@@ -2,7 +2,7 @@ import { Response, Status, MediaType } from "rcompat/http";
 import { cascade, map } from "rcompat/async";
 import { valmap, filter } from "rcompat/object";
 import register from "./register.js";
-import $render from "./render.js";
+import respond from "./respond.js";
 
 const noop = _ => ({});
 
@@ -57,12 +57,12 @@ export default config => {
       const code = client({ names, ...shared }, liveview_options);
       const inlined = await app.inline(code, "module");
 
-      const headers = app.headers({ script: inlined.csp });
-      const rendered = [body, head.concat(inlined.head)];
-
-      return new Response(await $render(...rendered, { app, ...options }), {
-        status,
-        headers: { ...headers, "Content-Type": MediaType.TEXT_HTML },
+      return respond({
+        app,
+        body,
+        head: head.concat(inlined.head),
+        headers: app.headers({ script: inlined.csp }),
+        options,
       });
     };
 };
