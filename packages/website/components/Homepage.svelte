@@ -3,7 +3,7 @@
 
   export let content, app;
 </script>
-<Header {app} title="Expressive, minimal and extensible web framework" />
+<Header {app} title="Polymorphic development platform" />
 <main class="hero">
   <article>
     <img src="/logo.svg" />

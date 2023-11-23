@@ -3,7 +3,7 @@
 <channel>
   <title>Primate Blog</title>
   <link>https://primatejs.com/blog</link>
-  <description>Primate - Expressive, minimal and extensible web framework</description>
+  <description>Primate - Polymorphic development platform</description>
 
   <item>
     <title>Release 0.26: Go Wasm routes, live reload, and HTMX extensions</title>

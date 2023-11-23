@@ -1,6 +1,6 @@
 # Primate
 
-Expressive, minimal and extensible web framework. To start [read guide].
+Polymorphic development platform. To start [read guide].
 
 ## Resources
 

@@ -1,15 +1,32 @@
 # Getting started
 
-## Why Primate?
+## A polymorphic development platform
 
-Primate is an expressive, minimal and extensible web framework. It maps
-requests to responses using filesystem-based routes, includes only the bare
-essentials for web app development and can be easily extended with additional
-modules for common scenarios. 
+In the realm of software development, many platforms tend to lock developers
+into using specific technologies. Often you find yourself tied to a single
+frontend framework, constrained to a particular engine, and limited mostly to
+JavaScript for coding. The idea of switching frameworks, utilizing a more
+efficient runtime, or integrating Python for its rich ML libraries often falls
+outside the scope of these platforms.
 
-To illustrate this, if you want an app that responds with a `200 OK` saying
-"Hello, world!" at its index route (`/`), create a project directory and in it
-a route file under `routes`.
+This is where Primate stands apart. It's engineered with a focus on flexibility
+and developer choice. Whether it's about selecting a frontend framework,
+choosing a database, deciding on a backend technology, or picking a bundling
+system, Primate offers the freedom to use what you find most suitable for your
+project. Its architecture is designed for adaptability, making it
+straightforward to integrate new technologies or languages as they emerge. The
+concept of planned obsolescence doesn't apply here; Primate is built to evolve
+with the changing technology landscape.
+
+With Primate, you're not just working on a platform; you're engaging with a
+system that respects your choices and adapts to your preferred way of working.
+It's about giving developers the control they need to build software efficiently
+and effectively, without the constraints of traditional platform limitations.
+
+## First steps
+
+To create a simple app that that responds with a `200 OK` saying "Hello, world!"
+at its index route (`/`), create a project directory and a file in `routes`.
 
 ```js caption=routes/index.js
 export default {
@@ -23,15 +40,28 @@ To start your app, run `npx -y primate@latest` and point your browser to
 http://localhost:6161.
 
 !!!
-If you're a Bun user, you can take advantage of [significant speed gains][r24]
-by running `bun --bun x primate`.
-!!!
-
-!!!
+Primate is a multi-runtime platform. If you're a Bun user, you can take
+advantage of [significant speed gains][r24] by running `bun --bun x primate`.
 If you're a Deno user, use `deno run --allow-all npm:primate` to run Primate.
 !!!
 
-## Quick start
+## Multi-language support in routes
+
+Primate isn't limited to JavaScript for your backend code. If you're a Go
+developer, you can easily do the same with a Go route.
+
+```js caption=routes/index.go
+func Get(request Request) any {
+  return "Hello, world!";
+}
+```
+
+Same as before, run `npx -y primate@latest` and point your browser to
+http://localhost:6161 to run your route.
+
+We have upcoming support for TypeScript, Python and other languages.
+
+## Serving HTML
 
 Before we continue, we recommend installing Primate by issuing
 `npm install primate` in your project directory, both to make its exports
@@ -72,7 +102,7 @@ imported. It accepts the name of a component file and renders it from the
 
 If you now go to http://localhost:6161, you will see an HTML form.
 
-Next, we need to handle the form submission. We'll do that by adding a `post`
+Next we need to handle the form submission. We'll do that by adding a `post`
 function to our route.
 
 ```js caption=routes/index.js
@@ -83,7 +113,7 @@ export default {
     return view("form.html");
   },
   post(request) {
-    const { name, age } = request.body.all();
+    const { name, age } = request.body;
 
     if (name !== undefined && age !== undefined) {
       return redirect("/success");
@@ -97,7 +127,7 @@ export default {
 Every route function in Primate accepts a `request` parameter that contains
 request data, including the request body if applicable. Here, Primate
 deserialized the form for us into `request.body` so we can easily get its
-fields using the `get()` accessor.
+fields.
 
 In case both `name` and `age` are set, we redirect the user to `/success` by
 using the `redirect` handler Primate provides.
@@ -118,6 +148,71 @@ export default {
 };
 ```
 
+## Using a frontend framework
+
+Beyond pure HTML, Primate supports a variety of frontend frameworks. Here is
+the same code as before, in Svelte.
+
+First add frontend framework support by issuing `npm install @primate/frontend`
+and loading the frontend framework of your choice in your configuration file
+(create it first).
+
+```js caption=primate.config.js
+import { svelte } from "@primate/frontend";
+
+export default {
+  modules: [
+    svelte(),
+  ],
+};
+```
+
+For Svelte, you will also need to install Svelte itself, `npm install
+svelte@4`.
+
+Now change your route to serve a Svelte component.
+
+```js caption=routes/index.js
+import { view } from "primate";
+
+export default {
+  get() {
+    return view("Form.svelte", { name: "Donald" });
+  },
+  post(request) {
+    const { name, age } = request.body;
+
+    if (name !== undefined && age !== undefined) {
+      return redirect("/success");
+    }
+
+    return redirect("/");
+  },
+};
+```
+
+Create the Svelte component.
+
+```html caption=components/Form.svelte
+<script>
+  export let name;
+</script>
+<form>
+  <label for="name">Enter name</label>
+  <input type="text" id="name" bind:value={name} required />
+  <label for="name">Enter age</label>
+  <input type="number" id="age" required />
+</form>
+```
+
+If you now go to http://localhost:6161, you will see an HTML form -- rendered
+by Svelte.
+
+!!!
+It is likewise easily possible to write React, Vue or HTMX components. Refer to
+the [frontend] module page to see what's available.
+!!!
+
 ## Deeper dive
 
 Now that we've built a trivial use case with form submission, we can start
@@ -136,10 +231,11 @@ and start looking around. It features an exhausive example app that includes
 various additional frontend frameworks as well as a bundler, a session manager
 and a data store.
 
-## More about goals
+## Goals
 
 Primate strives for technical excellence, with a small core codebase and a
-variety of officially supported modules that extend it.
+variety of officially supported modules that extend it. This translates into
+three goals.
 
 ### Expressive
 
@@ -149,8 +245,8 @@ variety of officially supported modules that extend it.
 
 ### Minimal
 
-* No dependencies aside from [`rcompat`][rcompat], a cross-runtime
-compatibility layer
+* No dependencies aside from [`rcompat`][rcompat], a JavaScript standard
+library & runtime compatibility layer
 * Under 1K lines of JavaScript code (Express > 1.8K, Fastify > 5.3K)
 
 ### Extensible
@@ -186,3 +282,4 @@ bug or have a feature request.
 [primate-app]: https://github.com/primatejs/app
 [chat]: https://web.libera.chat#primate
 [rcompat]: https://github.com/rcompat/rcompat
+[frontend]: /modules/frontend

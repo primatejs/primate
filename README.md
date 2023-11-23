@@ -2,7 +2,7 @@
 
 # Primate
 
-Expressive, minimal and extensible web framework. To start [read guide].
+Polymorphic development platform. To start [read guide].
 
 ![npm](https://img.shields.io/npm/v/primate)
 ![npm](https://img.shields.io/npm/dt/primate)
@@ -16,7 +16,9 @@ Expressive, minimal and extensible web framework. To start [read guide].
 
 ### Framework Independence
 
-Primate stands apart as a framework-agnostic tool, allowing you to seamlessly integrate and start coding within any major framework, eliminating the constraints of being tied to specific options like Nuxt, Next, or others.
+Primate stands apart as a framework-agnostic tool, allowing you to seamlessly
+integrate and start coding within any major framework, eliminating the
+constraints of being tied to specific options like Nuxt, Next, or others.
 
 ### Frameworks We Support
 

@@ -83,7 +83,7 @@ export default {
     priss({
       blog: true,
       title: "Primate",
-      description: "Expressive, minimal and extensible web framework",
+      description: "Polymorphic development platform",
       root: new Path("components", "content"),
       theme: master({
         navbar: [
