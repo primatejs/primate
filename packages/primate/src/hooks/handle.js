@@ -7,16 +7,15 @@ const guard_error = Symbol("guard_error");
 const guard = (app, guards) => async (request, next) => {
   // handle guards
   try {
-    guards.every(guard => {
-      const result = guard(request);
-      if (result === true) {
-        return true;
+    for (const guard of guards) {
+      const result = await guard(request);
+      if (result !== true) {
+        const error = new Error();
+        error.result = result;
+        error.type = guard_error;
+        throw error;
       }
-      const error = new Error();
-      error.result = result;
-      error.type = guard_error;
-      throw error;
-    });
+    }
 
     return next(request);
   } catch (error) {
