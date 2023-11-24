@@ -122,7 +122,7 @@ export default {
             { heading: "Modules" },
             "Official",
             "Third-party",
-            { heading: "Handlers" },
+            { heading: "Frontends" },
             "Frontend",
             "Svelte",
             "React",
