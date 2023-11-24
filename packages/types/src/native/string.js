@@ -1,4 +1,4 @@
-import { every, assert } from "rcompat/invariant";
+import { assert, every, is } from "rcompat/invariant";
 
 const between = ({ length }, min, max) => length >= min && length <= max;
 const base = "string";
@@ -11,6 +11,20 @@ const string = {
     }
     throw new Error("not a string");
   },
+  length(length) {
+    is(length).usize();
+
+    return {
+      validate(value) {
+        const typed = string.validate(value);
+        if (typed.length === length) {
+          return typed;
+        }
+        throw new Error(`length does not equal ${length}`);
+      },
+      base,
+    };
+  },
   between(min, max) {
     every(min, max).usize();
     assert(min >= max, "min has to be smaller than max");
@@ -21,7 +35,7 @@ const string = {
         if (between(typed, min, max)) {
           return typed;
         }
-        throw new Error(`\`${typed}\` is not in the range of ${min} of ${max}`);
+        throw new Error(`not in the range ${min} - ${max}`);
       },
       base,
     };
