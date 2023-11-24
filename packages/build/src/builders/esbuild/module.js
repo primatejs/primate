@@ -2,6 +2,7 @@ import { Path, watch } from "rcompat/fs";
 import { Response, MediaType, Status } from "rcompat/http";
 import { filter } from "rcompat/object";
 import { ReadableStream } from "rcompat/streams";
+import { bold } from "rcompat/colors";
 import { peers } from "../common/exports.js";
 import depend from "../depend.js";
 
@@ -11,7 +12,6 @@ const default_options = {
   bundle: true,
   format: "esm",
 };
-const watch_options = { recursive: true };
 const dependencies = ["esbuild"];
 
 const publish = async (app, client) => {
@@ -127,10 +127,13 @@ export default ({ ignores = [], options = {} } = {}) => {
         await publish(app, client);
 
         if (mode.development) {
-          watch(`${app.path.components}`, watch_options, async (_, filename) => {
+          const module = "primate/build";
+          const options = { recursive: true };
+
+          watch(`${app.path.components}`, options, async (_, filename) => {
             const path = new Path(app.path.components, filename);
 
-            app.log.info(`reloading ${path.name}`, { module: "primate/build" });
+            app.log.info(`reloading ${bold(path.name)}`, { module });
             // recompile resource
             await app.compile(path);
             // rebuild server
