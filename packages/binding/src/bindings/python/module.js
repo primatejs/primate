@@ -12,13 +12,12 @@ const make_route = route => `${route.toLowerCase()}(request) {
 }`;
 
 const js_wrapper = async (path, routes) => `
-  import { make_request, make_response } from "@primate/binding/python";
+  import { make_request, make_response, wrap } from "@primate/binding/python";
   import { Path } from "rcompat/fs";
   import { loadPyodide as load } from "pyodide";
   const pyodide = await load({ indexURL: "./node_modules/pyodide" });
   const file = await new Path("${path}").text();
-  pyodide.runPython(file);
-
+  pyodide.runPython(wrap(file));
   export default {
   ${routes.map(route => make_route(route)).join(",\n")}
   };
