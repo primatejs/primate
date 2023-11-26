@@ -11,7 +11,6 @@ type Array []any
 
 type Dispatcher struct {
   Get func(string) any
-  All func() map[string]any
   %%DISPATCH_STRUCT%%
 }
 
@@ -32,7 +31,7 @@ type URL struct {
 
 type Request struct {
   Url URL
-  Body Dispatcher
+  Body map[string]any
   Path Dispatcher
   Query Dispatcher
   Cookies Dispatcher
@@ -75,17 +74,17 @@ func make_dispatcher(key string, request js.Value) Dispatcher {
           return nil;
         }
     },
-    func() map[string]any {
-      return properties;
-    },
     %%DISPATCH_MAKE%%
   };
 }
 
 func make_request(route t_request, request js.Value) any {
+  body := make(map[string]any);
+  json.Unmarshal([]byte(request.Get("body").String()), &body);
+
   go_request := Request{
     make_url(request),
-    make_dispatcher("body", request),
+    body,
     make_dispatcher("path", request),
     make_dispatcher("query", request),
     make_dispatcher("cookies", request),

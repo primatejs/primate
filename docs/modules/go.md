@@ -161,7 +161,7 @@ func Get(request Request) any {
 }
 ```
 
-Your rendered Go route with a Svelte component will be accessible at 
+Your rendered Go route with a Svelte component will be accessible at
 http://localhost:6161/svelte.
 
 ### The request object
@@ -179,9 +179,7 @@ The request body.
 
 ```go caption=routes/your-name.go
 func Post(request Request) any {
-  name := request.Body.Get("name").(string);
-
-  return "Hello, " + name;
+  return "Hello, " + request.Body["name"].(string);
 }
 ```
 
@@ -193,13 +191,14 @@ with 200 saying  `Hello, Donald`.
 
 [JavaScript documentation][path]
 
-Similar to `Body`, these properties work in the same way that they do in 
-JavaScript. They are all `Dispatcher`s, defined as follows.
+As in JavaScript, these properties work as dispatchers, providing a `Get`
+function to access individual properties. In addition, any types defined in
+`types` will be available to the dispatcher. The `Dispatcher` struct is defined
+as follows.
 
 ```go caption=Dispatcher struct
 type Dispatcher struct {
   Get func(string) any
-  All func() map[string]any
   // dynamic runtime type getters
 }
 ```
@@ -232,12 +231,11 @@ The `Dispatcher` struct would now look a little different.
 ```go caption=Dispatcher struct
 type Dispatcher struct {
   Get func(string) any
-  All func() map[string]any
   GetUuid func(string) (string, error)
 }
 ```
 
-In Javascript, calling `request.query.getUuid("id")` can throw. In Go, 
+In Javascript, calling `request.query.getUuid("id")` can throw. In Go,
 `request.Query.GetUuid("id")` returns a non-`nil` error in case the type's
 `validate` function threw.
 
@@ -255,7 +253,6 @@ A `Session` struct is as defined as follows.
 type Session struct {
   Exists func() bool
   Get func(string) any
-  All func() map[string]any
   Set func(string, any) error
   Create func(map[string]any)
   Destroy func()
@@ -271,11 +268,11 @@ func Get(request Request) any {
   if (!request.Session.Exists()) {
     request.Session.Create(Object{"count": 0});
   } else {
-    foo := request.Session.Get("count").(float64);
-    request.Session.Set("count", foo + 1);
+    count := request.Session.Get("count").(float64);
+    request.Session.Set("count", count + 1);
   }
-    
-  return request.Session.All();
+
+  return Object{ "count": request.Session.Get("count") };
 }
 ```
 

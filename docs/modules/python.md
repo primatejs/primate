@@ -78,7 +78,7 @@ def get(request):
 
 [JavaScript documentation][view]
 
-The `Primate.view` handler allows you to serve responses with content type 
+The `Primate.view` handler allows you to serve responses with content type
 `text/html` from the `components` directory.
 
 ```py caption=routes/view.py
@@ -131,7 +131,7 @@ def get(request):
     return Primate.view("PostIndex.svelte", { "posts": posts })
 ```
 
-Your rendered Python route with a Svelte component will be accessible at 
+Your rendered Python route with a Svelte component will be accessible at
 http://localhost:6161/svelte.
 
 ### The request object
@@ -162,7 +162,7 @@ with 200 saying  `Hello, Donald`.
 [JavaScript documentation][path]
 
 As in JavaScript, these properties work as dispatchers, providing a `get`
-function to access individual properties. In addition, any types defined in 
+function to access individual properties. In addition, any types defined in
 `types` will be available to the dispatcher.
 
 Suppose you have defined the following type.

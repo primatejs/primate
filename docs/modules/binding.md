@@ -64,7 +64,6 @@ The individual programming languages are available as individual exports.
 [rsp]: /modules/python#session
 [rtp]: /modules/python#store
 
-
 ### Type conversions
 
 Whenever you define and use [runtime types], the request object will be
