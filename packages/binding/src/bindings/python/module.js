@@ -11,12 +11,17 @@ const make_route = route => `async ${route.toLowerCase()}(request) {
   return make_response(await ${route}_fn(make_request(request)));
 }`;
 
-const js_wrapper = async (path, routes) => `
+const make_package = pkg => `await pyodide.loadPackage("${pkg}", {
+  messageCallback: _ => _,
+});\n`;
+
+const js_wrapper = async (path, routes, packages) => `
   import { make_request, make_response, wrap } from "@primate/binding/python";
   import { Path } from "rcompat/fs";
   import { loadPyodide as load } from "pyodide";
   const pyodide = await load({ indexURL: "./node_modules/pyodide" });
   const file = await new Path("${path}").text();
+  ${packages.map(make_package)}
   pyodide.runPython(wrap(file));
   export default {
   ${routes.map(route => make_route(route)).join(",\n")}
@@ -25,6 +30,7 @@ const js_wrapper = async (path, routes) => `
 
 export default ({
   extension = ".py",
+  packages = [],
 } = {}) => {
   const name = "python";
   const dependencies = ["pyodide"];
@@ -46,7 +52,8 @@ export default ({
           const code = await path.text();
           const routes = get_routes(code);
           // write .js wrapper
-          await base.join(js).write(await js_wrapper(`${path}`, routes));
+          await base.join(js)
+            .write(await js_wrapper(`${path}`, routes, packages));
         },
       });
       return next(app);
