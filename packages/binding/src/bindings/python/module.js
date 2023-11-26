@@ -6,9 +6,9 @@ const routes_re = /def (?<route>get|post|put|delete)/gu;
 const get_routes = code => [...code.matchAll(routes_re)]
   .map(({ groups: { route } }) => route);
 
-const make_route = route => `${route.toLowerCase()}(request) {
+const make_route = route => `async ${route.toLowerCase()}(request) {
   const ${route}_fn = pyodide.globals.get("${route}");
-  return make_response(${route}_fn(make_request(request)));
+  return make_response(await ${route}_fn(make_request(request)));
 }`;
 
 const js_wrapper = async (path, routes) => `
