@@ -1,4 +1,4 @@
-import { unwrap, to_object } from "./unwrap.js";
+import { unwrap } from "./unwrap.js";
 
 export default request => {
   return {
@@ -6,7 +6,7 @@ export default request => {
     session: {
       ...request.session,
       create(data) {
-        request.session.create(to_object(unwrap(data)));
+        request.session.create(unwrap(data));
       },
     },
   };

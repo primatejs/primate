@@ -1,5 +1,5 @@
 import { view, redirect, error } from "primate";
-import { unwrap, to_object } from "./unwrap.js";
+import { unwrap } from "./unwrap.js";
 
 const handlers = {
   view({ name, props = {}, options = {} }) {
@@ -15,7 +15,7 @@ const handlers = {
 
 const handle_handler = response => {
   const { __handler__ : handler, ...args } = response;
-  return handlers[handler]?.(to_object(args)) ?? error();
+  return handlers[handler]?.(args) ?? error();
 };
 
 const handle_other = response => response;
