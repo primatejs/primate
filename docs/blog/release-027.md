@@ -14,9 +14,9 @@ number of backend languages we support to three by adding Python support. As
 Wasm support hasn't been mainlined in Python yet, Primate uses `pyodide` under
 the hood to support Python.
 
-Primate has thus become the first framework to combine Python on the backend
-with full support for a plethora of frontend languages such as Svelte, React or
-Solid -- including SSR, hydration, and client side rendering.
+Primate has thus become the first platform to combine Python on the backend
+with full support for a plethora of frontend frameworks such as Svelte, React
+or Solid -- including SSR, hydration, and client side rendering.
 
 ### Install
 
