@@ -41,10 +41,12 @@ export default ({
       app.register(extension, {
         route: async (directory, file) => {
           const path = directory.join(file);
+          const base = path.directory;
+          const js = path.base.concat(".js");
           const code = await path.text();
           const routes = get_routes(code);
-          await directory.join(file.base.concat(".js"))
-            .write(await js_wrapper(`${path}`, routes));
+          // write .js wrapper
+          await base.join(js).write(await js_wrapper(`${path}`, routes));
         },
       });
       return next(app);
