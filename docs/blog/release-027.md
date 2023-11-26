@@ -4,7 +4,7 @@ improvements.
 
 !!!
 If you're new to Primate, we recommend reading the [Getting started] page to
-get an idea of the framework.
+get an idea of it.
 !!!
 
 ## Python routes

@@ -40,7 +40,7 @@ constraints of being tied to specific options like Nuxt, Next, or others.
 ### Languages We Support
 
 - JavaScript
-- GoLang
+- Golang
 - Python
 - TypeScript (coming soon)
 
