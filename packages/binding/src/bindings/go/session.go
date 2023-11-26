@@ -1,7 +1,6 @@
 package main
 
 import "syscall/js"
-import "encoding/json"
 import "errors"
 
 type Session struct {
