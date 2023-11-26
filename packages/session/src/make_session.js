@@ -42,6 +42,9 @@ export default (store, id) => {
         store.delete($id);
       }
     },
+    toString() {
+      return JSON.stringify(all());
+    },
   };
 };
 
