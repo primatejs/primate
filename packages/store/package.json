@@ -1,6 +1,6 @@
 {
   "name": "@primate/store",
-  "version": "0.18.2",
+  "version": "0.19.0",
   "description": "Primate data store module",
   "homepage": "https://primatejs.com/modules/store",
   "bugs": "https://github.com/primatejs/primate/issues",
@@ -22,7 +22,7 @@
     "rcompat": "^0.5.0"
   },
   "devDependencies": {
-    "@primate/types": "^0.10.2",
+    "@primate/types": "^0.11.0",
     "better-sqlite3": "^9.1.1",
     "mongodb": "^6.3.0",
     "postgres": "^3.4.3",
