@@ -88,7 +88,6 @@ with a `status` field.
 ```py caption=routes/redirect-301.py
 def get(request):
     return Primate.redirect("https://primatejs.com", { "status": 301 });
-}
 ```
 
 ### View
@@ -101,7 +100,6 @@ The `Primate.view` handler allows you to serve responses with content type
 ```py caption=routes/view.py
 def get(request):
     return Primate.view("hello.html")
-}
 ```
 
 In this case, Primate will load the HTML component at `components/hello.html`,
@@ -167,7 +165,6 @@ The request body.
 ```py caption=routes/your-name.py
 def post(request):
   return "Hello, " + request.body.name;
-}
 ```
 
 If a client sends a POST request to `/your-name` using the content type

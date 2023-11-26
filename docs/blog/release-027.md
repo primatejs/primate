@@ -10,13 +10,13 @@ get an idea of the framework.
 ## Python routes
 
 Following up on our introduction of Go Wasm routes, this release extends the
-number of backend languages we support to 3 by adding Python support. As Wasm
-support isn't mainlined in Python yet, Primate uses `pyodide` under the hood to
-support Python.
+number of backend languages we support to three by adding Python support. As 
+Wasm support hasn't been mainlined in Python yet, Primate uses `pyodide` under
+the hood to support Python.
 
-Primate thus becomes the first framework to combine Python on the backend with
-full support for a plethora of frontend languages such as Svelte, React or Solid 
--- including SSR, hydration, and client side rendering.
+Primate has thus become the first framework to combine Python on the backend
+with full support for a plethora of frontend languages such as Svelte, React or
+Solid -- including SSR, hydration, and client side rendering.
 
 ### Install
 
@@ -57,7 +57,7 @@ export default {
 ### Use
 
 When writing routes, you can pretty much do everything you can do in JavaScript
-routes, in Python. For example, if you return strings, dictionaries from your
+routes, in Python. For example, if you return strings or dictionaries from your
 Python route, Primate will serve them as content type `text/plain` and 
 `application/json`, respectively.
 
@@ -67,7 +67,6 @@ def get(request):
 
 def post(request):
     return { "name": "Donald" }
-}
 ```
 
 If you send a GET request to `/`, you will see a plain text response of
@@ -92,9 +91,9 @@ For the full documentation of Python routes, see the
 ## Future of WebAssembly in Primate
 
 With Go and Python Wasm supported in Primate, we are working on supporting 
-additional programming languages in Primate and improving existing API 
-compatibility to match that of JavaScript. As WASI matures and is supported by
-more programming languages and runtimes, we intend to move on to that.
+additional languages in Primate and improving existing API compatibility to 
+match that of JavaScript. As WASI matures and is supported by more environments,
+we intend to move on to that.
 
 If you have a particular language you wish to see supported in Primate routes,
 please open an issue describing your use case.
@@ -109,7 +108,7 @@ It was previously impossible to use dots in the names of routes. This
 restriction is now removed, allowing you to fake dynamic routes as static 
 resources by creating route files for them.
 
-```js caption=sitemap.xml.js
+```js caption=routes/sitemap.xml.js
 export default {
   // serve on GET /sitemap.xml
   get() {
@@ -122,10 +121,10 @@ export default {
 
 Combined with support for dots in route names, it is now possible to override 
 the default content type (`text/html`) or any other header when using the `view`
-handler. This is particularly useful in case you're using a template engine such
+handler. This is particularly useful case you're using a template engine such
 as Handlebars to generate an XML file.
 
-```js caption=sitemap.xml.js
+```js caption=routes/sitemap.xml.js
 import { view } from "primate";
 import { MediaType } from "rcompat/http";
 
@@ -151,7 +150,7 @@ Layouts in Primate work such that content returned by layout files in inner
 directories is placed inside layouts higher in the routes directory hierarchy,
 recursively
 
-You may sometimes wish for this upwards recursion to stop at a particular
+You may sometimes wish for this upwards recursion to halt at a particular
 layout, and this is now achievable by using `export const recursive = false;`
 within the `+layout.js` file.
 
@@ -179,7 +178,7 @@ async operations such as those exposed by `request.store`.
 
 As of this release we differentiate between how `request.body` and
 `request.{path,query,cookies,headers}` behave. `request.body`'s properties
-are now accessed directly instead of with `request.body.all()` before. The
+are now accessed directly instead of with `request.body.all()` before.
 
 This change also applies to the Go binding, where request.Body is now a 
 `map[string]any`.
