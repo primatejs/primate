@@ -14,7 +14,7 @@
   },
   "scripts": {
     "local": "scripts/local.sh",
-    "start": "npx primate serve"
+    "start": "deno run --allow-all npm:primate serve"
   },
   "type": "module"
 }

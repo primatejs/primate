@@ -50,16 +50,23 @@ If you're a Deno user, use `deno run --allow-all npm:primate` to run Primate.
 Primate isn't limited to JavaScript for your backend code. If you're a Go
 developer, you can easily do the same with a Go route.
 
-```js caption=routes/index.go
+```go caption=routes/index.go
 func Get(request Request) any {
   return "Hello, world!";
 }
 ```
 
+Or with a Python route if you're a Python developer.
+
+```py caption=routes/index.py
+def get(request):
+    return "Hello, world!"
+```
+
 Same as before, run `npx -y primate@latest` and point your browser to
 http://localhost:6161 to run your route.
 
-We have upcoming support for TypeScript, Python and other languages.
+We have upcoming support for TypeScript and other languages.
 
 ## Serving HTML
 

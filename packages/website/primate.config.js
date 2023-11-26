@@ -12,6 +12,7 @@ import plaintext from "highlight.js/lib/languages/plaintext";
 import md from "highlight.js/lib/languages/markdown";
 import handlebars from "highlight.js/lib/languages/handlebars";
 import go from "highlight.js/lib/languages/go";
+import python from "highlight.js/lib/languages/python";
 import priss from "./module.js";
 
 hljs.registerLanguage("javascript", javascript);
@@ -23,6 +24,7 @@ hljs.registerLanguage("plaintext", plaintext);
 hljs.registerLanguage("md", md);
 hljs.registerLanguage("hbs", handlebars);
 hljs.registerLanguage("go", go);
+hljs.registerLanguage("py", python);
 
 const master = (i) => i;
 
@@ -138,6 +140,7 @@ export default {
             { heading: "Bindings" },
             "Binding",
             "Go",
+            "Python",
             { heading: "Others" },
             "Liveview",
             "Session",

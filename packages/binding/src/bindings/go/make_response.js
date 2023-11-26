@@ -1,8 +1,12 @@
 import { view, redirect, error } from "primate";
 
 const handlers = {
-  view: ({ component, props = {} }) => view(component, JSON.parse(props)),
-  redirect: ({ location, options = {} }) => redirect(location, options),
+  view({ component, props = "{}", options = "{}" }) {
+    return view(component, JSON.parse(props), JSON.parse(options));
+  },
+  redirect({ location, options = "{}" }) {
+    return redirect(location, JSON.parse(options));
+  },
 };
 
 const handle_function = response => {

@@ -11,6 +11,7 @@ class Primate():
     def redirect(location, options = None):
         return {
             "__handler__": "redirect",
+            "location": location,
             "options": options,
         }
     @staticmethod

@@ -1,6 +1,6 @@
 # Go
 
-This binding introduces supports for routes written in the Go programming
+This binding introduces support for routes written in the Go programming
 language.
 
 ## Install

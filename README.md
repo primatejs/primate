@@ -41,8 +41,8 @@ constraints of being tied to specific options like Nuxt, Next, or others.
 
 - JavaScript
 - GoLang
+- Python
 - TypeScript (coming soon)
-- Python (coming soon)
 
 ## Packages
 
