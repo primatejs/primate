@@ -21,6 +21,23 @@ export default {
 };
 ```
 
+`pyodide` supports loading packages from PyPI. Add any packages (except the
+standard library) you'd like to use to the `packages` configuration array of
+this module.
+
+```js caption=primate.config.js
+import { python } from "@primate/binding";
+
+export default {
+  modules: [
+    python({
+      // then later in your Python route, using `import numpy`
+      packages: ["numpy"],
+    }),
+  ],
+};
+```
+
 ## Use
 
 ### Plain text
@@ -231,6 +248,13 @@ async def get(request):
 Default `".py"`
 
 The file extension associated with Python routes.
+
+### packages
+
+Default `[]`
+
+A list of package names to be loaded, in addition to the Python standard
+library.
 
 [plain text]: /guide/responses#plain-text
 [json]: /guide/responses#json

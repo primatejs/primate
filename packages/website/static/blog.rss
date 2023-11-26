@@ -6,6 +6,12 @@
   <description>Primate - Polymorphic development platform</description>
 
   <item>
+    <title>Release 0.27: Python routes and quality of life improvements</title>
+    <link>https://primatejs.com/blog/release-027</link>
+    <description>Today we're announcing the availability of the Primate 0.27 preview release. This release introduces support for Python routes and several quality of life improvements.</description>
+  </item>
+
+  <item>
     <title>Release 0.26: Go Wasm routes, live reload, and HTMX extensions</title>
     <link>https://primatejs.com/blog/release-026</link>
     <description>Today we're announcing the availability of the Primate 0.26 preview release. This release introduces support for Go Wasm routes, live reload using the new `@primate/build` module, and HTMX extensions.</description>

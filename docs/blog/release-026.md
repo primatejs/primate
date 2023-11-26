@@ -118,7 +118,7 @@ as plain text.
 
 ```go caption=routes/index.go
 func Get(request Request) any {
-  // -> responds with text/plain "Donald"
+  // on GET /?name=Donald -> responds with text/plain "Donald"
   return request.Query.Get("name").(string);
 }
 ```
