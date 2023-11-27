@@ -26,7 +26,7 @@ hljs.registerLanguage("hbs", handlebars);
 hljs.registerLanguage("go", go);
 hljs.registerLanguage("py", python);
 
-const master = (i) => i;
+const master = i => i;
 
 export default {
   http: {
@@ -60,7 +60,7 @@ export default {
             const name = text.toLowerCase().replaceAll(/[?{}%]/gu, "")
               .replace(/[^\w]+/gu, "-");
             const href = "%REPO%/edit/master/docs%PATHNAME%.md";
-            const editThisPage = `
+            const edit_this_page = `
               <a href="${href}" class="edit-this-page">
                 <svg class="icon" width="16" height="16">
                   <use xlink:href="#edit" />
@@ -76,7 +76,7 @@ export default {
               <a name="${name}" class="anchor" href="#${name}">
                 <span class="header-link"></span>
               </a>
-              ${level === 1 ? editThisPage : ""}
+              ${level === 1 ? edit_this_page : ""}
             `;
           },
         },
