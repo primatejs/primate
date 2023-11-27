@@ -51,9 +51,7 @@ The request body.
 ```js caption=routes/your-name.js
 export default {
   post(request) {
-    const name = request.body.get("name");
-
-    return `Hello, ${body}`;
+    return `Hello, ${request.body.name}`;
   },
 }
 ```
@@ -72,7 +70,7 @@ decodes the form fields into object properties
 ```js caption=routes/your-full-name.js
 export default {
   post(request) {
-    const name = request.body.get("name");
+    const { name } = request.body;
 
     if (name === undefined) {
       return "You haven't specified your name";
@@ -87,17 +85,6 @@ In this example, if a client sends a request to `/your-full-name` with a
 URL-encoded form (`application/x-www-form-urlencoded`) or JSON data
 (`application/json`) with a field `name` in its body, Primate will respond by
 saying Hello and the provided name.
-
-!!!
-The `get(property)` function on `request.body` retrieves individual properties.
-If you wish to get all properties, use `all()`.
-
-```js
-const { name } = request.body.all();
-```
-
-This applies not only to `body` but to all of the following request sections.
-!!!
 
 ### path
 
