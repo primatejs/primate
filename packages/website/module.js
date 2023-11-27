@@ -1,3 +1,4 @@
+import { Response } from "rcompat/http";
 import { view } from "primate";
 
 const encode_title = title => title.toLowerCase().replaceAll(" ", "-");
@@ -49,7 +50,10 @@ const get_page = async (env, config, pathname) => {
     next: i < pages.length - 1 ? pages[i + 1] : undefined,
     heading,
   };
-  return { content, toc: await toc.json(), sidebar, page };
+  return {
+    component: "StaticPage.svelte",
+    props: { content, toc: await toc.json(), sidebar, page, app: config },
+  };
 };
 
 const handle_blog = async (env, config, pathname) => {
@@ -60,13 +64,19 @@ const handle_blog = async (env, config, pathname) => {
         const posts = await Promise.all((await directory.collect(/^.*json$/u))
           .map(async path => ({ ...await path.json(), link: path.base })));
         posts.sort((a, b) => b.epoch - a.epoch);
-        return view("BlogIndex.svelte", { app: config, posts });
+        return {
+          component: "BlogIndex.svelte",
+          props: { app: config, posts },
+        };
       }
       const base = pathname.slice(5);
       try {
         const meta = await directory.join(`${base}.json`).json();
         const { content, toc } = await get_page(env, config, pathname);
-        return view("BlogPage.svelte", { content, toc, meta, app: config });
+        return {
+          component: "BlogPage.svelte",
+          props: { content, toc, meta, app: config },
+        };
       } catch (error) {
         // ignore the error and let Primate show an error page
       }
@@ -74,6 +84,10 @@ const handle_blog = async (env, config, pathname) => {
   }
   return undefined;
 };
+
+const cookie = (name, value, { secure }) =>
+  `${name}=${value};HttpOnly;Path=/;${secure};SameSite=Strict`;
+const cookie_name = "color-scheme";
 
 export default config => {
   const { blog } = config;
@@ -86,19 +100,37 @@ export default config => {
       return next(app);
     },
     async handle(request, next) {
-      const { pathname } = request.url;
+      const { url: { pathname }, headers, cookies } = request;
+
+      const color_scheme = headers.get("Color-Scheme");
+      const options = {
+        secure: env.secure,
+      };
+
+      if (color_scheme !== undefined) {
+        return new Response(null, {
+          headers: {
+            "Set-Cookie": cookie(cookie_name, color_scheme, options),
+          },
+        });
+      }
+
+      const placeholders = {
+        "color-scheme": cookies.get("color-scheme") ?? "light",
+      };
 
       if (blog) {
         const handler = await handle_blog(env, config, pathname);
         if (handler !== undefined) {
-          return handler(env, {}, request);
+          const { component, props } = handler;
+          return view(component, props, { placeholders })(env, {}, request);
         }
       }
 
       const page = await get_page(env, config, pathname);
       if (page !== undefined) {
-        return view("StaticPage.svelte",
-          { ...page, app: config })(env, {}, request);
+        const { component, props } = page;
+        return view(component, props, { placeholders })(env, {}, request);
       }
       return next({ ...request, config });
     },
