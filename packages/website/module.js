@@ -1,4 +1,5 @@
 import { Response } from "rcompat/http";
+import { stringify } from "rcompat/object";
 import { view } from "primate";
 
 const encode_title = title => title.toLowerCase().replaceAll(" ", "-");
@@ -88,6 +89,7 @@ const handle_blog = async (env, config, pathname) => {
 const cookie = (name, value, { secure }) =>
   `${name}=${value};HttpOnly;Path=/;${secure};SameSite=Strict`;
 const cookie_name = "color-scheme";
+const blog_base = "https://primatejs.com/blog";
 
 export default config => {
   const { blog } = config;
@@ -97,6 +99,23 @@ export default config => {
     name: "priss",
     init(app, next) {
       env = app;
+      return next(app);
+    },
+    async stage(app, next) {
+      const entries = await app.path.components.join("content", "blog").list();
+      const jsons = (await Promise.all(entries
+        .filter(({ path }) => path.endsWith(".json"))
+        .map(async file => ({
+          link: `${blog_base}/${file.base}`,
+          description: (await file.directory.join(`${file.base}.md`).text()).split("\n\n")[0],
+          ...await file.json(),
+        }))))
+        .toSorted((a, b) => Math.sign(b.epoch - a.epoch))
+        .map(({ title, link, description }) => ({ title, link, description }))
+      ;
+      await app.runpath("blog").create();
+      await app.runpath("blog", "entries.json").write(stringify(jsons));
+
       return next(app);
     },
     async handle(request, next) {

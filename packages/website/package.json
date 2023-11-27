@@ -10,7 +10,8 @@
     "marked": "^10.0.0",
     "primate": "^0.27.2",
     "rcompat": "^0.5.0",
-    "svelte": "^4.2.7"
+    "svelte": "^4.2.7",
+    "handlebars": "^4.7.8"
   },
   "scripts": {
     "local": "scripts/local.sh",
