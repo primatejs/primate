@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+<channel>
+  <title>Primate Blog</title>
+  <link>https://primatejs.com/blog</link>
+  <description>Primate - Polymorphic development platform</description>
+
+  {{#each entries}}
+    <li>{{this}}</li>
+    <item>
+      <title>{{this.title}}</title>
+      <link>{{this.link}}</link>
+      <description>{{this.description}}</description>
+    </item>
+  {{/each}}
+
+</channel>
+</rss>

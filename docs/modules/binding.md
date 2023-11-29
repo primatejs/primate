@@ -18,20 +18,21 @@ The individual programming languages are available as individual exports.
 
 ## Support matrix
 
-|Feature           |JS      |GO      |
-|------------------|--------|--------|
-|serving strings   |[✓][stj]|[✓][stg]|
-|serving objects   |[✓][obj]|[✓][obg]|
-|serving streams   |[✓][srj]|✗       |
-|`redirect` handler|[✓][rhj]|[✓][rhg]|
-|`view` handler    |[✓][vhj]|[✓][vhg]|
-|`request.body`    |[✓][rbj]|[✓][rbg]|
-|`request.path`    |[✓][rpj]|[✓][rpg]|
-|`request.query`   |[✓][rqj]|[✓][rpg]|
-|`request.cookies` |[✓][rcj]|[✓][rpg]|
-|`request.headers` |[✓][rhj]|[✓][rpg]|
-|`request.session` |[✓][rsj]|[✓][rsg]|
-|`request.store.*` |[✓][rtj]|✗       |
+|Feature           |JS      |GO      |Python  |
+|------------------|--------|--------|--------|
+|serving strings   |[✓][stj]|[✓][stg]|[✓][stp]|
+|serving objects   |[✓][obj]|[✓][obg]|[✓][obp]|
+|serving streams   |[✓][srj]|✗       |✗       |
+|`redirect` handler|[✓][rhj]|[✓][rhg]|[✓][rhp]|
+|`view` handler    |[✓][vhj]|[✓][vhg]|[✓][vhp]|
+|`error` handler   |[✓][ehj]|✗       |[✓][ehp]|
+|`request.body`    |[✓][rbj]|[✓][rbg]|[✓][rbp]|
+|`request.path`    |[✓][rpj]|[✓][rpg]|[✓][rpp]|
+|`request.query`   |[✓][rqj]|[✓][rpg]|[✓][rpp]|
+|`request.cookies` |[✓][rcj]|[✓][rpg]|[✓][rpp]|
+|`request.headers` |[✓][rhj]|[✓][rpg]|[✓][rpp]|
+|`request.session` |[✓][rsj]|[✓][rsg]|[✓][rsp]|
+|`request.store.*` |[✓][rtj]|✗       |[✓][rtp]|
 
 [stj]: /guide/responses#plain-text
 [obj]: /guide/responses#json
@@ -53,6 +54,15 @@ The individual programming languages are available as individual exports.
 [rbg]: /modules/go#body
 [rpg]: /modules/go#path-query-cookies-headers
 [rsg]: /modules/go#session
+
+[stp]: /modules/python#plain-text
+[obp]: /modules/python#json
+[rhp]: /modules/python#redirect
+[vhp]: /modules/python#view
+[rbp]: /modules/python#body
+[rpp]: /modules/python#path-query-cookies-headers
+[rsp]: /modules/python#session
+[rtp]: /modules/python#store
 
 ### Type conversions
 

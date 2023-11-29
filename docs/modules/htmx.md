@@ -53,8 +53,8 @@ export default {
   post({ body }) {
     return html(
       `<h2>Adding a post with:</h2>
-      <div><strong>Title</strong> ${body.get("title")}</div>
-      <div><strong>Text</strong> ${body.get("text")}</div>`,
+      <div><strong>Title</strong> ${body.title}</div>
+      <div><strong>Text</strong> ${body.text}</div>`,
     { partial: true });
   },
 };

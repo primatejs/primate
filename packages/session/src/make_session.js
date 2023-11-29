@@ -31,7 +31,6 @@ export default (store, id) => {
       return store.get($id)?.[key];
     },
     set,
-    all,
     create(data = {}) {
       if (!exists()) {
         $id = crypto.randomUUID();
@@ -42,6 +41,9 @@ export default (store, id) => {
       if (exists()) {
         store.delete($id);
       }
+    },
+    toString() {
+      return JSON.stringify(all());
     },
   };
 };

@@ -7,13 +7,18 @@ const preference = () =>
 
 const colorscheme = writable(localStorage.getItem(item) || preference());
 
-colorscheme.subscribe(value => {
+colorscheme.subscribe(async value => {
   localStorage.setItem(item, value);
   if (value === "dark") {
     document.body.classList.add("dark");
   } else {
     document.body.classList.remove("dark");
   }
+  await fetch("/", {
+    headers: {
+      "Color-Scheme": value === "dark" ? "dark" : "light",
+    }
+  })
 });
 
 export default colorscheme;

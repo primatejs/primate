@@ -1,30 +1,33 @@
 import { Path } from "rcompat/fs";
 import { esbuild } from "@primate/build";
 import liveview from "@primate/liveview";
-import { svelte, markdown } from "@primate/frontend";
+import { svelte, markdown, handlebars } from "@primate/frontend";
 import hljs from "highlight.js/lib/core";
 import xml from "highlight.js/lib/languages/xml";
-import javascript from "highlight.js/lib/languages/javascript";
+
+import js from "highlight.js/lib/languages/javascript";
 import json from "highlight.js/lib/languages/json";
 import bash from "highlight.js/lib/languages/bash";
 import http from "highlight.js/lib/languages/http";
 import plaintext from "highlight.js/lib/languages/plaintext";
 import md from "highlight.js/lib/languages/markdown";
-import handlebars from "highlight.js/lib/languages/handlebars";
+import hbs from "highlight.js/lib/languages/handlebars";
 import go from "highlight.js/lib/languages/go";
+import python from "highlight.js/lib/languages/python";
 import priss from "./module.js";
 
-hljs.registerLanguage("javascript", javascript);
+hljs.registerLanguage("js", js);
 hljs.registerLanguage("json", json);
 hljs.registerLanguage("xml", xml);
 hljs.registerLanguage("bash", bash);
 hljs.registerLanguage("http", http);
 hljs.registerLanguage("plaintext", plaintext);
 hljs.registerLanguage("md", md);
-hljs.registerLanguage("hbs", handlebars);
+hljs.registerLanguage("hbs", hbs);
 hljs.registerLanguage("go", go);
+hljs.registerLanguage("py", python);
 
-const master = (i) => i;
+const master = i => i;
 
 export default {
   http: {
@@ -35,6 +38,7 @@ export default {
   },
   modules: [
     svelte(),
+    handlebars(),
     esbuild({ ignores: ["woff2", "jpg"] }),
     liveview(),
     markdown({
@@ -58,7 +62,7 @@ export default {
             const name = text.toLowerCase().replaceAll(/[?{}%]/gu, "")
               .replace(/[^\w]+/gu, "-");
             const href = "%REPO%/edit/master/docs%PATHNAME%.md";
-            const editThisPage = `
+            const edit_this_page = `
               <a href="${href}" class="edit-this-page">
                 <svg class="icon" width="16" height="16">
                   <use xlink:href="#edit" />
@@ -74,7 +78,7 @@ export default {
               <a name="${name}" class="anchor" href="#${name}">
                 <span class="header-link"></span>
               </a>
-              ${level === 1 ? editThisPage : ""}
+              ${level === 1 ? edit_this_page : ""}
             `;
           },
         },
@@ -122,7 +126,7 @@ export default {
             { heading: "Modules" },
             "Official",
             "Third-party",
-            { heading: "Handlers" },
+            { heading: "Frontends" },
             "Frontend",
             "Svelte",
             "React",
@@ -138,6 +142,7 @@ export default {
             { heading: "Bindings" },
             "Binding",
             "Go",
+            "Python",
             { heading: "Others" },
             "Liveview",
             "Session",

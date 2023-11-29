@@ -1,10 +1,10 @@
 import { from, stringify, valmap } from "rcompat/object";
 
 const make_search_params = url => stringify(from(url.searchParams.entries()));
-const dispatchers = ["body", "path", "query", "cookies", "headers"];
+const dispatchers = ["path", "query", "cookies", "headers"];
 
 const make_dispatcher = dispatcher => {
-  const { get, all: _, raw: _1, ...rest } = dispatcher;
+  const { get, raw: _, ...rest } = dispatcher;
   return valmap(rest, getter => {
     try {
       return getter();
@@ -30,7 +30,6 @@ const make_session = session => {
         }
       },
       get: session.get,
-      all: () => JSON.stringify(session.all()),
     },
   };
 };
@@ -41,9 +40,10 @@ export default request => {
   return {
     url: request.url,
     search_params: make_search_params(request.url),
+    body: JSON.stringify(request.body),
     ...from(dispatchers.map(property => [
       property, {
-        properties: JSON.stringify(request[property].all()),
+        properties: request[property].toString(),
         ...make_dispatcher(request[property]),
       },
     ])),

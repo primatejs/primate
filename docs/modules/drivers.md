@@ -78,10 +78,6 @@ export default {
 
 ## MongoDB
 
-!!!
-This driver does not yet support automatic transaction rollback.
-!!!
-
 The MongoDB driver uses the `mongodb` package for its underlying driver.
 Install this package with `npm install mongodb` before you proceed to use this
 driver. In addition, it requires running MongoDB server, either locally or
@@ -111,10 +107,6 @@ export default {
 ```
 
 ## PostgreSQL
-
-!!!
-This driver does not yet support automatic transaction rollback.
-!!!
 
 The PostgreSQL driver uses the `postgres` package for its underlying driver.
 Install this package with `npm install postgres` before you proceed to use this

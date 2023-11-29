@@ -82,7 +82,11 @@ export default async (log, root, config) => {
       default: await error.exists() ? (await import(error)).default : undefined,
     },
     handlers: { ...handlers },
-    extensions: {},
+    extensions: {
+      ".html": {
+        handle: handlers.html,
+      },
+    },
     modules: await loaders.modules(log, root, config),
     ...runtime,
     // copy files to build folder, potentially transforming them

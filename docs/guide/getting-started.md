@@ -50,16 +50,23 @@ If you're a Deno user, use `deno run --allow-all npm:primate` to run Primate.
 Primate isn't limited to JavaScript for your backend code. If you're a Go
 developer, you can easily do the same with a Go route.
 
-```js caption=routes/index.go
+```go caption=routes/index.go
 func Get(request Request) any {
   return "Hello, world!";
 }
 ```
 
+Or with a Python route if you're a Python developer.
+
+```py caption=routes/index.py
+def get(request):
+    return "Hello, world!"
+```
+
 Same as before, run `npx -y primate@latest` and point your browser to
 http://localhost:6161 to run your route.
 
-We have upcoming support for TypeScript, Python and other languages.
+We have upcoming support for TypeScript and other languages.
 
 ## Serving HTML
 
@@ -153,8 +160,8 @@ export default {
 Beyond pure HTML, Primate supports a variety of frontend frameworks. Here is
 the same code as before, in Svelte.
 
-First add frontend framework support by issuing `npm install @primate/frontend`
-and loading the frontend framework of your choice in your configuration file
+First add frontend support by issuing `npm install @primate/frontend` and
+loading the frontend framework of your choice in your configuration file
 (create it first).
 
 ```js caption=primate.config.js
@@ -216,7 +223,7 @@ the [frontend] module page to see what's available.
 ## Deeper dive
 
 Now that we've built a trivial use case with form submission, we can start
-diving a bit deeper into the framework itself and what it offers.
+diving a bit deeper into the platform itself and what it offers.
 
 You don't have to read this entire guide to get productive with Primate. If you
 prefer a hands-on approach, you can jump in directly into coding and refer back
@@ -262,7 +269,7 @@ code itself, asking in chat, or raising an issue.
 
 ### Code
 
-[Primate's monorepo][repo] contains the core framework code under
+[Primate's monorepo][repo] contains the core platform code under
 `packages/primate` as well code for the official modules and the
 website under `packages`.
 
