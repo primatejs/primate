@@ -7,7 +7,7 @@
     "@primate/liveview": "^0.8.0",
     "esbuild": "^0.19.5",
     "highlight.js": "^11.9.0",
-    "marked": "^10.0.0",
+    "marked": "^11.0.0",
     "primate": "^0.26.4",
     "rcompat": "^0.4.1",
     "svelte": "^4.2.5"
