@@ -7,11 +7,11 @@
     "@primate/liveview": "^0.9.0",
     "esbuild": "^0.19.8",
     "highlight.js": "^11.9.0",
-    "marked": "^10.0.0",
-    "primate": "^0.27.2",
-    "rcompat": "^0.5.0",
-    "svelte": "^4.2.7",
+    "marked": "^11.0.0",
     "handlebars": "^4.7.8"
+    "svelte": "^4.2.7",
+    "rcompat": "^0.5.0",
+    "primate": "^0.27.2",
   },
   "scripts": {
     "local": "scripts/local.sh",

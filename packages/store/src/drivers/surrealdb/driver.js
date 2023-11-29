@@ -29,8 +29,6 @@ export default ({
   const address = `${host}:${port}/${path}`;
   const auth = username !== undefined && password !== undefined ?
     {
-      NS: namespace,
-      DB: database,
       username,
       password,
     }
