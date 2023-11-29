@@ -151,12 +151,17 @@ export default async (log, root, config) => {
       return this.path.build.join(...directories);
     },
     async render({ body, head }, page = config.pages.index, placeholders = {}) {
+      ["body", "head"].every(used => is(placeholders[used]).undefined());
       const { assets, config: { location, pages } } = this;
 
-      return to({ ...placeholders, body, head: render_head(assets, head) })
+      return to(placeholders)
+        // replace given placeholders, defaulting to ""
         .reduce((html, [key, value]) => html.replace(`%${key}%`, value ?? ""),
           await index(this.runpath(location.pages), page, pages.index))
-        .replaceAll(/%.*%/gus, "");
+        // replace non-given placeholders, aside from %body% / %head%
+        .replaceAll(/(?<keep>%(?:head|body)%)|%.*?%/gus, "$1")
+        // replace body and head
+        .replace("%body%", body).replace("%head%", render_head(assets, head));
     },
     async inline(code, type) {
       const integrity = await this.hash(code);
