@@ -2,6 +2,9 @@ import { view } from "primate";
 
 export default {
   get(request) {
-    return view("Homepage.svelte", { app: request.config });
+    const props = { app: request.config };
+    const options = { placeholders: request.placeholders };
+
+    return view("Homepage.svelte", props, options);
   },
 };

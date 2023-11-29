@@ -3,15 +3,15 @@
   "private": true,
   "dependencies": {
     "@primate/build": "^0.2.0",
-    "@primate/frontend": "^0.9.0",
+    "@primate/frontend": "^0.9.2",
     "@primate/liveview": "^0.9.0",
     "esbuild": "^0.19.8",
-    "handlebars": "^4.7.8",
     "highlight.js": "^11.9.0",
     "marked": "^11.0.0",
-    "primate": "^0.27.2",
+    "primate": "^0.27.3",
     "rcompat": "^0.5.0",
-    "svelte": "^4.2.7"
+    "svelte": "^4.2.7",
+    "handlebars": "^4.7.8"
   },
   "scripts": {
     "local": "scripts/local.sh",
