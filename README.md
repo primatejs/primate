@@ -68,7 +68,7 @@ constraints of being tied to specific options like Nuxt, Next, or others.
 * Reddit: [r/primatejs](https://reddit.com/r/primatejs)
 * Twitter (X): [@primatejs](https://x.com/primatejs)
 * Blog: https://primatejs.com/blog
-
+* StackOverflow: https://stackoverflow.com/questions/tagged/primate
 
 ## Example Applications
 
