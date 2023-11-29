@@ -8,10 +8,10 @@ export default ({ names, data, context, request }, options) => `
     hydrate: true,
     props: {
       components: [${names.map(name => `components.${name}`).join(", ")}],
-      data: JSON.parse(${JSON.stringify(JSON.stringify(data))}),
-      context: JSON.parse(${JSON.stringify(JSON.stringify(context))}),
+      data: ${JSON.stringify(data)},
+      context: ${JSON.stringify(context)},
       request: {
-        ...JSON.parse(${JSON.stringify(JSON.stringify(request))}),
+        ...${JSON.stringify(request)},
         url: new URL(location.href),
       },
     },
