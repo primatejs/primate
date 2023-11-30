@@ -17,6 +17,9 @@ export default (patches = {}) => (object, raw, cased = true) => {
 
       return object[cased ? property : property.toLowerCase()];
     },
+    json() {
+      return JSON.parse(JSON.stringify(object));
+    },
     toString() {
       return JSON.stringify(object);
     },

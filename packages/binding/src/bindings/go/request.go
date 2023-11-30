@@ -11,6 +11,7 @@ type Array []any
 
 type Dispatcher struct {
   Get func(string) any
+  Json func() map[string]any
   %%DISPATCH_STRUCT%%
 }
 
@@ -63,9 +64,10 @@ func make_url(request js.Value) URL {
 func make_dispatcher(key string, request js.Value) Dispatcher {
   properties := make(map[string]any);
   value := request.Get(key)
-  json.Unmarshal([]byte(value.Get("properties").String()), &properties);
+  json.Unmarshal([]byte(value.Get("stringified").String()), &properties);
 
   return Dispatcher{
+    // Get
     func(property string) any {
       switch properties[property].(type) {
         case string:
@@ -73,6 +75,10 @@ func make_dispatcher(key string, request js.Value) Dispatcher {
         default:
           return nil;
         }
+    },
+    // Json
+    func() map[string]any {
+      return properties;
     },
     %%DISPATCH_MAKE%%
   };

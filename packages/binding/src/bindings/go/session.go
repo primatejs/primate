@@ -1,11 +1,13 @@
 package main
 
 import "syscall/js"
+import "encoding/json"
 import "errors"
 
 type Session struct {
   Exists func() bool
   Get func(string) any
+  Json func() map[string]any
   Set func(string, any) error
   Create func(map[string]any)
   Destroy func()
@@ -13,6 +15,8 @@ type Session struct {
 
 func make_session(request js.Value) Session {
   session := request.Get("session");
+  properties := make(map[string]any);
+  json.Unmarshal([]byte(session.Get("stringified").String()), &properties);
 
   return Session{
     // Exists
@@ -41,6 +45,10 @@ func make_session(request js.Value) Session {
       }
 
       return nil;
+    },
+    // Json
+    func() map[string]any {
+      return properties;
     },
     // Set
     func(key string, value any) error {

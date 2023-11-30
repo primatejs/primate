@@ -42,14 +42,11 @@ const wrap_store = store => {
   };
 };
 
-const wrap_stores = object => {
-  return to(object).reduce((reduced, [key, value]) => {
-    if (value.connection !== undefined) {
-      return { ...reduced, [key]: wrap_store(value) };
-    }
-    return { ...reduced, [key]: wrap_stores(value) };
-  }, {});
-};
+const is_store = value => value.connection !== undefined;
+const wrap_stores = object => to(object).reduce((reduced, [key, value]) => ({
+  ...reduced,
+  [key]: is_store(value) ? wrap_store(value) : wrap_stores(value),
+}), {});
 
 export default request => {
   return {

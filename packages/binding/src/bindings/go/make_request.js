@@ -30,6 +30,7 @@ const make_session = session => {
         }
       },
       get: session.get,
+      stringified: session.toString(),
     },
   };
 };
@@ -43,7 +44,7 @@ export default request => {
     body: JSON.stringify(request.body),
     ...from(dispatchers.map(property => [
       property, {
-        properties: request[property].toString(),
+        stringified: request[property].toString(),
         ...make_dispatcher(request[property]),
       },
     ])),
