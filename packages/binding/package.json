@@ -1,6 +1,6 @@
 {
   "name": "@primate/binding",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Primate binding module",
   "homepage": "https://primatejs.com/modules/binding",
   "bugs": "https://github.com/primatejs/primate/issues",
