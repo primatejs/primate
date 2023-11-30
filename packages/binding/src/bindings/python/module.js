@@ -8,7 +8,7 @@ const get_routes = code => [...code.matchAll(routes_re)]
 
 const make_route = route => `async ${route.toLowerCase()}(request) {
   const ${route}_fn = pyodide.globals.get("${route}");
-  return make_response(await ${route}_fn(make_request(request)));
+  return make_response(await ${route}_fn(make_request(pyodide.toPy, request)));
 }`;
 
 const make_package = pkg => `await pyodide.loadPackage("${pkg}", {

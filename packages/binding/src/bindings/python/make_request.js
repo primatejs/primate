@@ -1,32 +1,43 @@
-import { to } from "rcompat/object";
+import { to, from } from "rcompat/object";
 import { unwrap, unwrap_async } from "./unwrap.js";
 
-const wrap_store = store => {
+const dispatchers = ["path", "query", "headers", "cookies"];
+
+const wrap_dispatchers = (toPy, request) => from(dispatchers.map(dispatcher =>
+  [dispatcher, {
+    ...request[dispatcher],
+    json() {
+      return toPy(request[dispatcher].json());
+    },
+  }]));
+
+const wrap_store = (toPy, store) => {
   return {
     ...store,
     async validate(input) {
-      return store.validate(unwrap_async(input));
+      return toPy(await store.validate(unwrap_async(input)));
     },
     async get(value) {
-      return store.get(unwrap_async(value));
+      return toPy(await store.get(unwrap_async(value)));
     },
     async count(criteria) {
       return store.count(unwrap_async(criteria));
     },
     async find(criteria) {
-      return store.find(unwrap_async(criteria));
+      return toPy(await store.find(unwrap_async(criteria)));
     },
     async exists(criteria) {
       return store.exists(unwrap_async(criteria));
     },
     async insert(document) {
-      return store.insert(unwrap_async(document));
+      return toPy(await store.insert(unwrap_async(document)));
     },
     async update(criteria, document) {
-      return store.update(unwrap_async(criteria), unwrap_async(document));
+      const ua = unwrap_async;
+      return toPy(await store.update(ua(criteria), ua(document)));
     },
     async save(document) {
-      return store.save(unwrap_async(document));
+      return toPy(await store.save(unwrap_async(document)));
     },
     async delete(criteria) {
       return store.delete(unwrap_async(criteria));
@@ -43,20 +54,25 @@ const wrap_store = store => {
 };
 
 const is_store = value => value.connection !== undefined;
-const wrap_stores = object => to(object).reduce((reduced, [key, value]) => ({
-  ...reduced,
-  [key]: is_store(value) ? wrap_store(value) : wrap_stores(value),
-}), {});
+const wrap_stores = (toPy, object) => to(object)
+  .reduce((reduced, [key, value]) => ({
+    ...reduced,
+    [key]: is_store(value) ? wrap_store(toPy, value) : wrap_stores(toPy, value),
+  }), {});
 
-export default request => {
-  return {
-    ...request,
-    session: {
-      ...request.session,
-      create(data) {
-        request.session.create(unwrap(data));
-      },
-    },
-    store: wrap_stores(request.store),
-  };
-};
+const wrap_session = (toPy, { session }) => ({
+  ...session,
+  create(data) {
+    session.create(unwrap(data));
+  },
+  json() {
+    return toPy(session.json());
+  },
+});
+
+export default (toPy, request) => ({
+  ...request,
+  ...wrap_dispatchers(toPy, request),
+  session: wrap_session(toPy, request),
+  store: wrap_stores(toPy, request.store),
+});
