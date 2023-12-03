@@ -64,13 +64,13 @@ export default async root => {
     });
   }
 
-  if (await confirm({ message: `Enable esbuild? ${link("esbuild")}` })) {
+  if (await confirm({ message: `Enable bundling? ${link("build")}` })) {
     configs.push({
       dependencies: {
-        "@primate/esbuild": dependencies["@primate/esbuild"],
+        "@primate/build": dependencies["@primate/build"],
       },
       imports: {
-        esbuild: "@primate/esbuild",
+        "{ esbuild }": "@primate/build",
       },
       modules: {
         esbuild: "",
