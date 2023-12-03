@@ -1,11 +1,6 @@
 {
   "module": "primate",
   "errors": {
-    "CannotParseBody": {
-      "message": "cannot parse body {0} as {1}",
-      "fix": "use a different content type or fix body",
-      "level": "Warn"
-    },
     "DoubleFileExtension": {
       "message": "double file extension {0}",
       "fix": "unload one of the two handlers registering the file extension",

@@ -63,7 +63,7 @@ const app = {
     "users5/{n}",
     "users6/{nv}",
     "{id}/{Id}/{ID}",
-  ] : []).map(pathname => [pathname, { get: request => request }]),
+  ] : []).map(pathname => [pathname, { default: { get: request => request } }]),
   ),
   types: {
     user: numeric,
@@ -119,7 +119,7 @@ export default test => {
       assert(() => r(url)).throws(reason);
     },
     path: (url, result) => {
-      assert(r(url).path.get()).equals(result);
+      assert(r(url).path.json()).equals(result);
     },
     assert,
   }));
@@ -159,7 +159,7 @@ export default test => {
     fail("/comments/ ", "/comments");
     typefail("/comments/1d", "`commentId` not numeric");
   });
-  test.case("mixed untyped and typed params", ({ path, typefail }) => {
+  test.case("mix untyped and typed params", ({ path, typefail }) => {
     path("/users/1/comments/2/a", { userId: 1, commentId: "2" });
     typefail("/users/d/comments/2/a", "`userId` not numeric");
   });
@@ -167,12 +167,12 @@ export default test => {
     path("/comments2/1", { _commentId: 1 });
     typefail("/comments2/d", "`_commentId` not numeric");
   });
-  test.case("mixed implicit and untyped params", ({ path, typefail, fail }) => {
+  test.case("mix implicit and untyped params", ({ path, typefail, fail }) => {
     path("/users2/1/2", { _userId: 1, _commentId: 2 });
     typefail("/users2/d/2", "`_userId` not numeric");
     fail("/users2/d");
   });
-  test.case("mixed implicit and explicit params", ({ path, typefail, fail }) => {
+  test.case("mix implicit and explicit params", ({ path, typefail, fail }) => {
     path("/users3/1/2", { _userId: 1, _commentId: 2 });
     typefail("/users3/d/2", "`_userId` not numeric");
     typefail("/users3/1/d", "`_commentId` not numeric");

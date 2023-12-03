@@ -3,6 +3,11 @@ import loader from "./routes.js";
 import { mark } from "../Logger.js";
 
 const app = {
+  config: {
+    location: {
+      routes: "routes",
+    },
+  },
   log: {
     auto(error) {
       throw error;
@@ -14,7 +19,7 @@ const app = {
 };
 
 const routes = defs => loader(app, ({ warn = true }) =>
-  warn ? defs : []);
+  warn ? defs.map(([name, route]) => [name, { default: route }]) : []);
 
 const get = () => null;
 

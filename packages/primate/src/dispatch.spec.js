@@ -22,11 +22,11 @@ const number2 = {
 export default test => {
   test.case("get", async assert => {
     const d = dispatch();
-    assert(d(null).get()).null();
-    assert(d({}).get()).equals({});
-    assert(d({ foo: "bar" }).get()).equals({ foo: "bar" });
+    assert(d(null).json()).equals(null);
+    assert(d({}).json()).equals({});
+    assert(d({ foo: "bar" }).json()).equals({ foo: "bar" });
     assert(d({ foo: "bar" }).get("foo")).equals("bar");
-    assert(d({ foo: "bar", bar: "baz" }).get()).equals({ foo: "bar", bar: "baz" });
+    assert(d({ foo: "bar", bar: "baz" }).json()).equals({ foo: "bar", bar: "baz" });
     assert(d({ foo: "bar", bar: "baz" }).get("foo")).equals("bar");
     assert(d({ foo: "bar", bar: "baz" }).get("bar")).equals("baz");
   });

@@ -6,8 +6,8 @@ import fs from "./common.js";
 
 const filter = path => /^[a-z]/u.test(path.name);
 
-export default async (log, directory) => {
-  const types = (await fs({ log, directory, name: "types", filter }))
+export default async (log, directory, load = fs) => {
+  const types = (await load({ log, directory, name: "types", filter }))
     .map(([name, type]) => [name, type.default]);
 
   const resolve = name => new Path(directory, name);

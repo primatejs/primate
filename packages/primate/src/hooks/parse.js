@@ -13,8 +13,8 @@ export default dispatch => async original => {
     ...valmap({
       query: [from(url.searchParams), url.search],
       headers: [from(headers), headers, false],
-      cookies: [from(cookies?.split(";").map(cookie => cookie.trim().split("="))
-        ?? []), cookies],
+      cookies: [from(cookies?.split(";").map(cookie =>
+        cookie.trim().split("=")) ?? []), cookies],
     }, value => dispatch(...value)),
   };
 };
