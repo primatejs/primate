@@ -28,11 +28,11 @@
     "@primate/types": "^0.11.0",
     "@primate/ws": "^0.9.0",
     "babel-preset-solid": "^1.8.6",
-    "better-sqlite3": "^9.2.0",
+    "better-sqlite3": "^9.2.2",
     "esbuild": "^0.19.8",
     "handlebars": "^4.7.8",
     "htmx.org": "^1.9.9",
-    "marked": "^11.0.0",
+    "marked": "^11.0.1",
     "mongodb": "^6.3.0",
     "postgres": "^3.4.3",
     "primate": "^0.27.4",
@@ -41,6 +41,6 @@
     "solid-js": "^1.8.7",
     "surrealdb.js": "^0.11.0",
     "svelte": "^4.2.8",
-    "vue": "^3.3.9"
+    "vue": "^3.3.11"
   }
 }
