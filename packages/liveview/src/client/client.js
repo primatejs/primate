@@ -9,6 +9,8 @@ const APPLICATION_JSON = "application/json";
 const MULTIPART_FORM_DATA = "multipart/form-data";
 const global = globalThis;
 
+history.scrollRestoration = "manual";
+
 const scroll = (x, y) => global.scrollTo(x, y);
 const scroll_hash = hash => {
   if (hash === "") {
@@ -53,7 +55,8 @@ const submit = async (pathname, body, method, updater) => {
   try {
     const response = await fetch(pathname, { method, body, headers });
     if (response.redirected) {
-      return go(response.url, updater);
+      await go(response.url, updater);
+      return;
     }
     await handle(response, updater);
   } catch (error) {
@@ -76,7 +79,13 @@ const go = async (href, updater, event) => {
     }
     // different hash on same page, jump to hash
     if (hash !== global.location.hash) {
-      storage.new({ stop: true, pathname: current, hash: global.location.hash });
+      const { scrollTop } = global.document.scrollingElement;
+      storage.new({
+        stop: true,
+        pathname: current,
+        hash: global.location.hash,
+        scrollTop,
+      });
       history.pushState(null, "", `${current}${hash}`);
       scroll_hash(hash);
     }
@@ -85,32 +94,43 @@ const go = async (href, updater, event) => {
 };
 
 export default updater => {
-  global.addEventListener("popstate", async _ => {
+  global.addEventListener("beforeunload", _ => {
+    history.scrollRestoration = "auto";
+  });
+
+  global.addEventListener("popstate", _ => {
     const state = storage.peek() ?? { scrollTop: 0 };
+    const { pathname } = global.location;
+
     let { scrollTop } = state;
     if (state.stop) {
       storage.back();
+      if (state.hash) {
+        scroll_hash(state.hash);
+      } else {
+        scroll(0, state.scrollTop);
+      }
       return;
     }
-    const { pathname } = global.location;
     const back = state.pathname === pathname;
     if (back) {
       storage.back();
     } else {
       scrollTop = storage.forward().scrollTop;
     }
-    await goto(global.location, props =>
+
+    goto(global.location, props =>
       updater(props, () => scroll(0, scrollTop ?? 0)));
   });
 
   global.addEventListener("click", event => {
     const target = event.target.closest("a");
     if (target?.tagName === "A" && target.href !== "") {
-      return go(target.href, updater, event);
+      go(target.href, updater, event);
     }
   });
 
-  global.addEventListener("submit", async event => {
+  global.addEventListener("submit", event => {
     event.preventDefault();
     const { target } = event;
     const { enctype } = target;
@@ -120,6 +140,6 @@ export default updater => {
     const form = enctype === MULTIPART_FORM_DATA
       ? data
       : new URLSearchParams(data);
-    await submit(url.pathname, form, target.method, updater);
+    submit(url.pathname, form, target.method, updater);
   });
 };
