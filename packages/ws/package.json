@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "rcompat": "^0.5.0",
-    "ws": "^8.14.2"
+    "ws": "^8.15.0"
   },
   "peerDependencies": {
     "primate": "0.27"

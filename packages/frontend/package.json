@@ -20,7 +20,7 @@
   "devDependencies": {
     "@babel/core": "^7.23.5",
     "babel-preset-solid": "^1.8.6",
-    "esbuild": "^0.19.8",
+    "esbuild": "^0.19.9",
     "handlebars": "^4.7.8",
     "marked": "^11.0.1",
     "react": "^18.2.0",
