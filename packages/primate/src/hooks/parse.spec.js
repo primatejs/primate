@@ -1,6 +1,7 @@
 import { MediaType } from "rcompat/http";
 import parse from "./parse.js";
 import dispatch from "../dispatch.js";
+import { mark } from "../Logger.js";
 
 const { APPLICATION_JSON, APPLICATION_FORM_URLENCODED } = MediaType;
 const r = await (async () => {
@@ -28,8 +29,9 @@ export default test => {
     assert(response.body.bar).undefined();
 
     const faulty = `${body}%`;
-    assert(() => r.post("/", { body: faulty, headers }))
-      .throws(`cannot parse body with content type ${APPLICATION_JSON}`);
+    const error = `cannot parse body with content type ${APPLICATION_JSON}`;
+    const throws = mark("{0}: {1}", "/", error);
+    assert(() => r.post("/", { body: faulty, headers })).throws(throws);
   });
 
   test.case("body is application/x-www-form-urlencoded", async assert => {

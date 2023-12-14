@@ -1,6 +1,11 @@
 {
   "module": "primate",
   "errors": {
+    "MismatchedBody": {
+      "message": "{0}: {1}",
+      "fix": "make sure the body payload corresponds to the used content type",
+      "level": "Error"
+    },
     "DoubleFileExtension": {
       "message": "double file extension {0}",
       "fix": "unload one of the two handlers registering the file extension",
