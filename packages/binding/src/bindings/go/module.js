@@ -67,7 +67,14 @@ const type_map = {
   u16: { transfer: "Int", type: "uint16" },
   u32: { transfer: "Int", type: "uint32", nullval: "0" },
   u64: { transfer: "Int", type: "uint64" },
-  string: { transfer: "String", type: "string", nullval: "\"\"" },
+  string: { transfer: "String", type: "string" },
+  uuid: { transfer: "String", type: "string" },
+};
+const error_default = {
+  Bool: false,
+  Int: 0,
+  Float: 0,
+  String: "\"\"",
 };
 const root = new Path(import.meta.url).up(1);
 
@@ -102,16 +109,18 @@ const create_meta_files = async (directory, types, app) => {
     await directory.join(meta.sum).write(await root.join(meta.sum).text());
 
     const has_types = Object.keys(types).length > 0;
-    const dispatch_struct = Object.entries(types).map(([name, { base }]) =>
+    const supported_types = Object.entries(types)
+      .filter(([_, { base }]) => type_map[base] !== undefined);
+    const dispatch_struct = supported_types.map(([name, { base }]) =>
       `Get${upperfirst(name)} func(string) (${type_map[base].type}, error)`,
     ).join("\n  ");
-    const dispatch_make = Object.entries(types).map(([name, { base }]) => {
-      const { transfer, type, nullval } = type_map[base];
+    const dispatch_make = supported_types.map(([name, { base }]) => {
+      const { transfer, type } = type_map[base];
       const upper = upperfirst(name);
       return `func(property string) (${type}, error) {
       r := value.Get("get${upper}").Invoke(property);
       if (r.Type() == 7) {
-        return ${nullval}, errors.New(r.Invoke().String());
+        return ${error_default[transfer]}, errors.New(r.Invoke().String());
       }
       return ${type}(r.${transfer}()), nil;
     },`;

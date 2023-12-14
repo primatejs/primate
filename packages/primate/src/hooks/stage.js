@@ -28,23 +28,20 @@ const post = async app => {
   if (await app.path.types.exists()) {
     await app.stage(app.path.types, location.types);
   }
-  const types = await loaders.types(app.log, app.runpath(location.types));
+  const user_types = await loaders.types(app.log, app.runpath(location.types));
+  const types = { ...app.types, ...user_types };
+
   const staged = app.runpath(location.routes);
   for (const path of await staged.collect()) {
     await app.extensions[path.extension]
       ?.route(staged, path.debase(`${staged}/`), types);
   }
   const routes = await loaders.routes(app);
-
-  return {
-    ...app,
-    types,
-    routes,
-    dispatch: dispatch(app.types),
-    layout: {
-      depth: Math.max(...routes.map(({ layouts }) => layouts.length)) + 1,
-    },
+  const layout = {
+    depth: Math.max(...routes.map(({ layouts }) => layouts.length)) + 1,
   };
+
+  return { ...app, types, routes, dispatch: dispatch(types), layout };
 };
 
 export default async app =>

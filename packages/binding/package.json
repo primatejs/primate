@@ -24,10 +24,18 @@
   },
   "peerDependencies": {
     "primate": "0.27",
-    "pyodide": "0.24"
+    "pyodide": "0.24",
+    "@ruby/3.2-wasm-wasi": "2.3",
+    "@ruby/wasm-wasi": "2.3"
   },
   "peerDependenciesMeta": {
     "pyodide": {
+      "optional": true
+    },
+    "@ruby/3.2-wasm-wasi": {
+      "optional": true
+    },
+    "@ruby/wasm-wasi": {
       "optional": true
     }
   },
@@ -37,6 +45,7 @@
       "default": "./src/exports.js"
     },
     "./go": "./src/bindings/go/exports.js",
-    "./python": "./src/bindings/python/exports.js"
+    "./python": "./src/bindings/python/exports.js",
+    "./ruby": "./src/bindings/ruby/exports.js"
   }
 }

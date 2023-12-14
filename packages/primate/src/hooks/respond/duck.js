@@ -1,4 +1,4 @@
 import { Headers } from "rcompat/http";
 
-export const isResponse = value =>
+export default value =>
   value.body !== undefined && value.headers instanceof Headers;

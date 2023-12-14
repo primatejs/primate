@@ -51,9 +51,9 @@ export default app => {
       const hooks = [...app.modules.route, guard(app, guards)];
 
       // handle request
-      const response = (await cascade(hooks, handler))(pathed);
+      const response = await (await cascade(hooks, handler))(pathed);
       const $layouts = { layouts: await get_layouts(layouts, request) };
-      return (await respond(await response))(app, $layouts, pathed);
+      return (await respond(response))(app, $layouts, pathed);
     }).orelse(async error => {
       app.log.auto(error);
 

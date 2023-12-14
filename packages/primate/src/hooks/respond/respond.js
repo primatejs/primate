@@ -1,26 +1,26 @@
 import { Blob } from "rcompat/fs";
 import { URL } from "rcompat/http";
 import { text, json, stream, redirect } from "primate";
-import { isResponse as isResponseDuck } from "./duck.js";
+import is_response_duck from "./duck.js";
 
-const isText = value => {
+const is_text = value => {
   if (typeof value === "string") {
     return text(value);
   }
   throw new Error(`no handler found for ${value}`);
 };
 
-const isNonNullObject = value => typeof value === "object" && value !== null;
-const isObject = value => isNonNullObject(value)
-  ? json(value) : isText(value);
-const isResponse = value => isResponseDuck(value)
-  ? _ => value : isObject(value);
+const is_non_null_object = value => typeof value === "object" && value !== null;
+const is_object = value => is_non_null_object(value)
+  ? json(value) : is_text(value);
+const is_response = value => is_response_duck(value)
+  ? _ => value : is_object(value);
 const isStream = value => value instanceof ReadableStream
-  ? stream(value) : isResponse(value);
-const isBlob = value => value instanceof Blob
+  ? stream(value) : is_response(value);
+const is_blob = value => value instanceof Blob
   ? stream(value) : isStream(value);
-const isURL = value => value instanceof URL
-  ? redirect(value.href) : isBlob(value);
-const guess = value => isURL(value);
+const is_URL = value => value instanceof URL
+  ? redirect(value.href) : is_blob(value);
+const guess = value => is_URL(value);
 
 export default result => typeof result === "function" ? result : guess(result);
