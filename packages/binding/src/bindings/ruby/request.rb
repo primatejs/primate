@@ -1,5 +1,19 @@
 require 'json'
 
+class Primate
+  def self.view(name, props = {}, options = {})
+    {:__PRMT__ => "view", :name => name, :props => props, :options => options}
+  end
+
+  def self.redirect(location, options = {})
+    {:__PRMT__ => "redirect", :location => location, :options => options}
+  end
+
+  def self.error(body, options = {})
+    {:__PRMT__ => "error", :body => body, :options => options}
+  end
+end
+
 class Dispatcher
   def initialize(dispatcher)
     @dispatcher = dispatcher
