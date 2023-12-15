@@ -25,14 +25,14 @@
   "peerDependencies": {
     "primate": "0.27",
     "pyodide": "0.24",
-    "@ruby/3.2-wasm-wasi": "2.3",
+    "@ruby/head-wasm-wasi": "2.3",
     "@ruby/wasm-wasi": "2.3"
   },
   "peerDependenciesMeta": {
     "pyodide": {
       "optional": true
     },
-    "@ruby/3.2-wasm-wasi": {
+    "@ruby/head-wasm-wasi": {
       "optional": true
     },
     "@ruby/wasm-wasi": {

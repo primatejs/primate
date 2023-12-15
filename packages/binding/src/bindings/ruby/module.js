@@ -50,7 +50,8 @@ const file = await new Path("${path}").text();
 const wrappers = ${JSON.stringify(create_ruby_wrappers(routes))};
 const request = ${JSON.stringify(request
     .replace("%%DISPATCH_DEFS%%", _ => type_defs))};
-const environment = await vm.eval(request+file+wrappers);
+
+const environment = await vm.evalAsync(request+file+wrappers);
 export default {
   ${routes.map(route => make_route(route)).join("\n  ")}
 };
@@ -61,13 +62,13 @@ export default ({
   extension = ".rb",
 } = {}) => {
   const name = "ruby";
-  const dependencies = ["@ruby/3.2-wasm-wasi", "@ruby/wasm-wasi"];
+  const dependencies = ["@ruby/head-wasm-wasi", "@ruby/wasm-wasi"];
   const on = filter(peers, ([key]) => dependencies.includes(key));
 
   return {
     name: `primate:${name}`,
     async init(app, next) {
-      await depend(on, `frontend:${name}`);
+      await depend(on, `binding:${name}`);
 
       return next(app);
     },

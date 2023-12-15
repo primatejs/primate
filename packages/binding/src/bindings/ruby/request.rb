@@ -24,8 +24,8 @@ class Dispatcher
     @dispatcher.call("get", name).to_s
   end
 
-  def json() 
-    @json 
+  def json()
+    @json
   end
 
   %%DISPATCH_DEFS%%

@@ -39,7 +39,7 @@ export default ({
   return {
     name: `primate:${name}`,
     async init(app, next) {
-      await depend(on, `frontend:${name}`);
+      await depend(on, `binding:${name}`);
 
       return next(app);
     },
