@@ -1,1 +1,3 @@
-export default raw_response => raw_response.toString();
+export default raw_response => {
+  return raw_response.toJS();
+};
