@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@clack/prompts": "^0.7.0",
-    "rcompat": "^0.5.0"
+    "rcompat": "^0.5.1"
   },
   "type": "module",
   "devDependencies": {
@@ -41,6 +41,6 @@
     "solid-js": "^1.8.7",
     "surrealdb.js": "^0.11.0",
     "svelte": "^4.2.8",
-    "vue": "^3.3.11"
+    "vue": "^3.3.12"
   }
 }

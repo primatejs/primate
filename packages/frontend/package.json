@@ -15,7 +15,7 @@
     "directory": "packages/frontend"
   },
   "dependencies": {
-    "rcompat": "^0.5.0"
+    "rcompat": "^0.5.1"
   },
   "devDependencies": {
     "@babel/core": "^7.23.6",
@@ -27,7 +27,7 @@
     "react-dom": "^18.2.0",
     "solid-js": "^1.8.7",
     "svelte": "^4.2.8",
-    "vue": "^3.3.11"
+    "vue": "^3.3.12"
   },
   "peerDependencies": {
     "@babel/core": "7",

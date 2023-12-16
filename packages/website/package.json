@@ -10,7 +10,7 @@
     "highlight.js": "^11.9.0",
     "marked": "^11.1.0",
     "primate": "^0.27.3",
-    "rcompat": "^0.5.0",
+    "rcompat": "^0.5.1",
     "svelte": "^4.2.8"
   },
   "scripts": {
