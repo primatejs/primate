@@ -1,3 +1,4 @@
+export { default as webc } from "./webc/module.js";
 export { default as htmx } from "./htmx/module.js";
 export { default as markdown } from "./markdown/module.js";
 export { default as react } from "./react/module.js";

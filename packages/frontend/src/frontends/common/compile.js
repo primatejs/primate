@@ -51,7 +51,7 @@ export default async ({
   return {
     async server(component) {
       const target_base = app.runpath(location.server, location.components);
-      const code = await compile.server(await component.text());
+      const code = await compile.server(await component.text(), component, app);
       const path = target_base.join(`${component.path}.js`.replace(source, ""));
       await path.directory.create();
       await path.write(code.replaceAll(extensions.from, extensions.to));
@@ -62,7 +62,7 @@ export default async ({
       const { path } = component;
 
       const file_string = `./${build}/${name}`;
-      const { js, css } = await compile.client(await component.text());
+      const { js, css } = await compile.client(await component.text(), component, app);
       {
         const code = js.replaceAll(extensions.from, extensions.to);
         const src = `${path}.js`.replace(`${source}`, _ => build);

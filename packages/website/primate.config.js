@@ -132,6 +132,7 @@ export default {
             "React",
             "Solid",
             "Vue",
+            "Web Components",
             "HTMX",
             "Handlebars",
             "Markdown",
