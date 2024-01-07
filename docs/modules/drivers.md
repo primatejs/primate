@@ -162,7 +162,7 @@ export default {
     store({
       // use the SurrealDB server at http://localhost:8000/rpc, the "default"
       // namespace and the "app" database
-      driver: mongodb({
+      driver: surrealdb({
         // if "http://localhost", can be omitted
         host: "http://localhost",
         // if 8000, can be omitted
@@ -170,10 +170,10 @@ export default {
         // if "rpc", can be omitted
         path: "rpc",
         // if "default", can be omitted,
-        ns: "default",
-        db: "app",
-        user: "username",
-        pass: "password",
+        namespace: "default",
+        database: "app",
+        username: "username",
+        password: "password",
       }),
     }),
   ],
