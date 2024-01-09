@@ -293,7 +293,7 @@ default by exporting a `driver`.
 
 ```js caption=stores/Comment.js
 import { primary, string } from "@primate/types";
-import mongodb from "@primate/mongodb";
+import { mongodb } from "@primate/store";
 
 export const driver = mongodb();
 
@@ -308,7 +308,7 @@ recommend initializing it in a separate file (lowercase-first files in the
 `stores` directory are ignored by Primate).
 
 ```js caption=stores/mongodb.js
-import mongodb from "@primate/mongodb";
+import { mongodb } from "@primate/store";
 
 export default mongodb();
 ```
