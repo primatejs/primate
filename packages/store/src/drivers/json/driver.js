@@ -1,4 +1,4 @@
-import { Path } from "rcompat/fs";
+import { File } from "rcompat/fs";
 import { is } from "rcompat/invariant";
 import { stringify } from "rcompat/object";
 import wrap from "../../wrap.js";
@@ -8,7 +8,7 @@ import types from "../memory/types.js";
 export default ({ filename }) => async () => {
   is(filename).string();
 
-  const path = new Path(filename);
+  const path = new File(filename);
   const database = {
     collections: await path.exists() ? await path.json() : {},
   };

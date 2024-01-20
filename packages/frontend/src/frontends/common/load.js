@@ -1,10 +1,10 @@
 import { tryreturn } from "rcompat/async";
-import { Path } from "rcompat/fs";
+import { File } from "rcompat/fs";
 import errors from "./errors.js";
 
 const MODULE_NOT_FOUND = "ERR_MODULE_NOT_FOUND";
 const in_component = (code, error_path, component_path) =>
-  code === MODULE_NOT_FOUND && Path.same(error_path, component_path);
+  code === MODULE_NOT_FOUND && File.same(error_path, component_path);
 
 const MissingComponent = (name, path) => {
   errors.MissingComponent.throw(name, path);
@@ -14,7 +14,7 @@ const ErrorInComponent = (name, path, error) => {
   errors.ErrorInComponent.throw(name, path);
 };
 const get_error = (error, path) =>
-  in_component(error.code, new Path(error.url), new Path(path))
+  in_component(error.code, new File(error.url), new File(path))
     ? MissingComponent
     : ErrorInComponent;
 

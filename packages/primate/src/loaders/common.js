@@ -1,4 +1,4 @@
-import { Path } from "rcompat/fs";
+import { File } from "rcompat/fs";
 import { identity } from "rcompat/function";
 import errors from "../errors.js";
 
@@ -17,13 +17,13 @@ export default async ({
   warn = true,
 } = {}) => {
   const objects = directory === undefined ? [] : await Promise.all(
-    (await Path.collect(directory, /^.*.js$/u, { recursive }))
+    (await File.collect(directory, /^.*.js$/u, { recursive }))
       .filter(filter)
       .map(async path => [
         `${path}`.replace(directory, _ => "").slice(1, -ending.length),
-        (await import(path)),
+        await import(path),
       ]));
-  warn && await Path.exists(directory) && empty(log)(objects, name, directory);
+  warn && await directory.exists() && empty(log)(objects, name, directory);
 
   return objects;
 };

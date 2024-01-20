@@ -1,4 +1,4 @@
-import { Path } from "rcompat/fs";
+import { File } from "rcompat/fs";
 import { to } from "rcompat/object";
 import loader from "./types.js";
 import { mark } from "../Logger.js";
@@ -8,7 +8,7 @@ const log = {
     throw error;
   },
 };
-const directory = new Path("/types");
+const directory = new File("/types");
 const types = type => loader(log, directory, () =>
   to(type).map(([name, definition]) => [name, { default: definition }]));
 const type = {

@@ -1,6 +1,6 @@
 import crypto from "rcompat/crypto";
 import { tryreturn } from "rcompat/async";
-import { Path } from "rcompat/fs";
+import { File } from "rcompat/fs";
 import { is } from "rcompat/invariant";
 import { transform, valmap, to } from "rcompat/object";
 import { globify } from "rcompat/string";
@@ -15,8 +15,8 @@ const { DoubleFileExtension } = errors;
 
 // use user-provided file or fall back to default
 const index = (base, page, fallback) =>
-  tryreturn(_ => Path.read(`${base.join(page)}`))
-    .orelse(_ => Path.read(`${base.join(fallback)}`));
+  tryreturn(_ => File.text(`${base.join(page)}`))
+    .orelse(_ => File.text(`${base.join(fallback)}`));
 
 const encoder = new TextEncoder();
 
@@ -51,7 +51,7 @@ const render_head = (assets, head) =>
         : tags.script({ inline, code, type, integrity, src }),
     ).join("\n").concat("\n", head ?? "");
 
-const { name, version } = await new Path(import.meta.url).up(2)
+const { name, version } = await new File(import.meta.url).up(2)
   .join(runtime.manifest).json();
 
 export default async (log, root, config) => {
@@ -100,7 +100,7 @@ export default async (log, root, config) => {
 
       await Promise.all((await source.collect(filter)).map(async path => {
         const debased = path.debase(this.root).path.slice(1);
-        const filename = new Path(directory).join(path.debase(source));
+        const filename = File.join(directory, path.debase(source));
         const target = await target_base.join(filename.debase(directory));
         await target.directory.create();
         await (regexs.some(regex => regex.test(debased))
@@ -177,7 +177,7 @@ export default async (log, root, config) => {
       }
       if (inline || type === "style") {
         this.assets.push({
-          src: new Path(http.static.root).join(src ?? "").path,
+          src: File.join(http.static.root, src ?? "").path,
           code: inline ? code : "",
           type,
           inline,
@@ -203,7 +203,7 @@ export default async (log, root, config) => {
 
       const parts = module.split("/");
       const path = [this.library, ...parts];
-      const pkg = await Path.resolve().join(...path, this.manifest).json();
+      const pkg = await File.resolve().join(...path, this.manifest).json();
       const exports = pkg.exports === undefined
         ? { [module]: `/${module}/${pkg.main}` }
         : transform(pkg.exports, entry => entry
@@ -220,11 +220,11 @@ export default async (log, root, config) => {
               ?? value.default?.replace(".", `./${module}`)
               ?? value.import?.replace(".", `./${module}`),
           ]));
-      const dependency = Path.resolve().join(...path);
-      const target = new Path(this.runpath(client), this.library, ...parts);
+      const dependency = File.resolve().join(...path);
+      const target = File.join(this.runpath(client), this.library, ...parts);
       await dependency.copy(target);
       this.importmaps = {
-        ...valmap(exports, value => new Path(root, this.library, value).path),
+        ...valmap(exports, value => File.join(root, this.library, value).path),
         ...this.importmaps };
     },
   };

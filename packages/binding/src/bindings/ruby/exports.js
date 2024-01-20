@@ -1,9 +1,9 @@
-import { Path } from "rcompat/fs";
+import { File } from "rcompat/fs";
 import { DefaultRubyVM as rubyvm } from "./rubyvm.js";
 
-const ruby_path = (await Path.root())
+const ruby_path = (await File.root())
   .join("node_modules/@ruby/head-wasm-wasi/dist/ruby+stdlib.wasm");
-const ruby_wasm = await new Path(ruby_path).arrayBuffer();
+const ruby_wasm = await File.arrayBuffer(ruby_path);
 const module = await WebAssembly.compile(ruby_wasm);
 const { vm } = await rubyvm(module);
 

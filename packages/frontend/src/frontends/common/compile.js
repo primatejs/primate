@@ -1,4 +1,4 @@
-import { Path } from "rcompat/fs";
+import { File } from "rcompat/fs";
 const type = "module";
 
 const create = {
@@ -20,7 +20,7 @@ const create = {
       // root has no css
       const { js } = await compile.client(root);
       const code = js.replaceAll(extensions.from, extensions.to);
-      const src = new Path(app.config.http.static.root, filename);
+      const src = File.join(app.config.http.static.root, filename);
       await app.publish({ src, code, type });
       {
         const code = `export {default as ${rootname}} from "./${filename}";\n`;

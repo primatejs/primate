@@ -15,7 +15,7 @@
     "directory": "packages/types"
   },
   "dependencies": {
-    "rcompat": "^0.5.1"
+    "rcompat": "^0.6.0"
   },
   "peerDependencies": {
     "primate": "0.27"

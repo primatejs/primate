@@ -1,4 +1,4 @@
-import { Path } from "rcompat/fs";
+import { File } from "rcompat/fs";
 import { renderToString } from "solid-js/web";
 import { transformAsync } from "@babel/core";
 import solid from "babel-preset-solid";
@@ -38,15 +38,15 @@ const depend = async (module, app, copy_dependency) => {
 
   const parts = module.split("/");
   const path = [library, ...parts];
-  const pkg = await Path.resolve().join(...path, manifest).json();
+  const pkg = await File.resolve().join(...path, manifest).json();
   if (copy_dependency) {
-    const dependency = Path.resolve().join(...path);
+    const dependency = File.resolve().join(...path);
     const target = app.runpath(app.config.location.client, library, ...parts);
-    await dependency.copy(`${target}`);
+    await dependency.copy(target);
   }
 
   const entry = pkg.exports["."].browser.import;
-  app.importmaps[module] = new Path(root, library, module, entry).path;
+  app.importmaps[module] = File.join(root, library, module, entry).path;
 };
 
 export const prepare = async app => {

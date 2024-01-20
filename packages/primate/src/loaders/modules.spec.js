@@ -1,4 +1,4 @@
-import { Path } from "rcompat/fs";
+import { File } from "rcompat/fs";
 import loader from "./modules.js";
 import { mark } from "../Logger.js";
 
@@ -7,7 +7,7 @@ const log = {
     throw error;
   },
 };
-const root = new Path("/");
+const root = new File("/");
 const modules = defs => loader(log, root, defs);
 
 export default test => {

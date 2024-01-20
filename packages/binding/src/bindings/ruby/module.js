@@ -1,4 +1,4 @@
-import { Path } from "rcompat/fs";
+import { File } from "rcompat/fs";
 import { filter } from "rcompat/object";
 import { upperfirst } from "rcompat/string";
 import { peers } from "../common/exports.js";
@@ -8,7 +8,7 @@ const routes_re = /def (?<route>get|post|put|delete)/gu;
 const get_routes = code => [...code.matchAll(routes_re)]
   .map(({ groups: { route } }) => route);
 
-const directory = new Path(import.meta.url).up(1);
+const directory = new File(import.meta.url).up(1);
 const request = await directory.join("./request.rb").text();
 const make_route = route => `async ${route.toLowerCase()}(request) {
     return make_response(environment.call("run_${route}", vm.wrap(request)));
@@ -45,8 +45,8 @@ const js_wrapper = async (path, routes, types) => {
   }).join("\n  ");
 
   return `import { vm, make_response } from "@primate/binding/ruby";
-import { Path } from "rcompat/fs";
-const file = await new Path("${path}").text();
+import { File } from "rcompat/fs";
+const file = await new File("${path}").text();
 const wrappers = ${JSON.stringify(create_ruby_wrappers(routes))};
 const request = ${JSON.stringify(request
     .replace("%%DISPATCH_DEFS%%", _ => type_defs))};

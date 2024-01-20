@@ -1,4 +1,4 @@
-import { Path } from "rcompat/fs";
+import { File } from "rcompat/fs";
 import errors from "../../errors.js";
 import to_sorted from "../../to_sorted.js";
 
@@ -10,7 +10,7 @@ export default type => async (log, directory, load) => {
     .map(([name, object]) => [name.replace(replace, () => ""), object]),
   ([a], [b]) => a.length - b.length);
 
-  const resolve = name => new Path(directory, name, `+${type}.js`);
+  const resolve = name => File.join(directory, name, `+${type}.js`);
   objects.some(([name, value]) => typeof value.default !== "function"
     && errors.InvalidDefaultExport.throw(resolve(name)));
 

@@ -78,8 +78,9 @@ export default ({
         if (!extensions.includes(base)) {
           errors.MissingClientSideTemplateDependency.throw(base, templates);
         }
-        await Promise.all(client_side_templates.map(template =>
-          import_template[template](app)));
+        for (const template of client_side_templates) {
+          await import_template[template](app);
+        }
       }
 
       return next(app);

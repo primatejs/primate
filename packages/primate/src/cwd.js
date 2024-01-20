@@ -1,3 +1,3 @@
-import { Path } from "rcompat/fs";
+import { File } from "rcompat/fs";
 
-export default (meta, up = 1) => new Path(meta.url).up(up);
+export default (meta, up = 1) => new File(meta.url).up(up);

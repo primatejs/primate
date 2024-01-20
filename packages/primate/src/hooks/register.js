@@ -1,4 +1,4 @@
-import { Path } from "rcompat/fs";
+import { File } from "rcompat/fs";
 import { cascade } from "rcompat/async";
 import cwd from "../cwd.js";
 import copy_includes from "./copy_includes.js";
@@ -17,7 +17,7 @@ const pre = async app => {
   if (await path.components.exists()) {
     // copy .js files from components to build/client/components, since
     // frontend frameworks handle non-js files
-    const target = Path.join(client, components);
+    const target = File.join(client, components);
     await app.stage(path.components, target, /^.*.js$/u);
   }
 
@@ -29,13 +29,13 @@ const post = async app => {
 
   if (await path.static.exists()) {
     // copy static files to build/server/static
-    await app.stage(path.static, new Path(location.server, location.static));
+    await app.stage(path.static, File.join(location.server, location.static));
 
     // copy static files to build/client/static
-    await app.stage(path.static, new Path(location.client, location.static));
+    await app.stage(path.static, File.join(location.client, location.static));
 
     // publish JavaScript and CSS files
-    const imports = await Path.collect(path.static, /\.(?:js|css)$/u);
+    const imports = await File.collect(path.static, /\.(?:js|css)$/u);
     await Promise.all(imports.map(async file => {
       const code = await file.text();
       const src = file.debase(path.static);
@@ -54,7 +54,7 @@ const post = async app => {
   const client = app.runpath(location.client);
   await copy_includes(app, location.client, async to =>
     Promise.all((await to.collect(/\.js$/u)).map(async script => {
-      const src = new Path(root, script.path.replace(client, _ => ""));
+      const src = File.join(root, script.path.replace(client, _ => ""));
       await app.publish({ src, code: await script.text(), type: "module" });
     })),
   );

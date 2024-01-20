@@ -1,4 +1,4 @@
-import { Path } from "rcompat/fs";
+import { File } from "rcompat/fs";
 import { valmap } from "rcompat/object";
 
 import { renderToString } from "react-dom/server";
@@ -33,7 +33,7 @@ export const compile = {
 };
 
 export const prepare = async app => {
-  const to_path = path => new Path(import.meta.url).up(1).join(...path);
+  const to_path = path => new File(import.meta.url).up(1).join(...path);
   const { library } = app;
   const module = "react";
   const $base = ["client", "imports"];
@@ -57,7 +57,7 @@ export const prepare = async app => {
 
   app.importmaps = {
     ...app.importmaps,
-    ...valmap(imports, value => `${new Path("/", library, module, value)}`),
+    ...valmap(imports, value => `${File.join("/", library, module, value)}`),
   };
 
   await app.import("@primate/frontend", "react");

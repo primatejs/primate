@@ -1,4 +1,4 @@
-import { Path } from "rcompat/fs";
+import { File } from "rcompat/fs";
 import { cascade } from "rcompat/async";
 import { stringify } from "rcompat/object";
 
@@ -7,7 +7,7 @@ const post = async app => {
 
   {
     // after hook, publish a zero assumptions app.js (no css imports)
-    const src = new Path(root, app.config.build.index);
+    const src = File.join(root, app.config.build.index);
 
     await app.publish({
       code: app.exports.filter(({ type }) => type === "script")

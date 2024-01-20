@@ -1,4 +1,4 @@
-import { Path } from "rcompat/fs";
+import { File } from "rcompat/fs";
 import { filter } from "rcompat/object";
 import handler from "./handler.js";
 import compile from "./compile.js";
@@ -12,8 +12,8 @@ export default async ({
   default_extension,
 }) => {
   const normalized = normalize(name);
-  const exports_path = new Path("..", name, "client", "exports.js");
-  const imports_path = new Path("..", name, "imports.js");
+  const exports_path = File.join("..", name, "client", "exports.js");
+  const imports_path = File.join("..", name, "imports.js");
   const on = filter(peers, ([key]) => dependencies.includes(key));
 
   return ({ extension = default_extension } = {}) => {

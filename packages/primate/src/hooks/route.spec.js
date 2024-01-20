@@ -1,4 +1,4 @@
-import { Path } from "rcompat/fs";
+import { File } from "rcompat/fs";
 import dispatch from "../dispatch.js";
 import * as loaders from "../loaders/exports.js";
 import route from "./route.js";
@@ -29,7 +29,7 @@ const $app = {
     },
   },
   runpath() {
-    return new Path("/routes");
+    return new File("/routes");
   },
 };
 

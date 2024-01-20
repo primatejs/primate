@@ -1,4 +1,4 @@
-import {writable} from "svelte/store";
+import { writable } from "svelte/store";
 
 const item = "colorScheme";
 
@@ -17,8 +17,8 @@ colorscheme.subscribe(async value => {
   await fetch("/", {
     headers: {
       "Color-Scheme": value === "dark" ? "dark" : "light",
-    }
-  })
+    },
+  });
 });
 
 export default colorscheme;

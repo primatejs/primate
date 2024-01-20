@@ -36,7 +36,7 @@ Create an web component in `components`.
   export const mounted = root => {
     root.querySelector("h1").addEventListener("click", 
       _ => console.log("title clicked!"));
-  }
+  };
 </script>
 ```
 

@@ -1,4 +1,4 @@
-import { Path, watch } from "rcompat/fs";
+import { File, watch } from "rcompat/fs";
 import { Response, MediaType, Status } from "rcompat/http";
 import { filter } from "rcompat/object";
 import { ReadableStream } from "rcompat/streams";
@@ -27,7 +27,7 @@ const publish = async (app, client) => {
     const type = path.extension === ".css" ? "style" : "module";
     await app.publish({ src, code, type });
     if (path.extension === ".js") {
-      const imports = { app: new Path(http.static.root, src).path };
+      const imports = { app: new File(http.static.root, src).path };
       await app.publish({
         inline: true,
         code: JSON.stringify({ imports }, null, 2),
@@ -131,7 +131,7 @@ export default ({ ignores = [], options = {} } = {}) => {
           const options = { recursive: true };
 
           watch(`${app.path.components}`, options, async (_, filename) => {
-            const path = new Path(app.path.components, filename);
+            const path = new File(app.path.components, filename);
 
             app.log.info(`reloading ${bold(path.name)}`, { module });
             // recompile resource
