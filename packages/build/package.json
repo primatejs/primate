@@ -19,7 +19,7 @@
     "rcompat": "^0.6.0"
   },
   "devDependencies": {
-    "esbuild": "^0.19.10"
+    "esbuild": "^0.19.11"
   },
   "peerDependencies": {
     "esbuild": "0.19",

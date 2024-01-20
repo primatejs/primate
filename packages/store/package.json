@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "@primate/types": "^0.11.0",
-    "better-sqlite3": "^9.2.2",
+    "better-sqlite3": "^9.3.0",
     "mongodb": "^6.3.0",
     "postgres": "^3.4.3",
     "surrealdb.js": "^0.11.0"
