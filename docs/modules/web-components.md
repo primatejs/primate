@@ -26,17 +26,23 @@ Create an web component in `components`.
 
 ```html caption=components/post-index.webc
 <script>
-  import post_link from "./post-link.webc";
+  import { WebComponent } from "@primate/frontend/webc";
+  import PostLink from "./post-link.webc";
 
-  export default ({posts}) => `
-    <h1>All posts</h1>
-    ${posts.map(post => post_link({post}))}
-  `;
+  export default class extends WebComponent {
+    mounted(root) {
+      root.querySelector("h1").addEventListener("click", 
+        _ => console.log("title clicked!"));
+    }
 
-  export const mounted = root => {
-    root.querySelector("h1").addEventListener("click", 
-      _ => console.log("title clicked!"));
-  };
+    render() {
+      const { posts } = this.props;
+
+      return `<h1>All posts</h1>
+        ${posts.map(post => new PostLink({post}))}
+     `;
+    }
+  }
 </script>
 ```
 
@@ -44,9 +50,14 @@ And another component for display post links.
 
 ```html caption=components/post-link.webc
 <script>
-  export default ({post}) => `
-    <h2><a href="/post/view/${post.id}">${post.title}</a></h2>
-  `;
+  import { WebComponent } from "@primate/frontend/webc";
+
+  export default class extends WebComponent {
+    render() {
+      const { post } = this.props;
+      return `<h2><a href="/post/view/${post.id}">${post.title}</a></h2>`;
+    }
+  }
 </script>
 ```
 
