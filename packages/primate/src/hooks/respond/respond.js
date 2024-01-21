@@ -15,10 +15,10 @@ const is_object = value => is_non_null_object(value)
   ? json(value) : is_text(value);
 const is_response = value => is_response_duck(value)
   ? _ => value : is_object(value);
-const isStream = value => value instanceof ReadableStream
+const is_stream = value => value instanceof ReadableStream
   ? stream(value) : is_response(value);
 const is_blob = value => value instanceof Blob
-  ? stream(value) : isStream(value);
+ ? stream(value.stream()) : is_stream(value);
 const is_URL = value => value instanceof URL
   ? redirect(value.href) : is_blob(value);
 const guess = value => is_URL(value);
