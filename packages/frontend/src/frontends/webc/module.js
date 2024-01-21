@@ -42,6 +42,8 @@ export default ({
         },
       });
 
+      await app.import("@primate/frontend", "webc");
+
       return next(app);
     },
   };

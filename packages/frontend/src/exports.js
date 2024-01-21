@@ -7,3 +7,5 @@ const is = {
 };
 
 export { is };
+
+export { default as WebComponent } from "./client/WebComponent.js";

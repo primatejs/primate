@@ -1,24 +1,5 @@
-export default name => `import * as impl from "./${name}.webc.impl.js";
+export default name => `import implementation from "./${name}.webc.impl.js";
 
-globalThis.customElements.define("${name}", class extends HTMLElement {
-  constructor() {
-    super();
-  }
+globalThis.customElements.define("${name}", implementation);
 
-  connectedCallback() {
-    this.attachShadow({ mode: "open" });
-  }
-
-  render() {
-    this.shadowRoot.innerHTML = impl.default(this.props);
-    impl.mounted?.(this.shadowRoot);
-  }
-});
-
-export default props => {
-  const element = globalThis.document.createElement("${name}");
-  const uuid = crypto.randomUUID();
-  element.props = props;
-  globalThis.registry[uuid] = element;
-  return \`<p-wrap-with id="\${uuid}"></p-wrap-with>\`;
-}`;
+export default implementation;`;

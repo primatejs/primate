@@ -83,7 +83,8 @@
     ".": {
       "browser": {
         "react": "./src/client/react.js",
-        "solid": "./src/client/solid.js"
+        "solid": "./src/client/solid.js",
+        "webc": "./src/client/webc.js"
       },
       "default": "./src/exports.js"
     },

@@ -17,5 +17,4 @@ export default (name, props) => `
   const element = globalThis.document.createElement("${name}");
   element.props = ${JSON.stringify(props)};
   globalThis.document.body.appendChild(element)
-  element.render();
 `;

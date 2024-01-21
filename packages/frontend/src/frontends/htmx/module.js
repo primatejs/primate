@@ -65,11 +65,11 @@ export default ({
       await app.export({ type: "script", code });
       app.register(extension, { handle: handler(config.location.components) });
 
-      await Promise.all(extensions.map(async name => {
+      for (const name of extensions) {
         await app.import("htmx-esm", name);
         const code = `export * from "htmx-esm/${name}";`;
         app.export({ type: "script", code });
-      }));
+      }
 
       if (Object.keys(client_side_templates).length > 0) {
         const base = "client-side-templates";
