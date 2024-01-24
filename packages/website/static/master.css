@@ -538,6 +538,8 @@ main.hero {
 .hero .buttons button {
   border: 1px solid #c2cdd6;
   background-color: #fff;
+  height: 33px;
+  box-sizing: border-box;
 }
 
 .dark .hero .buttons button {

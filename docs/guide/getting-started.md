@@ -1,28 +1,5 @@
 # Getting started
 
-## A polymorphic development platform
-
-In the realm of software development, many platforms tend to lock developers
-into using specific technologies. Often you find yourself tied to a single
-frontend framework, constrained to a particular engine, and limited mostly to
-JavaScript for coding. The idea of switching frameworks, utilizing a more
-efficient runtime, or integrating Python for its rich ML libraries often falls
-outside the scope of these platforms.
-
-This is where Primate stands apart. It's engineered with a focus on flexibility
-and developer choice. Whether it's about selecting a frontend framework,
-choosing a database, deciding on a backend technology, or picking a bundling
-system, Primate offers the freedom to use what you find most suitable for your
-project. Its architecture is designed for adaptability, making it
-straightforward to integrate new technologies or languages as they emerge. The
-concept of planned obsolescence doesn't apply here; Primate is built to evolve
-with the changing technology landscape.
-
-With Primate, you're not just working on a platform; you're engaging with a
-system that respects your choices and adapts to your preferred way of working.
-It's about giving developers the control they need to build software efficiently
-and effectively, without the constraints of traditional platform limitations.
-
 ## First steps
 
 To create a simple app that that responds with a `200 OK` saying "Hello, world!"

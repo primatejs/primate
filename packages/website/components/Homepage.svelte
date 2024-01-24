@@ -82,7 +82,7 @@
     <div>
       <h1>backend</h1>
       <div class="logos">
-        <img src="/logos/js.png" title="JavaScript" />
+        <img src="/logos/js.svg" title="JavaScript" />
         <img src="/logos/go.svg" title="Golang" />
         <img src="/logos/python.svg" title="Python" />
       </div>
@@ -112,9 +112,9 @@
     <div>
       <h1>runtime</h1>
       <div class="logos">
-        <img src="/logos/node.png" title="Node.js" />
+        <img src="/logos/node.svg" title="Node" />
         <img src="/logos/deno.svg" title="Deno" class="invertible" />
-        <img src="/logos/bun.png" title="Bun" />
+        <img src="/logos/bun.svg" title="Bun" />
       </div>
       <p>
         Compare the performance of your application across different JavaScript
