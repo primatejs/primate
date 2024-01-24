@@ -50,6 +50,10 @@
   export let content, app, examples;
 
   const { theme } = app;
+
+  const clipboard = text => {
+    navigator.clipboard.writeText(text);
+  };
 </script>
 <Header {app} title="Polymorphic development platform" />
 <main class="hero">
@@ -62,7 +66,7 @@
       <h2 class="heading">polymorphic development platform</h2>
       <div class="buttons">
         <a href="/guide/getting-started" class="primary">read guide</a>
-        <a href="" class="secondary">$ npm create primate@latest</a>
+        <a href="" on:click={() => clipboard("npm create primate@latest")} class="secondary">$ npm create primate@latest</a>
       </div>
     </div>
   </div>
