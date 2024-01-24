@@ -67,6 +67,10 @@ body {
   background: #fff;
 }
 
+button {
+  font-family: pt-sans, sans-serif;
+}
+
 body.dark {
   background: #000;
 }
@@ -432,9 +436,18 @@ th {
   padding: calc(var(--prs-page-padding-side) * 1.25);
   background: #f7fafd;
   display: flex;
-  padding-left: calc(var(--sidebar-width) + 2 * var(--prs-page-padding-side));
-  padding-right: calc(var(--sidebar-width) + 2 * var(--prs-page-padding-side));
+  padding-left: 0;
+  padding-right: 0;
   border-bottom: 1px solid #c2cdd6;
+}
+
+.hero .header .flank {
+  flex: 1;
+}
+
+.hero .header .middle {
+  flex-basis: 470px;
+  display: flex;
 }
 
 .dark .hero .header {
@@ -483,25 +496,36 @@ th {
   display: flex;
 }
 
+.hero .buttons .clip {
+  display: flex;
+  align-items: center;
+}
+
 main.hero {
   display: block;
 }
 
-.hero .buttons a {
+.hero .buttons a, .hero .buttons button {
   padding: .5rem 1rem;
   border-radius: .3rem;
   font-size: 1.4rem;
   margin: 0 1rem;
   z-index: 1;
+  color: #454545;
 }
 
-.hero .buttons a:hover {
+.hero .buttons button,
+.hero .buttons button:hover,
+.hero .buttons svg {
   text-decoration: none;
-  color: initial;
+  color: #454545;
+  cursor: pointer;
 }
 
-.dark .hero .buttons a:hover.secondary {
-  color: rgb(186, 186, 186);
+.dark .hero .buttons button,
+.dark .hero .buttons button:hover,
+.dark .hero .buttons svg {
+  color: #bababa;
 }
 
 .hero .buttons a.primary {
@@ -511,12 +535,12 @@ main.hero {
   margin-left: 7px;
 }
 
-.hero .buttons a.secondary {
+.hero .buttons button {
   border: 1px solid #c2cdd6;
   background-color: #fff;
 }
 
-.dark .hero .buttons a.secondary {
+.dark .hero .buttons button {
   border: 1px solid #3d3229;
   background-color: #000;
 }

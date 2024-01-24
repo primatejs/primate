@@ -1,6 +1,7 @@
 <script>
   import { onMount } from "svelte";
   import Header from "./Header.svelte";
+  import Icon from "./Icon.svelte";
 
   const modify_route = ending => {
     const strings = document.querySelector(".tabs")
@@ -58,17 +59,24 @@
 <Header {app} title="Polymorphic development platform" />
 <main class="hero">
   <div class="header">
-    <div>
-      <img src="/logo.svg" style="width: 46px;" />
-    </div>
-    <div>
-      <h1>primate</h1>
-      <h2 class="heading">polymorphic development platform</h2>
-      <div class="buttons">
-        <a href="/guide/getting-started" class="primary">read guide</a>
-        <a href="" on:click={() => clipboard("npm create primate@latest")} class="secondary">$ npm create primate@latest</a>
+    <div class="flank"></div>
+    <div class="middle">
+      <div>
+        <img src="/logo.svg" style="width: 46px;" />
+      </div>
+      <div>
+        <h1>primate</h1>
+        <h2 class="heading">polymorphic development platform</h2>
+        <div class="buttons">
+          <a href="/guide/getting-started" class="primary">read guide</a>
+          <span class="clip" on:click={() => clipboard("npm create primate@latest")}>
+            <button>$ npm create primate@latest</button>
+            <Icon name="clipboard" />
+          </span>
+        </div>
       </div>
     </div>
+    <div class="flank"></div>
   </div>
   <div class="table">
     <div>
