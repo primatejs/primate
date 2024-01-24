@@ -88,8 +88,8 @@
       </div>
       <p>
         Write backend code in your language of choice, leveraging the power of
-        Wasm. Mix routes of <a href="/modules/binding">different backend languages, allowing sections of
-        your app to be written by different teams.
+        Wasm. Mix routes of <a href="/modules/binding">different backend
+          languages</a>, allowing sections of your app to be written by different teams.
       </p>
       {@html examples.backend}
     </div>
