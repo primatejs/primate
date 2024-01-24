@@ -89,7 +89,7 @@
       <p>
         Write backend code in your language of choice, leveraging the power of
         Wasm. Mix routes of <a href="/modules/binding">different backend
-          languages</a>, allowing sections of your app to be written by different teams.
+          languages</a>, allowing your application to be written by different teams.
       </p>
       {@html examples.backend}
     </div>
@@ -104,7 +104,8 @@
       <p>
         Seamlessly switch between <a href="/modules/frontend">frontend
           frameworks</a>, with support for SSR, hydration and layouts across 
-        the board. You can even combine more than one framework in your app.
+        the board. You can even combine more than one framework in your
+        application.
       </p>
       {@html examples.frontend}
     </div>
@@ -116,7 +117,7 @@
         <img src="/logos/bun.png" title="Bun" />
       </div>
       <p>
-        Compare the performance of your app across different JavaScript
+        Compare the performance of your application across different JavaScript
         runtimes. Use the comfort of one runtime during development and the
         speed gains of another in production.
       </p>
@@ -149,8 +150,9 @@
         <img src="/logos/svelte.svg" title="Svelte" />
         <img src="/logos/solid.svg" title="Solid" />
       </div>
-      <p>Easily make your app international, using a unified API across 
-      different frontends.</p>
+      <p>Easily make your application international, using a unified API across 
+      different frontends with placeholder support and a built-in language
+      switcher.</p>
       {@html examples.i18n}
     </div>
     <div>
