@@ -571,7 +571,7 @@ main.hero {
 .hero .table {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  padding: 50px 75px;
+  padding: 50px 30px;
 }
 
 .hero .table > div {
