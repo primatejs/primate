@@ -102,9 +102,9 @@
         <img src="/logos/solid.svg" title="Solid" />
       </div>
       <p>
-        Seamlessly switch between frontend frameworks, with support for SSR, 
-        hydration and layouts across the board. You can even combine more than
-        one framework in your app.
+        Seamlessly switch between <a href="/modules/frontend">frontend
+          frameworks</a>, with support for SSR, hydration and layouts across 
+        the board. You can even combine more than one framework in your app.
       </p>
       {@html examples.frontend}
     </div>
