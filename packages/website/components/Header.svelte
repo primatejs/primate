@@ -28,7 +28,6 @@
 <header>
   <a class="home" href="/">
     <img src="/logo.svg" />
-    <span class="title">{app.title}</span>
   </a>
 
   <div class="search"></div>

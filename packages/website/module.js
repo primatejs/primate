@@ -151,7 +151,7 @@ export default config => {
         const { component, props } = page;
         return view(component, props, { placeholders })(env, {}, request);
       }
-      return next({ ...request, config, placeholders });
+      return next({ ...request, config, env, placeholders });
     },
   };
 };

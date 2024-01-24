@@ -44,6 +44,23 @@ export default {
     markdown({
       options: {
         hooks: {
+          preprocess(html) {
+            return html.replaceAll(/%%%(.*?)\n(.*?)%%%/gus, (_, p1, p2) => {
+            const t =
+              p2
+                .split("\n```")
+                .filter(p => p !== "" && !p.startsWith("\n"))
+                .map((p, i) => `<div${i !== 0 ? " class='hidden'" : ""}>
+
+\`\`\`${p}
+\`\`\`
+
+</div>`).join("");
+              return `<div class="tabbed"><span class="captions">${
+                  p1.split(",").map((caption, i) => `<span${i === 0 ? " class='active'" : ""}>${caption}</span>`).join("")
+                }</span><span class="tabs">${t}</span></div>`;
+            });
+          },
           postprocess(html) {
             return html.replaceAll(/!!!\n(.*?)\n!!!/gus, (_, p1) =>
               `<div class="box">${p1}</div>`);

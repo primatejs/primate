@@ -423,29 +423,172 @@ th {
   border-radius: 2px;
 }
 
-.hero article {
-  text-align: center;
-  padding: calc(2 * var(--prs-page-padding-side)) 0;
-}
-
 .hero img {
-  width: 60px;
+  width: 46px;
+  margin-right: 30px;
 }
 
-.hero h1 {
-  font-weight: bold;
-  letter-spacing: 1px;
+.hero .header {
+  padding: calc(var(--prs-page-padding-side) * 1.25);
+  background: #f7fafd;
+  display: flex;
+  padding-left: calc(var(--sidebar-width) + 2 * var(--prs-page-padding-side));
+  padding-right: calc(var(--sidebar-width) + 2 * var(--prs-page-padding-side));
+  border-bottom: 1px solid #c2cdd6;
 }
 
-.hero h2 {
-  font-size: 2.7rem;
-  margin-top: 1rem;
-  border-bottom: 0;
-  color: #454545;
+.dark .hero .header {
+  background: #080502;
+  border-bottom: 1px solid #3d3229;
 }
 
-.dark .hero h2 {
+.hero .footer {
+  background: #f7fafd;
+  border-top: 1px solid #c2cdd6;
+}
+
+.dark .hero .footer {
+  background: #080502;
+  border-top: 1px solid #3d3229;
+}
+
+.hero .footer .heading {
+  margin-bottom: 10px;
+}
+
+.hero .footer li {
+  margin-bottom: 5px;
+}
+
+.hero .header h1 {
+  font-size: 60px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: #565656;
+  line-height: 1;
+  margin-bottom: 15px;
+}
+
+.hero .header h2 {
+  margin-top: 0;
+  margin-left: 7px;
+  margin-bottom: 24px;
+}
+
+.dark .hero h1, .dark .hero h2 {
   color: #bababa;
+}
+
+.hero .buttons {
+  display: flex;
+}
+
+main.hero {
+  display: block;
+}
+
+.hero .buttons a {
+  padding: .5rem 1rem;
+  border-radius: .3rem;
+  font-size: 1.4rem;
+  margin: 0 1rem;
+  z-index: 1;
+}
+
+.hero .buttons a:hover {
+  text-decoration: none;
+  color: initial;
+}
+
+.dark .hero .buttons a:hover.secondary {
+  color: rgb(186, 186, 186);
+}
+
+.hero .buttons a.primary {
+  background-color: var(--prs-primary);
+  color: #fff;
+  border: 1px solid var(--prs-primary);
+  margin-left: 7px;
+}
+
+.hero .buttons a.secondary {
+  border: 1px solid #c2cdd6;
+  background-color: #fff;
+}
+
+.dark .hero .buttons a.secondary {
+  border: 1px solid #3d3229;
+  background-color: #000;
+}
+
+.tabbed .captions {
+  display: flex;
+  border: 1px solid #c2cdd6;
+  border-bottom: 0;
+  border-top-left-radius: .3rem;
+  border-top-right-radius: .3rem;
+  font-size: 14px;
+  padding: 10px;
+}
+
+.dark .tabbed .captions {
+  border: 1px solid #3d3229;
+}
+
+.tabbed .captions span {
+  padding: 0 10px;
+  cursor: pointer;
+}
+
+.tabbed .captions .active {
+  font-weight: bold;
+}
+
+.hero .table {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  padding: 50px 75px;
+}
+
+.hero .table > div {
+  padding: 0 30px;
+}
+
+.hero .table h1 {
+  font-size: 36px;
+  margin-bottom: 15px;
+}
+
+.hero .table p {
+  font-size: 18px;
+}
+
+.hero .logos img {
+  height: 24px;
+  width: auto;
+  margin-right: 5px;
+}
+
+.hero .interim-title {
+  text-align: center;
+  color: #676779;
+  font-size: 30px;
+}
+
+.dark .hero .interim-title {
+  color: #bababa
+}
+
+.hero .table a {
+  color: var(--prs-primary);
+}
+
+.hero .table a:hover {
+  text-decoration: underline;
+}
+
+.dark .hero .logos .invertible {
+  filter: invert(1);
 }
 
 img.background {
@@ -457,65 +600,6 @@ img.background {
 
 .dark img.background {
   filter: opacity(15%);
-}
-
-.hero::before {
-  background-image: url("/theme.jpg");
-  background-position: center -30px;
-  background-repeat: no-repeat;
-  background-size: cover;
-  content: "";
-  filter: opacity(40%) sepia(100%);
-  height: 100%;
-  position: fixed;
-  width: 100%;
-  z-index: -1;
-}
-
-.dark .hero::before {
-  filter: opacity(15%);
-}
-
-.hero .buttons {
-  margin-top: 4rem;
-}
-
-.hero .buttons a {
-  padding: 1rem 2rem;
-  color: white;
-  border-radius: 0.3rem;
-  font-size: var(--prs-text-m);
-  margin: 0 1rem;
-}
-
-.hero .buttons a:hover {
-  text-decoration: none;
-}
-
-.hero .buttons a.primary {
-  background-color: var(--prs-primary);
-  color: white;
-  border: 1px solid var(--prs-primary);
-}
-
-.hero .buttons a.secondary {
-  color: #454545;
-  border: 1px solid #454545;
-  background-color: #fff;
-}
-
-.hero .buttons a.secondary:hover {
-  border: 1px solid var(--prs-primary);
-}
-
-.dark .hero .buttons a.secondary{
-  color: #bababa;
-  border: 1px solid #bababa;
-  background-color: #000;
-}
-
-.dark .hero .buttons a.secondary:hover {
-  border: 1px solid var(--prs-primary);
 }
 
 .controls {
