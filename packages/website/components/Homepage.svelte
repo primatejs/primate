@@ -78,6 +78,7 @@
     </div>
     <div class="flank"></div>
   </div>
+  <h1 class="interim-title">Mix and match the best web tech, in one stack</h1>
   <div class="table">
     <div>
       <h1>backend</h1>
@@ -124,7 +125,7 @@
       {@html examples.runtime}
     </div>
   </div>
-  <h1 class="interim-title">EXTENSIVE ECOSYSTEM</h1>
+  <h1 class="interim-title">extensive, officially supported ecosystem</h1>
   <div class="table">
     <div>
       <h1>data handling</h1>
