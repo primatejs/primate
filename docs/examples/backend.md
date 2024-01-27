@@ -1,4 +1,4 @@
-%%% JS, TS, Go, Python
+%%% JS, TS, Go, Python, Ruby
 
 ```js caption=routes/index.js
 import { view } from "primate";
@@ -52,6 +52,16 @@ def get(request):
   }]
   return Primate.view("Index.jsx", 
     { "posts": posts })
+```
+
+```rb caption=routes/index.rb
+def get(request)
+  posts = [{
+    id: 0,
+    title: "First post",
+  }]
+  Primate.view("Index.jsx", { posts: posts })
+end
 ```
 
 %%%
