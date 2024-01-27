@@ -1,4 +1,4 @@
-%%% JS, Go, Python
+%%% JS, TS, Go, Python
 
 ```js caption=routes/index.js
 import { view } from "primate";
@@ -13,6 +13,21 @@ export default {
     return view("Index.jsx", { posts });
   },
 };
+```
+
+```ts caption=routes/index.ts
+import { view, Route } from "primate";
+
+const posts = [{
+  id: 1,
+  title: "First post",
+}];
+
+export default {
+  get() {
+    return view("Index.jsx", { posts });
+  },
+} satisfies Route;
 ```
 
 ```go caption=routes/index.go
