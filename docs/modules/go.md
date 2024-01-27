@@ -1,7 +1,6 @@
 # Go
 
-This binding introduces support for routes written in the Go programming
-language.
+This binding introduces support for routes written in Golang.
 
 ## Install
 
@@ -146,7 +145,7 @@ First, create the frontend component, in this case Svelte.
 </style>
 ```
 
-Then create the Go route, and pass props to the component.
+Then create the route, and pass props to the component.
 
 ```go caption=routes/svelte.go
 import "github.com/primatejs/go/primate"
@@ -161,7 +160,7 @@ func Get(request Request) any {
 }
 ```
 
-Your rendered Go route with a Svelte component will be accessible at
+Your rendered route with a Svelte component will be accessible at
 http://localhost:6161/svelte.
 
 ### The request object

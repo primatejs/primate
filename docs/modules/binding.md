@@ -8,7 +8,8 @@ As a general rule, Primate endeavors to offer the same or a similar API in other
 programming languages as concerns the request object that is passed to and
 the handlers (`view`, `redirect`) that are available to JavaScript routes.
 
-The `@primate/binding` module currently supports Go.
+The `@primate/binding` module currently supports TypeScript, Go, Python and
+Ruby.
 
 ## Install
 
@@ -18,21 +19,21 @@ The individual programming languages are available as individual exports.
 
 ## Support matrix
 
-|Feature           |JS      |GO      |Python  |
-|------------------|--------|--------|--------|
-|serving strings   |[✓][stj]|[✓][stg]|[✓][stp]|
-|serving objects   |[✓][obj]|[✓][obg]|[✓][obp]|
-|serving streams   |[✓][srj]|✗       |✗       |
-|`redirect` handler|[✓][rhj]|[✓][rhg]|[✓][rhp]|
-|`view` handler    |[✓][vhj]|[✓][vhg]|[✓][vhp]|
-|`error` handler   |[✓][ehj]|✗       |[✓][ehp]|
-|`request.body`    |[✓][rbj]|[✓][rbg]|[✓][rbp]|
-|`request.path`    |[✓][rpj]|[✓][rpg]|[✓][rpp]|
-|`request.query`   |[✓][rqj]|[✓][rpg]|[✓][rpp]|
-|`request.cookies` |[✓][rcj]|[✓][rpg]|[✓][rpp]|
-|`request.headers` |[✓][rhj]|[✓][rpg]|[✓][rpp]|
-|`request.session` |[✓][rsj]|[✓][rsg]|[✓][rsp]|
-|`request.store.*` |[✓][rtj]|✗       |[✓][rtp]|
+|Feature           |JS/TS   |GO      |Python  |Ruby    |
+|------------------|--------|--------|--------|--------|
+|serving strings   |[✓][stj]|[✓][stg]|[✓][stp]|[✓][str]|
+|serving objects   |[✓][obj]|[✓][obg]|[✓][obp]|[✓][obr]|
+|serving streams   |[✓][srj]|✗       |✗       |✗       |
+|`redirect` handler|[✓][rhj]|[✓][rhg]|[✓][rhp]|[✓][rhr]|
+|`view` handler    |[✓][vhj]|[✓][vhg]|[✓][vhp]|[✓][vhr]|
+|`error` handler   |[✓][ehj]|✗       |[✓][ehp]|[✓][ehr]|
+|`request.body`    |[✓][rbj]|[✓][rbg]|[✓][rbp]|[✓][rbr]|
+|`request.path`    |[✓][rpj]|[✓][rpg]|[✓][rpp]|[✓][rpr]|
+|`request.query`   |[✓][rqj]|[✓][rpg]|[✓][rpp]|[✓][rpr]|
+|`request.cookies` |[✓][rcj]|[✓][rpg]|[✓][rpp]|[✓][rpr]|
+|`request.headers` |[✓][rhj]|[✓][rpg]|[✓][rpp]|[✓][rpr]|
+|`request.session` |[✓][rsj]|[✓][rsg]|[✓][rsp]|✗       |
+|`request.store.*` |[✓][rtj]|✗       |[✓][rtp]|✗       |
 
 [stj]: /guide/responses#plain-text
 [obj]: /guide/responses#json
@@ -58,11 +59,20 @@ The individual programming languages are available as individual exports.
 [stp]: /modules/python#plain-text
 [obp]: /modules/python#json
 [rhp]: /modules/python#redirect
+[ehp]: /modules/python#error
 [vhp]: /modules/python#view
 [rbp]: /modules/python#body
 [rpp]: /modules/python#path-query-cookies-headers
 [rsp]: /modules/python#session
 [rtp]: /modules/python#store
+
+[str]: /modules/ruby#plain-text
+[obr]: /modules/ruby#json
+[rhr]: /modules/ruby#redirect
+[ehr]: /modules/ruby#error
+[vhr]: /modules/ruby#view
+[rbr]: /modules/ruby#body
+[rpr]: /modules/ruby#path-query-cookies-headers
 
 ### Type conversions
 

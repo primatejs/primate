@@ -15,6 +15,7 @@ import md from "highlight.js/lib/languages/markdown";
 import hbs from "highlight.js/lib/languages/handlebars";
 import go from "highlight.js/lib/languages/go";
 import python from "highlight.js/lib/languages/python";
+import ruby from "highlight.js/lib/languages/ruby";
 import priss from "./module.js";
 
 hljs.registerLanguage("js", js);
@@ -28,6 +29,7 @@ hljs.registerLanguage("md", md);
 hljs.registerLanguage("hbs", hbs);
 hljs.registerLanguage("go", go);
 hljs.registerLanguage("py", python);
+hljs.registerLanguage("rb", ruby);
 
 const master = i => i;
 
@@ -164,6 +166,7 @@ export default {
             "TypeScript",
             "Go",
             "Python",
+            "Ruby",
             { heading: "Others" },
             "Liveview",
             "Session",
