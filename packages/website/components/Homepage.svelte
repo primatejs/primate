@@ -84,8 +84,10 @@
       <h1>backend</h1>
       <div class="logos">
         <img src="/logos/js.svg" title="JavaScript" />
+        <img src="/logos/ts.svg" title="TypeScript" />
         <img src="/logos/go.svg" title="Golang" />
         <img src="/logos/python.svg" title="Python" />
+        <img src="/logos/ruby.svg" title="Ruby" />
       </div>
       <p>
         Write backend code in your language of choice, leveraging the power of
