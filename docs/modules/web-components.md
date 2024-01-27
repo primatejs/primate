@@ -39,14 +39,14 @@ Create an web component in `components`.
       const { posts } = this.props;
 
       return `<h1>All posts</h1>
-        ${posts.map(post => new PostLink({post}))}
+        ${posts.map(post => new PostLink({post})).join("")}
      `;
     }
   }
 </script>
 ```
 
-And another component for display post links.
+And another component for displaying post links.
 
 ```html caption=components/post-link.webc
 <script>

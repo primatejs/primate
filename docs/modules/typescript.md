@@ -38,7 +38,7 @@ export default {
 
 !!!
 Using `satisfies Route` is optional and will only result in your editor showing
-your proper completions.
+you proper completions for your route object.
 !!!
 
 Refer to the [routes] and [responses] documentation for the different aspects
