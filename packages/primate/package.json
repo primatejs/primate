@@ -24,5 +24,6 @@
     "node": ">=18"
   },
   "type": "module",
+  "types": "./types/index.d.ts",
   "exports": "./src/exports.js"
 }
