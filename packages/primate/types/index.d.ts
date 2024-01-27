@@ -16,7 +16,7 @@ declare module "primate" {
 
   type Dispatcher = {
     get(property: string): string,
-  }
+  };
 
   type RequestFacade = {
     body: {}
@@ -25,7 +25,7 @@ declare module "primate" {
     cookies: Dispatcher,
     headers: Dispatcher,
     original: Request,
-  }
+  };
 
   type ResponseFn = (app: App, ...rest: any) => Response;
   type ResponseFacade = 
@@ -37,16 +37,16 @@ declare module "primate" {
   | Response
   | ResponseFn;
 
-  type RouteFunction = (request: RequestFacade) => ResponseFacade;
+  type RouteFunction = (request?: RequestFacade) => ResponseFacade;
 
-  type Streamable = ReadableStream;
+  type Streamable = ReadableStream | Blob;
 
   export type Route = {
     get?: RouteFunction,
     post?: RouteFunction,
     put?: RouteFunction,
     delete?: RouteFunction,
-  }
+  };
 
   export function text(body: string, options?: MinOptions): ResponseFn;
 

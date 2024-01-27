@@ -44,8 +44,7 @@ response.
 
 ### JSON
 
-Objects (including arrays) are served with the content type
-`application/json`.
+Objects (including arrays) are served with the content type `application/json`.
 
 ```js caption=routes/json.js
 export default {

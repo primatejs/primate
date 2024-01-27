@@ -6,6 +6,7 @@ import hljs from "highlight.js/lib/core";
 import xml from "highlight.js/lib/languages/xml";
 
 import js from "highlight.js/lib/languages/javascript";
+import ts from "highlight.js/lib/languages/typescript";
 import json from "highlight.js/lib/languages/json";
 import bash from "highlight.js/lib/languages/bash";
 import http from "highlight.js/lib/languages/http";
@@ -17,6 +18,7 @@ import python from "highlight.js/lib/languages/python";
 import priss from "./module.js";
 
 hljs.registerLanguage("js", js);
+hljs.registerLanguage("ts", ts);
 hljs.registerLanguage("json", json);
 hljs.registerLanguage("xml", xml);
 hljs.registerLanguage("bash", bash);
@@ -46,7 +48,7 @@ export default {
         hooks: {
           preprocess(html) {
             return html.replaceAll(/%%%(.*?)\n(.*?)%%%/gus, (_, p1, p2) => {
-            const t =
+              const t =
               p2
                 .split("\n```")
                 .filter(p => p !== "" && !p.startsWith("\n"))
@@ -57,8 +59,8 @@ export default {
 
 </div>`).join("");
               return `<div class="tabbed"><span class="captions">${
-                  p1.split(",").map((caption, i) => `<span${i === 0 ? " class='active'" : ""}>${caption}</span>`).join("")
-                }</span><span class="tabs">${t}</span></div>`;
+                p1.split(",").map((caption, i) => `<span${i === 0 ? " class='active'" : ""}>${caption}</span>`).join("")
+              }</span><span class="tabs">${t}</span></div>`;
             });
           },
           postprocess(html) {
@@ -159,6 +161,7 @@ export default {
             "Drivers",
             { heading: "Bindings" },
             "Binding",
+            "TypeScript",
             "Go",
             "Python",
             { heading: "Others" },

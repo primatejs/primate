@@ -57,7 +57,8 @@ be strings.
 
 !!!
 The `base` property is relevant when you use other languages aside from
-JavaScript (like Go)
+JavaScript (like Go).
+!!!
 
 You can also create more elaborate types, like `uuid`.
 

@@ -36,7 +36,7 @@
     "@ruby/wasm-wasi": {
       "optional": true
     },
-    "swc/core" :{
+    "@swc/core": {
       "optional": true
     },
     "pyodide": {
