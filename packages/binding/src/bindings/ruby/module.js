@@ -44,8 +44,10 @@ const js_wrapper = async (path, routes, types) => {
   end`;
   }).join("\n  ");
 
-  return `import { vm, make_response } from "@primate/binding/ruby";
+  return `import { make_response, module, rubyvm } from "@primate/binding/ruby";
 import { File } from "rcompat/fs";
+
+const { vm } = await rubyvm(module);
 const file = await new File("${path}").text();
 const wrappers = ${JSON.stringify(create_ruby_wrappers(routes))};
 const request = ${JSON.stringify(request

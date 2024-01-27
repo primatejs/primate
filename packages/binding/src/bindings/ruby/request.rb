@@ -91,10 +91,15 @@ class URL
   end
 end
 
+def to_body(jsh)
+  entry = JS.global[:Object].entries(jsh)
+  Hash[Array.new(entry[:length].to_i) { [entry[_1][0].to_s, entry[_1][1].to_s] }]
+end
+
 class Request
   def initialize(request)
     @url = URL.new(request["url"])
-    @body = request["body"]
+    @body = to_body(request["body"])
     @path = Dispatcher.new(request["path"])
     @query = Dispatcher.new(request["query"])
     @headers = Dispatcher.new(request["headers"])
