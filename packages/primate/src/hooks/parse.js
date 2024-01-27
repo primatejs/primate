@@ -6,7 +6,7 @@ import errors from "../errors.js";
 const deslash = url => url.replaceAll(/(?<!http:)\/{2,}/gu, _ => "/");
 
 const parse_body = (request, url) =>
-  tryreturn(async _ => Body.parse(request) ?? {})
+  tryreturn(async _ => await Body.parse(request) ?? {})
     .orelse(error => errors.MismatchedBody.throw(url.pathname, error.message));
 
 export default dispatch => async original => {
