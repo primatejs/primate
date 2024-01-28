@@ -32,7 +32,7 @@ The individual programming languages are available as individual exports.
 |`request.query`   |[✓][rqj]|[✓][rpg]|[✓][rpp]|[✓][rpr]|
 |`request.cookies` |[✓][rcj]|[✓][rpg]|[✓][rpp]|[✓][rpr]|
 |`request.headers` |[✓][rhj]|[✓][rpg]|[✓][rpp]|[✓][rpr]|
-|`request.session` |[✓][rsj]|[✓][rsg]|[✓][rsp]|✗       |
+|`request.session` |[✓][rsj]|[✓][rsg]|[✓][rsp]|[✓][rsr]|
 |`request.store.*` |[✓][rtj]|✗       |[✓][rtp]|✗       |
 
 [stj]: /guide/responses#plain-text
@@ -73,6 +73,7 @@ The individual programming languages are available as individual exports.
 [vhr]: /modules/ruby#view
 [rbr]: /modules/ruby#body
 [rpr]: /modules/ruby#path-query-cookies-headers
+[rsr]: /modules/ruby#session
 
 ### Type conversions
 
@@ -81,19 +82,19 @@ augmented with dispatchers to coerce the input string into a given type. In the
 following is a table with the supported base types and what types they are
 converted to in every supported language.
 
-|Type   |JS     |GO     |
-|-------|-------|-------|
-|boolean|boolean|bool   |
-|i8     |number |int8   |
-|i16    |number |int16  |
-|i32    |number |int32  |
-|i64    |bigint |int64  |
-|f32    |number |float32|
-|f64    |number |float64|
-|u8     |number |uint8  |
-|u16    |number |uint16 |
-|u32    |number |uint32 |
-|u64    |bigint |uint64 |
-|string |string |string |
+|Type   |JS     |GO     |Ruby   |
+|-------|-------|-------|-------|
+|boolean|boolean|bool   |       |
+|i8     |number |int8   |Integer|
+|i16    |number |int16  |Integer|
+|i32    |number |int32  |Integer|
+|i64    |bigint |int64  |Integer|
+|f32    |number |float32|Float  |
+|f64    |number |float64|Float  |
+|u8     |number |uint8  |Integer|
+|u16    |number |uint16 |Integer|
+|u32    |number |uint32 |Integer|
+|u64    |bigint |uint64 |Integer|
+|string |string |string |String |
 
 [runtime types]: /guide/types

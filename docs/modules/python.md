@@ -234,7 +234,7 @@ If the `@primate/session` module is active, the `request` object passed to a
 route will contain an additional `session` property, allowing you to retrieve
 and set session data from within Python.
 
-Here is a Python route that, in case a session does not exist, creates it with a
+Here is a route that, in case a session does not exist, creates it with a
 `count` equaling 0 and otherwise increments `count` by 1. In both cases, the
 session data is served to the client as JSON.
 

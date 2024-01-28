@@ -155,7 +155,7 @@ A request to `/error` will result in a `404 Not Found` response.
 
 You can customize the body and the status of this handler.
 
-```py caption=routes/server-error.py
+```rb caption=routes/server-error.rb
 def get(request)
   Primate.error("Internal Server Error", { status: 500 })
 end
@@ -217,6 +217,31 @@ export default {
 ```
 
 You can then use `request.body.getUuid` in any of your routes.
+
+### Session
+
+[JavaScript documentation][session]
+
+If the `@primate/session` module is active, the `request` object passed to a
+route will contain an additional `session` property, allowing you to retrieve
+and set session data from within Ruby.
+
+Here is a route that, in case a session does not exist, creates it with a
+`count` equaling 0 and otherwise increments `count` by 1. In both cases, the
+session data is served to the client as JSON.
+
+```rb caption=routes/session.rb
+def get(request)
+  if !request.session.exists
+    request.session.create({"count": 0})
+  else
+    count = request.session.get("count")
+    request.session.set("count", count + 1)
+  end
+
+  { count: request.session.get("count")}
+end
+```
 
 ## Configuration options
 
