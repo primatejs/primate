@@ -1,5 +1,5 @@
 import { File } from "rcompat/fs";
-import { DefaultRubyVM as RubyVM } from "./rubyvm.js";
+import { DefaultRubyVM } from "@ruby/wasm-wasi/dist/node";
 
 const ruby_path = (await File.root())
   .join("node_modules/@ruby/head-wasm-wasi/dist/ruby+stdlib.wasm");
@@ -8,4 +8,4 @@ const module = await WebAssembly.compile(ruby_wasm);
 
 export { default as make_response } from "./make_response.js";
 export { module };
-export { RubyVM as rubyvm };
+export { DefaultRubyVM as rubyvm };

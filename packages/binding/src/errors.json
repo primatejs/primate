@@ -5,6 +5,11 @@
       "message": "cannot find {0} (imported from {1})",
       "fix": "install dependencies by issuing {2}",
       "level": "Error"
+    },
+    "UpgradeDependencies": {
+      "message": "dependencies {0} are outdated (imported from {1})",
+      "fix": "upgrade dependencies by issuing {2}",
+      "level": "Error"
     }
   }
 }
