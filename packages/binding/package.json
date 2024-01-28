@@ -23,11 +23,11 @@
     "rcompat": "^0.7.1"
   },
   "peerDependencies": {
-    "@ruby/head-wasm-wasi": "2.4",
-    "@ruby/wasm-wasi": "2.4",
+    "@ruby/head-wasm-wasi": "2.5",
+    "@ruby/wasm-wasi": "2.5",
     "@swc/core": "1.3",
     "primate": "0.27",
-    "pyodide": "0.24"
+    "pyodide": "0.25"
   },
   "peerDependenciesMeta": {
     "@ruby/head-wasm-wasi": {
