@@ -232,7 +232,7 @@ Your rendered web component will be accessible at http://localhost:6161/webc.
 
 ### Outlook
 
-Our Web Components support is a rapidly evolving, and we rely on feedback for 
+Our Web Components support is rapidly evolving, and we rely on feedback for 
 prioritizing work on it. In particular, we plan to extend the wrapper by 
 offering an `unmounted` property for cleanup before removal from the DOM, as
 well as commonly used features in other frontends such as SSR and hydration.
@@ -240,7 +240,7 @@ well as commonly used features in other frontends such as SSR and hydration.
 ## Uploading files
 
 This release introduces support for uploading files in HTML forms using
-`enctype="multitype/form-data"`. Files uploaded this way will be available as
+`enctype="multipart/form-data"`. Files uploaded this way will be available as
 `Blob` properties of the route function's `request.body`.
 
 ```html caption=components/file-upload.html
