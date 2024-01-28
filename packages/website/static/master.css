@@ -458,7 +458,6 @@ th {
 .hero .footer {
   background: #f7fafd;
   border-top: 1px solid #c2cdd6;
-  margin-top: 30px;
   padding: 30px 0;
 }
 
@@ -619,6 +618,12 @@ main.hero {
 
 .dark .hero .logos .invertible {
   filter: invert(1);
+}
+
+.hero .comparison {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 50px;
 }
 
 img.background {

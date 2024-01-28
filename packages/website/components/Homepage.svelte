@@ -171,6 +171,87 @@
       </p>
     </div>
   </div>
+  <h1 class="interim-title">more than all the rest, combined</h1>
+  <div class="comparison">
+    <table>
+      <thead>
+        <tr>
+          <th>Official support</th>
+          <th>Next</th>
+          <th>Nuxt</th>
+          <th>SvelteKit</th>
+          <th>Primate</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Backend</td>
+          <td>JS/TS</td>
+          <td>JS/TS</td>
+          <td>JS/TS</td>
+          <td>JS/TS/Go/Python/Ruby</td>
+        </tr>
+        <tr>
+          <td>Frontend</td>
+          <td>React</td>
+          <td>Vue</td>
+          <td>Svelte</td>
+          <td>React/Vue/Svelte/Solid/HTMX/Handlebars/Web Components</td>
+        </tr>
+        <tr>
+          <td>Native runtime</td>
+          <td>Node</td>
+          <td>Node</td>
+          <td>Node</td>
+          <td>Node/Deno/Bun</td>
+        </tr>
+        <tr>
+          <td>I18N</td>
+          <td>✓</td>
+          <td>✓</td>
+          <td>✗</td>
+          <td>React/Svelte/Solid</td>
+        </tr>
+        <tr>
+          <td>Head Component</td>
+          <td>✓</td>
+          <td>✓</td>
+          <td>✗</td>
+          <td>React/Svelte/Solid</td>
+        </tr>
+        <tr>
+          <td>Route guards</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>✓</td>
+        </tr>
+        <tr>
+          <td>Recursive layouts</td>
+          <td>✓</td>
+          <td>✓</td>
+          <td>✓</td>
+          <td>✓</td>
+        </tr>
+        <tr>
+          <td>Data stores/ORM</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>SQLite/PostgreSQL/MongoDB/SurrealDB</td>
+        </tr>
+        <tr>
+          <td>User sessions</td>
+          <td>✗</td>
+          <td>✓</td>
+          <td>✗</td>
+          <td>✓</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
   <div class="footer">
     <div class="table">
       <div>
