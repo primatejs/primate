@@ -577,6 +577,14 @@ main.hero {
   padding: 0px 30px;
 }
 
+.hero .table a {
+  color: var(--prs-primary);
+}
+
+.hero .table a:hover {
+  text-decoration: underline;
+}
+
 .hero .table > div {
   padding: 0 30px;
 }

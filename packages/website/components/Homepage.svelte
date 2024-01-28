@@ -189,14 +189,18 @@
           <td>JS/TS</td>
           <td>JS/TS</td>
           <td>JS/TS</td>
-          <td>JS/TS/Go/Python/Ruby</td>
+          <td><a href="/modules/binding">JS/TS/Go/Python/Ruby</a></td>
         </tr>
         <tr>
           <td>Frontend</td>
           <td>React</td>
           <td>Vue</td>
           <td>Svelte</td>
-          <td>React/Vue/Svelte/Solid/HTMX/Handlebars/Web Components</td>
+          <td>
+            <a href="/modules/frontend">
+              React/Vue/Svelte/Solid/HTMX/Handlebars/Web Components
+            </a>
+          </td>
         </tr>
         <tr>
           <td>Native runtime</td>
@@ -210,42 +214,49 @@
           <td>✓</td>
           <td>✓</td>
           <td>✗</td>
-          <td>React/Svelte/Solid</td>
+          <td><a href="/modules/i18n">@primate/i18n</a></td>
         </tr>
         <tr>
           <td>Head Component</td>
           <td>✓</td>
           <td>✓</td>
           <td>✗</td>
-          <td>React/Svelte/Solid</td>
+          <td><a href="/modules/frontend#head-component">React/Svelte/Solid</a></td>
         </tr>
         <tr>
           <td>Route guards</td>
           <td>✗</td>
           <td>✗</td>
           <td>✗</td>
-          <td>✓</td>
+          <td><a href="/guide/guards">✓</a></td>
         </tr>
         <tr>
           <td>Recursive layouts</td>
           <td>✓</td>
           <td>✓</td>
           <td>✓</td>
-          <td>✓</td>
+          <td><a href="/guide/layouts">✓</a></td>
         </tr>
         <tr>
           <td>Data stores/ORM</td>
           <td>✗</td>
           <td>✗</td>
           <td>✗</td>
-          <td>SQLite/PostgreSQL/MongoDB/SurrealDB</td>
+          <td><a href="/modules/store">SQLite/PostgreSQL/MongoDB/SurrealDb</a></td>
+        </tr>
+        <tr>
+          <td>WebSockets</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td><a href="/modules/websocket">@primate/ws</a></td>
         </tr>
         <tr>
           <td>User sessions</td>
           <td>✗</td>
           <td>✓</td>
           <td>✗</td>
-          <td>✓</td>
+          <td><a href="/modules/session">@primate/session</a></td>
         </tr>
       </tbody>
     </table>
