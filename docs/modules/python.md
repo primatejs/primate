@@ -4,7 +4,7 @@ This binding introduces support for routes written in Python.
 
 ## Install
 
-`npm install @primate/binding pyodide@0.24`
+`npm install @primate/binding pyodide@0.25`
 
 ## Configure
 

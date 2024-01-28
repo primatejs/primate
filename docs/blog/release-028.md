@@ -68,7 +68,7 @@ Under the hood, we make use of the `ruby.wasm` project through WASI.
 To add support for Ruby, install the `@primate/binding` module and the 
 `@ruby/head-wasm-wasi` and `@ruby/wasm-wasi` packages.
 
-`npm install @primate/binding @ruby/head-wasm-wasi@2.4 @ruby/wasm-wasi@2.4`
+`npm install @primate/binding @ruby/head-wasm-wasi@2.5 @ruby/wasm-wasi@2.5`
 
 ## Configure
 

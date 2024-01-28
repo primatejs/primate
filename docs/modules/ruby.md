@@ -4,7 +4,7 @@ This binding introduces support for routes written in Ruby.
 
 ## Install
 
-`npm install @primate/binding @ruby/head-wasm-wasi@2.4 @ruby/wasm-wasi@2.4`
+`npm install @primate/binding @ruby/head-wasm-wasi@2.5 @ruby/wasm-wasi@2.5`
 
 ## Configure
 
