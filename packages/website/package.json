@@ -5,10 +5,10 @@
     "@primate/build": "^0.2.0",
     "@primate/frontend": "^0.9.4",
     "@primate/liveview": "^0.10.0",
-    "esbuild": "^0.19.11",
+    "esbuild": "^0.19.12",
     "handlebars": "^4.7.8",
     "highlight.js": "^11.9.0",
-    "marked": "^11.1.1",
+    "marked": "^11.2.0",
     "primate": "^0.27.3",
     "rcompat": "^0.5.1",
     "svelte": "^4.2.9"
