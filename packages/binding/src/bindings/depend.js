@@ -4,17 +4,14 @@ import { packager, manifest } from "rcompat/meta";
 import { File } from "rcompat/fs";
 import errors from "../errors.js";
 
-// this isn't a complete semver comparison, but should work for most cases
-const semver = (target, is) => {
-  if (target.startsWith("^")) {
-    return semver(Number(target.slice(1), is));
-  }
-  if (is.startsWith("^")) {
-    return semver(target, Number(is.slice(1)));
-  }
-
-  return is >= target;
+const semver_regexp = /^\^?(?<integer>\d+)\.?(?<float>.*)$/gu;
+const semnum = version => {
+  const { integer, float = 0 } = [...version.matchAll(semver_regexp)][0].groups;
+  return Number(integer) + Number(float) * 0.1;
 };
+
+// this isn't a complete semver comparison, but should work for most cases
+const semver = (target, is) => semnum(is) >= semnum(target);
 
 const compare_dependencies = (target, current) =>
   to(target).filter(([key, value]) => !semver(value, current[key]));
