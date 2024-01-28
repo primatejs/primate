@@ -577,11 +577,11 @@ main.hero {
   padding: 0px 30px;
 }
 
-.hero .table a {
+.hero table a {
   color: var(--prs-primary);
 }
 
-.hero .table a:hover {
+.hero table a:hover {
   text-decoration: underline;
 }
 
