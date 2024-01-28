@@ -1,6 +1,6 @@
 {
   "name": "@primate/liveview",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "description": "Primate liveview module",
   "homepage": "https://primatejs.com/modules/liveview",
   "bugs": "https://github.com/primatejs/primate/issues",
@@ -15,7 +15,7 @@
     "directory": "packages/liveview"
   },
   "peerDependencies": {
-    "primate": "0.27"
+    "primate": "0.28"
   },
   "type": "module",
   "exports": {

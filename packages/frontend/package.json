@@ -1,6 +1,6 @@
 {
   "name": "@primate/frontend",
-  "version": "0.10.2",
+  "version": "0.11.0",
   "description": "Primate frontend code",
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
@@ -36,7 +36,7 @@
     "handlebars": "4",
     "htmx-esm": "0.2",
     "marked": "11",
-    "primate": "0.27",
+    "primate": "0.28",
     "react": "18",
     "react-dom": "18",
     "solid-js": "1",

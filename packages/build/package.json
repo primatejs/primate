@@ -1,6 +1,6 @@
 {
   "name": "@primate/build",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Primate build module",
   "homepage": "https://primatejs.com/modules/build",
   "bugs": "https://github.com/primatejs/primate/issues",
@@ -22,8 +22,8 @@
     "esbuild": "^0.20.0"
   },
   "peerDependencies": {
-    "esbuild": "0.19",
-    "primate": "0.27"
+    "esbuild": "0.20",
+    "primate": "0.28"
   },
   "peerDependenciesMeta": {
     "esbuild": {
