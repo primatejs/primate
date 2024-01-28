@@ -29,7 +29,7 @@
     "@primate/ws": "^0.9.0",
     "babel-preset-solid": "^1.8.12",
     "better-sqlite3": "^9.3.0",
-    "esbuild": "^0.19.12",
+    "esbuild": "^0.20.0",
     "handlebars": "^4.7.8",
     "htmx.org": "^1.9.10",
     "marked": "^11.2.0",
