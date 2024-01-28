@@ -27,6 +27,7 @@ constraints of being tied to specific options like Nuxt, Next, or others.
 - React
 - Vue
 - Solid
+- Web Components
 - Angular (coming soon)
 
 ### Databases We Support
@@ -40,9 +41,10 @@ constraints of being tied to specific options like Nuxt, Next, or others.
 ### Languages We Support
 
 - JavaScript
+- TypeScript
 - Golang
 - Python
-- TypeScript (coming soon)
+- Ruby
 
 ## Packages
 
