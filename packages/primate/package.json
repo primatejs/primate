@@ -9,7 +9,8 @@
     "src/**/*.js",
     "src/errors.json",
     "src/defaults/*.html",
-    "!src/**/*.spec.js"
+    "!src/**/*.spec.js",
+    "types/*.ts"
   ],
   "bin": "src/bin.js",
   "repository": {
