@@ -163,7 +163,7 @@
       <div class="logos">
         <img src="/logos/esbuild.svg" title="esbuild" />
       </div>
-      <p>Use <a href="/modules/build">esbuild</a> for hot reload during devlopment and bundling in
+      <p>Use <a href="/modules/build">esbuild</a> for hot reload during development and bundling in
         production, add <a href="/modules/session">user sessions</a>, <a
           href="/modules/websocket">web
           sockets</a>, and <a href="/modules/liveview">liveview browsing</a>, or
