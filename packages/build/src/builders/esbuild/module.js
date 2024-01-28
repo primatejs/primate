@@ -27,7 +27,7 @@ const publish = async (app, client) => {
     const type = path.extension === ".css" ? "style" : "module";
     await app.publish({ src, code, type });
     if (path.extension === ".js") {
-      const imports = { app: new File(http.static.root, src).path };
+      const imports = { app: File.join(http.static.root, src).path };
       await app.publish({
         inline: true,
         code: JSON.stringify({ imports }, null, 2),
