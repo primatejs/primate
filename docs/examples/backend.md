@@ -57,7 +57,7 @@ def get(request):
 ```rb caption=routes/index.rb
 def get(request)
   posts = [{
-    id: 0,
+    id: 1,
     title: "First post",
   }]
   Primate.view("Index.jsx", 
