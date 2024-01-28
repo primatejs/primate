@@ -30,6 +30,11 @@
     "vue": "^3.4.15"
   },
   "peerDependencies": {
+    "@angular/compiler": "17",
+    "@angular/core": "17",
+    "@angular/platform-browser": "17",
+    "@angular/platform-server": "17",
+    "@angular/ssr": "17",
     "@babel/core": "7",
     "babel-preset-solid": "1",
     "esbuild": "0.20",
@@ -44,6 +49,21 @@
     "vue": "3"
   },
   "peerDependenciesMeta": {
+    "@angular/compiler": {
+      "optional": true
+    },
+    "@angular/core": {
+      "optional": true
+    },
+    "@angular/platform-browser": {
+      "optional": true
+    },
+    "@angular/platform-server": {
+      "optional": true
+    },
+    "@angular/ssr": {
+      "optional": true
+    },
     "@babel/core": {
       "optional": true
     },
