@@ -9,9 +9,11 @@ const get_routes = code => [...code.matchAll(routes_re)]
   .map(({ groups: { route } }) => route);
 
 const directory = new File(import.meta.url).up(1);
+const session_rb = await directory.join("session.rb").text();
 const request = await directory.join("./request.rb").text();
 const make_route = route => `async ${route.toLowerCase()}(request) {
-    return make_response(environment.call("run_${route}", vm.wrap(request)));
+    return make_response(await environment.callAsync("run_${route}",
+      vm.wrap(request)));
   },`;
 
 const type_map = {
@@ -34,7 +36,7 @@ const create_ruby_wrappers = routes => routes.map(route =>
   ${route}(Request.new(js_request))
 end`).join("\n");
 
-const js_wrapper = async (path, routes, types) => {
+const js_wrapper = async (path, routes, types, app) => {
   const supported_types = Object.entries(types)
     .filter(([_, { base }]) => type_map[base] !== undefined);
   const type_defs = supported_types.map(([name, { base }]) => {
@@ -43,6 +45,19 @@ const js_wrapper = async (path, routes, types) => {
     @dispatcher.call("get${upperfirst(name)}", name).${transfer}
   end`;
   }).join("\n  ");
+  const has_session = app.modules.names.includes("primate:session");
+  const classes = [];
+  const request_initialize = [];
+  const request_defs = [];
+  if (has_session) {
+    classes.push(session_rb);
+    request_initialize.push(
+      "@session = Session.new(request[\"session\"])",
+    );
+    request_defs.push(`def session
+  @session
+end`);
+  }
 
   return `import { make_response, module, rubyvm } from "@primate/binding/ruby";
 import { File } from "rcompat/fs";
@@ -51,7 +66,10 @@ const { vm } = await rubyvm(module);
 const file = await new File("${path}").text();
 const wrappers = ${JSON.stringify(create_ruby_wrappers(routes))};
 const request = ${JSON.stringify(request
-    .replace("%%DISPATCH_DEFS%%", _ => type_defs))};
+    .replace("%%DISPATCH_DEFS%%", _ => type_defs)
+    .replace("%%CLASSES%%", _ => classes.join("\n"))
+    .replace("%%REQUEST_INITIALIZE%%", _ => request_initialize.join("\n"))
+    .replace("%%REQUEST_DEFS%%", _ => request_defs.join("\n")))};
 
 const environment = await vm.evalAsync(request+file+wrappers);
 export default {
@@ -83,7 +101,8 @@ export default ({
           const code = await path.text();
           const routes = get_routes(code);
           // write .js wrapper
-          await base.join(js).write(await js_wrapper(`${path}`, routes, types));
+          await base.join(js).write(await js_wrapper(`${path}`, routes, types,
+            app));
         },
       });
       return next(app);

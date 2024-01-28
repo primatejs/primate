@@ -91,19 +91,22 @@ class URL
   end
 end
 
-def to_body(jsh)
-  entry = JS.global[:Object].entries(jsh)
-  Hash[Array.new(entry[:length].to_i) { [entry[_1][0].to_s, entry[_1][1].to_s] }]
+def create_hash(object)
+  js = JS.global[:Object].entries(object)
+  Hash[Array.new(js[:length].to_i) { [js[_1][0].to_s, js[_1][1].to_s] }]
 end
+
+%%CLASSES%%
 
 class Request
   def initialize(request)
     @url = URL.new(request["url"])
-    @body = to_body(request["body"])
+    @body = create_hash(request["body"])
     @path = Dispatcher.new(request["path"])
     @query = Dispatcher.new(request["query"])
     @headers = Dispatcher.new(request["headers"])
     @cookies = Dispatcher.new(request["cookies"])
+    %%REQUEST_INITIALIZE%%
   end
 
   def url
@@ -129,4 +132,6 @@ class Request
   def cookies
     @cookies
   end
+
+  %%REQUEST_DEFS%%
 end

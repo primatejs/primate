@@ -19,8 +19,7 @@ const handle_handler = response => {
 };
 
 const handle_other = response => response;
-export default raw_response => {
-  const response = raw_response.toJS();
+export default response => {
   return response[HANDLER_PROPERTY] === undefined
     ? handle_other(response)
     : handle_handler(response);
