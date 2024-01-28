@@ -13,7 +13,7 @@ const session_rb = await directory.join("session.rb").text();
 const request = await directory.join("./request.rb").text();
 const make_route = route => `async ${route.toLowerCase()}(request) {
     return make_response(await environment.callAsync("run_${route}",
-      vm.wrap(request)));
+      vm.wrap(request), vm.wrap(helpers)));
   },`;
 
 const type_map = {
@@ -32,8 +32,8 @@ const type_map = {
 };
 
 const create_ruby_wrappers = routes => routes.map(route =>
-  `def run_${route}(js_request)
-  ${route}(Request.new(js_request))
+  `def run_${route}(js_request, helpers)
+  ${route}(Request.new(js_request, helpers))
 end`).join("\n");
 
 const js_wrapper = async (path, routes, types, app) => {
@@ -52,14 +52,15 @@ const js_wrapper = async (path, routes, types, app) => {
   if (has_session) {
     classes.push(session_rb);
     request_initialize.push(
-      "@session = Session.new(request[\"session\"])",
+      "@session = Session.new(request[\"session\"], helpers)",
     );
     request_defs.push(`def session
   @session
 end`);
   }
 
-  return `import { make_response, module, rubyvm } from "@primate/binding/ruby";
+  return `import { make_response, module, rubyvm, helpers } 
+  from "@primate/binding/ruby";
 import { File } from "rcompat/fs";
 
 const { vm } = await rubyvm(module);
@@ -72,6 +73,7 @@ const request = ${JSON.stringify(request
     .replace("%%REQUEST_DEFS%%", _ => request_defs.join("\n")))};
 
 const environment = await vm.evalAsync(request+file+wrappers);
+
 export default {
   ${routes.map(route => make_route(route)).join("\n  ")}
 };

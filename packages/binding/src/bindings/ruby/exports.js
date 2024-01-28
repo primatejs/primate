@@ -9,3 +9,36 @@ const module = await WebAssembly.compile(ruby_wasm);
 export { default as make_response } from "./make_response.js";
 export { module };
 export { DefaultRubyVM as rubyvm };
+
+const helpers = {
+  wrap(value) {
+    if (typeof value === "number") {
+      if (Number.isInteger(value)) {
+        return "integer";
+      }
+      return "float";
+    }
+    if (typeof value === "boolean") {
+      return "boolean";
+    }
+    if (typeof value === "string") {
+      return "string";
+    }
+
+    if (typeof value === "object") {
+      if (Array.isArray(value)) {
+        return "array";
+      }
+
+      if (value === "null") {
+        return "nil";
+      }
+
+      return "object";
+    }
+
+    return undefined;
+  },
+};
+
+export { helpers };

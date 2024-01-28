@@ -1,5 +1,48 @@
 require 'json'
 
+def wrap(helpers, value)
+  resolved = helpers.call("wrap", value).to_s
+
+  if resolved == "integer"
+    return value.to_i
+  end
+
+  if resolved == "float"
+    return value.to_f
+  end
+
+  if resolved == "boolean"
+    return value == JS::True
+  end
+
+  if resolved == "string"
+    return value.to_s
+  end
+
+  if resolved == "nil"
+    return nil
+  end
+
+  if resolved == "array"
+    as_array = JS.global[:Array].from(value)
+    return Array.new(as_array[:length].to_i) { 
+      # recurse
+      wrap(helpers, as_array[_1]) 
+    }
+  end
+
+  if resolved == "object"
+    as_entries = JS.global[:Object].entries(value)
+    return Hash[Array.new(as_entries[:length].to_i) {[ 
+      as_entries[_1][0].to_s,
+      # recurse
+      wrap(helpers, as_entries[_1][1])
+    ]}]
+  end
+
+  value
+end
+
 class Primate
   def self.view(name, props = {}, options = {})
     {:__PRMT__ => "view", :name => name, :props => props, :options => options}
@@ -91,17 +134,12 @@ class URL
   end
 end
 
-def create_hash(object)
-  js = JS.global[:Object].entries(object)
-  Hash[Array.new(js[:length].to_i) { [js[_1][0].to_s, js[_1][1].to_s] }]
-end
-
 %%CLASSES%%
 
 class Request
-  def initialize(request)
+  def initialize(request, helpers)
     @url = URL.new(request["url"])
-    @body = create_hash(request["body"])
+    @body = wrap(helpers, request["body"])
     @path = Dispatcher.new(request["path"])
     @query = Dispatcher.new(request["query"])
     @headers = Dispatcher.new(request["headers"])

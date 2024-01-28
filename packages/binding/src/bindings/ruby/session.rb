@@ -1,6 +1,7 @@
 class Session
-  def initialize(session)
+  def initialize(session, helpers)
     @session = session
+    @helpers = helpers
   end
 
   def id
@@ -8,11 +9,11 @@ class Session
   end
 
   def exists
-    @session.call("exists")
+    @session.call("exists") == JS::True
   end
 
   def get(key)
-    @session.call("get", key)
+    wrap(@helpers, @session.call("get", key))
   end
 
   def set(key, value)
