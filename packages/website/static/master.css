@@ -387,9 +387,10 @@ table {
 }
 
 th, td {
-  padding: 1rem;
+  padding: 10px 5px;
   border: 1px solid #c2cdd6;
   text-align: center;
+  font-size: 1.5rem;
 }
 
 .dark th, .dark td {
@@ -398,6 +399,10 @@ th, td {
 
 th {
   background-color: #f7fafd;
+  color: #676779;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: normal;
 }
 
 .dark th {
@@ -574,7 +579,6 @@ main.hero {
 .hero .table {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  padding: 0px 30px;
 }
 
 .hero table a {
@@ -585,7 +589,7 @@ main.hero {
   text-decoration: underline;
 }
 
-.hero .table > div {
+.hero .table > div, .hero > h1 {
   padding: 0 30px;
 }
 
@@ -632,6 +636,7 @@ main.hero {
   display: flex;
   justify-content: center;
   margin-bottom: 50px;
+  padding: 0 30px;
 }
 
 img.background {
@@ -680,9 +685,10 @@ img.background {
     padding-left: calc(var(--prs-page-padding-side) / 2);
     padding-right: calc(var(--prs-page-padding-side) / 2);
   }
-  article {
+  main article {
     max-width: 100vw;
     box-sizing: border-box;
+    padding: 30px;
   }
   .sidebar {
     display: none;

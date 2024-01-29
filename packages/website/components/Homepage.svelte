@@ -176,7 +176,7 @@
     <table>
       <thead>
         <tr>
-          <th>Official support</th>
+          <th>Feature</th>
           <th>Next</th>
           <th>Nuxt</th>
           <th>SvelteKit</th>
@@ -186,10 +186,10 @@
       <tbody>
         <tr>
           <td>Backend</td>
-          <td>JS/TS</td>
-          <td>JS/TS</td>
-          <td>JS/TS</td>
-          <td><a href="/modules/binding">JS/TS/Go/Python/Ruby</a></td>
+          <td>JS, TS</td>
+          <td>JS, TS</td>
+          <td>JS, TS</td>
+          <td><a href="/modules/binding">JS, TS, Go, Python, Ruby</a></td>
         </tr>
         <tr>
           <td>Frontend</td>
@@ -198,7 +198,7 @@
           <td>Svelte</td>
           <td>
             <a href="/modules/frontend">
-              React/Vue/Svelte/Solid/HTMX/Handlebars/Web Components
+              React, Vue, Svelte, Solid, HTMX, Handlebars, WC
             </a>
           </td>
         </tr>
@@ -207,7 +207,7 @@
           <td>Node</td>
           <td>Node</td>
           <td>Node</td>
-          <td>Node/Deno/Bun</td>
+          <td>Node, Deno, Bun</td>
         </tr>
         <tr>
           <td>I18N</td>
@@ -221,7 +221,9 @@
           <td>✓</td>
           <td>✓</td>
           <td>✗</td>
-          <td><a href="/modules/frontend#head-component">React/Svelte/Solid</a></td>
+          <td>
+            <a href="/modules/frontend#head-component">React, Svelte, Solid</a>
+          </td>
         </tr>
         <tr>
           <td>Route guards</td>
@@ -242,7 +244,9 @@
           <td>✗</td>
           <td>✗</td>
           <td>✗</td>
-          <td><a href="/modules/store">SQLite/PostgreSQL/MongoDB/SurrealDb</a></td>
+          <td>
+            <a href="/modules/store">SQLite, PostgreSQL, MongoDB, SurrealDb</a>
+          </td>
         </tr>
         <tr>
           <td>WebSockets</td>

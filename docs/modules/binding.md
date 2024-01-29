@@ -19,7 +19,7 @@ The individual programming languages are available as individual exports.
 
 ## Support matrix
 
-|Feature           |JS/TS   |GO      |Python  |Ruby    |
+|Feature           |JS, TS  |GO      |Python  |Ruby    |
 |------------------|--------|--------|--------|--------|
 |serving strings   |[✓][stj]|[✓][stg]|[✓][stp]|[✓][str]|
 |serving objects   |[✓][obj]|[✓][obg]|[✓][obp]|[✓][obr]|
@@ -40,6 +40,7 @@ The individual programming languages are available as individual exports.
 [srj]: /guide/responses#stream
 [rhj]: /guide/responses#redirect
 [vhj]: /guide/responses#view
+[ehj]: /guide/responses#error
 [rbj]: /guide/routes#body
 [rpj]: /guide/routes#path
 [rqj]: /guide/routes#query
