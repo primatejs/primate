@@ -63,6 +63,21 @@ constraints of being tied to specific options like Nuxt, Next, or others.
 |[@primate/binding](packages/binding)         | Other backend languages       |
 |[website](packages/website)                  | Primate website               |
 
+## Comparison with other frameworks
+
+| Feature           | Next   |	Nuxt   | SvelteKit | Primate                                         |
+|-------------------|--------|--------|------------|-------------------------------------------------|
+| Backend           | JS, TS | JS, TS | JS, TS     | JS, TS, Go, Python, Ruby                        |
+| Frontend          | React  | Vue    | Svelte     | React, Vue, Svelte, Solid, HTMX, Handlebars, WC |
+| Native runtime    | Node   | Node   | Node       | Node, Deno, Bun                                 |
+| I18N              | ✓      | ✓      | ✗          | @primate/i18n                                   |
+| Head Component    | ✓      | ✓      | ✗          | React, Svelte, Solid                            |
+| Route guards      | ✗      | ✗      | ✗ 	       | ✓                                               |
+| Recursive layouts | ✓ 	   | ✓ 	    | ✓          | ✓                                               |
+| Data stores/ORM   | ✗      | ✗      | ✗          | SQLite, PostgreSQL, MongoDB, SurrealDb          |
+| WebSockets        | ✗      | ✗      | ✗          | @primate/ws                                     |
+| User sessions     |	✗      | ✓      |	✗ 	       | @primate/session                                |
+
 ## Resources
 
 * Website: https://primatejs.com
