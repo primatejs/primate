@@ -1,4 +1,4 @@
-import { Path } from "rcompat/fs";
+import { File } from "rcompat/fs";
 import { esbuild } from "@primate/build";
 import liveview from "@primate/liveview";
 import { svelte, markdown, handlebars } from "@primate/frontend";
@@ -109,7 +109,7 @@ export default {
       blog: true,
       title: "Primate",
       description: "Polymorphic development platform",
-      root: new Path("components", "content"),
+      root: File.join("components", "content"),
       theme: master({
         navbar: [
           { label: "Guide", link: "/guide/getting-started" },

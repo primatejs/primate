@@ -2,15 +2,15 @@
   "name": "@primate/website",
   "private": true,
   "dependencies": {
-    "@primate/build": "^0.2.0",
-    "@primate/frontend": "^0.9.4",
-    "@primate/liveview": "^0.10.0",
+    "@primate/build": "^0.3.1",
+    "@primate/frontend": "^0.11.0",
+    "@primate/liveview": "^0.11.0",
     "esbuild": "^0.20.0",
     "handlebars": "^4.7.8",
     "highlight.js": "^11.9.0",
     "marked": "^11.2.0",
-    "primate": "^0.27.3",
-    "rcompat": "^0.5.1",
+    "primate": "^0.28.0",
+    "rcompat": "^0.7.2",
     "svelte": "^4.2.9"
   },
   "scripts": {

@@ -1,9 +1,9 @@
-import { Path } from "rcompat/fs";
+import { File } from "rcompat/fs";
 import { MediaType } from "rcompat/http";
 import { view } from "primate";
 
 const entries_path = ["blog", "entries.json"];
-const entries = new Path(import.meta.url).up(2).join(...entries_path);
+const entries = new File(import.meta.url).up(2).join(...entries_path);
 
 export default {
   async get() {
