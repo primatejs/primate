@@ -131,7 +131,7 @@ export default ({ ignores = [], options = {} } = {}) => {
           const options = { recursive: true };
 
           watch(`${app.path.components}`, options, async (_, filename) => {
-            const path = new File(app.path.components, filename);
+            const path = File.join(app.path.components, filename);
 
             app.log.info(`reloading ${bold(path.name)}`, { module });
             // recompile resource
