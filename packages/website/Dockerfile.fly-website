@@ -1,4 +1,4 @@
-FROM denoland/deno:alpine as builder
+FROM denoland/deno:alpine
 
 COPY . /app
 
