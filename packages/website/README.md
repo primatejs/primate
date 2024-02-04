@@ -39,6 +39,6 @@ docker logs primate -f
 ### Verify
 ```sh
 docker exec -it primate sh
-ls -lha /app/packages/website
+ls -lha /app/website
 exit
 ```

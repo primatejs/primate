@@ -1,9 +1,8 @@
 FROM denoland/deno:alpine
 
-COPY . /app
+COPY ./packages/website /app/website
+COPY ./docs /app/website/components/content
 
-RUN mv /app/docs /app/packages/website/components/content
-
-WORKDIR /app/packages/website
+WORKDIR /app/website
 
 CMD ["deno", "run", "--allow-all", "npm:primate", "serve"]
