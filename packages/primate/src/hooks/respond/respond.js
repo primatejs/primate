@@ -18,7 +18,7 @@ const is_response = value => is_response_duck(value)
 const is_stream = value => value instanceof ReadableStream
   ? stream(value) : is_response(value);
 const is_blob = value => value instanceof Blob
- ? stream(value.stream()) : is_stream(value);
+  ? stream(value.stream()) : is_stream(value);
 const is_URL = value => value instanceof URL
   ? redirect(value.href) : is_blob(value);
 const guess = value => is_URL(value);

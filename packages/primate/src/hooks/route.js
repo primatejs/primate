@@ -9,6 +9,8 @@ const ieq = (left, right) => left.toLowerCase() === right.toLowerCase();
 const deroot = pathname => pathname.endsWith("/") && pathname !== "/"
   ? pathname.slice(0, -1) : pathname;
 
+const is_ws = headers => headers.get("upgrade") === "websocket";
+
 export default app => {
   const { types, routes, config: { types: { explicit }, location } } = app;
 
@@ -41,7 +43,8 @@ export default app => {
 
   const index = path => `${location.routes}${path === "/" ? "/index" : path}`;
 
-  return ({ original: { method }, url }) => {
+  return ({ original, url, headers }) => {
+    const method = is_ws(headers) ? "ws" : original.method;
     const pathname = deroot(url.pathname);
     const route = find(method, pathname) ?? errors.NoRouteToPath
       .throw(method.toLowerCase(), pathname, index(pathname));

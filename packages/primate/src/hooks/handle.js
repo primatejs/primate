@@ -43,7 +43,9 @@ export default app => {
     let error_handler = app.error.default;
 
     return tryreturn(async _ => {
-      const { path, guards, errors, layouts, handler } = await route(request);
+      const { path, guards, errors, layouts, handler, method } =
+        await route(request);
+
       error_handler = errors?.at(-1);
 
       const pathed = { ...request, path };
@@ -52,8 +54,13 @@ export default app => {
 
       // handle request
       const response = await (await cascade(hooks, handler))(pathed);
+
+      if (method === "ws") {
+        return app.server.upgrade(request.original, response);
+      }
+
       const $layouts = { layouts: await get_layouts(layouts, request) };
-      return (await respond(response))(app, $layouts, pathed);
+      return (await respond(response, method))(app, $layouts, pathed);
     }).orelse(async error => {
       app.log.auto(error);
 

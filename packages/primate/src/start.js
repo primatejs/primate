@@ -1,5 +1,5 @@
 import { serve, Response, Status } from "rcompat/http";
-import { cascade, tryreturn } from "rcompat/async";
+import { tryreturn } from "rcompat/async";
 import { bold, blue } from "rcompat/colors";
 import * as hooks from "./hooks/exports.js";
 import { print } from "./Logger.js";
@@ -24,14 +24,11 @@ export default async (app$, mode = "development") => {
 
   app.route = hooks.route(app);
   app.parse = hooks.parse(app.dispatch);
-
-  const server = await serve(async request =>
+  app.server = await serve(async request =>
     tryreturn(async _ => (await hooks.handle(app))(await app.parse(request)))
       .orelse(error => {
         app.log.auto(error);
         return new Response(null, { status: Status.INTERNAL_SERVER_ERROR });
       }),
   app.config.http);
-
-  await (await cascade(app.modules.serve))({ ...app, server });
 };
