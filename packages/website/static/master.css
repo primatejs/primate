@@ -67,6 +67,9 @@ body {
   background: #fff;
 }
 
+::-moz-selection{ background: #b39072; color: #fff; text-shadow: none; }
+::selection{ background: #b39072; color: #fff; text-shadow: none; }
+
 button {
   font-family: pt-sans, sans-serif;
 }
