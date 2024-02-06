@@ -28,7 +28,7 @@
     "@primate/types": "^0.12.0",
     "@primate/ws": "^0.10.0",
     "babel-preset-solid": "^1.8.12",
-    "better-sqlite3": "^9.3.0",
+    "better-sqlite3": "^9.4.0",
     "esbuild": "^0.20.0",
     "handlebars": "^4.7.8",
     "htmx.org": "^1.9.10",
@@ -38,9 +38,9 @@
     "primate": "^0.28.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "solid-js": "^1.8.12",
+    "solid-js": "^1.8.14",
     "surrealdb.js": "^0.11.0",
-    "svelte": "^4.2.9",
+    "svelte": "^4.2.10",
     "vue": "^3.4.15"
   }
 }
