@@ -1,6 +1,6 @@
 import { stringify, filter } from "rcompat/object";
 import { File } from "rcompat/fs";
-import { peers, respond } from "../common/exports.js";
+import { peers } from "../common/exports.js";
 import depend from "../depend.js";
 
 const handle = (handler, directory) => (...[name, ...rest]) =>
@@ -12,7 +12,8 @@ const handle = (handler, directory) => (...[name, ...rest]) =>
     return handler({ body, toc }, ...rest)(app, ...noapp);
   };
 
-const render = ({ body }, _, options) => app => respond({ app, body, options });
+const render = ({ body }, _, options) => app =>
+  app.respond({ body, ...options });
 
 const name = "markdown";
 const dependencies = ["marked"];

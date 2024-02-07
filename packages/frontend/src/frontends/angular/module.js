@@ -1,13 +1,12 @@
 import { filter } from "rcompat/object";
-import { register, peers, respond } from "../common/exports.js";
+import { register, peers } from "../common/exports.js";
 import depend from "../depend.js";
 
-const handler = ({ make, render }) =>
-  (name, props = {}, options = {}) =>
-    async app => {
-      const { component } = await make(name, props);
-      return respond({ app, body: await render(component, props), options });
-    };
+const handler = ({ make, render }) => (name, props = {}, options = {}) =>
+  async app => {
+    const { component } = await make(name, props);
+    return app.respond({ body: await render(component, props), ...options });
+  };
 
 export default ({
   extension = ".component.ts",

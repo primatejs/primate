@@ -9,5 +9,4 @@ export { default as load } from "./load.js";
 // generally used
 export { default as module } from "./module.js";
 export { default as peers } from "./peers.js";
-export { default as respond } from "./respond.js";
 export { default as normalize } from "./normalize.js";

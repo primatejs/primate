@@ -1,5 +1,5 @@
 import { filter } from "rcompat/object";
-import { compile, peers, load, respond } from "../common/exports.js";
+import { compile, peers, load } from "../common/exports.js";
 import depend from "../depend.js";
 
 const handler = ({ directory, render }) => (name, props = {}, options = {}) =>
@@ -7,7 +7,7 @@ const handler = ({ directory, render }) => (name, props = {}, options = {}) =>
     const components = app.runpath(app.config.location.server, directory);
     const { default : component } = await load(components.join(name));
 
-    return respond({ app, body: render(component, props), options });
+    return app.respond({ body: render(component, props), ...options });
   };
 
 const name = "handlebars";

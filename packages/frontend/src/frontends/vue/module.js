@@ -1,5 +1,5 @@
 import { filter } from "rcompat/object";
-import { register, compile, peers, respond } from "../common/exports.js";
+import { register, compile, peers } from "../common/exports.js";
 import depend from "../depend.js";
 
 const handler = ({ createSSRApp, make, render }) =>
@@ -10,7 +10,7 @@ const handler = ({ createSSRApp, make, render }) =>
         data: () => props,
       });
 
-      return respond({ app, body: await render(component), options });
+      return app.respond({ body: await render(component), ...options });
     };
 
 export default ({ extension = ".vue" } = {}) => {

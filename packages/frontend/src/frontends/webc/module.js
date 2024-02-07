@@ -1,17 +1,15 @@
-import { normalize, compile, respond } from "../common/exports.js";
+import { normalize, compile } from "../common/exports.js";
 import client from "./client/exports.js";
 
-const handler = (name, props = {}, options = {}) =>
-  async app => {
-    const [component] = name.split(".");
-    const assets = [await app.inline(client(component, props), "module")];
-    const head = assets.map(asset => asset.head).join("\n");
-    const script = assets.map(asset => asset.csp).join(" ");
-    const headers = { script };
-    const body = "";
+const handler = (name, props = {}, options = {}) => async app => {
+  const [component] = name.split(".");
+  const assets = [await app.inline(client(component, props), "module")];
+  const head = assets.map(asset => asset.head).join("\n");
+  const script = assets.map(asset => asset.csp).join(" ");
+  const headers = app.headers({ script });
 
-    return respond({ app, head, headers, body, options });
-  };
+  return app.respond({ head, headers, body: "", ...options });
+};
 
 export default ({
   extension = ".webc",

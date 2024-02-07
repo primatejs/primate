@@ -1,6 +1,6 @@
 import { filter } from "rcompat/object";
 import errors from "./errors.js";
-import { peers, respond } from "../common/exports.js";
+import { peers } from "../common/exports.js";
 import depend from "../depend.js";
 
 const load_component = async path => {
@@ -16,12 +16,11 @@ const handler = directory => (name, options = {}) => async app => {
   const components = app.runpath(app.config.location.server, directory);
   const { head, csp } = await app.inline(code, "module");
 
-  return respond({
-    app,
+  return app.respond({
     body: await load_component(components.join(name)),
     head,
     headers: app.headers({ style: "'unsafe-inline'", script: csp }),
-    options,
+    ...options,
   });
 };
 

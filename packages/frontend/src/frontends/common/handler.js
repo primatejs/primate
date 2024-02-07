@@ -2,7 +2,6 @@ import { Response, Status, MediaType } from "rcompat/http";
 import { cascade, map } from "rcompat/async";
 import { valmap, filter } from "rcompat/object";
 import register from "./register.js";
-import respond from "./respond.js";
 
 const noop = _ => ({});
 
@@ -43,8 +42,10 @@ export default config => {
         request.headers.get(app.liveview?.header) !== undefined) {
         return new Response(JSON.stringify({ names, ...shared }), {
           status,
-          headers: { ...await app.headers(),
-            "Content-Type": MediaType.APPLICATION_JSON },
+          headers: {
+            ...await app.headers(),
+            "Content-Type": MediaType.APPLICATION_JSON,
+          },
         });
       }
 
@@ -57,12 +58,11 @@ export default config => {
       const code = client({ names, ...shared }, liveview_options);
       const inlined = await app.inline(code, "module");
 
-      return respond({
-        app,
+      return app.respond({
         body,
         head: head.concat(inlined.head),
         headers: app.headers({ script: inlined.csp }),
-        options,
+        ...options,
       });
     };
 };

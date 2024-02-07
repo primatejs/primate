@@ -5,6 +5,7 @@ import { is } from "rcompat/invariant";
 import { transform, valmap, to } from "rcompat/object";
 import { globify } from "rcompat/string";
 import * as runtime from "rcompat/meta";
+import { Response, Status, MediaType } from "rcompat/http";
 
 import errors from "./errors.js";
 import to_sorted from "./to_sorted.js";
@@ -14,7 +15,7 @@ import * as loaders from "./loaders/exports.js";
 const { DoubleFileExtension } = errors;
 
 // use user-provided file or fall back to default
-const index = (base, page, fallback) =>
+const get_index = (base, page, fallback) =>
   tryreturn(_ => File.text(`${base.join(page)}`))
     .orelse(_ => File.text(`${base.join(fallback)}`));
 
@@ -134,15 +135,13 @@ export default async (log, root, config) => {
     headers({ script = "", style = "" } = {}) {
       const csp = Object.keys(http.csp).reduce((policy, key) =>
         `${policy}${key} ${http.csp[key]};`, "")
-        .replace("script-src 'self'", `script-src 'self' ${script} ${
-          this.assets
-            .filter(({ type }) => type !== "style")
-            .map(asset => `'${asset.integrity}'`).join(" ")
+        .replace("script-src 'self'", `script-src 'self' ${script} ${this.assets
+          .filter(({ type }) => type !== "style")
+          .map(asset => `'${asset.integrity}'`).join(" ")
         }`)
-        .replace("style-src 'self'", `style-src 'self' ${style} ${
-          this.assets
-            .filter(({ type }) => type === "style")
-            .map(asset => `'${asset.integrity}'`).join(" ")
+        .replace("style-src 'self'", `style-src 'self' ${style} ${this.assets
+          .filter(({ type }) => type === "style")
+          .map(asset => `'${asset.integrity}'`).join(" ")
         }`);
 
       return { "Content-Security-Policy": csp, "Referrer-Policy": "same-origin" };
@@ -150,18 +149,25 @@ export default async (log, root, config) => {
     runpath(...directories) {
       return this.path.build.join(...directories);
     },
-    async render({ body, head }, page = config.pages.index, placeholders = {}) {
+    async render_html(options) {
+      const { assets, config: { location, pages: { index } } } = this;
+      const { body, head, partial, placeholders = {}, page = index } = options;
       ["body", "head"].every(used => is(placeholders[used]).undefined());
-      const { assets, config: { location, pages } } = this;
 
-      return to(placeholders)
+      return partial ? body : to(placeholders)
         // replace given placeholders, defaulting to ""
         .reduce((html, [key, value]) => html.replace(`%${key}%`, value ?? ""),
-          await index(this.runpath(location.pages), page, pages.index))
+          await get_index(this.runpath(location.pages), page, index))
         // replace non-given placeholders, aside from %body% / %head%
         .replaceAll(/(?<keep>%(?:head|body)%)|%.*?%/gus, "$1")
         // replace body and head
-        .replace("%body%", body).replace("%head%", render_head(assets, head));
+        .replace("%body%", body)
+        .replace("%head%", render_head(assets, head));
+    },
+    async respond({ headers, status = Status.OK, ...content }) {
+      return new Response(await this.render_html(content), { status, headers: {
+        ...this.headers(), ...headers, "Content-Type": MediaType.TEXT_HTML },
+      });
     },
     async inline(code, type) {
       const integrity = await this.hash(code);
