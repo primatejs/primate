@@ -6,4 +6,3 @@ export { default as bundle } from "./bundle.js";
 export { default as route } from "./route.js";
 export { default as handle } from "./handle.js";
 export { default as parse } from "./parse.js";
-export { default as serve } from "./serve.js";

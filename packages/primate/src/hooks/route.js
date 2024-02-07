@@ -23,8 +23,7 @@ export default app => {
       [name, type === undefined ? value : validate(types[type], value, name)],
     )));
 
-  const is_type = (groups, pathname) => Object
-    .entries(groups ?? {})
+  const is_type = (groups, pathname) => Object.entries(groups ?? {})
     .map(([name, value]) =>
       [types[name] === undefined || explicit ? name : `${name}$${name}`, value])
     .filter(([name]) => name.includes("$"))

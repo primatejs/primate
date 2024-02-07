@@ -1,6 +1,7 @@
 import { tryreturn } from "rcompat/async";
 import { File } from "rcompat/fs";
 import { extend } from "rcompat/object";
+import { runtime } from "rcompat/meta";
 import app from "./app.js";
 import { default as Logger, bye } from "./Logger.js";
 import errors from "./errors.js";
@@ -8,7 +9,6 @@ import command from "./commands/exports.js";
 import defaults from "./defaults/primate.config.js";
 
 let logger = new Logger({ level: Logger.Warn });
-const { runtime = "node" } = import.meta;
 
 const get_config = async root => {
   const name = "primate.config.js";
