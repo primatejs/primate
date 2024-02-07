@@ -15,6 +15,10 @@ const json = handle(MediaType.APPLICATION_JSON, JSON.stringify);
 // {{{ stream
 const stream = handle(MediaType.APPLICATION_OCTET_STREAM);
 // }}}
+// {{{ ws
+const ws = implementation => ({ server }, _, { original }) =>
+  server.upgrade(original, implementation);
+// }}}
 // {{{ sse
 const sse = handle(MediaType.TEXT_EVENT_STREAM, implementation =>
   new ReadableStream({
@@ -70,4 +74,4 @@ const view = (name, props, options) => async (app, ...rest) => {
 };
 // }}}
 
-export { text, json, stream, redirect, error, html, view, sse };
+export { text, json, stream, redirect, error, html, view, ws, sse };
