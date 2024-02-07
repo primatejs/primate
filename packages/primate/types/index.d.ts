@@ -3,6 +3,7 @@ declare module "primate" {
 
   interface MinOptions {
     status: number,
+    headers: Headers | {},
   }
   
   interface ErrorOptions extends MinOptions {
@@ -11,7 +12,6 @@ declare module "primate" {
 
   interface Options extends ErrorOptions {
     placeholders: {},
-    headers: Headers | {},
   }
 
   type Dispatcher = {
@@ -61,4 +61,9 @@ declare module "primate" {
   export function view(name: string, props: {}, options?: Options): ResponseFn;
 
   export function error(body: string, options?: ErrorOptions): ResponseFn;
+
+  export function sse(implementation: {
+    open?: () => void,
+    close?: () => void,
+  }, options?: MinOptions): ResponseFn;
 }

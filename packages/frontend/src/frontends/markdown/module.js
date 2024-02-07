@@ -12,8 +12,7 @@ const handle = (handler, directory) => (...[name, ...rest]) =>
     return handler({ body, toc }, ...rest)(app, ...noapp);
   };
 
-const render = ({ body }, _, options) => app =>
-  app.respond({ body, ...options });
+const render = ({ body }, _, options) => app => app.view({ body, ...options });
 
 const name = "markdown";
 const dependencies = ["marked"];

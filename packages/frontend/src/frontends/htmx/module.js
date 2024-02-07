@@ -16,7 +16,7 @@ const handler = directory => (name, options = {}) => async app => {
   const components = app.runpath(app.config.location.server, directory);
   const { head, csp } = await app.inline(code, "module");
 
-  return app.respond({
+  return app.view({
     body: await load_component(components.join(name)),
     head,
     headers: app.headers({ style: "'unsafe-inline'", script: csp }),

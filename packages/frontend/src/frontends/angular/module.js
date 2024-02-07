@@ -5,7 +5,7 @@ import depend from "../depend.js";
 const handler = ({ make, render }) => (name, props = {}, options = {}) =>
   async app => {
     const { component } = await make(name, props);
-    return app.respond({ body: await render(component, props), ...options });
+    return app.view({ body: await render(component, props), ...options });
   };
 
 export default ({

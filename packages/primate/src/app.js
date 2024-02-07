@@ -9,7 +9,7 @@ import { Response, Status, MediaType } from "rcompat/http";
 
 import errors from "./errors.js";
 import to_sorted from "./to_sorted.js";
-import * as handlers from "./handlers/exports.js";
+import * as handlers from "./handlers.js";
 import * as loaders from "./loaders/exports.js";
 
 const { DoubleFileExtension } = errors;
@@ -149,9 +149,9 @@ export default async (log, root, config) => {
     runpath(...directories) {
       return this.path.build.join(...directories);
     },
-    async render_html(options) {
+    async render(content) {
       const { assets, config: { location, pages: { index } } } = this;
-      const { body, head, partial, placeholders = {}, page = index } = options;
+      const { body, head, partial, placeholders = {}, page = index } = content;
       ["body", "head"].every(used => is(placeholders[used]).undefined());
 
       return partial ? body : to(placeholders)
@@ -164,10 +164,18 @@ export default async (log, root, config) => {
         .replace("%body%", body)
         .replace("%head%", render_head(assets, head));
     },
-    async respond({ headers, status = Status.OK, ...content }) {
-      return new Response(await this.render_html(content), { status, headers: {
-        ...this.headers(), ...headers, "Content-Type": MediaType.TEXT_HTML },
+    respond(body, { status = Status.OK, headers = {} } = {}) {
+      return new Response(body, { status, headers: {
+        ...this.headers(), "Content-Type": MediaType.TEXT_HTML, ...headers },
       });
+    },
+    async view(options) {
+      // split render and respond options
+      const { status, headers, ...rest } = options;
+      return this.respond(await this.render(rest), { status, headers });
+    },
+    media(type, { status, headers } = {}) {
+      return { status, headers: { ...headers, "Content-Type": type } };
     },
     async inline(code, type) {
       const integrity = await this.hash(code);

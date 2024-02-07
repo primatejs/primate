@@ -10,7 +10,7 @@ const handler = ({ createSSRApp, make, render }) =>
         data: () => props,
       });
 
-      return app.respond({ body: await render(component), ...options });
+      return app.view({ body: await render(component), ...options });
     };
 
 export default ({ extension = ".vue" } = {}) => {

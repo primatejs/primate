@@ -7,7 +7,7 @@ const handler = ({ directory, render }) => (name, props = {}, options = {}) =>
     const components = app.runpath(app.config.location.server, directory);
     const { default : component } = await load(components.join(name));
 
-    return app.respond({ body: render(component, props), ...options });
+    return app.view({ body: render(component, props), ...options });
   };
 
 const name = "handlebars";

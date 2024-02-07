@@ -58,7 +58,7 @@ export default config => {
       const code = client({ names, ...shared }, liveview_options);
       const inlined = await app.inline(code, "module");
 
-      return app.respond({
+      return app.view({
         body,
         head: head.concat(inlined.head),
         headers: app.headers({ script: inlined.csp }),

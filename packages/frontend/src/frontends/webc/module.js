@@ -8,7 +8,7 @@ const handler = (name, props = {}, options = {}) => async app => {
   const script = assets.map(asset => asset.csp).join(" ");
   const headers = app.headers({ script });
 
-  return app.respond({ head, headers, body: "", ...options });
+  return app.view({ head, headers, body: "", ...options });
 };
 
 export default ({
