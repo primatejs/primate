@@ -5,3 +5,4 @@ export { default as redirect } from "./redirect.js";
 export { default as html } from "./html.js";
 export { default as view } from "./view.js";
 export { default as error } from "./error.js";
+export { default as sse } from "./sse.js";
