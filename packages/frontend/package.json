@@ -36,6 +36,8 @@
     "@angular/platform-server": "17",
     "@angular/ssr": "17",
     "@babel/core": "7",
+    "@marko/compiler": "5",
+    "@marko/translator-default": "5",
     "babel-preset-solid": "1",
     "esbuild": "0.20",
     "handlebars": "4",
@@ -65,6 +67,12 @@
       "optional": true
     },
     "@babel/core": {
+      "optional": true
+    },
+    "@marko/compiler": {
+      "optional": true
+    },
+    "@marko/translator-default": {
       "optional": true
     },
     "babel-preset-solid": {
