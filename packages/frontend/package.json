@@ -42,7 +42,7 @@
     "esbuild": "0.20",
     "handlebars": "4",
     "htmx-esm": "0.2",
-    "marked": "11",
+    "marked": "12",
     "primate": "0.28",
     "react": "18",
     "react-dom": "18",
