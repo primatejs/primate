@@ -68,18 +68,22 @@ export default async (test, driver, lifecycle) => {
       await assert(await Comment.count()).equals(0);
     });
   });
+
   test.case("insert", async ({ assert, t }) => {
     await t(async ({ User, Comment }) => {
+      const { id } = await User.insert({});
+      assert(id).equals(1);
+
       await User.insert({ name: "Donald" });
-      assert(await User.count()).equals(1);
+      assert(await User.count()).equals(2);
       assert(await Comment.count()).equals(0);
       await User.insert({});
-      assert(await User.count()).equals(2);
+      assert(await User.count()).equals(3);
       assert(await Comment.count()).equals(0);
 
       // embedded
       await User.insert({ ...traits });
-      assert(await User.count()).equals(3);
+      assert(await User.count()).equals(4);
     });
   });
 
@@ -261,45 +265,45 @@ export default async (test, driver, lifecycle) => {
       assert(await User.count()).equals(0);
     });
   });
-  /* test.case("transactions", async ({ assert, transaction, user }) => {
-    const {start, rollback, commit, end} = transaction;
-
-    assert(() => rollback()).throws();
-    assert(() => commit()).throws();
-    await start();
-    const user1 = {name: "Donald"};
-    const user2 = {name: "Donald"};
-    await user.insert(user1);
-    // seeing changes
-    await assert(await user.count()).equals(1);
-    // changes discarded, transaction ended
-    await rollback();
-    // noop in some drivers, needed in others
-    await end();
-    await assert(await user.count()).equals(0);
-
-    // new transaction
-    await start();
-    await user.insert(user2);
-    await commit();
-    // noop in some drivers, needed in others
-    await end();
-    assert(() => rollback()).throws();
-    // changes not discarded due to commit
-    await assert(await user.count()).equals(1);
-
-    // new transaction
-    await start();
-    await user.insert(user2);
-    await rollback();
-    // noop in some drivers, needed in others
-    await end();
-    // changes not discarded due to commit
-    await assert(await user.count()).equals(1);
-
-    assert(() => rollback()).throws();
-    assert(() => commit()).throws();
-  });*/
+  // test.case("transactions", async ({ assert, transaction, user }) => {
+  // const {start, rollback, commit, end} = transaction;
+  //
+  // assert(() => rollback()).throws();
+  // assert(() => commit()).throws();
+  // await start();
+  // const user1 = {name: "Donald"};
+  // const user2 = {name: "Donald"};
+  // await user.insert(user1);
+  // // seeing changes
+  // await assert(await user.count()).equals(1);
+  // // changes discarded, transaction ended
+  // await rollback();
+  // // noop in some drivers, needed in others
+  // await end();
+  // await assert(await user.count()).equals(0);
+  //
+  // // new transaction
+  // await start();
+  // await user.insert(user2);
+  // await commit();
+  // // noop in some drivers, needed in others
+  // await end();
+  // assert(() => rollback()).throws();
+  // // changes not discarded due to commit
+  // await assert(await user.count()).equals(1);
+  //
+  // // new transaction
+  // await start();
+  // await user.insert(user2);
+  // await rollback();
+  // noop in some drivers, needed in others
+  // await end();
+  // // changes not discarded due to commit
+  // await assert(await user.count()).equals(1);
+  //
+  // assert(() => rollback()).throws();
+  // assert(() => commit()).throws();
+  // });
 
   test.case("types", async ({ assert, t }) => {
     await t(async ({ User }) => {
@@ -328,7 +332,9 @@ export default async (test, driver, lifecycle) => {
       assert(await User.get(id)).equals({ id, ...user1 });
 
       await User.update({ id }, { from: "test2" });
-      assert((await User.find({ id }))[0]).equals({ id, from: "test2" });
+
+      const updated = { id, from: "test2" };
+      assert((await User.find(updated))[0]).equals(updated);
 
       await User.delete({ from: "test2" });
       assert(await User.count()).equals(0);

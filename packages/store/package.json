@@ -25,12 +25,14 @@
     "@primate/types": "^0.12.0",
     "better-sqlite3": "^9.4.0",
     "mongodb": "^6.3.0",
+    "mysql2": "^3.9.1",
     "postgres": "^3.4.3",
     "surrealdb.js": "^0.11.0"
   },
   "peerDependencies": {
     "better-sqlite3": "9",
     "mongodb": "6",
+    "mysql2": "3",
     "postgres": "3",
     "primate": "0.28",
     "surrealdb.js": "0.11"
@@ -40,6 +42,9 @@
       "optional": true
     },
     "mongodb": {
+      "optional": true
+    },
+    "mysql2": {
       "optional": true
     },
     "surrealdb.js": {
