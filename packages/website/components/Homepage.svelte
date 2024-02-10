@@ -181,6 +181,7 @@
           <th>Next</th>
           <th>Nuxt</th>
           <th>SvelteKit</th>
+          <th>Analog</th>
           <th>Primate</th>
         </tr>
       </thead>
@@ -195,10 +196,12 @@
           <td>✓</td>
           <td>✓</td>
           <td>✓</td>
+          <td>✗</td>
           <td>✓</td>
         </tr>
         <tr>
           <td>TS</td>
+          <td>✓</td>
           <td>✓</td>
           <td>✓</td>
           <td>✓</td>
@@ -211,6 +214,7 @@
           <td>✗</td>
           <td>✗</td>
           <td>✗</td>
+          <td>✗</td>
           <td>
             <a href="/modules/go">✓</a>
           </td>
@@ -220,12 +224,14 @@
           <td>✗</td>
           <td>✗</td>
           <td>✗</td>
+          <td>✗</td>
           <td>
             <a href="/modules/python">✓</a>
           </td>
         </tr>
         <tr>
           <td>Ruby</td>
+          <td>✗</td>
           <td>✗</td>
           <td>✗</td>
           <td>✗</td>
@@ -243,6 +249,7 @@
           <td>✓</td>
           <td>✗</td>
           <td>✗</td>
+          <td>✗</td>
           <td>
             <a href="/modules/react">✓</a>
           </td>
@@ -251,6 +258,7 @@
           <td>Vue</td>
           <td>✗</td>
           <td>✓</td>
+          <td>✗</td>
           <td>✗</td>
           <td>
             <a href="/modules/vue">✓</a>
@@ -261,6 +269,7 @@
           <td>✗</td>
           <td>✗</td>
           <td>✓</td>
+          <td>✗</td>
           <td>
             <a href="/modules/svelte">✓</a>
           </td>
@@ -270,12 +279,14 @@
           <td>✗</td>
           <td>✗</td>
           <td>✗</td>
+          <td>✓</td>
           <td>
             <a href="/modules/angular">✓</a>
           </td>
         </tr>
         <tr>
           <td>Solid</td>
+          <td>✗</td>
           <td>✗</td>
           <td>✗</td>
           <td>✗</td>
@@ -288,12 +299,14 @@
           <td>✗</td>
           <td>✗</td>
           <td>✗</td>
+          <td>✗</td>
           <td>
             <a href="/modules/web-components">✓</a>
           </td>
         </tr>
         <tr>
           <td>HTMX</td>
+          <td>✗</td>
           <td>✗</td>
           <td>✗</td>
           <td>✗</td>
@@ -306,6 +319,7 @@
           <td>✗</td>
           <td>✗</td>
           <td>✗</td>
+          <td>✗</td>
           <td>
             <a href="/modules/handlebars">✓</a>
           </td>
@@ -315,12 +329,14 @@
           <td>✗</td>
           <td>✗</td>
           <td>✗</td>
+          <td>✗</td>
           <td>
             <a href="/modules/markdown">✓</a>
           </td>
         </tr>
         <tr>
           <td>Marko</td>
+          <td>✗</td>
           <td>✗</td>
           <td>✗</td>
           <td>✗</td>
@@ -339,8 +355,10 @@
           <td>✓</td>
           <td>✓</td>
           <td>✓</td>
+          <td>✓</td>
         <tr>
           <td>Deno</td>
+          <td>✗</td>
           <td>✗</td>
           <td>✗</td>
           <td>✗</td>
@@ -348,6 +366,7 @@
         </tr>
         <tr>
           <td>Bun</td>
+          <td>✗</td>
           <td>✗</td>
           <td>✗</td>
           <td>✗</td>
@@ -363,10 +382,12 @@
           <td>✗</td>
           <td>✗</td>
           <td>✗</td>
+          <td>✗</td>
           <td><a href="/modules/drivers#sqlite">✓</a></td>
         </tr>
         <tr>
           <td>MongoDB</td>
+          <td>✗</td>
           <td>✗</td>
           <td>✗</td>
           <td>✗</td>
@@ -377,6 +398,7 @@
           <td>✗</td>
           <td>✗</td>
           <td>✗</td>
+          <td>✗</td>
           <td><a href="/modules/drivers#postgresql">✓</a></td>
         </tr>
         <tr>
@@ -384,10 +406,12 @@
           <td>✗</td>
           <td>✗</td>
           <td>✗</td>
+          <td>✗</td>
           <td><a href="/modules/drivers#mysql">✓</a></td>
         </tr>
         <tr>
           <td>SurrealDB</td>
+          <td>✗</td>
           <td>✗</td>
           <td>✗</td>
           <td>✗</td>
@@ -403,6 +427,7 @@
           <td>✓</td>
           <td>✓</td>
           <td>✗</td>
+          <td>✗</td>
           <td><a href="/modules/i18n">✓</a></td>
         </tr>
         <tr>
@@ -410,10 +435,12 @@
           <td>✓</td>
           <td>✓</td>
           <td>✗</td>
+          <td>✗</td>
           <td><a href="/modules/frontend#head-component">✓</a></td>
         </tr>
         <tr>
           <td>Route guards</td>
+          <td>✗</td>
           <td>✗</td>
           <td>✗</td>
           <td>✗</td>
@@ -424,10 +451,12 @@
           <td>✓</td>
           <td>✓</td>
           <td>✓</td>
+          <td>✗</td>
           <td><a href="/guide/layouts">✓</a></td>
         </tr>
         <tr>
           <td>WebSockets</td>
+          <td>✗</td>
           <td>✗</td>
           <td>✗</td>
           <td>✗</td>
@@ -438,12 +467,14 @@
           <td>✗</td>
           <td>✗</td>
           <td>✗</td>
+          <td>✗</td>
           <td><a href="/guide/responses#server-sent-events">✓</a></td>
         </tr>
         <tr>
           <td>User sessions</td>
           <td>✗</td>
           <td>✓</td>
+          <td>✗</td>
           <td>✗</td>
           <td><a href="/modules/session">✓</a></td>
         </tr>
