@@ -220,7 +220,7 @@ export default {
 In this example, we have a small chat which reflects back anything to the user
 up to a given number of messages, the default being 20.
 
-```html caption=components/chat.html
+```html caption=components/chat.svelte
 <script>
   window.addEventListener("load", () => {
     // number of messages to reflect
