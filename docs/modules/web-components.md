@@ -26,10 +26,10 @@ Create an web component in `components`.
 
 ```html caption=components/post-index.webc
 <script>
-  import { WebComponent } from "@primate/frontend/webc";
+  import { Component } from "@primate/frontend/webc";
   import PostLink from "./post-link.webc";
 
-  export default class extends WebComponent {
+  export default class extends Component {
     mounted(root) {
       root.querySelector("h1").addEventListener("click", 
         _ => console.log("title clicked!"));
@@ -50,9 +50,9 @@ And another component for displaying post links.
 
 ```html caption=components/post-link.webc
 <script>
-  import { WebComponent } from "@primate/frontend/webc";
+  import { Component } from "@primate/frontend/webc";
 
-  export default class extends WebComponent {
+  export default class extends Component {
     render() {
       const { post } = this.props;
       return `<h2><a href="/post/view/${post.id}">${post.title}</a></h2>`;

@@ -2,7 +2,7 @@ const ServerHTMLElement = class {};
 
 const HTMLElement = globalThis.HTMLElement ?? ServerHTMLElement;
 
-export default class WebComponent extends HTMLElement {
+export default class Component extends HTMLElement {
   constructor(props) {
     super();
     this.props = props;
