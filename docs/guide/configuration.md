@@ -258,7 +258,7 @@ If specified as a relative path, will be relative to project root.
 
 !!!
 Primate does not load the key or certificate into memory. It only resolves
-their paths as necessary and passes them to the [rcompat][runtime].
+their paths as necessary and passes them to the [rcompat](https://github.com/rcompat/rcompat).
 !!!
 
 ### Location options
