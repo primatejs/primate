@@ -3,14 +3,22 @@
   import Header from "./Header.svelte";
   import Icon from "./Icon.svelte";
 
-  const modify_route = ending => {
-    const strings = document.querySelector(".tabs")
-      .querySelectorAll(".hljs-string");
-    [...strings]
-      .filter(string => string.innerText.startsWith("\"Index."))
+  const modify_route = ([name, ending]) => {
+    const selector = "code .line > span";
+    [...document.querySelector(".tabs").querySelectorAll(selector)]
+      .filter(string => string.innerText.slice(1).startsWith("ndex."))
       .forEach(string => {
-        string.innerText = `"Index.${ending}"`;
+        string.innerText = `${name}.${ending}`;
       });
+  };
+
+  const filenames = {
+    react: ["Index", "jsx"],
+    solid: ["Index", "jsx"],
+    svelte: ["Index", "svelte"],
+    vue: ["Index", "vue"],
+    angular: ["index", "component.ts"],
+    webc: ["index", "webc"],
   };
 
   onMount(() => {
@@ -19,27 +27,7 @@
       const tabs = tabbed.querySelector(".tabs").childNodes;
       captions.forEach((caption, i) => {
         caption.addEventListener("click", () => {
-          const text = caption.innerText.toLowerCase();
-          switch (text) {
-            case "react":
-            case "solid":
-              modify_route("jsx");
-              break;
-            case "svelte":
-              modify_route("svelte");
-              break;
-            case "vue":
-              modify_route("vue");
-              break;
-            case "angular":
-              modify_route("component.ts");
-              break;
-            case "webc":
-              modify_route("webc");
-              break;
-            default:
-              break;
-          }
+          modify_route(filenames[caption.innerText.toLowerCase()]);
           captions.forEach((_caption, j)  => {
             if (i === j) {
               _caption.classList.add("active");
@@ -115,7 +103,7 @@
         <img src="/logos/vue.svg" title="Vue" />
         <img src="/logos/solid.svg" title="Solid" />
         <img src="/logos/angular.svg" title="Angular" />
-        <img src="/logos/webc.svg" title="Web Components" class="invertible" />
+        <img src="/logos/webc.svg" title="Web Components" />
       </div>
       <p>
         Seamlessly switch between <a href="/modules/frontend">frontend
@@ -202,15 +190,7 @@
           <td>JS, TS</td>
           <td>JS, TS</td>
           <td>JS, TS</td>
-          <td>
-            <a href="/modules/binding">
-              JS,
-              TS,
-              Go,
-              Python,
-              Ruby
-            </a>
-          </td>
+          <td><a href="/modules/binding">JS, TS, Go, Python, Ruby</a></td>
         </tr>
         <tr>
           <td>Frontend</td>
@@ -219,15 +199,8 @@
           <td>Svelte</td>
           <td>
             <a href="/modules/frontend">
-              React,
-              Vue,
-              Svelte,
-              Angular,
-              Solid,
-              HTMX,
-              Handlebars,
-              WebC,
-              Marko
+              React, Vue, Svelte, Angular, Solid, HTMX, Handlebars, WC,
+              Handlebars, Marko
             </a>
           </td>
         </tr>
@@ -243,9 +216,7 @@
           <td>✓</td>
           <td>✓</td>
           <td>✗</td>
-          <td>
-            <a href="/modules/i18n">@primate/i18n</a>
-          </td>
+          <td><a href="/modules/i18n">@primate/i18n</a></td>
         </tr>
         <tr>
           <td>Head Component</td>
@@ -253,11 +224,7 @@
           <td>✓</td>
           <td>✗</td>
           <td>
-            <a href="/modules/frontend#head-component">
-              React,
-              Svelte,
-              Solid
-            </a>
+            <a href="/modules/frontend#head-component">React, Svelte, Solid</a>
           </td>
         </tr>
         <tr>
@@ -265,18 +232,14 @@
           <td>✗</td>
           <td>✗</td>
           <td>✗</td>
-          <td>
-            <a href="/guide/guards">✓</a>
-          </td>
+          <td><a href="/guide/guards">✓</a></td>
         </tr>
         <tr>
           <td>Recursive layouts</td>
           <td>✓</td>
           <td>✓</td>
           <td>✓</td>
-          <td>
-            <a href="/guide/layouts">✓</a>
-          </td>
+          <td><a href="/guide/layouts">✓</a></td>
         </tr>
         <tr>
           <td>Data stores/ORM</td>
@@ -284,13 +247,7 @@
           <td>✗</td>
           <td>✗</td>
           <td>
-            <a href="/modules/store">
-              SQLite,
-              PostgreSQL,
-              MySQL,
-              MongoDB,
-              SurrealDb
-            </a>
+            <a href="/modules/store">SQLite, PostgreSQL, MongoDB, SurrealDb</a>
           </td>
         </tr>
         <tr>
@@ -312,9 +269,7 @@
           <td>✗</td>
           <td>✓</td>
           <td>✗</td>
-          <td>
-            <a href="/modules/session">@primate/session</a>
-          </td>
+          <td><a href="/modules/session">@primate/session</a></td>
         </tr>
       </tbody>
     </table>
