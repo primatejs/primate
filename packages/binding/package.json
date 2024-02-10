@@ -1,6 +1,6 @@
 {
   "name": "@primate/binding",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Primate binding module",
   "homepage": "https://primatejs.com/modules/binding",
   "bugs": "https://github.com/primatejs/primate/issues",
@@ -21,7 +21,7 @@
     "directory": "packages/binding"
   },
   "dependencies": {
-    "rcompat": "^0.7.2"
+    "rcompat": "^0.8.0"
   },
   "peerDependencies": {
     "@ruby/head-wasm-wasi": "2",

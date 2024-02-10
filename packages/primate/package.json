@@ -1,6 +1,6 @@
 {
   "name": "primate",
-  "version": "0.29.0",
+  "version": "0.29.1",
   "description": "Polymorphic development platform",
   "homepage": "https://primatejs.com",
   "bugs": "https://github.com/primatejs/primate/issues",
@@ -19,7 +19,7 @@
     "directory": "packages/primate"
   },
   "dependencies": {
-    "rcompat": "^0.7.2"
+    "rcompat": "^0.8.0"
   },
   "engines": {
     "node": ">=18"

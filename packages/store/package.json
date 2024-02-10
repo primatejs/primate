@@ -1,6 +1,6 @@
 {
   "name": "@primate/store",
-  "version": "0.22.0",
+  "version": "0.22.1",
   "description": "Primate data store module",
   "homepage": "https://primatejs.com/modules/store",
   "bugs": "https://github.com/primatejs/primate/issues",
@@ -19,10 +19,10 @@
     "db:surreal": "surreal start --user test --pass test"
   },
   "dependencies": {
-    "rcompat": "^0.7.2"
+    "rcompat": "^0.8.0"
   },
   "devDependencies": {
-    "@primate/types": "^0.13.0",
+    "@primate/types": "^0.13.1",
     "better-sqlite3": "^9.4.0",
     "mongodb": "^6.3.0",
     "mysql2": "^3.9.1",

@@ -1,6 +1,6 @@
 {
   "name": "@primate/session",
-  "version": "0.17.0",
+  "version": "0.17.1",
   "description": "Primate session module",
   "homepage": "https://primatejs.com/modules/session",
   "bugs": "https://github.com/primatejs/primate/issues",
@@ -15,7 +15,7 @@
     "directory": "packages/session"
   },
   "dependencies": {
-    "rcompat": "^0.7.2"
+    "rcompat": "^0.8.0"
   },
   "peerDependencies": {
     "primate": "0.29"

@@ -1,6 +1,6 @@
 {
   "name": "@primate/build",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Primate build module",
   "homepage": "https://primatejs.com/modules/build",
   "bugs": "https://github.com/primatejs/primate/issues",
@@ -16,7 +16,7 @@
     "directory": "packages/build"
   },
   "dependencies": {
-    "rcompat": "^0.7.2"
+    "rcompat": "^0.8.0"
   },
   "devDependencies": {
     "esbuild": "^0.20.0"

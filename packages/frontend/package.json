@@ -1,6 +1,6 @@
 {
   "name": "@primate/frontend",
-  "version": "0.13.0",
+  "version": "0.13.1",
   "description": "Primate frontend code",
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
@@ -15,7 +15,7 @@
     "directory": "packages/frontend"
   },
   "dependencies": {
-    "rcompat": "^0.7.2"
+    "rcompat": "^0.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.23.9",
