@@ -59,7 +59,6 @@ constraints of being tied to specific options like Nuxt, Next, or others.
 |[@primate/types](packages/types)             | Runtime types                 |
 |[@primate/build](packages/build)             | Bundling JS/CSS               |
 |[@primate/session](packages/session)         | User sessions                 |
-|[@primate/liveview](packages/liveview)       | Liveview client (SPA)         |
 |[@primate/i18n](packages/i18n)               | Internationalization          |
 |[@primate/binding](packages/binding)         | Other backend languages       |
 |[website](packages/website)                  | Primate website               |
