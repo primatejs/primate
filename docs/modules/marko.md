@@ -25,7 +25,7 @@ export default {
 
 Create a Marko component in `components`.
 
-```html caption=components/post-index.marko
+```marko caption=components/post-index.marko
 <h1>All posts</h1>
 <for|post| of=input.posts>
   <h2>

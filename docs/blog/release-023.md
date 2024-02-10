@@ -206,7 +206,7 @@ export default {
 
 Previously `posts` was a subproperty of the `data` prop.
 
-```html caption=components/PostIndex.svelte
+```svelte caption=components/PostIndex.svelte
 <script>
   export let data;
 </script>
@@ -218,7 +218,7 @@ Previously `posts` was a subproperty of the `data` prop.
 
 Now, `posts` is directly exportable in the Svelte component.
 
-```html caption=components/PostIndex.svelte
+```svelte caption=components/PostIndex.svelte
 <script>
   export let posts;
 </script>

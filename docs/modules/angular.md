@@ -25,7 +25,7 @@ export default {
 
 Create an Angular component in `components`.
 
-```ts caption=components/post-index.component.ts
+```angular-ts caption=components/post-index.component.ts
 import { Component, Input } from "@angular/core";
 import { CommonModule } from "@angular/common";
 

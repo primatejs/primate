@@ -159,27 +159,27 @@ export default {
 
 ## Use
 
-To create a web component, import `WebComponent` from `@primate/frontend/webc`
-and default export a class extending it. Implement the `render` function
-property  of that class, which returns a string representing the HTML code of
-this component. Note that `WebComponents` extends `HTMLElement`, and is thus
-a proper web component for any purpose.
+To create a web component, import `Component` from `@primate/frontend/webc` and
+default export a class extending it. Implement the `render` function property
+of that class, which returns a string representing the HTML code of this
+component. Note that `Component` extends `HTMLElement`, and is thus a proper
+web component for any purpose.
 
 You can include subcomponents by importing and passing instances of them to the
 rendered string. Either explicitly call their `.toString()` method or use a
 structure which reduces them to strings.
 
-You can use the `mounted` function proper of a `WebComponent` instance to
-attach event handlers after the component has been added to the DOM.
+You can use the `mounted` function proper of a `Component` instance to attach
+event handlers after the component has been added to the DOM.
 
 Create an web component in `components`.
 
 ```html caption=components/post-index.webc
 <script>
-import { WebComponent } from "@primate/frontend/webc";
+import { Component } from "@primate/frontend/webc";
 import PostLink from "./post-link.webc";
 
-export default class extends WebComponent {
+export default class extends Component {
   mounted(root) {
     root
       .querySelector("h1")
@@ -205,9 +205,9 @@ And another component for displaying post links.
 
 ```html caption=components/post-link.webc
 <script>
-  import { WebComponent } from "@primate/frontend/webc";
+  import { Component } from "@primate/frontend/webc";
 
-  export default class extends WebComponent {
+  export default class extends Component {
     render() {
       const { post } = this.props;
       return `<h2>

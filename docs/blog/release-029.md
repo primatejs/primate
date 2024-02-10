@@ -40,7 +40,7 @@ export default {
 
 Create an Angular component in `components`.
 
-```ts caption=components/post-index.component.ts
+```angular-ts caption=components/post-index.component.ts
 import { Component, Input } from "@angular/core";
 import { CommonModule } from "@angular/common";
 
@@ -110,7 +110,7 @@ export default {
 
 Create a Marko component in `components`.
 
-```html caption=components/post-index.marko
+```marko caption=components/post-index.marko
 <h1>All posts</h1>
 <for|post| of=input.posts>
   <h2>

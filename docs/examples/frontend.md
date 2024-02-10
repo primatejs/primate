@@ -15,7 +15,7 @@ export default ({ posts }) => {
 }
 ```
 
-```html caption=components/Index.svelte
+```svelte caption=components/Index.svelte
 <script>
   export let posts;
 </script>
@@ -29,7 +29,7 @@ export default ({ posts }) => {
 {/each}
 ```
 
-```html caption=components/Index.vue
+```vue caption=components/Index.vue
 <template>
   <h1>All posts</h1>
   <div v-for="post in posts">
@@ -59,7 +59,7 @@ export default ({ posts }) => {
 }
 ```
 
-```ts caption=components/index.component.ts
+```angular-ts caption=components/index.component.ts
 import { Component, Input } from "@angular/core";
 import { CommonModule } from "@angular/common";
 
@@ -83,7 +83,7 @@ export default class Index {
 }
 ```
 
-```html caption=components/index.webc
+```html caption components/index.webc
 <script>
 import { Component } from "@primate/frontend/webc";
 

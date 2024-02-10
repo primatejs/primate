@@ -25,7 +25,7 @@ export default {
 
 Create a Svelte component in `components`.
 
-```html caption=components/PostIndex.svelte
+```svelte caption=components/PostIndex.svelte
 <script>
   export let posts;
 </script>

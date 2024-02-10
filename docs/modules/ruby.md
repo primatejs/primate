@@ -103,7 +103,7 @@ directly to the frontend component.
 
 First, create the frontend component, in this case Svelte.
 
-```html caption=components/PostIndex.svelte
+```svelte caption=components/PostIndex.svelte
 <script>
   export let posts;
 </script>
@@ -134,7 +134,7 @@ def get(request)
 end
 ```
 
-Your rendered route with a Svelte component will be accessible at
+The rendered route with a Svelte component will be accessible at
 http://localhost:6161/svelte.
 
 ### Error

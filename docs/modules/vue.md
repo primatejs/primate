@@ -25,7 +25,7 @@ export default {
 
 Create a SFC component in `components`.
 
-```html caption=components/PostIndex.vue
+```vue caption=components/PostIndex.vue
 <template>
   <h1>All posts</h1>
   <div v-for="post in posts">

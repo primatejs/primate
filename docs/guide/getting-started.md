@@ -177,7 +177,7 @@ export default {
 
 Create the Svelte component.
 
-```html caption=components/Form.svelte
+```svelte caption=components/Form.svelte
 <script>
   export let name;
 </script>

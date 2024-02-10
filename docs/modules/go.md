@@ -126,7 +126,7 @@ directly to the frontend component.
 
 First, create the frontend component, in this case Svelte.
 
-```html caption=components/PostIndex.svelte
+```svelte caption=components/PostIndex.svelte
 <script>
   export let posts;
 </script>

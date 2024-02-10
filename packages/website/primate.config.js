@@ -2,40 +2,42 @@ import { File } from "rcompat/fs";
 import { esbuild } from "@primate/build";
 import liveview from "@primate/liveview";
 import { svelte, markdown, handlebars } from "@primate/frontend";
-import hljs from "highlight.js/lib/core";
-import xml from "highlight.js/lib/languages/xml";
-
-import js from "highlight.js/lib/languages/javascript";
-import ts from "highlight.js/lib/languages/typescript";
-import json from "highlight.js/lib/languages/json";
-import bash from "highlight.js/lib/languages/bash";
-import http from "highlight.js/lib/languages/http";
-import plaintext from "highlight.js/lib/languages/plaintext";
-import md from "highlight.js/lib/languages/markdown";
-import hbs from "highlight.js/lib/languages/handlebars";
-import go from "highlight.js/lib/languages/go";
-import python from "highlight.js/lib/languages/python";
-import ruby from "highlight.js/lib/languages/ruby";
+import { getHighlighter } from "shiki";
 import priss from "./module.js";
 
-hljs.registerLanguage("js", js);
-hljs.registerLanguage("ts", ts);
-hljs.registerLanguage("json", json);
-hljs.registerLanguage("xml", xml);
-hljs.registerLanguage("bash", bash);
-hljs.registerLanguage("http", http);
-hljs.registerLanguage("plaintext", plaintext);
-hljs.registerLanguage("md", md);
-hljs.registerLanguage("hbs", hbs);
-hljs.registerLanguage("go", go);
-hljs.registerLanguage("py", python);
-hljs.registerLanguage("rb", ruby);
+const highlighter = await getHighlighter({
+  themes: ["vitesse-light", "vitesse-dark"],
+  langs: [
+    // backend
+    "javascript",
+    "typescript",
+    "go",
+    "python",
+    "ruby",
+    // frontend
+    "jsx",
+    "svelte",
+    "vue",
+    "angular-ts",
+    "html",
+    "handlebars",
+    "markdown",
+    "marko",
+    // other
+    "shell",
+    "json",
+    "http",
+  ],
+});
 
 const master = i => i;
 
 export default {
   http: {
     host: "0.0.0.0",
+    csp: {
+      "style-src": "* data: blob: 'unsafe-inline'",
+    },
   },
   logger: {
     trace: true,
@@ -54,7 +56,7 @@ export default {
               p2
                 .split("\n```")
                 .filter(p => p !== "" && !p.startsWith("\n"))
-                .map((p, i) => `<div${i !== 0 ? " class='hidden'" : ""}>
+                .map((p, i) => `<div${i === 0 ? "" : " class='hidden'"}>
 
 \`\`\`${p}
 \`\`\`
@@ -72,12 +74,18 @@ export default {
         },
         renderer: {
           code(code, infostring) {
-            const [language] = infostring.split(" ");
+            const [lang] = infostring.split(" ");
             const caption = [...infostring
               .matchAll(/caption=(?<caption>.*)/ug)][0]?.groups.caption;
             const top = caption ? `<div class="caption">${caption}</div>` : "";
-            const { value } = hljs.highlight(code, { language });
-            return `${top}<pre><code>${value}</code></pre>`;
+            const value = highlighter.codeToHtml(code, {
+              lang,
+              themes: {
+                light: "vitesse-light",
+                dark: "vitesse-dark",
+              },
+            });
+            return `${top}${value}`;
           },
           heading(text, level) {
             const name = text.toLowerCase().replaceAll(/[?{}%]/gu, "")

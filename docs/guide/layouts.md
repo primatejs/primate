@@ -37,7 +37,7 @@ export default () => {
 The `view` handler loads the `layout.svelte` file from the `components`
 directory, as it does with normal routes.
 
-```html caption=components/layout.svelte
+```svelte caption=components/layout.svelte
 <script>
   export let data;
 </script>
