@@ -158,6 +158,7 @@ export default {
             "HTMX",
             "Handlebars",
             "Markdown",
+            "Marko",
             { heading: "Data" },
             "Types",
             "Store",
