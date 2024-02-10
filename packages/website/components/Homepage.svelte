@@ -115,7 +115,7 @@
         <img src="/logos/vue.svg" title="Vue" />
         <img src="/logos/solid.svg" title="Solid" />
         <img src="/logos/angular.svg" title="Angular" />
-        <img src="/logos/webc.svg" title="Web Components" />
+        <img src="/logos/webc.svg" title="Web Components" class="invertible" />
       </div>
       <p>
         Seamlessly switch between <a href="/modules/frontend">frontend
