@@ -392,6 +392,7 @@ pre {
   box-shadow: inset 1px 1px 6px #1d56800f;
   padding: 1rem;
   margin-top: 0;
+  overflow-x: auto;
 }
 
 table {
