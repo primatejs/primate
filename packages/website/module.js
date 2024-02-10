@@ -1,4 +1,4 @@
-import { Response } from "rcompat/http";
+import { Response, Status } from "rcompat/http";
 import { stringify } from "rcompat/object";
 import { view } from "primate";
 
@@ -128,6 +128,7 @@ export default config => {
 
       if (color_scheme !== undefined) {
         return new Response(null, {
+          status: Status.OK,
           headers: {
             "Set-Cookie": cookie(cookie_name, color_scheme, options),
           },
