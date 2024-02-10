@@ -18,7 +18,7 @@
     svelte: ["Index", "svelte"],
     vue: ["Index", "vue"],
     angular: ["index", "component.ts"],
-    webc: ["index", "webc"],
+    webc: ["index", "webc"]
   };
 
   onMount(() => {
@@ -187,7 +187,7 @@
       </thead>
       <tbody>
         <tr>
-          <td colspan="5">
+          <td colspan="6">
             Backend
           </td>
         </tr>
@@ -240,7 +240,7 @@
           </td>
         </tr>
         <tr>
-          <td colspan="5">
+          <td colspan="6">
             Frontend
           </td>
         </tr>
@@ -345,7 +345,7 @@
           </td>
         </tr>
         <tr>
-          <td colspan="5">
+          <td colspan="6">
             Native runtime
           </td>
         </tr>
@@ -373,7 +373,7 @@
           <td>✓</td>
         </tr>
         <tr>
-          <td colspan="5">
+          <td colspan="6">
             Data stores / ORM
           </td>
         </tr>
@@ -418,7 +418,7 @@
           <td><a href="/modules/drivers#surrealdb">✓</a></td>
         </tr>
         <tr>
-          <td colspan="5">
+          <td colspan="6">
             Ecosystem
           </td>
         </tr>
