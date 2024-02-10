@@ -24,9 +24,9 @@
     "rcompat": "^0.7.2"
   },
   "peerDependencies": {
-    "@ruby/head-wasm-wasi": "2.5",
-    "@ruby/wasm-wasi": "2.5",
-    "@swc/core": "1.3",
+    "@ruby/head-wasm-wasi": "2",
+    "@ruby/wasm-wasi": "2",
+    "@swc/core": "1",
     "primate": "0.29",
     "pyodide": "0.25"
   },
