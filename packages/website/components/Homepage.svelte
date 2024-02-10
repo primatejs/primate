@@ -192,7 +192,7 @@
           </td>
         </tr>
         <tr>
-          <td>JS</td>
+          <td>JavaScript</td>
           <td>✓</td>
           <td>✓</td>
           <td>✓</td>
@@ -200,7 +200,7 @@
           <td>✓</td>
         </tr>
         <tr>
-          <td>TS</td>
+          <td>TypeScript</td>
           <td>✓</td>
           <td>✓</td>
           <td>✓</td>
