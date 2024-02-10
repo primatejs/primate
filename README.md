@@ -22,21 +22,23 @@ constraints of being tied to specific options like Nuxt, Next, or others.
 
 ### Frameworks We Support
 
-- HTMX
 - Svelte
 - React
+- Solid
 - Vue
 - Angular
-- Solid
 - Web Components
+- HTMX
+- Handlebars
+- Marko
 
 ### Databases We Support
 
-- SurrealDB
-- Postgresql
 - SQLite
 - MongoDB
-- MySQL/MariaDB (coming soon)
+- Postgresql
+- MySQL
+- SurrealDB
 
 ### Languages We Support
 
