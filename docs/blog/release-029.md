@@ -20,7 +20,7 @@ components with the `.component.ts` extension.
 To add support for Angular, install the `@primate/frontend` module and Angular
 dependencies.
 
-`npm install @primate/frontend @angular/{compiler,core,platform-browser,platform-server,ssr}@17`
+`npm install @primate/frontend @angular/{compiler,core,platform-browser,platform-server,ssr}@17 esbuild@0.20`
 
 ### Configure
 
@@ -86,8 +86,7 @@ The rendered component will be accessible at http://localhost:6161/angular.
 ## Marko
 
 This release adds Marko to the list of frameworks Primate supports. This 
-handler module supports SSR and serves Marko components with the `.marko`
-extension.
+handler supports SSR and serves Marko components with the `.marko` extension.
 
 ### Install
 
@@ -145,15 +144,19 @@ The rendered component will be accessible at http://localhost:6161/marko.
 
 This release introduces support for MySQL using the `mysql2` driver. The MySQL
 driver supports all of Primate's ORM operations as well as transactions and
-connection pools. In addition to installing the `mysql2` package with `npm
-install mysql2@3`, this driver requires running a MySQL server either locally
-or remotely. Visit the MySQL website or consult your operating system's manuals
-on how to install and run a server.
+connection pools. In addition to installing the `mysql2` package, this driver 
+requires running a MySQL server either locally or remotely. Visit the MySQL 
+website or consult your operating system's manuals on how to install and run a
+server.
+
+### Install
+
+`npm install @primate/store mysql2@3`
+
+### Configure
 
 The MySQL driver uses the `host` (default `"localhost"`), `port` (default
 `3306`) `database`, `user`, and `password` configuration properties.
-
-### Configure
 
 ```js caption=primate.config.js
 import { default as store, mysql } from "@primate/store";
@@ -181,7 +184,7 @@ Once configured, this will be the default driver for all stores.
 
 ## New handlers for WebSockets and Server-sent events
 
-With WebSocket support moving into [rcompat][rcompat], we deprecated the
+With WebSocket support having moved into [rcompat][rcompat], we deprecated the
 `@primate/ws` package in favor of inclusion into core as the `ws` handler. In
 addition, we added a new handler for Server-sent events, `sse`.
 

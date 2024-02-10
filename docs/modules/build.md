@@ -10,7 +10,7 @@ whenever you change a component.
 
 ## Install
 
-`npm install @primate/build`
+`npm install @primate/build esbuild@0.20`
 
 ## Configure
 
