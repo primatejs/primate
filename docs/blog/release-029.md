@@ -290,7 +290,7 @@ In this example, we send a `passed` event to the client every 5 seconds,
 indicating how many seconds have passed since the connection was established.
 The client subscribes to this event and prints it to the console.
 
-```html components/sse-client.html
+```html caption=components/sse-client.html
 <script>
   new EventSource("/sse").addEventListener("passed", event => {
     console.log(`${JSON.parse(event.data)} seconds since connection opened`);
@@ -300,7 +300,7 @@ The client subscribes to this event and prints it to the console.
 
 This client is then served using another route.
 
-```js routes/sse-client.js
+```js caption=routes/sse-client.js
 import { view } from "primate";
 
 export default {
