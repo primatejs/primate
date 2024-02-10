@@ -4,7 +4,7 @@ const last = -1;
 const scrollTop = () => global.document.scrollingElement.scrollTop;
 
 export default {
-  name: "$$liveview$$",
+  name: "$$primate$$",
   storage: global.sessionStorage,
   get() {
     return JSON.parse(this.storage.getItem(this.name)) ?? [];

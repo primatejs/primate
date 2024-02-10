@@ -6,6 +6,8 @@ import normalize from "./normalize.js";
 import peers from "./peers.js";
 import depend from "../depend.js";
 
+let spa_exported = false;
+
 export default async ({
   name,
   dependencies,
@@ -16,7 +18,11 @@ export default async ({
   const imports_path = File.join("..", name, "imports.js");
   const on = filter(peers, ([key]) => dependencies.includes(key));
 
-  return ({ extension = default_extension } = {}) => {
+  return ({
+    extension = default_extension,
+    // active SPA browsing
+    spa = true,
+  } = {}) => {
     let imports, exports;
 
     return {
@@ -29,6 +35,18 @@ export default async ({
 
         return next(app);
       },
+      async publish(app, next) {
+        // export spa only once, regardless of how many frontends use it
+        if (!spa_exported) {
+          await app.import("@primate/frontend", "spa");
+          app.export({
+            type: "script",
+            code: "export { default as spa } from \"@primate/frontend/spa\";\n",
+          });
+          spa_exported = true;
+        }
+        return next(app);
+      },
       async register(app, next) {
         await imports.prepare(app);
 
@@ -39,6 +57,7 @@ export default async ({
             render: imports.render,
             client: exports.default,
             normalize: normalized,
+            spa,
           }),
           compile: await compile({
             app,

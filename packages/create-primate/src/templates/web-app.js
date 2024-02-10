@@ -1,4 +1,3 @@
-import liveview from "../liveview.js";
 import { confirm, select } from "../prompts.js";
 import store from "../store.js";
 import link from "../link.js";
@@ -26,8 +25,6 @@ export default async root => {
   });
 
   const frontend = await selected();
-
-  configs.push(await liveview(selected));
 
   if (frontend !== undefined) {
     configs.push(frontend);

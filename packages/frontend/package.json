@@ -112,7 +112,8 @@
       "browser": {
         "react": "./src/client/react.js",
         "solid": "./src/client/solid.js",
-        "webc": "./src/client/webc.js"
+        "webc": "./src/client/webc.js",
+        "spa": "./src/client/spa/exports.js"
       },
       "default": "./src/exports.js"
     },

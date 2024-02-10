@@ -1,6 +1,6 @@
 import { generateHydrationScript } from "solid-js/web";
 import rootname from "./rootname.js";
-import liveview from "./liveview.js";
+import spa from "./spa.js";
 
 const { groups: { code: hydration_script } } = generateHydrationScript()
   .match(/^<script>(?<code>.*?)<\/script>/u);
@@ -23,4 +23,4 @@ export default ({ names, data, context, request }, options) => `
         url: new URL(location.href),
       },
     }), globalThis.window.document.body);
-  ${options.liveview ? liveview : ""}`;
+  ${options.spa ? spa : ""}`;

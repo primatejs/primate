@@ -1,8 +1,8 @@
 import rootname from "./rootname.js";
 
 export default `
-const { liveview } = components;
-window.addEventListener("DOMContentLoaded", _ => liveview((props, update) => {
+const { spa } = components;
+window.addEventListener("DOMContentLoaded", _ => spa((props, update) => {
   root.$destroy();
   root = new components.${rootname}({
     target: document.body,

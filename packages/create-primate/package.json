@@ -22,11 +22,9 @@
   "devDependencies": {
     "@primate/build": "^0.3.1",
     "@primate/frontend": "^0.11.0",
-    "@primate/liveview": "^0.11.0",
     "@primate/session": "^0.16.0",
     "@primate/store": "^0.21.0",
     "@primate/types": "^0.12.0",
-    "@primate/ws": "^0.10.0",
     "babel-preset-solid": "^1.8.12",
     "better-sqlite3": "^9.4.0",
     "esbuild": "^0.20.0",

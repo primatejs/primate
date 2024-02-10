@@ -1,13 +1,12 @@
-import header from "./header.js";
 import storage from "./storage.js";
 
-const headers = {
-  [header]: "true",
-};
 const TEXT_PLAIN = "text/plain";
 const APPLICATION_JSON = "application/json";
 const MULTIPART_FORM_DATA = "multipart/form-data";
 const global = globalThis;
+const headers = {
+  Accept: APPLICATION_JSON,
+};
 
 history.scrollRestoration = "manual";
 

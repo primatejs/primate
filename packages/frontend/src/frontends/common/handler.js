@@ -4,6 +4,7 @@ import { valmap, filter } from "rcompat/object";
 import register from "./register.js";
 
 const noop = _ => ({});
+const { APPLICATION_JSON } = MediaType;
 
 export default config => {
   const { make, root, render, client, normalize } = register(config);
@@ -12,9 +13,6 @@ export default config => {
 
   return (name, props = {}, options = {}) =>
     async (app, { layouts = [], as_layout } = {}, request) => {
-      const liveview_options = {
-        liveview: app.liveview !== undefined,
-      };
       if (as_layout) {
         return make(name, props);
       }
@@ -38,13 +36,12 @@ export default config => {
 
       const status = options.status ?? Status.OK;
 
-      if (liveview_options.liveview &&
-        request.headers.get(app.liveview?.header) !== undefined) {
+      if (config.spa && request.headers.get("Accept") === APPLICATION_JSON) {
         return new Response(JSON.stringify({ names, ...shared }), {
           status,
           headers: {
             ...await app.headers(),
-            "Content-Type": MediaType.APPLICATION_JSON,
+            "Content-Type": APPLICATION_JSON,
           },
         });
       }
@@ -55,7 +52,7 @@ export default config => {
         ...shared,
       });
 
-      const code = client({ names, ...shared }, liveview_options);
+      const code = client({ names, ...shared }, { spa: config.spa });
       const inlined = await app.inline(code, "module");
 
       return app.view({

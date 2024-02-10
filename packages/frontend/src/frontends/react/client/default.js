@@ -1,5 +1,5 @@
 import rootname from "./rootname.js";
-import liveview from "./liveview.js";
+import spa from "./spa.js";
 
 export default ({ names, data, context, request }, options) => `
   import * as components from "app";
@@ -17,4 +17,4 @@ export default ({ names, data, context, request }, options) => `
       },
     })
   );
-  ${options.liveview ? liveview : ""}`;
+  ${options.spa ? spa : ""}`;
