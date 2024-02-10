@@ -83,7 +83,7 @@ export default class Index {
 }
 ```
 
-```html caption components/index.webc
+```html caption=components/index.webc
 <script>
 import { Component } from "@primate/frontend/webc";
 

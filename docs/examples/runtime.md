@@ -1,14 +1,14 @@
 %%% Node, Deno, Bun
 
-```sh caption=.
+```sh
 $ npx -y primate@latest
 ```
 
-```sh caption=.
+```sh
 $ deno run --allow-all npm:primate
 ```
 
-```sh caption=.
+```sh
 $ bun --bun x primate
 ```
 
