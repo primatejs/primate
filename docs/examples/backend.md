@@ -39,8 +39,7 @@ func Get(request Request) any {
     "title": "First post",
   }};
 
-  return primate.View("Index.jsx", 
-    Object{ "posts": posts });
+  return primate.View("Index.jsx", Object{ "posts": posts });
 }
 ```
 
@@ -50,8 +49,7 @@ def get(request):
    "id": 1,
    "title": "First post",
   }]
-  return Primate.view("Index.jsx", 
-    { "posts": posts })
+  return Primate.view("Index.jsx", { "posts": posts })
 ```
 
 ```rb caption=routes/index.rb
@@ -60,8 +58,7 @@ def get(request)
     id: 1,
     title: "First post",
   }]
-  Primate.view("Index.jsx", 
-    { posts: posts })
+  Primate.view("Index.jsx", { posts: posts })
 end
 ```
 
