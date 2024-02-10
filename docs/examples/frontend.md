@@ -12,7 +12,7 @@ export default ({ posts }) => {
       </h2>
     ))}
   </>);
-}
+};
 ```
 
 ```svelte caption=components/Index.svelte
@@ -56,7 +56,7 @@ export default ({ posts }) => {
       </h2>
     }</For>
   </>;
-}
+};
 ```
 
 ```angular-ts caption=components/index.component.ts
@@ -100,8 +100,8 @@ export default class extends Component {
         </h2>
       `).join("")}
     `;
-  }
-}
+  },
+};
 </script>
 ```
 

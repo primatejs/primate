@@ -49,6 +49,7 @@ def get(request):
    "id": 1,
    "title": "First post",
   }]
+
   return Primate.view("Index.jsx", { "posts": posts })
 ```
 
@@ -58,6 +59,7 @@ def get(request)
     id: 1,
     title: "First post",
   }]
+
   Primate.view("Index.jsx", { posts: posts })
 end
 ```
