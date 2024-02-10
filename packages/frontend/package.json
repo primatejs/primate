@@ -118,6 +118,7 @@
       "default": "./src/exports.js"
     },
     "./react": "./src/client/react.js",
-    "./solid": "./src/client/solid.js"
+    "./solid": "./src/client/solid.js",
+    "./spa": "./src/client/spa/exports.js"
   }
 }
