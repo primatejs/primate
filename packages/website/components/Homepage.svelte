@@ -186,45 +186,216 @@
       </thead>
       <tbody>
         <tr>
-          <td>Backend</td>
-          <td>JS / TS</td>
-          <td>JS / TS</td>
-          <td>JS / TS</td>
-          <td>
-            <div><a href="/modules/binding">JS</a></div>
-            <div><a href="/modules/typescript">TS</a></div>
-            <div><a href="/modules/go">Go</a></div>
-            <div><a href="/modules/python">Python</a></div>
-            <div><a href="/modules/ruby">Ruby</a></div>
+          <td colspan="5">
+            Backend
           </td>
         </tr>
         <tr>
-          <td>Frontend</td>
+          <td>JS</td>
+          <td>✓</td>
+          <td>✓</td>
+          <td>✓</td>
+          <td>✓</td>
+        </tr>
+        <tr>
+          <td>TS</td>
+          <td>✓</td>
+          <td>✓</td>
+          <td>✓</td>
+          <td>
+            <a href="/modules/typescript">✓</a>
+          </td>
+        </tr>
+        <tr>
+          <td>Go</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>
+            <a href="/modules/go">✓</a>
+          </td>
+        </tr>
+        <tr>
+          <td>Python</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>
+            <a href="/modules/python">✓</a>
+          </td>
+        </tr>
+        <tr>
+          <td>Ruby</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>
+            <a href="/modules/ruby">✓</a>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="5">
+            Frontend
+          </td>
+        </tr>
+        <tr>
           <td>React</td>
-          <td>Vue</td>
-          <td>Svelte</td>
+          <td>✓</td>
+          <td>✗</td>
+          <td>✗</td>
           <td>
-            <div><a href="/modules/react">React</a></div>
-            <div><a href="/modules/svelte">Svelte</a></div>
-            <div><a href="/modules/vue">Vue</a></div>
-            <div><a href="/modules/angular">Angular</a></div>
-            <div><a href="/modules/solid">Solid</a></div>
-            <div><a href="/modules/web-components">Web Components</a></div>
-            <div><a href="/modules/htmx">HTMX</a></div>
-            <div><a href="/modules/handlebars">Handlebars</a></div>
-            <div><a href="/modules/markdown">Markdown</a></div>
-            <div><a href="/modules/marko">Marko</a></div>
+            <a href="/modules/react">✓</a>
           </td>
         </tr>
         <tr>
-          <td>Native runtime</td>
-          <td>Node</td>
-          <td>Node</td>
-          <td>Node</td>
+          <td>Vue</td>
+          <td>✗</td>
+          <td>✓</td>
+          <td>✗</td>
           <td>
-            <div>Node</div>
-            <div>Deno</div>
-            <div>Bun</div>
+            <a href="/modules/vue">✓</a>
+          </td>
+        </tr>
+        <tr>
+          <td>Svelte</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>✓</td>
+          <td>
+            <a href="/modules/svelte">✓</a>
+          </td>
+        </tr>
+        <tr>
+          <td>Angular</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>
+            <a href="/modules/angular">✓</a>
+          </td>
+        </tr>
+        <tr>
+          <td>Solid</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>
+            <a href="/modules/solid">✓</a>
+          </td>
+        </tr>
+        <tr>
+          <td>Web Components</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>
+            <a href="/modules/web-components">✓</a>
+          </td>
+        </tr>
+        <tr>
+          <td>HTMX</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>
+            <a href="/modules/htmx">✓</a>
+          </td>
+        </tr>
+        <tr>
+          <td>Handlebars</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>
+            <a href="/modules/handlebars">✓</a>
+          </td>
+        </tr>
+        <tr>
+          <td>Markdown</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>
+            <a href="/modules/markdown">✓</a>
+          </td>
+        </tr>
+        <tr>
+          <td>Marko</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>
+            <a href="/modules/marko">✓</a>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="5">
+            Native runtime
+          </td>
+        </tr>
+        <tr>
+          <td>Node</td>
+          <td>✓</td>
+          <td>✓</td>
+          <td>✓</td>
+          <td>✓</td>
+        <tr>
+          <td>Deno</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>✓</td>
+        </tr>
+        <tr>
+          <td>Bun</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>✓</td>
+        </tr>
+        <tr>
+          <td colspan="5">
+            Data stores / ORM
+          </td>
+        </tr>
+        <tr>
+          <td>SQLite</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td><a href="/modules/drivers#sqlite">✓</a></td>
+        </tr>
+        <tr>
+          <td>MongoDB</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td><a href="/modules/drivers#mongodb">✓</a></td>
+        </tr>
+        <tr>
+          <td>PostgreSQL</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td><a href="/modules/drivers#postgresql">✓</a></td>
+        </tr>
+        <tr>
+          <td>MySQL</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td><a href="/modules/drivers#mysql">✓</a></td>
+        </tr>
+        <tr>
+          <td>SurrealDB</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td><a href="/modules/drivers#surrealdb">✓</a></td>
+        </tr>
+        <tr>
+          <td colspan="5">
+            Ecosystem
           </td>
         </tr>
         <tr>
@@ -232,76 +403,49 @@
           <td>✓</td>
           <td>✓</td>
           <td>✗</td>
-          <td>
-            <a href="/modules/i18n">@primate/i18n</a>
-          </td>
+          <td><a href="/modules/i18n">✓</a></td>
         </tr>
         <tr>
           <td>Head Component</td>
           <td>✓</td>
           <td>✓</td>
           <td>✗</td>
-          <td>
-            <a href="/modules/frontend#head-component">✓</a>
-          </td>
+          <td><a href="/modules/frontend#head-component">✓</a></td>
         </tr>
         <tr>
           <td>Route guards</td>
           <td>✗</td>
           <td>✗</td>
           <td>✗</td>
-          <td>
-            <a href="/guide/guards">✓</a>
-          </td>
+          <td><a href="/guide/guards">✓</a></td>
         </tr>
         <tr>
           <td>Recursive layouts</td>
           <td>✓</td>
           <td>✓</td>
           <td>✓</td>
-          <td>
-            <a href="/guide/layouts">✓</a>
-          </td>
-        </tr>
-        <tr>
-          <td>Data stores/ORM</td>
-          <td>✗</td>
-          <td>✗</td>
-          <td>✗</td>
-          <td>
-            <div><a href="/modules/drivers#sqlite">SQLite</a></div>
-            <div><a href="/modules/drivers#mongodb">MongoDB</a></div>
-            <div><a href="/modules/drivers#postgresql">PostgreSQL</a></div>
-            <div><a href="/modules/drivers#mysql">MySQL</a></div>
-            <div><a href="/modules/drivers#surrealdb">SurrealDB</a></div>
-          </td>
+          <td><a href="/guide/layouts">✓</a></td>
         </tr>
         <tr>
           <td>WebSockets</td>
           <td>✗</td>
           <td>✗</td>
           <td>✗</td>
-          <td>
-            <a href="/guide/responses#websocket">✓</a>
-          </td>
+          <td><a href="/guide/responses#websocket">✓</a></td>
         </tr>
         <tr>
           <td>Server-sent events</td>
           <td>✗</td>
           <td>✗</td>
           <td>✗</td>
-          <td>
-            <a href="/guide/responses#server-sent-events">✓</a>
-          </td>
+          <td><a href="/guide/responses#server-sent-events">✓</a></td>
         </tr>
         <tr>
           <td>User sessions</td>
           <td>✗</td>
           <td>✓</td>
           <td>✗</td>
-          <td>
-            <a href="/modules/session">@primate/session</a>
-          </td>
+          <td><a href="/modules/session">✓</a></td>
         </tr>
       </tbody>
     </table>
