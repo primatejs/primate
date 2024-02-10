@@ -165,7 +165,7 @@ export default {
   modules: [
     store({
       // use the MySQL server at localhost:3306 and the "app" database
-      driver: mongodb({
+      driver: mysql({
         // if "localhost", can be omitted
         host: "localhost",
         // if 3306, can be omitted
