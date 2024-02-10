@@ -27,7 +27,9 @@
       const tabs = tabbed.querySelector(".tabs").childNodes;
       captions.forEach((caption, i) => {
         caption.addEventListener("click", () => {
-          modify_route(filenames[caption.innerText.toLowerCase()]);
+          const filename = filenames[caption.innerText.toLowerCase()];
+          filename && modify_route(filename);
+
           captions.forEach((_caption, j)  => {
             if (i === j) {
               _caption.classList.add("active");
