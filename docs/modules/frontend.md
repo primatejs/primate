@@ -7,11 +7,9 @@ cover many frontend frameworks. When loaded, they extend the `view` handler
 to support more file extensions.
 
 Those frameworks come with different capabilities, like server-side rendering
-(SSR), hydration and support for the [liveview](liveview) module, turning your 
-application into a single-page application (SPA) after it has been initially
-loaded. In some cases, some capabilities have simply not been implemented yet
-in the module. In other cases, the frontend framework itself doesn't support
-those.
+(SSR), hydration and SPA support. In some cases, some capabilities have simply 
+not been implemented yet in the module. In other cases, the frontend framework
+itself doesn't support those.
 
 ## Layouts
 
@@ -40,19 +38,12 @@ Vue hydration is planned for future versions.
 HTMX, having no SSR support, also has no support for hydration. The HTMX client
 is *always* sent along the page and activates on page load.
 
-## Liveview
+## SPA
 
-The [liveview](/modules/liveview) module bridges the gap between SSR/hydration
-and single page applications (SPA). It injects a small JavaScript client into 
-the build which uses `fetch` to manage clicking on links and submitting forms
-instead of reloading the entire page, and also manages browsing the history.
-
-Currently the Svelte, React and Solid modules support liveview. The Vue module
-is expected to receive liveview support when hydration has been implemented for
-it.
-
-HTMX itself stands somewhat in competition to liveview, as it can register
-handles to load links or send forms via `fetch`.
+For modules that support it (currently Svelte, React and Solid), SPA browsing
+s active by default. It injects a small JavaScript client into the build which=
+uses `fetch` to manage clicking on links and submitting forms instead of 
+reloading the entire page, and also manages browsing the history.
 
 ## Head component
 
@@ -67,15 +58,17 @@ Every frontend framework registers its own file extension with the
 [`view`][view] handler and needs to be loaded in `primate.config.js`. You can
 use different frontend frameworks alongside each other, in different routes.
 
-|          |HTML   |[Svelte]       |[React] |[Solid] |[Vue] |[HTMX] |[Handlebars]|
-|----------|-------|---------------|--------|--------|------|-------|------------|
-|Extension |`.html`|`.svelte`      |`.jsx`  |`.jsx`  |`.vue`|`.htmx`|`.hbs`      |
-|[Layouts] |✗      |✓              |✓       |✓       |✗     |✗      |✗           | 
-|SSR       |✗      |✓              |✓       |✓       |✓     |✗      |✓           | 
-|Hydration |✗      |✓              |✓       |✓       |✗     |✗      |✗           |
-|[Liveview]|✗      |✓              |✓       |✓       |✗     |✗      |✗           |
-|Head      |✗      |`<svelte:head>`|`<Head>`|`<Head>`|✗     |✗      |✗           |
-|[I18N]    |✗      |✓              |✓       |✓       |✗     |✗      |✗           |
+|Framework   |Extension      |Layouts|SSR|Hydration|SPA|Head|I18N|
+|------------|---------------|-------|---|---------|---|----|----|
+|HTML        |`.html`        |✗      |✗  |✗        |✗  |✗   |✗   |
+|[Svelte]    |`.svelte`      |✓      |✓  |✓        |✓  |✓   |✓   |
+|[React]     |`.jsx`         |✓      |✓  |✓        |✓  |✓   |✓   |
+|[Solid]     |`.jsx`         |✓      |✓  |✓        |✓  |✓   |✓   |
+|[Vue]       |`.vue`         |✗      |✓  |✗        |✗  |✗   |✗   |
+|[Angular]   |`.component.ts`|✗      |✓  |✗        |✗  |✗   |✗   |
+|[HTMX]      |`.htmx`        |✗      |✗  |✗        |✗  |✗   |✗   |
+|[Handlebars]|`.hbs`         |✗      |✓  |✓        |✗  |✗   |✗   |
+|[Marko]     |`.marko`       |✗      |✓  |✗        |✗  |✗   |✗   |
 
 ## Error list
 
@@ -97,10 +90,11 @@ dependency is missing and what command you need to issue to install it.
 [React]: /modules/react
 [Solid]: /modules/solid
 [Vue]: /modules/vue
+[Angular]: /modules/angular
 [HTMX]: /modules/htmx
 [Handlebars]: /modules/handlebars
+[Marko]: /modules/marko
 [Layouts]: /guide/layouts
-[Liveview]: /modules/liveview
 [I18N]: /modules/i18n
 [bailout]: /guide/logging#bailout
 [error]: /guide/logging#error

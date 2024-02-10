@@ -33,7 +33,7 @@ Create a Handlebars component in `components`.
 </div>
 ```
 
-Create a route and serve the Handlebars `PostIndex` component.
+Serve it from a route.
 
 ```js caption=routes/hbs.js
 import { view } from "primate";
@@ -50,16 +50,9 @@ export default {
 };
 ```
 
-Your rendered Handlebars component will be accessible at
-http://localhost:6161/hbs.
+The rendered component will be accessible at http://localhost:6161/hbs.
 
 ## Configuration options
-
-### directory
-
-Default `config.location.components`
-
-Directory where the Handlebars components reside.
 
 ### extension
 

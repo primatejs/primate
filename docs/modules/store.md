@@ -437,8 +437,8 @@ Default [`memory`][memory] (volatile in-memory driver)
 
 The database driver used to persist data. This module also exports `json` as a
 non-volatile alternative driver which stores its data in a JSON file. Other
-supported DMBSs are [MongoDB](/modules/mongodb),
-[PostgreSQL](/modules/postgresql) and [SQLite](/modules/sqlite).
+supported DMBSs are [MongoDB][mongodb],[PostgreSQL][postgresql], [MySQL][mysql]
+and [SQLite][sqlite].
 
 ### strict
 
@@ -535,6 +535,10 @@ Transaction rolled back due to previous error.
 [memory]: https://github.com/primatejs/primate/blob/master/packages/store/src/drivers/memory.js
 [in-memory]: /modules/drivers#in-memory
 [json-file]: /modules/drivers#json-file
+[MongoDB]: /modules/drivers#mongodb
+[PostgreSQL]: /modules/drivers#postgresql
+[MySQL]: /modules/drivers#mysql
+[SQLite]: /modules/drivers#sqlite
 [error]: /guide/logging#error
 [bailout]: /guide/logging#bailout
 [warn]: /guide/logging#warn

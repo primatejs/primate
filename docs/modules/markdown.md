@@ -31,7 +31,7 @@ Create a Markdown file in `components`.
 This is the **first** post
 ```
 
-Create a route and serve the Markdown `PostIndex` component.
+Serve it from a route.
 
 ```js caption=routes/markdown.js
 import { view } from "primate";
@@ -43,8 +43,7 @@ export default {
 };
 ```
 
-Your rendered Markdown component will be accessible at
-http://localhost:6161/markdown.
+The rendered component will be accessible at http://localhost:6161/markdown.
 
 ## Configuration options
 

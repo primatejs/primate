@@ -39,8 +39,7 @@ Create an HTMX component in `components`.
 </form>
 ```
 
-Create a route and serve the HTMX `post-add` component, adding a POST route for
-handling its form.
+Serve it from a route.
 
 ```js caption=routes/htmx.js
 import { view, html } from "primate";
@@ -50,21 +49,11 @@ export default {
   get() {
     return view("post-add.htmx");
   },
-  post({ body }) {
-    return html(
-      `<h2>Adding a post with:</h2>
-      <div><strong>Title</strong> ${body.title}</div>
-      <div><strong>Text</strong> ${body.text}</div>`,
-    { partial: true });
-  },
+  // create a POST route to replace contents upon form submission
 };
 ```
 
-Your rendered HTMX component will be accessible at http://localhost:6161/htmx.
-
-Here, we used the `html` handler to return HTML directly from the POST route,
-indicating it should not include the `app.html` layout by setting `partial`
-to `true`. 
+The rendered component will be accessible at http://localhost:6161/htmx.
 
 ## Configuration options
 

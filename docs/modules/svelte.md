@@ -44,7 +44,7 @@ Create a Svelte component in `components`.
 </style>
 ```
 
-Create a route and serve the Svelte `PostIndex` component.
+Serve it from a route.
 
 ```js caption=routes/svelte.js
 import { view } from "primate";
@@ -61,21 +61,21 @@ export default {
 };
 ```
 
-Your rendered Svelte route will be accessible at http://localhost:6161/svelte.
+The rendered component will be accessible at http://localhost:6161/svelte.
 
 ## Configuration options
-
-### directory
-
-Default `config.location.components`
-
-Directory where the Svelte components reside.
 
 ### extension
 
 Default `".svelte"`
 
 The file extension associated with Svelte components.
+
+### spa
+
+Default `true`
+
+Whether SPA browsing using `fetch` should be active. 
 
 ## Resources
 

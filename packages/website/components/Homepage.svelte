@@ -103,6 +103,7 @@
         <img src="/logos/svelte.svg" title="Svelte" />
         <img src="/logos/vue.svg" title="Vue" />
         <img src="/logos/solid.svg" title="Solid" />
+        <img src="/logos/angular.svg" title="Angular" />
       </div>
       <p>
         Seamlessly switch between <a href="/modules/frontend">frontend
@@ -163,11 +164,11 @@
       <div class="logos">
         <img src="/logos/esbuild.svg" title="esbuild" />
       </div>
-      <p>Use <a href="/modules/build">esbuild</a> for hot reload during development and bundling in
-        production, add <a href="/modules/session">user sessions</a>, <a
-          href="/modules/websocket">web
-          sockets</a>, and <a href="/modules/liveview">liveview browsing</a>, or
-        <a href="/guide/extending-primate">write your own modules</a> using the available hooks.
+      <p>Use <a href="/modules/build">esbuild</a> for hot reload during
+        development and bundling in production, add
+        <a href="/modules/session">user sessions</a> or
+        <a href="/guide/extending-primate">write your own modules</a> using the
+        available hooks.
       </p>
     </div>
   </div>
@@ -198,7 +199,8 @@
           <td>Svelte</td>
           <td>
             <a href="/modules/frontend">
-              React, Vue, Svelte, Solid, HTMX, Handlebars, WC
+              React, Vue, Svelte, Angular, Solid, HTMX, Handlebars, WC,
+              Handlebars, Marko
             </a>
           </td>
         </tr>
@@ -253,7 +255,14 @@
           <td>✗</td>
           <td>✗</td>
           <td>✗</td>
-          <td><a href="/modules/websocket">@primate/ws</a></td>
+          <td>✓</td>
+        </tr>
+        <tr>
+          <td>Server-sent events</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>✓</td>
         </tr>
         <tr>
           <td>User sessions</td>

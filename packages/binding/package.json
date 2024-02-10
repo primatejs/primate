@@ -1,6 +1,6 @@
 {
   "name": "@primate/binding",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Primate binding module",
   "homepage": "https://primatejs.com/modules/binding",
   "bugs": "https://github.com/primatejs/primate/issues",
@@ -27,7 +27,7 @@
     "@ruby/head-wasm-wasi": "2.5",
     "@ruby/wasm-wasi": "2.5",
     "@swc/core": "1.3",
-    "primate": "0.28",
+    "primate": "0.29",
     "pyodide": "0.25"
   },
   "peerDependenciesMeta": {

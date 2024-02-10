@@ -36,7 +36,7 @@ export default function PostIndex({ posts }) {
 }
 ```
 
-Create a route and serve the React `PostIndex` component.
+Serve it from a route.
 
 ```js caption=routes/react.js
 import { view } from "primate";
@@ -53,22 +53,21 @@ export default {
 };
 ```
 
-Your rendered React component will be accessible at
-http://localhost:6161/react.
+The rendered component will be accessible at http://localhost:6161/react.
 
 ## Configuration options
-
-### directory
-
-Default `config.location.components`
-
-Directory where the React JSX components reside.
 
 ### extension
 
 Default `".jsx"`
 
 The file extension associated with React JSX components.
+
+### spa
+
+Default `true`
+
+Whether SPA browsing using `fetch` should be active. 
 
 ## Resources
 

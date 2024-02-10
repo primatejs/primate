@@ -25,8 +25,8 @@ export default {
 ```
 
 This driver requires no DBMS to be installed and is by its nature volatile --
-its contents only exist in memory during the lifetime of the app run. It's a 
-good fit if you want to quickly prototype your data stores, but you will most 
+its contents only exist in memory during the lifetime of the app run. It's a
+good fit if you want to quickly prototype your data stores, but you will most
 likely want to switch to persistent storage later on.
 
 ## JSON file
@@ -53,9 +53,10 @@ export default {
 
 ## SQLite
 
-The SQLite driver uses the `better-sqlite3` package for its underlying driver
-calls. Install this package with `npm install better-sqlite3` before you
-proceed to use this driver.
+`npm install better-sqlite3@9`
+
+The SQLite driver uses the `better-sqlite3` package for its underlying driver. 
+Install this package before you proceed.
 
 Similarly to the JSON file driver, the SQLite driver uses the `filename`
 property to indicate which file to manage the data in. If unset, it will
@@ -78,11 +79,12 @@ export default {
 
 ## MongoDB
 
-The MongoDB driver uses the `mongodb` package for its underlying driver.
-Install this package with `npm install mongodb` before you proceed to use this
-driver. In addition, it requires running MongoDB server, either locally or
-remotely. Visit the MongoDB website or consult your operating system's manuals
-on how to install and run a server.
+`npm install mongodb@6`
+
+The SQLite driver uses the `mongodb` package for its underlying driver. 
+Install this package before you proceed. In addition, it requires running 
+MongoDB server either locally or remotely. Visit the MongoDB website or consult
+your operating system's manuals on how to install and run a server.
 
 This driver uses the `host` (default `"localhost"`), `port` (default `27017`)
 and `db` configuration properties.
@@ -108,11 +110,12 @@ export default {
 
 ## PostgreSQL
 
-The PostgreSQL driver uses the `postgres` package for its underlying driver.
-Install this package with `npm install postgres` before you proceed to use this
-driver. In addition, it requires running a PostgreSQL server, either locally or
-remotely. Visit the PostgreSQL website or consult your operating system's
-manuals on how to install and run a server.
+`npm install postgres@3`
+
+The SQLite driver uses the `postgres` package for its underlying driver. 
+Install this package before you proceed. In addition, it requires running 
+PostgerSQL server either locally or remotely. Visit the PostGreSQL website or 
+consult your operating system's manuals on how to install and run a server.
 
 This driver uses the `host` (default `"localhost"`), `port` (default `5432`)
 `db`, `user`, and `pass` configuration properties.
@@ -138,21 +141,58 @@ export default {
 };
 ```
 
+## MySQL
+
+`npm install mysql2@3`
+
+The MySQL driver uses the `mysql2` package for its underlying driver. Install
+this package before you proceed. In addition, it requires running a MySQL
+server either locally or remotely. Visit the MySQL website or consult your
+operating system's manuals on how to install and run a server.
+
+This driver uses the `host` (default `"localhost"`), `port` (default `3306`)
+`database`, `user`, and `password` configuration properties.
+
+### Configure
+
+```js caption=primate.config.js
+import { default as store, mysql } from "@primate/store";
+
+export default {
+  modules: [
+    store({
+      // use the MySQL server at localhost:3306 and the "app" database
+      driver: mongodb({
+        // if "localhost", can be omitted
+        host: "localhost",
+        // if 3306, can be omitted
+        port: 3306,
+        database: "app",
+        user: "username",
+        // can be omitted
+        password: "password",
+      }),
+    }),
+  ],
+};
+```
+
 ## SurrealDB
 
 !!!
 This driver does not yet support automatic transaction rollback.
 !!!
 
-The SurrealDB driver uses the `surrealdb.js` package for its underlying driver.
-Install this package with `npm install surrealdb.js` before you proceed to use 
-this driver. In addition, it requires running a SurrealDB server, either locally
-or remotely. Visit the SurrealDB website or consult your operating system's
-manuals on how to install and run a server.
+`npm install surrealdb.js@0.11`
+
+The MySQL driver uses the `surrealdb.js` package for its underlying driver.
+Install this package before you proceed. In addition, it requires running a
+SurrealDB server either locally or remotely. Visit the SurrealDB website or
+consult your operating system's manuals on how to install and run a server.
 
 This driver uses the `host` (default `"http://localhost"`), `port` (default
-`8000`), `path`  (default: "`rpc`"), `ns` (default: `"default"`), `db`
-`user`, and `pass` configuration properties.
+`8000`), `path`  (default: "`rpc`"), `namespace`, `database`, `username`, and 
+`password` configuration properties.
 
 ```js caption=primate.config.js
 import { default as store, surrealdb } from "@primate/store";

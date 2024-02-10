@@ -1,10 +1,10 @@
-%%% React, Svelte, Vue, Solid
+%%% React, Svelte, Vue, Solid, Angular
 
 ```jsx caption=components/Index.jsx
 export default ({ posts }) => {
   return (<>
     <h1>All posts</h1>
-    {posts.map((post) => (
+    {posts.map(post => (
       <h2 key={post.id}>
         <a href={`/post/${post.id}`}>
           {post.title}
@@ -20,10 +20,10 @@ export default ({ posts }) => {
   export let posts;
 </script>
 <h1>All posts</h1>
-{#each posts as { id, title }}
+{#each posts as post}
   <h2>
-    <a href="/post/{id}">
-      {title}
+    <a href="/post/{post.id}">
+      {post.title}
     </a>
   </h2>
 {/each}
@@ -56,6 +56,30 @@ export default ({ posts }) => {
       </h2>
     }</For>
   </>;
+}
+```
+
+```ts caption=components/index.component.ts
+import { Component, Input } from "@angular/core";
+import { CommonModule } from "@angular/common";
+
+@Component({
+  selector: "index",
+  imports: [ CommonModule ],
+  template: `
+    <h1>All posts</h1>
+    <div *ngFor="let post of posts">
+      <h2>
+        <a href="/post/view/{{post.id}}">
+          {{post.title}}
+        </a>
+      </h2>
+    </div>
+  `,
+  standalone: true,
+})
+export default class Index {
+  @Input() posts = [];
 }
 ```
 

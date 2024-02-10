@@ -34,7 +34,7 @@ Create a SFC component in `components`.
 </template>
 ```
 
-Create a route and serve the Vue `PostIndex` component.
+Serve it from a route.
 
 ```js caption=routes/vue.js
 import { view } from "primate";
@@ -51,15 +51,9 @@ export default {
 };
 ```
 
-Your rendered Vue component will be accessible at http://localhost:6161/react.
+The rendered component will be accessible at http://localhost:6161/react.
 
 ## Configuration options
-
-### directory
-
-Default `config.location.components`
-
-Directory where the Vue SFC components reside.
 
 ### extension
 

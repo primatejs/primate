@@ -185,6 +185,128 @@ export default {
 A request to `/server-error` will result in a `500` response with the HTML body
 `Internal Server Error`.
 
+### WebSocket
+
+You can upgrade any `GET` route to a WebSocket route with the `ws` handler.
+
+```js caption=routes/ws.js
+import { ws } from "primate";
+
+export default {
+  get(request) {
+    const { limit } = request.query.get() ?? 20;
+    let n = 1;
+    return ws({
+      open(socket) {
+        // connection opens
+      },
+      message(socket, message) {
+        if (n > 0 && n < limit) {
+          n++;
+          socket.send(`You wrote ${payload}`);
+        }
+      },
+      close(socket) {
+        // connection closes
+      },
+    });
+  },
+};
+```
+
+In this example, we have a small chat which reflects back anything to the user
+up to a given number of messages, the default being 20.
+
+```html caption=components/chat.html
+<script>
+  window.addEventListener("load", () => {
+    // number of messages to reflect
+    const limit = 20;
+    const ws = new WebSocket(`ws://localhost:6161/chat?limit=${limit}`);
+
+    ws.addEventListener("open", () => {
+      document.querySelector("#chat").addEventListener("keypress", event => {
+        if (event.key === "Enter") {
+          ws.send(event.target.value);
+          event.target.value = "";
+        }
+      })
+    });
+
+    ws.addEventListener("message", message => {
+      const div = document.createElement("div");
+      div.innerText = message.data
+      document.querySelector("#box").appendChild(div);
+    });
+  });
+</script>
+<style>
+.chatbox {
+  background-color: lightgrey;
+  width: 300px;
+  height: 300px;
+  overflow: auto;
+}
+</style>
+<div class="chatbox" id="box"></div>
+<input id="chat" placeholder="Type to chat" />
+```
+
+### Server-sent events
+
+Similarly to `ws`, you can use the `sse` handler to upgrade a `GET` request to 
+stream out server-sent events to the client.
+
+```js caption=routes/sse.js
+import { sse } from "primate";
+
+const passed = start_time => Math.floor((Date.now() - start_time) / 1000);
+
+export default {
+  get() {
+    let interval;
+    let start_time = Date.now();
+
+    return sse({
+      open(source) {
+        // connection opens
+        interval = globalThis.setInterval(() => {
+          source.send("passed", passed(start_time));
+        }, 5000);
+      },
+      close() {
+        // connection closes
+        globalThis.clearInterval(interval);
+      },
+    });
+  },
+};
+```
+
+In this example, we send a `passed` event to the client every 5 seconds,
+indicating how many seconds have passed since the connection was established.
+The client subscribes to this event and prints it to the console.
+
+```html components/sse-client.html
+<script>
+  new EventSource("/sse").addEventListener("passed", event => {
+    console.log(`${JSON.parse(event.data)} seconds since connection opened`);
+  });
+</script>
+```
+
+This client is then served using another route.
+
+```js routes/sse-client.js
+import { view } from "primate";
+
+export default {
+  get() {
+    return view("sse-client.html");
+  },
+};
+```
+
 ### Custom response
 
 Lastly, for a custom response status, you can return a `Response` object from a

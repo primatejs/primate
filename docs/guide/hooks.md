@@ -32,9 +32,6 @@ subscribers accept different types of parameters, depending on the hook.
 ├─ `bundle` # if `npx primate serve` is run, otherwise skipped
 │   └─ # modules transform `build` directory
 │
-├─ `serve`
-│   └─ # modules modify the underlying server to access low-level operations
-│
 ├─ # *end* start-up phase
 │
 ├─ # *begin* client request phase, hooks here are called per request
@@ -206,21 +203,6 @@ particularly useful for bundler modules such as [esbuild](/modules/esbuild).
 
 This hook accepts the app as its first and the next subscriber as its second
 parameter.
-
-## serve
-
-**Executed** once
-
-**Precondition** The HTTP server has been created.
-
-This hook allows modules to access the low-level HTTP server implementation in
-order to deal with additions to HTTP such as the WebSocket protocol. Such
-modules can add support for additional verbs aside from the official HTTP
-verbs. For example, the [WebSocket](/modules/ws) module adds support for
-a `ws` verb.
-
-This hook accepts the app, augmented with a `server` property, as its first
-and the next subscriber as its second parameter.
 
 ## handle
 

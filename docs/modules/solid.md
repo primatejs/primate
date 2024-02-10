@@ -54,7 +54,7 @@ export default function PostIndex(props) {
 }
 ```
 
-Create a route and serve the Solid `PostIndex` component.
+Serve it from a route.
 
 ```js caption=routes/solid.js
 import { view } from "primate";
@@ -71,22 +71,21 @@ export default {
 };
 ```
 
-Your rendered Solid component will be accessible at
-http://localhost:6161/solid.
+The rendered component will be accessible at http://localhost:6161/solid.
 
 ## Configuration options
-
-### directory
-
-Default `config.location.components`
-
-Directory where the Solid JSX components reside.
 
 ### extension
 
 Default `".jsx"`
 
 The file extension associated with Solid JSX components.
+
+### spa
+
+Default `true`
+
+Whether SPA browsing using `fetch` should be active. 
 
 ## Resources
 

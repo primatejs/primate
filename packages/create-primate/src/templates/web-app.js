@@ -47,19 +47,6 @@ export default async root => {
       },
     });
   }
-  if (await confirm({ message: `Add WebSocket support? ${link("websocket")}` })) {
-    configs.push({
-      dependencies: {
-        "@primate/ws": dependencies["@primate/ws"],
-      },
-      imports: {
-        ws: "@primate/ws",
-      },
-      modules: {
-        ws: "",
-      },
-    });
-  }
 
   if (await confirm({ message: `Enable bundling? ${link("build")}` })) {
     configs.push({
