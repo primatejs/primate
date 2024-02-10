@@ -20,14 +20,25 @@
       captions.forEach((caption, i) => {
         caption.addEventListener("click", () => {
           const text = caption.innerText.toLowerCase();
-          if (text === "react" || text === "solid") {
-            modify_route("jsx");
-          }
-          if (text === "svelte") {
-            modify_route("svelte");
-          }
-          if (text === "vue") {
-            modify_route("vue");
+          switch (text) {
+            case "react":
+            case "solid":
+              modify_route("jsx");
+              break;
+            case "svelte":
+              modify_route("svelte");
+              break;
+            case "vue":
+              modify_route("vue");
+              break;
+            case "angular":
+              modify_route("component.ts");
+              break;
+            case "webc":
+              modify_route("webc");
+              break;
+            default:
+              break;
           }
           captions.forEach((_caption, j)  => {
             if (i === j) {
