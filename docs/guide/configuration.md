@@ -342,7 +342,7 @@ Filename of the index JavaScript file used to export all components.
 Default `[]`
 
 A list of paths for which the contents are to be transformed at runtime before
-being copied to the [build directory][#location-build]. Relative paths will be
+being copied to the [build directory](#location-build). Relative paths will be
 relative to project root. Glob patterns are supported.
 
 ### build.transform.mapper
