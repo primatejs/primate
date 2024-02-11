@@ -67,11 +67,12 @@ const html = (name, options) => async app => {
 };
 // }}}
 // {{{ view
-const view = (name, props, options) => async (app, ...rest) => {
-  const { fullExtension: extension } = new File(name);
-  return app.extensions[extension]?.handle(name, props, options)(app, ...rest)
-    ?? errors.NoHandlerForExtension.throw(extension, name);
-};
+const extensions = ["fullExtension", "extension"];
+const view = (name, props, options) => (app, ...rest) => extensions
+  .map(extension => app.extensions[new File(name)[extension]])
+  .find(extension => extension?.handle)
+  ?.handle(name, props, options)(app, ...rest)
+    ?? errors.NoHandlerForComponent.throw(name);
 // }}}
 
 export { text, json, stream, redirect, error, html, view, ws, sse };

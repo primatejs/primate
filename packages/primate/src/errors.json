@@ -91,9 +91,9 @@
       "fix": "add configuration options or remove file",
       "level": "Warn"
     },
-    "NoHandlerForExtension": {
-      "message": "no handler for {0} extension",
-      "fix": "add handler module for {0} files or remove {1}",
+    "NoHandlerForComponent": {
+      "message": "no handler for {0}",
+      "fix": "add handler module for this component or remove {0}",
       "level": "Error"
     },
     "NoRouteToPath": {
