@@ -54,7 +54,7 @@ export default {
 If we assume a client sent the following HTTP request.
 
 ```http
-PUT /comment/1?timestamps=UTC HTTP/1.1
+POST /comment/1?timestamps=UTC HTTP/1.1
 Host: primatejs.com
 Cookie: jar=full;
 Content-Type: application/json
@@ -66,7 +66,7 @@ Then, given the above route definition, Primate will respond in plain text as
 follows.
 
 ```text
-You've sent a PUT request with the following data:
+You've sent a POST request with the following data:
 
 Path:
   /comment/1
