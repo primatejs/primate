@@ -42,3 +42,36 @@ docker exec -it primate sh
 ls -lha /app/website
 exit
 ```
+
+## Build locally and deploy to fly.io via CLI
+
+### Login
+```sh
+flyctl auth login
+```
+
+### Create app
+```sh
+flyctl apps create
+```
+
+Specify app name such as `primatejs` or one that isn't taken by someone else.
+
+### Configure app
+
+Make sure `packages/website/fly-website.toml` is in place and contains the app name chosen above.
+
+### Build locally and deploy
+```sh
+fly deploy --local-only --no-cache -c packages/website/fly-website.toml
+```
+
+### Clean local builder
+```sh
+docker builder prune
+```
+
+### Logs
+```sh
+flyctl logs -a primatejs
+```
