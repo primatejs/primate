@@ -43,7 +43,7 @@ export default {
 When Primate shows errors or warnings, it will include a short reason and a
 quickfix, as well as link to the website for a longer explanation and fix.
 
-```txt
+```text
 ?? primate/store empty store directory
 ++ populate /home/user/app/stores with stores
    -> https://primatejs.com/reference/errors/primate/store#empty-store-directory

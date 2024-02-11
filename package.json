@@ -13,7 +13,8 @@
   "scripts": {
     "test": "npx debris",
     "lint": "npx eslint .",
-    "deps": "yarn upgrade-interactive"
+    "deps": "yarn upgrade-interactive",
+    "fly": "fly deploy --local-only --no-cache -c packages/website/fly-website.toml"
   },
   "devDependencies": {
     "debris": "^0.14.0",

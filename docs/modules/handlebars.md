@@ -24,7 +24,7 @@ export default {
 
 Create a Handlebars component in `components`.
 
-```handlebars caption=components/post-index.hbs
+```hbs caption=components/post-index.hbs
 <h1>All posts</h1>
 <div>
 {{#each posts}}

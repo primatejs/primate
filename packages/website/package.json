@@ -3,7 +3,7 @@
   "private": true,
   "dependencies": {
     "@primate/build": "^0.4.1",
-    "@primate/frontend": "^0.13.2",
+    "@primate/frontend": "^0.13.3",
     "esbuild": "^0.20.0",
     "handlebars": "^4.7.8",
     "marked": "^12.0.0",
