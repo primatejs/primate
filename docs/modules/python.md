@@ -136,7 +136,7 @@ First, create the frontend component, in this case Svelte.
 
 Then create the route, and pass props to the component.
 
-```py caption=routes/svelte.python
+```py caption=routes/svelte.py
 def get(request):
     posts = [{
         "id": 1,
