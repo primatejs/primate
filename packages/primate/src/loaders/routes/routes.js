@@ -3,6 +3,8 @@ import errors from "../../errors.js";
 
 const normalize = route => {
   let i = 0;
+  // user/ -> user
+  // user/{id=number}/{id2=number} -> user/{0}/{1}
   return (route.endsWith("/") ? route.slice(0, -1) : route)
     .replaceAll(/\{(?:\w*)(?:=\w+)?\}?/gu, _ => `{${i++}}`);
 };
