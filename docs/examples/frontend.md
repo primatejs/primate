@@ -59,7 +59,7 @@ export default ({ posts }) => {
 };
 ```
 
-```angular-ts caption=components/index.component.ts
+```angular-ts caption=components/Index.component.ts
 import { Component, Input } from "@angular/core";
 import { CommonModule } from "@angular/common";
 
@@ -83,7 +83,7 @@ export default class Index {
 }
 ```
 
-```html caption=components/index.webc
+```html caption=components/Index.webc
 <script>
 import { Component } from "@primate/frontend/webc";
 
