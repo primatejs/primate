@@ -25,10 +25,11 @@ export default async (app$, mode = "development") => {
   app.route = hooks.route(app);
   app.parse = hooks.parse(app.dispatch);
   app.server = await serve(async request =>
-    tryreturn(async _ => (await hooks.handle(app))(await app.parse(request)))
-      .orelse(error => {
-        app.log.auto(error);
-        return new Response(null, { status: Status.INTERNAL_SERVER_ERROR });
-      }),
-  app.config.http);
+    tryreturn(async _ => {
+      const handled = await (await hooks.handle(app))(await app.parse(request));
+      return typeof handled === "function" ? handled(app) : handled;
+    }).orelse(error => {
+      app.log.auto(error);
+      return new Response(null, { status: Status.INTERNAL_SERVER_ERROR });
+    }), app.config.http);
 };

@@ -13,15 +13,32 @@ export default length => {
 
   return `
     <script>
-      import { afterUpdate, setContext } from "svelte";
+      import { afterUpdate, setContext, onMount } from "svelte";
 
       export let components;
       export let data;
       export let request;
       export let context;
       export let update = () => undefined;
+      export let subscribers;
 
       setContext("__primate__", context);
+
+      onMount(() => {
+        const ws = new WebSocket("ws://localhost:6161/$live");
+        const ids = Object.keys(subscribers);
+
+        ws.addEventListener("open", () => {
+          ws.send(JSON.stringify({name: "subscribe", ids}));
+        });
+        ws.addEventListener("message", message => {
+          const updates = JSON.parse(message.data);
+          for (const { id, val } of updates) {
+            const { position, prop } = subscribers[id];
+            data[position][prop] = val;
+          }
+        })
+      });
 
       afterUpdate(update);
     </script>

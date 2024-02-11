@@ -2,6 +2,7 @@ import { Response, Status, MediaType } from "rcompat/http";
 import { cascade, map } from "rcompat/async";
 import { valmap, filter } from "rcompat/object";
 import register from "./register.js";
+const live = Symbol.for("@primate/live.live");
 
 const noop = _ => ({});
 const { APPLICATION_JSON } = MediaType;
@@ -45,6 +46,23 @@ export default config => {
           },
         });
       }
+
+      shared.subscribers = {};
+      shared.data.forEach((component_props, position) => {
+        Object.entries(component_props)
+          .filter(([, value]) => value.live === live)
+          .forEach(([prop, value]) => {
+            value.subscribe(next => {
+              app.live.send(value.id, next);
+            });
+            shared.subscribers[value.id] = { position, prop };
+          });
+      });
+
+      shared.data = shared.data.map(component_props =>
+        valmap(component_props, value =>
+          value?.live === live ? value.value : value),
+      );
 
       const imported = (await import(root)).default;
       const { body, head } = render(imported, {

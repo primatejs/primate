@@ -1,7 +1,7 @@
 import rootname from "./rootname.js";
 import spa from "./spa.js";
 
-export default ({ names, data, context, request }, options) => `
+export default ({ names, data, subscribers = [], context, request }, options) => `
   import * as components from "app";
   let root = new components.${rootname}({
     target: document.body,
@@ -9,6 +9,7 @@ export default ({ names, data, context, request }, options) => `
     props: {
       components: [${names.map(name => `components.${name}`).join(", ")}],
       data: ${JSON.stringify(data)},
+      subscribers: ${JSON.stringify(subscribers)},
       context: ${JSON.stringify(context)},
       request: {
         ...${JSON.stringify(request)},
