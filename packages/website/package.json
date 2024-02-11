@@ -7,7 +7,6 @@
     "@primate/liveview": "^0.11.0",
     "esbuild": "^0.20.0",
     "handlebars": "^4.7.8",
-    "highlight.js": "^11.9.0",
     "marked": "^11.2.0",
     "primate": "^0.28.0",
     "rcompat": "^0.7.2",
