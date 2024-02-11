@@ -113,7 +113,8 @@ export default async (log, root, config) => {
       const { location: { server, client, components } } = this.config;
 
       const source = this.path.components;
-      const compile = this.extensions[component.fullExtension]?.compile;
+      const compile = this.extensions[component.fullExtension]?.compile
+        ?? this.extensions[component.extension]?.compile;
       if (compile === undefined) {
         const debased = `${component.path}`.replace(source, "");
 
