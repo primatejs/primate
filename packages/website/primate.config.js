@@ -1,6 +1,5 @@
 import { File } from "rcompat/fs";
 import { esbuild } from "@primate/build";
-import liveview from "@primate/liveview";
 import { svelte, markdown, handlebars } from "@primate/frontend";
 import { getHighlighter } from "shiki";
 import priss from "./module.js";
@@ -46,7 +45,6 @@ export default {
     svelte(),
     handlebars(),
     esbuild({ ignores: ["woff2", "jpg"] }),
-    liveview(),
     markdown({
       options: {
         hooks: {
