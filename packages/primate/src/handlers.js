@@ -68,6 +68,12 @@ const html = (name, options) => async app => {
 // }}}
 // {{{ view
 const extensions = ["fullExtension", "extension"];
+/**
+ * Render a component using handler for the given filename extension
+ * @param {string} name component filename
+ * @param {object} props props passed to component
+ * @param {object} options rendering options
+ */
 const view = (name, props, options) => (app, ...rest) => extensions
   .map(extension => app.extensions[new File(name)[extension]])
   .find(extension => extension?.handle)

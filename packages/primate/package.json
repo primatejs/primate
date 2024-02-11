@@ -26,5 +26,12 @@
   },
   "type": "module",
   "types": "./types/index.d.ts",
-  "exports": "./src/exports.js"
+  "exports": "./src/exports.js",
+  "scripts": {
+    "prepublishOnly": "dts-buddy"
+  },
+  "devDependencies": {
+    "dts-buddy": "^0.4.4",
+    "typescript": "^5.3.3"
+  }
 }

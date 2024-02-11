@@ -45,6 +45,9 @@ const throwable = ({ message, level, fix }, name, module) => ({
   },
 });
 
+/**
+ * @export
+ */
 const Logger = class Logger {
   #level; #trace;
 
