@@ -9,6 +9,8 @@ import filter from "@rcompat/object/filter";
 import valmap from "@rcompat/object/valmap";
 import tryreturn from "@rcompat/async/tryreturn";
 
+const live = Symbol.for("@primate/live.live");
+
 const register = ({ app, name: rootname, ...rest }) => ({
   root: app.get_component(`root_${rootname}.js`),
   async load(name, props) {
@@ -50,7 +52,23 @@ export default config => {
             dispatcher => JSON.parse(dispatcher.toString() ?? "{}")),
           url: request.url,
         },
+        subscribers: {},
       };
+
+      shared.data.forEach((component_props, position) => {
+        Object.entries(component_props)
+          .filter(([, value]) => value.live === live)
+          .forEach(([prop, value]) => {
+            value.subscribe(next => {
+              app.live.send(value.id, next);
+            });
+            shared.subscribers[value.id] = { position, prop };
+          });
+      });
+      shared.data = shared.data.map(component_props =>
+        valmap(component_props, value =>
+          value?.live === live ? value.value : value),
+      );
 
       if (config.spa && request.headers.get("Accept") === json) {
         return new Response(JSON.stringify({ names, ...shared }), {

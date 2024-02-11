@@ -33,11 +33,14 @@ const post = async app => {
   const $handle = await hook.handle($app);
 
   $app.server = await serve(async request =>
-    tryreturn(async _ => $handle(await $app.parse(request)))
-      .orelse(error => {
-        log.auto(error);
-        return new Response(null, { status: INTERNAL_SERVER_ERROR });
-      }), $app.get("http"));
+    tryreturn(async _ => {
+      const handled = await $handle(await $app.parse(request));
+      return typeof handled === "function" ? handled($app) : handled;
+    }).orelse(error => {
+      console.log(error);
+      log.auto(error);
+      return new Response(null, { status: INTERNAL_SERVER_ERROR });
+    }), $app.get("http"));
   const { host, port } = $app.get("http");
   const address = `http${$app.secure ? "s" : ""}://${host}:${port}`;
   log.system(`started ${dim("->")} ${dim(address)}`);
