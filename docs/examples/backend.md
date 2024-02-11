@@ -10,7 +10,7 @@ const posts = [{
 
 export default {
   get() {
-    return view("Index.jsx", { posts });
+    return view("PostIndex.jsx", { posts });
   },
 };
 ```
@@ -25,7 +25,7 @@ const posts = [{
 
 export default {
   get() {
-    return view("Index.jsx", { posts });
+    return view("PostIndex.jsx", { posts });
   },
 } satisfies Route;
 ```
@@ -39,7 +39,7 @@ func Get(request Request) any {
     "title": "First post",
   }};
 
-  return primate.View("Index.jsx", Object{ "posts": posts });
+  return primate.View("PostIndex.jsx", Object{ "posts": posts });
 }
 ```
 
@@ -50,7 +50,7 @@ def get(request):
    "title": "First post",
   }]
 
-  return Primate.view("Index.jsx", { "posts": posts })
+  return Primate.view("PostIndex.jsx", { "posts": posts })
 ```
 
 ```rb caption=routes/index.rb
@@ -60,7 +60,7 @@ def get(request)
     title: "First post",
   }]
 
-  Primate.view("Index.jsx", { posts: posts })
+  Primate.view("PostIndex.jsx", { posts: posts })
 end
 ```
 

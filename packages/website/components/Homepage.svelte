@@ -6,19 +6,19 @@
   const modify_route = ([name, ending]) => {
     const selector = "code .line > span";
     [...document.querySelector(".tabs").querySelectorAll(selector)]
-      .filter(string => string.innerText.slice(1).startsWith("ndex."))
+      .filter(string => string.innerText.slice(1).includes("ndex."))
       .forEach(string => {
         string.innerText = `${name}.${ending}`;
       });
   };
 
   const filenames = {
-    react: ["Index", "jsx"],
-    solid: ["Index", "jsx"],
-    svelte: ["Index", "svelte"],
-    vue: ["Index", "vue"],
-    angular: ["index", "component.ts"],
-    webc: ["index", "webc"]
+    react: ["PostIndex", "jsx"],
+    solid: ["PostIndex", "jsx"],
+    svelte: ["PostIndex", "svelte"],
+    vue: ["PostIndex", "vue"],
+    angular: ["post-index", "component.ts"],
+    webc: ["post-index", "webc"]
   };
 
   onMount(() => {
