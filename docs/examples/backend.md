@@ -43,7 +43,7 @@ func Get(request Request) any {
 }
 ```
 
-```py caption=routes/index.python
+```py caption=routes/index.py
 def get(request):
   posts = [{
    "id": 1,

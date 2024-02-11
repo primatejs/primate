@@ -65,7 +65,7 @@ import { CommonModule } from "@angular/common";
 
 @Component({
   selector: "index",
-  imports: [ CommonModule ],
+  imports: [CommonModule],
   template: `
     <h1>All posts</h1>
     <div *ngFor="let post of posts">
