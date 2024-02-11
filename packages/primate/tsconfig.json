@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "module": "esnext",
+    "lib": ["esnext", "dom"],
+    "target": "esnext",
+    "noEmit": true,
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "noEmitOnError": true,
+    "noErrorTruncation": true,
+    "verbatimModuleSyntax": true,
+    "types": ["node"],
+    "strict": true,
+    "allowJs": true
+  },
+  "include": [
+    "./src"
+  ]
+}

@@ -18,7 +18,9 @@
   },
   "devDependencies": {
     "debris": "^0.14.0",
-    "maximin": "^0.2.2"
+    "dts-buddy": "^0.4.7",
+    "maximin": "^0.2.2",
+    "typescript": "^5.4.5"
   },
   "type": "module",
   "private": true,

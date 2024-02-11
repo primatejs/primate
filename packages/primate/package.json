@@ -26,5 +26,8 @@
   },
   "type": "module",
   "types": "./types/index.d.ts",
-  "exports": "./src/exports.js"
+  "exports": "./src/exports.js",
+  "scripts": {
+    "prepublishOnly": "dts-buddy"
+  }
 }

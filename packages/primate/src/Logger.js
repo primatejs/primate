@@ -44,7 +44,7 @@ const throwable = ({ message, level, fix }, name, module) => ({
   },
 });
 
-const Logger = class Logger {
+export default class Logger {
   #level; #trace;
 
   static err(errors, module) {
@@ -107,8 +107,6 @@ const Logger = class Logger {
     const matches = o.map(levels, ([key, level]) => [level, key.toLowerCase()]);
     return this[matches[error.level] ?? "error"](message, error);
   }
-};
-
-export default Logger;
+}
 
 export { print, bye, mark };

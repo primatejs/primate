@@ -1,5 +1,14 @@
 import FS from "rcompat/fs";
+
+/**
+ * @typedef {import("./types").MinOptions} MinOptions
+ * @typedef {import("./types").ErrorOptions} ErrorOptions
+ * @typedef {import("./types").Options} Options
+ * @typedef {(app: import("./types").App, ...rest: any) => Response} ResponseFn
+ */
+
 import { MediaType, Status } from "rcompat/http";
+import { ReadableStream } from "rcompat/stream";
 import { identity } from "rcompat/function";
 import { HTML } from "rcompat/string";
 import errors from "./errors.js";
@@ -8,6 +17,12 @@ const handle = (mediatype, mapper = identity) => (body, options) => app =>
   app.respond(mapper(body), app.media(mediatype, options));
 
 // {{{ text
+/**
+ * Send a plaintext response
+ * @param {string} body plaintext
+ * @param {MinOptions} options rendering options
+ * @return {ResponseFn}
+ */
 const text = handle(MediaType.TEXT_PLAIN);
 // }}}
 // {{{ json
@@ -21,6 +36,12 @@ const ws = implementation => ({ server }, _, { original }) =>
   server.upgrade(original, implementation);
 // }}}
 // {{{ sse
+/**
+ * Open a server-sent event stream
+ * @param {object} body docs1
+ * @param {object} options docs2
+ * @return {ResponseFn}
+ */
 const sse = handle(MediaType.TEXT_EVENT_STREAM, implementation =>
   new ReadableStream({
     start(controller) {
@@ -38,11 +59,23 @@ const sse = handle(MediaType.TEXT_EVENT_STREAM, implementation =>
   }));
 // }}}
 // {{{ redirect
+/**
+ * Redirect request
+ * @param {string} Location location to redirect to
+ * @param {MinOptions} options handler options
+ * @return {ResponseFn}
+ */
 const redirect = (Location, { status = Status.FOUND } = {}) => app =>
   /* no body */
   app.respond(null, { status, headers: { Location } });
 // }}}
 // {{{ error
+/**
+ * Render an error page
+ * @param {string} body replacement for %body%
+ * @param {ErrorOptions} options rendering options
+ * @return {ResponseFn}
+ */
 const error = (body = "Not Found", { status = Status.NOT_FOUND, page } = {}) =>
   app => app.view({ body, status, page: page ?? app.get("pages.error") });
 // }}}
@@ -56,6 +89,12 @@ const render = (component, props = {}) => {
   const values = Object.values(encoded);
   return new Function(...keys, `return \`${component}\`;`)(...values);
 };
+/**
+ * Render a HTML component, extracting <script> and <style> tags
+ * @param {string} name component filename
+ * @param {MinOptions} options rendering options
+ * @return {ResponseFn}
+ */
 const html = (name, props, options = {}) => async app => {
   const location = app.get("location");
   const components = app.runpath(location.server, location.components);
@@ -83,6 +122,13 @@ const html = (name, props, options = {}) => async app => {
 // }}}
 // {{{ view
 const extensions = ["fullExtension", "extension"];
+/**
+ * Render a component using handler for the given filename extension
+ * @param {string} name component filename
+ * @param {object} props props passed to component
+ * @param {object} options rendering options
+ * @return {ResponseFn}
+ */
 const view = (name, props, options) => (app, ...rest) => extensions
   .map(extension => app.extensions[new FS.File(name)[extension]])
   .find(extension => extension?.handle)
