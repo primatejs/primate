@@ -42,7 +42,7 @@ const markdown = ({
         compile: {
           async server(component) {
             const text = await component.text();
-            const { content, toc } = markdown.compile(text, options);
+            const { content, toc } = await markdown.compile(text, options);
 
             const base = target.join(component.debase(app.path.components));
             const html = new File(`${base}.html`);

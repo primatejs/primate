@@ -3,7 +3,7 @@ import { marked } from "./imports.js";
 const identity_heading = (text, level) => `<h${level}>${text}</h${level}>`;
 const heading = options => options?.renderer?.heading ?? identity_heading;
 
-export default (input, options) => {
+export default async (input, options) => {
   const toc = [];
   const renderer = {
     ...options?.renderer ?? {},
@@ -18,7 +18,7 @@ export default (input, options) => {
   };
   marked.use({ ...options, renderer });
 
-  const content = marked.parse(input);
+  const content = await marked.parse(input);
 
   return { content, toc };
 };
