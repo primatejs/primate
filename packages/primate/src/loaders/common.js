@@ -19,9 +19,9 @@ export default async ({
   const objects = directory === undefined ? [] : await Promise.all(
     (await File.collect(directory, /^.*.js$/u, { recursive }))
       .filter(filter)
-      .map(async path => [
-        `${path}`.replace(directory, _ => "").slice(1, -ending.length),
-        await import(path),
+      .map(async file => [
+        `${file}`.replace(directory, _ => "").slice(1, -ending.length),
+        await file.import(),
       ]));
   warn && await directory.exists() && empty(log)(objects, name, directory);
 

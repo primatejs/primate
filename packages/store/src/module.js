@@ -65,8 +65,8 @@ export default ({
         // accept only lowercase-first directories in store path
         .filter(([name]) =>
           name.split("/").slice(0, last).every(part => /^[a-z]/u.test(part)))
-        .map(async ([store, path]) => {
-          const exports = await import(path);
+        .map(async ([store, file]) => {
+          const exports = await file.import();
           const schema = transform(exports.default, entry => entry
             .filter(([property, type]) => valid(type, property, store)));
 

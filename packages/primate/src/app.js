@@ -80,7 +80,7 @@ export default async (log, root, config) => {
     root,
     log,
     error: {
-      default: await error.exists() ? (await import(error)).default : undefined,
+      default: await error.exists() ? await error.import("default") : undefined,
     },
     handlers: { ...handlers },
     extensions: {

@@ -15,7 +15,7 @@ const get_config = async root => {
   const config = root.join(name);
   return await config.exists()
     ? tryreturn(async _ => {
-      const imported = (await import(config)).default;
+      const imported = await config.import("default");
 
       (imported === undefined || Object.keys(imported).length === 0) &&
         errors.EmptyConfigFile.warn(logger, config);
