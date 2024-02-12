@@ -1,3 +1,10 @@
+/**
+ * @typedef {import("./types").ResponseFn} ResponseFn
+ * @typedef {import("./types").MinOptions} MinOptions
+ * @typedef {import("./types").ErrorOptions} ErrorOptions
+ * @typedef {import("./types").Options} Options
+ */
+
 import { File } from "rcompat/fs";
 import { MediaType, Status } from "rcompat/http";
 import { identity } from "rcompat/function";
@@ -7,6 +14,12 @@ const handle = (mediatype, mapper = identity) => (body, options) => app =>
   app.respond(mapper(body), app.media(mediatype, options));
 
 // {{{ text
+/**
+ * Send a plaintext response
+ * @param {string} body plaintext
+ * @param {MinOptions} options rendering options
+ * @return {ResponseFn}
+ */
 const text = handle(MediaType.TEXT_PLAIN);
 // }}}
 // {{{ json
@@ -37,11 +50,23 @@ const sse = handle(MediaType.TEXT_EVENT_STREAM, implementation =>
   }));
 // }}}
 // {{{ redirect
+/**
+ * Redirect request
+ * @param {string} Location location to redirect to
+ * @param {MinOptions} options handler options
+ * @return {ResponseFn}
+ */
 const redirect = (Location, { status = Status.FOUND } = {}) => app =>
   /* no body */
   app.respond(null, { status, headers: { Location } });
 // }}}
 // {{{ error
+/**
+ * Render an error page
+ * @param {string} body replacement for %body%
+ * @param {ErrorOptions} options rendering options
+ * @return {ResponseFn}
+ */
 const error = (body = "Not Found", { status = Status.NOT_FOUND, page } = {}) =>
   app => app.view({ body, status, page: page ?? app.config.pages.error });
 // }}}
@@ -49,6 +74,12 @@ const error = (body = "Not Found", { status = Status.NOT_FOUND, page } = {}) =>
 const script_re = /(?<=<script)>(?<code>.*?)(?=<\/script>)/gus;
 const style_re = /(?<=<style)>(?<code>.*?)(?=<\/style>)/gus;
 const remove = /<(?<tag>script|style)>.*?<\/\k<tag>>/gus;
+/**
+ * Render a HTML component, extracting <script> and <style> tags
+ * @param {string} name component filename
+ * @param {MinOptions} options rendering options
+ * @return {ResponseFn}
+ */
 const html = (name, options) => async app => {
   const component = await app.path.components.join(name).text();
   const scripts = await Promise.all([...component.matchAll(script_re)]
@@ -73,6 +104,7 @@ const extensions = ["fullExtension", "extension"];
  * @param {string} name component filename
  * @param {object} props props passed to component
  * @param {object} options rendering options
+ * @return {ResponseFn}
  */
 const view = (name, props, options) => (app, ...rest) => extensions
   .map(extension => app.extensions[new File(name)[extension]])
