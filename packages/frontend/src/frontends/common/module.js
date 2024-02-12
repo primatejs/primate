@@ -14,8 +14,9 @@ export default async ({
   default_extension,
 }) => {
   const normalized = normalize(name);
-  const exports_path = File.join("..", name, "client", "exports.js");
-  const imports_path = File.join("..", name, "imports.js");
+  const base = new File(import.meta.url).up(2).join(name);
+  const exports_path = base.join("client", "exports.js");
+  const imports_path = base.join("imports.js");
   const on = filter(peers, ([key]) => dependencies.includes(key));
 
   return ({
@@ -30,8 +31,8 @@ export default async ({
       async init(app, next) {
         await depend(on, `frontend:${name}`);
 
-        imports = await import(imports_path);
-        exports = await import(exports_path);
+        imports = await imports_path.import();
+        exports = await exports_path.import();
 
         return next(app);
       },
