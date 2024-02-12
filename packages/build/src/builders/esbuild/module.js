@@ -126,7 +126,7 @@ export default ({ ignores = [], options = {} } = {}) => {
         // remove unbundled client
         await publish(app, client);
 
-        if (mode.development) {
+        if (mode.development && await app.path.components.exists()) {
           const module = "primate/build";
           const options = { recursive: true };
 
