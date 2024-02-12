@@ -1,6 +1,6 @@
 import { Response, Status, MediaType } from "rcompat/http";
 import { cascade, tryreturn } from "rcompat/async";
-import { respond } from "./respond/exports.js";
+import respond from "./respond.js";
 import { error as clientError } from "../handlers.js";
 
 const guard_error = Symbol("guard_error");
