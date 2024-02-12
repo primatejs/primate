@@ -21,9 +21,13 @@ const create = async ([root, configs]) => {
   await files.gitignore(root, config);
   await files.package_json(root, config);
   await files.primate_config_js(root, config);
-  await root.join("pages").create();
-  await files.app_html(root);
-  await files.error_html(root);
+  const pages = root.join("pages");
+  await pages.create();
+  await files.app_html(pages);
+  await files.error_html(pages);
+  const routes = root.join("routes");
+  await routes.create();
+  await files.index_route(routes);
 
   return root;
 };
