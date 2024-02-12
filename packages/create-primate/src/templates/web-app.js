@@ -52,6 +52,7 @@ export default async root => {
     configs.push({
       dependencies: {
         "@primate/build": dependencies["@primate/build"],
+        esbuild: dependencies.esbuild,
       },
       imports: {
         "{ esbuild }": "@primate/build",
