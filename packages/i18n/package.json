@@ -16,7 +16,7 @@
     "directory": "packages/i18n"
   },
   "dependencies": {
-    "rcompat": "^0.8.2"
+    "rcompat": "^0.8.3"
   },
   "peerDependencies": {
     "primate": "0.29"

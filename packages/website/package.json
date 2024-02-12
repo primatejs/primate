@@ -8,7 +8,7 @@
     "handlebars": "^4.7.8",
     "marked": "^12.0.0",
     "primate": "^0.29.3",
-    "rcompat": "^0.8.2",
+    "rcompat": "^0.8.3",
     "shiki": "^1.1.2",
     "svelte": "^4.2.10"
   },
