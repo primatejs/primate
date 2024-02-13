@@ -40,7 +40,7 @@ export default {
 ```
 
 Using the explicit handler you can also override the status code of the
-response.
+response. Here the default `200 OK` response code is overriden by `202 Accepted`.
 
 ### JSON
 
