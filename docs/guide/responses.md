@@ -37,7 +37,7 @@ export default {
     const { name } = request.body;
 
     if (name === undefined) {
-      return text("No name specified", { status: Status.UNPROCESSABLE_CONTENT });
+      return text("No name specified", { status: Status.UNPROCESSABLE_ENTITY });
     }
 
     return text("Name submitted successfully", { status: Status.CREATED });
