@@ -214,7 +214,7 @@ Such a path will thus be matched by all the following requests.
 * `/users/1a`
 * `/users/aa`
 * `/users/ba?key=value`
-* `/users//a` (repeated `/` are only processed ones)
+* `/users//a` (repeated `/` are processed as a single `/`)
 
 The same path won't be matched by any of the following requests.
 
