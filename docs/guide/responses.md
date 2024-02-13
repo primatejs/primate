@@ -33,14 +33,22 @@ To use this handler explicitly, import and use the `text` function.
 import { text, Status } from "primate";
 
 export default {
-  get() {
-    return text("Donald", { status: Status.ACCEPTED });
+  post(request) {
+    const { name } = request.body;
+
+    if (name === undefined) {
+      return text("No name specified", { status: Status.UNPROCESSABLE_CONTENT });
+    }
+
+    return text("Name submitted successfully", { status: Status.CREATED });
   },
 };
 ```
 
 Using the explicit handler you can also override the status code of the
-response. Here the default `200 OK` response code is overriden by `202 Accepted`.
+response. Here the route function handles POST request and the default `200 OK`
+response code is overriden by `201 Created` for a valid name entry or
+`422 Unprocessable Entity` for an undefined name.
 
 ### JSON
 
