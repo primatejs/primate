@@ -2,10 +2,9 @@ import { Blob, s_streamable } from "rcompat/fs";
 import { URL, Response } from "rcompat/http";
 import { identity } from "rcompat/function";
 import { text, json, stream, redirect } from "primate";
+import errors from "../errors.js";
 
-const not_found = value => {
-  throw new Error(`no handler found for ${value}`);
-};
+const not_found = value => errors.InvalidReturnedBody.throw(value);
 const is_text = value => typeof value === "string";
 const is_non_null_object = value => typeof value === "object" && value !== null;
 const is_instance = of => value => value instanceof of;
