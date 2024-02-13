@@ -95,10 +95,10 @@ allows these extensions to be easily added to an app. Primate's
 [official modules][official-modules] (those under the NPM namespace `@primate`)
 are updated alongside the core framework.
 
-As an example for the web app capabilities of Primate, the Primate team is
-working on [Priss][priss], a Primate + Svelte site generator used to facilitate
-combining Markdown-based documentation websites with dynamic features (user
-login, sessions). The Primate website uses Priss itself.
+## Example Applications
+
+- [hynt.us](https://github.com/profullstack/hynt-web) - a link shortener app using SurrealDB and Svelte
+- [starter app](https://github.com/primatejs/app) - demos most of the features of Primate
 
 [http-static-root]: /guide/configuration#http-static-root
 [location-static]: /guide/configuration#location-static
