@@ -16,11 +16,6 @@
       "fix": "load {0} only once",
       "level": "Error"
     },
-    "DoublePathParameter": {
-      "message": "double path parameter {0} in route {1}",
-      "fix": "disambiguate path parameters in route names",
-      "level": "Error"
-    },
     "DoubleRoute": {
       "message": "double route of the form {0}",
       "fix": "disambiguate routes",
@@ -46,9 +41,19 @@
       "fix": "use only functions for the default export",
       "level": "Error"
     },
-    "InvalidPathParameter": {
-      "message": "invalid path parameter {0} in route {1}",
-      "fix": "use only latin letters and decimal digits in path parameters",
+    "InvalidPath": {
+      "message": "invalid path {0}",
+      "fix": "use only letters, digits, '[', ']' and '=' in paths",
+      "level": "Error"
+    },
+    "EmptyPathParameter": {
+      "message": "empty path parameter {0} in route {1}",
+      "fix": "add name or remove parameter",
+      "level": "Error"
+    },
+    "DoublePathParameter": {
+      "message": "double path parameter {0} in route {1}",
+      "fix": "disambiguate path parameters in route names",
       "level": "Error"
     },
     "InvalidTypeExport": {

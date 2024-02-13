@@ -54,7 +54,4 @@ export default {
       mapper: identity,
     },
   },
-  types: {
-    explicit: false,
-  },
 };

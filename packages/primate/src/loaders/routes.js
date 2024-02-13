@@ -4,18 +4,22 @@ import { default as fs, doubled } from "./common.js";
 import * as get from "./routes/exports.js";
 import errors from "../errors.js";
 
+const valid_route = /^[\w\-[\]=/.]*$/u;
+
 const make = path => {
+  !valid_route.test(path) && errors.InvalidPath.throw(path);
+
   const double = doubled(path.split("/")
-    .filter(part => part.startsWith("{") && part.endsWith("}"))
+    .filter(part => part.startsWith("[") && part.endsWith("]"))
     .map(part => part.slice(1, part.indexOf("="))));
   double && errors.DoublePathParameter.throw(double, path);
 
-  const route = path.replaceAll(/\{(?<named>.*?)\}/gu, (_, named) =>
+  const route = path.replaceAll(/\[(?<named>.*?)\]/gu, (_, named) =>
     tryreturn(_ => {
       const { name, type } = /^(?<name>\w+)(?<type>=\w+)?$/u.exec(named).groups;
       const param = type === undefined ? name : `${name}$${type.slice(1)}`;
       return `(?<${param}>[^/]{1,}?)`;
-    }).orelse(_ => errors.InvalidPathParameter.throw(named, path)));
+    }).orelse(_ => errors.EmptyPathParameter.throw(named, path)));
 
   return new RegExp(`^/${route}$`, "u");
 };
