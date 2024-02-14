@@ -57,10 +57,11 @@ export default async ({
       await path.write(code.replaceAll(extensions.from, extensions.to));
     },
     async client(component) {
-      const name = component.path.replace(`${source}/`, "");
+      const { path: name } = component.debase(source, "/");
       const build = app.config.location.components;
       const { path } = component;
 
+      // web import -> unix style
       const file_string = `./${build}/${name}`;
       const { js, css } = await compile.client(await component.text(), component, app);
       {
@@ -71,7 +72,7 @@ export default async ({
         const imported = await normalize(name);
         app.export({
           type: "script",
-          code: `export {default as ${imported}} from "${file_string}.js";\n`,
+          code: `export { default as ${imported} } from "${file_string}.js";\n`,
         });
       }
       if (css !== null && css !== undefined) {
