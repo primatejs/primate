@@ -54,13 +54,9 @@ export default ({
         const loaded = [];
         const locales = from(await Promise.all((await root.collect(/^.*.json$/u))
           .map(async path => {
-            const depathed = `${path}`.replace(`${root}/`, () => "")
-              .slice(0, ending);
+            const { base: depathed } = path.debase(root, "/");
             loaded.push(depathed);
-            return [
-              `${path}`.replace(`${root}/`, () => "").slice(0, ending),
-              await path.json(),
-            ];
+            return [depathed, await path.json()];
           })));
 
         app.log.info(`loading ${loaded.map(l => dim(l)).join(" ")}`, { module });

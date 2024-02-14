@@ -64,7 +64,7 @@ end`);
 import { File } from "rcompat/fs";
 
 const { vm } = await rubyvm(module);
-const file = await new File("${path}").text();
+const file = await File.text(${JSON.stringify(path)});
 const wrappers = ${JSON.stringify(create_ruby_wrappers(routes))};
 const request = ${JSON.stringify(request
     .replace("%%DISPATCH_DEFS%%", _ => type_defs)

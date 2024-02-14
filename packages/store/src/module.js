@@ -58,10 +58,7 @@ export default ({
       const stores = await Promise.all((await root.collect(/^.*.js$/u))
         // accept only uppercase-first files in store filename
         .filter(path => /^[A-Z]/u.test(path.name))
-        .map(path => [
-          `${path}`.replace(`${root}/`, () => "").slice(0, ending),
-          path,
-        ])
+        .map(path => [path.debase(root, "/").path.slice(0, ending), path])
         // accept only lowercase-first directories in store path
         .filter(([name]) =>
           name.split("/").slice(0, last).every(part => /^[a-z]/u.test(part)))

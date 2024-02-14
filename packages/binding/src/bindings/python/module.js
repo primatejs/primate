@@ -20,7 +20,7 @@ const js_wrapper = async (path, routes, packages) => `
   import { File } from "rcompat/fs";
   import { loadPyodide as load } from "pyodide";
   const pyodide = await load({ indexURL: "./node_modules/pyodide" });
-  const file = await new File("${path}").text();
+  const file = await File.text(${JSON.stringify(path)});
   ${packages.map(make_package)}
   pyodide.runPython(wrap(file));
   export default {
