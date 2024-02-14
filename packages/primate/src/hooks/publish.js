@@ -16,7 +16,7 @@ const post = async app => {
       type: "module",
     });
 
-    const imports = { ...app.importmaps, app: src.path };
+    const imports = { ...app.importmaps, app: src.normalize() };
     const type = "importmap";
     await app.publish({ inline: true, code: stringify({ imports }), type });
   }

@@ -238,8 +238,8 @@ export default async (log, root, config) => {
       const dependency = File.resolve().join(...path);
       const target = File.join(this.runpath(client), this.library, ...parts);
       await dependency.copy(target);
-      this.importmaps = {
-        ...valmap(exports, value => File.join(root, this.library, value).path),
+      this.importmaps = { ...valmap(exports, value =>
+        File.join(root, this.library, value).normalize()),
         ...this.importmaps };
     },
   };

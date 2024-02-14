@@ -1,16 +1,19 @@
 import { tryreturn } from "rcompat/sync";
 import { from } from "rcompat/object";
+import { File } from "rcompat/fs";
 import { default as fs, doubled } from "./common.js";
 import * as get from "./routes/exports.js";
 import errors from "../errors.js";
+
+const { separator } = File;
 
 const valid_route = /^[\w\-[\]=/.]*$/u;
 
 const make = path => {
   !valid_route.test(path) && errors.InvalidPath.throw(path);
 
-  const double = doubled(path.split("/")
-    .filter(part => part.startsWith("[") && part.endsWith("]"))
+  const double = doubled(path.split(separator)
+    .filter(part => part.startsWith("{") && part.endsWith("}"))
     .map(part => part.slice(1, part.indexOf("="))));
   double && errors.DoublePathParameter.throw(double, path);
 
@@ -21,7 +24,8 @@ const make = path => {
       return `(?<${param}>[^/]{1,}?)`;
     }).orelse(_ => errors.EmptyPathParameter.throw(named, path)));
 
-  return new RegExp(`^/${route}$`, "u");
+  // normalize to unix
+  return new RegExp(`^/${route.replaceAll(separator, "/")}$`, "u");
 };
 
 export default async (app, load = fs) => {
@@ -42,7 +46,7 @@ export default async (app, load = fs) => {
     return Object.entries(route).map(([method, handler]) => ({
       method,
       handler,
-      pathname: make(path.endsWith("/") ? path.slice(0, -1) : path),
+      pathname: make(path.endsWith(separator) ? path.slice(0, -1) : path),
       guards: routes.guards.filter(filtered).map(([, guard]) => guard.default),
       errors: routes.errors.filter(filtered).map(([, error]) => error.default),
       layouts: routes.layouts.filter(filtered).map(([, layout]) => layout),
