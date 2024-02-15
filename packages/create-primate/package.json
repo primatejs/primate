@@ -16,16 +16,23 @@
   },
   "dependencies": {
     "@clack/prompts": "^0.7.0",
-    "rcompat": "^0.8.3"
+    "rcompat": "^0.8.6"
   },
   "type": "module",
   "devDependencies": {
+    "@angular/compiler": "^17.2.1",
+    "@angular/core": "^17.2.1",
+    "@angular/platform-browser": "^17.2.1",
+    "@angular/platform-server": "^17.2.1",
+    "@angular/ssr": "^17.2.0",
+    "@marko/compiler": "^5.34.6",
+    "@marko/translator-default": "^5.31.13",
     "@primate/build": "^0.4.2",
     "@primate/frontend": "^0.13.5",
     "@primate/session": "^0.17.1",
     "@primate/store": "^0.22.2",
     "@primate/types": "^0.13.1",
-    "babel-preset-solid": "^1.8.12",
+    "babel-preset-solid": "^1.8.15",
     "better-sqlite3": "^9.4.1",
     "esbuild": "^0.20.0",
     "handlebars": "^4.7.8",
@@ -33,12 +40,13 @@
     "marked": "^12.0.0",
     "mongodb": "^6.3.0",
     "postgres": "^3.4.3",
-    "primate": "^0.29.4",
+    "primate": "^0.29.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "solid-js": "^1.8.14",
+    "solid-js": "^1.8.15",
     "surrealdb.js": "^0.11.0",
     "svelte": "^4.2.10",
-    "vue": "^3.4.18"
+    "vue": "^3.4.19",
+    "zone.js": "^0.14.4"
   }
 }

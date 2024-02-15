@@ -9,9 +9,11 @@ const labels = new Map([
   [framework.svelte, "Svelte"],
   [framework.react, "React"],
   [framework.solid, "Solid"],
+  [framework.angular, "Angular"],
   [framework.vue, "Vue"],
   [framework.htmx, "HTMX"],
   [framework.markdown, "Markdown"],
+  [framework.marko, "Marko"],
 ]);
 
 const options = [...labels.entries()].map(([value, label]) => ({ value, label }));
