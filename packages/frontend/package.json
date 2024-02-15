@@ -15,19 +15,7 @@
     "directory": "packages/frontend"
   },
   "dependencies": {
-    "rcompat": "^0.8.3"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.23.9",
-    "babel-preset-solid": "^1.8.12",
-    "esbuild": "^0.20.0",
-    "handlebars": "^4.7.8",
-    "marked": "^12.0.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "solid-js": "^1.8.14",
-    "svelte": "^4.2.10",
-    "vue": "^3.4.18"
+    "rcompat": "^0.8.6"
   },
   "peerDependencies": {
     "@angular/compiler": "17",
@@ -48,7 +36,8 @@
     "react-dom": "18",
     "solid-js": "1",
     "svelte": "4",
-    "vue": "3"
+    "vue": "3",
+    "zone.js": "0.14"
   },
   "peerDependenciesMeta": {
     "@angular/compiler": {
@@ -103,6 +92,9 @@
       "optional": true
     },
     "vue": {
+      "optional": true
+    },
+    "zone.js": {
       "optional": true
     }
   },
