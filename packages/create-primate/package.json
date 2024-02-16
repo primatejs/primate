@@ -26,7 +26,7 @@
     "@angular/platform-server": "^17.2.1",
     "@angular/ssr": "^17.2.0",
     "@marko/compiler": "^5.34.6",
-    "@marko/translator-default": "^5.31.13",
+    "@marko/translator-default": "^5.31.14",
     "@primate/build": "^0.4.2",
     "@primate/frontend": "^0.13.5",
     "@primate/session": "^0.17.1",
@@ -45,7 +45,7 @@
     "react-dom": "^18.2.0",
     "solid-js": "^1.8.15",
     "surrealdb.js": "^0.11.0",
-    "svelte": "^4.2.10",
+    "svelte": "^4.2.11",
     "vue": "^3.4.19",
     "zone.js": "^0.14.4"
   }
