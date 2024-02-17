@@ -37,7 +37,7 @@ const create_ruby_wrappers = routes => routes.map(route =>
 end`).join("\n");
 
 const js_wrapper = async (path, routes, types, app) => {
-  const supported_types = Object.entries(types)
+  const supported_types = o.entries(types)
     .filter(([_, { base }]) => type_map[base] !== undefined);
   const type_defs = supported_types.map(([name, { base }]) => {
     const { transfer } = type_map[base];

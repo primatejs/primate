@@ -54,7 +54,7 @@ const wrap_store = (toPy, store) => {
 };
 
 const is_store = value => value.connection !== undefined;
-const wrap_stores = (toPy, object) => o.to(object)
+const wrap_stores = (toPy, object) => Object.entries(object)
   .reduce((reduced, [key, value]) => ({
     ...reduced,
     [key]: is_store(value) ? wrap_store(toPy, value) : wrap_stores(toPy, value),

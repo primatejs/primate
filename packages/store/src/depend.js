@@ -1,5 +1,4 @@
 import { tryreturn } from "rcompat/async";
-import o from "rcompat/object";
 import { packager } from "rcompat/meta";
 import errors from "./errors.js";
 
@@ -12,7 +11,7 @@ export default async (dependencies, from) => {
     tryreturn(_ => import(module)).orelse(_ => module),
   ));
   const errored = results.filter(result => typeof result === "string");
-  const versions = o.to(dependencies)
+  const versions = Object.entries(dependencies)
     .filter(([dependency]) => errored.includes(dependency))
     .map(([key, value]) => `${key}@${value}`);
   if (errored.length > 0) {

@@ -27,7 +27,7 @@ export default async root => {
 
   const driver = await (await select({
     message: "Choose driver",
-    options: o.to(labels).map(([key, label]) =>
+    options: Object.entries(labels).map(([key, label]) =>
       ({ value: drivers[key], label })),
   }))();
 

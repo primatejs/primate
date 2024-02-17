@@ -15,9 +15,8 @@ const r = await (async () => {
   const p = "https://p.com";
   const request = (method, path = "/", options = {}) =>
     new Request(`${p}${path}`, { method, ...options });
-  return Object.fromEntries(["get", "post", "put", "delete"].map(verb =>
-    [verb, (...args) =>
-      parse(app)(request(verb.toUpperCase(), ...args))]));
+  return o.from(["get", "post", "put", "delete"].map(verb => [verb, (...args) =>
+    parse(app)(request(verb.toUpperCase(), ...args))]));
 })();
 
 export default test => {

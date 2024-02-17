@@ -156,7 +156,7 @@ export default async (log, root, config) => {
       const { body, head, partial, placeholders = {}, page = index } = content;
       ["body", "head"].every(used => is(placeholders[used]).undefined());
 
-      return partial ? body : o.to(placeholders)
+      return partial ? body : Object.entries(placeholders)
         // replace given placeholders, defaulting to ""
         .reduce((html, [key, value]) => html.replace(`%${key}%`, value ?? ""),
           await load(this.runpath(this.get("location.pages")), page, index))

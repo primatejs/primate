@@ -1,5 +1,4 @@
 import { File } from "rcompat/fs";
-import o from "rcompat/object";
 import loader from "./types.js";
 import { mark } from "../Logger.js";
 
@@ -10,7 +9,8 @@ const log = {
 };
 const directory = new File("/types");
 const types = type => loader(log, directory, () =>
-  o.to(type).map(([name, definition]) => [name, { default: definition }]));
+  Object.entries(type).map(([name, definition]) =>
+    [name, { default: definition }]));
 const type = {
   base: "string",
   validate() {

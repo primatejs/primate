@@ -11,9 +11,9 @@ const root_component = ({ template, imports }) => as_component({
   standalone: true,
 })(class {});
 
-export default async (real_root, props) => {
-  const { selector } = await reflectComponentType(real_root);
-  const attributes = Object.entries(props)
+export default (real_root, props) => {
+  const { selector } = reflectComponentType(real_root);
+  const attributes = Object.o(props)
     .map(([key, value]) => `[${key}]="${double_to_single(o.stringify(value))}"`)
     .join(" ");
 

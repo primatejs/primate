@@ -9,7 +9,7 @@ export default class Connection {
     create: async (name, description) => {
       const { connection } = this;
       const body =
-        o.to(o.valmap(description, value => typemap(value.base)))
+        Object.entries(o.valmap(description, value => typemap(value.base)))
           .map(([column, dataType]) => `"${column}" ${dataType}`).join(",");
       await connection`
         create table if not exists 
