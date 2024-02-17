@@ -3,8 +3,6 @@ import o from "rcompat/object";
 import { tryreturn } from "rcompat/async";
 import errors from "../errors.js";
 
-const deslash = url => url.replaceAll(/(?<!http:)\/{2,}/gu, _ => "/");
-
 const get_body = (request, url) =>
   tryreturn(async _ => await Body.parse(request) ?? {})
     .orelse(error => errors.MismatchedBody.throw(url.pathname, error.message));
@@ -12,7 +10,7 @@ const get_body = (request, url) =>
 export default app => async original => {
   const { headers } = original;
 
-  const url = new URL(deslash(globalThis.decodeURIComponent(original.url)));
+  const url = new URL(globalThis.decodeURIComponent(original.url));
   const cookies = headers.get("cookie");
 
   return { original, url,

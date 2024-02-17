@@ -106,7 +106,11 @@ export default test => {
 
   test.reassert(assert => ({
     match: (url, expected) => {
-      assert(r(url).pathname.toString()).equals(expected.toString());
+      try {
+        assert(r(url).pathname.toString()).equals(expected.toString());
+      } catch {
+        assert.fail();
+      }
     },
     fail: (url, result) => {
       const reason = mark("no {0} route to {1}", "get", result ?? url);
@@ -133,10 +137,14 @@ export default test => {
     match("/users/1a", re);
     match("/users/aa", re);
     match("/users/ba?key=value", re);
+    match("/users/1a/", re);
+    // double deslashes are dedoubled in pathnames
+    match("/users//1a", re);
+    match("//users//1a", re);
+    match("//users//1a//", re);
     fail("/user/1a");
     fail("/users/a");
     fail("/users/aA");
-    fail("/users//a");
     fail("/users/?a", "/users");
   });
   test.case("no params", ({ path }) => {

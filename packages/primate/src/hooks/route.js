@@ -36,9 +36,11 @@ export default app => {
     is_method({ route, method, pathname }));
 
   const index = path => `${location.routes}${path === "/" ? "/index" : path}`;
+  // remove excess slashes
+  const deslash = url => url.replaceAll(/\/{2,}/gu, _ => "/");
 
   return ({ original: { method }, url }) => {
-    const pathname = deroot(url.pathname);
+    const pathname = deroot(deslash(url.pathname));
     const route = find(method, pathname) ?? errors.NoRouteToPath
       .throw(method.toLowerCase(), pathname, index(pathname));
     return { ...route, path: to_path(route, pathname) };

@@ -64,8 +64,6 @@ export default test => {
     await matches([
       "..",
       "../",
-      "/",
-      "//",
       "../..",
       "../../",
       "../../.",
@@ -93,6 +91,9 @@ export default test => {
     assert(response2.query.get("foo")).equals("bar");
     assert(response2.query.get("bar")).equals("baz");
     assert(response2.query.get("baz")).undefined();
+    const response3 = await r.get("/?url=https://primatejs.com");
+    assert(response3.query.json()).equals({ url: "https://primatejs.com" });
+    assert(response3.query.get("url")).equals("https://primatejs.com");
   });
 
   test.case("cookies", async assert => {
