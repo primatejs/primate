@@ -13,7 +13,7 @@ const post = async app => {
     type: "module",
   });
 
-  const imports = { ...app.importmaps, app: src.normalize() };
+  const imports = { ...app.importmaps, app: src.webpath() };
   const type = "importmap";
   await app.publish({ inline: true, code: o.stringify({ imports }), type });
 

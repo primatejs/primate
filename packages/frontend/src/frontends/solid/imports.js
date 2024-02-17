@@ -46,7 +46,7 @@ const depend = async (module, app, copy_dependency) => {
   }
 
   const entry = pkg.exports["."].browser.import;
-  app.importmaps[module] = File.join(root, library, module, entry).normalize();
+  app.importmaps[module] = File.join(root, library, module, entry).webpath();
 };
 
 export const prepare = async app => {

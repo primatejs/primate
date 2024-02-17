@@ -238,7 +238,7 @@ export default async (log, root, config) => {
       const target = this.runpath(this.get("location.client")).join(...path);
       await dependency.copy(target);
       this.importmaps = { ...o.valmap(exports, value =>
-        File.join(this.get("http.static.root"), this.library, value).normalize()),
+        File.join(this.get("http.static.root"), this.library, value).webpath()),
         ...this.importmaps };
     },
   };

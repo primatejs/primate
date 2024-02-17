@@ -56,7 +56,7 @@ export const prepare = async app => {
   app.importmaps = {
     ...app.importmaps,
     ...o.valmap(imports, value =>
-      File.join("/", library, module, value).normalize()),
+      File.join("/", library, module, value).webpath()),
   };
 
   await app.import("@primate/frontend", "react");
