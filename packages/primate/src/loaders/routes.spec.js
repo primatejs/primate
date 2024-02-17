@@ -1,13 +1,15 @@
 import { File } from "rcompat/fs";
+import o from "rcompat/object";
 import loader from "./routes.js";
 import { mark } from "../Logger.js";
 
-const app = {
-  config: {
-    location: {
-      routes: "routes",
-    },
+const config = {
+  location: {
+    routes: "routes",
   },
+};
+const app = {
+  get: config_key => o.get(config, config_key),
   log: {
     auto(error) {
       throw error;

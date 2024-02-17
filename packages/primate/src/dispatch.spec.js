@@ -33,9 +33,8 @@ export default test => {
   test.case("patch", async assert => {
     const d = dispatch({ number, number2 });
     const error = mark("mismatched type: {0}", "`foo` is not a number");
-    assert(() => d({}).getNumber()).throws("`number` called without property");
-    assert(() => d({}).getNumber2())
-      .throws("`number2` called without property");
+    assert(() => d({}).getNumber()).throws("`number` called without key");
+    assert(() => d({}).getNumber2()).throws("`number2` called without key");
     assert(() => d({}).getNumber("foo")).throws(error);
     assert(() => d({}).getNumber2("foo")).throws(error);
     assert(() => d({ foo: "bar" }).getNumber("foo")).throws(error);

@@ -1,4 +1,5 @@
 import { File } from "rcompat/fs";
+import o from "rcompat/object";
 import dispatch from "../dispatch.js";
 import * as loaders from "../loaders/exports.js";
 import route from "./route.js";
@@ -18,11 +19,6 @@ const id = name => (value, property) => {
 };
 
 const $app = {
-  config: {
-    location: {
-
-    },
-  },
   log: {
     auto(error) {
       throw error;
@@ -31,14 +27,19 @@ const $app = {
   runpath() {
     return new File("/routes");
   },
+  get: config_key => o.get({
+    config: {
+      location: {},
+    },
+  }, config_key),
 };
 
 const app = {
-  config: {
+  get: config_key => o.get({
     location: {
       routes: "/routes",
     },
-  },
+  }, config_key),
   headers: () => ({}),
   modules: {
     route: [],
