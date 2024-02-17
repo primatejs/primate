@@ -18,13 +18,14 @@ const post = async app => {
   const location = app.get("location");
 
   // stage routes
-  await app.runpath(location.routes).create();
   const double = doubled((await app.path.routes.collect())
     .map(path => path.debase(app.path.routes))
     .map(path => `${path}`.slice(1, -path.extension.length)));
   double && errors.DoubleRoute.throw(double);
 
-  await app.stage(app.path.routes, location.routes);
+  if (await app.path.routes.exists()) {
+    await app.stage(app.path.routes, location.routes);
+  }
   if (await app.path.types.exists()) {
     await app.stage(app.path.types, location.types);
   }
