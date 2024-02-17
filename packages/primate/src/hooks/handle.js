@@ -33,6 +33,11 @@ const get_layouts = async (layouts, request) => {
     .slice(stop_at === -1 ? 0 : stop_at)
     .map(layout => layout.default(request)));
 };
+// last handler, preserve final request form
+const last = handler => async request => {
+  const response = await handler(request);
+  return { request, response };
+};
 
 export default app => {
   const route = request => app.route(request);
@@ -46,15 +51,13 @@ export default app => {
 
       error_handler = errors?.at(-1);
 
-      const pathed = { ...request, path };
-
-      const hooks = [...app.modules.route, guard(app, guards)];
+      const hooks = [...app.modules.route, guard(app, guards), last(handler)];
 
       // handle request
-      const response = await (await cascade(hooks, handler))(pathed);
+      const routed = await (await cascade(hooks))({ ...request, path });
 
-      const $layouts = { layouts: await get_layouts(layouts, request) };
-      return (await respond(response))(app, $layouts, pathed);
+      const $layouts = { layouts: await get_layouts(layouts, routed.request) };
+      return (await respond(routed.response))(app, $layouts, routed.request);
     }).orelse(async error => {
       app.log.auto(error);
 
