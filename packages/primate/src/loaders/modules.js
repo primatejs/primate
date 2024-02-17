@@ -7,9 +7,7 @@ const filter = (key, array) => array?.flatMap(m => m[key] ?? []) ?? [];
 const load = (modules = []) => modules.map(module =>
   [module, load(module.load?.() ?? [])]).flat();
 
-export default async (log, root, config) => {
-  const modules = config.modules ?? [];
-
+export default async (log, root, modules) => {
   Array.isArray(modules) || errors.ModulesMustBeArray.throw("modules");
 
   modules.some(({ name }, n) => name === undefined &&

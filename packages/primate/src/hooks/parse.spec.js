@@ -10,7 +10,7 @@ const r = await (async () => {
     new Request(`${p}${path}`, { method, ...options });
   return Object.fromEntries(["get", "post", "put", "delete"].map(verb =>
     [verb, (...args) =>
-      parse(dispatch())(request(verb.toUpperCase(), ...args))]));
+      parse({ dispatch: dispatch() })(request(verb.toUpperCase(), ...args))]));
 })();
 
 export default test => {

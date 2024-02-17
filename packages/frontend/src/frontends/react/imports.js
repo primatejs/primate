@@ -1,10 +1,8 @@
 import { File } from "rcompat/fs";
-import { valmap } from "rcompat/object";
-
+import o from "rcompat/object";
 import { renderToString } from "react-dom/server";
 import { createElement } from "react";
 import esbuild from "esbuild";
-
 import { expose } from "./client/exports.js";
 
 export const render = (component, props) => {
@@ -44,7 +42,7 @@ export const prepare = async app => {
     "react/jsx-runtime": "jsx-runtime.js",
   };
 
-  const target = app.runpath(app.config.location.client, app.library, module);
+  const target = app.runpath(app.get("location.client"), app.library, module);
   await esbuild.build({
     entryPoints: [`${to_path(index)}`],
     bundle: true,
@@ -57,7 +55,7 @@ export const prepare = async app => {
 
   app.importmaps = {
     ...app.importmaps,
-    ...valmap(imports, value =>
+    ...o.valmap(imports, value =>
       File.join("/", library, module, value).normalize()),
   };
 

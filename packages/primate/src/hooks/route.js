@@ -1,4 +1,4 @@
-import { from } from "rcompat/object";
+import o from "rcompat/object";
 import { tryreturn } from "rcompat/sync";
 import errors from "../errors.js";
 import validate from "../validate.js";
@@ -10,9 +10,10 @@ const deroot = pathname => pathname.endsWith("/") && pathname !== "/"
   ? pathname.slice(0, -1) : pathname;
 
 export default app => {
-  const { types, routes, config: { location } } = app;
+  const { types, routes } = app;
+  const location = app.get("location");
 
-  const to_path = (route, pathname) => app.dispatch(from(Object
+  const to_path = (route, pathname) => app.dispatch(o.from(Object
     .entries(route.pathname.exec(pathname)?.groups ?? {})
     .map(([name, value]) => [name.split("$"), value])
     .map(([[name, type], value]) =>

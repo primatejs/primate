@@ -2,7 +2,7 @@ import crypto from "rcompat/crypto";
 import { tryreturn } from "rcompat/async";
 import { File } from "rcompat/fs";
 import { is } from "rcompat/invariant";
-import { transform, valmap, to } from "rcompat/object";
+import o from "rcompat/object";
 import { globify } from "rcompat/string";
 import * as runtime from "rcompat/meta";
 import { Response, Status, MediaType } from "rcompat/http";
@@ -15,7 +15,7 @@ import * as loaders from "./loaders/exports.js";
 const { DoubleFileExtension } = errors;
 
 // use user-provided file or fall back to default
-const get_index = (base, page, fallback) =>
+const load = (base, page, fallback) =>
   tryreturn(_ => File.text(`${base.join(page)}`))
     .orelse(_ => File.text(`${base.join(fallback)}`));
 
@@ -58,7 +58,7 @@ const { name, version } = await new File(import.meta.url).up(2)
 export default async (log, root, config) => {
   const { http } = config;
   const secure = http?.ssl !== undefined;
-  const path = valmap(config.location, value => root.join(value));
+  const path = o.valmap(config.location, value => root.join(value));
 
   // if ssl activated, resolve key and cert early
   if (secure) {
@@ -69,7 +69,6 @@ export default async (log, root, config) => {
   const error = await path.routes.join("+error.js");
 
   return {
-    config,
     secure,
     name,
     version,
@@ -79,6 +78,8 @@ export default async (log, root, config) => {
     path,
     root,
     log,
+    // pseudostatic thus arrowbound
+    get: config_key => o.get(config, config_key),
     error: {
       default: await error.exists() ? await error.import("default") : undefined,
     },
@@ -88,11 +89,11 @@ export default async (log, root, config) => {
         handle: handlers.html,
       },
     },
-    modules: await loaders.modules(log, root, config),
+    modules: await loaders.modules(log, root, config.modules ?? []),
     ...runtime,
     // copy files to build folder, potentially transforming them
     async stage(source, directory, filter) {
-      const { paths, mapper } = this.config.build.transform;
+      const { paths, mapper } = this.get("build.transform");
       is(paths).array();
       is(mapper).function();
 
@@ -110,7 +111,7 @@ export default async (log, root, config) => {
       }));
     },
     async compile(component) {
-      const { location: { server, client, components } } = this.config;
+      const { server, client, components } = this.get("location");
 
       const source = this.path.components;
       const compile = this.extensions[component.fullExtension]?.compile
@@ -151,19 +152,19 @@ export default async (log, root, config) => {
       return this.path.build.join(...directories);
     },
     async render(content) {
-      const { assets, config: { location, pages: { index } } } = this;
+      const index = this.get("pages.index");
       const { body, head, partial, placeholders = {}, page = index } = content;
       ["body", "head"].every(used => is(placeholders[used]).undefined());
 
-      return partial ? body : to(placeholders)
+      return partial ? body : o.to(placeholders)
         // replace given placeholders, defaulting to ""
         .reduce((html, [key, value]) => html.replace(`%${key}%`, value ?? ""),
-          await get_index(this.runpath(location.pages), page, index))
+          await load(this.runpath(this.get("location.pages")), page, index))
         // replace non-given placeholders, aside from %body% / %head%
         .replaceAll(/(?<keep>%(?:head|body)%)|%.*?%/gus, "$1")
         // replace body and head
         .replace("%body%", body)
-        .replace("%head%", render_head(assets, head));
+        .replace("%head%", render_head(this.assets, head));
     },
     respond(body, { status = Status.OK, headers = {} } = {}) {
       return new Response(body, { status, headers: {
@@ -186,7 +187,7 @@ export default async (log, root, config) => {
     },
     async publish({ src, code, type = "", inline = false, copy = true }) {
       if (!inline && copy) {
-        const base = this.runpath(this.config.location.client).join(src);
+        const base = this.runpath(this.get("location.client")).join(src);
         await base.directory.create();
         await base.write(code);
       }
@@ -214,14 +215,12 @@ export default async (log, root, config) => {
       return `${prefix}-${btoa(String.fromCharCode(...new Uint8Array(bytes)))}`;
     },
     async import(module, deep_import) {
-      const { http: { static: { root } }, location: { client } } = this.config;
-
       const parts = module.split("/");
       const path = [this.library, ...parts];
       const pkg = await File.resolve().join(...path, this.manifest).json();
       const exports = pkg.exports === undefined
         ? { [module]: `/${module}/${pkg.main}` }
-        : transform(pkg.exports, entry => entry
+        : o.transform(pkg.exports, entry => entry
           .filter(([, export$]) =>
             export$.browser?.[deep_import] !== undefined
             || export$.browser?.default !== undefined
@@ -236,10 +235,10 @@ export default async (log, root, config) => {
               ?? value.import?.replace(".", `./${module}`),
           ]));
       const dependency = File.resolve().join(...path);
-      const target = File.join(this.runpath(client), this.library, ...parts);
+      const target = this.runpath(this.get("location.client")).join(...path);
       await dependency.copy(target);
-      this.importmaps = { ...valmap(exports, value =>
-        File.join(root, this.library, value).normalize()),
+      this.importmaps = { ...o.valmap(exports, value =>
+        File.join(this.get("http.static.root"), this.library, value).normalize()),
         ...this.importmaps };
     },
   };

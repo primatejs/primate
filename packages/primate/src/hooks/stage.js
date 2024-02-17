@@ -15,7 +15,7 @@ const pre = async app => {
 };
 
 const post = async app => {
-  const { config: { location } } = app;
+  const location = app.get("location");
 
   // stage routes
   await app.runpath(location.routes).create();

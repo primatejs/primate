@@ -28,6 +28,11 @@ export default {
       root: "/",
     },
   },
+  request: {
+    body: {
+      parse: true,
+    },
+  },
   location: {
     // renderable components
     components: "components",

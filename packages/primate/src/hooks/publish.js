@@ -1,25 +1,21 @@
 import { File } from "rcompat/fs";
 import { cascade } from "rcompat/async";
-import { stringify } from "rcompat/object";
+import o from "rcompat/object";
 
 const post = async app => {
-  const { config: { http: { static: { root } } } } = app;
+  // after hook, publish a zero assumptions app.js (no css imports)
+  const src = File.join(app.get("http.static.root"), app.get("build.index"));
 
-  {
-    // after hook, publish a zero assumptions app.js (no css imports)
-    const src = File.join(root, app.config.build.index);
+  await app.publish({
+    code: app.exports.filter(({ type }) => type === "script")
+      .map(({ code }) => code).join(""),
+    src,
+    type: "module",
+  });
 
-    await app.publish({
-      code: app.exports.filter(({ type }) => type === "script")
-        .map(({ code }) => code).join(""),
-      src,
-      type: "module",
-    });
-
-    const imports = { ...app.importmaps, app: src.normalize() };
-    const type = "importmap";
-    await app.publish({ inline: true, code: stringify({ imports }), type });
-  }
+  const imports = { ...app.importmaps, app: src.normalize() };
+  const type = "importmap";
+  await app.publish({ inline: true, code: o.stringify({ imports }), type });
 
   return app;
 };

@@ -43,7 +43,7 @@ const redirect = (Location, { status = Status.FOUND } = {}) => app =>
 // }}}
 // {{{ error
 const error = (body = "Not Found", { status = Status.NOT_FOUND, page } = {}) =>
-  app => app.view({ body, status, page: page ?? app.config.pages.error });
+  app => app.view({ body, status, page: page ?? app.get("pages.error") });
 // }}}
 // {{{ html
 const script_re = /(?<=<script)>(?<code>.*?)(?=<\/script>)/gus;

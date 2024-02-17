@@ -1,4 +1,4 @@
-import { filter } from "rcompat/object";
+import o from "rcompat/object";
 import errors from "./errors.js";
 import { peers } from "../common/exports.js";
 import depend from "../depend.js";
@@ -13,7 +13,7 @@ const load_component = async path => {
 
 const handler = directory => (name, options = {}) => async app => {
   const code = "import { htmx } from \"app\";";
-  const components = app.runpath(app.config.location.server, directory);
+  const components = app.runpath(app.get("location.server"), directory);
   const { head, csp } = await app.inline(code, "module");
 
   return app.view({
@@ -46,7 +46,7 @@ export default ({
 } = {}) => {
   const name = "htmx";
   const dependencies = ["htmx-esm"];
-  const on = filter(peers, ([key]) => dependencies.includes(key));
+  const on = o.filter(peers, ([key]) => dependencies.includes(key));
 
   return {
     name: `primate:${name}`,
@@ -56,13 +56,12 @@ export default ({
       return next(app);
     },
     async register(app, next) {
-      const { config } = app;
-
       const [dependency] = dependencies;
       await app.import(dependency);
       const code = "export { default as htmx } from \"htmx-esm\";";
       await app.export({ type: "script", code });
-      app.register(extension, { handle: handler(config.location.components) });
+      const handle = handler(app.get("location.components"));
+      app.register(extension, { handle });
 
       for (const name of extensions) {
         await app.import("htmx-esm", name);

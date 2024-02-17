@@ -1,11 +1,11 @@
-import { stringify, filter } from "rcompat/object";
+import o from "rcompat/object";
 import { File } from "rcompat/fs";
 import { peers } from "../common/exports.js";
 import depend from "../depend.js";
 
 const handle = (handler, directory) => (...[name, ...rest]) =>
   async (app, ...noapp) => {
-    const base = app.runpath(app.config.location.server, directory);
+    const base = app.runpath(app.get("location.server"), directory);
     const body = await base.join(`${name}.html`).text();
     const toc = await base.join(`${name}.json`).json();
 
@@ -23,7 +23,7 @@ const markdown = ({
   options,
   renderer,
 } = {}) => {
-  const on = filter(peers, ([key]) => dependencies.includes(key));
+  const on = o.filter(peers, ([key]) => dependencies.includes(key));
 
   return {
     name: `primate:${name}`,
@@ -34,7 +34,7 @@ const markdown = ({
       return next(app);
     },
     register(app, next) {
-      const { location } = app.config;
+      const location = app.get("location");
       const target = app.runpath(location.server, location.components);
 
       app.register(extension, {
@@ -50,7 +50,7 @@ const markdown = ({
             await html.write(content);
 
             const json = new File(`${base}.json`);
-            await json.write(stringify(toc));
+            await json.write(o.stringify(toc));
           },
           // no hydration
           client: _ => _,

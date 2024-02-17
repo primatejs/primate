@@ -1,5 +1,5 @@
 import { numeric } from "rcompat/invariant";
-import { filter } from "rcompat/object";
+import o from "rcompat/object";
 import ident from "../ident.js";
 import { peers } from "../common/exports.js";
 import depend from "../../depend.js";
@@ -8,7 +8,7 @@ import Facade from "./Facade.js";
 
 const name = "postgresql";
 const dependencies = ["postgres"];
-const on = filter(peers, ([key]) => dependencies.includes(key));
+const on = o.filter(peers, ([key]) => dependencies.includes(key));
 const defaults = {
   host: "localhost",
   port: 5432,

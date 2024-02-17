@@ -1,21 +1,21 @@
 import { is } from "rcompat/invariant";
 import { tryreturn } from "rcompat/sync";
-import { map } from "rcompat/object";
+import o from "rcompat/object";
 import { camelcased } from "rcompat/string";
 import errors from "./errors.js";
 import validate from "./validate.js";
 
 export default (patches = {}) => (object, raw, cased = true) => {
   return Object.assign(Object.create(null), {
-    ...map(patches, ([name, patch]) => [`get${camelcased(name)}`, property => {
-      is(property).defined(`\`${name}\` called without property`);
-      return tryreturn(_ => validate(patch, object[property], property))
+    ...o.map(patches, ([name, patch]) => [`get${camelcased(name)}`, key => {
+      is(key).defined(`\`${name}\` called without key`);
+      return tryreturn(_ => validate(patch, object[key], key))
         .orelse(({ message }) => errors.MismatchedType.throw(message));
     }]),
-    get(property) {
-      is(property).string();
+    get(key) {
+      is(key).string();
 
-      return object[cased ? property : property.toLowerCase()];
+      return object[cased ? key : key.toLowerCase()];
     },
     json() {
       return JSON.parse(JSON.stringify(object));

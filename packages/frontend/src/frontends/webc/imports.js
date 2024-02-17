@@ -11,7 +11,7 @@ const extensions = {
 
 export const compile = {
   async server(text, component, app) {
-    const { location } = app.config;
+    const location = app.get("location");
     const source = app.path.components;
     const base = app.runpath(location.server, location.components);
     const path = base.join(`${component.path}.js.impl.js`.replace(source, ""));
@@ -21,7 +21,7 @@ export const compile = {
     return client(component.base);
   },
   async client(text, component, app) {
-    const { location } = app.config;
+    const location = app.get("location");
     const source = app.path.components;
     const base = app.runpath(location.client, location.components);
     const path = base.join(`${component.path}.js.impl.js`.replace(source, ""));

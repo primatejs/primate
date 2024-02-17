@@ -50,7 +50,7 @@ export const render = async (given_component, props) => {
 
 export const compile = {
   async server(app, component, extensions) {
-    const { location } = app.config;
+    const location = app.get("location");
     const source = app.path.components;
     const { code } = await transform(await component.text());
     const target_base = app.runpath(location.server, location.components);

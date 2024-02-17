@@ -1,9 +1,9 @@
 import crypto from "rcompat/crypto";
-import { filter } from "rcompat/object";
+import o from "rcompat/object";
 
-const remove_null = delta => filter(delta , ([, value]) => value !== null);
+const remove_null = delta => o.filter(delta , ([, value]) => value !== null);
 const remove_by_null = (document, delta) =>
-  filter(document, ([key]) => delta[key] !== null);
+  o.filter(document, ([key]) => delta[key] !== null);
 const filter_in = (collection, criteria) => {
   if (criteria === undefined) {
     return collection;

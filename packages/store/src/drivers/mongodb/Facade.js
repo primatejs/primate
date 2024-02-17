@@ -1,11 +1,13 @@
-import { filter } from "rcompat/object";
+import o from "rcompat/object";
 
 const toid = ({ _id, ...rest }) => ({ id: _id, ...rest });
-const to_id = ({ id, ...rest }) => id === undefined ? rest : { _id: id, ...rest };
+const to_id = ({ id, ...rest }) => id === undefined
+  ? rest
+  : { _id: id, ...rest };
 const cid = criteria => criteria.id === undefined ? criteria : to_id(criteria);
 const null_to_set_unset = delta => {
-  const $set = filter(delta, ([, value]) => value !== null);
-  const $unset = filter(delta, ([, value]) => value === null);
+  const $set = o.filter(delta, ([, value]) => value !== null);
+  const $unset = o.filter(delta, ([, value]) => value === null);
   return { $set, $unset };
 };
 

@@ -1,11 +1,8 @@
 import { File } from "rcompat/fs";
 
 export default async (app, type, post = () => undefined) => {
-  const { config } = app;
-  const { build } = config;
-  const { includes } = build;
-
-  const reserved = Object.values(app.config.location);
+  const includes = app.get("build.includes");
+  const reserved = Object.values(app.get("location"));
 
   if (Array.isArray(includes)) {
     await Promise.all(includes

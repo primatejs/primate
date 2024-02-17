@@ -34,14 +34,14 @@ export const compile = {
 
 const depend = async (module, app, copy_dependency) => {
   const { library, manifest } = app;
-  const { http: { static: { root } } } = app.config;
+  const root = app.get("http.static.root");
 
   const parts = module.split("/");
   const path = [library, ...parts];
   const pkg = await File.resolve().join(...path, manifest).json();
   if (copy_dependency) {
     const dependency = File.resolve().join(...path);
-    const target = app.runpath(app.config.location.client, library, ...parts);
+    const target = app.runpath(app.get("location.client"), library, ...parts);
     await dependency.copy(target);
   }
 

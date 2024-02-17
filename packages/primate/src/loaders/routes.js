@@ -1,5 +1,5 @@
 import { tryreturn } from "rcompat/sync";
-import { from } from "rcompat/object";
+import o from "rcompat/object";
 import { File } from "rcompat/fs";
 import { default as fs, doubled } from "./common.js";
 import * as get from "./routes/exports.js";
@@ -13,7 +13,7 @@ const make = path => {
   !valid_route.test(path) && errors.InvalidPath.throw(path);
 
   const double = doubled(path.split(separator)
-    .filter(part => part.startsWith("{") && part.endsWith("}"))
+    .filter(part => part.startsWith("[") && part.endsWith("]"))
     .map(part => part.slice(1, part.indexOf("="))));
   double && errors.DoublePathParameter.throw(double, path);
 
@@ -30,9 +30,9 @@ const make = path => {
 
 export default async (app, load = fs) => {
   const { log } = app;
-  const directory = app.runpath(app.config.location.routes);
+  const directory = app.runpath(app.get("location.routes"));
   const filter = path => ([name]) => path.includes(name);
-  const routes = from(await Promise.all(["guards", "errors", "layouts"]
+  const routes = o.from(await Promise.all(["guards", "errors", "layouts"]
     .map(async extra => [extra, await get[extra](log, directory, load)])));
 
   return (await get.routes(log, directory, load)).map(([path, imported]) => {

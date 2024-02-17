@@ -1,6 +1,6 @@
 import crypto from "rcompat/crypto";
 import { dim } from "rcompat/colors";
-import { extend, inflate, transform } from "rcompat/object";
+import o from "rcompat/object";
 import { memory } from "./drivers/exports.js";
 import errors from "./errors.js";
 import primary from "./primary.js";
@@ -64,7 +64,7 @@ export default ({
           name.split("/").slice(0, last).every(part => /^[a-z]/u.test(part)))
         .map(async ([store, file]) => {
           const exports = await file.import();
-          const schema = transform(exports.default, entry => entry
+          const schema = o.transform(exports.default, entry => entry
             .filter(([property, type]) => valid(type, property, store)));
 
           exports.ambiguous !== true && schema.id === undefined
@@ -128,7 +128,7 @@ export default ({
       try {
         return await transaction([], stores => {
           const store = stores.reduce((base, [name, store]) =>
-            extend(base, inflate(name, store))
+            o.extend(base, o.inflate(name, store))
           , {});
           return next({ ...request, store });
         },

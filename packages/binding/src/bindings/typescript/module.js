@@ -1,4 +1,4 @@
-import { filter } from "rcompat/object";
+import o from "rcompat/object";
 import { peers } from "../common/exports.js";
 import depend from "../depend.js";
 
@@ -7,7 +7,7 @@ export default ({
 } = {}) => {
   const name = "typescript";
   const dependencies = ["@swc/core"];
-  const on = filter(peers, ([key]) => dependencies.includes(key));
+  const on = o.filter(peers, ([key]) => dependencies.includes(key));
   let transpile;
 
   return {
@@ -25,7 +25,7 @@ export default ({
           const path = directory.join(file);
           const base = path.directory;
           const js = path.base.concat(".js");
-          await base.join(js).write((await transpile(await path.text())));
+          await base.join(js).write(await transpile(await path.text()));
         },
       });
       return next(app);

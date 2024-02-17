@@ -35,7 +35,6 @@ const get_layouts = async (layouts, request) => {
 };
 
 export default app => {
-  const { config: { http: { static: { root } }, location } } = app;
   const route = request => app.route(request);
 
   const as_route = async request => {
@@ -73,6 +72,8 @@ export default app => {
     },
   });
 
+  const location = app.get("location");
+  const root = app.get("http.static.root");
   const client = app.runpath(location.client);
   const handle = async request => {
     const { pathname } = request.url;

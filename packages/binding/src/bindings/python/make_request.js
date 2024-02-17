@@ -1,9 +1,9 @@
-import { to, from } from "rcompat/object";
+import o from "rcompat/object";
 import { unwrap, unwrap_async } from "./unwrap.js";
 
 const dispatchers = ["path", "query", "headers", "cookies"];
 
-const wrap_dispatchers = (toPy, request) => from(dispatchers.map(dispatcher =>
+const wrap_dispatchers = (toPy, request) => o.from(dispatchers.map(dispatcher =>
   [dispatcher, {
     ...request[dispatcher],
     json() {
@@ -54,7 +54,7 @@ const wrap_store = (toPy, store) => {
 };
 
 const is_store = value => value.connection !== undefined;
-const wrap_stores = (toPy, object) => to(object)
+const wrap_stores = (toPy, object) => o.to(object)
   .reduce((reduced, [key, value]) => ({
     ...reduced,
     [key]: is_store(value) ? wrap_store(toPy, value) : wrap_stores(toPy, value),

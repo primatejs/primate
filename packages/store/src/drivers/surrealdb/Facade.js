@@ -1,8 +1,8 @@
-import { keymap, valmap } from "rcompat/object";
+import o from "rcompat/object";
 import typemap from "./typemap.js";
 
 const null_to_undefined = delta =>
-  valmap(delta, value => value === null ? undefined : value);
+  o.valmap(delta, value => value === null ? undefined : value);
 
 const predicate = criteria => {
   const keys = Object.keys(criteria);
@@ -20,7 +20,7 @@ const change = delta => {
   const set = keys.map(field => `${field}=$s_${field}`).join(",");
   return {
     set: `set ${set}`,
-    bindings: keymap(delta, key => `s_${key}`),
+    bindings: o.keymap(delta, key => `s_${key}`),
   };
 };
 
@@ -28,7 +28,7 @@ export default class Connection {
   schema = {
     create: async (name, description) => {
       const body =
-        Object.entries(valmap(description, value => typemap(value.base)))
+        Object.entries(o.valmap(description, value => typemap(value.base)))
           .filter(([column]) => column !== "id")
           .map(([column, dataType]) =>
             `define field ${column} on ${name} type option<${dataType}>;`)

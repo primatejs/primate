@@ -1,4 +1,4 @@
-import { filter } from "rcompat/object";
+import o from "rcompat/object";
 import { peers } from "../common/exports.js";
 import depend from "../depend.js";
 
@@ -34,7 +34,7 @@ export default ({
 } = {}) => {
   const name = "python";
   const dependencies = ["pyodide"];
-  const on = filter(peers, ([key]) => dependencies.includes(key));
+  const on = o.filter(peers, ([key]) => dependencies.includes(key));
 
   return {
     name: `primate:${name}`,

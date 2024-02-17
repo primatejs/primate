@@ -1,7 +1,7 @@
-import { filter, keymap, valmap } from "rcompat/object";
+import o from "rcompat/object";
 import typemap from "./typemap.js";
 
-const filter_null = object => filter(object, ([, value]) => value !== null);
+const filter_null = object => o.filter(object, ([, value]) => value !== null);
 const filter_nulls = objects => objects.map(object => filter_null(object));
 
 const predicate = criteria => {
@@ -20,7 +20,7 @@ const change = delta => {
   const set = keys.map(field => `\`${field}\`=:s_${field}`).join(",");
   return {
     set: `set ${set}`,
-    bindings: keymap(delta, key => `s_${key}`),
+    bindings: o.keymap(delta, key => `s_${key}`),
   };
 };
 
@@ -29,7 +29,7 @@ export default class Connection {
     create: async (name, description) => {
       const { connection } = this;
       const body =
-        Object.entries(valmap(description, value => typemap(value.base)))
+        Object.entries(o.valmap(description, value => typemap(value.base)))
           .map(([column, dataType]) => `\`${column}\` ${dataType}`).join(",");
       const query = `create table if not exists ${name} (${body})`;
       await connection.query(query);
@@ -65,7 +65,7 @@ export default class Connection {
 
     return result === undefined
       ? result
-      : filter(result, ([, $value]) => $value !== null);
+      : o.filter(result, ([, $value]) => $value !== null);
   }
 
   async insert(collection, primary, document) {

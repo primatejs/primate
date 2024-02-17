@@ -1,6 +1,6 @@
 import { tryreturn } from "rcompat/async";
 import { File } from "rcompat/fs";
-import { extend } from "rcompat/object";
+import o from "rcompat/object";
 import { runtime } from "rcompat/meta";
 import app from "./app.js";
 import { default as Logger, bye } from "./Logger.js";
@@ -20,7 +20,7 @@ const get_config = async root => {
       (imported === undefined || Object.keys(imported).length === 0) &&
         errors.EmptyConfigFile.warn(logger, config);
 
-      return extend(defaults, imported);
+      return o.extend(defaults, imported);
     }).orelse(({ message }) =>
       errors.ErrorInConfigFile.throw(message, `${runtime} ${config}`))
     : defaults;

@@ -1,5 +1,5 @@
 import { File } from "rcompat/fs";
-import { filter } from "rcompat/object";
+import o from "rcompat/object";
 import handler from "./handler.js";
 import compile from "./compile.js";
 import normalize from "./normalize.js";
@@ -17,7 +17,7 @@ export default async ({
   const base = new File(import.meta.url).up(2).join(name);
   const exports_path = base.join("client", "exports.js");
   const imports_path = base.join("imports.js");
-  const on = filter(peers, ([key]) => dependencies.includes(key));
+  const on = o.filter(peers, ([key]) => dependencies.includes(key));
 
   return ({
     extension = default_extension,

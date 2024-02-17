@@ -1,9 +1,8 @@
 import { dim } from "rcompat/colors";
-import { from } from "rcompat/object";
+import o from "rcompat/object";
 import { Response, Status } from "rcompat/http";
 import errors from "./errors.js";
 
-const ending = -5;
 const {
   EmptyLocaleDirectory,
   MissingDefaultLocale,
@@ -52,7 +51,7 @@ export default ({
         });
 
         const loaded = [];
-        const locales = from(await Promise.all((await root.collect(/^.*.json$/u))
+        const locales = o.from(await Promise.all((await root.collect(/^.*.json$/u))
           .map(async path => {
             const { base: depathed } = path.debase(root, "/");
             loaded.push(depathed);

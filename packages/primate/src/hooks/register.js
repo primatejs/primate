@@ -7,38 +7,40 @@ const html = /^.*.html$/u;
 const defaults = cwd(import.meta, 2).join("defaults");
 
 const pre = async app => {
-  const { config: { location: { pages, client, components } }, path } = app;
+  const location = app.get("location");
+  const { pages, client, components } = location;
 
   // copy framework pages
   await app.stage(defaults, pages, html);
   // overwrite transformed pages to build
-  await path.pages.exists() && await app.stage(path.pages, pages, html);
+  await app.path.pages.exists() && await app.stage(app.path.pages, pages, html);
 
-  if (await path.components.exists()) {
+  if (await app.path.components.exists()) {
     // copy .js files from components to build/client/components, since
     // frontend frameworks handle non-js files
     const target = File.join(client, components);
-    await app.stage(path.components, target, /^.*.js$/u);
+    await app.stage(app.path.components, target, /^.*.js$/u);
   }
 
   return app;
 };
 
 const post = async app => {
-  const { config: { location, http: { static: { root } } }, path } = app;
+  const _static = app.path.static;
+  const location = app.get("location");
 
-  if (await path.static.exists()) {
+  if (await _static.exists()) {
     // copy static files to build/server/static
-    await app.stage(path.static, File.join(location.server, location.static));
+    await app.stage(_static, File.join(location.server, location.static));
 
     // copy static files to build/client/static
-    await app.stage(path.static, File.join(location.client, location.static));
+    await app.stage(_static, File.join(location.client, location.static));
 
     // publish JavaScript and CSS files
-    const imports = await File.collect(path.static, /\.(?:js|css)$/u);
+    const imports = await File.collect(_static, /\.(?:js|css)$/u);
     await Promise.all(imports.map(async file => {
       const code = await file.text();
-      const src = file.debase(path.static);
+      const src = file.debase(_static);
       const type = file.extension === ".css" ? "style" : "module";
       // already copied in `app.stage`
       await app.publish({ src, code, type, copy: false });
@@ -52,6 +54,7 @@ const post = async app => {
 
   // copy additional subdirectories to build/client
   const client = app.runpath(location.client);
+  const root = app.get("http.static.root");
   await copy_includes(app, location.client, async to =>
     Promise.all((await to.collect(/\.js$/u)).map(async script => {
       const src = File.join(root, script.path.replace(client, _ => ""));

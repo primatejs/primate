@@ -1,7 +1,7 @@
-import { filter, valmap } from "rcompat/object";
+import o from "rcompat/object";
 import typemap from "./typemap.js";
 
-const filter_null = object => filter(object, ([, value]) => value !== null);
+const filter_null = object => o.filter(object, ([, value]) => value !== null);
 const filter_nulls = objects => objects.map(object => filter_null(object));
 
 export default class Connection {
@@ -9,7 +9,7 @@ export default class Connection {
     create: async (name, description) => {
       const { connection } = this;
       const body =
-        Object.entries(valmap(description, value => typemap(value.base)))
+        o.to(o.valmap(description, value => typemap(value.base)))
           .map(([column, dataType]) => `"${column}" ${dataType}`).join(",");
       await connection`
         create table if not exists 

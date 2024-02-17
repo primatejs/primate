@@ -1,4 +1,4 @@
-import { filter } from "rcompat/object";
+import o from "rcompat/object";
 import { register, peers } from "../common/exports.js";
 import depend from "../depend.js";
 
@@ -21,7 +21,7 @@ export default ({
     "@angular/ssr",
     "esbuild",
   ];
-  const on = filter(peers, ([key]) => dependencies.includes(key));
+  const on = o.filter(peers, ([key]) => dependencies.includes(key));
   const rootname = name;
   let imports = {};
 

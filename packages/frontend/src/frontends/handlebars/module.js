@@ -1,10 +1,10 @@
-import { filter } from "rcompat/object";
+import o from "rcompat/object";
 import { compile, peers, load } from "../common/exports.js";
 import depend from "../depend.js";
 
 const handler = ({ directory, render }) => (name, props = {}, options = {}) =>
   async app => {
-    const components = app.runpath(app.config.location.server, directory);
+    const components = app.runpath(app.get("location.server"), directory);
     const { default : component } = await load(components.join(name));
 
     return app.view({ body: render(component, props), ...options });
@@ -13,7 +13,7 @@ const handler = ({ directory, render }) => (name, props = {}, options = {}) =>
 const name = "handlebars";
 const dependencies = ["handlebars"];
 const default_extension = ".hbs";
-const on = filter(peers, ([key]) => dependencies.includes(key));
+const on = o.filter(peers, ([key]) => dependencies.includes(key));
 
 export default ({ extension = default_extension } = {}) => {
   const rootname = name;
@@ -29,11 +29,9 @@ export default ({ extension = default_extension } = {}) => {
       return next(app);
     },
     async register(app, next) {
-      const { config } = app;
-
       app.register(extension, {
         handle: handler({
-          directory: config.location.components,
+          directory: app.get("location.components"),
           render: imports.render,
         }),
         compile: {

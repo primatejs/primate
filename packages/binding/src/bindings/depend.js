@@ -1,5 +1,4 @@
-import { tryreturn } from "rcompat/async";
-import { to } from "rcompat/object";
+import o from "rcompat/object";
 import { packager, manifest } from "rcompat/meta";
 import { File } from "rcompat/fs";
 import errors from "../errors.js";
@@ -14,10 +13,10 @@ const semnum = version => {
 const semver = (target, is) => semnum(is) >= semnum(target);
 
 const compare_dependencies = (target, current) =>
-  to(target).filter(([key, value]) => !semver(value, current[key]));
+  o.to(target).filter(([key, value]) => !semver(value, current[key]));
 
 const find_dependencies = (target, current) =>
-  to(target).filter(([key]) => !current[key]);
+  o.to(target).filter(([key]) => !current[key]);
 
 const { MissingDependencies, UpgradeDependencies } = errors;
 

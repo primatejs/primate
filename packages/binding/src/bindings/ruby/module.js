@@ -1,5 +1,5 @@
 import { File } from "rcompat/fs";
-import { filter } from "rcompat/object";
+import o from "rcompat/object";
 import { upperfirst } from "rcompat/string";
 import { peers } from "../common/exports.js";
 import depend from "../depend.js";
@@ -85,7 +85,7 @@ export default ({
 } = {}) => {
   const name = "ruby";
   const dependencies = ["@ruby/head-wasm-wasi", "@ruby/wasm-wasi"];
-  const on = filter(peers, ([key]) => dependencies.includes(key));
+  const on = o.filter(peers, ([key]) => dependencies.includes(key));
 
   return {
     name: `primate:${name}`,
