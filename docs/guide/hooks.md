@@ -18,7 +18,7 @@ subscribers accept different types of parameters, depending on the hook.
 ├─ # *begin* start-up phase, all hooks in this phase are called once
 │
 ├─ `register`
-│   └─ # modules register component file extensions for the `view` handler
+│   └─ # modules register component file extensions for the view handler
 │
 ├─ # create `build/{server,components}` directory
 ├─ # copy all files from `components` to `build/components`
@@ -29,7 +29,7 @@ subscribers accept different types of parameters, depending on the hook.
 │
 ├─ # evaluate entry points
 │
-├─ `bundle` # if `npx primate serve` is run, otherwise skipped
+├─ `bundle`
 │   └─ # modules transform `build` directory
 │
 ├─ # *end* start-up phase
