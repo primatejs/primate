@@ -40,7 +40,7 @@
     "marked": "^12.0.0",
     "mongodb": "^6.3.0",
     "postgres": "^3.4.3",
-    "primate": "^0.29.6",
+    "primate": "^0.29.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "solid-js": "^1.8.15",
