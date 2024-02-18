@@ -55,15 +55,15 @@ const html = (name, options) => async app => {
     .map(({ groups: { code } }) => app.inline(code, "module")));
   const styles = await Promise.all([...component.matchAll(style_re)]
     .map(({ groups: { code } }) => app.inline(code, "style")));
-  const assets = [...scripts, ...styles];
+  const style_src = styles.map(asset => asset.integrity);
+  const script_src = scripts.map(asset => asset.integrity);
 
-  const body = component.replaceAll(remove, _ => "");
-  const head = assets.map(asset => asset.head).join("\n");
-  const script = scripts.map(asset => asset.csp).join(" ");
-  const style = styles.map(asset => asset.csp).join(" ");
-  const headers = app.headers({ script, style });
-
-  return app.view({ body, head, headers, ...options });
+  return app.view({
+    body: component.replaceAll(remove, _ => ""),
+    head: [...scripts, ...styles].map(asset => asset.head).join("\n"),
+    headers: app.headers({ "style-src": style_src, "script-src": script_src }),
+    ...options,
+  });
 };
 // }}}
 // {{{ view

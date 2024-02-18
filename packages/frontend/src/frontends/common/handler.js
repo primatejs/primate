@@ -53,11 +53,12 @@ export default config => {
 
       const code = client({ names, ...shared }, { spa: config.spa });
       const inlined = await app.inline(code, "module");
+      const script_src = [inlined.integrity];
 
       return app.view({
         body,
         head: head.concat(inlined.head),
-        headers: app.headers({ script: inlined.csp }),
+        headers: app.headers({ "script-src": script_src }),
         ...options,
       });
     };

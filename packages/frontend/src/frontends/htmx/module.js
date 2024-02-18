@@ -14,12 +14,13 @@ const load_component = async path => {
 const handler = directory => (name, options = {}) => async app => {
   const code = "import { htmx } from \"app\";";
   const components = app.runpath(app.get("location.server"), directory);
-  const { head, csp } = await app.inline(code, "module");
+  const { head, integrity } = await app.inline(code, "module");
+  const script_src = [integrity];
 
   return app.view({
     body: await load_component(components.join(name)),
     head,
-    headers: app.headers({ style: "'unsafe-inline'", script: csp }),
+    headers: app.headers({ "script-src": script_src }),
     ...options,
   });
 };

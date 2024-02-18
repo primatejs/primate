@@ -13,7 +13,7 @@ const root_component = ({ template, imports }) => as_component({
 
 export default (real_root, props) => {
   const { selector } = reflectComponentType(real_root);
-  const attributes = Object.o(props)
+  const attributes = Object.entries(props)
     .map(([key, value]) => `[${key}]="${double_to_single(o.stringify(value))}"`)
     .join(" ");
 

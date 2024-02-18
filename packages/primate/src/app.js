@@ -5,6 +5,7 @@ import { is } from "rcompat/invariant";
 import o from "rcompat/object";
 import { globify } from "rcompat/string";
 import * as runtime from "rcompat/meta";
+import { identity } from "rcompat/function";
 import { Response, Status, MediaType } from "rcompat/http";
 
 import errors from "./errors.js";
@@ -13,6 +14,17 @@ import * as handlers from "./handlers.js";
 import * as loaders from "./loaders/exports.js";
 
 const { DoubleFileExtension } = errors;
+
+const to_csp = (config_csp, assets, csp) => config_csp
+  // only csp entries in the config will be enriched
+  .map(([key, directives]) =>
+    // enrich with application assets
+    [key, assets[key] ? directives.concat(...assets[key]) : directives])
+  .map(([key, directives]) =>
+    // enrich with explicit csp
+    [key, csp[key] ? directives.concat(...csp[key]) : directives])
+  .map(([key, directives]) => `${key} ${directives.join(" ")}`)
+  .join(";");
 
 // use user-provided file or fall back to default
 const load = (base, page, fallback) =>
@@ -79,7 +91,7 @@ export default async (log, root, config) => {
     root,
     log,
     // pseudostatic thus arrowbound
-    get: config_key => o.get(config, config_key),
+    get: (config_key, fallback) => o.get(config, config_key) ?? fallback,
     error: {
       default: await error.exists() ? await error.import("default") : undefined,
     },
@@ -93,7 +105,7 @@ export default async (log, root, config) => {
     ...runtime,
     // copy files to build folder, potentially transforming them
     async stage(source, directory, filter) {
-      const { paths, mapper } = this.get("build.transform");
+      const { paths = [], mapper = identity } = this.get("build.transform", {});
       is(paths).array();
       is(mapper).function();
 
@@ -134,19 +146,15 @@ export default async (log, root, config) => {
         await compile.client(component);
       }
     },
-    headers({ script = "", style = "" } = {}) {
-      const csp = Object.keys(http.csp).reduce((policy, key) =>
-        `${policy}${key} ${http.csp[key]};`, "")
-        .replace("script-src 'self'", `script-src 'self' ${script} ${this.assets
-          .filter(({ type }) => type !== "style")
-          .map(asset => `'${asset.integrity}'`).join(" ")
-        }`)
-        .replace("style-src 'self'", `style-src 'self' ${style} ${this.assets
-          .filter(({ type }) => type === "style")
-          .map(asset => `'${asset.integrity}'`).join(" ")
-        }`);
+    headers(csp = {}) {
+      const http_csp = Object.entries(this.get("http.csp", {}));
 
-      return { "Content-Security-Policy": csp, "Referrer-Policy": "same-origin" };
+      return {
+        ...this.get("http.headers", {}),
+        ...http_csp.length === 0 ? {} : {
+          "Content-Security-Policy": to_csp(http_csp, this.asset_csp, csp),
+        },
+      };
     },
     runpath(...directories) {
       return this.path.build.join(...directories);
@@ -168,7 +176,7 @@ export default async (log, root, config) => {
     },
     respond(body, { status = Status.OK, headers = {} } = {}) {
       return new Response(body, { status, headers: {
-        ...this.headers(), "Content-Type": MediaType.TEXT_HTML, ...headers },
+        "Content-Type": MediaType.TEXT_HTML, ...this.headers(), ...headers },
       });
     },
     async view(options) {
@@ -183,7 +191,7 @@ export default async (log, root, config) => {
       const integrity = await this.hash(code);
       const tag_name = type === "style" ? "style" : "script";
       const head = tags[tag_name]({ code, type, inline: true, integrity });
-      return { head, csp: `'${integrity}'` };
+      return { head, integrity: `'${integrity}'` };
     },
     async publish({ src, code, type = "", inline = false, copy = true }) {
       if (!inline && copy) {
@@ -200,6 +208,13 @@ export default async (log, root, config) => {
           integrity: await this.hash(code),
         });
       }
+      // rehash assets_csp
+      this.asset_csp = this.assets.map(({ type: directive, integrity }) => [
+        `${directive === "style" ? "style" : "script"}-src`, integrity])
+        .reduce((csp, [directive, hash]) =>
+          ({ ...csp, [directive]: csp[directive].concat(`'${hash}'`) } ),
+          { "style-src": [], "script-src": [] },
+        );
     },
     export({ type, code }) {
       this.exports.push({ type, code });

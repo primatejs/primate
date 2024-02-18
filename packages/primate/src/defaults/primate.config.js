@@ -15,15 +15,7 @@ export default {
   http: {
     host: "localhost",
     port: 6161,
-    csp: {
-      "default-src": "'self'",
-      "style-src": "'self'",
-      "script-src": "'self'",
-      "object-src": "'none'",
-      "frame-ancestors": "'none'",
-      "form-action": "'self'",
-      "base-uri": "'self'",
-    },
+    csp: {},
     static: {
       root: "/",
     },

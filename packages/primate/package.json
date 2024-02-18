@@ -1,6 +1,6 @@
 {
   "name": "primate",
-  "version": "0.30.next",
+  "version": "0.30-next",
   "description": "Polymorphic development platform",
   "homepage": "https://primatejs.com",
   "bugs": "https://github.com/primatejs/primate/issues",
