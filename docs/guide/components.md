@@ -26,7 +26,7 @@ export default {
 ```
 
 The `view` handler will use the `pages/app.html` to render a full HTML page,
-replacing `%body` with the component's contents. If `pages/app.html` doesn't
+replacing `%body%` with the component's contents. If `pages/app.html` doesn't
 exist, Primate will use a default fallback.
 
 ```html caption=pages/app.html
