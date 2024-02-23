@@ -64,9 +64,6 @@ const render_head = (assets, head) =>
         : tags.script({ inline, code, type, integrity, src }),
     ).join("\n").concat("\n", head ?? "");
 
-const { name, version } = await new File(import.meta.url).up(2)
-  .join(runtime.manifest).json();
-
 export default async (log, root, config) => {
   const { http } = config;
   const secure = http?.ssl !== undefined;
@@ -82,8 +79,6 @@ export default async (log, root, config) => {
 
   return {
     secure,
-    name,
-    version,
     importmaps: {},
     assets: [],
     exports: [],

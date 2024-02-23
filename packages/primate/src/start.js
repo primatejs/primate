@@ -1,6 +1,7 @@
 import { serve, Response, Status } from "rcompat/http";
 import { tryreturn } from "rcompat/async";
 import { bold, blue, dim } from "rcompat/colors";
+import { resolve } from "rcompat/package";
 import * as hooks from "./hooks/exports.js";
 import { print } from "./Logger.js";
 
@@ -11,14 +12,14 @@ export default async (app$, mode = "development") => {
   // run one-time hooks
   let app = app$;
 
-  print(blue(bold(app.name)), blue(app.version), "in startup\n");
+  const primate = await resolve(import.meta.url);
+  print(blue(bold(primate.name)), blue(primate.version), "in startup\n");
 
   for (const hook of base_hooks) {
     app.log.info(`running ${dim(hook)} hooks`, { module: "primate" });
     app = await hooks[hook](app);
   }
 
-  const http = app.get("http");
   app.route = hooks.route(app);
   app.parse = hooks.parse(app);
   app.server = await serve(async request =>
@@ -26,8 +27,10 @@ export default async (app$, mode = "development") => {
       .orelse(error => {
         app.log.auto(error);
         return new Response(null, { status: Status.INTERNAL_SERVER_ERROR });
-      }), http);
+      }), app.get("http"));
 
-  const address = `http${app.secure ? "s" : ""}://${http.host}:${http.port}`;
-  app.log.info(`started at ${dim(address)}`, { module: "primate" });
+  const { host, port } = app.get("http");
+  const address = `http${app.secure ? "s" : ""}://${host}:${port}`;
+  print(`${blue("++")} started ${dim("->")} ${dim(address)}\n`);
+
 };

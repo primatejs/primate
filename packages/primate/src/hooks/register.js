@@ -1,10 +1,9 @@
 import { File } from "rcompat/fs";
 import { cascade } from "rcompat/async";
-import cwd from "../cwd.js";
 import copy_includes from "./copy_includes.js";
 
 const html = /^.*.html$/u;
-const defaults = cwd(import.meta, 2).join("defaults");
+const defaults = new File(import.meta.url).up(2).join("defaults");
 
 const pre = async app => {
   const location = app.get("location");
