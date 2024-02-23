@@ -32,5 +32,4 @@ export default async (app$, mode = "development") => {
   const { host, port } = app.get("http");
   const address = `http${app.secure ? "s" : ""}://${host}:${port}`;
   print(`${blue("++")} started ${dim("->")} ${dim(address)}\n`);
-
 };

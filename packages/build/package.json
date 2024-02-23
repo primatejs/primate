@@ -16,10 +16,10 @@
     "directory": "packages/build"
   },
   "dependencies": {
-    "rcompat": "^0.9.0"
+    "rcompat": "^0.9.2"
   },
   "devDependencies": {
-    "esbuild": "^0.20.0"
+    "esbuild": "^0.20.1"
   },
   "peerDependencies": {
     "esbuild": "0.20",
