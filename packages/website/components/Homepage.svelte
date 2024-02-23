@@ -3,15 +3,9 @@
   import Header from "./Header.svelte";
   import Icon from "./Icon.svelte";
 
-  const modify_route = ([name, ending]) => {
-    const selector = "code .line > span";
-    [...document.querySelector(".tabs").querySelectorAll(selector)]
-      .filter(string => string.innerText.slice(1).includes("ndex."))
-      .forEach(string => {
-        string.innerText = `${name}.${ending}`;
-      });
-  };
+  export let content, app, examples;
 
+  const { theme } = app;
   const filenames = {
     react: ["PostIndex", "jsx"],
     solid: ["PostIndex", "jsx"],
@@ -21,8 +15,21 @@
     webc: ["post-index", "webc"]
   };
 
+  const modify_route = ([name, ending]) => {
+    const selector = "code .line > span";
+    [...globalThis.document.querySelector(".tabs").querySelectorAll(selector)]
+      .filter(string => string.innerText.slice(1).includes("ndex."))
+      .forEach(string => {
+        string.innerText = `${name}.${ending}`;
+      });
+  };
+
+  const clipboard = text => {
+    globalThis.navigator.clipboard.writeText(text);
+  };
+
   onMount(() => {
-    document.querySelectorAll(".tabbed").forEach(tabbed => {
+    globalThis.document.querySelectorAll(".tabbed").forEach(tabbed => {
       const captions = tabbed.querySelector(".captions").childNodes;
       const tabs = tabbed.querySelector(".tabs").childNodes;
       captions.forEach((caption, i) => {
@@ -48,14 +55,6 @@
       });
     });
   });
-
-  export let content, app, examples;
-
-  const { theme } = app;
-
-  const clipboard = text => {
-    navigator.clipboard.writeText(text);
-  };
 </script>
 <Header {app} title="Polymorphic development platform" />
 <main class="hero">

@@ -5,7 +5,7 @@
 
   export let content, toc, app, sidebar, page;
 
-  const [{text: title}] = toc;
+  const [{ text: title }] = toc;
 </script>
 <Header {app} {title} />
 <main>

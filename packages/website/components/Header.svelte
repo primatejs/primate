@@ -1,25 +1,23 @@
 <script>
-  import {onMount} from "svelte";
-
+  import { onMount } from "svelte";
   import Icons from "./Icons.svelte";
   import Icon from "./Icon.svelte";
+
+  export let app, title;
+
+  const {theme} = app;
+  const part = link => link.split("/")[1];
+  const toggleColorScheme = () =>
+    colorscheme.update(value => value === "dark" ? "light" : "dark");
 
   let highlight = _ => "";
   let colorscheme;
 
-  const part = link => link.split("/")[1];
-
   onMount(async () => {
     colorscheme = (await import("./localStorage.js")).default;
     highlight = link =>
-      part(link) === part(document.location.pathname) ? "active" : "";
+      part(link) === part(globalThis.window.location.pathname) ? "active" : "";
   });
-
-  export let app, title;
-  const {theme} = app;
-
-  const toggleColorScheme = () =>
-    colorscheme.update(value => value === "dark" ? "light" : "dark");
 </script>
 <svelte:head>
   <title>Primate - {title}</title>

@@ -3,9 +3,8 @@
 
   export let app, posts;
 
-  const format = {"day": "2-digit", "month": "short", "year": "numeric"};
+  const format = { "day": "2-digit", "month": "short", "year": "numeric" };
   const date = epoch => new Date(epoch).toLocaleDateString("en-AU", format);
-
 </script>
 <Header {app} title="Blog" />
 <main>

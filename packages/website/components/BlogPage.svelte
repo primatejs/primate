@@ -2,13 +2,11 @@
   import Header from "./Header.svelte";
   import OnThisPage from "./OnThisPage.svelte";
 
-  const format = {"day": "2-digit", "month": "short", "year": "numeric"};
-  const date = epoch => new Date(epoch).toLocaleDateString("en-AU", format);
-
   export let content, toc, app, meta;
 
-  const {author, epoch, title} = meta;
-
+  const format = { "day": "2-digit", "month": "short", "year": "numeric" };
+  const date = epoch => new Date(epoch).toLocaleDateString("en-AU", format);
+  const { author, epoch, title } = meta;
 </script>
 <Header {app} {title} />
 <main>

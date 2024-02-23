@@ -1,12 +1,13 @@
 <script>
-  import {onMount} from "svelte";
+  import { onMount } from "svelte";
   import Header from "./Header.svelte";
 
   export let app;
+
   let location = "";
 
   onMount(() => {
-    location = window.location.pathname;
+    location = globalThis.window.location.pathname;
   });
 
 </script>
