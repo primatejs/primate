@@ -36,8 +36,8 @@
       "fix": "check errors in config file by running {1}",
       "level": "Error"
     },
-    "InvalidReturnedBody": {
-      "message": "invalid body returned from route, got `{0}`",
+    "InvalidBodyReturned": {
+      "message": "invalid body returned from route, got {0}",
       "fix": "return a proper body from route",
       "level": "Error"
     },
