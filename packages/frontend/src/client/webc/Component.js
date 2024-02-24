@@ -5,7 +5,12 @@ const HTMLElement = globalThis.HTMLElement ?? ServerHTMLElement;
 export default class Component extends HTMLElement {
   constructor(props) {
     super();
-    this.props = props;
+    this.props = props === undefined
+      // <sub-component name="bob" />
+      ? Object.fromEntries(this.getAttributeNames().map(key =>
+        [key, this.getAttribute(key)]))
+      // new SubComponent({ name: "bob" }).render()
+      : props;
   }
 
   connectedCallback() {

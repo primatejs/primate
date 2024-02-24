@@ -10,16 +10,6 @@ const extensions = {
 };
 
 export const compile = {
-  async server(text, component, app) {
-    const location = app.get("location");
-    const source = app.path.components;
-    const base = app.runpath(location.server, location.components);
-    const path = base.join(`${component.path}.js.impl.js`.replace(source, ""));
-    const script = await Promise.all([...text.matchAll(script_re)]
-      .map(({ groups: { code } }) => code));
-    await path.write(script);
-    return client(component.base);
-  },
   async client(text, component, app) {
     const location = app.get("location");
     const source = app.path.components;
