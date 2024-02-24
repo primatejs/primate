@@ -18,11 +18,15 @@ const transform = to => ({ types, schema, document, path }) =>
           return errors.CannotUnpackValue.throw(value, name, command);
         }),
     ));
+const defined = input => ({
+  errors: input.errors,
+  document: o.filter(input.document, ([, value]) => value !== undefined),
+});
 
 export default (config, facade, types) => {
   const name = config.name.toLowerCase();
   const path = name.replaceAll("_", ".");
-  const { schema, actions = _ => ({}) } = config;
+  const { mode, schema, actions = _ => ({}) } = config;
 
   const pack = document => transform("in")({ document, path, schema, types });
   const unpack = result => typeof result === "object"
@@ -33,8 +37,7 @@ export default (config, facade, types) => {
     connection: facade.connection,
     facade,
     async validate(input) {
-      const result = await validate({ input, types, schema,
-        strict: config.strict });
+      const result = defined(await validate({ input, types, schema, mode }));
       if (Object.keys(result.errors).length > 0) {
         const error = FailedDocumentValidation.new(Object.keys(result));
         error.errors = result.errors;

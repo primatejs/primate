@@ -8,6 +8,9 @@ const client = () => json({ filename: `${filename}` })();
 
 export default async test => {
   base(test, client, {
+    before: async () => {
+      await filename.remove();
+    },
     after: async () => {
       await filename.remove();
     },

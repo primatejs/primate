@@ -80,7 +80,7 @@ export default class Connection {
 
   async insert(name, primary, document) {
     // generate id
-    const result = { [primary]: crypto.randomUUID(), ...document };
+    const result = { ...document, [primary]: crypto.randomUUID() };
     await this.#write(name, collection => [...collection, result]);
     return result;
   }

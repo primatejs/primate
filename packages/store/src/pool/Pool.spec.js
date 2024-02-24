@@ -102,5 +102,4 @@ export default test => {
       assert.fail();
     }
   });
-
 };

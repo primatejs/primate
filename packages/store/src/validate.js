@@ -1,10 +1,14 @@
+import modes from "./modes.js";
 const normalize = string => string.trim() === "" ? undefined : string;
 
-export default async ({ types, input, schema, strict }) =>
+const is_strict = mode => mode === modes.strict;
+const is_loose = mode => !is_strict(mode);
+
+export default async ({ types, input, schema, mode }) =>
   Object.entries(schema).reduce(({ errors, document }, [name, field]) => {
     const value = input[name];
     // skip empty fields if not in strict mode
-    if (!strict && value === undefined) {
+    if (is_loose(mode) && value === undefined) {
       return { errors, document };
     }
 
@@ -12,7 +16,7 @@ export default async ({ types, input, schema, strict }) =>
       // empty strings are considered undefined
       const normal = typeof value === "string" ? normalize(value) : value;
       // null signals *removal* to the driver
-      const validated = !strict && value === null
+      const validated = is_loose(mode) && value === null
         ? null : field.validate(normal, types);
       return {
         errors,
@@ -24,4 +28,4 @@ export default async ({ types, input, schema, strict }) =>
         document,
       };
     }
-  }, { errors: {}, document: {} });
+  }, { errors: {}, document: is_loose(mode) ? input : {} });

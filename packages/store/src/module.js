@@ -1,7 +1,9 @@
 import crypto from "rcompat/crypto";
 import { dim } from "rcompat/colors";
 import o from "rcompat/object";
+import { assert } from "rcompat/invariant";
 import { memory } from "./drivers/exports.js";
+import modes from "./modes.js";
 import errors from "./errors.js";
 import primary from "./primary.js";
 
@@ -38,9 +40,12 @@ export default ({
   directory = "stores",
   // default database driver
   driver = memory(),
-  // whether all fields should be non-empty before saving
-  strict = false,
+  // loose: validate non-empty fields, accept empty/non-defined [default]
+  // strict: all fields must be non-empty before saving
+  mode = modes.loose,
 } = {}) => {
+  assert(Object.values(modes).includes(mode),
+    "`mode` must be 'strict' or 'loose'");
   const module = "primate/store";
   let env = {};
   let active = false;
@@ -102,7 +107,7 @@ export default ({
         stores,
         defaults: {
           driver: default_driver,
-          strict,
+          mode,
           readonly: false,
           ambiguous: false,
         },

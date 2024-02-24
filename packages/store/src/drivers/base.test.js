@@ -17,6 +17,21 @@ const stores = [
       from: string,
     },
   }],
+  ["StrictUser", {
+    name: "StrictUser",
+    mode: "strict",
+    schema: {
+      id: primary,
+      name: string,
+      sex: string,
+      traits: object,
+      age: u8,
+      smart: boolean,
+      money: i64,
+      created: date,
+      from: string,
+    },
+  }],
   ["Comment", {
     name: "Comment",
     schema: {
@@ -32,16 +47,18 @@ export default async (test, driver, lifecycle) => {
     async before() {
       const d = await driver();
       await (await d.transact(stores))([], async store => {
-        const { User, Comment } = Object.fromEntries(store);
+        const { User, StrictUser, Comment } = Object.fromEntries(store);
         await User.schema.create(stores[0][1].schema);
-        await Comment.schema.create(stores[1][1].schema);
+        await StrictUser.schema.create(stores[1][1].schema);
+        await Comment.schema.create(stores[2][1].schema);
       });
     },
     async after() {
       const d = await driver();
       await (await d.transact(stores))([], async store => {
-        const { User, Comment } = Object.fromEntries(store);
+        const { User, StrictUser, Comment } = Object.fromEntries(store);
         await User.schema.delete();
+        await StrictUser.schema.delete();
         await Comment.schema.delete();
       });
       await lifecycle?.after();
@@ -55,8 +72,8 @@ export default async (test, driver, lifecycle) => {
       assert,
       t: async callback => {
         await t([], async store => {
-          const { User, Comment } = Object.fromEntries(store);
-          await callback({ User, Comment });
+          const { User, StrictUser, Comment } = Object.fromEntries(store);
+          await callback({ User, StrictUser, Comment });
         });
       },
     };
@@ -72,7 +89,7 @@ export default async (test, driver, lifecycle) => {
   test.case("insert", async ({ assert, t }) => {
     await t(async ({ User, Comment }) => {
       const { id } = await User.insert({});
-      assert(id).equals(1);
+      assert(id).defined();
 
       await User.insert({ name: "Donald" });
       assert(await User.count()).equals(2);
@@ -84,6 +101,24 @@ export default async (test, driver, lifecycle) => {
       // embedded
       await User.insert({ ...traits });
       assert(await User.count()).equals(4);
+    });
+  });
+
+  test.case("insert[strict]", async ({ assert, t }) => {
+    await t(async ({ StrictUser }) => {
+      assert(() => StrictUser.insert({})).throws();
+
+      const { id } = await StrictUser.insert({
+        name: "Bob",
+        sex: "male",
+        traits: { fat: true },
+        age: 32,
+        smart: true,
+        money: 1_000,
+        created: new Date(),
+        from: "from",
+      });
+      assert(id).defined();
     });
   });
 
