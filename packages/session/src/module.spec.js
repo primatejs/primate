@@ -19,7 +19,7 @@ export default test => {
     const next = ({ session }) => {
       assert(session).defined();
       assert(session.id).undefined();
-      assert(session.all()).equals({});
+      assert(session.json()).equals({});
       return response();
     };
 
@@ -35,7 +35,7 @@ export default test => {
     const next = async ({ session }) => {
       assert(session).defined();
       assert(session.id).undefined();
-      assert(session.all()).equals({});
+      assert(session.json()).equals({});
       await session.create();
       return response();
     };
@@ -53,7 +53,7 @@ export default test => {
     const next = async ({ session }) => {
       assert(session).defined();
       assert(session.id).undefined();
-      assert(session.all()).equals({});
+      assert(session.json()).equals({});
       return response();
     };
 
@@ -65,22 +65,22 @@ export default test => {
     const next2 = sessionId => ({ session }) => {
       assert(session).defined();
       assert(session.id).equals(sessionId);
-      assert(session.all()).equals({});
+      assert(session.json()).equals({});
       return response();
     };
 
     const r2 = await session.handle(request2, next2(session_id));
     assert(r2.headers.has("Set-Cookie")).false();
   });
-  test.case("name: default to 'sessionId'", async assert => {
+  test.case("name: default to 'session_id'", async assert => {
     const session = initi();
     const r = await session.handle(request(), () => response());
-    assert(r.headers.get("Set-Cookie").startsWith("sessionId")).true();
-  });
-  test.case("name: make configurable", async assert => {
-    const session = initi({ name: "session_id" });
-    const r = await session.handle(request(), () => response());
     assert(r.headers.get("Set-Cookie").startsWith("session_id")).true();
+  });
+  test.case("name: configurable", async assert => {
+    const session = initi({ name: "sessionId" });
+    const r = await session.handle(request(), () => response());
+    assert(r.headers.get("Set-Cookie").startsWith("sessionId")).true();
   });
   test.case("SameSite: default to Strict", async assert => {
     const session = initi();
@@ -88,7 +88,7 @@ export default test => {
     const parts = r.headers.get("Set-Cookie").split(";");
     assert(parts.some(part => part === "SameSite=Strict")).true();
   });
-  test.case("SameSite: make configurable", async assert => {
+  test.case("SameSite: configurable", async assert => {
     const session = initi({ sameSite: "Lax" });
     const r = await session.handle(request(), () => response());
     const parts = r.headers.get("Set-Cookie").split(";");
@@ -100,7 +100,7 @@ export default test => {
     const parts = r.headers.get("Set-Cookie").split(";");
     assert(parts.some(part => part === "HttpOnly")).true();
   });
-  test.case("HttpOnly: make configurable", async assert => {
+  test.case("HttpOnly: configurable", async assert => {
     const session = initi({ httpOnly: false });
     const r = await session.handle(request(), () => response());
     const parts = r.headers.get("Set-Cookie").split(";");
@@ -112,7 +112,7 @@ export default test => {
     const parts = r.headers.get("Set-Cookie").split(";");
     assert(parts.some(part => part === "Path=/")).true();
   });
-  test.case("Path: make configurable", async assert => {
+  test.case("Path: configurable", async assert => {
     const session = initi({ path: "/blog" });
     const r = await session.handle(request(), () => response());
     const parts = r.headers.get("Set-Cookie").split(";");
@@ -142,7 +142,7 @@ export default test => {
     // this tests for a UUID, being the best heuristics for the default manager
     assert(UUID.test(id)).true();
   });
-  test.case("manager: make configurable", async assert => {
+  test.case("manager: configurable", async assert => {
     // this manager ignores all input and always returns "1"
     const session = initi({ manager: () => ({
       id: 1,
@@ -175,7 +175,7 @@ export default test => {
     const next = async ({ session }) => {
       assert(session).defined();
       assert(session.id).undefined();
-      assert(session.all()).equals({});
+      assert(session.json()).equals({});
       assert(() => session.set({})).throws();
       await session.create();
       assert(() => session.set({})).nthrows();
