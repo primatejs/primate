@@ -17,6 +17,7 @@ export const compile = {
     const path = base.join(`${component.path}.js.impl.js`.replace(source, ""));
     const [script] = await Promise.all([...text.matchAll(script_re)]
       .map(({ groups: { code } }) => code));
+    await path.directory.create();
     await path.write(script.replaceAll(extensions.from, extensions.to));
     return { js: client(component.base) };
   },
