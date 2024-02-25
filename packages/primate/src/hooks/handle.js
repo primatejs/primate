@@ -20,7 +20,7 @@ const guard = (app, guards) => async (request, next) => {
     return next(request);
   } catch (error) {
     if (error.type === guard_error) {
-      return (await respond(error.result))(app);
+      return { response: respond(error.result)(app) };
     }
     // rethrow if not guard error
     throw error;
@@ -57,7 +57,7 @@ export default app => {
       const routed = await (await cascade(hooks))({ ...request, path });
 
       const $layouts = { layouts: await get_layouts(layouts, routed.request) };
-      return (await respond(routed.response))(app, $layouts, routed.request);
+      return respond(routed.response)(app, $layouts, routed.request);
     }).orelse(async error => {
       app.log.auto(error);
 
