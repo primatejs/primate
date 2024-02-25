@@ -222,14 +222,14 @@ saving this field into the database, it will use the driver's base type
 
 ### Strict
 
-By default, fields aren't required to be non-empty (not `undefined` or `null`)
-to save a new document into the document. If you wish to strictly enforce all
-fields to be non-empty, export `strict = true`.
+By default, fields aren't required to be non-empty (`undefined` or `null`)
+to save a new document into the store. If you wish to strictly enforce all
+fields to be non-empty, export `mode = "strict"`.
 
 ```js caption=stores/Comment.js
 import { primary, string } from "primate/@types";
 
-export const strict = true;
+export const mode = "strict";
 
 export default {
   id: primary,
@@ -238,7 +238,7 @@ export default {
 ```
 
 You can also globally enforce strictness for all stores by configuring this
-module with `strict: true`. 
+module with `mode: "strict"`. 
 
 ```js caption=primate.config.js
 import store from "@primate/store";
@@ -246,24 +246,30 @@ import store from "@primate/store";
 export default {
   modules: [
     store({
-      strict: true,
+      mode: "strict",
     }),
   ],
 };
 ```
 In that case, you can opt-out on individual store level by exporting
-`strict = false`.
+`mode = "loose"`.
 
 ```js caption=stores/Comment.js
 import { primary, string } from "@primate/types";
 
-export const strict = false;
+export const mode = "loose";
 
 export default {
   id: primary,
   text: string,
 };
 ```
+
+!!!
+The store module treats `undefined` and `null` differently on updates. When
+updating a document, `undefined` means you want to leave the field's value as
+is, while `null` nullifies the field.
+!!!
 
 ### Name
 
@@ -440,14 +446,24 @@ non-volatile alternative driver which stores its data in a JSON file. Other
 supported DMBSs are [MongoDB][mongodb],[PostgreSQL][postgresql], [MySQL][mysql]
 and [SQLite][sqlite].
 
-### strict
+### mode
 
-Default `false`
+Default `"loose"`
 
 Whether all store fields must be non-empty before saving. In many cases, you
-want some values to be nullable. Setting this to `true` forbids any store from
-saving empty values to the database, unless it has overridden that value by
-using `export const strict = false;`.
+want some values to be nullable. Setting this to `"strict"` forbids any store
+from saving empty values to the database, unless it has overridden that value
+by using `export const mode = "strict";`.
+
+In addition, `loose` allows you to save to fields that haven't been explicitly
+declared in your store definition. This is particulary useful for NoSQL
+databases that do not a rigid schema, where you want to enforce types on some
+fields and accept anything in others.
+
+!!!
+For SQL databases, we will add the ability in the future to declare a catchall
+JSON column that would serve the same purpose.
+!!!
 
 ## Error list
 

@@ -102,7 +102,7 @@ In Primate's [filesystem-based routes](/guide/routes), path parameters may be
 additionally specified with types to ensure the path adheres to a certain
 format.
 
-```js caption=routes/user/{userId=uuid}.js
+```js caption=routes/user/[userId=uuid].js
 export default {
   /*
     GET /user/b8c5b7b2-4f4c-4939-81d8-d1bdadd888c5
@@ -121,71 +121,6 @@ export default {
 In the above example, using the `uuid` type we previously defined in `types`,
 we make sure the route function is only executed if the `GET` request is to a
 pathname starting with `user/` and followed by a valid UUID.
-
-Parameters named the same as types will be automatically typed. Assume that we
-created the following `userId` type that makes sure a dataset user exists with
-the given type.
-
-```js caption=types/userId.js
-import number from "./number.js";
-
-const users = [
-  {
-    id: 6161
-    name: "Donald",
-  },
-];
-
-export default id => {
-  type: "f64",
-  validate(id) {
-    // IDs must be numbers
-    const n = number(id);
-
-    const user = users.find(user => user.id === n);
-    if (user !== undefined) {
-      return n;
-    }
-    throw new Error(`${id} is not a valid user ID`);
-  },
-};
-```
-
-With that definition, using `{userId}` in any route will autotype it to the
-`userId` type.
-
-```js caption=routes/user/{userId}.js
-export default {
-  get(request) {
-    /*
-      GET /user/6161
-      -> "User ID is 6161"
-
-      GET /user/1616
-      -> Error
-    */
-    const userId = request.path.get("userId");
-    return `User ID is ${userId}`;
-  }
-}
-```
-
-Here we avoided typing out the route as `user/{userId=userId}.js` and relied
-on Primate to match the type to the parameter name. In this case, `GET
-/user/1616` cannot be matched to a route, as `1616` is not an ID of a user in
-our dataset.
-
-By first checking that the given value is a number, we have also coerced it to
-the correct JavaScript type, making sure the strict equally in the `find`
-predicate works. Using such delegated typing allows you to distinguish between
-different classes of errors: the input being a proper numeric string vs.
-supplying the ID of an actual dataset user.
-
-!!!
-If you do not wish Primate to autotype your path parameters, set
-`types.explicit` to `true` in your configuration. In that case, you would need
-to use the route filename `routes/user/{userId=userId}.js` instead.
-!!!
 
 ### Request query
 

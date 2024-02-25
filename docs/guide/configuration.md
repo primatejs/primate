@@ -27,17 +27,14 @@ export default {
   http: {
     host: "localhost",
     port: 6161,
-    csp: {
-      "default-src": "'self'",
-      "style-src": "'self'",
-      "script-src": "'self'",
-      "object-src": "'none'",
-      "frame-ancestors": "'none'",
-      "form-action": "'self'",
-      "base-uri": "'self'",
-    },
+    csp: {},
     static: {
       root: "/",
+    },
+  },
+  request:
+    body: {
+      parse: true,
     },
   },
   location: {
@@ -57,9 +54,6 @@ export default {
       paths: [],
       mapper: identity,
     },
-  },
-  types: {
-    explicit: false,
   },
 };
 ```
@@ -106,17 +100,14 @@ export default {
   http: {
     host: "localhost",
     port: 6262,
-    csp: {
-      "default-src": "'self'",
-      "style-src": "'self'",
-      "script-src": "'self'",
-      "object-src": "'none'",
-      "frame-ancestors": "'none'",
-      "form-action": "'self'",
-      "base-uri": "'self'",
-    },
+    csp: {},
     static: {
       root: "/",
+    },
+  },
+  request:
+    body: {
+      parse: true,
     },
   },
   location: {
@@ -137,9 +128,6 @@ export default {
       mapper: identity,
     },
   },
-  types: {
-    explicit: false,
-  },
 };
 ```
 
@@ -151,8 +139,6 @@ Default `"/"`
 
 Your app's base path. If your app is running from a domain's root path, leave
 the default as is. If your app is running from a subpath, adjust accordingly.
-
-This is used in CSP paths.
 
 ### modules
 
@@ -217,27 +203,32 @@ The HTTP port to be used. This value is directly passed to the runtime.
 
 ### http.csp
 
-Default
+Default `{}`
+
+The Content Security Policy (CSP) to be used. Empty by default.
+
+If you wanted a fairly restrictive policy, you would use something like this.
 
 ```js
 {
 // all content must come from own origin, excluding subdomains
-"default-src": "'self'",
+"default-src": ["'self'"],
 // styles must come from own origin, excluding subdomains
-"style-src": "'self'",
+"style-src": ["'self'"],
 // disallow <object>, <embed> and <applet> elements
-"object-src": "'none'",
+"object-src": ["'none'"],
 // disallow embedding
-"frame-ancestors": "'none'",
+"frame-ancestors": ["'none'"],
 // all form submissions must be to own origin
-"form-action": "'self'",
+"form-action": ["'self'"],
 // allow only own origin in <base>
-"base-uri": "'self'",
+"base-uri": ["'self'"],
 }
 ```
 
-The Content Security Policy (CSP) to be used. Primate's defaults are intended
-to be secure, and you would need to change them for decreased security.
+If existing, `script-src` and `style-src` will be concatenated with hashes of 
+scripts and styles picked up by Primate (either through the `components` or the
+`static` directory).
 
 ### http.static.root
 
@@ -260,6 +251,18 @@ If specified as a relative path, will be relative to project root.
 Primate does not load the key or certificate into memory. It only resolves
 their paths as necessary and passes them to the [rcompat](https://github.com/rcompat/rcompat).
 !!!
+
+### Request options
+
+### request.body.parse
+
+Default: `true`
+
+Whether the body should be parsed according to the content type. Turning this
+off is useful if you're using Primate as a programmable reverse proxy and
+forwarding the requests to another app. The headers, the querystring and
+cookies will be still parsed and available to `request`, and
+`request.original` will contain the untouched original request.
 
 ### Location options
 
@@ -354,13 +357,6 @@ A file content mapper for the files specified in `build.transform.files`.
 ## Type options
 
 Configuring [runtime types](/guide/types).
-
-### types.explicit
-
-Default `false`
-
-Whether Primate should autotype path parameters. If set to `true`, path
-parameters and types having the exact same name won't be automatically typed.
 
 ## pages/app.html
 

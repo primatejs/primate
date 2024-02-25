@@ -10,12 +10,13 @@ To illustrate this, consider that inside `routes`
 
 * `index.js` is mapped to the root route (`/`)
 * `user.js` is mapped to `/user`
-* `user/{userId}.js` is mapped to a
+* `user/[user_id].js` is mapped to a
 [route with parameters](#parameters), for example `/user/1` (but also
 `/user/donald`)
-* `user/{userId=uuid}.js` is mapped to a
-[route with typed parameters][types] route where `userId` is of the type `uuid`,
-for example `/user/f6a3fac2-7c1d-432d-9e1c-68d0db925adc` (but not `/user/1`)
+* `user/[user_id=uuid].js` is mapped to a
+[route with typed parameters][types] route where `user_id` is of the type
+`uuid`, for example `/user/f6a3fac2-7c1d-432d-9e1c-68d0db925adc` (but not
+`/user/1`)
 
 ## HTTP verbs
 
@@ -90,7 +91,7 @@ saying Hello and the provided name.
 
 The request's path, an object containing named parameters.
 
-```js caption=routes/users/{user}.js
+```js caption=routes/users/[user].js
 import { error } from "primate";
 
 const users = ["Donald", "Ryan"];
@@ -204,7 +205,7 @@ parameter in the same case twice. They must be non-empty, that is matched by
 at least one character.
 
 By default, parameters will match anything in the path except `/`, though they
-are not greedy. A path like `/users/{userId}a.js` is unambiguous: it will match
+are not greedy. A path like `/users/[userId]a.js` is unambiguous: it will match
 any path that starts with `/users/` followed by anything that is not `/`,
 provided that it ends with `a`. The last `a` can therefore not be part of
 the match.

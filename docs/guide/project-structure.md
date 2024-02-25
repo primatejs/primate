@@ -6,15 +6,15 @@ setup you would use.
 ```sh
 .
 ├─ static/
-│  └─ [static assets]
+│  └─ # static assets
 ├─ pages/
 │  └─ app.html
 ├─ primate.config.js
 ├─ package.json
 ├─ routes/
-│  └─ [filesystem-based routes]
+│  └─ # filesystem-based routes
 └─ components/
-   └─ [view components]
+   └─ # frontend components
 ```
 
 ## static
@@ -63,7 +63,7 @@ were creating a blog, this is how a typical layout could look like.
 ├─ index.js # view homepage -> /
 └─ post/
    ├─ add.js # add post -> /post/add
-   └─ {postId}/
+   └─ [postId]/
       ├─ comment/
       │  └─ add.js # add comment on post -> /post/1/comment/add
       ├─ comments.js # show comments on posts -> /post/1/comments
@@ -72,8 +72,8 @@ were creating a blog, this is how a typical layout could look like.
 ```
 
 !!!
-Some of the above route examples use `1`, where in fact any value could stand
-for `{postId}`. We'll later come back to path parameters in depth.
+Some of the above route examples use `1`, where in fact any value could be used
+for `[postId]`. We'll later come back to path parameters in depth.
 !!!
 
 Here we chose our paths to represent CRUD actions. This is appropriate for a
@@ -85,10 +85,10 @@ verbs. In that case, your layout might look a little different.
 .
 ├─ post.js # create post, read posts -> /post
 └─ post/
-   ├─ {postId}.js # read, update, delete post -> post/1
-   └─ {postId}/
+   ├─ [postId].js # read, update, delete post -> post/1
+   └─ [postId]/
       ├─ comment.js # create comment, read comments -> /post/1/comment
-      └─ {commentId}.js # read, update, delete comment -> post/1/comment/2
+      └─ [commentId].js # read, update, delete comment -> post/1/comment/2
 ```
 
 ## components
