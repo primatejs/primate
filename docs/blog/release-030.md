@@ -33,7 +33,7 @@ To illustrate, here are a few examples of paths in 0.30.
 
 ## Quality of life improvements
 
-### Default `loose` mode in stores
+### Default loose mode in stores
 
 The default mode for `@primate/store` stores is now `loose`. This is similar to
 before with the addition that fields not explicitly declared in the store

@@ -15,7 +15,8 @@ const default_options = {
 const dependencies = ["esbuild"];
 
 const publish = async (app, client) => {
-  const { config: { location, http } } = app;
+  const location = app.get("location");
+  const http = app.get("http");
 
   while (app.assets.length > 0) {
     app.assets.pop();
@@ -98,7 +99,7 @@ export default ({ ignores = [], options = {} } = {}) => {
       return next(app);
     },
     async bundle(app, next) {
-      const { config: { location } } = app;
+      const location = app.get("location");
 
       if (app.exports.length > 0) {
         while (app.assets.length > 0) {
