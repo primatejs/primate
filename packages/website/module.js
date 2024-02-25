@@ -1,5 +1,5 @@
 import { Response, Status } from "rcompat/http";
-import { stringify } from "rcompat/object";
+import o from "rcompat/object";
 import { view } from "primate";
 
 const encode_title = title => title.toLowerCase().replaceAll(" ", "-");
@@ -23,7 +23,7 @@ const get_sidebar = (pathname, sidebar) => {
 };
 
 const get_page = async (env, config, pathname) => {
-  const { location } = env.config;
+  const location = env.get("location");
   const base = env.runpath(location.server, config.root);
   const html = await base.join(`${pathname}.md.html`);
   if (!await html.exists()) {
@@ -114,7 +114,7 @@ export default config => {
         .map(({ title, link, description }) => ({ title, link, description }))
       ;
       await app.runpath("blog").create();
-      await app.runpath("blog", "entries.json").write(stringify(jsons));
+      await app.runpath("blog", "entries.json").write(o.stringify(jsons));
 
       return next(app);
     },
@@ -152,7 +152,7 @@ export default config => {
         const { component, props } = page;
         return view(component, props, { placeholders })(env, {}, request);
       }
-      return next({ ...request, config, env, placeholders });
+      return next({ ...request, config, placeholders });
     },
   };
 };

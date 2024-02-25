@@ -34,9 +34,6 @@ const master = i => i;
 export default {
   http: {
     host: "0.0.0.0",
-    csp: {
-      "style-src": "* data: blob: 'unsafe-inline'",
-    },
   },
   logger: {
     trace: true,
