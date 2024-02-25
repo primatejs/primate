@@ -8,12 +8,14 @@ import primary from "./primary.js";
 
 const { FailedDocumentValidation } = errors;
 
-const transform = to => ({ types, schema, document, path }) =>
+const transform = to => ({ types, schema, document, path, mode }) =>
   o.transform(document, entry => entry
     .map(([field, value]) =>
       tryreturn(_ => [field, types[bases[schema[field].base]][to](value)])
         .orelse(_ => {
-          const { name } = schema[field];
+          if (mode === "loose") {
+            return [field, document[field]];
+          }
           const command = `(await ${path}.get("${document.id}")).${field}`;
           return errors.CannotUnpackValue.throw(value, name, command);
         }),
@@ -26,11 +28,12 @@ const defined = input => ({
 export default (config, facade, types) => {
   const name = config.name.toLowerCase();
   const path = name.replaceAll("_", ".");
-  const { mode, schema, actions = _ => ({}) } = config;
+  const { mode = config.defaults.mode, schema, actions = _ => ({}) } = config;
 
-  const pack = document => transform("in")({ document, path, schema, types });
+  const pack = document =>
+    transform("in")({ document, path, schema, types, mode });
   const unpack = result => typeof result === "object"
-    ? transform("out")({ document: result, path, schema, types })
+    ? transform("out")({ document: result, path, schema, types, mode })
     : result;
 
   const store = {

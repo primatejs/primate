@@ -59,6 +59,12 @@ export default ({
         return next(app);
       }
 
+      const defaults = {
+        mode,
+        readonly: false,
+        ambiguous: false,
+      };
+
       const loaded = [];
       const stores = await Promise.all((await root.collect(/^.*.js$/u))
         // accept only uppercase-first files in store filename
@@ -86,6 +92,7 @@ export default ({
             ...rest,
             schema,
             name: exports.name ?? store.replaceAll("/", "_"),
+            defaults,
           }];
         }),
       );
@@ -107,9 +114,7 @@ export default ({
         stores,
         defaults: {
           driver: default_driver,
-          mode,
-          readonly: false,
-          ambiguous: false,
+          ...defaults,
         },
         drivers: [...new Set(stores.map(({ driver: d }) => d ?? default_driver))],
       };
