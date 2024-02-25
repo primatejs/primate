@@ -1,6 +1,6 @@
 {
   "name": "@primate/build",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Primate build module",
   "homepage": "https://primatejs.com/modules/build",
   "bugs": "https://github.com/primatejs/primate/issues",
