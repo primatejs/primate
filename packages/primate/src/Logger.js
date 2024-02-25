@@ -16,7 +16,7 @@ const mark = (format, ...params) => params.reduce((formatted, param, i) =>
   formatted.replace(`{${i}}`, bold(param)), format);
 
 const reference = (module, error) => {
-  const base = module ? `modules/${module}` : "guide/logging";
+  const base = module === "primate" ? "guide/logging" : `modules/${module}`;
   return `https://primatejs.com/${base}#${hyphenate(error)}`;
 };
 
