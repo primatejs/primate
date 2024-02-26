@@ -89,19 +89,25 @@ export default {
             const edit_this_page = `
               <a href="${href}" class="edit-this-page">
                 <svg class="icon" width="16" height="16">
-                  <use xlink:href="#edit" />
+                  <use href="#edit" />
                 </svg>
-                Edit this page on GitHub
+                Edit on GitHub
+              </a>
+            `;
+            const deeplink = `
+              <a class="deeplink" href="#${name}">
+                <svg class="icon" width="16" height="16">
+                  <use href="#anchor" />
+                </svg>
               </a>
             `;
 
             return `
               <h${level}>
                 ${text}
+                ${level !== 1 ? deeplink : ""}
               </h${level}>
-              <a name="${name}" class="anchor" href="#${name}">
-                <span class="header-link"></span>
-              </a>
+              <a class="anchor" name="${name}"></a>
               ${level === 1 ? edit_this_page : ""}
             `;
           },

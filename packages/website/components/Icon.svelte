@@ -3,7 +3,7 @@
   export let size = 16;
 </script>
 <svg class="icon" width={size} height={size}>
-  <use xlink:href="#{name}" />
+  <use href="#{name}" />
 </svg>
 <style>
   .icon {

@@ -113,6 +113,7 @@ h2 {
 h2 {
   margin-top: 5rem;
   border-bottom: 1px solid #f2f6fa;
+  position: relative;
 }
 
 .dark h2 {
@@ -435,8 +436,24 @@ th {
   color: #a0a3ac;
 }
 
+article :where(h2, h3, h4, h5, h6):hover a.deeplink {
+  opacity: 1;
+}
+
 .anchor {
   padding-top: 14rem;
+}
+
+article a.deeplink {
+  opacity: 0;
+  transition: opacity .2s;
+  color: #000;
+  position: absolute;
+  left: -2.5rem;
+}
+
+.dark article a.deeplink {
+  color: #fff;
 }
 
 .box {

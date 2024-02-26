@@ -14,7 +14,7 @@
   <h1>{title}</h1>
   <div class="blog-metadata">
     <svg class="icon" width="16" height="16">
-      <use xlink:href="#calendar" />
+      <use href="#calendar" />
     </svg>
     {date(epoch)} by 
     <a class="author" href="https://github.com/{author}">{author}</a>
