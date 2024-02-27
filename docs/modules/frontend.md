@@ -21,7 +21,7 @@ Primate.
 This refers to the frontend framework compiling its files on the server and
 sending prerendered HTML pages to the client. It avoids having the client
 itself do the first rendering, which would otherwise cause a delay in the time 
-taken for a first meaningful paint by the browser.
+taken for a first contentful paint by the browser.
 
 All official frontend modules aside from HTMX support SSR. HTMX itself has no
 support for SSR.
