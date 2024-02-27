@@ -41,7 +41,7 @@ is *always* sent along the page and activates on page load.
 ## SPA
 
 For modules that support it (currently Svelte, React and Solid), SPA browsing
-s active by default. It injects a small JavaScript client into the build which=
+is active by default. It injects a small JavaScript client into the build which
 uses `fetch` to manage clicking on links and submitting forms instead of 
 reloading the entire page, and also manages browsing the history.
 
