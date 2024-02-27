@@ -9,7 +9,7 @@ If Primate doesn't find a `primate.config.js` in your project root directory
 (the directory where your `package.json` resides) or this file does not export
 a default object, Primate will fall back to its default configuration file.
 
-```js caption=default configuration
+```js
 import { identity } from "rcompat/function";
 import { Logger } from "primate";
 
@@ -66,7 +66,7 @@ To illustrate this, if you wanted to change the default logging level to
 `Info` instead of `Warn` and the HTTP port to `6262` you would create a
 `primate.config.js` in your project root with the following overrides.
 
-```js caption=custom configuration
+```js
 import { Logger } from "primate";
 
 export default {
@@ -82,7 +82,7 @@ export default {
 Primate will merge your custom configuration with its default, resulting in
 effectively the following configuration.
 
-```js caption=merged configuration
+```js
 import { identity } from "rcompat/function";
 import { Logger } from "primate";
 
@@ -168,8 +168,7 @@ Name of the default error HTML page located in `location.pages`. If
 
 ## Logging options
 
-For more info on logging, refer to the [Logging in Primate](/guide/logging)
-section.
+For more info on logging, refer to the [Logging](/guide/logging) section.
 
 ### logger.level
 
@@ -226,7 +225,7 @@ If you wanted a fairly restrictive policy, you would use something like this.
 }
 ```
 
-If existing, `script-src` and `style-src` will be concatenated with hashes of 
+If existing, `script-src` and `style-src` will be concatenated with hashes of
 scripts and styles picked up by Primate (either through the `components` or the
 `static` directory).
 
@@ -249,10 +248,10 @@ If specified as a relative path, will be relative to project root.
 
 !!!
 Primate does not load the key or certificate into memory. It only resolves
-their paths as necessary and passes them to the [rcompat](https://github.com/rcompat/rcompat).
+their paths as necessary and passes them to [rcompat][rcompat].
 !!!
 
-### Request options
+## Request options
 
 ### request.body.parse
 
@@ -264,7 +263,7 @@ forwarding the requests to another app. The headers, the querystring and
 cookies will be still parsed and available to `request`, and
 `request.original` will contain the untouched original request.
 
-### Location options
+## Location options
 
 Locations of Primate standard directories. If any of these locations are
 relative, they will be relative to project root.
@@ -303,8 +302,8 @@ The directory from which static assets are copied to the build directory at
 
 Default `"types"`
 
-The directory where types are located. [Types](/guide/types) can be
-used to limit the range of possible values that a variable can hold.
+The directory where types are located. [Types](/guide/types) can be used to
+limit the range of possible values that a variable can have in runtime.
 
 ### location.build
 
@@ -315,8 +314,8 @@ is recreated during every run.
 
 ### location.client
 
-The directory into which client files (compiled components, modules) are copied
-and from which they are served at runtime.
+The directory into which client files (compiled components and dependencies)
+are copied and from which they are served at runtime.
 
 ### location.server
 
@@ -331,7 +330,7 @@ Modifying aspects of the build system and the resulting server/client code.
 
 Default `[]`
 
-A list of directories to be included in the server and client build. May not
+A list of directories to be included in the server and client build. Must not
 be any known Primate location.
 
 ### build.index
@@ -354,10 +353,6 @@ Default `_ => _` (identity function)
 
 A file content mapper for the files specified in `build.transform.files`.
 
-## Type options
-
-Configuring [runtime types](/guide/types).
-
 ## pages/app.html
 
 If you use the `view` or `html` [handler](/guide/responses#view), Primate will
@@ -365,7 +360,7 @@ embed the generated HTML from the handler into this file. If an `app.html`
 doesn't exist in the `pages` directory, Primate will fall back to its default
 app page.
 
-```html caption=dafault app page
+```html
 <!doctype html>
 <html>
   <head>

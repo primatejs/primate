@@ -22,10 +22,9 @@ change [`location.static`][location-static] or
 
 ## API
 
-Primate's [filesystem-based routes][routes] are excellent for creating an API.
-Primate generally follows the OpenAPI specification in denoting path parameters
-with braces (`{}`) and making the body and path, query, cookie and header
-parameters easily accessible to the route function.
+Primate's [filesystem-based routes][routes] are excellent for creating an API,
+making the body and path, query, cookie and header parameters easily accessible
+to the route function.
 
 ```js caption=routes/comment/[commentId].js
 export default {

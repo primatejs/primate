@@ -202,7 +202,7 @@ import { ws } from "primate";
 
 export default {
   get(request) {
-    const { limit } = request.query.get() ?? 20;
+    const limit = request.query.get("limit") ?? 20;
     let n = 1;
     return ws({
       open(socket) {

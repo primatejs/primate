@@ -3,7 +3,7 @@
 Primate uses filesystem-based routes. Route files are JavaScript files in the
 `routes` directory that correspond to their routes. For example, the file
 at `routes/user/profile.js` is used to handle a client accessing
-`/user/profile`. The path may include parameters in braces, which are
+`/user/profile`. The path may include parameters in brackets, which are
 mapped to `request.path`, and which may have types.
 
 To illustrate this, consider that inside `routes`
@@ -34,16 +34,16 @@ export default {
 ```
 
 In this example, accessing the path `/user/profile` using any of the specified
-verbs will return a plain-text response as specified.
+verbs will return a plain-text response with the given string.
 
 ## The request object
 
 Route verb functions accept a single parameter representing request data. This
 aggregate object allows easy access to the request `body`, any `path`
-parameters defined with braces, the `query` string split into parts, `cookies`
-as well as other `headers` and a reference to the `original` WHATWG Request 
-object. The aggregate nature of this object allows you to pull in what you need
-using object destructuring.
+parameters defined with brackets, the `query` string split into parts,
+`cookies` as well as other `headers` and a reference to the `original` WHATWG
+Request object. The aggregate nature of this object allows you to pull in what
+you need using object destructuring.
 
 ### body
 
@@ -66,7 +66,9 @@ used in the request.
 
 * `application/x-www-form-urlencoded`, which is primarily used in HTML forms,
 decodes the form fields into object properties
-* `application/json` will decode the given JSON string using `JSON.parse`
+* `application/json` decodes the given JSON string using `JSON.parse`
+* `multipart/form-data` decodes the given form using `FormData`, making files
+available as `Blob` objects and other fields as normal object properties
 
 ```js caption=routes/your-full-name.js
 export default {
@@ -198,15 +200,15 @@ WHATWG Request object.
 
 ## Parameters
 
-Route paths may contain parameters in braces, which indicate they will be
+Route paths may contain parameters in brackets, which indicate they will be
 mapped to `request.path`. Path parameter names are case sensitive, and a
 request may contain any number of them, though it must not contain the same
 parameter in the same case twice. They must be non-empty, that is matched by
 at least one character.
 
 By default, parameters will match anything in the path except `/`, though they
-are not greedy. A path like `/users/[userId]a.js` is unambiguous: it will match
-any path that starts with `/users/` followed by anything that is not `/`,
+are not greedy. A path like `/users/[user_id]a.js` is unambiguous: it will
+match any path that starts with `/users/` followed by anything that is not `/`,
 provided that it ends with `a`. The last `a` can therefore not be part of
 the match.
 
