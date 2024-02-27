@@ -1,7 +1,7 @@
 # Layouts
 
 !!!
-Layouts are currently only supported by the Primate [Svelte] and [React]
+Layouts are currently only supported by the Primate [Svelte], [Solid] and [React]
 handler.
 !!!
 
@@ -58,4 +58,5 @@ in each other, with the innermost layout including the output of the route,
 and being recursively included itself, up to the root layout.
 
 [Svelte]: /modules/svelte
+[Solid]: /modules/solid
 [React]: /modules/react
