@@ -80,7 +80,18 @@ export default {
                 dark: "vitesse-dark",
               },
             });
-            return `${top}${value}`;
+            const clipboard = `
+              <div class="to-clipboard">
+                <svg class="copy" width="16" height="16">
+                  <use href="#copy" />
+                </svg>
+                <svg class="check" width="16" height="16">
+                  <use href="#check" />
+                </svg>
+              </div>
+
+            `;
+            return `${top}${clipboard}${value}`;
           },
           heading(text, level) {
             const name = text.toLowerCase().replaceAll(/[?{}%]/gu, "")

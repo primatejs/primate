@@ -13,10 +13,25 @@
   let highlight = _ => "";
   let colorscheme;
 
+  const clipboard = text => {
+    globalThis.navigator.clipboard.writeText(text);
+  };
+
   onMount(async () => {
     colorscheme = (await import("./localStorage.js")).default;
     highlight = link =>
       part(link) === part(globalThis.window.location.pathname) ? "active" : "";
+
+    globalThis.document.querySelectorAll(".copy").forEach(snippet => {
+      snippet.addEventListener("click", event => {
+        const to_clipboard = event.target.closest(".to-clipboard");
+        clipboard(to_clipboard.nextElementSibling.textContent);
+        to_clipboard.classList.add("copied");
+        setTimeout(() => {
+          to_clipboard.classList.remove("copied");
+        }, 2000);
+      });
+    });
   });
 </script>
 <svelte:head>

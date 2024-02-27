@@ -707,6 +707,36 @@ img.background {
   filter: invert(88%);
 }
 
+.to-clipboard {
+  position: relative;
+}
+
+.to-clipboard svg {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  color: #676779;
+  height: 24px;
+  cursor: pointer;
+  transition: color 0.25s;
+}
+
+.to-clipboard svg.copy:hover {
+  color: var(--prs-primary);
+}
+
+.to-clipboard .check, .to-clipboard.copied .copy {
+  display: none;
+}
+
+.to-clipboard.copied .check {
+  display: initial;
+}
+
+.dark .to-clipboard svg {
+  color: #989886;
+}
+
 @media (max-width: 428px) {
   .home .title {
     display: none;
