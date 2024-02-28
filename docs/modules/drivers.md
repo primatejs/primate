@@ -55,7 +55,7 @@ export default {
 
 `npm install better-sqlite3@9`
 
-The SQLite driver uses the `better-sqlite3` package for its underlying driver. 
+The SQLite driver uses the `better-sqlite3` package for its underlying driver.
 Install this package before you proceed.
 
 Similarly to the JSON file driver, the SQLite driver uses the `filename`
@@ -81,8 +81,8 @@ export default {
 
 `npm install mongodb@6`
 
-The SQLite driver uses the `mongodb` package for its underlying driver. 
-Install this package before you proceed. In addition, it requires running 
+The SQLite driver uses the `mongodb` package for its underlying driver.
+Install this package before you proceed. In addition, it requires running
 MongoDB server either locally or remotely. Visit the MongoDB website or consult
 your operating system's manuals on how to install and run a server.
 
@@ -112,9 +112,9 @@ export default {
 
 `npm install postgres@3`
 
-The SQLite driver uses the `postgres` package for its underlying driver. 
-Install this package before you proceed. In addition, it requires running 
-PostgerSQL server either locally or remotely. Visit the PostGreSQL website or 
+The SQLite driver uses the `postgres` package for its underlying driver.
+Install this package before you proceed. In addition, it requires running
+PostgerSQL server either locally or remotely. Visit the PostGreSQL website or
 consult your operating system's manuals on how to install and run a server.
 
 This driver uses the `host` (default `"localhost"`), `port` (default `5432`)
@@ -191,7 +191,7 @@ SurrealDB server either locally or remotely. Visit the SurrealDB website or
 consult your operating system's manuals on how to install and run a server.
 
 This driver uses the `host` (default `"http://localhost"`), `port` (default
-`8000`), `path`  (default: "`rpc`"), `namespace`, `database`, `username`, and 
+`8000`), `path`  (default: "`rpc`"), `namespace`, `database`, `username`, and
 `password` configuration properties.
 
 ```js caption=primate.config.js

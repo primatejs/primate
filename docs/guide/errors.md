@@ -1,7 +1,7 @@
 # Errors
 
 It sometimes makes sense to show different error pages in different parts of
-your application. Error routes allow you to create custom error pages for a 
+your application. Error routes allow you to create custom error pages for a
 route or a set of routes.
 
 
@@ -10,11 +10,11 @@ route or a set of routes.
 Error routes are defined hierarchically alongside routes in the `routes`
 directory. To define an error route, create a `+error.js` file inside `routes`.
 
-Similarly to the special guard and layout files, the error route gets a 
-`request` parameter and can respond with a proper handler. Here is an example 
+Similarly to the special guard and layout files, the error route gets a
+`request` parameter and can respond with a proper handler. Here is an example
 with an error route file rendering a Svelte component (`@primate/frontend` must
 be installed and loaded in the project).
- 
+
 ```js caption=routes/+error.js
 import { view } from "primate";
 
@@ -22,7 +22,7 @@ export default request => view("ErrorPage.svelte");
 ```
 
 Like guards and layouts, error files are recursively applied. For every route,
-the **nearest** error file to it will apply. It will first look in its own 
+the **nearest** error file to it will apply. It will first look in its own
 directory, and then start climbing up the filesystem hierarchy, falling back to
 any `+error.js` file it finds along the way. Unlike guards and layouts, the
 moment an `+error.js` file is found, it will be used to handle the response.

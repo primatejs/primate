@@ -31,7 +31,7 @@ Create an web component in `components`.
 
   export default class extends Component {
     mounted(root) {
-      root.querySelector("h1").addEventListener("click", 
+      root.querySelector("h1").addEventListener("click",
         _ => console.log("title clicked!"));
     }
 

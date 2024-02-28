@@ -12,8 +12,8 @@ To serve views, start by creating an HTML component in `components`.
 <p>Hello, world!</p>
 ```
 
-Then serve it using the `view` handler, passing in the name of the HTML file
-you just created.
+Serve it using the `view` handler, passing in the name of the HTML file you
+just created.
 
 ```js caption=routes/hello.js
 import { view } from "primate";
@@ -27,7 +27,7 @@ export default {
 
 The `view` handler will use the `pages/app.html` to render a full HTML page,
 replacing `%body%` with the component's contents. If `pages/app.html` doesn't
-exist, Primate will use a default fallback.
+exist, Primate will use its default fallback file.
 
 ```html caption=pages/app.html
 <!doctype html>

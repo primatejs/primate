@@ -10,7 +10,7 @@ get an idea of it.
 ## Python routes
 
 Following up on our introduction of Go Wasm routes, this release extends the
-number of backend languages we support to three by adding Python support. As 
+number of backend languages we support to three by adding Python support. As
 Wasm support hasn't been mainlined in Python yet, Primate uses `pyodide` under
 the hood to support Python.
 
@@ -58,7 +58,7 @@ export default {
 
 When writing routes, you can pretty much do everything you can do in JavaScript
 routes, in Python. For example, if you return strings or dictionaries from your
-Python route, Primate will serve them as content type `text/plain` and 
+Python route, Primate will serve them as content type `text/plain` and
 `application/json`, respectively.
 
 ```py caption=routes/index.py
@@ -90,8 +90,8 @@ For the full documentation of Python routes, see the
 
 ## Future of WebAssembly in Primate
 
-With Go and Python Wasm supported in Primate, we are working on supporting 
-additional languages in Primate and improving existing API compatibility to 
+With Go and Python Wasm supported in Primate, we are working on supporting
+additional languages in Primate and improving existing API compatibility to
 match that of JavaScript. As WASI matures and is supported by more environments,
 we intend to move on to that.
 
@@ -105,7 +105,7 @@ This release introduces several quality of life improvements.
 ### Dots in route names
 
 It was previously impossible to use dots in the names of routes. This
-restriction is now removed, allowing you to fake dynamic routes as static 
+restriction is now removed, allowing you to fake dynamic routes as static
 resources by creating route files for them.
 
 ```js caption=routes/sitemap.xml.js
@@ -119,7 +119,7 @@ export default {
 
 ### Customs headers in view handler
 
-Combined with support for dots in route names, it is now possible to override 
+Combined with support for dots in route names, it is now possible to override
 the default content type (`text/html`) or any other header when using the `view`
 handler. This is particularly useful case you're using a template engine such
 as Handlebars to generate an XML file.
@@ -180,7 +180,7 @@ As of this release we differentiate between how `request.body` and
 `request.{path,query,cookies,headers}` behave. `request.body`'s properties
 are now accessed directly instead of with `request.body.all()` before.
 
-This change also applies to the Go binding, where request.Body is now a 
+This change also applies to the Go binding, where request.Body is now a
 `map[string]any`.
 
 ### .all removed from dispatchers
@@ -188,7 +188,7 @@ This change also applies to the Go binding, where request.Body is now a
 Dispatchers (`request.{path,query,headers,cookies}`) no longer expose a `.all`
 method.
 
-This change also applies to the Go binding, where `Dispatcher` no longer has an 
+This change also applies to the Go binding, where `Dispatcher` no longer has an
 `All` function.
 
 ### .all removed from request.session

@@ -262,7 +262,7 @@ up to a given number of messages, the default being 20.
 
 ### Server-sent events
 
-Similarly to `ws`, you can use the `sse` handler to upgrade a `GET` request to 
+Similarly to `ws`, you can use the `sse` handler to upgrade a `GET` request to
 stream out server-sent events to the client.
 
 ```js caption=routes/sse.js

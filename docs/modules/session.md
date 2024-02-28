@@ -64,7 +64,7 @@ The cookie's `Path` attribute.
 
 Default [in-memory session manager][inMemorySessionManager]
 
-The session manager. When called, it returns a function that is given an id 
+The session manager. When called, it returns a function that is given an id
 identifying a session and returns a session object to be set on `request`. The
 return object must contain a `id` property. If the given id and the returned
 `session.id` differ, a `Set-Cookie` header is added to the response.

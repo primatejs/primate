@@ -37,7 +37,7 @@ export default {
 ### Use
 
 When writing routes, you can do everything you can do in JavaScript routes, in
-TypeScript. To have your editor properly type your route functions, simply 
+TypeScript. To have your editor properly type your route functions, simply
 import `Route` from Primate and add `satisfies Route` to your exported route
 object.
 
@@ -59,13 +59,13 @@ you proper completions.
 ## Ruby routes
 
 Following up on our introduction of Python Wasm routes in 0.27, this release
-extends the number of backend languages we support through Wasm to three by 
-adding Ruby support, adding up to a total of five supported backend languages. 
+extends the number of backend languages we support through Wasm to three by
+adding Ruby support, adding up to a total of five supported backend languages.
 Under the hood, we make use of the `ruby.wasm` project through WASI.
 
 ### Install
 
-To add support for Ruby, install the `@primate/binding` module and the 
+To add support for Ruby, install the `@primate/binding` module and the
 `@ruby/head-wasm-wasi` and `@ruby/wasm-wasi` packages.
 
 `npm install @primate/binding @ruby/head-wasm-wasi@2.5 @ruby/wasm-wasi@2.5`
@@ -88,7 +88,7 @@ export default {
 
 When writing routes, you can pretty much do everything you can do in JavaScript
 routes, in Ruby. For example, if you return strings or hashes from your Ruby
-route, Primate will serve them as content type `text/plain` and 
+route, Primate will serve them as content type `text/plain` and
 `application/json`, respectively.
 
 ```rb caption=routes/index.rb
@@ -124,8 +124,8 @@ For the full documentation of Ruby routes, see the
 ### Future of WebAssembly in Primate
 
 Our Ruby support is the first backend to use WASI. With Go, Python and Ruby
-supported in Primate through WebAssembly, we are working on supporting 
-additional languages in Primate and improving existing API compatibility to 
+supported in Primate through WebAssembly, we are working on supporting
+additional languages in Primate and improving existing API compatibility to
 match that of JavaScript. As WASI matures and is supported by more environments,
 we intend to move existing Wasm implementations to that.
 
@@ -232,7 +232,7 @@ const posts = [{
 
 export default {
   get() {
-    return view("post-index.webc", 
+    return view("post-index.webc",
       { posts });
   },
 };
@@ -242,8 +242,8 @@ Your rendered web component will be accessible at http://localhost:6161/webc.
 
 ### Outlook
 
-Our Web Components support is rapidly evolving, and we rely on feedback for 
-prioritizing work on it. In particular, we plan to extend the wrapper by 
+Our Web Components support is rapidly evolving, and we rely on feedback for
+prioritizing work on it. In particular, we plan to extend the wrapper by
 offering an `unmounted` property for cleanup before removal from the DOM, as
 well as commonly used features in other frontends such as SSR and hydration.
 
@@ -289,7 +289,7 @@ export default {
 ```
 
 As `Blob` instances are streamable in Primate, submitting the form would result
-in the uploaded file being sent back to the client as 
+in the uploaded file being sent back to the client as
 `application/octet-stream`.
 
 ## Other changes

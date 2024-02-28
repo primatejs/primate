@@ -49,8 +49,8 @@ While it is not strictly required to have a package.json file in your project,
 it is useful for pinning the version of Primate and of additional modules you
 use.
 
-To pin the current version of Primate for your project, run 
-`npm install primate`. A package.json file will be created for you if it 
+To pin the current version of Primate for your project, run
+`npm install primate`. A package.json file will be created for you if it
 doesn't exist. Make sure you commit this file into your version control system.
 
 ## routes

@@ -1,4 +1,4 @@
-Today we're introducing a `Head` component for React and Solid that mimics the 
+Today we're introducing a `Head` component for React and Solid that mimics the
 behavior of `<svelte:head>` for Svelte.
 
 Primate aims for feature parity across its supported frontend frameworks.
@@ -48,18 +48,18 @@ tags will be generated and sent along with the page. Later during hydration,
 the client components will take over management of their head tags.
 
 If you use `@primate/liveview` to navigate between pages without a full reload,
-`Head` will manage its head tags between page changes, automatically removing 
+`Head` will manage its head tags between page changes, automatically removing
 the tags used by the previous page's components and inserting new ones. Tags in
 `pages/app.html` won't be managed by `Head` and will be left intact.
 
 ## Use outside of Primate
 
-As `@primate/frontend` exports `react/Head` and `solid/Head` and has virtually 
+As `@primate/frontend` exports `react/Head` and `solid/Head` and has virtually
 no  dependencies, you can use it even if you don't use Primate itself.
 
 ### Without SSR
 
-If you don't care for SSR, simply import `Head` and use it within your React 
+If you don't care for SSR, simply import `Head` and use it within your React
 or Solid components.
 
 ### With SSR
@@ -134,7 +134,7 @@ sense.
 
 Warm thanks to [ralyodio] for the idea and his incessant support for Primate.
 
-If you like Primate, consider [joining our channel #primate][irc] on 
+If you like Primate, consider [joining our channel #primate][irc] on
 irc.libera.chat.
 
 Otherwise, have a blast with `Head`!

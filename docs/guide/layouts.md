@@ -18,8 +18,8 @@ some with or without a sidebar or other recurring elements.
 Layouts are defined hierarchically alongside routes in the `routes`
 directory. To define a layout, create a `+layout.js` file inside `routes`.
 
-Similarly to the special guard files, a layout gets a  `request` parameter and 
-can respond with a proper handler -- usually `view`. Here is an example 
+Similarly to the special guard files, a layout gets a  `request` parameter and
+can respond with a proper handler -- usually `view`. Here is an example
 of a layout rendering a Svelte component with its own data, distinct from that
 of the route itself (`@primate/frontend` must be installed and loaded in the
 project).
@@ -54,7 +54,7 @@ function, and includes anything (another layout, or the route's output itself)
 by replacing `<slot></slot>` with it.
 
 Unlike guards, which work top-down, layouts work bottom-up: they are included
-in each other, with the innermost layout including the output of the route, 
+in each other, with the innermost layout including the output of the route,
 and being recursively included itself, up to the root layout.
 
 [Svelte]: /modules/svelte

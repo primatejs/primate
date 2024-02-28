@@ -18,10 +18,10 @@ string `"true"` as true, which is what you would expect on the web.
 
 Types are defined in the `types` directory, unless specified
 [elsewise](/guide/configuration#location-types) in the configuration. Type
-filenames are alphanumeric and lowercase-first. Any files not starting with a 
+filenames are alphanumeric and lowercase-first. Any files not starting with a
 lowercase letter will be ignored.
 
-Type files are described using an object containing a `base` (string) and a 
+Type files are described using an object containing a `base` (string) and a
 `validate` (function) property.
 
 Here is an example for a `number` type, a type that makes sure a string is
@@ -126,7 +126,7 @@ pathname starting with `user/` and followed by a valid UUID.
 
 Likewise, the request's query string parts, which we previously accessed using
 `request.query.get`, may be typed to ensure adherence to a given format. This
-can be achieved manually by importing the type. Here we'll also create an 
+can be achieved manually by importing the type. Here we'll also create an
 additional `user` type coercing the ID into a user object, to get a proper user
 object and not just the ID.
 
@@ -246,7 +246,7 @@ export default {
 
 ## Related modules
 
-Primate's ecosystem extends the concept of runtime types by providing many 
+Primate's ecosystem extends the concept of runtime types by providing many
 defaults and integrating with database types.
 
 ### Types

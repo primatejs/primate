@@ -123,7 +123,7 @@ property is its unique identifier and must not be doubled.
 
 Level [`Error`][error] | [`Bailout`][bailout]
 
-The same parameter is used twice in one route, as in 
+The same parameter is used twice in one route, as in
 `routes/[user_id]/[user_id].js`. Path parameters are mapped to `request.query`
 and using the same name twice (with or without a type) creates ambiguity.
 
@@ -146,7 +146,7 @@ of your choosing.*
 
 Level [`Warn`][warn]
 
-An empty route file exists, that is a route file without or with an empty 
+An empty route file exists, that is a route file without or with an empty
 default export.
 
 *Add routes to the file or remove it.*
@@ -186,7 +186,7 @@ One of the default directories is empty.
 
 Primate is an opt-in framework, that is most of its aspects, like *routes* or
 *types* are only active when their directories exist. Such an empty directory
-could mean you intended to use something but haven't. 
+could mean you intended to use something but haven't.
 
 *Populate the directory with files or remove it completely.*
 
@@ -220,7 +220,7 @@ or error files must expose a function as their default export.
 
 Level [`Error`][error] | [`Bailout`][bailout]
 
-Invalid characters in a path. Path filenames (including directory filenames) 
+Invalid characters in a path. Path filenames (including directory filenames)
 are limited to letters, digits, '_', '[',  ']' or '='.
 
 *Use only letters, digits, '_', '[', ']' or '=' in path filenames.*
@@ -248,7 +248,7 @@ Level [`Error`][error]
 
 The given content type does not correspond to the actual body contents.
 
-*If unintentional, make sure the body payload corresponds to the used content 
+*If unintentional, make sure the body payload corresponds to the used content
 type.*
 
 ### Mismatched Path

@@ -69,7 +69,7 @@ A client requesting `GET /session` would see a plain text response with its
 session id.
 
 After the `next` function returns with a response, the session module adds a
-`Set-Cookie` header to the response in case of a newly created session, 
+`Set-Cookie` header to the response in case of a newly created session,
 instructing the client to save the cookie so that it sends it with the next
 request.
 
@@ -114,7 +114,7 @@ This configuration will use `id` instead of `session_id` as the name of the
 session cookie.
 
 The order of loaded modules in the `modules` array determines the order in
-which the hooks will call them. 
+which the hooks will call them.
 
 ## Ad-hoc modules
 

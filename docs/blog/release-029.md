@@ -85,7 +85,7 @@ The rendered component will be accessible at http://localhost:6161/angular.
 
 ## Marko
 
-This release adds Marko to the list of frameworks Primate supports. This 
+This release adds Marko to the list of frameworks Primate supports. This
 handler supports SSR and serves Marko components with the `.marko` extension.
 
 ### Install
@@ -144,8 +144,8 @@ The rendered component will be accessible at http://localhost:6161/marko.
 
 This release introduces support for MySQL using the `mysql2` driver. The MySQL
 driver supports all of Primate's ORM operations as well as transactions and
-connection pools. In addition to installing the `mysql2` package, this driver 
-requires running a MySQL server either locally or remotely. Visit the MySQL 
+connection pools. In addition to installing the `mysql2` package, this driver
+requires running a MySQL server either locally or remotely. Visit the MySQL
 website or consult your operating system's manuals on how to install and run a
 server.
 

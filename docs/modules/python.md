@@ -152,8 +152,8 @@ http://localhost:6161/svelte.
 
 [JavaScript documentation][error]
 
-The `Primate.error` handler allows you to generate an error (typically with a 
-4xx or 5xx status code). The most common error and the default of this handler 
+The `Primate.error` handler allows you to generate an error (typically with a
+4xx or 5xx status code). The most common error and the default of this handler
 is `404 Not Found` using the content type `text/html`.
 
 ```py caption=routes/error.py

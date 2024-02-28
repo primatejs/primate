@@ -10,7 +10,7 @@ get an idea of it.
 
 ## Windows support
 
-This release introduces full support for running Primate on Windows, including 
+This release introduces full support for running Primate on Windows, including
 Wasm routes, data stores as well as frontends.
 
 ## New path parameter style
@@ -25,10 +25,10 @@ To illustrate, here are a few examples of paths in 0.30.
 
 * `index.js` is mapped to the root route (`/`)
 * `user.js` is mapped to `/user`
-* `user/[user_id].js` is mapped to a route with parameters, for example 
+* `user/[user_id].js` is mapped to a route with parameters, for example
 `/user/1` (but also `/user/donald`)
 * `user/[user_id=uuid].js` is mapped to a route where `user_id` is of the type
-`uuid`, for example `/user/f6a3fac2-7c1d-432d-9e1c-68d0db925adc` (but not 
+`uuid`, for example `/user/f6a3fac2-7c1d-432d-9e1c-68d0db925adc` (but not
 `/user/1`)
 
 ## Quality of life improvements
@@ -37,7 +37,7 @@ To illustrate, here are a few examples of paths in 0.30.
 
 The default mode for `@primate/store` stores is now `loose`. This is similar to
 before with the addition that fields not explicitly declared in the store
-definition will be also saved. This is particulary useful for NoSQL databases 
+definition will be also saved. This is particulary useful for NoSQL databases
 that do not have a rigid schema, in cases where you want to enforce types on
 some fields and accept anything in others.
 

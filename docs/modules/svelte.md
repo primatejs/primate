@@ -75,7 +75,7 @@ The file extension associated with Svelte components.
 
 Default `true`
 
-Whether SPA browsing using `fetch` should be active. 
+Whether SPA browsing using `fetch` should be active.
 
 ## Resources
 

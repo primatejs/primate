@@ -1,7 +1,7 @@
 # build
 
 This module builds your application's assets into single JavaScript and CSS
-files. In development mode (`npx primate`), the resulting build file won't be 
+files. In development mode (`npx primate`), the resulting build file won't be
 minified, as opposed to production mode (`npx primate serve`). Currently, the
 only build system supported is `esbuild`.
 

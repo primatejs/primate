@@ -1,13 +1,13 @@
 # Frontends
 
-Primate isn't tied to any specific frontend framework. The core platform comes 
-along with a [`view`][view] handler that serves `html` files from the 
-`components` directory. Additionally there are officially supported modules that
-cover many frontend frameworks. When loaded, they extend the `view` handler
-to support more file extensions.
+Primate isn't tied to any specific frontend framework. The core platform comes
+along with a [`view`][view] handler that serves `html` files from the
+`components` directory. Additionally there are officially supported modules
+that cover many frontend frameworks. When loaded, they extend the `view`
+handler to support more file extensions.
 
 Those frameworks come with different capabilities, like server-side rendering
-(SSR), hydration and SPA support. In some cases, some capabilities have simply 
+(SSR), hydration and SPA support. In some cases, some capabilities have simply
 not been implemented yet in the module. In other cases, the frontend framework
 itself doesn't support those.
 
@@ -20,7 +20,7 @@ Primate.
 
 This refers to the frontend framework compiling its files on the server and
 sending prerendered HTML pages to the client. It avoids having the client
-itself do the first rendering, which would otherwise cause a delay in the time 
+itself do the first rendering, which would otherwise cause a delay in the time
 taken for a first contentful paint by the browser.
 
 All official frontend modules aside from HTMX support SSR. HTMX itself has no
@@ -42,7 +42,7 @@ is *always* sent along the page and activates on page load.
 
 For modules that support it (currently Svelte, React and Solid), SPA browsing
 is active by default. It injects a small JavaScript client into the build which
-uses `fetch` to manage clicking on links and submitting forms instead of 
+uses `fetch` to manage clicking on links and submitting forms instead of
 reloading the entire page, and also manages browsing the history.
 
 ## Head component

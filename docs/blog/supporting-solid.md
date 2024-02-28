@@ -88,7 +88,7 @@ export default function (props) {
 
 ## Add a layout
 
-Create a `+layout.js` file alongside your routes (layouts apply to all routes 
+Create a `+layout.js` file alongside your routes (layouts apply to all routes
 in their directory and its subdirectories, hierarchically).
 
 ```js caption=routes/+layout.js
@@ -129,7 +129,7 @@ export default {
 
 ## Fin
 
-If you like Primate, consider [joining our channel #primate][irc] on 
+If you like Primate, consider [joining our channel #primate][irc] on
 irc.libera.chat.
 
 Otherwise, have a blast with Solid!

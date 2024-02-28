@@ -214,9 +214,9 @@ export default {
 };
 ```
 
-When trying to validate the `name` field, Primate will run the `validate` 
-function to determine if the field has passed validation. In case of failure, 
-it would stop the execution of the route function with the given error. For 
+When trying to validate the `name` field, Primate will run the `validate`
+function to determine if the field has passed validation. In case of failure,
+it would stop the execution of the route function with the given error. For
 saving this field into the database, it will use the driver's base type
 `"string"`.
 
@@ -238,7 +238,7 @@ export default {
 ```
 
 You can also globally enforce strictness for all stores by configuring this
-module with `mode: "strict"`. 
+module with `mode: "strict"`.
 
 ```js caption=primate.config.js
 import store from "@primate/store";
@@ -346,7 +346,7 @@ export default {
 
 ### Ambiguous
 
-Many database systems rely on the existence of a primary `id` field for 
+Many database systems rely on the existence of a primary `id` field for
 indexing. This module, too, uses the primary field automatically for a store's
 `get` operation. If you create a store without a primary key, Primate will
 complain.

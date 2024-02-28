@@ -85,7 +85,7 @@ The file extension associated with Solid JSX components.
 
 Default `true`
 
-Whether SPA browsing using `fetch` should be active. 
+Whether SPA browsing using `fetch` should be active.
 
 ## Resources
 
