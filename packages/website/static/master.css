@@ -112,12 +112,7 @@ h2 {
 
 h2 {
   margin-top: 5rem;
-  border-bottom: 1px solid #f2f6fa;
   position: relative;
-}
-
-.dark h2 {
-  border-bottom: 1px solid #0d0905;
 }
 
 h3 {

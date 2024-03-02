@@ -129,6 +129,27 @@ find -name "*.js" -exec rename -v "}" "]" {} ";"
 
 If you used path parameters in any directory names, change them manually.
 
+### CSP policy
+
+If you previously needed to add a CSP policy due to Primate's restrictive
+defaults, you probably don't need to do that anymore in 0.30. Remove `http.csp`
+from `primate.config.js`.
+
+If you do need a CSP policy, note that you now have to denote individual
+properties as arrays.
+
+```js caption=primate.config.js
+export default {
+  http: {
+    csp: {
+      "script-src": ["'self'"],
+    },
+  },
+};
+```
+
+Primate will add its own script and style hashes to the policy.
+
 ## Other changes
 
 Consult the [full changelog][changelog] for a list of all relevant changes.

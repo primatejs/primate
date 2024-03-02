@@ -4,7 +4,7 @@ While Primate can run without any project structure at all, here is a typical
 setup you would use.
 
 ```sh
-.
+[project root]
 ├─ static/
 │  └─ # static assets
 ├─ pages/

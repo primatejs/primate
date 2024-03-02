@@ -1,6 +1,7 @@
 <script>
   import Header from "./Header.svelte";
   import OnThisPage from "./OnThisPage.svelte";
+  import Icon from "./Icon.svelte";
 
   export let content, toc, app, meta;
 
@@ -13,9 +14,7 @@
   <article class="blog">
   <h1>{title}</h1>
   <div class="blog-metadata">
-    <svg class="icon" width="16" height="16">
-      <use href="#calendar" />
-    </svg>
+    <Icon name="calendar" />
     {date(epoch)} by 
     <a class="author" href="https://github.com/{author}">{author}</a>
   </div>
