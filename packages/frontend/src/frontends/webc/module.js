@@ -15,7 +15,6 @@ export default ({
   extension = ".webc",
 } = {}) => {
   const name = "webc";
-  const rootname = name;
   let imports = {};
   const normalized = normalize(name);
 
@@ -26,6 +25,10 @@ export default ({
 
       return next(app);
     },
+    async publish(app, next) {
+      app.build.register(imports.publish(app, extension));
+      return next(app);
+    },
     async register(app, next) {
       app.register(extension, {
         handle: handler,
@@ -33,7 +36,7 @@ export default ({
           ...await compile({
             app,
             extension,
-            rootname,
+            name,
             compile: imports.compile,
             normalize: normalized,
           }),
@@ -41,8 +44,6 @@ export default ({
           server: _ => _,
         },
       });
-
-      await app.import("@primate/frontend", "webc");
 
       return next(app);
     },

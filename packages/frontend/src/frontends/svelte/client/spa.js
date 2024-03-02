@@ -1,10 +1,8 @@
-import rootname from "./rootname.js";
-
 export default `
 const { spa } = components;
 window.addEventListener("DOMContentLoaded", _ => spa((props, update) => {
   root.$destroy();
-  root = new components.${rootname}({
+  root = new components.root_svelte({
     target: document.body,
     hydrate: true,
     props: {

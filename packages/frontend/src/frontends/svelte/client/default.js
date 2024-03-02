@@ -1,9 +1,8 @@
-import rootname from "./rootname.js";
 import spa from "./spa.js";
 
 export default ({ names, data, context, request }, options) => `
   import * as components from "app";
-  let root = new components.${rootname}({
+  let root = new components.root_svelte({
     target: document.body,
     hydrate: true,
     props: {

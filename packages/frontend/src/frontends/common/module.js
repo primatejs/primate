@@ -37,9 +37,9 @@ export default async ({
         return next(app);
       },
       async publish(app, next) {
+        app.build.register(imports.publish(app, extension));
         // export spa only once, regardless of how many frontends use it
         if (!spa_exported) {
-          await app.import("@primate/frontend", "spa");
           app.export({
             type: "script",
             code: "export { default as spa } from \"@primate/frontend/spa\";\n",
@@ -54,7 +54,7 @@ export default async ({
         app.register(extension, {
           handle: handler({
             app,
-            rootname: exports.rootname,
+            name,
             render: imports.render,
             client: exports.default,
             normalize: normalized,
@@ -63,7 +63,7 @@ export default async ({
           compile: await compile({
             app,
             extension,
-            rootname: exports.rootname,
+            name,
             create_root: exports.create_root,
             normalize: normalized,
             compile: imports.compile,

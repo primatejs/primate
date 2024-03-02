@@ -1,3 +1,4 @@
+import { File } from "rcompat/fs";
 import * as compiler from "svelte/compiler";
 import { expose } from "./client/exports.js";
 
@@ -6,10 +7,9 @@ export const render = (component, ...args) => {
   return { body: html, head };
 };
 
-export const prepare = async app => {
-  await app.import("svelte");
-  // expose code through "app", for bundlers
-  await app.export({ type: "script", code: expose });
+export const prepare = app => {
+  // expose code for bundler
+  app.export({ type: "script", code: expose });
 };
 
 export const compile = {
@@ -23,3 +23,40 @@ export const compile = {
     return { js: js.code, css: css.code };
   },
 };
+
+const css_filter = /\.sveltecss$/u;
+const root_filter = /^root:svelte$/u;
+
+export const publish = (app, extension) => ({
+  name: "svelte",
+  setup(build) {
+    build.onResolve({ filter: css_filter }, ({ path }) => {
+      return { path, namespace: "sveltecss" };
+    });
+    build.onResolve({ filter: root_filter }, ({ path }) => {
+      return { path, namespace: "svelteroot" };
+    });
+    build.onLoad({ filter: css_filter }, ({ path }) => {
+      const contents = app.build.load(path);
+      return contents ? { contents, loader: "css", resolveDir: app.root.path } : null;
+    });
+    build.onLoad({ filter: root_filter }, ({ path }) => {
+      const contents = app.build.load(path);
+      return contents ? { contents, loader: "js", resolveDir: app.root.path } : null;
+    });
+    build.onLoad({ filter: new RegExp(`${extension}$`, "u") }, async args => {
+      // Load the file from the file system
+      const source = await File.text(args.path);
+
+      // Convert Svelte syntax to JavaScript
+      const { js, css } = compile.client(source);
+      let contents = js;
+      if (css !== null) {
+        const path = `${args.path}css`;
+        app.build.save(path, css);
+        contents += `\nimport "${path}";`;
+      }
+      return { contents };
+    });
+  },
+});

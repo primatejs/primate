@@ -1,32 +1,20 @@
-import { File, watch } from "rcompat/fs";
-import { Response, MediaType, Status } from "rcompat/http";
+import { File } from "rcompat/fs";
 import { filter } from "rcompat/object";
-import { ReadableStream } from "rcompat/streams";
-import { bold } from "rcompat/colors";
 import { peers } from "../common/exports.js";
 import depend from "../depend.js";
 
 const name = "esbuild";
-const default_options = {
-  entryNames: "app-[hash]",
-  bundle: true,
-  format: "esm",
-};
 const dependencies = ["esbuild"];
 
 const publish = async (app, client) => {
   const location = app.get("location");
   const http = app.get("http");
 
-  while (app.assets.length > 0) {
-    app.assets.pop();
-  }
-  const re = new RegExp(`${location.client}/app-.*\\.(?:js|css)$`, "u");
+  const re = new RegExp(`${location.client}/app..*(?:js|css)$`, "u");
   for (const path of await client.collect(re, { recursive: false })) {
-    const code = await path.text();
     const src = path.name;
     const type = path.extension === ".css" ? "style" : "module";
-    await app.publish({ src, code, type });
+    await app.publish({ src, type });
     if (path.extension === ".js") {
       const imports = { app: File.join(http.static.root, src).path };
       await app.publish({
@@ -38,21 +26,9 @@ const publish = async (app, client) => {
   }
 };
 
-const message = new TextEncoder().encode("data: update\n\n");
-const clients = [];
-const inform = () => {
-  clients.forEach(client => {
-    client.enqueue(message);
-  });
-};
-let i = -1;
-const livereload_url = "/livereload";
-const code = `
-  const source = new EventSource("${livereload_url}");
-  source.addEventListener("message", function(e) {
-    globalThis.location.reload();
-  });
-`;
+const reload = `
+  new EventSource("/esbuild")
+    .addEventListener("change", () => globalThis.location.reload());`;
 
 export default ({ ignores = [], options = {} } = {}) => {
   const on = filter(peers, ([key]) => dependencies.includes(key));
@@ -69,83 +45,55 @@ export default ({ ignores = [], options = {} } = {}) => {
 
       return next(app);
     },
-    async handle(request, next) {
-      if (mode.development && request.url.pathname === livereload_url) {
-        const body = new ReadableStream({
-          start(controller) {
-            i++;
-            clients.push(controller);
-          },
-          cancel() {
-            clients.splice(i--, 1);
-          },
-        });
-
-        return new Response(body, {
-          status: Status.OK,
-          headers: {
-            "Content-Type": MediaType.TEXT_EVENT_STREAM,
-          },
-        });
+    handle(request, next) {
+      const { method, headers } = request.original;
+      const { pathname } = request.url;
+      const paths = ["/app.js", "/app.css", "/esbuild"];
+      if (mode.development && paths.includes(pathname)) {
+        return globalThis.fetch(`http://localhost:6262${pathname}`,
+            { headers, method, duplex: "half" });
       }
 
       return next(request);
-    },
-    async publish(app, next) {
-      if (mode.development) {
-        app.export({ type: "script", code });
-      }
-
-      return next(app);
     },
     async bundle(app, next) {
       const location = app.get("location");
 
       if (app.exports.length > 0) {
-        while (app.assets.length > 0) {
-          app.assets.pop();
-        }
         const client = app.runpath(location.client);
         await client.join(app.library).remove();
-        const directory = `${client}`;
+        const { path : resolveDir } = app.root;
+        const { path : outdir } = client;
         const contents = app.exports.map(({ code }) => code).join("");
         // remove .js and .css files from static
         const context = await esbuild.context({
-          ...default_options,
+          entryNames: mode.development ? "app" : "app-[hash]",
+          bundle: true,
+          format: "esm",
           stdin: {
             contents,
-            resolveDir: directory,
+            resolveDir,
           },
+          plugins: app.build.get(),
           splitting: mode.production,
           minify: mode.production,
-          outdir: directory,
+          outdir,
           logLevel: app.debug ? "warning" : "error",
           external: ignores.map(ignore => `*.${ignore}`),
+          banner: mode.development ? { js: reload } : {},
           ...options,
         });
         await context.rebuild();
         // remove unbundled client
         await publish(app, client);
 
-        if (mode.development && await app.path.components.exists()) {
-          const module = "primate/build";
-          const options = { recursive: true };
+        if (mode.development) {
+          await context.watch();
 
-          watch(`${app.path.components}`, options, async (_, filename) => {
-            const path = File.join(app.path.components, filename);
-
-            app.log.info(`reloading ${bold(path.name)}`, { module });
-            // recompile resource
-            await app.compile(path);
-            // rebuild server
-            await context.rebuild();
-            // republish import map
-            await publish(app, client);
-            // inform clients
-            inform();
+          await context.serve({
+            port: 6262,
           });
         }
-
       }
       return next(app);
     },

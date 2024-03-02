@@ -26,7 +26,6 @@ const handler = directory => (name, options = {}) => async app => {
 };
 
 const base_import_template = async (name, app) => {
-  await app.import("htmx-esm", `client-side-templates/${name}`);
   const from = `htmx-esm/client-side-templates/${name}`;
   const code = `export * from "${from}";`;
   app.export({ type: "script", code });
@@ -57,15 +56,12 @@ export default ({
       return next(app);
     },
     async register(app, next) {
-      const [dependency] = dependencies;
-      await app.import(dependency);
       const code = "export { default as htmx } from \"htmx-esm\";";
       await app.export({ type: "script", code });
       const handle = handler(app.get("location.components"));
       app.register(extension, { handle });
 
       for (const name of extensions) {
-        await app.import("htmx-esm", name);
         const code = `export * from "htmx-esm/${name}";`;
         app.export({ type: "script", code });
       }

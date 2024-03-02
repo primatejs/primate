@@ -13,8 +13,7 @@ const cookie = (name, value, { path, secure, httpOnly, sameSite }) =>
   `${name}=${value};${httpOnly};Path=${path};${secure};SameSite=${sameSite}`;
 
 const import_if_active = (app, module) =>
-  app.modules.names.includes(`primate:${module}`) &&
-    app.import("@primate/i18n", module);
+  app.modules.names.includes(`primate:${module}`);
 const name = "primate:i18n";
 
 const disable = (condition, error) => {

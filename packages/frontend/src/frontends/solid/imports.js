@@ -21,6 +21,10 @@ export const render = (component, props) => {
   return { body, head };
 };
 
+export const prepare = async app => {
+  await app.export({ type: "script", code: expose });
+};
+
 export const compile = {
   async server(text) {
     const presets = [[solid, { generate: "ssr", hydratable: true }]];
@@ -32,30 +36,24 @@ export const compile = {
   },
 };
 
-const depend = async (module, app, copy_dependency) => {
-  const { library, manifest } = app;
-  const root = app.get("http.static.root");
+const root_filter = /^root:solid/u;
 
-  const parts = module.split("/");
-  const path = [library, ...parts];
-  const pkg = await File.resolve().join(...path, manifest).json();
-  if (copy_dependency) {
-    const dependency = File.resolve().join(...path);
-    const target = app.runpath(app.get("location.client"), library, ...parts);
-    await dependency.copy(target);
-  }
+export const publish = (app, extension) => ({
+  name: "solid",
+  setup(build) {
+    build.onResolve({ filter: root_filter }, ({ path }) => {
+      return { path, namespace: "solidroot" };
+    });
+    build.onLoad({ filter: root_filter }, ({ path }) => {
+      const contents = app.build.load(path);
+      return contents ? { contents, loader: "js", resolveDir: app.root.path } : null;
+    });
+    build.onLoad({ filter: new RegExp(`${extension}$`, "u") }, async args => {
+      // Load the file from the file system
+      const source = await File.text(args.path);
 
-  const entry = pkg.exports["."].browser.import;
-  app.importmaps[module] = File.join(root, library, module, entry).webpath();
-};
-
-export const prepare = async app => {
-  // load dependencies
-  await depend("solid-js", app, true);
-  await depend("solid-js/web", app);
-
-  await app.import("@primate/frontend", "solid");
-  // expose code through "app", for bundlers
-  await app.export({ type: "script", code: expose });
-};
-
+      // Convert JSX syntax to JavaScript
+      return { contents: (await compile.client(source)).js };
+    });
+  },
+});

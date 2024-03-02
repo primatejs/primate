@@ -1,5 +1,4 @@
 import { File } from "rcompat/fs";
-import o from "rcompat/object";
 import { renderToString } from "react-dom/server";
 import { createElement } from "react";
 import esbuild from "esbuild";
@@ -20,6 +19,11 @@ export const render = (component, props) => {
   return { body, head };
 };
 
+export const prepare = async app => {
+  // expose code through "app", for bundlers
+  await app.export({ type: "script", code: expose });
+};
+
 const options = { loader: "jsx", jsx: "automatic" };
 export const compile = {
   async server(text) {
@@ -30,36 +34,24 @@ export const compile = {
   },
 };
 
-export const prepare = async app => {
-  const to_path = path => new File(import.meta.url).up(1).join(...path);
-  const { library } = app;
-  const module = "react";
-  const $base = ["client", "imports"];
-  const index = $base.concat("index.js");
-  const imports = {
-    react: "react.js",
-    "react-dom/client": "react-dom.js",
-    "react/jsx-runtime": "jsx-runtime.js",
-  };
+const root_filter = /^root:react/u;
 
-  const target = app.runpath(app.get("location.client"), app.library, module);
-  await esbuild.build({
-    entryPoints: [`${to_path(index)}`],
-    bundle: true,
-    format: "esm",
-    outdir: `${target}`,
-  });
-  await target.create();
-  await Promise.all(Object.values(imports).map(async value =>
-    target.join(value).write(await to_path($base.concat(value)).text())));
+export const publish = (app, extension) => ({
+  name: "react",
+  setup(build) {
+    build.onResolve({ filter: root_filter }, ({ path }) => {
+      return { path, namespace: "reactroot" };
+    });
+    build.onLoad({ filter: root_filter }, ({ path }) => {
+      const contents = app.build.load(path);
+      return contents ? { contents, loader: "js", resolveDir: app.root.path } : null;
+    });
+    build.onLoad({ filter: new RegExp(`${extension}$`, "u") }, async args => {
+      // Load the file from the file system
+      const source = await File.text(args.path);
 
-  app.importmaps = {
-    ...app.importmaps,
-    ...o.valmap(imports, value =>
-      File.join("/", library, module, value).webpath()),
-  };
-
-  await app.import("@primate/frontend", "react");
-  // expose code through "app", for bundlers
-  await app.export({ type: "script", code: expose });
-};
+      // Convert JSX syntax to JavaScript
+      return { contents: (await compile.client(source)).js };
+    });
+  },
+});

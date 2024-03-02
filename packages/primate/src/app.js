@@ -76,8 +76,26 @@ export default async (log, root, config) => {
   }
 
   const error = await path.routes.join("+error.js");
+  const build = {
+    plugins: [],
+    artifacts: {},
+  };
 
   return {
+    build: {
+      register(plugin) {
+        build.plugins.push(plugin);
+      },
+      get() {
+        return build.plugins;
+      },
+      save(path, source) {
+        build.artifacts[path] = source;
+      },
+      load(path) {
+        return build.artifacts[path];
+      },
+    },
     secure,
     importmaps: {},
     assets: [],
@@ -188,12 +206,7 @@ export default async (log, root, config) => {
       const head = tags[tag_name]({ code, type, inline: true, integrity });
       return { head, integrity: `'${integrity}'` };
     },
-    async publish({ src, code, type = "", inline = false, copy = true }) {
-      if (!inline && copy) {
-        const base = this.runpath(this.get("location.client")).join(src);
-        await base.directory.create();
-        await base.write(code);
-      }
+    async publish({ src, code, type = "", inline = false }) {
       if (inline || type === "style") {
         this.assets.push({
           src: File.join(http.static.root, src ?? "").path,
@@ -223,33 +236,6 @@ export default async (log, root, config) => {
       const bytes = await crypto.subtle.digest(algorithm, encoder.encode(data));
       const prefix = algorithm.replace("-", _ => "");
       return `${prefix}-${btoa(String.fromCharCode(...new Uint8Array(bytes)))}`;
-    },
-    async import(module, deep_import) {
-      const parts = module.split("/");
-      const path = [this.library, ...parts];
-      const pkg = await File.resolve().join(...path, this.manifest).json();
-      const exports = pkg.exports === undefined
-        ? { [module]: `/${module}/${pkg.main}` }
-        : o.transform(pkg.exports, entry => entry
-          .filter(([, export$]) =>
-            export$.browser?.[deep_import] !== undefined
-            || export$.browser?.default !== undefined
-            || export$.import !== undefined
-            || export$.default !== undefined)
-          .map(([key, value]) => [
-            key.replace(".", deep_import === undefined
-              ? module : `${module}/${deep_import}`),
-            value.browser?.[deep_import]?.replace(".", `./${module}`)
-              ?? value.browser?.default.replace(".", `./${module}`)
-              ?? value.default?.replace(".", `./${module}`)
-              ?? value.import?.replace(".", `./${module}`),
-          ]));
-      const dependency = File.resolve().join(...path);
-      const target = this.runpath(this.get("location.client")).join(...path);
-      await dependency.copy(target);
-      this.importmaps = { ...o.valmap(exports, value =>
-        File.join(this.get("http.static.root"), this.library, value).webpath()),
-        ...this.importmaps };
     },
   };
 };

@@ -1,0 +1,10 @@
+{
+  "module": "primate/frontend/webc",
+  "errors": {
+    "MissingComponentClassName": {
+      "message": "the component at {0} is missing a class name",
+      "fix": "add a class name to the component",
+      "level": "Error"
+    }
+  }
+}

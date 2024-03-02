@@ -45,6 +45,7 @@ export default {
   },
   build: {
     includes: [],
+    app: "app.js",
     index: "index.js",
     transform: {
       paths: [],
