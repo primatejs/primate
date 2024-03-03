@@ -1,22 +1,87 @@
 # Routes
 
-Primate uses filesystem-based routes. Route files are JavaScript files in the
-`routes` directory that correspond to their routes. For example, the file
-at `routes/user/profile.js` is used to handle a client accessing
-`/user/profile`. The path may include parameters in brackets, which are
-mapped to `request.path`, and which may have types.
+Primate uses filesystem-based routes. Route files are files in the `routes`
+directory which requests map to. For example, the file at
+`routes/user/profile.js` is used to handle a request to `/user/profile`. The
+path may include parameters in brackets.
 
 To illustrate this, consider that inside `routes`
 
-* `index.js` is mapped to the root route (`/`)
-* `user.js` is mapped to `/user`
-* `user/[user_id].js` is mapped to a
-[route with parameters](#parameters), for example `/user/1` (but also
-`/user/donald`)
-* `user/[user_id=uuid].js` is mapped to a
-[route with typed parameters][types] route where `user_id` is of the type
-`uuid`, for example `/user/f6a3fac2-7c1d-432d-9e1c-68d0db925adc` (but not
-`/user/1`)
+|route                 |handles requests to                                   |
+|----------------------|------------------------------------------------------|
+|index.js              |`/`                                                   |
+|user.js               |`/user`                                               |
+|user/[user_id].js     |`/user/U_ID` with U_ID being a route parameter        |
+|user/[[user_id]].js   |`/user` and `/user/U_ID`                              |
+|user/[user_id=uuid].js|`/user/UUID` with UUID having the runtime type `uuid` |
+|blog/[...subpath]     |`/blog/SUBPATH`, where SUBPATH may contain slashes    |
+|blog/[[...subpath]]   |`/blog` and `/blog/SUBPATH`                           |
+
+## Static routes
+
+Static routes are simple routes not containing any path parameters. They are
+given the highest priority in request to route resolution.
+
+Examples of static routes are `user.js`, `foo/bar.js`, or `blog/view.js`.
+
+Static routes that end in `index.js` are considered to map to the last slash.
+Thus, `user.js` and `user/index.js` handle the same path. Primate will refuse
+to start if it encounters both variants.
+
+## Dynamic routes
+
+### Path parameters
+
+Path parameters are placeholders for a range of values. They are surrounded by
+brackets, as in `[user].js`. Path parameter names are case sensitive, and a
+path may contain any number of them, though it must not contain the same
+parameter in the same case twice. They must be non-empty, i.e. matched by at
+least one character.
+
+By default, parameters will match anything in the path except `/`. Primate also
+supports rest parameters that match slashes too.
+
+### Typed parameters
+
+Parameters can be also runtime-typed, in which case their value can be
+restricted. `[age=number]` indicates that this path parameter must satisfy the
+runtime type defined in `types/number.js` (or imported from `@primate/types`)
+for the route to be matched.
+
+### Optional parameters
+
+Double brackets, as in `user/[[action]].js`, are equivalent to having two
+identical files, `user.js` and `user/[action].js`. In other words, routes
+containing optional parameters match with and without the parameter.
+
+Optional parameters may only appear at the end of a route path.
+
+You can combine optional and typed parameters.
+
+### Rest parameters
+
+Brackets starting with three dots, as in `user/[...action_tree].js`, indicate a
+rest parameter. Unlike normal parameters, rest parameters match `/` as well and
+can be thus be used to construct subpaths. For example, in
+`https://github.com/primatejs/primate/tree/master/docs/guide`, `docs/guide`
+may be considered a subpath.
+
+Rest parameters may only appear at the end of a route path. They may also be
+optional, that is, matching with and without the subpath, by using two
+brackets.
+
+### Optional rest parameters
+
+Double brackets with three dots, as in `user/[[...action_tree]].js`, are
+equivalent to having two identical files, `user.js` and
+`user/[...action_tree].js`. In other words, routes containing optional rest
+parameters may match with and witout the greedy parameter.
+
+In addition to normal parameters, there are greedy rest parameters in the form
+of `[...rest]` that also match `/` as part of the path. Rest parameters may
+only appear at the end of a route.
+
+Optional rest parameters may only appear at the end of a route.
 
 ## HTTP verbs
 
@@ -27,8 +92,8 @@ export default {
   get() {
     return "this is a GET request";
   },
-  put() {
-    return "this is a PUT request";
+  post() {
+    return "this is a POST request";
   },
 };
 ```
@@ -91,7 +156,7 @@ saying Hello and the provided name.
 
 ### path
 
-The request's path, an object containing named parameters.
+The request's path, an object containing path parameters.
 
 ```js caption=routes/users/[user].js
 import { error } from "primate";
@@ -197,37 +262,6 @@ If a user requests POST `/current-x-user` with a `X-User` header set to
 
 The `original` property of the request object provides access to the original
 WHATWG Request object.
-
-## Parameters
-
-Route paths may contain parameters in brackets, which indicate they will be
-mapped to `request.path`. Path parameter names are case sensitive, and a
-request may contain any number of them, though it must not contain the same
-parameter in the same case twice. They must be non-empty, that is matched by
-at least one character.
-
-By default, parameters will match anything in the path except `/`, though they
-are not greedy. A path like `/users/[user_id]a.js` is unambiguous: it will
-match any path that starts with `/users/` followed by anything that is not `/`,
-provided that it ends with `a`. The last `a` can therefore not be part of
-the match.
-
-Such a path will thus be matched by all the following requests.
-
-* `/users/1a`
-* `/users/aa`
-* `/users/ba?key=value`
-* `/users//a` (repeated `/` are processed as a single `/`)
-
-The same path won't be matched by any of the following requests.
-
-* `/user/1a` (does not begin with `/users`)
-* `/users/a` (must match at least one character)
-* `/users/aA` (paths are case-sensitive, path does not end with `a`)
-* `/users/?a` (`?` denotes end of path)
-
-Parameters can be also typed, in which case their value can be restricted.
-The types section elaborates on the use of [types in path parameters][types].
 
 
 [types]: /guide/types#path-parameters

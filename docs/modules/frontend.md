@@ -58,17 +58,17 @@ Every frontend framework registers its own file extension with the
 [`view`][view] handler and needs to be loaded in `primate.config.js`. You can
 use different frontend frameworks alongside each other, in different routes.
 
-|Framework   |Extension      |Layouts|SSR|Hydration|SPA|Head|I18N|
-|------------|---------------|-------|---|---------|---|----|----|
-|HTML        |`.html`        |✗      |✗  |✗        |✗  |✗   |✗   |
-|[Svelte]    |`.svelte`      |✓      |✓  |✓        |✓  |✓   |✓   |
-|[React]     |`.jsx`         |✓      |✓  |✓        |✓  |✓   |✓   |
-|[Solid]     |`.jsx`         |✓      |✓  |✓        |✓  |✓   |✓   |
-|[Vue]       |`.vue`         |✗      |✓  |✗        |✗  |✗   |✗   |
-|[Angular]   |`.component.ts`|✗      |✓  |✗        |✗  |✗   |✗   |
-|[HTMX]      |`.htmx`        |✗      |✗  |✗        |✗  |✗   |✗   |
-|[Handlebars]|`.hbs`         |✗      |✓  |✓        |✗  |✗   |✗   |
-|[Marko]     |`.marko`       |✗      |✓  |✗        |✗  |✗   |✗   |
+|Framework   |Extension      |Props|Layouts|SSR|Hydration|SPA|Head|I18N|
+|------------|---------------|-----|-------|---|---------|---|----|----|
+|HTML        |`.html`        |✗    |✗      |✗  |✗        |✗  |✗   |✗   |
+|[Svelte]    |`.svelte`      |✓    |✓      |✓  |✓        |✓  |✓   |✓   |
+|[React]     |`.jsx`         |✓    |✓      |✓  |✓        |✓  |✓   |✓   |
+|[Solid]     |`.jsx`         |✓    |✓      |✓  |✓        |✓  |✓   |✓   |
+|[Vue]       |`.vue`         |✓    |✗      |✓  |✗        |✗  |✗   |✗   |
+|[Angular]   |`.component.ts`|✓    |✗      |✓  |✗        |✗  |✗   |✗   |
+|[HTMX]      |`.htmx`        |✓    |✗      |✗  |✗        |✗  |✗   |✗   |
+|[Handlebars]|`.hbs`         |✓    |✗      |✓  |✓        |✗  |✗   |✗   |
+|[Marko]     |`.marko`       |✓    |✗      |✓  |✗        |✗  |✗   |✗   |
 
 ## Error list
 

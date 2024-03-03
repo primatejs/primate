@@ -48,8 +48,9 @@ export default {
     server: "server",
   },
   build: {
+    name: "app",
     includes: [],
-    index: "index.js",
+    excludes: [],
     transform: {
       paths: [],
       mapper: identity,
@@ -121,8 +122,9 @@ export default {
     server: "server",
   },
   build: {
+    name: "app",
     includes: [],
-    index: "index.js",
+    excludes: [],
     transform: {
       paths: [],
       mapper: identity,
@@ -185,8 +187,6 @@ Whether Primate should show the original stack trace of errors in addition to
 its own errors.
 
 ## HTTP options
-
-Configuring the underlying HTTP server.
 
 ### http.host
 
@@ -324,7 +324,11 @@ which they are server-rendered at runtime.
 
 ### Build options
 
-Modifying aspects of the build system and the resulting server/client code.
+### build.name
+
+Default `"app"`
+
+The name of the build, as reflect in the resulting JavaScript and CSS files.
 
 ### build.includes
 
@@ -333,11 +337,11 @@ Default `[]`
 A list of directories to be included in the server and client build. Must not
 be any known Primate location.
 
-### build.index
+### build.excludes
 
-Default `"index.js"`
+Default `[]`
 
-Filename of the index JavaScript file used to export all components.
+A list of files to be excluded from bundling. Wildcards can be used.
 
 ### build.transform.paths
 

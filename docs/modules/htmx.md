@@ -24,36 +24,42 @@ export default {
 
 Create an HTMX component in `components`.
 
-```html caption=components/post-add.htmx
-<h1>Add post</h1>
-<form hx-post="/htmx" hx-wrap="outerHTML">
-  <p>
-    <div><label>Title</label></div>
-    <input name="title" />
-  </p>
-  <p>
-    <div><label>Text</label></div>
-    <textarea name="text"></textarea>
-  </p>
-  <input type="submit" value="Save post" />
-</form>
+```html caption=components/post-index.htmx
+<h1>All posts</h1>
+${posts.map(post => `
+  <h2>
+    <a hx-get="/post/${post.id}" href="/post/${post.id}">
+      ${post.title}
+    </a>
+  </h2>
+`).join("")}
 ```
 
 Serve it from a route.
 
 ```js caption=routes/htmx.js
-import { view, html } from "primate";
+import { view } from "primate";
 
-const posts = [
+const posts = [{
+  id: 1,
+  title: "First post",
+}];
+
 export default {
   get() {
-    return view("post-add.htmx");
+    return view("post-index.htmx", { posts });
   },
-  // create a POST route to replace contents upon form submission
 };
 ```
 
 The rendered component will be accessible at http://localhost:6161/htmx.
+
+!!!
+When you use HTMX to fetch content, it sends its request with the `hx-request`
+header set. This header is used to return the component HTML in
+[partial mode][partial]. The example above thus works with or without
+JavaScript.
+!!!
 
 ## Configuration options
 
@@ -84,3 +90,4 @@ add `"client-side-templates"` to the `extensions` array option.
 [repo]: https://github.com/primatejs/primate/tree/master/packages/frontend
 [extensions]: https://htmx.org/extensions
 [client-side-templates]: https://htmx.org/extensions/client-side-templates
+[partial]: /guide/responses#partial

@@ -50,7 +50,7 @@ response. Here the route function handles POST request and the default `200 OK`
 response code is overriden by `201 Created` for a valid name entry or
 `422 Unprocessable Entity` for an undefined name.
 
-### JSON
+## JSON
 
 Objects (including arrays) are served with the content type `application/json`.
 
@@ -70,7 +70,7 @@ JSON array.
 
 Like `text`, this handler can also be used explicitly with the `json` import.
 
-### Stream
+## Stream
 
 Instances of `ReadableStream` or `Blob` are streamed to the client with the
 content type `application/octet-stream`.
@@ -95,7 +95,7 @@ exposes a `ReadableStream`.
 
 This handler can be also used explicitly with the `stream` import.
 
-### Redirect
+## Redirect
 
 Instances of `URL` redirect the client to the location they represent using the
 status code `302 Found`.
@@ -135,7 +135,7 @@ export default {
 This also allows you to use a custom response code alongside the redirect for
 fine-grained control.
 
-### View
+## View
 
 The `view` handler allows you to serve responses with content type `text/html`
 from the `components` directory.
@@ -153,13 +153,100 @@ export default {
 In this case, Primate will load the HTML component at `components/hello.html`,
 inject the HTML component code into the index file located at `pages/app.html`
 and serve the resulting file at the path GET `/html`. In case no such file
-exists, Primate will fall back to its [default app.html][default-index].
+exists, Primate will fall back to its [default index page][default-page].
 
 ```html caption=components/hello.html
 <p>Hello, world!</p>
 ```
 
-### Error
+In addition to the built-in support for HTML components, Primate features many
+[frontend frameworks][frontend] you can add by installing the
+`@primate/frontend` module.
+
+### Props
+
+You can pass props to your view handler.
+
+```js caption=routes/view-props.js
+import { view } from "primate";
+
+export default {
+  get() {
+    return view("hello.html", { hello: "world" });
+  },
+};
+```
+
+In the case of HTML, use template syntax to access the props in your component.
+
+```html caption=components/hello.html
+<p>Hello, ${hello}!</p>
+```
+
+For other frontend frameworks, Primate uses the standard mechanism to access
+props within the component.
+
+### Options
+
+You can customize different aspects of the view handler by passing in options.
+
+#### page
+
+To use a different HTML page to embed your component instead of [the
+default][default-page], pass in a differing `page` string property.
+
+```js caption=routes/view-page.js
+import { view } from "primate";
+
+export default {
+  get() {
+    return view("hello.html", { hello: "world" }, { page: "other.html" });
+  },
+};
+```
+
+This will embed the component `hello.html` with the given props into the file
+located in `pages/other.html` and then serve it.
+
+#### partial
+
+You may sometimes want to serve only the component HTML (without the encasing
+page). For that pass in the boolean property `partial` set to `true`.
+
+```js caption=routes/view-partial.js
+import { view } from "primate";
+
+export default {
+  get() {
+    return view("hello.html", { hello: "world" }, { partial: true });
+  },
+};
+```
+
+This will render and serve the `hello.html` component without embedding it into
+the default page HTML.
+
+#### placeholders
+
+To replace any placeholders of the form `%placeholder%` in your rendered HTML,
+pass any an object property `placeholders`.
+
+```js caption=routes/view-placeholders.js
+import { view } from "primate";
+
+export default {
+  get() {
+    return view("hello.html", { hello: "world" }, {
+      placeholders: { api_key: "foobar" },
+    });
+  },
+};
+```
+
+This will replace, within the rendered HTML (both the component and the page),
+any occurrence of `%api_key%` with `"foobar"`.
+
+## Error
 
 The `error` handler allows you to generate an error (typically with a 4xx or
 5xx status code). The most common error and the default of this handler is
@@ -193,7 +280,7 @@ export default {
 A request to `/server-error` will result in a `500` response with the HTML body
 `Internal Server Error`.
 
-### WebSocket
+## WebSocket
 
 You can upgrade any `GET` route to a WebSocket route with the `ws` handler.
 
@@ -260,7 +347,7 @@ up to a given number of messages, the default being 20.
 <input id="chat" placeholder="Type to chat" />
 ```
 
-### Server-sent events
+## Server-sent events
 
 Similarly to `ws`, you can use the `sse` handler to upgrade a `GET` request to
 stream out server-sent events to the client.
@@ -315,7 +402,7 @@ export default {
 };
 ```
 
-### Custom response
+## Custom response
 
 Lastly, for a custom response status, you can return a `Response` object from a
 route.
@@ -335,6 +422,6 @@ This route function will handle requests to the path `/response`.
 This isn't actually a handler, but what all handlers eventually become, a
 WHATWG [`Response`][whatwg-response] object.
 
-[default-index]:
-https://github.com/primatejs/primate/blob/master/packages/primate/src/defaults/app.html
+[default-page]: /guide/configuration#index
 [whatwg-response]: https://fetch.spec.whatwg.org/#response-class
+[frontend]: /modules/frontend

@@ -57,7 +57,6 @@ constraints of being tied to specific options like Nuxt, Next, or others.
 |[@primate/frontend](packages/frontend)       | Frontend frameworks           |
 |[@primate/store](packages/store)             | Data store                    |
 |[@primate/types](packages/types)             | Runtime types                 |
-|[@primate/build](packages/build)             | Bundling JS/CSS               |
 |[@primate/session](packages/session)         | User sessions                 |
 |[@primate/i18n](packages/i18n)               | Internationalization          |
 |[@primate/binding](packages/binding)         | Other backend languages       |

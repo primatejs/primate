@@ -27,11 +27,6 @@ subscribers accept different types of parameters, depending on the hook.
 ├─ `publish`
 │   └─ # modules publish client-side code and announce entry points
 │
-├─ # evaluate entry points
-│
-├─ `bundle`
-│   └─ # modules transform `build` directory
-│
 ├─ # *end* start-up phase
 │
 ├─ # *begin* client request phase, hooks here are called per request
@@ -178,28 +173,6 @@ own core scripts.
 
 Publishing entry points allow bundler modules to effectively consolidate code
 during the `bundle` hook.
-
-This hook accepts the app as its first and the next subscriber as its second
-parameter.
-
-## bundle
-
-!!!
-This hook only executes if Primate has been explicitly run with
-`npx primate serve`. Running `npx primate` skips this hook. This allows you to
-turn bundling on and off as necessary.
-!!!
-
-**Executed** once
-
-**Precondition** all entry points have been evaluated, JavaScript/CSS files in
-`static` directory have been loaded to memory, and the `public` directory has
-been created with non Javascript/CSS files copied into it from `static`
-
-This hook allows modules to transform client-side code and entry points which
-have been loaded into memory previously, either during the `publish` hook or by
-Primate loading them from the `static` directory, into consolidated code. It is
-particularly useful for bundler modules such as [esbuild](/modules/esbuild).
 
 This hook accepts the app as its first and the next subscriber as its second
 parameter.

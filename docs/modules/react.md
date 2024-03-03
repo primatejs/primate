@@ -5,7 +5,7 @@ components with the `.jsx` extension.
 
 ## Install
 
-`npm install @primate/frontend esbuild@0.19 react@18 react-dom@18`
+`npm install @primate/frontend react@18 react-dom@18`
 
 ## Configure
 

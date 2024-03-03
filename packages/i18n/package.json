@@ -1,6 +1,6 @@
 {
   "name": "@primate/i18n",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Primate I18N module",
   "homepage": "https://primatejs.com/modules/i18n",
   "bugs": "https://github.com/primatejs/primate/issues",
@@ -19,7 +19,7 @@
     "rcompat": "^0.11.0"
   },
   "peerDependencies": {
-    "primate": "0.30"
+    "primate": "0.31"
   },
   "type": "module",
   "exports": {

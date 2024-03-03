@@ -88,8 +88,8 @@ Primate supports serving components from the `components` directory using its
 In the [Getting started][quick-start] section, we showed how to build a simple
 web page that includes form submission. However, modern apps include many
 aspects such as [frontend frameworks] with server-side rendering
-and hydration, [data stores][stores] with transactions, [bundling][bundling]
-and [user sessions][sessions]. Primate's [module system][extending-primate]
+and hydration, [data stores][stores] with transactions, and
+[user sessions][sessions]. Primate's [module system][extending-primate]
 allows these extensions to be easily added to an app. Primate's
 [official modules][official-modules] (those under the NPM namespace `@primate`)
 are updated alongside the core framework.
@@ -107,7 +107,6 @@ are updated alongside the core framework.
 [quick-start]: /guide/getting-started#quick-start
 [frontend frameworks]: /modules/frontend
 [stores]: /modules/store
-[bundling]: /modules/esbuild
 [sessions]: /modules/session
 [extending-primate]: /guide/extending-primate
 [official-modules]: /modules/official

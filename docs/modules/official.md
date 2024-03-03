@@ -28,5 +28,4 @@ transactions, allowing you to commit and rollback data changes automatically.
 
 ## Others
 
-Modules that do not fall in the first two categories, including an esbuild
-bundler as well as a session module.
+Modules that do not fit in the first two categories.

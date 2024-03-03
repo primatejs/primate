@@ -15,10 +15,9 @@ create and use TypeScript routes.
 
 ### Install
 
-To add support for TypeScript, install the `@primate/binding` module and
-`@swc/core`.
+To add support for TypeScript, install the `@primate/binding` module.
 
-`npm install @primate/binding @swc/core@1.3`
+`npm install @primate/binding`
 
 ### Configure
 

@@ -1,4 +1,4 @@
-%%% React, Svelte, Vue, Solid, Angular, WebC
+%%% React, Svelte, Vue, Solid, Angular, HTMX, WebC
 
 ```jsx caption=components/PostIndex.jsx
 export default ({ posts }) => {
@@ -70,7 +70,7 @@ import { CommonModule } from "@angular/common";
     <h1>All posts</h1>
     <div *ngFor="let post of posts">
       <h2>
-        <a href="/post/view/{{post.id}}">
+        <a href="/post/{{post.id}}">
           {{post.title}}
         </a>
       </h2>
@@ -81,6 +81,17 @@ import { CommonModule } from "@angular/common";
 export default class PostIndex {
   @Input() posts = [];
 }
+```
+
+```html caption=components/post-index.htmx
+<h1>All posts</h1>
+${posts.map(post => `
+  <h2>
+    <a hx-get="/post/${post.id}" href="/post/${post.id}">
+      ${post.title}
+    </a>
+  </h2>
+`).join("")}
 ```
 
 ```html caption=components/post-index.webc
@@ -94,7 +105,7 @@ export default class extends Component {
     return `<h1>All posts</h1>
       ${posts.map(post => `
         <h2>
-          <a href="/post/view/${post.id}">
+          <a href="/post/${post.id}">
             ${post.title}
           </a>
         </h2>
