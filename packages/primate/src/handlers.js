@@ -1,6 +1,7 @@
 import { File } from "rcompat/fs";
 import { MediaType, Status } from "rcompat/http";
 import { identity } from "rcompat/function";
+import { HTML } from "rcompat/string";
 import errors from "./errors.js";
 
 const handle = (mediatype, mapper = identity) => (body, options) => app =>
@@ -49,20 +50,34 @@ const error = (body = "Not Found", { status = Status.NOT_FOUND, page } = {}) =>
 const script_re = /(?<=<script)>(?<code>.*?)(?=<\/script>)/gus;
 const style_re = /(?<=<style)>(?<code>.*?)(?=<\/style>)/gus;
 const remove = /<(?<tag>script|style)>.*?<\/\k<tag>>/gus;
-const html = (name, options) => async app => {
-  const component = await app.path.components.join(name).text();
+const render = (component, props = {}) => {
+  const encoded = JSON.parse(HTML.escape(JSON.stringify(props)));
+  const keys = Object.keys(encoded);
+  const values = Object.values(encoded);
+  return new Function(...keys, `return \`${component}\`;`)(...values);
+};
+const html = (name, props, options = {}) => async app => {
+  const location = app.get("location");
+  const components = app.runpath(location.server, location.components);
+  const component = await components.join(name).text();
+  const { head: xhead = [], csp = {}, headers, ...rest } = options;
+  const { script_src: xscript_src = [], style_src: xstyle_src = [] } = csp;
   const scripts = await Promise.all([...component.matchAll(script_re)]
     .map(({ groups: { code } }) => app.inline(code, "module")));
   const styles = await Promise.all([...component.matchAll(style_re)]
     .map(({ groups: { code } }) => app.inline(code, "style")));
-  const style_src = styles.map(asset => asset.integrity);
-  const script_src = scripts.map(asset => asset.integrity);
+  const style_src = styles.map(asset => asset.integrity).concat(xstyle_src);
+  const script_src = scripts.map(asset => asset.integrity).concat(xscript_src);
+  const head = [...scripts, ...styles].map(asset => asset.head);
 
   return app.view({
-    body: component.replaceAll(remove, _ => ""),
-    head: [...scripts, ...styles].map(asset => asset.head).join("\n"),
-    headers: app.headers({ "style-src": style_src, "script-src": script_src }),
-    ...options,
+    body: render(component.replaceAll(remove, _ => ""), props),
+    head: [...head, ...xhead].join("\n"),
+    headers: {
+      ...app.headers({ "style-src": style_src, "script-src": script_src }),
+      ...headers,
+    },
+    ...rest,
   });
 };
 // }}}
