@@ -4,7 +4,7 @@ This binding introduces support for routes written in TypeScript.
 
 ## Install
 
-`npm install @primate/binding @swc/core@1.3`
+`npm install @primate/binding`
 
 ## Configure
 

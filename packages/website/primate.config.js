@@ -1,5 +1,4 @@
 import { File } from "rcompat/fs";
-import { esbuild } from "@primate/build";
 import { svelte, markdown, handlebars } from "@primate/frontend";
 import { getHighlighter } from "shiki";
 import priss from "./module.js";
@@ -38,10 +37,12 @@ export default {
   logger: {
     trace: true,
   },
+  build: {
+    excludes: ["*.woff2", "*.jpg"],
+  },
   modules: [
     svelte(),
     handlebars(),
-    esbuild({ ignores: ["woff2", "jpg"] }),
     markdown({
       options: {
         hooks: {
@@ -192,7 +193,6 @@ export default {
             { heading: "Others" },
             "Session",
             "I18N",
-            "Build",
           ],
         },
         github: "primatejs/primate",
