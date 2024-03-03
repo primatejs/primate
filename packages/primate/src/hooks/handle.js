@@ -1,4 +1,4 @@
-import { Response, Status, MediaType } from "rcompat/http";
+import { Response, Status, MediaType, fetch } from "rcompat/http";
 import { cascade, tryreturn } from "rcompat/async";
 import respond from "./respond.js";
 import { error as clientError } from "../handlers.js";
@@ -94,6 +94,16 @@ export default app => {
     }
     return as_route(request);
   };
+  // first hook
+  const pass = (request, next) => next({
+    ...request,
+    pass(to) {
+      const { method, headers, body } = request.original;
+      const input = `${to}${request.url.pathname}`;
 
-  return cascade(app.modules.handle, handle);
+      return fetch(input, { headers, method, body, duplex: "half" });
+    },
+  });
+
+  return cascade([pass, ...app.modules.handle], handle);
 };

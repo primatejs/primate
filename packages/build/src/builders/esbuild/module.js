@@ -46,12 +46,10 @@ export default ({ ignores = [], options = {} } = {}) => {
       return next(app);
     },
     handle(request, next) {
-      const { method, headers } = request.original;
       const { pathname } = request.url;
       const paths = ["/app.js", "/app.css", "/esbuild"];
       if (mode.development && paths.includes(pathname)) {
-        return globalThis.fetch(`http://localhost:6262${pathname}`,
-            { headers, method, duplex: "half" });
+        return request.pass("http://localhost:6262");
       }
 
       return next(request);
