@@ -21,9 +21,7 @@ export const render = (component, props) => {
   return { body, head };
 };
 
-export const prepare = async app => {
-  await app.export({ type: "script", code: expose });
-};
+export const prepare = app => app.build.export(expose);
 
 export const compile = {
   async server(text) {

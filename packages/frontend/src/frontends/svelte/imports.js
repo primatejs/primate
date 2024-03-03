@@ -7,10 +7,7 @@ export const render = (component, ...args) => {
   return { body: html, head };
 };
 
-export const prepare = app => {
-  // expose code for bundler
-  app.export({ type: "script", code: expose });
-};
+export const prepare = app => app.build.export(expose);
 
 export const compile = {
   server(text) {

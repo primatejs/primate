@@ -1,20 +1,12 @@
-import o from "rcompat/object";
-import { peers } from "../common/exports.js";
-import depend from "../depend.js";
-
 export default ({
   extension = ".ts",
 } = {}) => {
   const name = "typescript";
-  const dependencies = ["@swc/core"];
-  const on = o.filter(peers, ([key]) => dependencies.includes(key));
   let transpile;
 
   return {
     name: `primate:${name}`,
     async init(app, next) {
-      await depend(on, `binding:${name}`);
-
       transpile = (await import("./imports.js")).default;
 
       return next(app);

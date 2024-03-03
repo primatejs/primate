@@ -76,30 +76,11 @@ export default async (log, root, config) => {
   }
 
   const error = await path.routes.join("+error.js");
-  const build = {
-    plugins: [],
-    artifacts: {},
-  };
 
   return {
-    build: {
-      register(plugin) {
-        build.plugins.push(plugin);
-      },
-      get() {
-        return build.plugins;
-      },
-      save(path, source) {
-        build.artifacts[path] = source;
-      },
-      load(path) {
-        return build.artifacts[path];
-      },
-    },
     secure,
     importmaps: {},
     assets: [],
-    exports: [],
     path,
     root,
     log,
@@ -223,9 +204,6 @@ export default async (log, root, config) => {
           ({ ...csp, [directive]: csp[directive].concat(`'${hash}'`) } ),
           { "style-src": [], "script-src": [] },
         );
-    },
-    export({ type, code }) {
-      this.exports.push({ type, code });
     },
     register(extension, operations) {
       is(this.handlers[extension]).undefined(DoubleFileExtension.new(extension));

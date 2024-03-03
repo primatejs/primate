@@ -26,7 +26,8 @@ export default ({
       return next(app);
     },
     async publish(app, next) {
-      app.build.register(imports.publish(app, extension));
+      app.build.plugin(imports.publish(app, extension));
+
       return next(app);
     },
     async register(app, next) {

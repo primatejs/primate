@@ -21,12 +21,11 @@
     "directory": "packages/binding"
   },
   "dependencies": {
-    "rcompat": "^0.9.4"
+    "rcompat": "^0.10.1"
   },
   "peerDependencies": {
     "@ruby/head-wasm-wasi": "2",
     "@ruby/wasm-wasi": "2",
-    "@swc/core": "1",
     "primate": "0.30",
     "pyodide": "0.25"
   },
@@ -35,9 +34,6 @@
       "optional": true
     },
     "@ruby/wasm-wasi": {
-      "optional": true
-    },
-    "@swc/core": {
       "optional": true
     },
     "pyodide": {

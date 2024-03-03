@@ -11,11 +11,9 @@ const create = {
     // vue does not yet support layouting
     if (create_root !== undefined) {
       const root = create_root(app.layout.depth);
+      const code = `export { default as root_${name} } from "root:${name}";`;
       app.build.save(`root:${name}`, (await compile.client(root)).js);
-      app.export({
-        type: "script",
-        code: `export { default as root_${name} } from "root:${name}";\n`,
-      });
+      app.build.export(code);
     }
   },
 };
@@ -50,12 +48,10 @@ export default async ({
       const { path: name } = component.debase(source, "/");
 
       // web import -> unix style
-      const file_string = `./${location.components}/${name}`;
-      const imported = await normalize(name);
-      app.export({
-        type: "script",
-        code: `export { default as ${imported} } from "${file_string}";\n`,
-      });
+      const code = `export {
+        default as ${await normalize(name)}
+      } from "./${location.components}/${name}";`;
+      app.build.export(code);
     },
   };
 };

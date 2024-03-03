@@ -8,7 +8,6 @@ export default () => ({
     "@angular/platform-server": dependencies["@angular/platform-server"],
     "@angular/platform-client": dependencies["@angular/platform-client"],
     "@angular/ssr": dependencies["@angular/ssr"],
-    esbuild: dependencies.esbuild,
     "zone.js": dependencies["zone.js"],
   },
   imports: {

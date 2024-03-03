@@ -50,20 +50,5 @@ export default async root => {
     });
   }
 
-  if (await confirm({ message: `Enable bundling? ${link("build")}` })) {
-    configs.push({
-      dependencies: {
-        "@primate/build": dependencies["@primate/build"],
-        esbuild: dependencies.esbuild,
-      },
-      imports: {
-        "{ esbuild }": "@primate/build",
-      },
-      modules: {
-        esbuild: "",
-      },
-    });
-  }
-
   return configs;
 };

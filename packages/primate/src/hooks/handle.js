@@ -104,6 +104,9 @@ export default app => {
       return fetch(input, { headers, method, body, duplex: "half" });
     },
   });
+  const hotreload = (request, next) => app.mode === "development"
+    ? app.build.proxy(request, next)
+    : next(request);
 
-  return cascade([pass, ...app.modules.handle], handle);
+  return cascade([pass, hotreload, ...app.modules.handle], handle);
 };

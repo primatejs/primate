@@ -1,7 +1,7 @@
 import { File } from "rcompat/fs";
+import { transform } from "rcompat/build";
 import { renderToString } from "react-dom/server";
 import { createElement } from "react";
-import esbuild from "esbuild";
 import { expose } from "./client/exports.js";
 
 export const render = (component, props) => {
@@ -19,18 +19,15 @@ export const render = (component, props) => {
   return { body, head };
 };
 
-export const prepare = async app => {
-  // expose code through "app", for bundlers
-  await app.export({ type: "script", code: expose });
-};
+export const prepare = app => app.build.export(expose);
 
 const options = { loader: "jsx", jsx: "automatic" };
 export const compile = {
   async server(text) {
-    return (await esbuild.transform(text, options)).code;
+    return (await transform(text, options)).code;
   },
   async client(text) {
-    return { js: (await esbuild.transform(text, options)).code };
+    return { js: (await transform(text, options)).code };
   },
 };
 

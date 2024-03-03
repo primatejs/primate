@@ -17,11 +17,8 @@ const handle = (name, props, options = {}) => async (app, _, request) => {
   })(app, _, request);
 };
 
-const base_import_template = async (name, app) => {
-  const from = `htmx-esm/client-side-templates/${name}`;
-  const code = `export * from "${from}";`;
-  app.export({ type: "script", code });
-};
+const base_import_template = (name, app) =>
+  app.build.export(`export * from "htmx-esm/client-side-templates/${name}";`);
 
 const import_template = {
   handlebars: app => base_import_template("handlebars", app),
@@ -48,13 +45,11 @@ export default ({
       return next(app);
     },
     async register(app, next) {
-      const code = "export { default as htmx } from \"htmx-esm\";";
-      await app.export({ type: "script", code });
+      app.build.export("export { default as htmx } from \"htmx-esm\";");
       app.register(extension, { handle });
 
       for (const name of extensions) {
-        const code = `export * from "htmx-esm/${name}";`;
-        app.export({ type: "script", code });
+        app.build.export(`export * from "htmx-esm/${name}";`);
       }
 
       if (Object.keys(client_side_templates).length > 0) {

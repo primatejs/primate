@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@clack/prompts": "^0.7.0",
-    "rcompat": "^0.9.4"
+    "rcompat": "^0.10.1"
   },
   "type": "module",
   "devDependencies": {
@@ -34,7 +34,6 @@
     "@primate/types": "^0.14.0",
     "babel-preset-solid": "^1.8.15",
     "better-sqlite3": "^9.4.3",
-    "esbuild": "^0.20.1",
     "handlebars": "^4.7.8",
     "htmx.org": "^1.9.10",
     "marked": "^12.0.0",

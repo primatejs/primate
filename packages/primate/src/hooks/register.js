@@ -28,7 +28,7 @@ const post = async app => {
     const imports = await File.collect(_static, /\.(?:css)$/u);
     await Promise.all(imports.map(async file => {
       const src = file.debase(_static);
-      app.export({ type: "style", code: `import "./${location.static}${src}";` });
+      app.build.export(`import "./${location.static}${src}";`);
     }));
   }
 

@@ -19,7 +19,6 @@ export default ({
     "@angular/platform-browser",
     "@angular/platform-server",
     "@angular/ssr",
-    "esbuild",
   ];
   const on = o.filter(peers, ([key]) => dependencies.includes(key));
   const rootname = name;

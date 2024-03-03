@@ -5,7 +5,6 @@ export default () => ({
     "@primate/frontend": dependencies["@primate/frontend"],
     react: dependencies.react,
     "react-dom": dependencies["react-dom"],
-    esbuild: dependencies.esbuild,
   },
   imports: {
     "{ react }": "@primate/frontend",

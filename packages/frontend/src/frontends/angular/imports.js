@@ -1,3 +1,4 @@
+import { transform } from "rcompat/build";
 import "zone.js";
 import "@angular/compiler";
 import {
@@ -9,18 +10,8 @@ import { enableProdMode } from "@angular/core";
 // import { CommonEngine } from "@angular/ssr";
 import { bootstrapApplication, provideClientHydration }
   from "@angular/platform-browser";
-import * as esbuild from "esbuild";
 import make_root from "./root-component.js";
 import rootname from "./rootname.js";
-
-const transform = code => esbuild.transform(code, {
-  loader: "ts",
-  tsconfigRaw: `{
-    "compilerOptions": {
-      "experimentalDecorators": true
-    }
-  }`,
-});
 
 export const set_mode = mode => {
   if (mode === "production") {
@@ -31,7 +22,7 @@ export const set_mode = mode => {
 // const common_engine = new CommonEngine();
 
 export const render = async (given_component, props) => {
-  const component = await make_root(given_component, props);
+  const component = make_root(given_component, props);
   const document = `<${rootname}></${rootname}>`;
   const bootstrap = () => bootstrapApplication(component, {
     providers: [
@@ -48,11 +39,20 @@ export const render = async (given_component, props) => {
   return html.slice(html.indexOf(b_s) + b_s.length, html.indexOf(b_e));
 };
 
+const options = {
+  loader: "ts",
+  tsconfig: {
+    compilerOptions: {
+      experimentalDecorators: true,
+    },
+  },
+};
+
 export const compile = {
   async server(app, component, extensions) {
     const location = app.get("location");
     const source = app.path.components;
-    const { code } = await transform(await component.text());
+    const { code } = await transform(await component.text(), options);
     const target_base = app.runpath(location.server, location.components);
     const path = target_base.join(`${component.path}.js`.replace(source, ""));
     await path.directory.create();

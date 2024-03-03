@@ -1,3 +1,1 @@
-export default `
-  export { setContext } from "svelte";
-`;
+export default "export { setContext } from \"svelte\";";

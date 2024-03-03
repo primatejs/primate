@@ -15,7 +15,7 @@
     "directory": "packages/frontend"
   },
   "dependencies": {
-    "rcompat": "^0.9.4"
+    "rcompat": "^0.10.1"
   },
   "peerDependencies": {
     "@angular/compiler": "17",
@@ -27,7 +27,6 @@
     "@marko/compiler": "5",
     "@marko/translator-default": "5",
     "babel-preset-solid": "1",
-    "esbuild": "0.20",
     "handlebars": "4",
     "htmx-esm": "0.2",
     "marked": "12",
@@ -65,9 +64,6 @@
       "optional": true
     },
     "babel-preset-solid": {
-      "optional": true
-    },
-    "esbuild": {
       "optional": true
     },
     "handlebars": {

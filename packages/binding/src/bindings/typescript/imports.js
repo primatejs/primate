@@ -1,15 +1,7 @@
-import swc from "@swc/core";
+import { transform } from "rcompat/build";
 
 const options = {
-  jsc: {
-    parser: {
-      syntax: "typescript",
-    },
-    target: "esnext",
-  },
+  loader: "ts",
 };
 
-
-const transform = code => swc.transform(code, options);
-
-export default async code => (await transform(code)).code;
+export default async code => (await transform(code, options)).code;

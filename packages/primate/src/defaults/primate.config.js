@@ -44,9 +44,9 @@ export default {
     server: "server",
   },
   build: {
+    name: "app",
     includes: [],
-    app: "app.js",
-    index: "index.js",
+    excludes: [],
     transform: {
       paths: [],
       mapper: identity,
