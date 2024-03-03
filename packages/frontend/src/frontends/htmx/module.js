@@ -1,32 +1,21 @@
 import o from "rcompat/object";
+import { html } from "primate";
 import errors from "./errors.js";
 import { peers } from "../common/exports.js";
 import depend from "../depend.js";
 
-const load_component = async path => {
-  try {
-    return await path.text();
-  } catch (error) {
-    throw new Error(`cannot load component at ${path.name}`);
-  }
+const handle = (name, props, options = {}) => async (app, _, request) => {
+  const code = "import { htmx } from \"app\";";
+  const { head, integrity } = await app.inline(code, "module");
+  const script_src = [integrity];
+
+  return html(name, props, {
+    head: [head],
+    csp: { script_src },
+    partial: Boolean(request.headers.get("hx-request")),
+    ...options,
+  })(app, _, request);
 };
-
-const handler = directory => (name, options = {}) =>
-  async (app, _, request) => {
-    const code = "import { htmx } from \"app\";";
-    const components = app.runpath(app.get("location.server"), directory);
-    const { head, integrity } = await app.inline(code, "module");
-    const script_src = [integrity];
-    const partial = Boolean(request.headers.get("hx-request"));
-
-    return app.view({
-      body: await load_component(components.join(name)),
-      head,
-      headers: app.headers({ "script-src": script_src }),
-      partial,
-      ...options,
-    });
-  };
 
 const base_import_template = async (name, app) => {
   const from = `htmx-esm/client-side-templates/${name}`;
@@ -61,7 +50,6 @@ export default ({
     async register(app, next) {
       const code = "export { default as htmx } from \"htmx-esm\";";
       await app.export({ type: "script", code });
-      const handle = handler(app.get("location.components"));
       app.register(extension, { handle });
 
       for (const name of extensions) {
