@@ -8,7 +8,7 @@ import { File } from "rcompat/fs";
 import * as hooks from "./hooks/exports.js";
 import { print } from "./Logger.js";
 
-const base_hooks = ["init", "stage", "register", "publish", "bundle"];
+const base_hooks = ["init", "stage", "register", "publish"];
 
 const publish = async app => {
   const location = app.get("location");
