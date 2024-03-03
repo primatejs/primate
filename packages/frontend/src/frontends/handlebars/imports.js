@@ -3,7 +3,7 @@ import runtime from "handlebars/runtime.js";
 
 export const compile = {
   server(text) {
-    return `export default ${handlebars.precompile(text)}`;
+    return `export default ${handlebars.precompile(text)};`;
   },
 };
 
