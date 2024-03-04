@@ -4,6 +4,7 @@ import { bold, blue, dim } from "rcompat/colors";
 import { resolve } from "rcompat/package";
 import o from "rcompat/object";
 import Build from "rcompat/build";
+import { Loader } from "dp";
 import { File } from "rcompat/fs";
 import * as hooks from "./hooks/exports.js";
 import { print } from "./Logger.js";
@@ -40,6 +41,7 @@ export default async ($app, mode = "development") => {
     outdir: app.runpath(app.get("location.client")).path,
     resolveDir: app.root.path,
   }, mode);
+  app.loader = new Loader();
 
   const primate = await resolve(import.meta.url);
   print(blue(bold(primate.name)), blue(primate.version), "in startup\n");
@@ -51,6 +53,7 @@ export default async ($app, mode = "development") => {
 
   // start the build
   await app.build.start();
+  await app.loader.init();
   await publish(app);
   app.route = hooks.route(app);
   app.parse = hooks.parse(app);

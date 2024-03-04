@@ -1,16 +1,15 @@
+import rootpath from "./rootpath.js";
+
 const create = {
-  async server_root(app, name, create_root, compile) {
+  async server_root(app, name, root) {
     // vue does not yet support layouting
-    if (create_root !== undefined) {
-      const filename = `root_${name}.js`;
-      const root = await compile.server(create_root(app.layout.depth));
-      await app.runpath(app.get("location.server"), filename).write(root);
+    if (root !== undefined) {
+      app.loader.virtual(`file://${rootpath(app, name)}`, root);
     }
   },
-  async client_root(app, name, create_root, compile) {
+  async client_root(app, name, root, compile) {
     // vue does not yet support layouting
-    if (create_root !== undefined) {
-      const root = create_root(app.layout.depth);
+    if (root !== undefined) {
       const code = `export { default as root_${name} } from "root:${name}";`;
       app.build.save(`root:${name}`, (await compile.client(root)).js);
       app.build.export(code);
@@ -30,8 +29,9 @@ export default async ({
     from: extension,
     to: `${extension}.js`,
   };
-  await create.server_root(app, name, create_root, compile);
-  await create.client_root(app, name, create_root, compile);
+  const root = create_root?.(app.layout.depth);
+  await create.server_root(app, name, root);
+  await create.client_root(app, name, root, compile);
 
   const location = app.get("location");
   const source = app.path.components;

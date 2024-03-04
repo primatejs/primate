@@ -19,10 +19,11 @@
     "directory": "packages/primate"
   },
   "dependencies": {
+    "dp": "^0.4.0",
     "rcompat": "^0.10.1"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "type": "module",
   "types": "./types/index.d.ts",

@@ -13,6 +13,7 @@ export default config => {
 
   return (name, props = {}, options = {}) =>
     async (app, { layouts = [], as_layout } = {}, request) => {
+
       if (as_layout) {
         return make(name, props);
       }

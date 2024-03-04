@@ -1,14 +1,14 @@
 import load from "./load.js";
+import rootpath from "./rootpath.js";
 
 export default ({ app, name, ...rest }) => {
   const location = app.get("location");
-  const filename = `root_${name}.js`;
-  const base = app.runpath(location.server, location.components);
+  const root = app.root.join(location.components);
 
   return {
-    root: app.runpath(location.server, filename),
+    root: rootpath(app, name),
     async make(name, props) {
-      const component = await load(base.join(name));
+      const component = await load(root.join(name));
       return { name, props, component: component.default ?? component };
     },
     ...rest,

@@ -19,5 +19,5 @@ const get_error = (error, path) =>
     : ErrorInComponent;
 
 export default async path =>
-  tryreturn(_ => File.import(`${path}.js`))
+  tryreturn(_ => path.import())
     .orelse(error => get_error(error, `${path}.js`)(path.name, path, error));
