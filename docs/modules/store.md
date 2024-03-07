@@ -62,7 +62,7 @@ export default {
 
 ### Use
 
-Create the different stores of your application and their fields in the
+Create the different stores for your application and their fields in the
 `stores` directory. A field consists of a name and a type, denoting the
 range of values this field may hold. We here define a `User` store representing
 a user of our application.
