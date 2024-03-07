@@ -10,7 +10,7 @@ const { separator } = File;
 const valid_route = /^[\w\-[\]=/.]*$/u;
 
 const make = path => {
-  !valid_route.test(path) && errors.InvalidPath.throw(path);
+  !valid_route.test(new File(path).webpath()) && errors.InvalidPath.throw(path);
 
   const double = doubled(path.split(separator)
     .filter(part => part.startsWith("[") && part.endsWith("]"))
