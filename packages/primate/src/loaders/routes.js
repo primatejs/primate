@@ -10,7 +10,7 @@ const { separator } = File;
 const valid_route = /^[\w\-[\]=/.]*$/u;
 
 const make = path => {
-  !valid_route.test(new File(path).webpath()) && errors.InvalidPath.throw(path);
+  !valid_route.test(File.webpath(path)) && errors.InvalidPath.throw(path);
 
   const double = doubled(path.split(separator)
     .filter(part => part.startsWith("[") && part.endsWith("]"))
@@ -24,8 +24,8 @@ const make = path => {
       return `(?<${param}>[^/]{1,}?)`;
     }).orelse(_ => errors.EmptyPathParameter.throw(named, path)));
 
-  // normalize to unix
-  return new RegExp(`^/${route.replaceAll(separator, "/")}$`, "u");
+  // normalize
+  return new RegExp(`^/${File.webpath(route)}$`, "u");
 };
 
 export default async (app, load = fs) => {
