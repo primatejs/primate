@@ -17,8 +17,11 @@ const handle = (name, props, options = {}) => async (app, _, request) => {
   })(app, _, request);
 };
 
+const htmx = "htmx-esm";
+const templates = "client-side-templates";
+
 const base_import_template = (name, app) =>
-  app.build.export(`export * from "htmx-esm/client-side-templates/${name}";`);
+  app.build.export(`export * from "${htmx}/${templates}/${name}";`);
 
 const import_template = {
   handlebars: app => base_import_template("handlebars", app),
@@ -45,23 +48,19 @@ export default ({
       return next(app);
     },
     async register(app, next) {
-      app.build.export("export { default as htmx } from \"htmx-esm\";");
+      app.build.export(`export { default as htmx } from "${htmx}";`);
       app.register(extension, { handle });
 
-      for (const name of extensions) {
-        app.build.export(`export * from "htmx-esm/${name}";`);
-      }
+      extensions.forEach(extension_name =>
+        app.build.export(`export * from "${htmx}/${extension_name}";`));
 
       if (Object.keys(client_side_templates).length > 0) {
-        const base = "client-side-templates";
-        const templates = client_side_templates.join(", ");
-
-        if (!extensions.includes(base)) {
-          errors.MissingClientSideTemplateDependency.throw(base, templates);
+        if (!extensions.includes(templates)) {
+          errors.MissingClientSideTemplateDependency.throw(templates,
+            client_side_templates.join(", "));
         }
-        for (const template of client_side_templates) {
-          await import_template[template](app);
-        }
+        client_side_templates.forEach(client_side_template =>
+          import_template[client_side_template](app));
       }
 
       return next(app);
