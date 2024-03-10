@@ -46,9 +46,10 @@ export default class Connection {
     this.connection = connection;
   }
 
-  find(collection, criteria = {}) {
+  find(collection, criteria = {}, projection = []) {
     const { where, bindings } = predicate(criteria);
-    const query = `select * from ${collection} ${where}`;
+    const select = projection.length === 0 ? "*" : projection.join(", ");
+    const query = `select ${select} from ${collection} ${where}`;
     const statement = this.connection.prepare(query);
     if (!is_bun) {
       statement.safeIntegers(true);

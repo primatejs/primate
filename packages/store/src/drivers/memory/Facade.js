@@ -65,8 +65,12 @@ export default class Connection {
     return collection.length > 0;
   }
 
-  async find(name, criteria) {
-    return this.#filter(name, criteria);
+  async find(name, criteria, projection = []) {
+    const documents = await this.#filter(name, criteria);
+    return projection.length === 0
+      ? documents
+      : documents.map(document => o.filter(document,
+        ([key]) => projection.includes(key)));
   }
 
   async count(...args) {

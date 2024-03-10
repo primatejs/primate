@@ -26,10 +26,11 @@ export default class Connection {
     this.connection = connection;
   }
 
-  async find(collection, criteria = {}) {
+  async find(collection, criteria = {}, projection = []) {
     const { connection } = this;
+    const select = projection.length === 0 ? "*" : projection.join(", ");
     return filter_nulls(await connection`
-      select *
+      select ${connection.unsafe(select)}
       from ${connection(collection)}
       where ${Object.entries(criteria).reduce((acc, [key, value]) =>
     connection`${acc} and ${connection(key)} = ${value}`, connection`true`)}

@@ -44,9 +44,10 @@ export default class Connection {
     this.connection = connection;
   }
 
-  async find(collection, criteria = {}) {
+  async find(collection, criteria = {}, projection = []) {
     const { where, bindings } = predicate(criteria);
-    const query = `select * from ${collection} ${where}`;
+    const select = projection.length === 0 ? "*" : projection.join(", ");
+    const query = `select ${select} from ${collection} ${where}`;
     const [result] = await this.connection.query(query, bindings);
 
     return filter_nulls(result);

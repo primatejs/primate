@@ -1,10 +1,16 @@
 import { primary, string, object, u8, boolean, i64, date } from "@primate/types";
 
 const w = (document, id) => ({ ...document, id });
+const defaults = {
+  mode: "loose",
+  readonly: false,
+  ambiguous: false,
+};
 
 const stores = [
   ["User", {
     name: "User",
+    defaults,
     schema: {
       id: primary,
       name: string,
@@ -19,7 +25,10 @@ const stores = [
   }],
   ["StrictUser", {
     name: "StrictUser",
-    mode: "strict",
+    defaults: {
+      ...defaults,
+      mode: "strict",
+    },
     schema: {
       id: primary,
       name: string,
@@ -34,6 +43,7 @@ const stores = [
   }],
   ["Comment", {
     name: "Comment",
+    defaults,
     schema: {
       id: primary,
     },
@@ -170,8 +180,29 @@ export default async (test, driver, lifecycle) => {
       assert(users4.find(({ id }) => id === user2$.id)).defined();
 
       // embedded
-      const { id } = await User.insert({ ...traits });
-      assert(await User.find({ id })).equals([{ id, ...traits }]);
+      {
+        const { id } = await User.insert({ ...traits });
+        assert(await User.find({ id })).equals([{ id, ...traits }]);
+      }
+
+      const criteria = { name: "Donald", age: 20 };
+      // 0-field projection
+      {
+        // empty
+        const [users5] = await User.find(criteria);
+        const { id } = users5;
+        assert(users5).equals({ ...criteria, sex: "M", id });
+      }
+      // 1-field projection
+      {
+        const [user] = await User.find(criteria, ["name"]);
+        assert(user).equals({ name: "Donald" });
+      }
+      // n-field projection
+      {
+        const [user] = await User.find(criteria, ["name", "age"]);
+        assert(user).equals(criteria);
+      }
     });
   });
 

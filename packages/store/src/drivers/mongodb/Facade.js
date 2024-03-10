@@ -34,8 +34,20 @@ export default class Facade {
     return { session: this.session };
   }
 
-  async find(name, criteria = {}) {
-    return (await this.#by(name).find(cid(criteria), this.#options).toArray())
+  async find(name, criteria = {}, projection = []) {
+    const options = {
+      ...this.#options,
+      ...projection.length === 0
+        ? {}
+        : {
+          projection: {
+            // erase _id unless explicit in projection
+            _id: 0,
+            ...Object.fromEntries(projection.map(field => [field, 1])),
+          },
+        },
+    };
+    return (await this.#by(name).find(cid(criteria), options).toArray())
       .map(document => toid(document));
   }
 

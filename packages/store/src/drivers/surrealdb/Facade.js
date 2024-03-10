@@ -53,9 +53,10 @@ export default class Connection {
     return this.connection.query_raw(...args);
   }
 
-  async find(name, criteria = {}) {
+  async find(name, criteria = {}, projection = []) {
     const { where, bindings } = predicate(criteria);
-    const query = `select * from ${name} ${where}`;
+    const select = projection.length === 0 ? "*" : projection.join(", ");
+    const query = `select ${select} from ${name} ${where}`;
     const [{ result }] = await this.#query(query, bindings);
     return result;
   }
