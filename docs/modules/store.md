@@ -457,7 +457,7 @@ by using `export const mode = "strict";`.
 
 In addition, `loose` allows you to save to fields that haven't been explicitly
 declared in your store definition. This is particulary useful for NoSQL
-databases that do not a rigid schema, where you want to enforce types on some
+databases that do not have a rigid schema, where you want to enforce types on some
 fields and accept anything in others.
 
 !!!
