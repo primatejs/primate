@@ -50,6 +50,7 @@ export default async (app, load = fs) => {
       guards: routes.guards.filter(filtered).map(([, guard]) => guard.default),
       errors: routes.errors.filter(filtered).map(([, error]) => error.default),
       layouts: routes.layouts.filter(filtered).map(([, layout]) => layout),
+      body: imported.body ?? app.get("request.body.parse"),
     }));
   }).flat();
 };

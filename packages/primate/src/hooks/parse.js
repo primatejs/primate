@@ -1,11 +1,5 @@
-import { URL, Body } from "rcompat/http";
+import { URL } from "rcompat/http";
 import o from "rcompat/object";
-import { tryreturn } from "rcompat/async";
-import errors from "../errors.js";
-
-const get_body = (request, url) =>
-  tryreturn(async _ => await Body.parse(request) ?? {})
-    .orelse(error => errors.MismatchedBody.throw(url.pathname, error.message));
 
 export default app => async original => {
   const { headers } = original;
@@ -14,7 +8,6 @@ export default app => async original => {
   const cookies = headers.get("cookie");
 
   return { original, url,
-    body: app.get("request.body.parse") ? await get_body(original, url) : {},
   ...o.valmap({
     query: [o.from(url.searchParams), url.search],
     headers: [o.from(headers), headers, false],

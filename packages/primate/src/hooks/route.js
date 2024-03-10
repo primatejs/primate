@@ -1,5 +1,6 @@
 import o from "rcompat/object";
 import { tryreturn } from "rcompat/sync";
+import { Body } from "rcompat/http";
 import errors from "../errors.js";
 import validate from "../validate.js";
 
@@ -8,6 +9,10 @@ const ieq = (left, right) => left.toLowerCase() === right.toLowerCase();
 
 const deroot = pathname => pathname.endsWith("/") && pathname !== "/"
   ? pathname.slice(0, -1) : pathname;
+
+const parse_body = (request, url) =>
+  tryreturn(async _ => await Body.parse(request) ?? {})
+    .orelse(error => errors.MismatchedBody.throw(url.pathname, error.message));
 
 export default app => {
   const { types, routes } = app;
@@ -39,10 +44,14 @@ export default app => {
   // remove excess slashes
   const deslash = url => url.replaceAll(/\/{2,}/gu, _ => "/");
 
-  return ({ original: { method }, url }) => {
+  return async ({ original, url }) => {
     const pathname = deroot(deslash(url.pathname));
-    const route = find(method, pathname) ?? errors.NoRouteToPath
-      .throw(method.toLowerCase(), pathname, index(pathname));
-    return { ...route, path: to_path(route, pathname) };
+    const route = find(original.method, pathname) ?? errors.NoRouteToPath
+      .throw(original.method.toLowerCase(), pathname, index(pathname));
+    console.log("route.body", route.body);
+    return { ...route,
+      body: route.body ? await parse_body(original, url) : null,
+      path: to_path(route, pathname),
+    };
   };
 };

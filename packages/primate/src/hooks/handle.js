@@ -47,14 +47,15 @@ export default app => {
     let error_handler = app.error.default;
 
     return tryreturn(async _ => {
-      const { path, guards, errors, layouts, handler } = await route(request);
+      const { body, path, guards, errors, layouts, handler } =
+        await route(request);
 
       error_handler = errors?.at(-1);
 
       const hooks = [...app.modules.route, guard(app, guards), last(handler)];
 
       // handle request
-      const routed = await (await cascade(hooks))({ ...request, path });
+      const routed = await (await cascade(hooks))({ ...request, body, path });
 
       const $layouts = { layouts: await get_layouts(layouts, routed.request) };
       return respond(routed.response)(app, $layouts, routed.request);
