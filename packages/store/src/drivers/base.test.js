@@ -184,14 +184,19 @@ export default async (test, driver, lifecycle) => {
         const { id } = await User.insert({ ...traits });
         assert(await User.find({ id })).equals([{ id, ...traits }]);
       }
+    });
+  });
+
+  test.case("find/projections", async ({ assert, t }) => {
+    await t(async ({ User }) => {
+      await User.insert({ name: "Donald", sex: "M", age: 20 });
 
       const criteria = { name: "Donald", age: 20 };
       // 0-field projection
       {
         // empty
-        const [users5] = await User.find(criteria);
-        const { id } = users5;
-        assert(users5).equals({ ...criteria, sex: "M", id });
+        const [user] = await User.find(criteria);
+        assert(user).equals({ ...criteria, sex: "M", id: user.id });
       }
       // 1-field projection
       {
@@ -202,6 +207,43 @@ export default async (test, driver, lifecycle) => {
       {
         const [user] = await User.find(criteria, ["name", "age"]);
         assert(user).equals(criteria);
+      }
+    });
+  });
+
+  test.case("find/sort", async ({ assert, t }) => {
+    await t(async ({ User }) => {
+      const donald = { name: "Donald", sex: "M", age: 21 };
+      const ryan = { name: "Ryan", sex: "M", age: 20 };
+      const p = ["name", "sex", "age"];
+
+      await User.insert(donald);
+      await User.insert(ryan);
+
+      const criteria = { sex: "M" };
+      // string asc
+      {
+        const [d, r] = await User.find(criteria, p, { sort: { name: "asc" } });
+        assert(d).equals(donald);
+        assert(r).equals(ryan);
+      }
+      // string desc
+      {
+        const [r, d] = await User.find(criteria, p, { sort: { name: "desc" } });
+        assert(d).equals(donald);
+        assert(r).equals(ryan);
+      }
+      // number asc
+      {
+        const [r, d] = await User.find(criteria, p, { sort: { age: "asc" } });
+        assert(d).equals(donald);
+        assert(r).equals(ryan);
+      }
+      // number desc
+      {
+        const [d, r] = await User.find(criteria, p, { sort: { age: "desc" } });
+        assert(d).equals(donald);
+        assert(r).equals(ryan);
       }
     });
   });

@@ -65,8 +65,25 @@ export default class Connection {
     return collection.length > 0;
   }
 
-  async find(name, criteria, projection = []) {
+  async find(name, criteria, projection = [], options = {}) {
     const documents = await this.#filter(name, criteria);
+    if (options.sort !== undefined) {
+      const sort = Object.entries(
+        o.valmap(options.sort, value => value === "asc" ? 1 : -1));
+      documents.sort((d1, d2) => {
+        for (const [field, direction] of sort) {
+          if (d1[field] === d2[field]) {
+            continue;
+          }
+          if (d1[field] < d2[field]) {
+            return -1 * direction;
+          }
+          return direction;
+        }
+        return 0;
+      });
+    }
+
     return projection.length === 0
       ? documents
       : documents.map(document => o.filter(document,

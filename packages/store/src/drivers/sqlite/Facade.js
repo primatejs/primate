@@ -1,6 +1,7 @@
 import o from "rcompat/object";
 import { runtime } from "rcompat/meta";
 import typemap from "./typemap.js";
+import { make_sort } from "../sql/exports.js";
 
 const is_bun = runtime === "bun";
 
@@ -46,10 +47,11 @@ export default class Connection {
     this.connection = connection;
   }
 
-  find(collection, criteria = {}, projection = []) {
+  find(collection, criteria = {}, projection = [], options = {}) {
+    const rest = make_sort(options);
     const { where, bindings } = predicate(criteria);
     const select = projection.length === 0 ? "*" : projection.join(", ");
-    const query = `select ${select} from ${collection} ${where}`;
+    const query = `select ${select} from ${collection} ${where} ${rest};`;
     const statement = this.connection.prepare(query);
     if (!is_bun) {
       statement.safeIntegers(true);

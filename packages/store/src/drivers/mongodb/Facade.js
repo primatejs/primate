@@ -1,4 +1,5 @@
 import o from "rcompat/object";
+import { maybe } from "rcompat/invariant";
 
 const toid = ({ _id, ...rest }) => ({ id: _id, ...rest });
 const to_id = ({ id, ...rest }) => id === undefined
@@ -9,6 +10,12 @@ const null_to_set_unset = delta => {
   const $set = o.filter(delta, ([, value]) => value !== null);
   const $unset = o.filter(delta, ([, value]) => value === null);
   return { $set, $unset };
+};
+
+const make_sort = ({ sort = {} } = {}) => {
+  maybe(sort).object();
+
+  return o.valmap(sort, value => value === "asc" ? 1 : -1);
 };
 
 export default class Facade {
@@ -34,8 +41,9 @@ export default class Facade {
     return { session: this.session };
   }
 
-  async find(name, criteria = {}, projection = []) {
-    const options = {
+  async find(name, criteria = {}, projection = [], options = {}) {
+    const sort = make_sort(options);
+    const $options = {
       ...this.#options,
       ...projection.length === 0
         ? {}
@@ -46,8 +54,11 @@ export default class Facade {
             ...Object.fromEntries(projection.map(field => [field, 1])),
           },
         },
+      ...Object.keys(sort).length === 0
+        ? {}
+        : { sort }
     };
-    return (await this.#by(name).find(cid(criteria), options).toArray())
+    return (await this.#by(name).find(cid(criteria), $options).toArray())
       .map(document => toid(document));
   }
 

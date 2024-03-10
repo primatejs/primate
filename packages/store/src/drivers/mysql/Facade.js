@@ -1,5 +1,6 @@
 import o from "rcompat/object";
 import typemap from "./typemap.js";
+import { make_sort } from "../sql/exports.js";
 
 const filter_null = object => o.filter(object, ([, value]) => value !== null);
 const filter_nulls = objects => objects.map(object => filter_null(object));
@@ -44,10 +45,11 @@ export default class Connection {
     this.connection = connection;
   }
 
-  async find(collection, criteria = {}, projection = []) {
+  async find(collection, criteria = {}, projection = [], options = {}) {
     const { where, bindings } = predicate(criteria);
     const select = projection.length === 0 ? "*" : projection.join(", ");
-    const query = `select ${select} from ${collection} ${where}`;
+    const rest = make_sort(options);
+    const query = `select ${select} from ${collection} ${where} ${rest}`;
     const [result] = await this.connection.query(query, bindings);
 
     return filter_nulls(result);

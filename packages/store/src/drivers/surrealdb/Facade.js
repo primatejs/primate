@@ -1,5 +1,6 @@
 import o from "rcompat/object";
 import typemap from "./typemap.js";
+import { make_sort } from "../sql/exports.js";
 
 const null_to_undefined = delta =>
   o.valmap(delta, value => value === null ? undefined : value);
@@ -53,10 +54,11 @@ export default class Connection {
     return this.connection.query_raw(...args);
   }
 
-  async find(name, criteria = {}, projection = []) {
+  async find(name, criteria = {}, projection = [], options = {}) {
     const { where, bindings } = predicate(criteria);
     const select = projection.length === 0 ? "*" : projection.join(", ");
-    const query = `select ${select} from ${name} ${where}`;
+    const rest = make_sort(options);
+    const query = `select ${select} from ${name} ${where} ${rest}`;
     const [{ result }] = await this.#query(query, bindings);
     return result;
   }

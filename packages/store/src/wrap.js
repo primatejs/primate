@@ -67,11 +67,12 @@ export default (config, facade, types) => {
       maybe(criteria).object();
       return facade.count(name, criteria);
     },
-    async find(criteria, projection) {
+    async find(criteria, projection, options) {
       maybe(criteria).object();
       maybe(projection).array();
+      maybe(options).object();
 
-      const documents = await facade.find(name, pack(criteria), projection);
+      const documents = await facade.find(name, pack(criteria), projection, options);
 
       return documents.map(document => unpack(document));
     },
