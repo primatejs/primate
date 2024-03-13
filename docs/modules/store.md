@@ -10,14 +10,14 @@ of your routes, backed up by different database systems.
 
 In Primate, the term `store` represents tables in classic RDBMS (such as
 PostgreSQL) or collections in NoSQL databases (such as MongoDB). Stores are
-described by a `schema`. A single row or record in a database is a `document`,
-and a single property of such a document is a `field`. The underlying database
+described by a `schema`. A single row or entity in a database is a `record`,
+and a single property of such a record is a `field`. The underlying database
 system of a given store is referred to as `driver`.
 
 ```sh caption=Primate data terminology
 `store` # aggregation of similar entities
 ├─ described by `schema` # entity structure
-├─ contains `document` # single entity
+├─ contains `record` # single entity
 │  └─ has `field` # single property
 └─ backed up by `driver` # underlying database system
 ```
@@ -152,7 +152,7 @@ error and roll back the transaction.
 
 Types are not only used for mapping to database fields, but also for validating
 data before saving it. One of the store actions you can use in routes is
-`validate`, which allows you to check that a document is valid before
+`validate`, which allows you to check that a record is valid before
 saving it. Normally though, you wouldn't call `validate` directly but have
 `insert` or `update` call it for you.
 
@@ -184,7 +184,7 @@ export default {
 ```
 
 !!!
-You may have noticed that the document passed validation despite `id` being
+You may have noticed that the record passed validation despite `id` being
 unset. This is because unless configured otherwise, stores permit empty field
 values. Additionally, `id` is taken to be the primary field, which is
 automatically generated on an insert.
@@ -223,7 +223,7 @@ saving this field into the database, it will use the driver's base type
 ### Strict
 
 By default, fields aren't required to be non-empty (`undefined` or `null`)
-to save a new document into the store. If you wish to strictly enforce all
+to save a new record into the store. If you wish to strictly enforce all
 fields to be non-empty, export `mode = "strict"`.
 
 ```js caption=stores/Comment.js
@@ -267,7 +267,7 @@ export default {
 
 !!!
 The store module treats `undefined` and `null` differently on updates. When
-updating a document, `undefined` means you want to leave the field's value as
+updating a record, `undefined` means you want to leave the field's value as
 is, while `null` nullifies the field.
 !!!
 
@@ -512,7 +512,7 @@ dependency is missing and what command you need to issue to install it.
 Level [`Error`][error] | [`Bailout`][bailout]
 
 A store is missing a primary key. Most stores need a primary key to distinguish
-documents. In other cases an opt-out is available.
+records. In other cases an opt-out is available.
 
 *Add a primary key field to store or export `const ambiguous = true;`.*
 
@@ -524,11 +524,11 @@ The `stores` directory is missing, module is disabled.
 
 *Create this directory and populate it with stores.*
 
-### No Document Found
+### No Record Found
 
 Level [`Warn`][warn]
 
-No document found with the primary key, using the store's `get` operation. This
+No record found with the primary key, using the store's `get` operation. This
 operation either returns an object or throws, leading to a route's execution
 halt.
 
