@@ -19,7 +19,7 @@
     "directory": "packages/primate"
   },
   "dependencies": {
-    "rcompat": "^0.10.3"
+    "rcompat": "^0.10.4"
   },
   "engines": {
     "node": ">=18"

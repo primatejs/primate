@@ -15,7 +15,7 @@
     "directory": "packages/session"
   },
   "dependencies": {
-    "rcompat": "^0.10.3"
+    "rcompat": "^0.10.4"
   },
   "peerDependencies": {
     "primate": "0.30"

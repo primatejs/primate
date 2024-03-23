@@ -19,14 +19,14 @@
     "db:surreal": "surreal start --user test --pass test"
   },
   "dependencies": {
-    "rcompat": "^0.10.3"
+    "rcompat": "^0.10.4"
   },
   "devDependencies": {
     "@primate/types": "^0.14.0",
     "better-sqlite3": "^9.4.3",
-    "mongodb": "^6.4.0",
+    "mongodb": "^6.5.0",
     "mysql2": "^3.9.2",
-    "postgres": "^3.4.3",
+    "postgres": "^3.4.4",
     "surrealdb.js": "^0.11.0"
   },
   "peerDependencies": {
