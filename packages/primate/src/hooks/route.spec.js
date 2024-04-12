@@ -1,4 +1,4 @@
-import { File } from "rcompat/fs";
+import FS from "rcompat/fs";
 import o from "rcompat/object";
 import dispatch from "../dispatch.js";
 import * as loaders from "../loaders/exports.js";
@@ -25,7 +25,7 @@ const $app = {
     },
   },
   runpath() {
-    return new File("/routes");
+    return new FS.File("/routes");
   },
   get: config_key => o.get({
     config: {

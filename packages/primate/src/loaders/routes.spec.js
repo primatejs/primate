@@ -1,4 +1,4 @@
-import { File } from "rcompat/fs";
+import FS from "rcompat/fs";
 import o from "rcompat/object";
 import loader from "./routes.js";
 import { mark } from "../Logger.js";
@@ -16,7 +16,7 @@ const app = {
     },
   },
   runpath() {
-    return new File("/routes");
+    return new FS.File("/routes");
   },
 };
 

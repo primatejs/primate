@@ -1,5 +1,5 @@
+import FS from "rcompat/fs";
 import { blue } from "rcompat/colors";
-import { File } from "rcompat/fs";
 import { intro, outro } from "@clack/prompts";
 
 import run from "../run.js";
@@ -36,7 +36,7 @@ export default async () => {
   intro("Creating a Primate app");
   try {
     const root = await create(await run());
-    const cd = File.same(root, File.resolve()) ? "" : `cd ${root} && `;
+    const cd = FS.File.same(root, FS.File.resolve()) ? "" : `cd ${root} && `;
     outro(blue(`done, run \`${cd}npm i && npx primate\` to start`));
   } catch (error) {
     if (error instanceof Bailout) {

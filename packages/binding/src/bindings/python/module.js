@@ -16,11 +16,11 @@ const make_package = pkg => `await pyodide.loadPackage("${pkg}", {
 });\n`;
 
 const js_wrapper = async (path, routes, packages) => `
+  import FS from "rcompat/fs";
   import { make_request, make_response, wrap } from "@primate/binding/python";
-  import { File } from "rcompat/fs";
   import { loadPyodide as load } from "pyodide";
   const pyodide = await load({ indexURL: "./node_modules/pyodide" });
-  const file = await File.text(${JSON.stringify(path)});
+  const file = await FS.File.text(${JSON.stringify(path)});
   ${packages.map(make_package)}
   pyodide.runPython(wrap(file));
   export default {

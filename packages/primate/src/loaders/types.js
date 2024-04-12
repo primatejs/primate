@@ -1,4 +1,4 @@
-import { File } from "rcompat/fs";
+import FS from "rcompat/fs";
 import { is } from "rcompat/invariant";
 import { tryreturn } from "rcompat/sync";
 import errors from "../errors.js";
@@ -10,7 +10,7 @@ export default async (log, directory, load = fs) => {
   const types = (await load({ log, directory, name: "types", filter }))
     .map(([name, type]) => [name, type.default]);
 
-  const resolve = name => File.join(directory, name);
+  const resolve = name => FS.File.join(directory, name);
   types.every(([name, type]) => tryreturn(_ => {
     is(type).object();
     is(type.base).string();

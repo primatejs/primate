@@ -1,16 +1,16 @@
 import { tryreturn } from "rcompat/sync";
+import FS from "rcompat/fs";
 import o from "rcompat/object";
-import { File } from "rcompat/fs";
 import { default as fs, doubled } from "./common.js";
 import * as get from "./routes/exports.js";
 import errors from "../errors.js";
 
-const { separator } = File;
+const { separator } = FS.File;
 
 const valid_route = /^[\w\-[\]=/.]*$/u;
 
 const make = path => {
-  !valid_route.test(File.webpath(path)) && errors.InvalidPath.throw(path);
+  !valid_route.test(FS.File.webpath(path)) && errors.InvalidPath.throw(path);
 
   const double = doubled(path.split(separator)
     .filter(part => part.startsWith("[") && part.endsWith("]"))
@@ -25,7 +25,7 @@ const make = path => {
     }).orelse(_ => errors.EmptyPathParameter.throw(named, path)));
 
   // normalize
-  return new RegExp(`^/${File.webpath(route)}$`, "u");
+  return new RegExp(`^/${FS.File.webpath(route)}$`, "u");
 };
 
 export default async (app, load = fs) => {

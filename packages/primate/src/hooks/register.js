@@ -1,9 +1,9 @@
-import { File } from "rcompat/fs";
+import FS from "rcompat/fs";
 import { cascade } from "rcompat/async";
 import copy_includes from "./copy_includes.js";
 
 const html = /^.*.html$/u;
-const defaults = new File(import.meta.url).up(2).join("defaults");
+const defaults = new FS.File(import.meta.url).up(2).join("defaults");
 
 const pre = async app => {
   const pages = app.get("location.pages");
@@ -22,10 +22,10 @@ const post = async app => {
 
   if (await _static.exists()) {
     // copy static files to build/server/static
-    await app.stage(_static, File.join(location.server, location.static));
+    await app.stage(_static, FS.File.join(location.server, location.static));
 
     // publish JavaScript and CSS files
-    const imports = await File.collect(_static, /\.(?:css)$/u);
+    const imports = await FS.File.collect(_static, /\.(?:css)$/u);
     await Promise.all(imports.map(async file => {
       const src = file.debase(_static);
       app.build.export(`import "./${location.static}${src}";`);

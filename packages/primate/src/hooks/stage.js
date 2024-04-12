@@ -1,3 +1,4 @@
+import FS from "rcompat/fs";
 import { cascade } from "rcompat/async";
 import dispatch from "../dispatch.js";
 import * as loaders from "../loaders/exports.js";
@@ -38,6 +39,10 @@ const post = async app => {
       ?.route(staged, path.debase(`${staged}/`), types);
   }
   const routes = await loaders.routes(app);
+  const router = new FS.Router({
+    directory: app.runpath(app.get("location.routes")),
+  });
+  await router.load();
   const layout = {
     depth: Math.max(...routes.map(({ layouts }) => layouts.length)) + 1,
   };

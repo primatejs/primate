@@ -1,5 +1,5 @@
 import { tryreturn } from "rcompat/async";
-import { File } from "rcompat/fs";
+import FS from "rcompat/fs";
 import o from "rcompat/object";
 import { runtime } from "rcompat/meta";
 import app from "./app.js";
@@ -28,7 +28,8 @@ const get_config = async root => {
 
 export default async name => tryreturn(async _ => {
   // use module root if possible, fall back to current directory
-  const root = await tryreturn(_ => File.root()).orelse(_ => File.resolve());
+  const root = await tryreturn(_ => FS.File.root())
+    .orelse(_ => FS.File.resolve());
   const config = await get_config(root);
   logger = new Logger(config.logger);
   await command(name)(await app(logger, root, config));

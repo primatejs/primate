@@ -1,4 +1,4 @@
-import { File } from "rcompat/fs";
+import FS from "rcompat/fs";
 import o from "rcompat/object";
 import handler from "./handler.js";
 import compile from "./compile.js";
@@ -12,7 +12,7 @@ export default async ({
   default_extension,
 }) => {
   const normalized = normalize(name);
-  const base = new File(import.meta.url).up(2).join(name);
+  const base = new FS.File(import.meta.url).up(2).join(name);
   const exports_path = base.join("client", "exports.js");
   const imports_path = base.join("imports.js");
   const on = o.filter(peers, ([key]) => dependencies.includes(key));

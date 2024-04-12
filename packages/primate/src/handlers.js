@@ -1,4 +1,4 @@
-import { File } from "rcompat/fs";
+import FS from "rcompat/fs";
 import { MediaType, Status } from "rcompat/http";
 import { identity } from "rcompat/function";
 import { HTML } from "rcompat/string";
@@ -84,7 +84,7 @@ const html = (name, props, options = {}) => async app => {
 // {{{ view
 const extensions = ["fullExtension", "extension"];
 const view = (name, props, options) => (app, ...rest) => extensions
-  .map(extension => app.extensions[new File(name)[extension]])
+  .map(extension => app.extensions[new FS.File(name)[extension]])
   .find(extension => extension?.handle)
   ?.handle(name, props, options)(app, ...rest)
     ?? errors.NoHandlerForComponent.throw(name);

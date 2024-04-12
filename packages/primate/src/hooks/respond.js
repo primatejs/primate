@@ -1,4 +1,4 @@
-import { Blob, s_streamable } from "rcompat/fs";
+import FS from "rcompat/fs";
 import { URL, Response } from "rcompat/http";
 import { identity } from "rcompat/function";
 import o from "rcompat/object";
@@ -11,7 +11,7 @@ const is_instance = of => value => value instanceof of;
 const is_response = is_instance(globalThis.Response);
 const is_fake_response = is_instance(Response);
 const is_streamable =
-  value => value instanceof Blob || value?.streamable === s_streamable;
+  value => value instanceof FS.Blob || value?.streamable === FS.s_streamable;
 
 // [if, then]
 const guesses = [

@@ -1,4 +1,4 @@
-import { File } from "rcompat/fs";
+import FS from "rcompat/fs";
 import * as compiler from "svelte/compiler";
 import { expose } from "./client/exports.js";
 
@@ -43,7 +43,7 @@ export const publish = (app, extension) => ({
     });
     build.onLoad({ filter: new RegExp(`${extension}$`, "u") }, async args => {
       // Load the file from the file system
-      const source = await File.text(args.path);
+      const source = await FS.File.text(args.path);
 
       // Convert Svelte syntax to JavaScript
       const { js, css } = compile.client(source);

@@ -1,4 +1,4 @@
-import { File } from "rcompat/fs";
+import FS from "rcompat/fs";
 import errors from "./errors.js";
 
 const script_re = /(?<=<script)>(?<code>.*?)(?=<\/script>)/gus;
@@ -9,8 +9,8 @@ export const compile = {
     const [script] = await Promise.all([...text.matchAll(script_re)]
       .map(({ groups: { code } }) => code));
     const { name } = script.match(webc_class_name_re)?.groups ?? {};
-    name === undefined  && errors.MissingComponentClassName.throw(component);
-    const tagname = new File(component).base;
+    name === undefined && errors.MissingComponentClassName.throw(component);
+    const tagname = new FS.File(component).base;
 
     const js = `${script}
 globalThis.customElements.define("${tagname}", ${name});`;
@@ -24,7 +24,7 @@ export const publish = (_, extension) => ({
   setup(build) {
     build.onLoad({ filter: new RegExp(`${extension}$`, "u") }, async args => {
       // Load the file from the file system
-      const source = await File.text(args.path);
+      const source = await FS.File.text(args.path);
 
       return { contents: (await compile.client(source, args.path)).js };
     });

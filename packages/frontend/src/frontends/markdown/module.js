@@ -1,5 +1,5 @@
+import FS from "rcompat/fs";
 import o from "rcompat/object";
-import { File } from "rcompat/fs";
 import { peers } from "../common/exports.js";
 import depend from "../depend.js";
 
@@ -45,11 +45,11 @@ const markdown = ({
             const { content, toc } = await markdown.compile(text, options);
 
             const base = target.join(component.debase(app.path.components));
-            const html = new File(`${base}.html`);
+            const html = new FS.File(`${base}.html`);
             await html.directory.create();
             await html.write(content);
 
-            const json = new File(`${base}.json`);
+            const json = new FS.File(`${base}.json`);
             await json.write(o.stringify(toc));
           },
           // no hydration

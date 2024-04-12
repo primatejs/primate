@@ -4,7 +4,7 @@ import { bold, blue, dim } from "rcompat/colors";
 import { resolve } from "rcompat/package";
 import o from "rcompat/object";
 import Build from "rcompat/build";
-import { File } from "rcompat/fs";
+import FS from "rcompat/fs";
 import * as hooks from "./hooks/exports.js";
 import { print } from "./Logger.js";
 
@@ -21,7 +21,7 @@ const publish = async app => {
     const type = path.extension === ".css" ? "style" : "module";
     await app.publish({ src, type });
     if (path.extension === ".js") {
-      const imports = { app: File.join(http.static.root, src).path };
+      const imports = { app: FS.File.join(http.static.root, src).path };
       await app.publish({
         inline: true,
         code: JSON.stringify({ imports }, null, 2),

@@ -1,6 +1,6 @@
 import crypto from "rcompat/crypto";
 import { tryreturn } from "rcompat/async";
-import { File } from "rcompat/fs";
+import FS from "rcompat/fs";
 import { is } from "rcompat/invariant";
 import o from "rcompat/object";
 import { globify } from "rcompat/string";
@@ -28,8 +28,8 @@ const to_csp = (config_csp, assets, csp) => config_csp
 
 // use user-provided file or fall back to default
 const load = (base, page, fallback) =>
-  tryreturn(_ => File.text(`${base.join(page)}`))
-    .orelse(_ => File.text(`${base.join(fallback)}`));
+  tryreturn(_ => FS.File.text(`${base.join(page)}`))
+    .orelse(_ => FS.File.text(`${base.join(fallback)}`));
 
 const encoder = new TextEncoder();
 
@@ -108,7 +108,7 @@ export default async (log, root, config) => {
 
       await Promise.all((await source.collect(filter)).map(async path => {
         const debased = path.debase(this.root).path.slice(1);
-        const filename = File.join(directory, path.debase(source));
+        const filename = FS.File.join(directory, path.debase(source));
         const target = await target_base.join(filename.debase(directory));
         await target.directory.create();
         await (regexs.some(regex => regex.test(debased))
@@ -190,7 +190,7 @@ export default async (log, root, config) => {
     async publish({ src, code, type = "", inline = false }) {
       if (inline || type === "style") {
         this.assets.push({
-          src: File.join(http.static.root, src ?? "").path,
+          src: FS.File.join(http.static.root, src ?? "").path,
           code: inline ? code : "",
           type,
           inline,

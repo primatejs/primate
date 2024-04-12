@@ -1,4 +1,4 @@
-import { File } from "rcompat/fs";
+import FS from "rcompat/fs";
 import * as prompts from "./prompts.js";
 
 const confirm = async root => {
@@ -21,5 +21,5 @@ export default async () => {
     defaultValue: ".",
   });
 
-  return confirm(File.resolve(value));
+  return confirm(FS.File.resolve(value));
 };
