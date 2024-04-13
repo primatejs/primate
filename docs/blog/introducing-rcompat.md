@@ -24,7 +24,7 @@ finding the best runtime for a given app.
 rcompat offers forward compatibility in the sense that it can add support for
 new runtimes as they emerge *even* on minor updates (as this isn't considered
 breaking existing code), allowing you to run old code that was written with
-rcompat by newer runtimes. No other server side interoperability layer for
+rcompat by newer runtimes. No other server-side interoperability layer for
 JavaScript offers this kind of flexibility.
 
 ## Batteries included
@@ -41,6 +41,20 @@ example, `rcompat/http` supports WebSockets (natively on Deno/Bun, and using
 NPM's `ws` on Node), while `rcompat/fs.File` offers globbing, listing and
 manipulation of files, similarly to Python's `pathlib`.
 
+For example, to set up a server with rcompat, use the `serve` export of
+`rcompat/http` -- the server-side equivalent of `fetch`.
+
+```js
+import { serve } from "rcompat/http";
+
+serve(request => new Response("Hi!"), { host: "localhost", port: 6161 });
+```
+
+This code runs successfully with either `node app.js` (if you set your
+package.json to `{ "type": "module" }`; otherwise use `app.mjs`), `deno run
+--allow-all app.js` or `bun --bun app.js`, taking advantage of native
+optimizations.
+
 ## Another standard library?
 
 The JavaScript ecosystem is replete with standard libraries. To take the
@@ -52,7 +66,20 @@ branching code. rcompat is an abstraction over that, as it plays the role of
 both a standard library *and* a runtime compatibility layer -- write once,
 target everything.
 
-## Evolving standard -- input needed
+For example, here's how you can read a file and parse it as JSON.
+
+```js
+import FS from "rcompat/fs";
+// or import individually, shadowing globalThis.File, WHATWG's File class
+// import { File } from "rcompat/fs";
+
+console.log(await FS.File.json("./users.json"));
+```
+
+Again, this code runs successfully on Node, Deno or Bun, taking advantage of
+optimizations native to every runtime.
+
+## Evolving standard — input needed
 
 rcompat has been quietly developed the last few months in conjunction with
 Primate's development and is largely influenced by its needs. We'd like to
