@@ -1,20 +1,12 @@
-Today we're officially introducing rcompat, a JavaScript standard library and
-runtime compatibility layer for servers which has been doing most of the heavy
-lifting behind Primate and its multi-runtime support for a while now.
+Today we're officially introducing rcompat, a JavaScript interoperability
+and runtime compatibility layer for servers which has been doing most of the
+heavy lifting behind Primate and its multi-runtime support for a while now.
 
-You can think of rcompat as a server-side counterpart to jQuery.
+rcompat is a unified interface for [Node](https://nodejs.org/),
+[Deno](https://deno.com/) and [Bun](https://bun.sh/). You can think of
+rcompat as a server-side counterpart to jQuery.
 
-## Another standard library?
-
-The JavaScript ecosystem is replete with standard libraries. To take the
-example of filesystem access, Node has at least three ways of accessing the
-filesystem (sync, callbacks, promises), and then there's Deno's own filesystem
-APIs, while Bun has its APIs too. Those all have their pros and cons, and if
-you want to target all of them, you're going to have to write a lot of
-branching code. rcompat is an abstraction over that, as it is both a standard
-library *and* a runtime compatiblity layer -- write once, target everything.
-
-### Native speed gains
+## Native speed gains
 
 While tools like Bun strive to be fully compatible with Node's built-in modules
 and NPM, with Deno also moving in that direction, those backwards
@@ -27,15 +19,14 @@ but also speed it up if you choose Bun or Deno over Node during production. You
 can easily switch between the runtimes, testing stability vs. modern features,
 finding the best runtime for a given app.
 
-### Forward compatibility
+## Forward compatibility
 
 rcompat offers forward compatibility in the sense that it can add support for
 new runtimes as they emerge *even* on minor updates (as this isn't considered
 breaking existing code), allowing you to run old code that was written with
-rcompat by newer runtimes. No other standard library for JavaScript offers this
-kind of flexibility. 
+rcompat by newer runtimes. No other server side interoperability layer for JavaScript offers this kind of flexibility. 
 
-### Batteries included
+## Batteries included
 
 rcompat is designed with many submodules in mind, including `rcompat/fs` for
 filesystem operations, `rcompat/http` for using a modern HTTP server working
@@ -48,6 +39,17 @@ The standard library is designed to accommodate for modern development needs:
 for example, `rcompat/http` supports WebSockets (natively on Deno/Bun, and
 using NPM's `ws` on Node), while `rcompat/fs.File` offers globbing, listing and
 manipulation of files, similarly to Python's `pathlib`. 
+
+## Another standard library?
+
+The JavaScript ecosystem is replete with standard libraries. To take the
+example of filesystem access, Node has at least three ways of accessing the
+filesystem (sync, callbacks, promises), and then there's Deno's own filesystem
+APIs, while Bun has its APIs too. Those all have their pros and cons, and if
+you want to target all of them, you're going to have to write a lot of
+branching code. rcompat is an abstraction over that, as it plays the role of
+both a standard library *and* a runtime compatiblity layer -- write once,
+target everything.
 
 ## Evolving standard -- input needed
 
