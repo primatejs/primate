@@ -24,7 +24,8 @@ finding the best runtime for a given app.
 rcompat offers forward compatibility in the sense that it can add support for
 new runtimes as they emerge *even* on minor updates (as this isn't considered
 breaking existing code), allowing you to run old code that was written with
-rcompat by newer runtimes. No other server side interoperability layer for JavaScript offers this kind of flexibility. 
+rcompat by newer runtimes. No other server side interoperability layer for
+JavaScript offers this kind of flexibility.
 
 ## Batteries included
 
@@ -35,10 +36,10 @@ a Node request object into a WHATWG `Request` as it comes in),
 `rcompat/invariant` for ensuring runtime invariants, `rcompat/object` for
 object transformations, and many more useful modules and abstractions.
 
-The standard library is designed to accommodate for modern development needs:
-for example, `rcompat/http` supports WebSockets (natively on Deno/Bun, and
-using NPM's `ws` on Node), while `rcompat/fs.File` offers globbing, listing and
-manipulation of files, similarly to Python's `pathlib`. 
+The standard library is designed to accommodate modern development needs: for
+example, `rcompat/http` supports WebSockets (natively on Deno/Bun, and using
+NPM's `ws` on Node), while `rcompat/fs.File` offers globbing, listing and
+manipulation of files, similarly to Python's `pathlib`.
 
 ## Another standard library?
 
@@ -48,7 +49,7 @@ filesystem (sync, callbacks, promises), and then there's Deno's own filesystem
 APIs, while Bun has its APIs too. Those all have their pros and cons, and if
 you want to target all of them, you're going to have to write a lot of
 branching code. rcompat is an abstraction over that, as it plays the role of
-both a standard library *and* a runtime compatiblity layer -- write once,
+both a standard library *and* a runtime compatibility layer -- write once,
 target everything.
 
 ## Evolving standard -- input needed
@@ -69,9 +70,12 @@ delegate to it natively on Bun.
 
 ## Participation
 
-You are cordially invited to take part in rcompat's development at https://github.com/rcompat/rcompat. We will be setting up a documentation website in the foreseeable future, and until then, the source code is the best form of documentation.
+You are cordially invited to take part in rcompat's development at
+https://github.com/rcompat/rcompat. We will be setting up a documentation
+website in the foreseeable future, and until then, the source code is the best
+form of documentation.
 
-rcompat is MIT-licensed.
+rcompat is MIT licensed.
 
 ## Fin
 
