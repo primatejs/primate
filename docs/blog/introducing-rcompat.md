@@ -1,0 +1,81 @@
+Today we're officially introducing rcompat, a JavaScript standard library and
+runtime compatibility layer for servers which has been doing most of the heavy
+lifting behind Primate and its multi-runtime support for a while now.
+
+You can think of rcompat as a server-side counterpart to jQuery.
+
+## Another standard library?
+
+The JavaScript ecosystem is replete with standard libraries. To take the
+example of filesystem access, Node has at least three ways of accessing the
+filesystem (sync, callbacks, promises), and then there's Deno's own filesystem
+APIs, while Bun has its APIs too. Those all have their pros and cons, and if
+you want to target all of them, you're going to have to write a lot of
+branching code. rcompat is an abstraction over that, as it is both a standard
+library *and* a runtime compatiblity layer -- write once, target everything.
+
+### Native speed gains
+
+While tools like Bun strive to be fully compatible with Node's built-in modules
+and NPM, with Deno also moving in that direction, those backwards
+compatibilities carry a lot of cruft and in the end, you're just using another
+runtime to run code written for Node, without taking advantage of the inherent
+speed gains that modern APIs introduce. rcompat abstracts that away for you.
+You write code once and, wherever possible, it will take advantage of *native*
+APIs. This allows you not only to run the same code with different runtimes,
+but also speed it up if you choose Bun or Deno over Node during production. You
+can easily switch between the runtimes, testing stability vs. modern features,
+finding the best runtime for a given app.
+
+### Forward compatibility
+
+rcompat offers forward compatibility in the sense that it can add support for
+new runtimes as they emerge *even* on minor updates (as this isn't considered
+breaking existing code), allowing you to run old code that was written with
+rcompat by newer runtimes. No other standard library for JavaScript offers this
+kind of flexibility. 
+
+### Batteries included
+
+rcompat is designed with many submodules in mind, including `rcompat/fs` for
+filesystem operations, `rcompat/http` for using a modern HTTP server working
+with WHATWG `Request`/`Response` (which node doesn't support; rcompat wraps
+a node request object into a WHATWG `Request` as it comes in),
+`rcompat/invariant` for ensuring runtime invariants, `rcompat/object` for
+object transformations, and many more useful modules and abstractions.
+
+The standard library is designed to accomodate for modern development needs:
+for example, `rcompat/http` supports WebSockets (natively on Deno/Bun, and
+using NPM's `ws` on Node), while `rcompat/fs.File` offers globbing, listing and
+manipulation of files, similarly to Python's `pathlib`. 
+
+## Evolving standard -- input needed
+
+rcompat has been quietly developed the last few months in conjunction with
+Primate's development and is largely influenced by its needs. We'd like to
+invite more participation by other projects / individuals in order to converge
+on APIs that best serve everyone and are the most useful on broad basis.
+
+To illustrate this, Primate 0.31 will be using `rcompat/fs`'s upcoming `Router`
+class, which is meant to be used by frameworks using filesystem-routing (such
+as Primate, Next, SvelteKit, etc.) to resolve requests to routes. The design is
+aimed to be generic, but undoubtedly will be influenced by Primate's needs.
+External feedback will help keep it useful for other frameworks as well.
+Once FS.Router is ready, we will also aim to upstream our ideas to Bun's native
+[FileSystemRouter][FileSystemRouter] class such that rcompat can delegate to it
+natively on Bun.
+
+## Participation
+
+You are cordially invited to take part in rcompat's development at https://github.com/rcompat/rcompat. We will be setting up a documentation website in the foreseeable future, and until then, the source code is the best form of documentation.
+
+rcompat is MIT-licensed.
+
+## Fin
+
+If you like Primate, consider [joining our channel #primate][irc] on
+irc.libera.chat. This channel is currently also used for rcompat's development,
+until the need for a separate channel arises.
+
+[irc]: https://web.libera.chat#primate
+[FileSystemRouter]: https://bun.sh/docs/api/file-system-router
