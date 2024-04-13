@@ -39,8 +39,8 @@ kind of flexibility.
 
 rcompat is designed with many submodules in mind, including `rcompat/fs` for
 filesystem operations, `rcompat/http` for using a modern HTTP server working
-with WHATWG `Request`/`Response` (which node doesn't support; rcompat wraps
-a node request object into a WHATWG `Request` as it comes in),
+with WHATWG `Request`/`Response` (which Node doesn't support; rcompat wraps
+a Node request object into a WHATWG `Request` as it comes in),
 `rcompat/invariant` for ensuring runtime invariants, `rcompat/object` for
 object transformations, and many more useful modules and abstractions.
 
