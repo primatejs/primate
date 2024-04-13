@@ -44,7 +44,7 @@ a node request object into a WHATWG `Request` as it comes in),
 `rcompat/invariant` for ensuring runtime invariants, `rcompat/object` for
 object transformations, and many more useful modules and abstractions.
 
-The standard library is designed to accomodate for modern development needs:
+The standard library is designed to accommodate for modern development needs:
 for example, `rcompat/http` supports WebSockets (natively on Deno/Bun, and
 using NPM's `ws` on Node), while `rcompat/fs.File` offers globbing, listing and
 manipulation of files, similarly to Python's `pathlib`. 
@@ -54,16 +54,16 @@ manipulation of files, similarly to Python's `pathlib`.
 rcompat has been quietly developed the last few months in conjunction with
 Primate's development and is largely influenced by its needs. We'd like to
 invite more participation by other projects / individuals in order to converge
-on APIs that best serve everyone and are the most useful on broad basis.
+on APIs that best serve everyone and are the most useful on a broad basis.
 
 To illustrate this, Primate 0.31 will be using `rcompat/fs`'s upcoming `Router`
 class, which is meant to be used by frameworks using filesystem-routing (such
 as Primate, Next, SvelteKit, etc.) to resolve requests to routes. The design is
 aimed to be generic, but undoubtedly will be influenced by Primate's needs.
 External feedback will help keep it useful for other frameworks as well.
-Once FS.Router is ready, we will also aim to upstream our ideas to Bun's native
-[FileSystemRouter][FileSystemRouter] class such that rcompat can delegate to it
-natively on Bun.
+Once `FS.Router` is ready, we will also aim to upstream our ideas to Bun's
+native [FileSystemRouter][FileSystemRouter] class such that rcompat can
+delegate to it natively on Bun.
 
 ## Participation
 
