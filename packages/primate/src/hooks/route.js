@@ -48,7 +48,6 @@ export default app => {
     const pathname = deroot(deslash(url.pathname));
     const route = find(original.method, pathname) ?? errors.NoRouteToPath
       .throw(original.method.toLowerCase(), pathname, index(pathname));
-    console.log("route.body", route.body);
     return { ...route,
       body: route.body ? await parse_body(original, url) : null,
       path: to_path(route, pathname),

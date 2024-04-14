@@ -39,15 +39,19 @@ const post = async app => {
       ?.route(staged, path.debase(`${staged}/`), types);
   }
   const routes = await loaders.routes(app);
-  const router = new FS.Router({
+  const router = await FS.Router.load({
     directory: app.runpath(app.get("location.routes")),
+    specials: {
+      guard: { recursive: true },
+      error: { recursive: false },
+      layout: { recursive: true },
+    },
+    predicate(route, request) {
+      return route.default[request.method.toLowerCase()] !== undefined;
+    },
   });
-  await router.load();
-  const layout = {
-    depth: Math.max(...routes.map(({ layouts }) => layouts.length)) + 1,
-  };
-
-  return { ...app, types, routes, dispatch: dispatch(types), layout };
+  const layout = router.depth("layout");
+  return { ...app, types, routes, dispatch: dispatch(types), layout, router };
 };
 
 export default async app =>

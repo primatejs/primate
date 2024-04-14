@@ -48,7 +48,6 @@ export default async ($app, mode = "development") => {
     app.log.info(`running ${dim(hook)} hooks`, { module: "primate" });
     app = await hooks[hook](app);
   }
-
   // start the build
   await app.build.start();
   await publish(app);
