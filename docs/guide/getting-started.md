@@ -22,6 +22,11 @@ advantage of [significant speed gains][r24] by running `bun --bun x primate`.
 If you're a Deno user, use `deno run --allow-all npm:primate` to run Primate.
 !!!
 
+!!!
+If you're using Node, make sure you add `{ "type": "module" }` to your
+`package.json` file for Node to treat JavaScript files as ESM.
+!!!
+
 ## Multi-language support in routes
 
 Primate isn't limited to JavaScript for your backend code. If you're a Go
@@ -43,7 +48,10 @@ def get(request):
 Same as before, run `npx -y primate@latest` and point your browser to
 http://localhost:6161 to run your route.
 
-We have upcoming support for TypeScript and other languages.
+!!!
+Additional backend languages require installing `@primate/binding` and
+[initializing the module](https://primatejs.com/modules/binding) in your config.
+!!!
 
 ## Serving HTML
 
