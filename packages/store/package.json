@@ -23,11 +23,11 @@
   },
   "devDependencies": {
     "@primate/types": "^0.14.0",
-    "better-sqlite3": "^9.4.5",
+    "better-sqlite3": "^9.5.0",
     "mongodb": "^6.5.0",
-    "mysql2": "^3.9.3",
+    "mysql2": "^3.9.6",
     "postgres": "^3.4.4",
-    "surrealdb.js": "^0.11.0"
+    "surrealdb.js": "^0.11.1"
   },
   "peerDependencies": {
     "better-sqlite3": "9",
