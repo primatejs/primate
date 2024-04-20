@@ -16,42 +16,46 @@ const pre = async app => {
 };
 
 const post = async app => {
-  const location = app.get("location");
+  const $location = app.get("location");
 
   // stage routes
-  const double = doubled((await app.path.routes.collect())
-    .map(path => path.debase(app.path.routes))
-    .map(path => `${path}`.slice(1, -path.extension.length)));
-  double && errors.DoubleRoute.throw(double);
-
   if (await app.path.routes.exists()) {
-    await app.stage(app.path.routes, location.routes);
+    await app.stage(app.path.routes, $location.routes);
   }
   if (await app.path.types.exists()) {
-    await app.stage(app.path.types, location.types);
+    await app.stage(app.path.types, $location.types);
   }
-  const user_types = await loaders.types(app.log, app.runpath(location.types));
+  const user_types = await loaders.types(app.log, app.runpath($location.types));
   const types = { ...app.types, ...user_types };
 
-  const staged = app.runpath(location.routes);
-  for (const path of await staged.collect()) {
+  const directory = app.runpath($location.routes);
+  for (const path of await directory.collect()) {
     await app.extensions[path.extension]
-      ?.route(staged, path.debase(`${staged}/`), types);
+      ?.route(directory, path.debase(`${directory}/`), types);
   }
-  const routes = await loaders.routes(app);
-  const router = await FS.Router.load({
-    directory: app.runpath(app.get("location.routes")),
-    specials: {
-      guard: { recursive: true },
-      error: { recursive: false },
-      layout: { recursive: true },
-    },
-    predicate(route, request) {
-      return route.default[request.method.toLowerCase()] !== undefined;
-    },
-  });
-  const layout = router.depth("layout");
-  return { ...app, types, routes, dispatch: dispatch(types), layout, router };
+
+  let router;
+
+  try {
+    router = await FS.Router.load({
+        directory,
+        specials: {
+          guard: { recursive: true },
+          error: { recursive: false },
+          layout: { recursive: true },
+        },
+        predicate(route, request) {
+          return route.default[request.method.toLowerCase()] !== undefined;
+        },
+      });
+  } catch (error) {
+    const { DoubleRoute, OptionalRoute, RestRoute } = FS.Router.Error;
+    error instanceof DoubleRoute && errors.DoubleRoute.throw(error.route);
+    error instanceof OptionalRoute && errors.OptionalRoute.throw(error.route);
+    error instanceof RestRoute && errors.RestRoute.throw(error.route);
+  }
+  const layout = { depth: router.depth("layout") };
+  return { ...app, types, dispatch: dispatch(types), layout, router };
 };
 
 export default async app =>

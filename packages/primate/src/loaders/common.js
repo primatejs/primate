@@ -11,8 +11,8 @@ const empty = log => (objects, name, path) =>
 export default async ({
   log,
   directory,
-  filter = identity,
   name = "routes",
+  filter = identity,
   recursive = true,
   warn = true,
 } = {}) => {

@@ -111,9 +111,19 @@
       "fix": "create a {0} route function at {2}.js",
       "level": "Info"
     },
+    "OptionalRoute": {
+      "message": "optional route {0} must be a leaf",
+      "fix": "move route to leaf (last) position in filesystem hierarchy",
+      "level": "Error"
+    },
     "ReservedTypeName": {
       "message": "reserved type name {0}",
       "fix": "do not use any reserved type names",
+      "level": "Error"
+    },
+    "RestRoute": {
+      "message": "rest route {0} must be a leaf",
+      "fix": "move route to leaf (last) position in filesystem hierarchy",
       "level": "Error"
     }
   }
