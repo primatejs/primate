@@ -25,7 +25,7 @@
     "@angular/ssr": "17",
     "@babel/core": "7",
     "@marko/compiler": "5",
-    "@marko/translator-default": "5",
+    "@marko/translator-default": "6",
     "babel-preset-solid": "1",
     "handlebars": "4",
     "htmx-esm": "0.2",

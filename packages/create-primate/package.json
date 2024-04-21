@@ -26,7 +26,7 @@
     "@angular/platform-server": "^17.3.5",
     "@angular/ssr": "^17.3.5",
     "@marko/compiler": "^5.36.1",
-    "@marko/translator-default": "^5.33.1",
+    "@marko/translator-default": "^6.0.0",
     "@primate/build": "^0.5.1",
     "@primate/frontend": "^0.14.1",
     "@primate/session": "^0.18.0",
