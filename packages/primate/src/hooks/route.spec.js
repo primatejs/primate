@@ -34,6 +34,14 @@ const $app = {
   }, config_key),
 };
 
+const r = (route, expected = route) => [route, {
+  default: {
+    get() {
+      return expected;
+    },
+  },
+}];
+
 const app = {
   get: config_key => o.get({
     location: {
@@ -44,25 +52,24 @@ const app = {
   modules: {
     route: [],
   },
-  routes: await loaders.routes($app, ({ warn = true }) => (warn ? [
+  router: FS.Router.init({}, [
     "index",
     "user",
     "users/[userId]a",
     "comments/[commentId=comment]",
     "users/[userId]/comments/[commentId]",
-    "users/[userId=user]/comments/[commentId]/a",
-    "users/[userId=user]/comments/[commentId=comment]/b",
-    "users/[_userId]/comments/[commentId]/d",
-    "users/[_userId]/comments/[_commentId]/e",
-    "comments2/[_commentId]",
-    "users2/[_userId]/[_commentId]",
-    "users3/[_userId]/[_commentId=_commentId]",
-    "users4/[_userId]/[_commentId]",
-    "users5/[n=n]",
-    "users6/[nv=nv]",
-    "[id=id]/[Id=Id]/[ID=ID]",
-  ] : []).map(pathname => [pathname, { default: { get: request => request } }]),
-  ),
+    // "users/[userId=user]/comments/[commentId]/a",
+    // "users/[userId=user]/comments/[commentId=comment]/b",
+    // "users/[_userId]/comments/[commentId]/d",
+    // "users/[_userId]/comments/[_commentId]/e",
+    // "comments2/[_commentId]",
+    // "users2/[_userId]/[_commentId]",
+    // "users3/[_userId]/[_commentId=_commentId]",
+    // "users4/[_userId]/[_commentId]",
+    // "users5/[n=n]",
+    // "users6/[nv=nv]",
+    // "[id=id]/[Id=Id]/[ID=ID]",
+  ].map(r)),
   types: {
     user: numeric,
     comment: numeric,
