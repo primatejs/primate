@@ -55,6 +55,20 @@ export default {
 
 The rendered component will be accessible at http://localhost:6161/react.
 
+## TSX
+
+To use TSX instead of JSX files, change this handler's extension to `.tsx`.
+
+```js caption=primate.config.js
+import { react } from "@primate/frontend";
+
+export default {
+  modules: [
+    react({ extension: ".tsx" }),
+  ],
+};
+```
+
 ## Configuration options
 
 ### extension
