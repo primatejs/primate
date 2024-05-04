@@ -1,4 +1,15 @@
-import { EmptyConfigFile, ErrorInConfigFile } from "primate/errors";
+import find from "./commands/exports.js";
+import { blue, bold } from "rcompat/colors";
+import * as P from "rcompat/package";
+import { print } from "@primate/core";
+
+export default async (...args) => {
+  const [command, ...flags] = args;
+  const primate = await P.manifest(import.meta.url);
+  print(blue(bold(primate.name)), blue(primate.version), "\n");
+  find(command)(...flags);
+};
+/*import { EmptyConfigFile, ErrorInConfigFile } from "primate/errors";
 import { tryreturn } from "rcompat/async";
 import { blue, bold } from "rcompat/colors";
 import { File } from "rcompat/fs";
@@ -29,7 +40,8 @@ const get_config = async root => {
     : defaults;
 };
 
-export default async (command, root, config, assets) => tryreturn(async _ => {
+export default async (command, root, config, assets, routes, components) => tryreturn(async _ => {
+  console.log("COMMAND", command);
   // use module root if possible, fall back to current directory
   const $root = root ??
     await tryreturn(_ => P.root()).orelse(_ => File.resolve());
@@ -38,11 +50,11 @@ export default async (command, root, config, assets) => tryreturn(async _ => {
   // comment out next two for building
   //const primate = await P.manifest(import.meta.url);
   //print(blue(bold(primate.name)), blue(primate.version), "\n");
-  await find(command)(await init(await app(logger, $root, $config, assets)));
+  await find(command)(await init(await app(logger, $root, $config, assets, routes, components)));
 }).orelse(error => {
   if (error.level === Logger.Error) {
     logger.auto(error);
     return bye();
   }
   throw error;
-});
+});*/

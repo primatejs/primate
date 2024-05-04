@@ -46,7 +46,7 @@ export default config => {
         });
       }
 
-      const { body, head } = render(await root.import("default"), {
+      const { body, head } = render(root, {
         components: components.map(({ component }) => component),
         ...shared,
       });

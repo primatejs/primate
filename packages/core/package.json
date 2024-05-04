@@ -1,0 +1,38 @@
+{
+  "name": "@primate/core",
+  "version": "0.1.0",
+  "description": "Primate core module",
+  "homepage": "https://primatejs.com",
+  "bugs": "https://github.com/primatejs/primate/issues",
+  "license": "MIT",
+  "files": [
+    "src/**/*.js",
+    "!src/**/*.spec.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/primatejs/primate",
+    "directory": "packages/core"
+  },
+  "dependencies": {
+    "rcompat": "^0.17.0"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "default": "./src/exports.js"
+    },
+    "./errors": {
+      "default": "./src/shared/errors.js"
+    },
+    "./logger": {
+      "default": "./src/shared/Logger.js"
+    },
+    "./config": {
+      "default": "./src/shared/primate.config.js"
+    },
+    "./handlers": {
+      "default": "./src/serve/handlers.js"
+    }
+  }
+}

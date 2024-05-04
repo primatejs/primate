@@ -1,6 +1,11 @@
-import { File } from "rcompat/fs";
 import { Logger } from "primate";
 
-const json = await new File(import.meta.url).up(1).join("errors.json").json();
+const json = {
+  MissingDependencies: {
+    message: "cannot find {0} (imported from {1})",
+    fix: "install dependencies by issuing {2}",
+    level: "Error",
+  },
+};
 
-export default Logger.err(json.errors, json.module);
+export default Logger.err(json, "primate/frontend");

@@ -67,7 +67,7 @@ const render_head = (assets, fonts, head) =>
       tags.font({ href, type: "font/woff2" }),
     ).join("\n"));
 
-export default async (log, root, config, assets) => {
+export default async (log, root, config, build_assets, build_routes, build_components) => {
   const { http } = config;
   const secure = http?.ssl !== undefined;
   const path = O.valmap(config.location, value => root.join(value));
@@ -78,16 +78,21 @@ export default async (log, root, config, assets) => {
     http.ssl.cert = root.join(http.ssl.cert);
   }
 
+  const $build_components = Object.fromEntries(build_components ?? []);
   const error = await path.routes.join("+error.js");
 
   return {
     secure,
     importmaps: {},
     assets: [],
-    build_assets: assets,
+    build_assets,
+    build_routes,
     path,
     root,
     log,
+    get_component(name) {
+      return $build_components[name]?.default;
+    },
     // pseudostatic thus arrowbound
     get: (config_key, fallback) => O.get(config, config_key) ?? fallback,
     set: (key, value) => {
@@ -183,7 +188,7 @@ export default async (log, root, config, assets) => {
 
       const $load = () => {
         const { path } = new File(this.get("location.pages")).join(index);
-        const asset = assets[path];
+        const asset = build_assets[path];
         if (asset !== undefined) {
           return asset;
         }

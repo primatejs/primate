@@ -1,4 +1,5 @@
-import { build, serve } from "../hooks/exports.js";
+import build from "./build.js";
+import serve from "./serve.js";
 
-// builds the app in development mode and serves it
-export default async app => serve(await build(app, "development"));
+// build for development and serve
+export default async () => await build("development") && serve();

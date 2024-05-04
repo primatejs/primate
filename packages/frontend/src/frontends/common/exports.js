@@ -8,5 +8,6 @@ export { default as load } from "./load.js";
 
 // generally used
 export { default as module } from "./module.js";
+export { default as runtime } from "./runtime.js";
 export { default as peers } from "./peers.js";
 export { default as normalize } from "./normalize.js";

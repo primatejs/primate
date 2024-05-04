@@ -18,11 +18,11 @@
     "rcompat": "^0.17.0"
   },
   "peerDependencies": {
-    "@angular/compiler": "17",
-    "@angular/core": "17",
-    "@angular/platform-browser": "17",
-    "@angular/platform-server": "17",
-    "@angular/ssr": "17",
+    "@angular/compiler": "18",
+    "@angular/core": "18",
+    "@angular/platform-browser": "18",
+    "@angular/platform-server": "18",
+    "@angular/ssr": "18",
     "@babel/core": "7",
     "@marko/compiler": "5",
     "@marko/translator-default": "6",
@@ -31,7 +31,7 @@
     "handlebars": "4",
     "htmx-esm": "0.2",
     "marked": "12",
-    "primate": "0.31",
+    "primate": "workspace:^",
     "react": "18",
     "react-dom": "18",
     "solid-js": "1",
@@ -112,6 +112,8 @@
     "./react": "./src/client/react.js",
     "./solid": "./src/client/solid.js",
     "./webc": "./src/client/webc/exports.js",
-    "./spa": "./src/client/spa/exports.js"
+    "./spa": "./src/client/spa/exports.js",
+    "./svelte": "./src/frontends/svelte/module.js",
+    "./svelte/runtime": "./src/frontends/svelte/runtime/runtime.js"
   }
 }
