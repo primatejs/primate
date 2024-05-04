@@ -67,7 +67,7 @@ can be thus be used to construct subpaths. For example, in
 may be considered a subpath.
 
 Rest parameters may only appear at the end of a route path. They may also be
-optional, that is, matching with and without the subpath, by using two
+optional, that is, matching with and without the parameter, by using two
 brackets.
 
 ### Optional rest parameters

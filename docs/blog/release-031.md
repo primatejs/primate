@@ -22,32 +22,32 @@ Primate stores have gained additional capabilities in this release.
 
 It is now possible to add a projection to `Store#find` using a second parameter.
 
-```js routes/user-names.js
+```js caption=routes/user-names.js
 export default {
   get({ store: { User } }) {
     return User.find({}, ["name"]);
   },
 };
+```
 
 This will show a JSON array of objects from the `user` collection with only the
 `name` field.
-```
 
 ### Sorting
 
 It is now possible to influence the sorting order used in `Store#find` using a
 third parameter.
 
-```js routes/user-names-sorted.js
+```js caption=routes/user-names-sorted.js
 export default {
   get({ store: { User } }) {
     return User.find({}, ["name"], { sort: { name: "asc" } });
   },
 };
+```
 
 This will show a JSON array of objects from the `user` collection with only the
 `name` field, sorted by `name` ascendingly.
-```
 
 ## New filesystem router
 
@@ -76,14 +76,14 @@ can be thus be used to construct subpaths. For example, in
 may be considered a subpath.
 
 Rest parameters may only appear at the end of a route path. They may also be
-optional, that is, matching with and without the subpath, by using two
+optional, that is, matching with and without the parameter, by using two
 brackets.
 
 ## Quality of life improvements
 
 ### HTMX integration improvements
 
-#### Prop support
+#### Passing in props
 
 The HTMX handler now supports passing in props, in JavaScript template string
 style. Consider the following route.
@@ -122,22 +122,22 @@ the posts handed in from the route.
 This prop support extends to Primate's built-in `html` handler in the same
 fashion.
 
-#### Partial rendering support
+#### Partial rendering
 
-Primate's `view` handler allows passing in `{ partial: true }` as part of the
-third options parameter, which indicates the view component file to be rendered
-should *not* be embedded within the default `app.html` but delivered on its
-own. This is great in case you use JavaScript to replace just a part of the
-page.
+Primate's `view` handler generally allows passing in `{ partial: true }` as part
+of the third options parameter, which indicates the view component file to be
+rendered should *not* be embedded within the default `app.html` but delivered in
+bare form. This is great in case you use JavaScript to replace just a part of
+the page.
 
 When using HTMX's DOM manipulation verbs (e.g. `hx-get`, `hx-post`, etc.), HTMX
 sends an `hx-request` header with the request. The `view` handler now, in the
 case of HTMX, checks whether this handler was sent along the request, and in
-such a case returns the component in partial mode.
+such a case renders the component in partial mode.
 
 ### RequestFacade#pass
 
-If you're using Primate as a reverse proxy, you can now use the `pass` function
+If you're using Primate as a reverse proxy, you may now use the `pass` function
 on the request facade to pass a request wholesale to another backend.
 
 You can do this generally in the `handle` hook.
