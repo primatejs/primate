@@ -98,7 +98,7 @@ ${posts.map(post => `
 <script>
 import { Component } from "@primate/frontend/webc";
 
-export default class extends Component {
+export default class PostIndex extends Component {
   render() {
     const { posts } = this.props;
 
