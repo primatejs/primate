@@ -24,6 +24,9 @@ const post = async app => {
     // copy static files to build/server/static
     await app.stage(_static, FS.File.join(location.server, location.static));
 
+    // copy static files to build/client/static
+    await app.stage(_static, FS.File.join(location.client, location.static));
+
     // publish JavaScript and CSS files
     const imports = await FS.File.collect(_static, /\.(?:css)$/u);
     await Promise.all(imports.map(async file => {
