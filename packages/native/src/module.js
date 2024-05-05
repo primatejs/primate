@@ -31,10 +31,8 @@ export default () => {
   return {
     name: "primate:native",
     async init(app, next) {
-      // open first argument or Google
-
       setTimeout(() => {
-        const { host, port }= app.get("http");
+        const { host, port } = app.get("http");
         const url = `http://${host}:${port}`;
         webView.loadUri(url);
         window.showAll();
