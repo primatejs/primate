@@ -2,7 +2,7 @@
 
 ## First steps
 
-To create a simple app that that responds with a `200 OK` saying "Hello, world!"
+To create a simple app that responds with a `200 OK` saying "Hello, world!"
 at its index route (`/`), create a project directory and a file in `routes`.
 
 ```js caption=routes/index.js
@@ -215,7 +215,7 @@ prefer a hands-on approach, you can jump in directly into coding and refer back
 to it as necessary.
 
 By running `npm create primate@latest`, you can scaffold a fresh project. This
-GUI will walk you step by step in creating a project from scratch, generating a
+TUI will walk you step by step in creating a project from scratch, generating a
 configuration file and including additional modules.
 
 Alternatively you can clone the [Primate template app][primate-app] repository
@@ -237,8 +237,8 @@ three goals.
 
 ### Minimal
 
-* No dependencies aside from [`rcompat`][rcompat], a JavaScript standard
-library & runtime compatibility layer
+* No dependencies aside from [`rcompat`][rcompat], a JavaScript interoperability
+& runtime compatibility layer
 * Under 1K lines of JavaScript code (Express > 1.8K, Fastify > 5.3K)
 
 ### Extensible
