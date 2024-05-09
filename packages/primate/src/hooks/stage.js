@@ -53,6 +53,8 @@ const post = async app => {
     error instanceof DoubleRoute && errors.DoubleRoute.throw(error.route);
     error instanceof OptionalRoute && errors.OptionalRoute.throw(error.route);
     error instanceof RestRoute && errors.RestRoute.throw(error.route);
+    // rethrow original error
+    throw error;
   }
   const layout = { depth: router.depth("layout") };
   return { ...app, types, dispatch: dispatch(types), layout, router };
