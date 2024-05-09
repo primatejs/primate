@@ -31,7 +31,7 @@ const get_layouts = async (layouts, request) => {
   const stop_at = layouts.findIndex(({ recursive }) => recursive === false);
   return Promise.all(layouts
     .slice(stop_at === -1 ? 0 : stop_at)
-    .map(layout => layout.default(request)));
+    .map(layout => layout(request)));
 };
 // last handler, preserve final request form
 const last = handler => async request => {

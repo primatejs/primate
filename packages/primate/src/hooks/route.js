@@ -41,7 +41,7 @@ export default app => {
     const local_parse_body = route.file.body?.parse ?? $request_body_parse;
     const body = local_parse_body ? await parse_body(original, url) : null;
     const { guards = [], errors = [], layouts = [] } = o.map(route.specials,
-      ([key, value]) => [`${key}s`, value.default]);
+      ([key, value]) => [`${key}s`, value.map(i => i.default)]);
     const handler = route.file.default[original.method.toLowerCase()];
 
     return { body, path, guards, errors, layouts, handler };
