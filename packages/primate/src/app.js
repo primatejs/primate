@@ -118,9 +118,10 @@ export default async (log, root, config) => {
       await Promise.all((await source.collect(filter)).map(async abs_path => {
         const debased = abs_path.debase(this.root).path.slice(1);
         const rel_path = FS.File.join(directory, abs_path.debase(source));
-        if (directory.path === client_location && rel_path.path.endsWith(".woff2")) {
-          const needle = location.static, index = rel_path.path.indexOf(needle);
-          this.fonts.push(rel_path.path.slice(index + needle.length));
+        if (directory.path === client_location && rel_path.path.endsWith(".css")) {
+          const contents = await abs_path.text();
+          const font_regex = /@font-face\s*\{.+?url\("(.+?\.woff2)"\).+?\}/gus;
+          this.fonts.push(...[...contents.matchAll(font_regex)].map(match => match[1]));
         }
         const target = await target_base.join(rel_path.debase(directory));
         await target.directory.create();
