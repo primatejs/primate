@@ -1,7 +1,7 @@
 # Primate website
 
-This package contains the code for https://primatejs.com. It uses
-[Priss][priss], a Primate + Svelte site generator.
+This package contains the code for https://primatejs.com, which uses Primate
+itself.
 
 ## Run locally
 
@@ -73,5 +73,5 @@ docker builder prune
 
 ### Logs
 ```sh
-flyctl logs -a primatejs
+flyctl logs -a primate
 ```
