@@ -37,22 +37,26 @@ const attribute = attributes => Object.keys(attributes).length > 0
   ? " ".concat(Object.entries(attributes)
     .map(([key, value]) => `${key}="${value}"`).join(" "))
   : "";
-const tag = ({ name, attributes = {}, code = "", close = true }) =>
+const tag = (name, { attributes = {}, code = "", close = true }) =>
   `<${name}${attribute(attributes)}${close ? `>${code}</${name}>` : "/>"}`;
+const nctag = (name, properties) => tag(name, { ...properties, close: false });
 const tags = {
   // inline: <script type integrity>...</script>
   // outline: <script type integrity src></script>
   script({ inline, code, type, integrity, src }) {
     return inline
-      ? tag({ name: "script", attributes: { type, integrity }, code })
-      : tag({ name: "script", attributes: { type, integrity, src } });
+      ? tag("script", { attributes: { type, integrity }, code })
+      : tag("script", { attributes: { type, integrity, src } });
   },
   // inline: <style>...</style>
-  // outline: <link rel="stylesheet" href/>
+  // outline: <link rel="stylesheet" href />
   style({ inline, code, href, rel = "stylesheet" }) {
     return inline
-      ? tag({ name: "style", code })
-      : tag({ name: "link", attributes: { rel, href }, close: false });
+      ? tag("style", { code })
+      : nctag("link", { attributes: { rel, href } });
+  },
+  font({ href, rel = "preload", as = "font", type, crossorigin = true }) {
+    return nctag("link", { attributes: { rel, href, as, type, crossorigin } });
   },
 };
 
@@ -62,8 +66,8 @@ const render_head = (assets, fonts, head) =>
       type === "style"
         ? tags.style({ inline, code, href: src })
         : tags.script({ inline, code, type, integrity, src }),
-    ).join("\n").concat("\n", head ?? "").concat("\n", fonts.map(font =>
-      `<link rel="preload" href="${font}" as="font" type="font/woff2" crossorigin>`
+    ).join("\n").concat("\n", head ?? "").concat("\n", fonts.map(href =>
+      tags.font({ href, type: "font/woff2" }),
     ).join("\n"));
 
 export default async (log, root, config) => {
@@ -116,7 +120,7 @@ export default async (log, root, config) => {
         const rel_path = FS.File.join(directory, abs_path.debase(source));
         if (directory.path === client_location && rel_path.path.endsWith(".woff2")) {
           const needle = location.static, index = rel_path.path.indexOf(needle);
-          this.fonts.push(rel_path.path.substring(index + needle.length));
+          this.fonts.push(rel_path.path.slice(index + needle.length));
         }
         const target = await target_base.join(rel_path.debase(directory));
         await target.directory.create();
