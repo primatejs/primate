@@ -56,13 +56,15 @@ const tags = {
   },
 };
 
-const render_head = (assets, head) =>
+const render_head = (assets, fonts, head) =>
   to_sorted(assets, ({ type }) => -1 * (type === "importmap"))
     .map(({ src, code, type, inline, integrity }) =>
       type === "style"
         ? tags.style({ inline, code, href: src })
         : tags.script({ inline, code, type, integrity, src }),
-    ).join("\n").concat("\n", head ?? "");
+    ).join("\n").concat("\n", head ?? "").concat("\n", fonts.map(font =>
+      `<link rel="preload" href="${font}" as="font" type="font/woff2" crossorigin>`
+    ).join("\n"));
 
 export default async (log, root, config) => {
   const { http } = config;
@@ -96,6 +98,7 @@ export default async (log, root, config) => {
       },
     },
     modules: await loaders.modules(log, root, config.modules ?? []),
+    fonts: [],
     ...runtime,
     // copy files to build folder, potentially transforming them
     async stage(source, directory, filter) {
@@ -106,14 +109,20 @@ export default async (log, root, config) => {
       const regexs = paths.map(file => globify(file));
       const target_base = this.runpath(directory);
 
-      await Promise.all((await source.collect(filter)).map(async path => {
-        const debased = path.debase(this.root).path.slice(1);
-        const filename = FS.File.join(directory, path.debase(source));
-        const target = await target_base.join(filename.debase(directory));
+      const location = this.get("location");
+      const client_location = FS.File.join(location.client, location.static).path;
+      await Promise.all((await source.collect(filter)).map(async abs_path => {
+        const debased = abs_path.debase(this.root).path.slice(1);
+        const rel_path = FS.File.join(directory, abs_path.debase(source));
+        if (directory.path === client_location && rel_path.path.endsWith(".woff2")) {
+          const needle = location.static, index = rel_path.path.indexOf(needle);
+          this.fonts.push(rel_path.path.substring(index + needle.length));
+        }
+        const target = await target_base.join(rel_path.debase(directory));
         await target.directory.create();
         await (regexs.some(regex => regex.test(debased))
-          ? target.write(mapper(await path.text()))
-          : path.copy(target));
+          ? target.write(mapper(await abs_path.text()))
+          : abs_path.copy(target));
       }));
     },
     async compile(component) {
@@ -166,7 +175,7 @@ export default async (log, root, config) => {
         .replaceAll(/(?<keep>%(?:head|body)%)|%.*?%/gus, "$1")
         // replace body and head
         .replace("%body%", body)
-        .replace("%head%", render_head(this.assets, head));
+        .replace("%head%", render_head(this.assets, this.fonts, head));
     },
     respond(body, { status = Status.OK, headers = {} } = {}) {
       return new Response(body, { status, headers: {
