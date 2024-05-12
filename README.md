@@ -101,5 +101,10 @@ MIT
 By contributing to Primate, you agree that your contributions will be licensed
 under its MIT license.
 
-[read guide]: https://primatejs.com/guide/getting-started
+Clone https://github.com/primatejs/app alongside your Primate directory and
+switch to the `dev` branch. This branch uses symbolic links to Primate and its
+modules. In the case of some modules (`@primate/frontend`, `@primate/i18n`,
+`@primate/binding`), symbolic links lead to errors and the modules need to be
+copied in verbatim. Use the `refresh-deps.sh` script to do so.
 
+[read guide]: https://primatejs.com/guide/getting-started
