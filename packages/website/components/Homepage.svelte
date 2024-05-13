@@ -492,8 +492,8 @@
       <div>
         <div class="heading">docs</div>
         <ul>
-          <li><a href="/guide">guide</a></li>
-          <li><a href="/modules">modules</a></li>
+          <li><a href="/guide/getting-started">guide</a></li>
+          <li><a href="/modules/official">modules</a></li>
           <li><a href="/blog">blog</a></li>
         </ul>
       </div>
