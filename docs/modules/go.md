@@ -7,7 +7,7 @@ This binding introduces support for routes written in Golang.
 `npm install @primate/binding`
 
 In addition, your system needs to have the `go` executable in its path, as it
-is used to compile the Go routes into WASM.
+is used to compile the Go routes into Wasm.
 
 ## Configure
 

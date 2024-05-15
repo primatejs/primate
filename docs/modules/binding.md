@@ -2,7 +2,7 @@
 
 The binding module allows you to write backend logic (route files) in other
 programming languages than JavaScript. Primate will then compile your 
-non-JavaScript routes to WASM, and run them as WebAssembly.
+non-JavaScript routes to Wasm, and run them as WebAssembly.
 
 As a general rule, Primate endeavors to offer the same or a similar API in other
 programming languages as concerns the request object that is passed to and
