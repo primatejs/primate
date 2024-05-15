@@ -24,7 +24,7 @@
   "devDependencies": {
     "@primate/types": "^0.15.0",
     "better-sqlite3": "^9.6.0",
-    "mongodb": "^6.6.0",
+    "mongodb": "^6.6.2",
     "mysql2": "^3.9.7",
     "postgres": "^3.4.4",
     "surrealdb.js": "^0.11.1"

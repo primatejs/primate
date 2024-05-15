@@ -101,7 +101,7 @@ example, we placed an HTML page in this directory which we then served with the
 If your app is an API or doesn't have any views, you don't need to create this
 directory.
 
-Primate's official modules includes support for various [frontend frameworks]
+Primate's official modules include support for various [frontend frameworks]
 such as React, Vue, Svelte, Solid or HTMX.
 
 [routes]: /guide/routes
