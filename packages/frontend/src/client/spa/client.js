@@ -8,8 +8,6 @@ const headers = {
   Accept: APPLICATION_JSON,
 };
 
-history.scrollRestoration = "manual";
-
 const scroll = (x, y) => global.scrollTo(x, y);
 const scroll_hash = hash => {
   if (hash === "") {
@@ -93,6 +91,13 @@ const go = async (href, updater, event) => {
 };
 
 export default updater => {
+  global.addEventListener("load", _ => {
+    history.scrollRestoration = "manual";
+    if (global.location.hash !== "") {
+      scroll_hash(global.location.hash);
+    }
+  });
+
   global.addEventListener("beforeunload", _ => {
     history.scrollRestoration = "auto";
   });
