@@ -4,16 +4,22 @@ const TEXT_PLAIN = "text/plain";
 const APPLICATION_JSON = "application/json";
 const MULTIPART_FORM_DATA = "multipart/form-data";
 const global = globalThis;
+const { document } = global;
 const headers = {
   Accept: APPLICATION_JSON,
 };
+
+const get_by_id_or_name = name =>
+  document.getElementById(name) ?? document.getElementsByName(name)[0];
 
 const scroll = (x, y) => global.scrollTo(x, y);
 const scroll_hash = hash => {
   if (hash === "") {
     scroll(0, 0);
   } else {
-    global.document.getElementsByName(hash.slice(1))[0]?.scrollIntoView();
+    // https://html.spec.whatwg.org/browsing-the-web.html#scroll-to-fragid
+    // first try id, then name
+    get_by_id_or_name(hash.slice(1))?.scrollIntoView();
   }
 };
 
