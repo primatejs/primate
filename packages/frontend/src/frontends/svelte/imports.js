@@ -34,7 +34,7 @@ export const publish = (app, extension) => ({
       return { path, namespace: "svelteroot" };
     });
     build.onLoad({ filter: css_filter }, ({ path }) => {
-      const contents = app.build.load(path);
+      const contents = app.build.load(FS.File.webpath(path));
       return contents ? { contents, loader: "css", resolveDir: app.root.path } : null;
     });
     build.onLoad({ filter: root_filter }, ({ path }) => {
@@ -49,7 +49,7 @@ export const publish = (app, extension) => ({
       const { js, css } = compile.client(source);
       let contents = js;
       if (css !== null) {
-        const path = `${args.path}css`;
+        const path = FS.File.webpath(`${args.path}css`);
         app.build.save(path, css);
         contents += `\nimport "${path}";`;
       }
