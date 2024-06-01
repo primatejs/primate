@@ -113,8 +113,13 @@ export default async (log, root, config) => {
       const regexs = paths.map(file => globify(file));
       const target_base = this.runpath(directory);
 
+      // first, copy everything
+      await source.copy(target_base);
+
       const location = this.get("location");
       const client_location = FS.File.join(location.client, location.static).path;
+
+      // then, copy and transform whitelisted paths using mapper
       await Promise.all((await source.collect(filter)).map(async abs_path => {
         const debased = abs_path.debase(this.root).path.slice(1);
         const rel_path = FS.File.join(directory, abs_path.debase(source));
@@ -125,9 +130,9 @@ export default async (log, root, config) => {
         }
         const target = await target_base.join(rel_path.debase(directory));
         await target.directory.create();
-        await (regexs.some(regex => regex.test(debased))
-          ? target.write(mapper(await abs_path.text()))
-          : abs_path.copy(target));
+
+        regexs.some(regex => regex.test(debased)) &&
+          await target.write(mapper(await abs_path.text()));
       }));
     },
     async compile(component) {
