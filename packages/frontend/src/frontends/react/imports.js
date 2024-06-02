@@ -21,7 +21,7 @@ export const render = (component, props) => {
 
 export const prepare = app => app.build.export(expose);
 
-const options = { loader: "jsx", jsx: "automatic" };
+const options = { loader: "tsx", jsx: "automatic" };
 export const compile = {
   async server(text) {
     return (await transform(text, options)).code;
