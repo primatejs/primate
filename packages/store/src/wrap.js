@@ -8,7 +8,7 @@ import primary from "./primary.js";
 
 const { FailedDocumentValidation } = errors;
 
-const transform = to => ({ types, schema, document, path, mode }) =>
+const transform = to => ({ types, schema, document = {}, path, mode }) =>
   o.transform(document, entry => entry
     .map(([field, value]) =>
       tryreturn(_ => [field, types[bases[schema[field].base]][to](value)])
