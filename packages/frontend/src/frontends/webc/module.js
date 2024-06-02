@@ -23,14 +23,6 @@ export default ({
     async init(app, next) {
       imports = await import("./imports.js");
 
-      return next(app);
-    },
-    async publish(app, next) {
-      app.build.plugin(imports.publish(app, extension));
-
-      return next(app);
-    },
-    async register(app, next) {
       app.register(extension, {
         handle: handler,
         compile: {
@@ -45,6 +37,11 @@ export default ({
           server: _ => _,
         },
       });
+
+      return next(app);
+    },
+    async build(app, next) {
+      app.build.plugin(imports.publish(app, extension));
 
       return next(app);
     },

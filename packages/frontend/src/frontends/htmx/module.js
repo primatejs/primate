@@ -45,11 +45,12 @@ export default ({
     async init(app, next) {
       await depend(on, `frontend:${name}`);
 
+      app.register(extension, { handle });
+
       return next(app);
     },
-    async register(app, next) {
+    async build(app, next) {
       app.build.export(`export { default as htmx } from "${htmx}";`);
-      app.register(extension, { handle });
 
       extensions.forEach(extension_name =>
         app.build.export(`export * from "${htmx}/${extension_name}";`));

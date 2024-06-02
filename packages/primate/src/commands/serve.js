@@ -1,3 +1,4 @@
-import start from "../start.js";
+import { serve } from "../hooks/exports.js";
 
-export default app => start(app, "production");
+// serves the app from the build directory
+export default app => serve(app, "build");

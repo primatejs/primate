@@ -1,12 +1,15 @@
 import { tryreturn } from "rcompat/async";
+import { bold, blue } from "rcompat/colors";
 import FS from "rcompat/fs";
 import o from "rcompat/object";
+import { resolve } from "rcompat/package";
 import { runtime } from "rcompat/meta";
 import app from "./app.js";
-import { default as Logger, bye } from "./Logger.js";
+import { default as Logger, bye, print } from "./Logger.js";
 import errors from "./errors.js";
-import command from "./commands/exports.js";
+import find from "./commands/exports.js";
 import defaults from "./defaults/primate.config.js";
+import { init } from "./hooks/exports.js";
 
 let logger = new Logger({ level: Logger.Warn });
 
@@ -26,13 +29,15 @@ const get_config = async root => {
     : defaults;
 };
 
-export default async name => tryreturn(async _ => {
+export default async (command, params) => tryreturn(async _ => {
   // use module root if possible, fall back to current directory
   const root = await tryreturn(_ => FS.File.root())
     .orelse(_ => FS.File.resolve());
   const config = await get_config(root);
   logger = new Logger(config.logger);
-  await command(name)(await app(logger, root, config));
+  const primate = await resolve(import.meta.url);
+  print(blue(bold(primate.name)), blue(primate.version), "\n");
+  await find(command)(await init(await app(logger, root, config)), params);
 }).orelse(error => {
   if (error.level === Logger.Error) {
     logger.auto(error);

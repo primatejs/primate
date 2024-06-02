@@ -32,18 +32,19 @@ export default ({
   extension = ".py",
   packages = [],
 } = {}) => {
+  const module = "primate:binding";
   const name = "python";
   const dependencies = ["pyodide"];
   const on = o.filter(peers, ([key]) => dependencies.includes(key));
 
   return {
-    name: `primate:${name}`,
+    name: `${module}/${name}`,
     async init(app, next) {
       await depend(on, `binding:${name}`);
 
       return next(app);
     },
-    async stage(app, next) {
+    async build(app, next) {
       app.register(extension, {
         route: async (directory, file) => {
           const path = directory.join(file);

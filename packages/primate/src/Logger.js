@@ -1,7 +1,6 @@
 import { assert, is } from "rcompat/invariant";
 import { blue, bold, green, red, yellow, dim } from "rcompat/colors";
 import o from "rcompat/object";
-import console from "rcompat/console";
 import { stdout } from "rcompat/stdio";
 
 const levels = {
@@ -85,6 +84,10 @@ const Logger = class Logger {
 
   get level() {
     return this.#level;
+  }
+
+  system(message) {
+    print(`${blue("++")} ${message}\n`);
   }
 
   info(...args) {

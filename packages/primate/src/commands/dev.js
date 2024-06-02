@@ -1,3 +1,4 @@
-import start from "../start.js";
+import { serve, build } from "../hooks/exports.js";
 
-export default app => start(app, "development");
+// builds the app in development mode and serves it
+export default async app => serve(await build(app, "development"));

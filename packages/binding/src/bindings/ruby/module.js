@@ -83,18 +83,19 @@ export default {
 export default ({
   extension = ".rb",
 } = {}) => {
+  const module = "primate:binding";
   const name = "ruby";
   const dependencies = ["@ruby/head-wasm-wasi", "@ruby/wasm-wasi"];
   const on = o.filter(peers, ([key]) => dependencies.includes(key));
 
   return {
-    name: `primate:${name}`,
+    name: `${module}/${name}`,
     async init(app, next) {
       await depend(on, `binding:${name}`);
 
       return next(app);
     },
-    async stage(app, next) {
+    async build(app, next) {
       app.register(extension, {
         route: async (directory, file, types) => {
           const path = directory.join(file);

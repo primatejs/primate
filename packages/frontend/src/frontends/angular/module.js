@@ -24,6 +24,11 @@ export default ({
   const rootname = name;
   let imports = {};
 
+  const extensions = {
+    from: extension,
+    to: ".js",
+  };
+
   return {
     name: `primate:${name}`,
     async init(app, next) {
@@ -31,14 +36,6 @@ export default ({
 
       imports = await import("./imports.js");
       imports.set_mode(mode);
-
-      return next(app);
-    },
-    async register(app, next) {
-      const extensions = {
-        from: extension,
-        to: ".js",
-      };
 
       app.register(extension, {
         handle: handler(register({

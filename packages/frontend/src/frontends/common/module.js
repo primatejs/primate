@@ -32,17 +32,6 @@ export default async ({
         imports = await imports_path.import();
         exports = await exports_path.import();
 
-        return next(app);
-      },
-      async publish(app, next) {
-        app.build.plugin(imports.publish(app, extension));
-        const code = "export { default as spa } from '@primate/frontend/spa';";
-        app.build.export(code);
-        return next(app);
-      },
-      async register(app, next) {
-        await imports.prepare(app);
-
         app.register(extension, {
           handle: handler({
             app,
@@ -62,6 +51,13 @@ export default async ({
           }),
         });
 
+        return next(app);
+      },
+      async build(app, next) {
+        app.build.plugin(imports.publish(app, extension));
+        const code = "export { default as spa } from '@primate/frontend/spa';";
+        app.build.export(code);
+        await imports.prepare(app);
         return next(app);
       },
     };

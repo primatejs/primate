@@ -1,6 +1,6 @@
 import crypto from "rcompat/crypto";
 import { dim } from "rcompat/colors";
-import o from "rcompat/object";
+import O from "rcompat/object";
 import { assert } from "rcompat/invariant";
 import { memory } from "./drivers/exports.js";
 import modes from "./modes.js";
@@ -52,8 +52,14 @@ export default ({
 
   return {
     name: "primate:store",
-    async init(app, next) {
-      const root = app.root.join(directory);
+    async build(app, next) {
+      await app.stage(app.root.join(directory), directory);
+
+      return next(app);
+    },
+    async serve(app, next) {
+      const root = app.runpath(directory);
+
       if (!await root.exists()) {
         MissingStoreDirectory.warn(app.log, root);
         return next(app);
@@ -75,7 +81,8 @@ export default ({
           name.split("/").slice(0, last).every(part => /^[a-z]/u.test(part)))
         .map(async ([store, file]) => {
           const exports = await file.import();
-          const schema = o.transform(exports.default, entry => entry
+
+          const schema = O.transform(exports.default, entry => entry
             .filter(([property, type]) => valid(type, property, store)));
 
           exports.ambiguous !== true && schema.id === undefined
@@ -86,10 +93,8 @@ export default ({
 
           loaded.push(pathed);
 
-          const { default: _, ...rest } = exports;
-
           return [pathed, {
-            ...rest,
+            ...O.exclude(exports, ["default"]),
             schema,
             name: exports.name ?? store.replaceAll("/", "_"),
             defaults,
@@ -116,17 +121,13 @@ export default ({
           driver: default_driver,
           ...defaults,
         },
-        drivers: [...new Set(stores.map(({ driver: d }) => d ?? default_driver))],
+        drivers: [...new Set(stores.map(({ driver: $driver }) =>
+          $driver ?? default_driver))],
       };
 
       active = true;
 
       return next({ ...app, stores });
-    },
-    async stage(app, next) {
-      await app.stage(env.root, directory);
-
-      return next(app);
     },
     async route(request, next) {
       if (!active) {
@@ -138,7 +139,7 @@ export default ({
       try {
         return await transaction([], stores => {
           const store = stores.reduce((base, [name, store]) =>
-            o.extend(base, o.inflate(name, store))
+            O.extend(base, O.inflate(name, store))
           , {});
           return next({ ...request, store });
         },

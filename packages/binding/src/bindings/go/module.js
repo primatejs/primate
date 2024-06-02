@@ -1,3 +1,4 @@
+import { dim } from "rcompat/colors";
 import FS from "rcompat/fs";
 import { upperfirst } from "rcompat/string";
 import { execute } from "rcompat/stdio";
@@ -148,12 +149,13 @@ const create_meta_files = async (directory, types, app) => {
 };
 
 export default ({ extension = default_extension } = {}) => {
-  const name = "go";
+  const module = "primate:binding";
+  const name = `${module}/go`;
   const env = { GOOS: "js", GOARCH: "wasm" };
 
   return {
-    name: `primate:${name}`,
-    async stage(app, next) {
+    name,
+    async build(app, next) {
       app.register(extension, {
         route: async (directory, file, types) => {
           const path = directory.join(file);
@@ -173,6 +175,7 @@ export default ({ extension = default_extension } = {}) => {
           await base.join(js).write(js_wrapper(routes));
 
           try {
+            app.log.info(`compiling ${dim(file)} to WebAssembly`, { module });
             const cwd = `${base}`;
             // compile .go to .wasm
             await execute(run(wasm, go, includes.join(" ")),

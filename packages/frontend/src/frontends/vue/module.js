@@ -18,18 +18,14 @@ export default ({ extension = ".vue" } = {}) => {
   const dependencies = ["vue"];
   const on = o.filter(peers, ([key]) => dependencies.includes(key));
   const rootname = name;
-  let imports = {};
 
   return {
     name: `primate:${name}`,
     async init(app, next) {
       await depend(on, `frontend:${name}`);
 
-      imports = await import("./imports.js");
+      const imports = await import("./imports.js");
 
-      return next(app);
-    },
-    async register(app, next) {
       app.register(extension, {
         handle: handler(register({
           app,

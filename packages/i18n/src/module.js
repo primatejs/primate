@@ -1,6 +1,6 @@
 import { dim } from "rcompat/colors";
-import o from "rcompat/object";
-import { Response, Status } from "rcompat/http";
+import O from "rcompat/object";
+import { Status } from "rcompat/http";
 import errors from "./errors.js";
 
 const {
@@ -12,8 +12,6 @@ const {
 const cookie = (name, value, { path, secure, httpOnly, sameSite }) =>
   `${name}=${value};${httpOnly};Path=${path};${secure};SameSite=${sameSite}`;
 
-const import_if_active = (app, module) =>
-  app.modules.names.includes(`primate:${module}`);
 const name = "primate:i18n";
 
 const disable = (condition, error) => {
@@ -41,8 +39,13 @@ export default ({
 
   return {
     name,
-    async init(app, next) {
-      const root = app.root.join(directory);
+    async build(app, next) {
+      await app.stage(app.root.join(directory), directory);
+
+      return next(app);
+    },
+    async serve(app, next) {
+      const root = app.runpath(directory);
 
       try {
         disable(!await root.exists(), () => {
@@ -50,14 +53,16 @@ export default ({
         });
 
         const loaded = [];
-        const locales = o.from(await Promise.all((await root.collect(/^.*.json$/u))
+        const json_re = /^.*.json$/u;
+        const locales = O.from(await Promise.all((await root.collect(json_re))
           .map(async path => {
             const { base: depathed } = path.debase(root, "/");
             loaded.push(depathed);
             return [depathed, await path.json()];
           })));
 
-        app.log.info(`loading ${loaded.map(l => dim(l)).join(" ")}`, { module });
+        const loading = `loading ${loaded.map(l => dim(l)).join(" ")}`;
+        app.log.info(loading, { module });
 
         disable(Object.keys(locales).length === 0, () => {
           EmptyLocaleDirectory.warn(app.log, root);
@@ -74,17 +79,6 @@ export default ({
         active = false;
         app.log.warn("module disabled", { module });
       }
-
-      return next(app);
-    },
-    async publish(app, next) {
-      if (!active) {
-        return next(app);
-      }
-
-      await import_if_active(app, "svelte");
-      await import_if_active(app, "react");
-      await import_if_active(app, "solid");
 
       return next(app);
     },

@@ -31,9 +31,6 @@ const markdown = ({
       await depend(on, `frontend:${name}`);
       markdown.compile = (await import("./compile.js")).default;
 
-      return next(app);
-    },
-    register(app, next) {
       const location = app.get("location");
       const target = app.runpath(location.server, location.components);
 

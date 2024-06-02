@@ -92,6 +92,9 @@ export default async (log, root, config) => {
     log,
     // pseudostatic thus arrowbound
     get: (config_key, fallback) => o.get(config, config_key) ?? fallback,
+    set: (key, value) => {
+      config[key] = value;
+    },
     error: {
       default: await error.exists() ? await error.import("default") : undefined,
     },
@@ -153,10 +156,10 @@ export default async (log, root, config) => {
         await component.copy(client_target);
       } else {
         // compile server components
-        await compile.server(component);
+        await compile.server(component, this);
 
         // compile client components
-        await compile.client(component);
+        await compile.client(component, this);
       }
     },
     headers(csp = {}) {
