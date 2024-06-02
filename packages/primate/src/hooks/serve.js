@@ -1,4 +1,4 @@
-import { serve, Response, Status } from "rcompat/http";
+import { serve, Status } from "rcompat/http";
 import FS from "rcompat/fs";
 import { cascade, tryreturn } from "rcompat/async";
 import { dim } from "rcompat/colors";

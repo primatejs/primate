@@ -1,9 +1,7 @@
-import o from "rcompat/object";
-
-const dict_converter = value => o.from(value);
+const dict_converter = value => Object.fromEntries(value);
 
 const normalize = response =>
-  response instanceof Map ? o.from(response.entries()) : response;
+  response instanceof Map ? Object.fromEntries(response.entries()) : response;
 const qualify = (response, destroy = true) => {
   if (response?.toJs !== undefined) {
     const py_proxy = response;

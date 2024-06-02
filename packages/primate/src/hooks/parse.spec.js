@@ -1,21 +1,21 @@
 import { MediaType } from "rcompat/http";
-import o from "rcompat/object";
+import O from "rcompat/object";
 import parse from "./parse.js";
 import dispatch from "../dispatch.js";
 import { mark } from "../Logger.js";
 import config from "../defaults/primate.config.js";
 
+const { APPLICATION_JSON, APPLICATION_FORM_URLENCODED } = MediaType;
 const app = {
-  get: config_key => o.get(config, config_key),
+  get: config_key => O.get(config, config_key),
   dispatch: dispatch(),
 };
-
-const { APPLICATION_JSON, APPLICATION_FORM_URLENCODED } = MediaType;
+const verbs = ["get", "post", "put", "delete"];
 const r = await (async () => {
   const p = "https://p.com";
   const request = (method, path = "/", options = {}) =>
     new Request(`${p}${path}`, { method, ...options });
-  return o.from(["get", "post", "put", "delete"].map(verb => [verb, (...args) =>
+  return Object.fromEntries(verbs.map(verb => [verb, (...args) =>
     parse(app)(request(verb.toUpperCase(), ...args))]));
 })();
 

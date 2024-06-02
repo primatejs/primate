@@ -1,5 +1,4 @@
 import { dim } from "rcompat/colors";
-import O from "rcompat/object";
 import { Status } from "rcompat/http";
 import errors from "./errors.js";
 
@@ -54,7 +53,7 @@ export default ({
 
         const loaded = [];
         const json_re = /^.*.json$/u;
-        const locales = O.from(await Promise.all((await root.collect(json_re))
+        const locales = Object.fromEntries(await Promise.all((await root.collect(json_re))
           .map(async path => {
             const { base: depathed } = path.debase(root, "/");
             loaded.push(depathed);

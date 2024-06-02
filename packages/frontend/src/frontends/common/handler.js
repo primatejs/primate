@@ -1,4 +1,4 @@
-import { Response, Status, MediaType } from "rcompat/http";
+import { Status, MediaType } from "rcompat/http";
 import { cascade, map } from "rcompat/async";
 import o from "rcompat/object";
 import register from "./register.js";

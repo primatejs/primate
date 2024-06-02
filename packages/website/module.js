@@ -1,4 +1,4 @@
-import { Response, Status } from "rcompat/http";
+import { Status } from "rcompat/http";
 import o from "rcompat/object";
 import { view } from "primate";
 

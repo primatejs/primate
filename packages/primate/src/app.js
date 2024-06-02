@@ -6,7 +6,7 @@ import o from "rcompat/object";
 import { globify } from "rcompat/string";
 import * as runtime from "rcompat/meta";
 import { identity } from "rcompat/function";
-import { Response, Status, MediaType } from "rcompat/http";
+import { Status, MediaType } from "rcompat/http";
 
 import errors from "./errors.js";
 import to_sorted from "./to_sorted.js";

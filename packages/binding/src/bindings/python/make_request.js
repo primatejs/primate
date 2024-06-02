@@ -1,10 +1,10 @@
-import o from "rcompat/object";
 import { unwrap, unwrap_async } from "./unwrap.js";
 
 const dispatchers = ["path", "query", "headers", "cookies"];
 
-const wrap_dispatchers = (toPy, request) => o.from(dispatchers.map(dispatcher =>
-  [dispatcher, {
+const wrap_dispatchers = (toPy, request) =>
+  Object.fromEntries(dispatchers.map(dispatcher =>
+    [dispatcher, {
     ...request[dispatcher],
     json() {
       return toPy(request[dispatcher].json());
