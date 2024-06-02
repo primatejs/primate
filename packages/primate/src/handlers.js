@@ -8,7 +8,6 @@ import FS from "rcompat/fs";
  */
 
 import { MediaType, Status } from "rcompat/http";
-import { ReadableStream } from "rcompat/stream";
 import { identity } from "rcompat/function";
 import { HTML } from "rcompat/string";
 import errors from "./errors.js";
