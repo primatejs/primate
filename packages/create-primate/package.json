@@ -33,7 +33,7 @@
     "@primate/store": "^0.24.0",
     "@primate/types": "^0.15.0",
     "babel-preset-solid": "^1.8.17",
-    "better-sqlite3": "^9.6.0",
+    "better-sqlite3": "^11.0.0",
     "handlebars": "^4.7.8",
     "htmx.org": "^1.9.12",
     "marked": "^12.0.2",
