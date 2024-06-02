@@ -1,4 +1,4 @@
-import o from "rcompat/object";
+import * as O from "rcompat/object";
 import { html } from "primate";
 import errors from "./errors.js";
 import { peers } from "../common/exports.js";
@@ -38,7 +38,7 @@ export default ({
 } = {}) => {
   const name = "htmx";
   const dependencies = ["htmx-esm"];
-  const on = o.filter(peers, ([key]) => dependencies.includes(key));
+  const on = O.filter(peers, ([key]) => dependencies.includes(key));
 
   return {
     name: `primate:${name}`,

@@ -1,4 +1,4 @@
-import o from "rcompat/object";
+import * as O from "rcompat/object";
 import { tryreturn } from "rcompat/sync";
 import { Body } from "rcompat/http";
 import $errors from "../errors.js";
@@ -40,7 +40,7 @@ export default app => {
     const path = app.dispatch({ ...untyped_path, ...typed_path });
     const local_parse_body = route.file.body?.parse ?? $request_body_parse;
     const body = local_parse_body ? await parse_body(original, url) : null;
-    const { guards = [], errors = [], layouts = [] } = o.map(route.specials,
+    const { guards = [], errors = [], layouts = [] } = O.map(route.specials,
       ([key, value]) => [`${key}s`, value.map(i => i.default)]);
     const handler = route.file.default[original.method.toLowerCase()];
 

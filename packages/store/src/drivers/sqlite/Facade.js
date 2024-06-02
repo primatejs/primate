@@ -1,4 +1,4 @@
-import o from "rcompat/object";
+import * as O from "rcompat/object";
 import { runtime } from "rcompat/meta";
 import typemap from "./typemap.js";
 import { make_sort } from "../sql/exports.js";
@@ -6,7 +6,7 @@ import { make_sort } from "../sql/exports.js";
 const is_bun = runtime === "bun";
 
 const filter_null = results =>
-  results.map(result => o.filter(result, ([, value]) => value !== null));
+  results.map(result => O.filter(result, ([, value]) => value !== null));
 
 const predicate = criteria => {
   const keys = Object.keys(criteria);
@@ -24,7 +24,7 @@ const change = delta => {
   const set = keys.map(field => `"${field}"=$s_${field}`).join(",");
   return {
     set: `set ${set}`,
-    bindings: o.keymap(delta, key => `s_${key}`),
+    bindings: O.keymap(delta, key => `s_${key}`),
   };
 };
 
@@ -32,7 +32,7 @@ export default class Connection {
   schema = {
     create: async (name, description) => {
       const body =
-        Object.entries(o.valmap(description, value => typemap(value.base)))
+        Object.entries(O.valmap(description, value => typemap(value.base)))
           .map(([column, dataType]) => `"${column}" ${dataType}`).join(",");
       const query = `create table if not exists ${name} (${body})`;
       this.connection.prepare(query).run();
@@ -80,7 +80,7 @@ export default class Connection {
     const result = statement.get({ primary: value });
     return result === undefined
       ? result
-      : o.filter(result, ([, $value]) => $value !== null);
+      : O.filter(result, ([, $value]) => $value !== null);
   }
 
   insert(collection, primary, document) {
@@ -92,7 +92,7 @@ export default class Connection {
       : "default values";
     const query = `insert into ${collection} ${$predicate} returning id`;
     const prepared = this.connection.prepare(query);
-    const $document = is_bun ? o.keymap(document, key => `$${key}`) : document;
+    const $document = is_bun ? O.keymap(document, key => `$${key}`) : document;
     const { id } = prepared.get($document);
     return { ...document, id };
   }

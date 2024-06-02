@@ -1,4 +1,4 @@
-import o from "rcompat/object";
+import * as O from "rcompat/object";
 import { peers } from "../common/exports.js";
 import depend from "../depend.js";
 
@@ -16,11 +16,12 @@ const make_package = pkg => `await pyodide.loadPackage("${pkg}", {
 });\n`;
 
 const js_wrapper = async (path, routes, packages) => `
-  import FS from "rcompat/fs";
+  import { File } from "rcompat/fs";
   import { make_request, make_response, wrap } from "@primate/binding/python";
   import { loadPyodide as load } from "pyodide";
+
   const pyodide = await load({ indexURL: "./node_modules/pyodide" });
-  const file = await FS.File.text(${JSON.stringify(path)});
+  const file = await File.text(${JSON.stringify(path)});
   ${packages.map(make_package)}
   pyodide.runPython(wrap(file));
   export default {
@@ -35,7 +36,7 @@ export default ({
   const module = "primate:binding";
   const name = "python";
   const dependencies = ["pyodide"];
-  const on = o.filter(peers, ([key]) => dependencies.includes(key));
+  const on = O.filter(peers, ([key]) => dependencies.includes(key));
 
   return {
     name: `${module}/${name}`,

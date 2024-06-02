@@ -1,6 +1,6 @@
 import { maybe } from "rcompat/invariant";
 import { tryreturn } from "rcompat/sync";
-import o from "rcompat/object";
+import * as O from "rcompat/object";
 import errors from "./errors.js";
 import bases from "./bases.js";
 import validate from "./validate.js";
@@ -9,7 +9,7 @@ import primary from "./primary.js";
 const { FailedDocumentValidation } = errors;
 
 const transform = to => ({ types, schema, document = {}, path, mode }) =>
-  o.transform(document, entry => entry
+  O.transform(document, entry => entry
     .map(([field, value]) =>
       tryreturn(_ => [field, types[bases[schema[field].base]][to](value)])
         .orelse(_ => {
@@ -22,7 +22,7 @@ const transform = to => ({ types, schema, document = {}, path, mode }) =>
     ));
 const defined = input => ({
   errors: input.errors,
-  document: o.filter(input.document, ([, value]) => value !== undefined),
+  document: O.filter(input.document, ([, value]) => value !== undefined),
 });
 
 export default (config, facade, types) => {

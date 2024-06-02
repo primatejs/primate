@@ -1,6 +1,6 @@
 import { Status, MediaType } from "rcompat/http";
 import { cascade, map } from "rcompat/async";
-import o from "rcompat/object";
+import * as O from "rcompat/object";
 import register from "./register.js";
 
 const noop = _ => ({});
@@ -28,7 +28,7 @@ export default config => {
         data: components.map(component => component.props),
         context: await (await cascade(app.modules.context, noop))(request),
         request: {
-          ...o.valmap(o.filter(request, ([, { get }]) => get !== undefined),
+          ...O.valmap(O.filter(request, ([, { get }]) => get !== undefined),
             dispatcher => JSON.parse(dispatcher.toString() ?? "{}")),
           url: request.url,
         },

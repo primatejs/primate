@@ -1,6 +1,6 @@
 import crypto from "rcompat/crypto";
 import { dim } from "rcompat/colors";
-import O from "rcompat/object";
+import * as O from "rcompat/object";
 import { assert } from "rcompat/invariant";
 import { memory } from "./drivers/exports.js";
 import modes from "./modes.js";

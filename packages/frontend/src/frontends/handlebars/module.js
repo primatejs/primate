@@ -1,4 +1,4 @@
-import o from "rcompat/object";
+import * as O from "rcompat/object";
 import { compile, peers, load } from "../common/exports.js";
 import depend from "../depend.js";
 
@@ -13,7 +13,7 @@ const handler = ({ directory, render }) => (name, props = {}, options = {}) =>
 const name = "handlebars";
 const dependencies = ["handlebars"];
 const default_extension = ".hbs";
-const on = o.filter(peers, ([key]) => dependencies.includes(key));
+const on = O.filter(peers, ([key]) => dependencies.includes(key));
 
 export default ({ extension = default_extension } = {}) => {
   const rootname = name;

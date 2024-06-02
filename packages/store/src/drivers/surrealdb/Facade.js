@@ -1,9 +1,9 @@
-import o from "rcompat/object";
+import * as O from "rcompat/object";
 import typemap from "./typemap.js";
 import { make_sort } from "../sql/exports.js";
 
 const null_to_undefined = delta =>
-  o.valmap(delta, value => value === null ? undefined : value);
+  O.valmap(delta, value => value === null ? undefined : value);
 
 const predicate = criteria => {
   const keys = Object.keys(criteria);
@@ -21,7 +21,7 @@ const change = delta => {
   const set = keys.map(field => `${field}=$s_${field}`).join(",");
   return {
     set: `set ${set}`,
-    bindings: o.keymap(delta, key => `s_${key}`),
+    bindings: O.keymap(delta, key => `s_${key}`),
   };
 };
 
@@ -29,7 +29,7 @@ export default class Connection {
   schema = {
     create: async (name, description) => {
       const body =
-        Object.entries(o.valmap(description, value => typemap(value.base)))
+        Object.entries(O.valmap(description, value => typemap(value.base)))
           .filter(([column]) => column !== "id")
           .map(([column, dataType]) =>
             `define field ${column} on ${name} type option<${dataType}>;`)

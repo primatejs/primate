@@ -1,4 +1,4 @@
-import O from "rcompat/object";
+import * as O from "rcompat/object";
 
 const to_search_params = url =>
   O.stringify(Object.fromEntries(url.searchParams.entries()));

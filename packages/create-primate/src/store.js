@@ -1,10 +1,10 @@
-import o from "rcompat/object";
+import * as O from "rcompat/object";
 import { select, confirm } from "./prompts.js";
 import * as drivers from "./drivers/exports.js";
 import link from "./link.js";
 import dependencies from "./dependencies.js";
 
-const labels = o.map({
+const labels = O.map({
   memory: "In Memory",
   json: "JSON file",
   sqlite: "SQLite",

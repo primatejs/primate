@@ -1,8 +1,8 @@
 import crypto from "rcompat/crypto";
 import { tryreturn } from "rcompat/async";
-import FS from "rcompat/fs";
+import { File } from "rcompat/fs";
 import { is } from "rcompat/invariant";
-import o from "rcompat/object";
+import * as O from "rcompat/object";
 import { globify } from "rcompat/string";
 import * as runtime from "rcompat/meta";
 import { identity } from "rcompat/function";
@@ -28,8 +28,8 @@ const to_csp = (config_csp, assets, csp) => config_csp
 
 // use user-provided file or fall back to default
 const load = (base, page, fallback) =>
-  tryreturn(_ => FS.File.text(`${base.join(page)}`))
-    .orelse(_ => FS.File.text(`${base.join(fallback)}`));
+  tryreturn(_ => File.text(`${base.join(page)}`))
+    .orelse(_ => File.text(`${base.join(fallback)}`));
 
 const encoder = new TextEncoder();
 
@@ -73,7 +73,7 @@ const render_head = (assets, fonts, head) =>
 export default async (log, root, config) => {
   const { http } = config;
   const secure = http?.ssl !== undefined;
-  const path = o.valmap(config.location, value => root.join(value));
+  const path = O.valmap(config.location, value => root.join(value));
 
   // if ssl activated, resolve key and cert early
   if (secure) {
@@ -91,7 +91,7 @@ export default async (log, root, config) => {
     root,
     log,
     // pseudostatic thus arrowbound
-    get: (config_key, fallback) => o.get(config, config_key) ?? fallback,
+    get: (config_key, fallback) => O.get(config, config_key) ?? fallback,
     set: (key, value) => {
       config[key] = value;
     },
@@ -120,12 +120,12 @@ export default async (log, root, config) => {
       await source.copy(target_base);
 
       const location = this.get("location");
-      const client_location = FS.File.join(location.client, location.static).path;
+      const client_location = File.join(location.client, location.static).path;
 
       // then, copy and transform whitelisted paths using mapper
       await Promise.all((await source.collect(filter)).map(async abs_path => {
         const debased = abs_path.debase(this.root).path.slice(1);
-        const rel_path = FS.File.join(directory, abs_path.debase(source));
+        const rel_path = File.join(directory, abs_path.debase(source));
         if (directory.path === client_location && rel_path.path.endsWith(".css")) {
           const contents = await abs_path.text();
           const font_regex = /@font-face\s*\{.+?url\("(.+?\.woff2)"\).+?\}/gus;
@@ -212,7 +212,7 @@ export default async (log, root, config) => {
     async publish({ src, code, type = "", inline = false }) {
       if (inline || type === "style") {
         this.assets.push({
-          src: FS.File.join(http.static.root, src ?? "").path,
+          src: File.join(http.static.root, src ?? "").path,
           code: inline ? code : "",
           type,
           inline,

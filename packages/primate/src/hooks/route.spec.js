@@ -1,5 +1,5 @@
-import FS from "rcompat/fs";
-import o from "rcompat/object";
+import { File, Router } from "rcompat/fs";
+import * as O from "rcompat/object";
 import dispatch from "../dispatch.js";
 import * as loaders from "../loaders/exports.js";
 import route from "./route.js";
@@ -25,9 +25,9 @@ const $app = {
     },
   },
   runpath() {
-    return new FS.File("/routes");
+    return new File("/routes");
   },
-  get: config_key => o.get({
+  get: config_key => O.get({
     config: {
       location: {},
     },
@@ -43,7 +43,7 @@ const r = (route, expected = route) => [route, {
 }];
 
 const app = {
-  get: config_key => o.get({
+  get: config_key => O.get({
     location: {
       routes: "/routes",
     },
@@ -52,7 +52,7 @@ const app = {
   modules: {
     route: [],
   },
-  router: FS.Router.init({}, [
+  router: Router.init({}, [
     "index",
     "user",
     "users/[userId]a",

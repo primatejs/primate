@@ -1,4 +1,4 @@
-import FS from "rcompat/fs";
+import { File } from "rcompat/fs";
 import * as compiler from "svelte/compiler";
 import { expose } from "./client/exports.js";
 
@@ -34,7 +34,7 @@ export const publish = (app, extension) => ({
       return { path, namespace: "svelteroot" };
     });
     build.onLoad({ filter: css_filter }, ({ path }) => {
-      const contents = app.build.load(FS.File.webpath(path));
+      const contents = app.build.load(File.webpath(path));
       return contents ? { contents, loader: "css", resolveDir: app.root.path } : null;
     });
     build.onLoad({ filter: root_filter }, ({ path }) => {
@@ -43,13 +43,13 @@ export const publish = (app, extension) => ({
     });
     build.onLoad({ filter: new RegExp(`${extension}$`, "u") }, async args => {
       // Load the file from the file system
-      const source = await FS.File.text(args.path);
+      const source = await File.text(args.path);
 
       // Convert Svelte syntax to JavaScript
       const { js, css } = compile.client(source);
       let contents = js;
       if (css !== null) {
-        const path = FS.File.webpath(`${args.path}css`);
+        const path = File.webpath(`${args.path}css`);
         app.build.save(path, css);
         contents += `\nimport "${path}";`;
       }

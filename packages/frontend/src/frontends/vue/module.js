@@ -1,4 +1,4 @@
-import o from "rcompat/object";
+import * as O from "rcompat/object";
 import { register, compile, peers } from "../common/exports.js";
 import depend from "../depend.js";
 
@@ -16,7 +16,7 @@ const handler = ({ createSSRApp, make, render }) =>
 export default ({ extension = ".vue" } = {}) => {
   const name = "vue";
   const dependencies = ["vue"];
-  const on = o.filter(peers, ([key]) => dependencies.includes(key));
+  const on = O.filter(peers, ([key]) => dependencies.includes(key));
   const rootname = name;
 
   return {

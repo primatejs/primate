@@ -1,5 +1,5 @@
 import { dim } from "rcompat/colors";
-import FS from "rcompat/fs";
+import { File } from "rcompat/fs";
 import { upperfirst } from "rcompat/string";
 import { execute } from "rcompat/stdio";
 import { user } from "rcompat/env";
@@ -77,7 +77,7 @@ const error_default = {
   Float: 0,
   String: "\"\"",
 };
-const root = new FS.File(import.meta.url).up(1);
+const root = new File(import.meta.url).up(1);
 
 const create_meta_files = async (directory, types, app) => {
   const meta = {

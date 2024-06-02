@@ -1,4 +1,4 @@
-import FS from "rcompat/fs";
+import { File } from "rcompat/fs";
 import { packager, manifest } from "rcompat/meta";
 import errors from "../errors.js";
 
@@ -20,7 +20,7 @@ const find_dependencies = (target, current) =>
 const { MissingDependencies, UpgradeDependencies } = errors;
 
 export default async (target_dependencies, from) => {
-  const { dependencies } = await (await FS.File.root()).join(manifest).json();
+  const { dependencies } = await (await File.root()).join(manifest).json();
 
   const versions = find_dependencies(target_dependencies, dependencies);
   if (versions.length > 0) {

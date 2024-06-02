@@ -1,5 +1,5 @@
 import { numeric } from "rcompat/invariant";
-import o from "rcompat/object";
+import * as O from "rcompat/object";
 import { runtime } from "rcompat/meta";
 import ident from "../ident.js";
 import { peers } from "../common/exports.js";
@@ -10,7 +10,7 @@ import Facade from "./Facade.js";
 
 const name = "sqlite";
 const dependencies = ["better-sqlite3"];
-const on = o.filter(peers, ([key]) => dependencies.includes(key));
+const on = O.filter(peers, ([key]) => dependencies.includes(key));
 const defaults = {
   filename: ":memory:",
 };

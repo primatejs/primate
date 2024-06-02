@@ -1,4 +1,4 @@
-import O from "rcompat/object";
+import * as O from "rcompat/object";
 
 export default app => async original => {
   const { headers } = original;

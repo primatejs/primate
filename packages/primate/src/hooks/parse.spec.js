@@ -1,5 +1,5 @@
 import { MediaType } from "rcompat/http";
-import O from "rcompat/object";
+import * as O from "rcompat/object";
 import parse from "./parse.js";
 import dispatch from "../dispatch.js";
 import { mark } from "../Logger.js";

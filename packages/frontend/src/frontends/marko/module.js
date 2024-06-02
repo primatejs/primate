@@ -1,4 +1,4 @@
-import o from "rcompat/object";
+import * as O from "rcompat/object";
 import { compile, peers, load } from "../common/exports.js";
 import depend from "../depend.js";
 
@@ -14,7 +14,7 @@ const handler = ({ directory, render }) => (name, props = {}, options = {}) =>
 const name = "marko";
 const dependencies = ["@marko/compiler", "@marko/translator-default"];
 const default_extension = ".marko";
-const on = o.filter(peers, ([key]) => dependencies.includes(key));
+const on = O.filter(peers, ([key]) => dependencies.includes(key));
 
 export default ({ extension = default_extension } = {}) => {
   const rootname = name;

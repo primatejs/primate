@@ -1,4 +1,4 @@
-import FS from "rcompat/fs";
+import { File } from "rcompat/fs";
 import { renderToString } from "solid-js/web";
 import { transformAsync } from "@babel/core";
 import solid from "babel-preset-solid";
@@ -48,7 +48,7 @@ export const publish = (app, extension) => ({
     });
     build.onLoad({ filter: new RegExp(`${extension}$`, "u") }, async args => {
       // Load the file from the file system
-      const source = await FS.File.text(args.path);
+      const source = await File.text(args.path);
 
       // Convert JSX syntax to JavaScript
       return { contents: (await compile.client(source)).js };

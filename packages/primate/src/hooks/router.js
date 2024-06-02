@@ -1,10 +1,10 @@
-import FS from "rcompat/fs";
+import { Router } from "rcompat/fs";
 import errors from "../errors.js";
 
 export default async directory => {
 
   try {
-    return await FS.Router.load({
+    return await Router.load({
         directory,
         specials: {
           guard: { recursive: true },
@@ -16,7 +16,7 @@ export default async directory => {
         },
       });
   } catch (error) {
-    const { DoubleRoute, OptionalRoute, RestRoute } = FS.Router.Error;
+    const { DoubleRoute, OptionalRoute, RestRoute } = Router.Error;
     error instanceof DoubleRoute && errors.DoubleRoute.throw(error.route);
     error instanceof OptionalRoute && errors.OptionalRoute.throw(error.route);
     error instanceof RestRoute && errors.RestRoute.throw(error.route);

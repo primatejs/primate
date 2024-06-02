@@ -1,4 +1,4 @@
-import o from "rcompat/object";
+import * as O from "rcompat/object";
 import ident from "../ident.js";
 import { peers } from "../common/exports.js";
 import depend from "../../depend.js";
@@ -7,7 +7,7 @@ import wrap from "../../wrap.js";
 
 const name = "surrealdb";
 const dependencies = ["surrealdb.js"];
-const on = o.filter(peers, ([key]) => dependencies.includes(key));
+const on = O.filter(peers, ([key]) => dependencies.includes(key));
 const defaults = {
   host: "http://localhost",
   port: 8000,

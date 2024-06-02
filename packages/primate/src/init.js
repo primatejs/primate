@@ -1,7 +1,7 @@
 import { tryreturn } from "rcompat/async";
 import { bold, blue } from "rcompat/colors";
-import FS from "rcompat/fs";
-import o from "rcompat/object";
+import { File } from "rcompat/fs";
+import * as O from "rcompat/object";
 import { resolve } from "rcompat/package";
 import { runtime } from "rcompat/meta";
 import app from "./app.js";
@@ -23,7 +23,7 @@ const get_config = async root => {
       (imported === undefined || Object.keys(imported).length === 0) &&
         errors.EmptyConfigFile.warn(logger, config);
 
-      return o.extend(defaults, imported);
+      return O.extend(defaults, imported);
     }).orelse(({ message }) =>
       errors.ErrorInConfigFile.throw(message, `${runtime} ${config}`))
     : defaults;
@@ -31,8 +31,8 @@ const get_config = async root => {
 
 export default async (command, params) => tryreturn(async _ => {
   // use module root if possible, fall back to current directory
-  const root = await tryreturn(_ => FS.File.root())
-    .orelse(_ => FS.File.resolve());
+  const root = await tryreturn(_ => File.root())
+    .orelse(_ => File.resolve());
   const config = await get_config(root);
   logger = new Logger(config.logger);
   const primate = await resolve(import.meta.url);

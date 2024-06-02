@@ -1,20 +1,20 @@
 import { cascade } from "rcompat/async";
 import Build from "rcompat/build";
 import { dim } from "rcompat/colors";
-import FS from "rcompat/fs";
-import o from "rcompat/object";
+import { File } from "rcompat/fs";
+import * as O from "rcompat/object";
 import copy_includes from "./copy_includes.js";
 import $router from "./router.js";
 import * as loaders from "../loaders/exports.js";
 
 const html = /^.*.html$/u;
-const defaults = new FS.File(import.meta.url).up(2).join("defaults");
+const defaults = new File(import.meta.url).up(2).join("defaults");
 
 const pre = async (app, mode) => {
   app.log.system(`starting ${dim(mode)} build`);
 
   app.build = new Build({
-    ...o.exclude(app.get("build"), ["includes", "index", "transform"]),
+    ...O.exclude(app.get("build"), ["includes", "index", "transform"]),
     outdir: app.runpath(app.get("location.client")).path,
     stdin: {
       resolveDir: app.root.path,
@@ -68,16 +68,14 @@ const post = async app => {
   }
 
   if (await path.static.exists()) {
-    const { join } = FS.File;
-
     // copy static files to build/server/static
-    await app.stage(path.static, join(location.server, location.static));
+    await app.stage(path.static, File.join(location.server, location.static));
 
     // copy static files to build/client/static
-    await app.stage(path.static, join(location.client, location.static));
+    await app.stage(path.static, File.join(location.client, location.static));
 
     // publish JavaScript and CSS files
-    const imports = await FS.File.collect(path.static, /\.(?:css)$/u);
+    const imports = await File.collect(path.static, /\.(?:css)$/u);
     await Promise.all(imports.map(async file => {
       const src = file.debase(path.static);
       app.build.export(`import "./${location.static}${src}";`);

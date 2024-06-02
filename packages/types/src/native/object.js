@@ -1,4 +1,4 @@
-import o from "rcompat/object";
+import * as O from "rcompat/object";
 const fake = value => Array.isArray(value) || value === null;
 
 const base = "embedded";
@@ -15,7 +15,7 @@ const object = {
     return {
       validate(subobject) {
         const typed = object.validate(subobject);
-        return o.map(typed, ([key, value]) =>
+        return O.map(typed, ([key, value]) =>
           [key, schema[key].validate(value)]);
       },
       base,

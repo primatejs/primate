@@ -1,4 +1,4 @@
-import o from "rcompat/object";
+import * as O from "rcompat/object";
 import { maybe } from "rcompat/invariant";
 
 const toid = ({ _id, ...rest }) => ({ id: _id, ...rest });
@@ -7,15 +7,15 @@ const to_id = ({ id, ...rest }) => id === undefined
   : { _id: id, ...rest };
 const cid = criteria => criteria.id === undefined ? criteria : to_id(criteria);
 const null_to_set_unset = delta => {
-  const $set = o.filter(delta, ([, value]) => value !== null);
-  const $unset = o.filter(delta, ([, value]) => value === null);
+  const $set = O.filter(delta, ([, value]) => value !== null);
+  const $unset = O.filter(delta, ([, value]) => value === null);
   return { $set, $unset };
 };
 
 const make_sort = ({ sort = {} } = {}) => {
   maybe(sort).object();
 
-  return o.valmap(sort, value => value === "asc" ? 1 : -1);
+  return O.valmap(sort, value => value === "asc" ? 1 : -1);
 };
 
 export default class Facade {

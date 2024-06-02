@@ -1,5 +1,5 @@
-import FS from "rcompat/fs";
-import o from "rcompat/object";
+import { File } from "rcompat/fs";
+import * as O from "rcompat/object";
 import { peers } from "../common/exports.js";
 import depend from "../depend.js";
 
@@ -23,7 +23,7 @@ const markdown = ({
   options,
   renderer,
 } = {}) => {
-  const on = o.filter(peers, ([key]) => dependencies.includes(key));
+  const on = O.filter(peers, ([key]) => dependencies.includes(key));
 
   return {
     name: `primate:${name}`,
@@ -42,12 +42,12 @@ const markdown = ({
             const { content, toc } = await markdown.compile(text, options);
 
             const base = target.join(component.debase(app.path.components));
-            const html = new FS.File(`${base}.html`);
+            const html = new File(`${base}.html`);
             await html.directory.create();
             await html.write(content);
 
-            const json = new FS.File(`${base}.json`);
-            await json.write(o.stringify(toc));
+            const json = new File(`${base}.json`);
+            await json.write(O.stringify(toc));
           },
           // no hydration
           client: _ => _,

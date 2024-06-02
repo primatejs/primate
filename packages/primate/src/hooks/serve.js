@@ -1,5 +1,5 @@
 import { serve, Status } from "rcompat/http";
-import FS from "rcompat/fs";
+import { File } from "rcompat/fs";
 import { cascade, tryreturn } from "rcompat/async";
 import { dim } from "rcompat/colors";
 import * as loaders from "../loaders/exports.js";
@@ -21,7 +21,7 @@ const post = async app => {
     const type = path.extension === ".css" ? "style" : "module";
     await app.publish({ src, type });
     if (path.extension === ".js") {
-      const imports = { app: FS.File.join(http.static.root, src).path };
+      const imports = { app: File.join(http.static.root, src).path };
       await app.publish({
         inline: true,
         code: JSON.stringify({ imports }, null, 2),

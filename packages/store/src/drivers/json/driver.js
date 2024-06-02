@@ -1,6 +1,6 @@
-import FS from "rcompat/fs";
+import { File } from "rcompat/fs";
+import * as O from "rcompat/object";
 import { is } from "rcompat/invariant";
-import o from "rcompat/object";
 import wrap from "../../wrap.js";
 import Facade from "../memory/Facade.js";
 import types from "../memory/types.js";
@@ -8,7 +8,7 @@ import types from "../memory/types.js";
 export default ({ filename }) => async () => {
   is(filename).string();
 
-  const path = new FS.File(filename);
+  const path = new File(filename);
   const database = {
     collections: await path.exists() ? await path.json() : {},
   };
@@ -20,7 +20,7 @@ export default ({ filename }) => async () => {
     async write(name, callback) {
       database.collections[name] = await callback(this.read(name));
       // write to file
-      await path.write(o.stringify(database.collections));
+      await path.write(O.stringify(database.collections));
     },
   };
 

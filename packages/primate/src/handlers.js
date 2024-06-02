@@ -1,4 +1,4 @@
-import FS from "rcompat/fs";
+import { File } from "rcompat/fs";
 
 /**
  * @typedef {import("./types").MinOptions} MinOptions
@@ -129,7 +129,7 @@ const extensions = ["fullExtension", "extension"];
  * @return {ResponseFn}
  */
 const view = (name, props, options) => (app, ...rest) => extensions
-  .map(extension => app.extensions[new FS.File(name)[extension]])
+  .map(extension => app.extensions[new File(name)[extension]])
   .find(extension => extension?.handle)
   ?.handle(name, props, options)(app, ...rest)
     ?? errors.NoHandlerForComponent.throw(name);

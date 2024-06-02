@@ -1,5 +1,5 @@
-import FS from "rcompat/fs";
-import o from "rcompat/object";
+import { File } from "rcompat/fs";
+import * as O from "rcompat/object";
 import { upperfirst } from "rcompat/string";
 import { peers } from "../common/exports.js";
 import depend from "../depend.js";
@@ -8,7 +8,7 @@ const routes_re = /def (?<route>get|post|put|delete)/gu;
 const get_routes = code => [...code.matchAll(routes_re)]
   .map(({ groups: { route } }) => route);
 
-const directory = new FS.File(import.meta.url).up(1);
+const directory = new File(import.meta.url).up(1);
 const session_rb = await directory.join("session.rb").text();
 const request = await directory.join("./request.rb").text();
 const make_route = route => `async ${route.toLowerCase()}(request) {
@@ -61,10 +61,10 @@ end`);
 
   return `import { make_response, module, rubyvm, helpers } 
   from "@primate/binding/ruby";
-import FS from "rcompat/fs";
+import { File } from "rcompat/fs";
 
 const { vm } = await rubyvm(module);
-const file = await FS.File.text(${JSON.stringify(path)});
+const file = await File.text(${JSON.stringify(path)});
 const wrappers = ${JSON.stringify(create_ruby_wrappers(routes))};
 const request = ${JSON.stringify(request
     .replace("%%DISPATCH_DEFS%%", _ => type_defs)
@@ -86,7 +86,7 @@ export default ({
   const module = "primate:binding";
   const name = "ruby";
   const dependencies = ["@ruby/head-wasm-wasi", "@ruby/wasm-wasi"];
-  const on = o.filter(peers, ([key]) => dependencies.includes(key));
+  const on = O.filter(peers, ([key]) => dependencies.includes(key));
 
   return {
     name: `${module}/${name}`,
