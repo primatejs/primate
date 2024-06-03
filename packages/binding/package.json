@@ -21,7 +21,7 @@
     "directory": "packages/binding"
   },
   "dependencies": {
-    "rcompat": "^0.15.0"
+    "rcompat": "^0.16.0"
   },
   "peerDependencies": {
     "@ruby/head-wasm-wasi": "2",

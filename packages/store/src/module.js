@@ -1,10 +1,11 @@
-import crypto from "rcompat/crypto";
+import * as A from "rcompat/array";
 import { dim } from "rcompat/colors";
-import * as O from "rcompat/object";
+import crypto from "rcompat/crypto";
 import { assert } from "rcompat/invariant";
+import * as O from "rcompat/object";
 import { memory } from "./drivers/exports.js";
-import modes from "./modes.js";
 import errors from "./errors.js";
+import modes from "./modes.js";
 import primary from "./primary.js";
 
 const last = -1;
@@ -104,7 +105,7 @@ export default ({
 
       app.log.info(`loading ${loaded.map(l => dim(l)).join(" ")}`, { module });
 
-      if (O.empty(stores)) {
+      if (A.empty(stores)) {
         EmptyStoreDirectory.warn(app.log, root);
         return next(app);
       }

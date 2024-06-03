@@ -15,7 +15,7 @@
     "directory": "packages/frontend"
   },
   "dependencies": {
-    "rcompat": "^0.15.0"
+    "rcompat": "^0.16.0"
   },
   "peerDependencies": {
     "@angular/compiler": "17",
