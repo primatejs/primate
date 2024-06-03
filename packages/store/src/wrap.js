@@ -41,13 +41,12 @@ export default (config, facade, types) => {
     facade,
     async validate(input) {
       const result = defined(await validate({ input, types, schema, mode }));
-      if (Object.keys(result.errors).length > 0) {
-        const error = FailedDocumentValidation.new(Object.keys(result));
-        error.errors = result.errors;
-        throw error;
-      } else {
+      if (O.empty(result.errors)) {
         return result.document;
       }
+      const error = FailedDocumentValidation.new(Object.keys(result));
+      error.errors = result.errors;
+      throw error;
     },
     async write(input, writer) {
       const document = await this.validate(input);

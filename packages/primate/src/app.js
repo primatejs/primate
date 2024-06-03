@@ -1,7 +1,7 @@
 import { tryreturn } from "rcompat/async";
 import crypto from "rcompat/crypto";
-import { identity } from "rcompat/function";
 import { File } from "rcompat/fs";
+import { identity } from "rcompat/function";
 import { MediaType, Status } from "rcompat/http";
 import { is } from "rcompat/invariant";
 import * as runtime from "rcompat/meta";
@@ -32,10 +32,11 @@ const load = (base, page, fallback) =>
 
 const encoder = new TextEncoder();
 
-const attribute = attributes => Object.keys(attributes).length > 0
-  ? " ".concat(Object.entries(attributes)
+const attribute = attributes => O.empty(attributes)
+  ? ""
+  : " ".concat(Object.entries(attributes)
     .map(([key, value]) => `${key}="${value}"`).join(" "))
-  : "";
+  ;
 const tag = (name, { attributes = {}, code = "", close = true }) =>
   `<${name}${attribute(attributes)}${close ? `>${code}</${name}>` : "/>"}`;
 const nctag = (name, properties) => tag(name, { ...properties, close: false });

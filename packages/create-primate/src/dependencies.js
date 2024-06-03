@@ -1,9 +1,3 @@
-import { File } from "rcompat/fs";
+import { manifest } from "rcompat/package";
 
-const up = 2;
-const { url } = import.meta;
-const name = "package.json";
-
-export default {
-  ...(await new File(url).up(up).join(name).json()).devDependencies,
-};
+export default { ...(await manifest(import.meta.filename)).devDependencies };

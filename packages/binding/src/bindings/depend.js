@@ -1,5 +1,5 @@
-import { File } from "rcompat/fs";
-import { packager, manifest } from "rcompat/meta";
+import * as P from "rcompat/package";
+import { packager } from "rcompat/meta";
 import errors from "../errors.js";
 
 const semver_regexp = /^\^?(?<integer>\d+)\.?(?<float>.*)$/gu;
@@ -20,7 +20,7 @@ const find_dependencies = (target, current) =>
 const { MissingDependencies, UpgradeDependencies } = errors;
 
 export default async (target_dependencies, from) => {
-  const { dependencies } = await (await File.root()).join(manifest).json();
+  const { dependencies } = await P.manifest();
 
   const versions = find_dependencies(target_dependencies, dependencies);
   if (versions.length > 0) {

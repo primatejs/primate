@@ -3,6 +3,7 @@ import { File } from "rcompat/fs";
 import { upperfirst } from "rcompat/string";
 import { execute } from "rcompat/stdio";
 import { user } from "rcompat/env";
+import * as O from "rcompat/object";
 import errors from "./errors.js";
 
 const default_extension = ".go";
@@ -109,7 +110,6 @@ const create_meta_files = async (directory, types, app) => {
     // copy go.sum file
     await directory.join(meta.sum).write(await root.join(meta.sum).text());
 
-    const has_types = Object.keys(types).length > 0;
     const supported_types = Object.entries(types)
       .filter(([_, { base }]) => type_map[base] !== undefined);
     const dispatch_struct = supported_types.map(([name, { base }]) =>
@@ -132,7 +132,7 @@ const create_meta_files = async (directory, types, app) => {
       .text())
       .replace("%%DISPATCH_STRUCT%%", _ => dispatch_struct)
       .replace("%%DISPATCH_MAKE%%", _ => dispatch_make)
-      .replace("%%IMPORTS%%", _ => has_types ? "import \"errors\"" : "")
+      .replace("%%IMPORTS%%", _ => O.empty(types) ? "" : "import \"errors\"")
       .replace("%%REQUEST_STRUCT%%", _ => request_struct)
       .replace("%%REQUEST_MAKE%%", _ => request_make),
     );

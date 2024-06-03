@@ -54,9 +54,7 @@ export default class Facade {
             ...Object.fromEntries(projection.map(field => [field, 1])),
           },
         },
-      ...Object.keys(sort).length === 0
-        ? {}
-        : { sort }
+      ...O.empty(sort) ? {} : { sort },
     };
     return (await this.#by(name).find(cid(criteria), $options).toArray())
       .map(document => toid(document));

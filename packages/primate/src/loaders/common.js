@@ -1,12 +1,12 @@
 import { File } from "rcompat/fs";
 import { identity } from "rcompat/function";
+import * as O from "rcompat/object";
 import errors from "../errors.js";
 
 const ending = ".js";
 
 const empty = log => (objects, name, path) =>
-  Object.keys(objects).length === 0
-    && errors.EmptyDirectory.warn(log, name, path);
+  O.empty(objects) && errors.EmptyDirectory.warn(log, name, path);
 
 export default async ({
   log,

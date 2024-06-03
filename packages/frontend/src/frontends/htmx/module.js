@@ -55,7 +55,7 @@ export default ({
       extensions.forEach(extension_name =>
         app.build.export(`export * from "${htmx}/${extension_name}";`));
 
-      if (Object.keys(client_side_templates).length > 0) {
+      if (!O.empty(client_side_templates)) {
         if (!extensions.includes(templates)) {
           errors.MissingClientSideTemplateDependency.throw(templates,
             client_side_templates.join(", "));

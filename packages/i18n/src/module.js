@@ -1,5 +1,6 @@
 import { dim } from "rcompat/colors";
 import { Status } from "rcompat/http";
+import * as O from "rcompat/object";
 import errors from "./errors.js";
 
 const {
@@ -63,7 +64,7 @@ export default ({
         const loading = `loading ${loaded.map(l => dim(l)).join(" ")}`;
         app.log.info(loading, { module });
 
-        disable(Object.keys(locales).length === 0, () => {
+        disable(O.empty(locales), () => {
           EmptyLocaleDirectory.warn(app.log, root);
         });
 

@@ -104,7 +104,7 @@ export default ({
 
       app.log.info(`loading ${loaded.map(l => dim(l)).join(" ")}`, { module });
 
-      if (Object.keys(stores).length === 0) {
+      if (O.empty(stores)) {
         EmptyStoreDirectory.warn(app.log, root);
         return next(app);
       }
