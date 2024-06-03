@@ -1,9 +1,6 @@
 import init from "./init.js";
 
-export * from "./handlers.js";
-
+export { MediaType, Status } from "rcompat/http";
 export { default as Logger } from "./Logger.js";
-
-export { Status, MediaType } from "rcompat/http";
-
+export * from "./handlers.js";
 export default command => init(command);

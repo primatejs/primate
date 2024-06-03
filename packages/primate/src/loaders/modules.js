@@ -1,6 +1,6 @@
+import errors from "../errors.js";
 import * as hooks from "../hooks/exports.js";
 import { doubled } from "./common.js";
-import errors from "../errors.js";
 
 const filter = (key, array) => array?.flatMap(m => m[key] ?? []) ?? [];
 

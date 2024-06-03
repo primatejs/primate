@@ -1,14 +1,14 @@
 import { tryreturn } from "rcompat/async";
-import { bold, blue } from "rcompat/colors";
+import { blue, bold } from "rcompat/colors";
 import { File } from "rcompat/fs";
+import { runtime } from "rcompat/meta";
 import * as O from "rcompat/object";
 import { resolve } from "rcompat/package";
-import { runtime } from "rcompat/meta";
-import app from "./app.js";
 import { default as Logger, bye, print } from "./Logger.js";
-import errors from "./errors.js";
+import app from "./app.js";
 import find from "./commands/exports.js";
 import defaults from "./defaults/primate.config.js";
+import errors from "./errors.js";
 import { init } from "./hooks/exports.js";
 
 let logger = new Logger({ level: Logger.Warn });

@@ -1,4 +1,4 @@
-import { Status, MediaType } from "rcompat/http";
+import { MediaType, Status } from "rcompat/http";
 
 import respond from "./respond.js";
 

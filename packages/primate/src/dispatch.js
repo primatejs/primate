@@ -1,7 +1,7 @@
 import { is } from "rcompat/invariant";
-import { tryreturn } from "rcompat/sync";
 import * as O from "rcompat/object";
 import { camelcased } from "rcompat/string";
+import { tryreturn } from "rcompat/sync";
 import errors from "./errors.js";
 import validate from "./validate.js";
 

@@ -1,4 +1,8 @@
 import { File } from "rcompat/fs";
+import { identity } from "rcompat/function";
+import { MediaType, Status } from "rcompat/http";
+import { HTML } from "rcompat/string";
+import errors from "./errors.js";
 
 /**
  * @typedef {import("./types").MinOptions} MinOptions
@@ -6,11 +10,6 @@ import { File } from "rcompat/fs";
  * @typedef {import("./types").Options} Options
  * @typedef {(app: import("./types").App, ...rest: any) => Response} ResponseFn
  */
-
-import { MediaType, Status } from "rcompat/http";
-import { identity } from "rcompat/function";
-import { HTML } from "rcompat/string";
-import errors from "./errors.js";
 
 const handle = (mediatype, mapper = identity) => (body, options) => app =>
   app.respond(mapper(body), app.media(mediatype, options));
@@ -135,4 +134,4 @@ const view = (name, props, options) => (app, ...rest) => extensions
     ?? errors.NoHandlerForComponent.throw(name);
 // }}}
 
-export { text, json, stream, redirect, error, html, view, ws, sse };
+export { error, html, json, redirect, sse, stream, text, view, ws };

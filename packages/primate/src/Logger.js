@@ -1,5 +1,5 @@
+import { blue, bold, dim, green, red, yellow } from "rcompat/colors";
 import { assert, is } from "rcompat/invariant";
-import { blue, bold, green, red, yellow, dim } from "rcompat/colors";
 import * as O from "rcompat/object";
 import { stdout } from "rcompat/stdio";
 
@@ -109,4 +109,4 @@ export default class Logger {
   }
 }
 
-export { print, bye, mark };
+export { bye, mark, print };

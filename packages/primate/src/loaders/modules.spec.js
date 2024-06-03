@@ -1,6 +1,6 @@
 import { File } from "rcompat/fs";
-import loader from "./modules.js";
 import { mark } from "../Logger.js";
+import loader from "./modules.js";
 
 const log = {
   auto(error) {

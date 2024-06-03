@@ -1,17 +1,16 @@
-import crypto from "rcompat/crypto";
 import { tryreturn } from "rcompat/async";
+import crypto from "rcompat/crypto";
+import { identity } from "rcompat/function";
 import { File } from "rcompat/fs";
+import { MediaType, Status } from "rcompat/http";
 import { is } from "rcompat/invariant";
+import * as runtime from "rcompat/meta";
 import * as O from "rcompat/object";
 import { globify } from "rcompat/string";
-import * as runtime from "rcompat/meta";
-import { identity } from "rcompat/function";
-import { Status, MediaType } from "rcompat/http";
-
 import errors from "./errors.js";
-import to_sorted from "./to_sorted.js";
 import * as handlers from "./handlers.js";
 import * as loaders from "./loaders/exports.js";
+import to_sorted from "./to_sorted.js";
 
 const { DoubleFileExtension } = errors;
 
