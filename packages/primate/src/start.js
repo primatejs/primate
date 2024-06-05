@@ -11,11 +11,10 @@ import { print } from "./Logger.js";
 const base_hooks = ["init", "stage", "register", "publish"];
 
 const publish = async app => {
-  const location = app.get("location");
   const http = app.get("http");
   const client = app.runpath(app.get("location.client"));
 
-  const re = new RegExp(`${location.client}/app..*(?:js|css)$`, "u");
+  const re = new RegExp("app..*(?:js|css)$", "u");
   for (const path of await client.collect(re, { recursive: false })) {
     const src = path.name;
     const type = path.extension === ".css" ? "style" : "module";
