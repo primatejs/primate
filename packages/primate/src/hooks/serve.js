@@ -11,17 +11,17 @@ const post = async app => {
   const location = app.get("location");
   const http = app.get("http");
   const client = app.runpath(app.get("location.client"));
-  const re = new RegExp(`${location.client}/app..*(?:js|css)$`, "u");
   const user_types = await loaders.types(app.log, app.runpath(location.types));
   const types = { ...app.types, ...user_types };
   const router = await $router(app.runpath(location.routes));
+  const re = /app..*(?:js|css)$/u;
 
   for (const path of await client.collect(re, { recursive: false })) {
     const src = path.name;
     const type = path.extension === ".css" ? "style" : "module";
     await app.publish({ src, type });
     if (path.extension === ".js") {
-      const imports = { app: File.join(http.static.root, src).path };
+      const imports = { app: File.join(http.static.root, src).webpath() };
       await app.publish({
         inline: true,
         code: JSON.stringify({ imports }, null, 2),
