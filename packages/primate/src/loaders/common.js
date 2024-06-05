@@ -6,7 +6,7 @@ import errors from "../errors.js";
 const ending = ".js";
 
 const empty = log => (objects, name, path) =>
-  A.empty(objects) === 0 && errors.EmptyDirectory.warn(log, name, path);
+  A.empty(objects) && errors.EmptyDirectory.warn(log, name, path);
 
 export default async ({
   log,
