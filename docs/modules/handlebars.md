@@ -4,14 +4,14 @@ This handler module serves Handlebars components with the `.hbs` extension.
 
 ## Install
 
-`npm install @primate/frontend handlebars@4`
+`npm install @primate/handlebars`
 
 ## Configure
 
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import { handlebars } from "@primate/frontend";
+import handlebars from "@primate/handlebars";
 
 export default {
   modules: [
@@ -36,7 +36,7 @@ Create a Handlebars component in `components`.
 Serve it from a route.
 
 ```js caption=routes/hbs.js
-import { view } from "primate";
+import view from "primate/handler/view";
 
 const posts = [{
   id: 1,
@@ -64,4 +64,4 @@ The file extension associated with Handlebars components.
 
 * [Repository][repo]
 
-[repo]: https://github.com/primatejs/primate/tree/master/packages/frontend
+[repo]: https://github.com/primatejs/primate/tree/master/packages/handlebars

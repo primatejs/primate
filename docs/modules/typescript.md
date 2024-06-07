@@ -1,17 +1,17 @@
 # TypeScript
 
-This binding introduces support for routes written in TypeScript.
+This backend introduces support for routes written in TypeScript.
 
 ## Install
 
-`npm install @primate/binding`
+`npm install @primate/typescript`
 
 ## Configure
 
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import { typescript } from "@primate/binding";
+import typescript from "@primate/typescript";
 
 export default {
   modules: [
@@ -27,7 +27,7 @@ get proper editor completions for your route function parameters and return
 code, your route needs to use `satisfies Route` with the Primate `Route` export.
 
 ```ts caption=routes/plain-text.ts
-import { Route } from "primate";
+import type { Route } from "primate";
 
 export default {
   get() {
@@ -52,5 +52,10 @@ Default `".ts"`
 
 The file extension associated with TypeScript routes.
 
+## Resources
+
+* [Repository][repo]
+
 [routes]: /guide/routes
 [responses]: /guide/responses
+[repo]: https://github.com/primatejs/primate/tree/master/packages/typescript

@@ -29,30 +29,30 @@ JavaScript offers this kind of flexibility.
 
 ## Batteries included
 
-rcompat is designed with many submodules in mind, including `rcompat/fs` for
-filesystem operations, `rcompat/http` for using a modern HTTP server working
+rcompat is designed with many submodules in mind, including `@rcompat/fs` for
+filesystem operations, `@rcompat/http` for using a modern HTTP server working
 with WHATWG `Request`/`Response` (which Node doesn't support; rcompat wraps
 a Node request object into a WHATWG `Request` as it comes in),
-`rcompat/invariant` for ensuring runtime invariants, `rcompat/object` for
+`@rcompat/invariant` for ensuring runtime invariants, `@rcompat/object` for
 object transformations, and many more useful modules and abstractions.
 
 The standard library is designed to accommodate modern development needs: for
-example, `rcompat/http` supports WebSockets (natively on Deno/Bun, and using
-NPM's `ws` on Node), while `rcompat/fs.File` offers globbing, listing and
+example, `@rcompat/http` supports WebSockets (natively on Deno/Bun, and using
+NPM's `ws` on Node), while `@rcompat/fs/file` offers globbing, listing and
 manipulation of files, similarly to Python's `pathlib`.
 
-For example, to set up a server with rcompat, use the `serve` export of
-`rcompat/http` -- the server-side equivalent of `fetch`.
+For example, to set up a server with rcompat, use `@rcompat/http/serve` -- the
+server-side equivalent of `fetch`.
 
 ```js
-import { serve } from "rcompat/http";
+import serve from "@rcompat/http/serve";
 
 serve(request => new Response("Hi!"), { host: "localhost", port: 6161 });
 ```
 
 This code runs successfully with either `node app.js` (if you set your
-package.json to `{ "type": "module" }`; otherwise use `app.mjs`), `deno run
---allow-all app.js` or `bun --bun app.js`, taking advantage of native
+package.json to `{ "type": "module" }`; otherwise use `app.mjs`),
+`deno run -A app.js` or `bun --bun app.js`, taking advantage of native
 optimizations.
 
 ## Another standard library?
@@ -69,11 +69,9 @@ target everything.
 For example, here's how you can read a file and parse it as JSON.
 
 ```js
-import FS from "rcompat/fs";
-// or import individually, shadowing globalThis.File, WHATWG's File class
-// import { File } from "rcompat/fs";
+import file from "@rcompat/fs/file";
 
-console.log(await FS.File.json("./users.json"));
+console.log(await file("./users.json").json());
 ```
 
 Again, this code runs successfully on Node, Deno or Bun, taking advantage of
@@ -86,14 +84,14 @@ Primate's development and is largely influenced by its needs. We'd like to
 invite more participation by other projects / individuals in order to converge
 on APIs that best serve everyone and are the most useful on a broad basis.
 
-To illustrate this, Primate 0.31 will be using `rcompat/fs`'s upcoming `Router`
-class, which is meant to be used by frameworks using filesystem-routing (such
-as Primate, Next, SvelteKit, etc.) to resolve requests to routes. The design is
-aimed to be generic, but undoubtedly will be influenced by Primate's needs.
-External feedback will help keep it useful for other frameworks as well.
-Once `FS.Router` is ready, we will also aim to upstream our ideas to Bun's
-native [FileSystemRouter][FileSystemRouter] class such that rcompat can
-delegate to it natively on Bun.
+To illustrate this, Primate 0.31 will be using `@rcompat/fs/router`'s upcoming
+`Router` class, which is meant to be used by frameworks using
+filesystem-routing (such as Primate, Next, SvelteKit, etc.) to resolve requests
+to routes. The design is aimed to be generic, but undoubtedly will be
+influenced by Primate's needs. External feedback will help keep it useful for
+other frameworks as well. Once `Router` is ready, we will also aim to upstream
+our ideas to Bun's native [FileSystemRouter][FileSystemRouter] class such that
+rcompat can delegate to it natively on Bun.
 
 ## Participation
 

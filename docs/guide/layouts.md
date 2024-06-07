@@ -21,11 +21,11 @@ directory. To define a layout, create a `+layout.js` file inside `routes`.
 Similarly to the special guard files, a layout gets a  `request` parameter and
 can respond with a proper handler -- usually `view`. Here is an example
 of a layout rendering a Svelte component with its own data, distinct from that
-of the route itself (`@primate/frontend` must be installed and loaded in the
+of the route itself (`@primate/svelte` must be installed and loaded in the
 project).
 
 ```js caption=+layout.js
-import { view } from "primate";
+import view from "primate/handler/view";
 
 export default () => {
   return view("layout.svelte", { hello: "world" });

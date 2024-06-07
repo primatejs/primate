@@ -10,19 +10,15 @@ If Primate doesn't find a `primate.config.js` in your project root directory
 a default object, Primate will fall back to its default configuration file.
 
 ```js
-import { identity } from "rcompat/function";
-import { Logger } from "primate";
-
 export default {
   base: "/",
   modules: [],
   pages: {
-    index: "app.html",
+    app: "app.html",
     error: "error.html",
   },
-  logger: {
-    level: Logger.Warn,
-    trace: false,
+  log: {
+    level: "warn",
   },
   http: {
     host: "localhost",
@@ -51,10 +47,7 @@ export default {
     name: "app",
     includes: [],
     excludes: [],
-    transform: {
-      paths: [],
-      mapper: identity,
-    },
+    define: {},
   },
 };
 ```
@@ -68,11 +61,9 @@ To illustrate this, if you wanted to change the default logging level to
 `primate.config.js` in your project root with the following overrides.
 
 ```js
-import { Logger } from "primate";
-
 export default {
-  logger: {
-    level: Logger.Info,
+  log: {
+    level: "info",
   },
   http: {
     port: 6262,
@@ -84,19 +75,15 @@ Primate will merge your custom configuration with its default, resulting in
 effectively the following configuration.
 
 ```js
-import { identity } from "rcompat/function";
-import { Logger } from "primate";
-
 export default {
   base: "/",
   modules: [],
   pages: {
-    index: "app.html",
+    app: "app.html",
     error: "error.html",
   },
-  logger: {
-    level: Logger.Info,
-    trace: false,
+  log: {
+    level: "info",
   },
   http: {
     host: "localhost",
@@ -125,10 +112,6 @@ export default {
     name: "app",
     includes: [],
     excludes: [],
-    transform: {
-      paths: [],
-      mapper: identity,
-    },
   },
 };
 ```
@@ -152,7 +135,7 @@ their hooks will be evaluated, and modules can depend on each using
 
 ## Page options
 
-### index
+### app
 
 Default: `app.html`
 
@@ -172,19 +155,12 @@ Name of the default error HTML page located in `location.pages`. If
 
 For more info on logging, refer to the [Logging](/guide/logging) section.
 
-### logger.level
+### log.level
 
-Default `Logger.Warn`
+Default `"warn"`
 
 The logging level to be used. Primate has three logging levels, `Error`, `Warn`
 and `Info`.
-
-### logger.trace
-
-Default `false`
-
-Whether Primate should show the original stack trace of errors in addition to
-its own errors.
 
 ## HTTP options
 
@@ -343,19 +319,26 @@ Default `[]`
 
 A list of files to be excluded from bundling. Wildcards can be used.
 
-### build.transform.paths
+### build.define
 
-Default `[]`
+Default `{}`
 
-A list of paths for which the contents are to be transformed at runtime before
-being copied to the [build directory](#location-build). Relative paths will be
-relative to project root. Glob patterns are supported.
+A map of identifier substitutions during build-time. For example, you could
+replace `APP_NAME` with your actual application name, loading from an `.env`
+file, by specifying
 
-### build.transform.mapper
+```js
+export default {
+  build: {
+    define: {
+      APP_NAME: "'my-app'",
+    },
+  },
+};
+```
 
-Default `_ => _` (identity function)
-
-A file content mapper for the files specified in `build.transform.files`.
+Note that subtitutions take place as in -- if you want a string to be
+substituted in, you need to quote it properly, as in the example.
 
 ## pages/app.html
 

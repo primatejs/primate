@@ -1,7 +1,7 @@
 %%% JS, TS, Go, Python, Ruby
 
 ```js caption=routes/index.js
-import { view } from "primate";
+import view from "primate/handler/view";
 
 const posts = [{
   id: 1,
@@ -16,7 +16,8 @@ export default {
 ```
 
 ```ts caption=routes/index.ts
-import { view, Route } from "primate";
+import type { Route } from "primate";
+import view from "primate/handler/view";
 
 const posts = [{
   id: 1,

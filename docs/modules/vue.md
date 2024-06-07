@@ -5,14 +5,14 @@ extension.
 
 ## Install
 
-`npm install @primate/frontend vue@3`
+`npm install @primate/vue`
 
 ## Configure
 
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import { vue } from "@primate/frontend";
+import vue from "@primate/vue";
 
 export default {
   modules: [
@@ -37,7 +37,7 @@ Create a SFC component in `components`.
 Serve it from a route.
 
 ```js caption=routes/vue.js
-import { view } from "primate";
+import view from "primate/handler/view";
 
 const posts = [{
   id: 1,
@@ -65,4 +65,4 @@ The file extension associated with Vue SFC components.
 
 * [Repository][repo]
 
-[repo]: https://github.com/primatejs/primate/tree/master/packages/frontend
+[repo]: https://github.com/primatejs/primate/tree/master/packages/vue

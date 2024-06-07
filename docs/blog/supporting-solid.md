@@ -56,7 +56,7 @@ To use a Solid component, create a route under `routes`. This example assumes
 you have changed the Solid component file extension to `solid`.
 
 ```js caption=routes/posts.js
-import { view } from "primate";
+import view from "primate/handler/view";
 
 const posts = [{
   id: 1,
@@ -92,7 +92,7 @@ Create a `+layout.js` file alongside your routes (layouts apply to all routes
 in their directory and its subdirectories, hierarchically).
 
 ```js caption=routes/+layout.js
-import { view } from "primate";
+import view from "primate/handler/view";
 
 export default () => {
   return view("layout.solid", { user: "Tom" });

@@ -20,16 +20,16 @@ or Solid -- including SSR, hydration, and client side rendering.
 
 ### Install
 
-To add support for Python, install the `@primate/binding` module and `pyodide`.
+To add support for Python, install the `@primate/python` package.
 
-`npm install @primate/binding pyodide@0.24`
+`npm install @primate/python`
 
 ### Configure
 
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import { python } from "@primate/binding";
+import python from "@primate/python";
 
 export default {
   modules: [
@@ -43,7 +43,7 @@ standard library) you'd like to use to the `packages` configuration array of
 the module.
 
 ```js caption=primate.config.js
-import { python } from "@primate/binding";
+import python from "@primate/python";
 
 export default {
   modules: [
@@ -125,8 +125,8 @@ handler. This is particularly useful case you're using a template engine such
 as Handlebars to generate an XML file.
 
 ```js caption=routes/sitemap.xml.js
-import { view } from "primate";
-import { MediaType } from "rcompat/http";
+import view from "primate/handler/view";
+import { xml } from "@rcompat/http/mime";
 
 // this assumes you've imported and loaded the `handlebars` module from
 // `@primate/frontend`
@@ -136,7 +136,7 @@ export default {
     // load data and save it in a variable `pages`
     // ...
 
-    const headers = { "Content-Type": MediaType.APPLICATION_XML };
+    const headers = { "Content-Type": xml };
 
     // serve Handlebars template as XML
     return view("sitemap.hbs", { pages }, { headers });
@@ -155,7 +155,7 @@ layout, and this is now achievable by using `export const recursive = false;`
 within the `+layout.js` file.
 
 ```js caption=routes/inner/+layout.js
-import { view } from "primate" ;
+import view from "primate/handler/view" ;
 
 export default () => {
   return view("inner-layout.svelte");
@@ -180,7 +180,7 @@ As of this release we differentiate between how `request.body` and
 `request.{path,query,cookies,headers}` behave. `request.body`'s properties
 are now accessed directly instead of with `request.body.all()` before.
 
-This change also applies to the Go binding, where request.Body is now a
+This change also applies to the Go backend, where request.Body is now a
 `map[string]any`.
 
 ### .all removed from dispatchers
@@ -188,14 +188,14 @@ This change also applies to the Go binding, where request.Body is now a
 Dispatchers (`request.{path,query,headers,cookies}`) no longer expose a `.all`
 method.
 
-This change also applies to the Go binding, where `Dispatcher` no longer has an
+This change also applies to the Go backend, where `Dispatcher` no longer has an
 `All` function.
 
 ### .all removed from request.session
 
 `request.session` no longer exposes a `.all` method.
 
-This change also applies to the Go binding, where `Session` no longer has an
+This change also applies to the Go backend, where `Session` no longer has an
 an `All` function.
 
 ## Other changes
@@ -209,7 +209,7 @@ Some of the things we plan to tackle in the upcoming weeks are,
 * Add projections and relations to stores
 * Multidriver transactions
 * Introduce IDE TypeScript support
-* Add support for TypeScript (.ts) routes in `@primate/binding`
+* Add support for TypeScript (.ts) routes
 * Add a `command` hook that would allow modules to register command line
   namespaces, to be able to run `npx primate [namespace] [command] [flags]`
 * Use this new hook to create database migrations for SQL-flavored databases

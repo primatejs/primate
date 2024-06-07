@@ -62,7 +62,7 @@ and responds with a proper handler. Here is an example with an error route
 file rendering a Svelte component.
 
 ```js caption=routes/+error.js
-import { view } from "primate";
+import view from "primate/handler/view";
 
 export default request => view("ErrorPage.svelte");
 ```
@@ -113,7 +113,7 @@ passing a `page` property to the third handler parameter. The page file itself
 must be located under `pages`.
 
 ```js caption=routes/+error.js
-import { view } from "primate";
+import view from "primate/handler/view";
 
 export default request => view("ErrorPage.svelte", {}, {
   page: "other-error.html",

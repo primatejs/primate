@@ -1,17 +1,17 @@
 # Python
 
-This binding introduces support for routes written in Python.
+This backend introduces support for routes written in Python, using Pyodide.
 
 ## Install
 
-`npm install @primate/binding pyodide@0.25`
+`npm install @primate/python`
 
 ## Configure
 
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import { python } from "@primate/binding";
+import python from "@primate/python";
 
 export default {
   modules: [
@@ -25,7 +25,7 @@ standard library) you'd like to use to the `packages` configuration array of
 this module.
 
 ```js caption=primate.config.js
-import { python } from "@primate/binding";
+import python from "@primate/python";
 
 export default {
   modules: [
@@ -206,7 +206,7 @@ function to access individual properties. In addition, any types defined in
 Suppose you have defined the following type.
 
 ```js caption=types/uuid.js
-import { is } from "rcompat/invariant";
+import is from "@rcompat/invariant/is";
 
 const valid = /^[^\W_]{8}-[^\W_]{4}-[^\W_]{4}-[^\W_]{4}-[^\W_]{12}$/u;
 
@@ -279,6 +279,10 @@ Default `[]`
 A list of package names to be loaded, in addition to the Python standard
 library.
 
+## Resources
+
+* [Repository][repo]
+
 [plain text]: /guide/responses#plain-text
 [json]: /guide/responses#json
 [redirect]: /guide/responses#redirect
@@ -289,4 +293,5 @@ library.
 [session]: /modules/session#use
 [session]: /modules/store
 [default-index]:
-https://github.com/primatejs/primate/blob/master/packages/primate/src/defaults/app.html
+https://github.com/primatejs/primate/blob/master/packages/core/src/build/defaults/app.html
+[repo]: https://github.com/primatejs/primate/tree/master/packages/python

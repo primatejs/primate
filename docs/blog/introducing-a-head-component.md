@@ -13,17 +13,13 @@ If you're new to Primate, we recommend reading the [Getting started] page to
 get an idea of the framework.
 !!!
 
-## Install
-
-To use `Head`, update `@primate/frontend` to version `0.5.0` or later.
-
 ## Use
 
-In a component of your choice, import `Head` from `@primate/frontend/react` and
+In a component of your choice, import `Head` from `@primate/react` and
 use it anywhere within the component.
 
 ```js caption=components/PostIndex.jsx
-import { Head } from "@primate/frontend/react";
+import Head from "@primate/react/head";
 
 export default function (props) {
   return <>
@@ -40,22 +36,22 @@ export default function (props) {
 ```
 
 !!!
-For Solid, replace `@primate/frontend/react` with `@primate/frontend/solid`.
+For Solid, replace `@primate/react` with `@primate/solid`.
 !!!
 
 You can also use `Head` in any layout. During SSR, a combined list of head
 tags will be generated and sent along with the page. Later during hydration,
 the client components will take over management of their head tags.
 
-If you use `@primate/liveview` to navigate between pages without a full reload,
-`Head` will manage its head tags between page changes, automatically removing
-the tags used by the previous page's components and inserting new ones. Tags in
-`pages/app.html` won't be managed by `Head` and will be left intact.
+When you navigate between pages without a full reload, `Head` will manage its
+head tags between page changes, automatically removing the tags used by the
+previous page's components and inserting new ones. Tags in `pages/app.html`
+won't be managed by `Head` and will be left intact.
 
 ## Use outside of Primate
 
-As `@primate/frontend` exports `react/Head` and `solid/Head` and has virtually
-no  dependencies, you can use it even if you don't use Primate itself.
+As `@primate/react` and `@primate/solid` exports `/Head` and have virtually no
+dependencies, you can use it even if you don't use Primate itself.
 
 ### Without SSR
 
@@ -117,18 +113,20 @@ The only thing left to do is wrap your root component with a context provider.
 It is assumed that `body` here contains your component hierarchy.
 
 ```js caption=root-component-react.jsx
-import { HeadContext, is } from "@primate/frontend/react";
+import HeadContext from "@primate/react/context/head";
+import platform from "@rcompat/platform";
+
 const Provider = HeadContext.Provider;
 
 export default ({ components, data, push_heads: value }) =>
-  is.client ? body : <Provider value={value}>{body}</Provider>;
+  platform === "browser" ? body : <Provider value={value}>{body}</Provider>;
 ```
 
-For Solid, use `@primate/frontend/solid` instead for the import.
+For Solid, use `@primate/solid` instead for the import.
 
-We use here the `is` export to check if we're on the client or the server. You
-don't have to do it, but using the provider on the client doesn't make a lot of
-sense.
+We use check, using `@rcompat/platform` if we're on the client or the server.
+You don't have to do this, but using the provider on the client doesn't make a
+lot of sense.
 
 ## Fin
 

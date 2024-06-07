@@ -5,14 +5,14 @@ extension.
 
 ## Install
 
-`npm install @primate/frontend @marko/{compiler,translator-default}@5`
+`npm install @primate/marko`
 
 ## Configure
 
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import { marko } from "@primate/frontend";
+import marko from "@primate/marko";
 
 export default {
   modules: [
@@ -39,7 +39,7 @@ Create a Marko component in `components`.
 Serve it from a route.
 
 ```js caption=routes/marko.js
-import { view } from "primate";
+import view from "primate/handler/view";
 
 const posts = [{
   id: 1,
@@ -67,4 +67,4 @@ The file extension associated with Marko components.
 
 * [Repository][repo]
 
-[repo]: https://github.com/primatejs/primate/tree/master/packages/frontend
+[repo]: https://github.com/primatejs/primate/tree/master/packages/marko

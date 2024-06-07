@@ -43,7 +43,7 @@ energy to mankind.
 Lastly, serve your Markdown component from a route of your choice.
 
 ```js caption=routes/about-us.js
-import { view } from "primate";
+import view from "primate/handler/view";
 
 export default {
   get() {
@@ -60,7 +60,7 @@ props to it is meaningless. However, you can still use a different page with it
 by modifying the `page` property of the third (options) parameter.
 
 ```js caption=routes/about-us.js
-import { view } from "primate";
+import view from "primate/handler/view";
 
 export default {
   get() {
@@ -180,7 +180,7 @@ function directly as an export of `@primate/markdown`. This allows you to
 compile and serve Markdown content from a dynamic source (like a database).
 
 ```js caption=routes/markdown/{page}.js
-import { view } from "primate";
+import view from "primate/handler/view";
 import { compile } from "@primate/markdown";
 
 export default {

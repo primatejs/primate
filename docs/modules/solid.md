@@ -5,14 +5,14 @@ components with the `.jsx` extension.
 
 ## Install
 
-`npm install @primate/frontend @babel/core@7 babel-preset-solid@1 solid-js@1`
+`npm install @primate/solid`
 
 ## Configure
 
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import { solid } from "@primate/frontend";
+import solid from "@primate/solid";
 
 export default {
   modules: [
@@ -21,11 +21,11 @@ export default {
 };
 ```
 
-If you are using another JSX frontend module alongside Solid, consider changing
-the file extension for Solid to something else, to avoid conflicts.
+If you're using another JSX frontend framework alongside Solid, consider
+changing the file extension for Solid to something else, to avoid conflicts.
 
 ```js caption=primate.config.js
-import { solid } from "@primate/frontend";
+import solid from "@primate/solid";
 
 export default {
   modules: [
@@ -57,7 +57,7 @@ export default function PostIndex(props) {
 Serve it from a route.
 
 ```js caption=routes/solid.js
-import { view } from "primate";
+import view from "primate/handler/view";
 
 const posts = [{
   id: 1,
@@ -91,4 +91,4 @@ Whether SPA browsing using `fetch` should be active.
 
 * [Repository][repo]
 
-[repo]: https://github.com/primatejs/primate/tree/master/packages/frontend
+[repo]: https://github.com/primatejs/primate/tree/master/packages/solid

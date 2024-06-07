@@ -5,14 +5,14 @@ with the `.svelte` extension.
 
 ## Install
 
-`npm install @primate/frontend svelte@4`
+`npm install @primate/svelte`
 
 ## Configure
 
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import { svelte } from "@primate/frontend";
+import svelte from "@primate/svelte";
 
 export default {
   modules: [
@@ -47,7 +47,7 @@ Create a Svelte component in `components`.
 Serve it from a route.
 
 ```js caption=routes/svelte.js
-import { view } from "primate";
+import view from "primate/handler/view";
 
 const posts = [{
   id: 1,
@@ -81,4 +81,4 @@ Whether SPA browsing using `fetch` should be active.
 
 * [Repository][repo]
 
-[repo]: https://github.com/primatejs/primate/tree/master/packages/frontend
+[repo]: https://github.com/primatejs/primate/tree/master/packages/svelte

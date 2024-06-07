@@ -14,10 +14,10 @@ This release adds support for a Handlebars frontend handler, including
 precompiling.
 
 The Handlebars handler works like all other frontend handlers. To activate it,
-load the module in your configuration.
+install and load the module in your configuration.
 
 ```js caption=primate.config.js
-import { handlebars } from "@primate/frontend";
+import handlebars from "@primate/handlebars";
 
 export default {
   modules: [
@@ -40,7 +40,7 @@ Then place a Handlebars file in your `components` directory.
 Lastly, serve your Handlebars component from a route of your choice.
 
 ```js caption=routes/index.js
-import { view } from "primate";
+import view from "primate/handler/view";
 
 const posts = [{
   id: 1,
@@ -57,40 +57,22 @@ export default {
 If you then run Primate, your Handlebars component should be served at `GET /`
 as HTML.
 
-Like other frontend handlers, you can change the directory from which
-Handlebars components are loaded and the file extension associated with them by
-changing the module configuration.
-
-```js caption=primate.config.js
-import { handlebars } from "@primate/frontend";
-
-export default {
-  modules: [
-    handlebars({
-      // load Handlebars files from $project_root$/hbs
-      // default: `config.location.components`
-      directory: "hbs",
-      // using the "handlebars" file extension
-      // default: "hbs"
-      extension: "handlebars",
-    }),
-  ],
-};
-```
-
 ## Transactions across the board
 
-With the exception of SurrealDB, all supported data store drivers in
-`@primate/store` (SQLite, PostgreSQL, MongoDB) now support transactions within
-routes. You don't need to explictly start a transaction or commit it at the
-end; the store module does that for you automatically. If at any point during
-the route execution an error occurs, the transaction will be rolled back and no
-changes will be committed to the data store.
+With the exception of SurrealDB, all supported database drivers now support
+transactions within routes. You don't need to explictly start a transaction or
+commit it in the end; the store module does that for you automatically. If at
+any point during the route execution an error occurs, the transaction will be
+rolled back and no changes will be committed to the data store.
 
 Consider the following store.
 
 ```js caption=stores/User.js
-import { primary, string, u8, email, date } from "primate/@types";
+import primary from "@primate/types/primary";
+import string from "@primate/types/string";
+import u8 from "@primate/types/u8";
+import email from "@primate/types/email";
+import date from "@primate/types/date";
 
 export default {
   id: primary,
@@ -106,7 +88,7 @@ with an `age` value that is larger than 2^8-1. Validation will fail, and the
 record won't be inserted.
 
 ```js caption=routes/index.js
-import { view } from "primate";
+import view from "primate/handler/view";
 
 export default {
   get(request) {
@@ -152,35 +134,6 @@ behavior you would see without a bundler, where all files are kept separately.
 
 This release features several quality of life improvements.
 
-### Consolidation of frontend modules
-
-Previously, the frontend modules were split across several packages, such as
-`@primate/svelte`, `@primate/react` and so on. As the frontend handlers
-increasingly started sharing code, we decided to unify them under a common
-`@primate/frontend` package with individual exports.
-
-For example, if you need the Svelte handler, you would use the `svelte` export
-of `@primate/frontend`.
-
-```js caption=primate.config.js
-import { svelte } from "@primate/frontend";
-
-export default {
-  modules: [
-    svelte(),
-  ],
-};
-```
-
-If you don't have Svelte itself installed, Primate will tell that it's missing
-the dependency and what command you need to issue to install Svelte.
-
-```sh
-!! primate/frontend cannot find svelte (imported from frontend:svelte)
-++ install dependencies by issuing npm install svelte@
-   -> https://primatejs.com/reference/errors/primate/frontend#missing-dependencies
-```
-
 ### Hoisted frontend props
 
 Previously, all props passed from a route to its frontend component were
@@ -190,7 +143,7 @@ props are made available directly to the frontend component.
 Consider this Svelte route.
 
 ```js caption=routes/svelte.js
-import { view } from "primate";
+import view from "primate/handler/view";
 
 const posts = [{
   id: 1,

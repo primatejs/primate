@@ -72,14 +72,13 @@ Add another locale.
 }
 ```
 
-Next, use the default deep export from `@primate/i18n` for your frontend of
-choice in your component, for example Svelte.
+Next, import `@primate/svelte/i18n`, if you're a Svelte user.
 
 ### Svelte
 
 ```js caption=components/Home.svelte
 <script>
-  import t from "@primate/i18n/svelte";
+  import t from "@primate/svelte/18n";
 
   export let username;
 </script>
@@ -93,12 +92,13 @@ choice in your component, for example Svelte.
 In the case of Svelte, since the default export exposes a store, you need to
 subscribe to it by prefixing it with `$` wherever you use it.
 
-To switch between locales, use the `locale` named export and call `locale.set`
-with the new locale.
+To switch between locales, import `@primate/svelte/locale` and call
+`locale.set` with the new locale.
 
 ```js caption=components/Home.svelte
 <script>
-  import { default as t, locale } from "@primate/i18n/svelte";
+  import t from "@primate/svelte/i18n";
+  import locale from "@primate/svelte/locale";
 
   export let username;
 </script>
@@ -118,8 +118,8 @@ with the new locale.
 You can use an almost identical API for React and Solid to achieve the same.
 
 ```jsx caption=components/Home.jsx
-import t from "@primate/i18n/react";
-// import t from "@primate/i18n/solid"; // for solid
+import t from "@primate/react/i18n";
+// import t from "@primate/solid/i18n"; // for solid
 
 export default function ({ username }) {
   return <>
@@ -135,12 +135,14 @@ export default function ({ username }) {
 In this case, since the default export exposes a function that returns a state
 variable, you just use it as is (without prefixing it with `$` as with Svelte).
 
-Again, to switch between locales, use the `locale` named export and call
-`locale.set` with the new locale.
+Again, to switch between locales, call `locale.set` with the new locale.
 
 ```jsx
-import { default as t, locale } from "@primate/i18n/react";
-// import { default as t, locale } from "@primate/i18n/solid"; // for solid
+import t from "@primate/react/i18n";
+import locale from "@primate/react/locale";
+// for Solid
+// import t from "@primate/solid/i18n";
+// import locale from "@primate/solid/locale";
 
 export default function ({ username }) {
   return <>

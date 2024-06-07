@@ -1,41 +1,22 @@
 # Logging
 
-Primate has three log levels, `Error`, `Warn` and `Info`. As a general rule,
-an `Error` causes severe disruption to the application (and leads to bailout
-during startup), `Warn` indicates degraded functionality in an otherwise
-nominal system, and `Info` serves to give more information. In terms of
-actionability, `Error` logs **must** be addressed, `Warn` logs **should** be
-checked, and `Info` logs **may** be ignored.
+Primate has three log levels, `error`, `warn` and `info`. As a general rule,
+'error' means a severe disruption to the application (and leads to bailout
+during startup), 'warn' indicates degraded functionality in an otherwise
+nominal system, and 'info' serves to give more information. In terms of
+actionability, 'error' logs **must** be addressed, 'warn' logs **should** be
+checked, and 'info' logs **may** be ignored.
 
 ## Configuring
 
-By default, the error level is to set to `Warn`, which logs all errors and
+By default, the error level is to set to `warn`, which logs all errors and
 warnings. You can change this in your configuration.
 
 ```js primate.config.js
-import { Logger } from "primate";
-
 export default {
-  logger: {
+  log: {
     // show all logs
-    level: Logger.Info,
-  },
-};
-```
-
-Primate logs are implemented as JavaScript errors and thus carry a stack. If
-you want the stack trace to be output in addition to Primate's own logging (in
-the case of `Error` or `Warn` logs), set `trace` to `true`.
-
-```js primate.config.js
-import { Logger } from "primate";
-
-export default {
-  logger: {
-    // show all logs
-    level: Logger.Info,
-    // show stack traces for errors and warnings
-    trace: true,
+    level: "info",
   },
 };
 ```
@@ -44,7 +25,7 @@ When Primate shows errors or warnings, it will include a short reason and a
 quickfix, as well as link to the website for a longer explanation and fix.
 
 ```text
-?? primate/store empty store directory
+?? @primate/store empty store directory
 ++ populate /home/user/app/stores with stores
    -> https://primatejs.com/modules/store#empty-store-directory
 ```
@@ -100,7 +81,7 @@ error on the website.
 
 ## Error list
 
-### Double File Extension
+### Double Extension
 
 Level [`Error`][error] | [`Bailout`][bailout]
 
@@ -141,15 +122,6 @@ must not use the same style for the same route.
 
 *Disambiguate the routes by consolidating them into one file of the path style
 of your choosing.*
-
-### Empty Route File
-
-Level [`Warn`][warn]
-
-An empty route file exists, that is a route file without or with an empty
-default export.
-
-*Add routes to the file or remove it.*
 
 ### Empty Config File
 
@@ -267,15 +239,6 @@ Type mismatch during the execution of a route function, stopping the route.
 The mismatch happened in a `body`, `query`, `cookies` or `headers` field.
 
 *If unintentional, fix the type or the caller.*
-
-### Module Has No Hooks
-
-Level [`Warn`][warn]
-
-Module loaded without hooks.
-
-*If this is a ad-hoc module, add hooks to it to make effective. If a
-third-party module, contact the maintainer.*
 
 ### Modules Has No Name
 

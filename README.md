@@ -12,55 +12,83 @@ Polymorphic development platform. To start [read guide].
 [![GitHub last commit](https://img.shields.io/github/last-commit/primatejs/primate?style=for-the-badge)](https://github.com/primatejs/primate/commits/master)
 [![Discord](https://img.shields.io/discord/1256590312177012806?style=for-the-badge&logo=discord&label=Discord&logoColor=a16836&color=5865f2)](https://discord.gg/RSg4NNwM4f)
 
-## Why use Primate?
+## Why Primate?
 
-### Framework Independence
+### Mix and match the best web tech, in one stack
 
-Primate stands apart as a framework-agnostic tool, allowing you to seamlessly
-integrate and start coding within any major framework, eliminating the
-constraints of being tied to specific options like Nuxt, Next, or others.
+Primate is a frontend and backend-agnostic tool, allowing you to seamlessly
+integrate and start coding within any major frontend framework and several
+backend languages, eliminating the constraints of being tied to specific
+options like Next, Nuxt, or others. Primate runs on Node, Deno and Bun with the
+same codebase.
 
-### Frameworks We Support
+### Supported backends
 
-- Svelte
-- React
-- Solid
-- Vue
-- Angular
-- Web Components
-- HTMX
-- Handlebars
-- Marko
-
-### Databases We Support
-
-- SQLite
-- MongoDB
-- Postgresql
-- MySQL
-- SurrealDB
-
-### Languages We Support
-
+- Go
 - JavaScript
-- TypeScript
-- Golang
 - Python
 - Ruby
+- TypeScript
+
+### Supported frontends
+
+- Angular
+- Eta
+- Handlebars
+- HTML
+- HTMX
+- Markdown
+- Marko
+- React
+- Solid
+- Svelte
+- Voby
+- Vue
+- Web Components
+
+### Supported databases
+
+- MongoDB
+- MySQL
+- Postgresql
+- SQLite
+- SurrealDB
 
 ## Packages
 
 | Package                                     | Description                   |
 |---------------------------------------------|-------------------------------|
 |[primate](packages/primate)                  | Primate framework             |
-|[create-primate](packages/create-primate)    | GUI for creating Primate apps |
-|[@primate/frontend](packages/frontend)       | Frontend frameworks           |
-|[@primate/store](packages/store)             | Data store                    |
-|[@primate/types](packages/types)             | Runtime types                 |
+|[@primate/core](packages/core)               | Core framework                |
+|[@primate/go](packages/go)                   | Go backend                    |
+|[@primate/python](packages/python)           | Python backend                |
+|[@primate/ruby](packages/ruby)               | Ruby backend                  |
+|[@primate/typescript](packages/typescript)   | TypeScript backend            |
+|[@primate/angular](packages/angular)         | Angular frontend              |
+|[@primate/eta](packages/eta)                 | Eta frontend                  |
+|[@primate/handlebars](packages/handlebars)   | Handlebars frontend           |
+|[@primate/html](packages/html)               | HTML frontend                 |
+|[@primate/htmx](packages/htmx)               | HTMX frontend                 |
+|[@primate/markdown](packages/markdown)       | Markdown frontend             |
+|[@primate/marko](packages/marko)             | Marko frontend                |
+|[@primate/react](packages/react)             | React frontend                |
+|[@primate/solid](packages/solid)             | Solid frontend                |
+|[@primate/svelte](packages/svelte)           | Svelte frontend               |
+|[@primate/voby](packages/voby)               | Voby frontend                 |
+|[@primate/vue](packages/vue)                 | Vue frontend                  |
+|[@primate/webc](packages/webc)               | Web Components frontend       |
+|[@primate/store](packages/store)             | Databases                     |
+|[@primate/mongodb](packages/mongodb)         | MongoDB database              |
+|[@primate/mysql](packages/mysql)             | MySQL database                |
+|[@primate/postgresql](packages/postgresql)   | PostgreSQL database           |
+|[@primate/sqlite](packages/sqlite)           | SQLite database               |
+|[@primate/surrealdb](packages/surrealdb)     | SurrealDB database            |
+|[@primate/types](packages/types)             | Schema validation             |
 |[@primate/session](packages/session)         | User sessions                 |
 |[@primate/i18n](packages/i18n)               | Internationalization          |
-|[@primate/binding](packages/binding)         | Other backend languages       |
+|[@primate/native](packages/native)           | Compile native apps           |
 |[website](packages/website)                  | Primate website               |
+|[create-primate](packages/create-primate)    | GUI for creating Primate apps |
 
 ## Comparison with other frameworks
 
@@ -68,12 +96,12 @@ constraints of being tied to specific options like Nuxt, Next, or others.
 |------------------|------|------|---------|--------------------------------------------------------|
 |Backend           |JS, TS|JS, TS|JS, TS   |JS, TS, Go, Python, Ruby                                |
 |Frontend          |React |Vue   |Svelte   |React, Vue, Svelte, Solid, Angular, HTMX, Handlebars, WC|
-|Native runtime    |Node  |Node  |Node     |Node, Deno, Bun                                         |
+|Runtime           |Node  |Node  |Node     |Node, Deno, Bun                                         |
 |I18N              |✓     |✓     |✗        |@primate/i18n                                           |
 |Head Component    |✓     |✓     |✗        |React, Svelte, Solid                                    |
 |Route guards      |✗     |✗     |✗        |✓                                                       |
 |Recursive layouts |✓     |✓     |✓        |✓                                                       |
-|Data stores/ORM   |✗     |✗     |✗        |SQLite, PostgreSQL, MongoDB, SurrealDb                  |
+|Data stores/ORM   |✗     |✗     |✗        |MongoDB, MySQL, PostgreSQL, SQLite, SurrealDb           |
 |WebSockets        |✗     |✗     |✗        |✓                                                       |
 |Server-sent events|✗     |✗     |✗        |✓                                                       |
 |User sessions     |✗     |✓     |✗        |@primate/session                                        |
@@ -81,17 +109,12 @@ constraints of being tied to specific options like Nuxt, Next, or others.
 ## Resources
 
 * Website: https://primatejs.com
-* IRC: Join the `#primate` channel on `irc.libera.chat`
 * Discord: https://discord.gg/RSg4NNwM4f
 * Reddit: [r/primatejs](https://reddit.com/r/primatejs)
 * Twitter (X): [@primatejs](https://x.com/primatejs)
 * Blog: https://primatejs.com/blog
 * StackOverflow: https://stackoverflow.com/questions/tagged/primate
-
-## Example Applications
-
-- [starter app](https://github.com/primatejs/app) - demos most of the features of Primate
-- [FastestEngineer](https://fastest.engineer) - A fully-featured SaaS boilerplate
+* Demo app: https://github.com/primatejs/app
 
 ## License
 
@@ -102,10 +125,15 @@ MIT
 By contributing to Primate, you agree that your contributions will be licensed
 under its MIT license.
 
-Clone https://github.com/primatejs/app alongside your Primate directory and
-switch to the `dev` branch. This branch uses symbolic links to Primate and its
-modules. In the case of some modules (`@primate/frontend`, `@primate/i18n`,
-`@primate/binding`), symbolic links lead to errors and the modules need to be
-copied in verbatim. Use the `refresh-deps.sh` script to do so.
+Clone this repo and https://github.com/primatejs/app in the same location,
+and switch to the `dev` branch in the app repo. Then, in the app repo, run
+
+* `npm run node` for Node in development mode
+* `npm run node:prod` for Node in production mode
+* `npm run deno` for Deno in development mode
+* `npm run deno:prod` for Deno in production mode
+* `npm run bun` for Bun in development mode
+* `npm run bun:prod` for Bun in production mode
+* `npm run bun:compile` for compiling desktop app with Bun
 
 [read guide]: https://primatejs.com/guide/getting-started

@@ -89,7 +89,7 @@ The HTMX handler now supports passing in props, in JavaScript template string
 style. Consider the following route.
 
 ```js caption=routes/htmx.js
-import { view } from "primate";
+import view from "primate/handler/view";
 
 const posts = [{
   id: 1,

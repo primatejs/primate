@@ -15,16 +15,16 @@ create and use TypeScript routes.
 
 ### Install
 
-To add support for TypeScript, install the `@primate/binding` module.
+To add support for TypeScript, install the `@primate/typescript` module.
 
-`npm install @primate/binding`
+`npm install @primate/typescript`
 
 ### Configure
 
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import { typescript } from "@primate/binding";
+import typescript from "@primate/typescript";
 
 export default {
   modules: [
@@ -64,17 +64,16 @@ Under the hood, we make use of the `ruby.wasm` project through WASI.
 
 ### Install
 
-To add support for Ruby, install the `@primate/binding` module and the
-`@ruby/head-wasm-wasi` and `@ruby/wasm-wasi` packages.
+To add support for Ruby, install the `@primate/ruby` package.
 
-`npm install @primate/binding @ruby/head-wasm-wasi@2.5 @ruby/wasm-wasi@2.5`
+`npm install @primate/ruby`
 
 ## Configure
 
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import { ruby } from "@primate/binding";
+import ruby from "@primate/ruby";
 
 export default {
   modules: [
@@ -140,14 +139,14 @@ in your application, and in particular to pass props into them.
 
 ## Install
 
-`npm install @primate/frontend`
+`npm install @primate/webc`
 
 ## Configure
 
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import { webc } from "@primate/frontend";
+import webc from "@primate/webc";
 
 export default {
   modules: [
@@ -158,8 +157,8 @@ export default {
 
 ## Use
 
-To create a web component, import `Component` from `@primate/frontend/webc` and
-default export a class extending it. Implement the `render` function property
+To create a web component, import `@primate/webc/Component` and create a 
+default export of class extending it. Implement the `render` function property
 of that class, which returns a string representing the HTML code of this
 component. Note that `Component` extends `HTMLElement`, and is thus a proper
 web component for any purpose.
@@ -175,7 +174,7 @@ Create an web component in `components`.
 
 ```html caption=components/post-index.webc
 <script>
-import { Component } from "@primate/frontend/webc";
+import Component from "@primate/webc/Compontent";
 import PostLink from "./post-link.webc";
 
 export default class extends Component {
@@ -204,7 +203,7 @@ And another component for displaying post links.
 
 ```html caption=components/post-link.webc
 <script>
-  import { Component } from "@primate/frontend/webc";
+  import Component from "@primate/webc/Component";
 
   export default class extends Component {
     render() {
@@ -222,7 +221,7 @@ And another component for displaying post links.
 Create a route and serve the `post-index` component.
 
 ```js caption=routes/webc.js
-import { view } from "primate";
+import view from "primate/handler/view";
 
 const posts = [{
   id: 1,
@@ -274,8 +273,7 @@ Given the above form and the following route, `request.body` will contain three
 fields: `title` and `text`, both strings, and `attachment`, a blob.
 
 ```js caption=routes/file-upload.js
-import {view} from "primate";
-import { File } from "rcompat/fs";
+import view from "primate/handler/view";
 
 export default {
   get() {

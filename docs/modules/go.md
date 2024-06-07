@@ -1,10 +1,10 @@
 # Go
 
-This binding introduces support for routes written in Golang.
+This backend introduces support for routes written in Golang.
 
 ## Install
 
-`npm install @primate/binding`
+`npm install @primate/go`
 
 In addition, your system needs to have the `go` executable in its path, as it
 is used to compile the Go routes into Wasm.
@@ -14,7 +14,7 @@ is used to compile the Go routes into Wasm.
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import { go } from "@primate/binding";
+import go from "@primate/go";
 
 export default {
   modules: [
@@ -207,7 +207,7 @@ In addition, any types defined in `types` will be available to a `Dispatcher`.
 Suppose you have defined the following type.
 
 ```js caption=types/uuid.js
-import { is } from "rcompat/invariant";
+import is from "@rcompat/invariant/is";
 
 const valid = /^[^\W_]{8}-[^\W_]{4}-[^\W_]{4}-[^\W_]{4}-[^\W_]{12}$/u;
 
@@ -283,6 +283,10 @@ Default `".go"`
 
 The file extension associated with Go routes.
 
+## Resources
+
+* [Repository][repo]
+
 [plain text]: /guide/responses#plain-text
 [json]: /guide/responses#json
 [redirect]: /guide/responses#redirect
@@ -291,4 +295,5 @@ The file extension associated with Go routes.
 [path]: /guide/routes#path
 [session]: /modules/session#use
 [default-index]:
-https://github.com/primatejs/primate/blob/master/packages/primate/src/defaults/app.html
+https://github.com/primatejs/primate/blob/master/packages/core/src/build/defaults/app.html
+[repo]: https://github.com/primatejs/primate/tree/master/packages/go

@@ -1,17 +1,17 @@
 # Ruby
 
-This binding introduces support for routes written in Ruby.
+This backend introduces support for routes written in Ruby.
 
 ## Install
 
-`npm install @primate/binding @ruby/head-wasm-wasi@2.5 @ruby/wasm-wasi@2.5`
+`npm install @primate/ruby`
 
 ## Configure
 
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import { ruby } from "@primate/binding";
+import ruby from "@primate/ruby";
 
 export default {
   modules: [
@@ -198,7 +198,7 @@ function to access individual properties. In addition, any types defined in
 Suppose you have defined the following type.
 
 ```js caption=types/uuid.js
-import { is } from "rcompat/invariant";
+import is from "@rcompat/invariant/is";
 
 const valid = /^[^\W_]{8}-[^\W_]{4}-[^\W_]{4}-[^\W_]{4}-[^\W_]{12}$/u;
 
@@ -251,6 +251,10 @@ Default `".rb"`
 
 The file extension associated with Ruby routes.
 
+## Resources
+
+* [Repository][repo]
+
 [plain text]: /guide/responses#plain-text
 [json]: /guide/responses#json
 [redirect]: /guide/responses#redirect
@@ -259,4 +263,5 @@ The file extension associated with Ruby routes.
 [body]: /guide/routes#body
 [path]: /guide/routes#path
 [default-index]:
-https://github.com/primatejs/primate/blob/master/packages/primate/src/defaults/app.html
+https://github.com/primatejs/primate/blob/master/packages/core/src/build/defaults/app.html
+[repo]: https://github.com/primatejs/primate/tree/master/packages/ruby

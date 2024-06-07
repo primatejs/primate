@@ -4,14 +4,14 @@ This handler module serves HTMX components with the `.htmx` extension.
 
 ## Install
 
-`npm install @primate/frontend htmx-esm@0.2`
+`npm install @primate/htmx`
 
 ## Configure
 
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import { htmx } from "@primate/frontend";
+import htmx from "@primate/htmx";
 
 export default {
   modules: [
@@ -38,7 +38,7 @@ ${posts.map(post => `
 Serve it from a route.
 
 ```js caption=routes/htmx.js
-import { view } from "primate";
+import view from "primate/handler/view";
 
 const posts = [{
   id: 1,
@@ -87,7 +87,7 @@ add `"client-side-templates"` to the `extensions` array option.
 
 * [Repository][repo]
 
-[repo]: https://github.com/primatejs/primate/tree/master/packages/frontend
+[repo]: https://github.com/primatejs/primate/tree/master/packages/htmx
 [extensions]: https://htmx.org/extensions
 [client-side-templates]: https://htmx.org/extensions/client-side-templates
 [partial]: /guide/responses#partial

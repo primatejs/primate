@@ -4,14 +4,14 @@ This handler module serves Markdown components with the `.md` extension.
 
 ## Install
 
-`npm install @primate/frontend marked@10`
+`npm install @primate/markdown`
 
 ## Configure
 
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import { markdown } from "@primate/frontend";
+import markdown from "@primate/markdown";
 
 export default {
   modules: [
@@ -34,7 +34,7 @@ This is the **first** post
 Serve it from a route.
 
 ```js caption=routes/markdown.js
-import { view } from "primate";
+import view from "primate/handler/view";
 
 export default {
   get() {
@@ -70,4 +70,4 @@ HTML.
 
 * [Repository][repo]
 
-[repo]: https://github.com/primatejs/primate/tree/master/packages/frontend
+[repo]: https://github.com/primatejs/primate/tree/master/packages/markdown

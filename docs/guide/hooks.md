@@ -145,7 +145,7 @@ By that definition, any `mustache` file in `components` will be handled by the
 specified `mustacheHandler` handler function.
 
 ```js caption=routes/clock.js
-import { view } from "primate";
+import view from "primate/handler/view";
 
 export default {
   get(request) {
