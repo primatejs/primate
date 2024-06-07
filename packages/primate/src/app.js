@@ -106,14 +106,15 @@ export default async (log, root, config) => {
       const regexs = paths.map(file => globify(file));
       const target_base = this.runpath(directory);
 
+      await source.copy(target_base);
+
       await Promise.all((await source.collect(filter)).map(async path => {
         const debased = path.debase(this.root).path.slice(1);
         const filename = FS.File.join(directory, path.debase(source));
         const target = await target_base.join(filename.debase(directory));
         await target.directory.create();
-        await (regexs.some(regex => regex.test(debased))
-          ? target.write(mapper(await path.text()))
-          : path.copy(target));
+        regexs.some(regex => regex.test(debased))
+          ?? target.write(mapper(await path.text()));
       }));
     },
     async compile(component) {
