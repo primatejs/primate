@@ -28,7 +28,7 @@ Create a Eta component in `components`.
 <h1>All posts</h1>
 <div>
 <% it.posts.forEach(function(post){ %>
-<h2><a href="eta/post/view/<%= post.id %>"><%= post.title %></a></h2>
+<h2><a href="/post/view/<%= post.id %>"><%= post.title %></a></h2>
 <% }) %>
 </div>
 ```
