@@ -31,6 +31,7 @@ constraints of being tied to specific options like Nuxt, Next, or others.
 - HTMX
 - Handlebars
 - Marko
+- Eta
 
 ### Databases We Support
 
