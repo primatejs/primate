@@ -180,6 +180,7 @@ export default {
             "Handlebars",
             "Markdown",
             "Marko",
+            "Eta",
             { heading: "Data" },
             "Types",
             "Store",
