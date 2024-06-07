@@ -1,6 +1,6 @@
 import { numeric } from "rcompat/invariant";
 import * as O from "rcompat/object";
-import { platform } from "rcompat/meta";
+import { platform } from "rcompat/package";
 import ident from "../ident.js";
 import { peers } from "../common/exports.js";
 import depend from "../../depend.js";
