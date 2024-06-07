@@ -27,6 +27,7 @@
     "@marko/compiler": "5",
     "@marko/translator-default": "6",
     "babel-preset-solid": "1",
+    "eta": "3",
     "handlebars": "4",
     "htmx-esm": "0.2",
     "marked": "12",
@@ -64,6 +65,9 @@
       "optional": true
     },
     "babel-preset-solid": {
+      "optional": true
+    },
+    "eta": {
       "optional": true
     },
     "handlebars": {

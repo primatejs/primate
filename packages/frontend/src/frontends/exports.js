@@ -1,10 +1,11 @@
-export { default as webc } from "./webc/module.js";
+export { default as angular } from "./angular/module.js";
+export { default as eta } from "./eta/module.js";
+export { default as handlebars } from "./handlebars/module.js";
 export { default as htmx } from "./htmx/module.js";
 export { default as markdown } from "./markdown/module.js";
+export { default as marko } from "./marko/module.js";
 export { default as react } from "./react/module.js";
 export { default as solid } from "./solid/module.js";
 export { default as svelte } from "./svelte/module.js";
 export { default as vue } from "./vue/module.js";
-export { default as angular } from "./angular/module.js";
-export { default as handlebars } from "./handlebars/module.js";
-export { default as marko } from "./marko/module.js";
+export { default as webc } from "./webc/module.js";
