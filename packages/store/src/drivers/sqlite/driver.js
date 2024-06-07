@@ -1,6 +1,6 @@
 import { numeric } from "rcompat/invariant";
 import * as O from "rcompat/object";
-import { runtime } from "rcompat/meta";
+import { platform } from "rcompat/meta";
 import ident from "../ident.js";
 import { peers } from "../common/exports.js";
 import depend from "../../depend.js";
@@ -18,7 +18,7 @@ const defaults = {
 export default ({
   filename = defaults.filename,
 } = {}) => async () => {
-  const $on = runtime === "bun" ? { "bun:sqlite": null } : on;
+  const $on = platform() === "bun" ? { "bun:sqlite": null } : on;
   const [{ default: Connection }] = await depend($on, `store:${name}`);
   const pool = new Pool({
     manager: {

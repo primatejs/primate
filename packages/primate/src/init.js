@@ -1,7 +1,6 @@
 import { tryreturn } from "rcompat/async";
 import { blue, bold } from "rcompat/colors";
 import { File } from "rcompat/fs";
-import { runtime } from "rcompat/meta";
 import * as O from "rcompat/object";
 import * as P from "rcompat/package";
 import { default as Logger, bye, print } from "./Logger.js";
@@ -24,7 +23,7 @@ const get_config = async root => {
 
       return O.extend(defaults, imported);
     }).orelse(({ message }) =>
-      errors.ErrorInConfigFile.throw(message, `${runtime} ${config}`))
+      errors.ErrorInConfigFile.throw(message, `${P.platform()} ${config}`))
     : defaults;
 };
 

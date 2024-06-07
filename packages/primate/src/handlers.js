@@ -8,7 +8,7 @@ import errors from "./errors.js";
  * @typedef {import("./types").MinOptions} MinOptions
  * @typedef {import("./types").ErrorOptions} ErrorOptions
  * @typedef {import("./types").Options} Options
- * @typedef {(app: import("./types").App, ...rest: any) => Response} ResponseFn
+ * @typedef {import("./types").ResponseFn} ResponseFn
  */
 
 const handle = (mediatype, mapper = identity) => (body, options) => app =>
@@ -16,7 +16,7 @@ const handle = (mediatype, mapper = identity) => (body, options) => app =>
 
 // {{{ text
 /**
- * Send a plaintext response
+ * Issue a plaintext response
  * @param {string} body plaintext
  * @param {MinOptions} options rendering options
  * @return {ResponseFn}
@@ -24,6 +24,12 @@ const handle = (mediatype, mapper = identity) => (body, options) => app =>
 const text = handle(MediaType.TEXT_PLAIN);
 // }}}
 // {{{ json
+/**
+ * Issue a JSON response
+ * @param {object} body object
+ * @param {MinOptions} options rendering options
+ * @return {ResponseFn}
+ */
 const json = handle(MediaType.APPLICATION_JSON, JSON.stringify);
 // }}}
 // {{{ stream

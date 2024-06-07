@@ -20,7 +20,7 @@ const guard = (app, guards) => async (request, next) => {
     return next(request);
   } catch (error) {
     if (error.type === guard_error) {
-      return { response: respond(error.result)(app) };
+      return { request, response: respond(error.result)(app) };
     }
     // rethrow if not guard error
     throw error;

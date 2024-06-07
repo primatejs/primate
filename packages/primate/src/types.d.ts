@@ -26,6 +26,8 @@ type RequestFacade = {
   original: Request,
 };
 
+type ResponseFn = (app: App, ...rest: any[]) => Response;
+
 type ResponseFacade = 
   string 
 | object

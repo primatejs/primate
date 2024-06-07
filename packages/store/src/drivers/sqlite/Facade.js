@@ -1,9 +1,9 @@
 import * as O from "rcompat/object";
-import { runtime } from "rcompat/meta";
+import { platform } from "rcompat/package";
 import typemap from "./typemap.js";
 import { make_sort } from "../sql/exports.js";
 
-const is_bun = runtime === "bun";
+const is_bun = platform() === "bun";
 
 const filter_null = results =>
   results.map(result => O.filter(result, ([, value]) => value !== null));
