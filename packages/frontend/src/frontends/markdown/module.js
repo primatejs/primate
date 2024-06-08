@@ -42,12 +42,8 @@ const markdown = ({
             const { content, toc } = await markdown.compile(text, options);
 
             const base = target.join(component.debase(app.path.components));
-            const html = new File(`${base}.html`);
-            await html.directory.create();
-            await html.write(content);
-
-            const json = new File(`${base}.json`);
-            await json.write(O.stringify(toc));
+            await File.write(`${base}.html`, content);
+            await File.write(`${base}.json`, O.stringify(toc));
           },
           // no hydration
           client: _ => _,

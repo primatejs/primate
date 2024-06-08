@@ -22,11 +22,9 @@ const create = async ([root, configs]) => {
   await files.package_json(root, config);
   await files.primate_config_js(root, config);
   const pages = root.join("pages");
-  await pages.create();
   await files.app_html(pages);
   await files.error_html(pages);
   const routes = root.join("routes");
-  await routes.create();
   await files.index_route(routes);
 
   return root;
