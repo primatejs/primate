@@ -3,12 +3,13 @@ import Build from "rcompat/build";
 import { dim } from "rcompat/colors";
 import { File } from "rcompat/fs";
 import * as O from "rcompat/object";
+import * as P from "rcompat/package";
 import * as loaders from "../loaders/exports.js";
 import copy_includes from "./copy_includes.js";
 import $router from "./router.js";
 
 const html = /^.*.html$/u;
-const defaults = new File(import.meta.url).up(2).join("defaults");
+const defaults = (await P.root(import.meta.url)).join("src/defaults");
 
 const pre = async (app, mode) => {
   app.log.system(`starting ${dim(mode)} build`);

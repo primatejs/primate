@@ -1,5 +1,5 @@
 import { tryreturn } from "rcompat/async";
-import { packager } from "rcompat/meta";
+import { packager } from "rcompat/package";
 import errors from "../errors.js";
 
 const { MissingDependencies } = errors;
@@ -17,7 +17,7 @@ export default async (dependencies, from) => {
     .filter(([dependency]) => errored.includes(dependency))
     .map(([key, value]) => `${key}@${value}`);
   if (errored.length > 0) {
-    const install = module => `${packager} install ${module.join(" ")}`;
+    const install = module => `${packager()} install ${module.join(" ")}`;
     MissingDependencies.throw(errored.join(", "), from, install(versions));
   }
   return results.filter(result => typeof result !== "string");
