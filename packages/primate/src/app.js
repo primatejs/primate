@@ -4,7 +4,6 @@ import { File } from "rcompat/fs";
 import { identity } from "rcompat/function";
 import { MediaType, Status } from "rcompat/http";
 import { is } from "rcompat/invariant";
-import * as runtime from "rcompat/meta";
 import * as O from "rcompat/object";
 import { globify } from "rcompat/string";
 import errors from "./errors.js";
@@ -106,7 +105,6 @@ export default async (log, root, config) => {
     },
     modules: await loaders.modules(log, root, config.modules ?? []),
     fonts: [],
-    ...runtime,
     // copy files to build folder, potentially transforming them
     async stage(source, directory, filter) {
       const { paths = [], mapper = identity } = this.get("build.transform", {});
