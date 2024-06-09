@@ -2,6 +2,9 @@ import { File } from "rcompat/fs";
 import * as prompts from "./prompts.js";
 
 const confirm = async root => {
+  if (!await root.exists()) {
+    await root.create();
+  }
   if ((await root.list()).length > 0) {
     if (!await prompts.confirm({ message: "Directory not empty. Continue?" })) {
       prompts.bye();

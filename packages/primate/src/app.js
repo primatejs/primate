@@ -130,6 +130,7 @@ export default async (log, root, config) => {
           this.fonts.push(...[...contents.matchAll(font_regex)].map(match => match[1]));
         }
         const target = await target_base.join(rel_path.debase(directory));
+        await target.directory.create();
 
         regexs.some(regex => regex.test(debased)) &&
           await target.write(mapper(await abs_path.text()));
@@ -145,9 +146,11 @@ export default async (log, root, config) => {
         const debased = `${component.path}`.replace(source, "");
 
         const server_target = this.runpath(server, components, debased);
+        await server_target.directory.create();
         await component.copy(server_target);
 
         const client_target = this.runpath(client, components, debased);
+        await client_target.directory.create();
         await component.copy(client_target);
       } else {
         // compile server components

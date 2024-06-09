@@ -39,6 +39,7 @@ export default async ({
       const target_base = app.runpath(location.server, location.components);
       const code = await compile.server(await component.text(), component, app);
       const path = target_base.join(`${component.path}.js`.replace(source, ""));
+      await path.directory.create();
       await path.write(code.replaceAll(extensions.from, extensions.to));
     },
     async client(component, app) {

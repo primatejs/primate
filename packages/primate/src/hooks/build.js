@@ -24,6 +24,15 @@ const pre = async (app, mode) => {
 
   // remove build directory in case exists
   await app.path.build.remove();
+  await app.path.build.create();
+  await Promise.all(["server", "client", "pages", "components"]
+    .map(directory => app.runpath(directory).create()));
+  const components = await app.path.components.collect();
+  for (const component of components) {
+    const base = `${component.path}`.replace(app.path.components, "").slice(1);
+    const to = app.runpath(app.get("location.components"), base);
+    await to.directory.create();
+  }
 
   const router = await $router(app.path.routes);
   const layout = { depth: router.depth("layout") };
