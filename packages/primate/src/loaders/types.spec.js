@@ -19,15 +19,15 @@ const type = {
 };
 
 export default test => {
-  test.case("errors.InvalidDefaultExport", assert => {
-    const throws = mark("invalid type export at {0}", "/types/user.js");
+  test.case("errors.BadDefaultExport", assert => {
+    const throws = mark("bad type export at {0}", "/types/user.js");
     assert(() => types({ user: false })).throws(throws);
   });
 
-  test.case("errors.InvalidTypeName", assert => {
-    const throws = mark("invalid type name {0}", "us$er");
+  test.case("errors.BadTypeName", assert => {
+    const throws = mark("bad type name {0}", "us$er");
     assert(() => types({ us$er:  type })).throws(throws);
-    const throws2 = mark("invalid type name {0}", "User");
+    const throws2 = mark("bad type name {0}", "User");
     assert(() => types({ User: type })).throws(throws2);
     assert(() => types({ uSer: type })).nthrows();
   });

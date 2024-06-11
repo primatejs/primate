@@ -9,7 +9,6 @@ import copy_includes from "./copy_includes.js";
 import $router from "./router.js";
 
 const html = /^.*.html$/u;
-const defaults = (await P.root(import.meta.url)).join("src/defaults");
 
 const pre = async (app, mode) => {
   app.log.system(`starting ${dim(mode)} build`);
@@ -44,6 +43,7 @@ const pre = async (app, mode) => {
 const post = async app => {
   const location = app.get("location");
   const { path } = app;
+  const defaults = (await P.root(import.meta.url)).join("src/defaults");
 
   // stage routes
   if (await path.routes.exists()) {

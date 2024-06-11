@@ -1,10 +1,8 @@
 import * as O from "rcompat/object";
 import { tryreturn } from "rcompat/sync";
 import { Body } from "rcompat/http";
-import $errors from "../errors.js";
+import { MismatchedBody, MismatchedPath, NoRouteToPath } from "primate/errors";
 import validate from "../validate.js";
-
-const { MismatchedBody, MismatchedPath, NoRouteToPath } = $errors;
 
 const deroot = pathname => pathname.endsWith("/") && pathname !== "/"
   ? pathname.slice(0, -1) : pathname;

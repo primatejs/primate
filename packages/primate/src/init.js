@@ -1,3 +1,4 @@
+import { EmptyConfigFile, ErrorInConfigFile } from "primate/errors";
 import { tryreturn } from "rcompat/async";
 import { blue, bold } from "rcompat/colors";
 import { File } from "rcompat/fs";
@@ -7,7 +8,6 @@ import { default as Logger, bye, print } from "./Logger.js";
 import app from "./app.js";
 import find from "./commands/exports.js";
 import defaults from "./defaults/primate.config.js";
-import errors from "./errors.js";
 import { init } from "./hooks/exports.js";
 
 let logger = new Logger({ level: Logger.Warn });
@@ -19,11 +19,11 @@ const get_config = async root => {
     ? tryreturn(async _ => {
       const imported = await config.import("default");
 
-      O.empty(imported) && errors.EmptyConfigFile.warn(logger, config);
+      O.empty(imported) && EmptyConfigFile.warn(logger, config);
 
       return O.extend(defaults, imported);
     }).orelse(({ message }) =>
-      errors.ErrorInConfigFile.throw(message, `${P.platform()} ${config}`))
+      ErrorInConfigFile.throw(message, `${P.platform()} ${config}`))
     : defaults;
 };
 

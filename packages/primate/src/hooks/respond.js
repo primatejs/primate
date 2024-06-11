@@ -2,9 +2,9 @@ import { s_streamable }from "rcompat/fs";
 import { identity } from "rcompat/function";
 import * as O from "rcompat/object";
 import { text, json, stream, redirect } from "primate";
-import errors from "../errors.js";
+import { BadBody } from "primate/errors";
 
-const not_found = value => errors.InvalidBodyReturned.throw(value);
+const not_found = value => BadBody.throw(value);
 const is_text = value => typeof value === "string";
 const is_instance = of => value => value instanceof of;
 const is_response = is_instance(globalThis.Response);

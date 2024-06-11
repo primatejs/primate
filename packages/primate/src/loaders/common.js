@@ -1,12 +1,10 @@
 import { File } from "rcompat/fs";
 import { identity } from "rcompat/function";
 import * as A from "rcompat/array";
-import errors from "../errors.js";
-
-const ending = ".js";
+import { EmptyDirectory } from "primate/errors";
 
 const empty = log => (objects, name, path) =>
-  A.empty(objects) && errors.EmptyDirectory.warn(log, name, path);
+  A.empty(objects) && EmptyDirectory.warn(log, name, path);
 
 export default async ({
   log,
@@ -20,7 +18,7 @@ export default async ({
     (await File.collect(directory, /^.*.js$/u, { recursive }))
       .filter(filter)
       .map(async file => [
-        `${file}`.replace(directory, _ => "").slice(1, -ending.length),
+        `${file}`.replace(directory, _ => "").slice(1, -".js".length),
         await file.import(),
       ]));
   warn && await directory.exists() && empty(log)(objects, name, directory);

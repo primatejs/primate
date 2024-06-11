@@ -1,8 +1,8 @@
+import { NoHandler } from "primate/errors";
 import { File } from "rcompat/fs";
 import { identity } from "rcompat/function";
 import { MediaType, Status } from "rcompat/http";
 import { HTML } from "rcompat/string";
-import errors from "./errors.js";
 
 /**
  * @typedef {import("./types").MinOptions} MinOptions
@@ -136,8 +136,7 @@ const extensions = ["fullExtension", "extension"];
 const view = (name, props, options) => (app, ...rest) => extensions
   .map(extension => app.extensions[new File(name)[extension]])
   .find(extension => extension?.handle)
-  ?.handle(name, props, options)(app, ...rest)
-    ?? errors.NoHandlerForComponent.throw(name);
+  ?.handle(name, props, options)(app, ...rest) ?? NoHandler.throw(name);
 // }}}
 
 export { error, html, json, redirect, sse, stream, text, view, ws };

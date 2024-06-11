@@ -1,5 +1,5 @@
 import { Router } from "rcompat/fs";
-import errors from "../errors.js";
+import * as errors from "../errors.js";
 
 export default async directory => {
 

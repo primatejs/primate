@@ -6,12 +6,10 @@ import { MediaType, Status } from "rcompat/http";
 import { is } from "rcompat/invariant";
 import * as O from "rcompat/object";
 import { globify } from "rcompat/string";
-import errors from "./errors.js";
+import { DoubleFileExtension } from "primate/errors";
 import * as handlers from "./handlers.js";
 import * as loaders from "./loaders/exports.js";
 import to_sorted from "./to_sorted.js";
-
-const { DoubleFileExtension } = errors;
 
 const to_csp = (config_csp, assets, csp) => config_csp
   // only csp entries in the config will be enriched
