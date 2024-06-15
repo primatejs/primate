@@ -51,7 +51,7 @@ const options = {
 export const compile = {
   async server(app, component, extensions) {
     const location = app.get("location");
-    const source = app.path.components;
+    const source = app.runpath(location.components);
     const { code } = await transform(await component.text(), options);
     const target_base = app.runpath(location.server, location.components);
     const path = target_base.join(`${component.path}.js`.replace(source, ""));

@@ -34,7 +34,7 @@ export default async ({
   await create.client_root(app, name, create_root, compile);
 
   const location = app.get("location");
-  const source = app.path.components;
+  const source = app.runpath(location.components);
 
   return {
     async server(component) {

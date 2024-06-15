@@ -38,7 +38,10 @@ const post = async app => {
   // copy additional subdirectories to build/server
   await copy_includes(app, location.server);
 
-  const components = await app.path.components.collect();
+  // copy components to build/components
+  await app.stage(app.path.components, FS.File.join(location.components));
+
+  const components = await app.runpath(location.components).collect();
 
   // from the build directory, compile to server and client
   await Promise.all(components.map(component => app.compile(component)));

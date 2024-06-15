@@ -35,6 +35,7 @@ const markdown = ({
     },
     register(app, next) {
       const location = app.get("location");
+      const source = app.runpath(location.components);
       const target = app.runpath(location.server, location.components);
 
       app.register(extension, {
@@ -44,7 +45,7 @@ const markdown = ({
             const text = await component.text();
             const { content, toc } = await markdown.compile(text, options);
 
-            const base = target.join(component.debase(app.path.components));
+            const base = target.join(component.debase(source));
             const html = new FS.File(`${base}.html`);
             await html.directory.create();
             await html.write(content);
