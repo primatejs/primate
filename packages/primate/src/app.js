@@ -114,7 +114,7 @@ export default async (log, root, config) => {
         const target = await target_base.join(filename.debase(directory));
         await target.directory.create();
         regexs.some(regex => regex.test(debased))
-          ?? target.write(mapper(await path.text()));
+          && target.write(mapper(await path.text()));
       }));
     },
     async compile(component) {
