@@ -197,7 +197,7 @@ export default {
         },
         github: "primatejs/primate",
         x: "primatejs",
-        chat: "https://web.libera.chat#primate",
+        chat: "https://discord.gg/RSg4NNwM4f",
         reddit: "r/primatejs",
       }),
     }),

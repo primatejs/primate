@@ -81,6 +81,7 @@ constraints of being tied to specific options like Nuxt, Next, or others.
 
 * Website: https://primatejs.com
 * IRC: Join the `#primate` channel on `irc.libera.chat`
+* Discord: https://discord.gg/RSg4NNwM4f
 * Reddit: [r/primatejs](https://reddit.com/r/primatejs)
 * Twitter (X): [@primatejs](https://x.com/primatejs)
 * Blog: https://primatejs.com/blog
