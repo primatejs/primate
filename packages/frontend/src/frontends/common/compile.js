@@ -34,7 +34,7 @@ export default async ({
   return {
     async server(component, app) {
       const location = app.get("location");
-      const source = app.path.components;
+      const source = app.runpath(location.components);
       await create.server_root(app, name_, create_root, compile);
       const target_base = app.runpath(location.server, location.components);
       const code = await compile.server(await component.text(), component, app);
@@ -44,7 +44,7 @@ export default async ({
     },
     async client(component, app) {
       const location = app.get("location");
-      const source = app.path.components;
+      const source = app.runpath(location.components);
       await create.client_root(app, name_, create_root, compile);
       const { path: name } = component.debase(source, "/");
 

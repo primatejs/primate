@@ -16,7 +16,9 @@ const post = async app => {
   const router = await $router(app.runpath(location.routes));
   const re = /app..*(?:js|css)$/u;
 
-  for (const path of await client.collect(re, { recursive: false })) {
+  console.log(app.build_assets)
+
+  /*for (const path of await client.collect(re, { recursive: false })) {
     const src = path.name;
     const type = path.extension === ".css" ? "style" : "module";
     await app.publish({ src, type });
@@ -28,7 +30,7 @@ const post = async app => {
         type: "importmap",
       });
     }
-  }
+  }*/
 
   const $app = { ...app, types, dispatch: dispatch(types), router };
   $app.route = hooks.route($app);
