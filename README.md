@@ -91,6 +91,7 @@ constraints of being tied to specific options like Nuxt, Next, or others.
 
 - [hynt.us](https://github.com/profullstack/hynt-web) - a link shortener app using SurrealDB and Svelte
 - [starter app](https://github.com/primatejs/app) - demos most of the features of Primate
+- [FastestEngineer](https://fastest.engineer) - A fully-featured SaaS boilerplate
 
 ## License
 
