@@ -4,13 +4,12 @@
 
 Polymorphic development platform. To start [read guide].
 
-![npm](https://img.shields.io/npm/v/primate)
-![npm](https://img.shields.io/npm/dt/primate)
-![GitHub](https://img.shields.io/github/license/primatejs/primate)
-![GitHub issues](https://img.shields.io/github/issues/primatejs/primate)
-![GitHub stars](https://img.shields.io/github/stars/primatejs/primate)
-![Node.js Version](https://img.shields.io/node/v/primate)
-![GitHub last commit](https://img.shields.io/github/last-commit/primatejs/primate)
+[![npm](https://img.shields.io/npm/v/primate?style=for-the-badge&colorB=a16836)](https://npmjs.com/primate)
+![npm](https://img.shields.io/npm/dt/primate?style=for-the-badge)
+[![GitHub issues](https://img.shields.io/github/issues/primatejs/primate?style=for-the-badge&logo=issues)](https://github.com/primatejs/primate/issues)
+[![GitHub stars](https://img.shields.io/github/stars/primatejs/primate?style=for-the-badge)](https://github.com/primatejs/primate/stargazers)
+![Node.js Version](https://img.shields.io/node/v/primate?style=for-the-badge)
+[![GitHub last commit](https://img.shields.io/github/last-commit/primatejs/primate?style=for-the-badge)](https://github.com/primatejs/primate/commits/master)
 
 ## Why use Primate?
 
@@ -89,7 +88,6 @@ constraints of being tied to specific options like Nuxt, Next, or others.
 
 ## Example Applications
 
-- [hynt.us](https://github.com/profullstack/hynt-web) - a link shortener app using SurrealDB and Svelte
 - [starter app](https://github.com/primatejs/app) - demos most of the features of Primate
 - [FastestEngineer](https://fastest.engineer) - A fully-featured SaaS boilerplate
 
