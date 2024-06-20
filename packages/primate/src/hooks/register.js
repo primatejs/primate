@@ -38,13 +38,15 @@ const post = async app => {
   // copy additional subdirectories to build/server
   await copy_includes(app, location.server);
 
-  // copy components to build/components
-  await app.stage(app.path.components, FS.File.join(location.components));
+  if (await app.path.components.exists()) {
+    // copy components to build/components
+    await app.stage(app.path.components, FS.File.join(location.components));
 
-  const components = await app.runpath(location.components).collect();
+    const components = await app.runpath(location.components).collect();
 
-  // from the build directory, compile to server and client
-  await Promise.all(components.map(component => app.compile(component)));
+    // from the build directory, compile to server and client
+    await Promise.all(components.map(component => app.compile(component)));
+  }
 
   return app;
 };
