@@ -1,11 +1,8 @@
-name: fly.io deployment
+name: render.com deployment
 
 on:
   push:
     branches: ["master"]
-
-env:
-  FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
 jobs:
   deploy-website:
@@ -13,7 +10,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-      - name: Use Fly CLI
-        uses: superfly/flyctl-actions/setup-flyctl@master
-      - run: flyctl deploy --remote-only --no-cache -c packages/website/fly-website.toml
+      - name: Use Render API
+        uses: sws2apps/render-deployment@v1.7.0
+        with:
+          serviceId: ${{ secrets.RENDER_SERVICE_ID }}
+          apiKey: ${{ secrets.RENDER_API_KEY }}
+          multipleDeployment: false
