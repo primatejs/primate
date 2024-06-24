@@ -10,9 +10,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Use Render API
+      - name: Deploy Website
         uses: sws2apps/render-deployment@v1.7.0
         with:
           serviceId: ${{ secrets.RENDER_SERVICE_ID }}
           apiKey: ${{ secrets.RENDER_API_KEY }}
           multipleDeployment: false
+      - name: "Purge Fastly cache"
+        run: |
+          curl -X POST -H "Fastly-Key: ${{ secrets.FASTLY_API_KEY }}" \
+          "https://api.fastly.com/service/${{ secrets.FASTLY_SERVICE_ID }}/purge_all"
