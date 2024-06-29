@@ -69,6 +69,7 @@ use different frontend frameworks alongside each other, in different routes.
 |[HTMX]      |`.htmx`        |✓    |✗      |✗  |✗        |✗  |✗   |✗   |
 |[Handlebars]|`.hbs`         |✓    |✗      |✓  |✓        |✗  |✗   |✗   |
 |[Marko]     |`.marko`       |✓    |✗      |✓  |✗        |✗  |✗   |✗   |
+|[Voby]      |`.voby`        |✓    |✗      |✓  |✗        |✗  |✗   |✗   |
 
 ## Error list
 
@@ -94,6 +95,7 @@ dependency is missing and what command you need to issue to install it.
 [HTMX]: /modules/htmx
 [Handlebars]: /modules/handlebars
 [Marko]: /modules/marko
+[Voby]: /modules/voby
 [Layouts]: /guide/layouts
 [I18N]: /modules/i18n
 [bailout]: /guide/logging#bailout
