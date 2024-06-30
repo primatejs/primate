@@ -26,8 +26,8 @@ docker rmi primate:$(date '+%Y-%m-%d')
 
 ### Build
 ```sh
-docker build -t primate:$(date '+%Y-%m-%d') -f packages/website/Dockerfile.fly-website .
-docker builder prune
+docker build -t primate:$(date '+%Y-%m-%d') -f packages/website/Dockerfile .
+docker builder prune -f
 ```
 
 ### Run
