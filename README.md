@@ -80,7 +80,7 @@ constraints of being tied to specific options like Nuxt, Next, or others.
 ## Resources
 
 * Website: https://primatejs.com
-* IRC: Join the `#primate` channel on `irc.libera.chat`
+* IRC: Join the `#primate` channel on `irc.rizon.net`
 * Discord: https://discord.gg/RSg4NNwM4f
 * Reddit: [r/primatejs](https://reddit.com/r/primatejs)
 * Twitter (X): [@primatejs](https://x.com/primatejs)
