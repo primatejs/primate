@@ -314,6 +314,7 @@ button {
 
 .navbar li {
   margin: 0 1rem;
+  font-size: 16px;
 }
 
 .navbar a.active {
