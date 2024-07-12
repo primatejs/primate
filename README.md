@@ -10,7 +10,7 @@ Polymorphic development platform. To start [read guide].
 [![GitHub stars](https://img.shields.io/github/stars/primatejs/primate?style=for-the-badge)](https://github.com/primatejs/primate/stargazers)
 ![Node.js Version](https://img.shields.io/node/v/primate?style=for-the-badge)
 [![GitHub last commit](https://img.shields.io/github/last-commit/primatejs/primate?style=for-the-badge)](https://github.com/primatejs/primate/commits/master)
-
+[![Discord](https://img.shields.io/badge/dynamic/json?logo=discord&label=Discord%20Members&query=approximate_member_count&url=https%3A%2F%2Fdiscordapp.com%2Fapi%2Finvites%2FYZB5XMaYYm%3Fwith_counts%3Dtrue)](https://discord.gg/YZB5XMaYYm)
 ## Why use Primate?
 
 ### Framework Independence
