@@ -79,7 +79,7 @@ export default app => {
   const handle = async request => {
     const { pathname } = request.url;
 
-    const asset = app.get_asset(pathname)?.code;
+    const asset = app.loader.asset(pathname)?.code;
 
     return asset === undefined ? as_route(request) : as_asset(pathname, asset);
   };

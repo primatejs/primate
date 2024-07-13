@@ -125,7 +125,7 @@ const html = (name, props, options = {}) => async app => {
 };
 // }}}
 // {{{ view
-const extensions = ["fullExtension", "extension"];
+const extensions = ["extension", "fullExtension"];
 /**
  * Render a component using handler for the given filename extension
  * @param {string} name component filename
@@ -135,8 +135,8 @@ const extensions = ["fullExtension", "extension"];
  */
 const view = (name, props, options) => (app, ...rest) => extensions
   .map(extension => app.handlers[new File(name)[extension]])
-  .find(extension => extension?.handle)
-  ?.handle(name, props, options)(app, ...rest) ?? NoHandler.throw(name);
+  .find(extension => extension !== undefined)
+  ?.(name, props, options)(app, ...rest) ?? NoHandler.throw(name);
 // }}}
 
 export { error, html, json, redirect, sse, stream, text, view, ws };

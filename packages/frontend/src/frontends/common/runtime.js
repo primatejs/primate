@@ -17,16 +17,14 @@ export default ({
     return {
       name: `primate:${name}`,
       serve(app, next) {
-        app.register(extension, {
-          handle: handler({
+        app.register(extension, handler({
             app,
             name,
             render: imports.render,
             client: exports.default,
             normalize: normalized,
             spa,
-          }),
-        });
+        }));
         return next(app);
       },
     };

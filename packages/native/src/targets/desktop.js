@@ -20,8 +20,6 @@ export default async app => {
   const d = app.runpath(location.pages);
   const pages = await Promise.all((await File.collect(d, html, { recursive: true }))
     .map(async file => `${file}`.replace(`${d}/`, _ => "")));
-  const pages_str = pages.map(page =>
-    `"${page}": await File.text("./${location.pages}/${page}"),`).join("\n");
 
   const assets_scripts = `
   import { File } from "rcompat/fs";
@@ -36,14 +34,14 @@ export default async app => {
   };
 
   ${$imports.map(({ path }, i) =>
-    `const asset${i} = await new File(import.meta.dirname)
-      .join("${path}").text();`).join("\n  ")}
+    `import asset${i} from "${path}" with { type: "file" };
+    const file${i} = await File.text(asset${i});`).join("\n  ")}
   const assets = [${$imports.map(($import, i) => `{
   src: "${$import.src}",
-  code: asset${i},
+  code: file${i},
   type: "${$import.type}",
   inline: false,
-  integrity: await hash(asset${i}),
+  integrity: await hash(file${i}),
   }`).join(",\n  ")}];
 
   const imports = {
@@ -58,8 +56,12 @@ export default async app => {
     integrity: await hash(stringify({ imports })),
   });
 
+  ${pages.map((page, i) =>
+    `import i_page${i} from "./${location.pages}/${page}" with { type: "file" };
+    const page${i} = await File.text(i_page${i});`).join("\n  ")}
+
   const pages = {
-    ${pages_str}
+  ${pages.map((page, i) => `"${page}": page${i},`).join("\n  ")}
   };
 
   const loader = {
@@ -70,7 +72,7 @@ export default async app => {
       return assets.find(asset => asset.src === pathname);
     },
   };
-  const target = "web";
+  const target = "desktop";
 
   export { assets, loader, target };
 `;

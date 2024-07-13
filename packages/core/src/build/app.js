@@ -42,6 +42,7 @@ export default async (log, root, config) => {
       const target_base = this.runpath(directory);
 
       // first, copy everything
+ //     console.log(source.path, target_base.path);
       await source.copy(target_base);
 
       const location = this.get("location");
@@ -92,6 +93,9 @@ export default async (log, root, config) => {
     },
     runpath(...directories) {
       return this.path.build.join(...directories);
+    },
+    target(name, handler) {
+      this.targets[name] = handler;
     },
   };
 };

@@ -114,6 +114,7 @@
     "./webc": "./src/client/webc/exports.js",
     "./spa": "./src/client/spa/exports.js",
     "./svelte": "./src/frontends/svelte/module.js",
-    "./svelte/runtime": "./src/frontends/svelte/runtime/runtime.js"
+    "./svelte/runtime": "./src/frontends/svelte/runtime/runtime.js",
+    "./angular": "./src/frontends/angular/module.js"
   }
 }

@@ -5,7 +5,7 @@ export default {
   base: "/",
   modules: [],
   pages: {
-    index: "app.html",
+    app: "app.html",
     error: "error.html",
   },
   logger: {

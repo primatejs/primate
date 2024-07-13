@@ -45,6 +45,7 @@ export default async ({
         const on = O.filter(await peers(),
           ([key]) => dependencies.includes(key));
         await depend(on, `frontend:${name}`);
+
         app.build.plugin(imports.publish(app, extension));
         const code = "export { default as spa } from '@primate/frontend/spa';";
         app.build.export(code);

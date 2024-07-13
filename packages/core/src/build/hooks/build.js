@@ -38,9 +38,63 @@ const pre = async (app, mode, target) => {
   return { ...app, layout };
 };
 
+const js_re = /^.*.js$/u;
+const write_routes = async (build_directory, app) => {
+  const location = app.get("location");
+  const d = app.runpath(location.routes);
+  const e = await Promise.all((await File.collect(d, js_re, { recursive: true }))
+    .map(async file => `${file}`.replace(d, _ => "")));
+
+  const routes_js = `
+  const routes = [];
+  ${e.map((route, i) =>
+    `import * as route${i} from "../routes${route}"; 
+  routes.push(["${route.slice(1, -".js".length)}", route${i}]);`,
+  ).join("\n")}
+  export default routes;`;
+  await build_directory.join("routes.js").write(routes_js);
+};
+
+const write_components = async (build_directory, app) => {
+  const location = app.get("location");
+  const d2 = app.runpath(location.server, location.components);
+  const e = await Promise.all((await File.collect(d2, js_re, { recursive: true }))
+    .map(async file => `${file}`.replace(d2, _ => "")));
+
+  const components_js = `
+const components = [];
+${e.map((component, i) =>
+    `import * as component${i} from "../server/components${component}"; 
+components.push(["${component.slice(1, -".js".length)}", component${i}]);`,
+  ).join("\n")}
+
+import * as root0 from "../server/root_svelte.js";
+components.push(["root_svelte.js", root0]);
+export default components;`;
+  await build_directory.join("components.js").write(components_js);
+};
+
+const write_bootstrap = async (build_number, app) => {
+  const build_start_script = `
+import { File } from "rcompat/fs";
+import { serve } from "@primate/core";
+import config from "./primate.config.js";
+import routes from "./${build_number}/routes.js";
+import components from "./${build_number}/components.js";
+import * as target from "./target.js";
+
+await serve(new File(import.meta.url).directory, {
+  ...target,
+  config,
+  routes,
+  components,
+});`;
+  await app.path.build.join("serve.js").write(build_start_script);
+};
+
 const post = async (app, target) => {
   const location = app.get("location");
-  const defaults = (await P.root(import.meta.url)).join("src/defaults");
+  const defaults = new File(import.meta.dirname).join("../defaults");
 
   await Promise.all(["routes", "types", "components"].map(directory =>
     app.stage(app.path[directory], location[directory])));
@@ -89,53 +143,17 @@ const post = async (app, target) => {
 
   const build_number = crypto.randomUUID().slice(0, 8);
   const build_directory = app.path.build.join(build_number);
-  const rre = /^.*.js$/u;
-  const d = app.runpath(location.routes);
-  const e = await Promise.all((await File.collect(d, rre, { recursive: true }))
-    .map(async file => `${file}`.replace(d, _ => "")));
+  // TODO: remove after rcompat automatically creates directories
+  await build_directory.create();
 
-  const d2 = app.runpath(location.server, location.components);
-  const e2 = await Promise.all((await File.collect(d2, rre, { recursive: true }))
-    .map(async file => `${file}`.replace(d2, _ => "")));
+  await write_routes(build_directory, app);
+  await write_components(build_directory, app);
+  await write_bootstrap(build_number, app);
 
-  const routes_js = e => `
-const routes = [];
-${e.map((route, i) =>
-    `import * as route${i} from "../routes${route}"; 
-routes.push(["${route.slice(1, -".js".length)}", route${i}]);`,
-  ).join("\n")}
-export default routes;`;
-  await build_directory.join("routes.js").write(routes_js(e));
-
-  const components_js = _ => `
-const components = [];
-${_.map((component, i) =>
-    `import * as component${i} from "../server/components${component}"; 
-components.push(["${component.slice(1, -".js".length)}", component${i}]);`,
-  ).join("\n")}
-
-import * as root0 from "../server/root_svelte.js";
-components.push(["root_svelte.js", root0]);
-export default components;`;
-  await build_directory.join("components.js").write(components_js(e2));
-
-  const build_start_script = `
-import { File } from "rcompat/fs";
-import { serve } from "@primate/core";
-import config from "./primate.config.js";
-import routes from "./${build_number}/routes.js";
-import components from "./${build_number}/components.js";
-import * as target from "./target.js";
-
-await serve(new File(import.meta.url).directory, {
-  ...target,
-  config,
-  routes,
-  components,
-});`;
-  await app.path.build.join("serve.js").write(build_start_script);
+  // TODO: generalize
   const config = (await app.root.join("primate.config.js").text())
-    .replace("@primate/frontend/svelte", "@primate/frontend/svelte/runtime");
+    .replace("@primate/frontend/svelte", "@primate/frontend/svelte/runtime")
+  ;
   await app.path.build.join("primate.config.js").write(config);
 
   app.log.system(`build written to ${dim(app.path.build)}`);

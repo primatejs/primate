@@ -59,7 +59,7 @@ const render_head = (assets, fonts, head) =>
       tags.font({ href, type: "font/woff2" }),
     ).join("\n"));
 
-export default async (log, root, { config, assets, routes, components, pages, get_asset }) => {
+export default async (log, root, { config, assets, routes, components, loader, target }) => {
   const { http } = config;
   const secure = http?.ssl !== undefined;
   const path = O.valmap(config.location, value => root.join(value));
@@ -81,7 +81,6 @@ export default async (log, root, { config, assets, routes, components, pages, ge
     path,
     root,
     log,
-    get_asset,
     get_component(name) {
       return $components[name]?.default;
     },
@@ -111,14 +110,13 @@ export default async (log, root, { config, assets, routes, components, pages, ge
       return this.path.build.join(...directories);
     },
     async render(content) {
-      const app = this.get("pages.app");
-      const { body, head, partial, placeholders = {}, page = app } = content;
+      const { body, head, partial, placeholders = {}, page } = content;
       ["body", "head"].every(used => is(placeholders[used]).undefined());
 
       return partial ? body : Object.entries(placeholders)
         // replace given placeholders, defaulting to ""
         .reduce((html, [key, value]) => html.replace(`%${key}%`, value ?? ""),
-          pages[page] ?? pages[app])
+          this.loader.page(page))
         // replace non-given placeholders, aside from %body% / %head%
         .replaceAll(/(?<keep>%(?:head|body)%)|%.*?%/gus, "$1")
         // replace body and head
@@ -181,5 +179,9 @@ export default async (log, root, { config, assets, routes, components, pages, ge
       const prefix = algorithm.replace("-", _ => "");
       return `${prefix}-${btoa(String.fromCharCode(...new Uint8Array(bytes)))}`;
     },
+    // noop
+    target(name, handler) {},
+    build_target: target,
+    loader,
   };
 };

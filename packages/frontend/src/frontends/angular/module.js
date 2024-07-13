@@ -1,6 +1,7 @@
 import * as O from "rcompat/object";
 import { register, peers } from "../common/exports.js";
 import depend from "../depend.js";
+import * as imports from "./imports.js";
 
 const handler = ({ make, render }) => (name, props = {}, options = {}) =>
   async app => {
@@ -20,9 +21,7 @@ export default ({
     "@angular/platform-server",
     "@angular/ssr",
   ];
-  const on = O.filter(peers, ([key]) => dependencies.includes(key));
   const rootname = name;
-  let imports = {};
 
   const extensions = {
     from: extension,
@@ -31,24 +30,26 @@ export default ({
 
   return {
     name: `primate:${name}`,
-    async init(app, next) {
+    async build(app, next) {
+      const on = O.filter(await peers(), ([key]) => dependencies.includes(key));
       await depend(on, `frontend:${name}`);
 
-      imports = await import("./imports.js");
       imports.set_mode(mode);
 
       app.register(extension, {
-        handle: handler(register({
-          app,
-          rootname,
-          render: imports.render,
-        })),
-        compile: {
-          server: component => imports.compile.server(app, component,
-            extensions),
-          client: _ => _,
-        },
+        server: component => imports.compile.server(app, component,
+          extensions),
+        client: _ => _,
       });
+
+      return next(app);
+    },
+    serve(app, next) {
+      app.register(extension, handler(register({
+        app,
+        rootname,
+        render: imports.render,
+      })));
 
       return next(app);
     },

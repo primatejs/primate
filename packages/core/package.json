@@ -7,6 +7,7 @@
   "license": "MIT",
   "files": [
     "src/**/*.js",
+    "src/build/defaults/*.html",
     "!src/**/*.spec.js"
   ],
   "repository": {
