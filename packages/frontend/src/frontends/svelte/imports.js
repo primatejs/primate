@@ -48,7 +48,7 @@ export const publish = (app, extension) => ({
       // Convert Svelte syntax to JavaScript
       const { js, css } = compile.client(source);
       let contents = js;
-      if (css !== null) {
+      if (css !== null && css !== "") {
         const path = File.webpath(`${args.path}css`);
         app.build.save(path, css);
         contents += `\nimport "${path}";`;
