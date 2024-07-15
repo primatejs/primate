@@ -3,7 +3,6 @@ import Build from "rcompat/build";
 import { dim } from "rcompat/colors";
 import { File } from "rcompat/fs";
 import * as O from "rcompat/object";
-import * as P from "rcompat/package";
 import * as loaders from "../loaders/exports.js";
 import copy_includes from "./copy_includes.js";
 import $router from "./router.js";
