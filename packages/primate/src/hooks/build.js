@@ -72,8 +72,8 @@ const post = async app => {
     // copy static files to build/server/static
     await app.stage(path.static, File.join(location.server, location.static));
 
-    // copy static files to build/client/static
-    await app.stage(path.static, File.join(location.client, location.static));
+    // copy static files to build/static
+    await app.stage(path.static, File.join(location.static));
 
     // copy static files to build/static
     await app.stage(path.static, File.join(location.static));
