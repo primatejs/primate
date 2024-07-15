@@ -19,7 +19,7 @@ const pre = async (app, mode, target) => {
     ...O.exclude(app.get("build"), ["includes", "index", "transform"]),
     outdir: app.runpath(app.get("location.client")).path,
     stdin: {
-      resolveDir: app.root.build.path,
+      resolveDir: app.path.build.path,
     },
   }, mode);
 

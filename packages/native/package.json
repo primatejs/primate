@@ -23,8 +23,7 @@
     "./worker": "./src/worker.js",
     ".": {
       "import": {
-        "default": "./src/exports.js",
-        "worker": "./src/test-worker.js"
+        "default": "./src/exports.js"
       }
     }
   }
