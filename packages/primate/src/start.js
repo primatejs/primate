@@ -37,7 +37,7 @@ export default async ($app, mode = "development") => {
   app.build = new Build({
     ...o.exclude(app.get("build"), ["includes", "index", "transform"]),
     outdir: app.runpath(app.get("location.client")).path,
-    resolveDir: app.root.path,
+    resolveDir: app.path.build.path,
   }, mode);
 
   const primate = await resolve(import.meta.url);
