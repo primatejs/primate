@@ -17,7 +17,7 @@ const pre = async (app, mode) => {
     ...O.exclude(app.get("build"), ["includes", "index", "transform"]),
     outdir: app.runpath(app.get("location.client")).path,
     stdin: {
-      resolveDir: app.root.path,
+      resolveDir: app.root.build.path,
     },
   }, mode);
 
@@ -74,6 +74,9 @@ const post = async app => {
 
     // copy static files to build/client/static
     await app.stage(path.static, File.join(location.client, location.static));
+
+    // copy static files to build/static
+    await app.stage(path.static, File.join(location.static));
 
     // publish JavaScript and CSS files
     const imports = await File.collect(path.static, /\.(?:css)$/u);
