@@ -15,14 +15,15 @@
     "directory": "packages/frontend"
   },
   "dependencies": {
-    "rcompat": "^0.17.0"
+    "rcompat": "^0.17.0",
+    "@rcompat/crypto": "^0.2.0"
   },
   "peerDependencies": {
-    "@angular/compiler": "17",
-    "@angular/core": "17",
-    "@angular/platform-browser": "17",
-    "@angular/platform-server": "17",
-    "@angular/ssr": "17",
+    "@angular/compiler": "18",
+    "@angular/core": "18",
+    "@angular/platform-browser": "18",
+    "@angular/platform-server": "18",
+    "@angular/ssr": "18",
     "@babel/core": "7",
     "@marko/compiler": "5",
     "@marko/translator-default": "6",
@@ -31,11 +32,12 @@
     "handlebars": "4",
     "htmx-esm": "0.2",
     "marked": "12",
-    "primate": "0.31",
+    "primate": "workspace:^",
     "react": "18",
     "react-dom": "18",
     "solid-js": "1",
     "svelte": "4",
+    "voby": "0.58",
     "vue": "3",
     "zone.js": "0.14"
   },
@@ -91,6 +93,9 @@
     "svelte": {
       "optional": true
     },
+    "voby": {
+      "optional": true
+    },
     "vue": {
       "optional": true
     },
@@ -102,16 +107,34 @@
   "exports": {
     ".": {
       "browser": {
-        "react": "./src/client/react.js",
-        "solid": "./src/client/solid.js",
-        "webc": "./src/client/webc/exports.js",
-        "spa": "./src/client/spa/exports.js"
-      },
-      "default": "./src/exports.js"
+        "spa": "./src/spa/exports.js"
+      }
     },
-    "./react": "./src/client/react.js",
-    "./solid": "./src/client/solid.js",
-    "./webc": "./src/client/webc/exports.js",
-    "./spa": "./src/client/spa/exports.js"
+    "./spa": "./src/spa/exports.js",
+    "./angular/common/*": "./src/server/angular/common/*.js",
+    "./eta/common/*": "./src/server/eta/common/*.js",
+    "./handlebars/common/*": "./src/server/handlebars/common/*.js",
+    "./html/common/*": "./src/server/html/common/*.js",
+    "./htmx/common/*": "./src/server/htmx/common/*.js",
+    "./markdown/common/*": "./src/server/markdown/common/*.js",
+    "./marko/common/*": "./src/server/marko/common/*.js",
+    "./voby/common/*": "./src/server/voby/common/*.js",
+    "./svelte/common/*": "./src/server/svelte/common/*.js",
+    "./react/common/*": "./src/server/react/common/*.js",
+    "./react/context/*": "./src/server/react/context/*.js",
+    "./react/head": "./src/server/react/head/index.js",
+    "./solid/common/*": "./src/server/solid/common/*.js",
+    "./solid/context/*": "./src/server/solid/context/*.js",
+    "./solid/head": "./src/server/solid/head/index.js",
+    "./vue/common/*": "./src/server/vue/common/*.js",
+    "./webc/common/*": "./src/server/webc/common/*.js",
+    "./webc/client": "./src/server/webc/client/index.js",
+    "./webc/component": "./src/server/webc/common/Component.js",
+    "./common/*": "./src/common/server/*.js",
+    "./errors/*": "./src/errors/*.js",
+    "./*": {
+      "runtime": "./src/server/*/runtime/index.js",
+      "default": "./src/server/*/default/index.js"
+    }
   }
 }

@@ -1,0 +1,30 @@
+{
+  "name": "@primate/native",
+  "version": "0.1.0",
+  "description": "Primate native applications",
+  "homepage": "https://primatejs.com/modules/native",
+  "bugs": "https://github.com/primatejs/primate/issues",
+  "license": "MIT",
+  "files": [
+    "src/**/*.js",
+    "src/errors.json",
+    "!src/**/*.spec.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/primatejs/primate",
+    "directory": "packages/native"
+  },
+  "dependencies": {
+    "@rcompat/webview": "^0.3.0"
+  },
+  "type": "module",
+  "exports": {
+    "./worker": "./src/worker.js",
+    ".": {
+      "import": {
+        "default": "./src/exports.js"
+      }
+    }
+  }
+}

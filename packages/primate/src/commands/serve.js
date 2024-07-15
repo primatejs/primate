@@ -1,4 +1,9 @@
-import { serve } from "../hooks/exports.js";
+import * as P from "rcompat/package";
+import { tryreturn } from "@rcompat/async";
+import { resolve } from "@rcompat/fs";
 
-// serves the app from the build directory
-export default app => serve(app, "build");
+// serve from build directory
+export default async (from = "build") => {
+  const root = await tryreturn(_ => P.root()).orelse(_ => resolve());
+  return root.join(`./${from}/serve.js`).import();
+};

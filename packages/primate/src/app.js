@@ -67,7 +67,7 @@ const render_head = (assets, fonts, head) =>
       tags.font({ href, type: "font/woff2" }),
     ).join("\n"));
 
-export default async (log, root, config) => {
+export default async (log, root, config, build_assets, build_routes, build_components) => {
   const { http } = config;
   const secure = http?.ssl !== undefined;
   const path = O.valmap(config.location, value => root.join(value));
@@ -78,15 +78,21 @@ export default async (log, root, config) => {
     http.ssl.cert = root.join(http.ssl.cert);
   }
 
+  const $build_components = Object.fromEntries(build_components ?? []);
   const error = await path.routes.join("+error.js");
 
   return {
     secure,
     importmaps: {},
     assets: [],
+    build_assets,
+    build_routes,
     path,
     root,
     log,
+    get_component(name) {
+      return $build_components[name]?.default;
+    },
     // pseudostatic thus arrowbound
     get: (config_key, fallback) => O.get(config, config_key) ?? fallback,
     set: (key, value) => {
@@ -108,6 +114,10 @@ export default async (log, root, config) => {
       const { paths = [], mapper = identity } = this.get("build.transform", {});
       is(paths).array();
       is(mapper).function();
+
+      if (!await source.exists()) {
+        return;
+      }
 
       const regexs = paths.map(file => globify(file));
       const target_base = this.runpath(directory);
@@ -176,10 +186,19 @@ export default async (log, root, config) => {
       const { body, head, partial, placeholders = {}, page = index } = content;
       ["body", "head"].every(used => is(placeholders[used]).undefined());
 
+      const $load = () => {
+        const { path } = new File(this.get("location.pages")).join(index);
+        const asset = build_assets[path];
+        if (asset !== undefined) {
+          return asset;
+        }
+        return load(this.runpath(this.get("location.pages")), page, index);
+      };
+
       return partial ? body : Object.entries(placeholders)
         // replace given placeholders, defaulting to ""
         .reduce((html, [key, value]) => html.replace(`%${key}%`, value ?? ""),
-          await load(this.runpath(this.get("location.pages")), page, index))
+          await $load())
         // replace non-given placeholders, aside from %body% / %head%
         .replaceAll(/(?<keep>%(?:head|body)%)|%.*?%/gus, "$1")
         // replace body and head
@@ -215,6 +234,7 @@ export default async (log, root, config) => {
           integrity: await this.hash(code),
         });
       }
+
       // rehash assets_csp
       this.asset_csp = this.assets.map(({ type: directive, integrity }) => [
         `${directive === "style" ? "style" : "script"}-src`, integrity])

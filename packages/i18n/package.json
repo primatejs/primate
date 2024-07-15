@@ -19,7 +19,7 @@
     "rcompat": "^0.17.0"
   },
   "peerDependencies": {
-    "primate": "0.31"
+    "primate": "workspace:^"
   },
   "type": "module",
   "exports": {

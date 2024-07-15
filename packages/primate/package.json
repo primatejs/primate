@@ -1,13 +1,12 @@
 {
   "name": "primate",
-  "version": "0.31.3",
+  "version": "0.32.0",
   "description": "Polymorphic development platform",
   "homepage": "https://primatejs.com",
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
   "files": [
     "src/**/*.js",
-    "src/errors.json",
     "src/defaults/*.html",
     "!src/**/*.spec.js",
     "types/*.ts"
@@ -19,6 +18,9 @@
     "directory": "packages/primate"
   },
   "dependencies": {
+    "@primate/core": "file:../core",
+    "@rcompat/async": "^0.1.1",
+    "@rcompat/fs": "^0.1.1",
     "rcompat": "^0.17.0"
   },
   "engines": {
@@ -28,7 +30,8 @@
   "types": "./types/index.d.ts",
   "exports": {
     ".": "./src/exports.js",
-    "./errors": "./src/errors.js"
+    "./errors": "./src/errors.js",
+    "./handlers/*": "./src/handlers/*.js"
   },
   "scripts": {
     "prepublishOnly": "dts-buddy"
