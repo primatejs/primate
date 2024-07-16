@@ -82,13 +82,7 @@ export default app => {
   const handle = async request => {
     const { pathname } = request.url;
     if (pathname.startsWith(root)) {
-      const debased = pathname.replace(root, _ => "");
-      // try static first
-      const asset = client.join(location.static, debased);
-      if (await asset.isFile) {
-        return as_asset(asset);
-      }
-      const path = client.join(debased);
+      const path = client.join(pathname.replace(root, _ => ""));
       if (await path.isFile) {
         return as_asset(path);
       }
