@@ -40,6 +40,8 @@ const post = async app => {
 
   // copy additional subdirectories to build/server
   await copy_includes(app, location.server);
+  // copy additional subdirectories to build
+  await copy_includes(app, "");
 
   if (await app.path.components.exists()) {
     // copy components to build/components
