@@ -1,10 +1,9 @@
+import { DoubleFileExtension } from "@primate/core/errors";
 import crypto from "rcompat/crypto";
 import { File } from "rcompat/fs";
 import { MediaType, Status } from "rcompat/http";
 import { is } from "rcompat/invariant";
 import * as O from "rcompat/object";
-import { DoubleFileExtension } from "@primate/core/errors";
-import * as handlers from "./handlers.js";
 import * as loaders from "./loaders/exports.js";
 import to_sorted from "./to_sorted.js";
 
@@ -92,8 +91,7 @@ export default async (log, root, { config, assets, routes, components, loader, t
     error: {
       default: await error.exists() ? await error.import("default") : undefined,
     },
-    // make assignable
-    handlers: { ...handlers },
+    handlers: {},
     modules: await loaders.modules(log, root, config.modules ?? []),
     fonts: [],
     headers(csp = {}) {

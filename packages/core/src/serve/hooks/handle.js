@@ -1,6 +1,6 @@
 import { cascade, tryreturn } from "rcompat/async";
 import { MediaType, Status } from "rcompat/http";
-import { error as clientError } from "../handlers.js";
+import clientError from "@primate/core/handlers/error";
 import respond from "./respond.js";
 
 const guard_error = Symbol("guard_error");

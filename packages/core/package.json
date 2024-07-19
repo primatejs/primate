@@ -32,8 +32,8 @@
     "./config": {
       "default": "./src/shared/primate.config.js"
     },
-    "./handlers": {
-      "default": "./src/serve/handlers.js"
+    "./handlers/*": {
+      "default": "./src/serve/handlers/*.js"
     }
   }
 }

@@ -1,8 +1,11 @@
-import { s_streamable }from "rcompat/fs";
+import { BadBody } from "@primate/core/errors";
+import json from "@primate/core/handlers/json";
+import redirect from "@primate/core/handlers/redirect";
+import stream from "@primate/core/handlers/stream";
+import text from "@primate/core/handlers/text";
+import { s_streamable } from "rcompat/fs";
 import { identity } from "rcompat/function";
 import * as O from "rcompat/object";
-import { text, json, stream, redirect } from "primate";
-import { BadBody } from "@primate/core/errors";
 
 const not_found = value => BadBody.throw(value);
 const is_text = value => typeof value === "string";

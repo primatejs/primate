@@ -4,6 +4,9 @@ import { identity } from "rcompat/function";
 export default {
   base: "/",
   modules: [],
+  preload: {
+    html: true,
+  },
   pages: {
     app: "app.html",
     error: "error.html",

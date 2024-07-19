@@ -30,7 +30,8 @@
   "types": "./types/index.d.ts",
   "exports": {
     ".": "./src/exports.js",
-    "./errors": "./src/errors.js"
+    "./errors": "./src/errors.js",
+    "./handlers/*": "./src/handlers/*.js"
   },
   "scripts": {
     "prepublishOnly": "dts-buddy"

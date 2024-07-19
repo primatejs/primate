@@ -117,6 +117,7 @@
     "./svelte/runtime": "./src/frontends/svelte/runtime/runtime.js",
     "./angular": "./src/frontends/angular/index.js",
     "./eta": "./src/frontends/eta/index.js",
-    "./handlebars": "./src/frontends/handlebars/index.js"
+    "./handlebars": "./src/frontends/handlebars/index.js",
+    "./html": "./src/frontends/html/index.js"
   }
 }
