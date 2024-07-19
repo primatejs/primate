@@ -18,12 +18,12 @@ export default ({
       name: `primate:${name}`,
       serve(app, next) {
         app.register(extension, handler({
-            app,
-            name,
-            render: imports.render,
-            client: exports.default,
-            normalize: normalized,
-            spa,
+          app,
+          rootname: name,
+          render: imports.render,
+          client: exports.default,
+          normalize: normalized,
+          spa,
         }));
         return next(app);
       },

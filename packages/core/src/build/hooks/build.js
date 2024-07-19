@@ -47,7 +47,7 @@ const write_routes = async (build_directory, app) => {
   const routes_js = `
   const routes = [];
   ${e.map((route, i) =>
-    `import * as route${i} from "../routes${route}"; 
+    `import * as route${i} from "../routes${route}";
   routes.push(["${route.slice(1, -".js".length)}", route${i}]);`,
   ).join("\n")}
   export default routes;`;
@@ -63,7 +63,7 @@ const write_components = async (build_directory, app) => {
   const components_js = `
 const components = [];
 ${e.map((component, i) =>
-    `import * as component${i} from "../server/components${component}"; 
+    `import * as component${i} from "../server/components${component}";
 components.push(["${component.slice(1, -".js".length)}", component${i}]);`,
   ).join("\n")}
 

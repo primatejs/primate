@@ -20,7 +20,7 @@ const create = {
 
 export default async ({
   extension,
-  name,
+  rootname,
   create_root,
   compile,
   normalize,
@@ -29,13 +29,12 @@ export default async ({
     from: extension,
     to: `${extension}.js`,
   };
-  const name_ = name;
 
   return {
     async server(component, app) {
       const location = app.get("location");
       const source = app.runpath(location.components);
-      await create.server_root(app, name_, create_root, compile);
+      await create.server_root(app, rootname, create_root, compile);
       const target_base = app.runpath(location.server, location.components);
       const code = await compile.server(await component.text(), component, app);
       const path = target_base.join(`${component.path}.js`.replace(source, ""));
@@ -45,7 +44,7 @@ export default async ({
     async client(component, app) {
       const location = app.get("location");
       const source = app.runpath(location.components);
-      await create.client_root(app, name_, create_root, compile);
+      await create.client_root(app, rootname, create_root, compile);
       const { path: name } = component.debase(source, "/");
 
       // web import -> unix style

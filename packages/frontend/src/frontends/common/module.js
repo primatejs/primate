@@ -13,6 +13,7 @@ export default async ({
   exports,
 }) => {
   const normalized = normalize(name);
+  const rootname = name;
 
   return ({
     extension = default_extension,
@@ -24,7 +25,7 @@ export default async ({
       serve(app, next) {
         app.register(extension, handler({
           app,
-          name,
+          rootname,
           render: imports.render,
           client: exports.default,
           normalize: normalized,
@@ -36,7 +37,7 @@ export default async ({
         app.register(extension, await compile({
           app,
           extension,
-          name,
+          rootname,
           create_root: exports.create_root,
           normalize: normalized,
           compile: imports.compile,
