@@ -1,7 +1,7 @@
 import { blue, bold, dim, green, red, yellow } from "rcompat/colors";
 import { assert, is } from "rcompat/invariant";
 import * as O from "rcompat/object";
-import { stdout } from "rcompat/stdio";
+import print from "./print.js";
 
 const levels = {
   Error: 0,
@@ -9,7 +9,6 @@ const levels = {
   Info: 2,
 };
 
-const print = (...messages) => stdout.write(messages.join(" "));
 const bye = _ => print(dim(yellow("~~ bye\n")));
 const mark = (format, ...params) => params.reduce((formatted, param, i) =>
   formatted.replace(`{${i}}`, bold(param)), format);

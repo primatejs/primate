@@ -1,7 +1,7 @@
 import find from "./commands/exports.js";
 import { blue, bold } from "rcompat/colors";
 import * as P from "rcompat/package";
-import { print } from "@primate/core";
+import print from "@primate/core/logger/print";
 
 export default async (...args) => {
   const [command, ...flags] = args;

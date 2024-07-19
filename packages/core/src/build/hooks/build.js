@@ -76,7 +76,7 @@ export default components;`;
 const write_bootstrap = async (build_number, app) => {
   const build_start_script = `
 import { File } from "rcompat/fs";
-import { serve } from "@primate/core";
+import serve from "@primate/core/serve";
 import config from "./primate.config.js";
 import routes from "./${build_number}/routes.js";
 import components from "./${build_number}/components.js";

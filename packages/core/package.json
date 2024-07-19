@@ -20,20 +20,12 @@
   },
   "type": "module",
   "exports": {
-    ".": {
-      "default": "./src/exports.js"
-    },
-    "./errors": {
-      "default": "./src/shared/errors.js"
-    },
-    "./logger": {
-      "default": "./src/shared/Logger.js"
-    },
-    "./config": {
-      "default": "./src/shared/primate.config.js"
-    },
-    "./handlers/*": {
-      "default": "./src/serve/handlers/*.js"
-    }
+    "./serve": "./src/serve/index.js",
+    "./build": "./src/build/index.js",
+    "./errors": "./src/shared/errors.js",
+    "./logger": "./src/shared/Logger.js",
+    "./logger/print": "./src/shared/print.js",
+    "./config": "./src/shared/primate.config.js",
+    "./handlers/*": "./src/serve/handlers/*.js"
   }
 }
