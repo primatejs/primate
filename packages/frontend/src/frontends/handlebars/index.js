@@ -2,7 +2,7 @@ import build from "./build.js";
 import name from "./name.js";
 import serve from "./serve.js";
 
-const default_extension = ".eta";
+const default_extension = ".hbs";
 
 export default ({ extension = default_extension } = {}) => ({
   name: `primate:${name}`,
