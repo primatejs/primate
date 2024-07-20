@@ -36,6 +36,7 @@
     "react-dom": "18",
     "solid-js": "1",
     "svelte": "4",
+    "voby": "0.58",
     "vue": "3",
     "zone.js": "0.14"
   },
@@ -89,6 +90,9 @@
       "optional": true
     },
     "svelte": {
+      "optional": true
+    },
+    "voby": {
       "optional": true
     },
     "vue": {
