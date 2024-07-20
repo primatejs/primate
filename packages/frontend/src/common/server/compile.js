@@ -20,8 +20,6 @@ const create = {
   },
 };
 
-let i = 0;
-
 export default async ({
   extension,
   rootname,
@@ -49,10 +47,9 @@ export default async ({
       const source = app.runpath(location.components);
       await create.client_root(app, rootname, create_root, compile);
       const { path: name } = component.debase(source, "/");
-      const normalized = await normalize(name);
 
       // web import -> unix style
-      const code = `export { default as ${normalized} } from 
+      const code = `export { default as ${await normalize(name)} } from
         "./${location.components}/${name}";`;
       app.build.export(code);
     },
