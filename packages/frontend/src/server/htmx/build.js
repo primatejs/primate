@@ -7,8 +7,6 @@ import * as O from "rcompat/object";
 import name from "./name.js";
 import rootname from "./rootname.js";
 
-const dependencies = ["htmx-esm"];
-const on = O.filter(peerdeps(), ([key]) => dependencies.includes(key));
 const templates = "client-side-templates";
 const htmx_esm = "htmx-esm";
 const base_import_template = (subpath, app) =>
@@ -36,6 +34,8 @@ export default ({
   extensions,
   client_side_templates,
 }) => async (app, next) => {
+  const dependencies = ["htmx-esm"];
+  const on = O.filter(peerdeps(), ([key]) => dependencies.includes(key));
   await depend(on, `frontend:${name}`);
 
   app.build.export(`export { default as htmx } from "${htmx_esm}";`);
