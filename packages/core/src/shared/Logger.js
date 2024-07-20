@@ -24,7 +24,7 @@ const hyphenate = class_cased => class_cased
   .join("")
   .slice(1);
 
-const throwable = ({ message, level, fix }, name, module) => ({
+export const throwable = ({ message, level, fix }, name, module) => ({
   new(...args) {
     const error = new Error(mark(message, ...args));
     error.level = Logger[level];

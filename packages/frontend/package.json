@@ -115,9 +115,8 @@
     "./spa": "./src/client/spa/exports.js",
     "./svelte": "./src/frontends/svelte/module.js",
     "./svelte/runtime": "./src/frontends/svelte/runtime/runtime.js",
-    "./angular": "./src/frontends/angular/index.js",
-    "./eta": "./src/frontends/eta/index.js",
-    "./handlebars": "./src/frontends/handlebars/index.js",
-    "./html": "./src/frontends/html/index.js"
+    "./common/*": "./src/common/server/*.js",
+    "./errors/*": "./src/errors/*.js",
+    "./*": "./src/server/*/index.js"
   }
 }
