@@ -1,1 +1,0 @@
-export { marked } from "marked";

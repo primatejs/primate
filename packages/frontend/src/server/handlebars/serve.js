@@ -1,15 +1,5 @@
-import register from "@primate/frontend/common/register";
+import serve from "@primate/frontend/common/serve";
 import render from "./render.js";
 import rootname from "./rootname.js";
 
-const handler = ({ load }) => (name, props = {}, options = {}) => async app => {
-  const { component } = await load(name, props);
-
-  return app.view({ body: render(component, props), ...options });
-};
-
-export default extension => (app, next) => {
-  app.register(extension, handler(register({ app, rootname })));
-
-  return next(app);
-};
+export default serve({ rootname, render });
