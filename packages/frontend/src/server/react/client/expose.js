@@ -3,4 +3,5 @@ export default `
   const { createElement } = React;
   export { createElement };
   export { hydrateRoot } from "react-dom/client";
-  export { Head as ReactHead } from "@primate/frontend/react";`;
+  export { default as ReactHead } from "@primate/frontend/react/head";
+`;

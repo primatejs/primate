@@ -1,16 +1,16 @@
-import name from "@primate/frontend/svelte/common/name";
-import rootname from "@primate/frontend/svelte/common/rootname";
+import compile from "@primate/frontend/common/compile";
 import depend from "@primate/frontend/common/depend";
 import normalize from "@primate/frontend/common/normalize";
 import peerdeps from "@primate/frontend/common/peerdeps";
-import compile from "@primate/frontend/common/compile";
+import name from "@primate/frontend/react/common/name";
+import rootname from "@primate/frontend/react/common/rootname";
 import * as O from "rcompat/object";
-import { server, client } from "./compile.js";
-import publish from "./publish.js";
-import prepare from "./prepare.js";
 import create_root from "../client/create-root.js";
+import { client, server } from "./compile.js";
+import prepare from "./prepare.js";
+import publish from "./publish.js";
 
-const dependencies = ["svelte"];
+const dependencies = ["react", "react-dom"];
 
 const server_root = async (app, name, create_root, compile) => {
   const filename = `root_${name}.js`;
@@ -27,14 +27,16 @@ export default extension => async (app, next) => {
   // compile server
   await server_root(app, rootname, create_root, server);
 
-  app.register(extension, await compile({
+  const compiled = await compile({
     app,
     extension,
     rootname,
     create_root,
     normalize: normalize(name),
     compile: { server, client },
-  }));
+  });
+
+  app.register(extension, compiled);
 
   app.build.plugin(publish(app, extension));
   const code = "export { default as spa } from '@primate/frontend/spa';";

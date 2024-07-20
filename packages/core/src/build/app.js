@@ -11,6 +11,7 @@ export default async (log, root, config) => {
   const error = await path.routes.join("+error.js");
 
   return {
+    roots: [],
     targets: { web },
     importmaps: {},
     assets: [],

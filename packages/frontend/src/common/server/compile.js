@@ -4,7 +4,9 @@ const create = {
     if (create_root !== undefined) {
       const filename = `root_${name}.js`;
       const root = await compile.server(create_root(app.get("layout").depth));
-      await app.runpath(app.get("location.server"), filename).write(root);
+      const path = app.runpath(app.get("location.server"), filename);
+      await path.write(root);
+      app.roots.push(path);
     }
   },
   async client_root(app, name, create_root, compile) {
@@ -17,6 +19,8 @@ const create = {
     }
   },
 };
+
+let i = 0;
 
 export default async ({
   extension,
@@ -34,7 +38,6 @@ export default async ({
     async server(component, app) {
       const location = app.get("location");
       const source = app.runpath(location.components);
-      await create.server_root(app, rootname, create_root, compile);
       const target_base = app.runpath(location.server, location.components);
       const code = await compile.server(await component.text(), component, app);
       const path = target_base.join(`${component.path}.js`.replace(source, ""));
@@ -46,11 +49,11 @@ export default async ({
       const source = app.runpath(location.components);
       await create.client_root(app, rootname, create_root, compile);
       const { path: name } = component.debase(source, "/");
+      const normalized = await normalize(name);
 
       // web import -> unix style
-      const code = `export {
-        default as ${await normalize(name)}
-      } from "./${location.components}/${name}";`;
+      const code = `export { default as ${normalized} } from 
+        "./${location.components}/${name}";`;
       app.build.export(code);
     },
   };

@@ -15,7 +15,8 @@
     "directory": "packages/frontend"
   },
   "dependencies": {
-    "rcompat": "^0.17.0"
+    "rcompat": "^0.17.0",
+    "@rcompat/crypto": "^0.2.0"
   },
   "peerDependencies": {
     "@angular/compiler": "18",
@@ -106,14 +107,12 @@
   "exports": {
     ".": {
       "browser": {
-        "react": "./src/client/react.js",
         "solid": "./src/client/solid.js",
         "webc": "./src/client/webc/exports.js",
         "spa": "./src/client/spa/exports.js"
       },
       "default": "./src/exports.js"
     },
-    "./react": "./src/client/react.js",
     "./solid": "./src/client/solid.js",
     "./webc": "./src/client/webc/exports.js",
     "./spa": "./src/client/spa/exports.js",
@@ -126,6 +125,9 @@
     "./marko/common/*": "./src/server/marko/common/*.js",
     "./voby/common/*": "./src/server/voby/common/*.js",
     "./svelte/common/*": "./src/server/svelte/common/*.js",
+    "./react/common/*": "./src/server/react/common/*.js",
+    "./react/context/*": "./src/server/react/context/*.js",
+    "./react/head": "./src/server/react/head/index.js",
     "./common/*": "./src/common/server/*.js",
     "./errors/*": "./src/errors/*.js",
     "./*": {

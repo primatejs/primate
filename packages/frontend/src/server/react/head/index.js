@@ -1,8 +1,8 @@
-import { Component, createContext } from "react";
-const is_client = globalThis.document?.createElement !== undefined;
+import is from "@primate/frontend/react/context/is";
+import HeadContext from "@primate/frontend/react/context/head";
 
-const HeadContext = createContext();
-const AppContext = createContext({});
+const is_client = is.client;
+import { Component } from "react";
 
 const to_array = maybe => Array.isArray(maybe) ? maybe : [maybe];
 
@@ -100,9 +100,4 @@ const Head = class Head extends Component {
 
 Head.contextType = HeadContext;
 
-const is = {
-  client: is_client,
-  server: !is_client,
-};
-
-export { Head, HeadContext, AppContext, is };
+export default Head;

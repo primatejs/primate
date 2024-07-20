@@ -59,7 +59,6 @@ const write_components = async (build_directory, app) => {
   const d2 = app.runpath(location.server, location.components);
   const e = await Promise.all((await File.collect(d2, js_re, { recursive: true }))
     .map(async file => `${file}`.replace(d2, _ => "")));
-
   const components_js = `
 const components = [];
 ${e.map((component, i) =>
@@ -67,8 +66,10 @@ ${e.map((component, i) =>
 components.push(["${component.slice(1, -".js".length)}", component${i}]);`,
   ).join("\n")}
 
-import * as root0 from "../server/root_svelte.js";
-components.push(["root_svelte.js", root0]);
+${app.roots.map((root, i) => `
+import * as root${i} from "${root}";
+components.push(["${root.name}", root${i}]);
+`).join("\n")}
 
 export default components;`;
   await build_directory.join("components.js").write(components_js);

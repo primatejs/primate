@@ -8,7 +8,9 @@ export default length => {
 
   return `
     import { createElement, useState } from "react";
-    import { AppContext, HeadContext, is } from "@primate/frontend/react";
+    import AppContext from "@primate/frontend/react/context/app";
+    import HeadContext from "@primate/frontend/react/context/head";
+    import is from "@primate/frontend/react/context/is";
 
     export default ({
       components,
