@@ -107,13 +107,11 @@
   "exports": {
     ".": {
       "browser": {
-        "solid": "./src/client/solid.js",
         "webc": "./src/client/webc/exports.js",
         "spa": "./src/client/spa/exports.js"
       },
       "default": "./src/exports.js"
     },
-    "./solid": "./src/client/solid.js",
     "./webc": "./src/client/webc/exports.js",
     "./spa": "./src/client/spa/exports.js",
     "./angular/common/*": "./src/server/angular/common/*.js",
@@ -128,6 +126,9 @@
     "./react/common/*": "./src/server/react/common/*.js",
     "./react/context/*": "./src/server/react/context/*.js",
     "./react/head": "./src/server/react/head/index.js",
+    "./solid/common/*": "./src/server/solid/common/*.js",
+    "./solid/context/*": "./src/server/solid/context/*.js",
+    "./solid/head": "./src/server/solid/head/index.js",
     "./common/*": "./src/common/server/*.js",
     "./errors/*": "./src/errors/*.js",
     "./*": {

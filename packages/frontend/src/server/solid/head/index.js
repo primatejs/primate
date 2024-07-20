@@ -1,12 +1,12 @@
-import { onMount, onCleanup, createContext, useContext } from "solid-js";
-const is_client = globalThis.document?.createElement !== undefined;
+import { onMount, onCleanup, useContext } from "solid-js";
+import is from "@primate/frontend/solid/context/is";
+import HeadContext from "@primate/frontend/solid/context/head";
 
-const HeadContext = createContext();
-const AppContext = createContext({});
+const is_client = is.client;
 
 const to_array = maybe => Array.isArray(maybe) ? maybe : [maybe];
 
-const data_attribute = "data-rh";
+const data_attribute = "data-sh";
 const data_ssr = "ssr";
 const allowed = ["title", "meta", "style", "meta", "link", "script", "base"];
 
@@ -33,7 +33,7 @@ const render = (maybe_children, id) => {
       globalThis.document.title = title.innerText;
     });
     others.forEach(other => {
-      other.dataset.rh = id;
+      other.dataset.sh = id;
       globalThis.document.head.prepend(other);
     });
   } else {
@@ -89,9 +89,4 @@ const Head = function Head(props) {
 
 Head.clear = (data_value = data_ssr) => clear(data_value);
 
-const is = {
-  client: is_client,
-  server: !is_client,
-};
-
-export { Head, HeadContext, AppContext, is };
+export default Head;
