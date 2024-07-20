@@ -1,30 +1,10 @@
 import { File } from "rcompat/fs";
-import * as compiler from "svelte/compiler";
-import { expose } from "./client/exports.js";
-
-export const render = (component, ...args) => {
-  const { html, head } = component.render(...args);
-  return { body: html, head };
-};
-
-export const prepare = app => app.build.export(expose);
-
-export const compile = {
-  server(text) {
-    const options = { generate: "ssr", hydratable: true };
-    return compiler.compile(text, options).js.code;
-  },
-  client(text) {
-    const options = { generate: "dom", hydratable: true };
-    const { js, css } = compiler.compile(text, options);
-    return { js: js.code, css: css.code };
-  },
-};
+import { client } from "./compile.js";
 
 const css_filter = /\.sveltecss$/u;
 const root_filter = /^root:svelte$/u;
 
-export const publish = (app, extension) => ({
+export default (app, extension) => ({
   name: "svelte",
   setup(build) {
     build.onResolve({ filter: css_filter }, ({ path }) => {
@@ -46,7 +26,7 @@ export const publish = (app, extension) => ({
       const source = await File.text(args.path);
 
       // Convert Svelte syntax to JavaScript
-      const { js, css } = compile.client(source);
+      const { js, css } = client(source);
       let contents = js;
       if (css !== null && css !== "") {
         const path = File.webpath(`${args.path}css`);
