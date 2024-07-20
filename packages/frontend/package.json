@@ -107,13 +107,10 @@
   "exports": {
     ".": {
       "browser": {
-        "webc": "./src/client/webc/exports.js",
-        "spa": "./src/client/spa/exports.js"
-      },
-      "default": "./src/exports.js"
+        "spa": "./src/spa/exports.js"
+      }
     },
-    "./webc": "./src/client/webc/exports.js",
-    "./spa": "./src/client/spa/exports.js",
+    "./spa": "./src/spa/exports.js",
     "./angular/common/*": "./src/server/angular/common/*.js",
     "./eta/common/*": "./src/server/eta/common/*.js",
     "./handlebars/common/*": "./src/server/handlebars/common/*.js",
@@ -130,6 +127,9 @@
     "./solid/context/*": "./src/server/solid/context/*.js",
     "./solid/head": "./src/server/solid/head/index.js",
     "./vue/common/*": "./src/server/vue/common/*.js",
+    "./webc/common/*": "./src/server/webc/common/*.js",
+    "./webc/client": "./src/server/webc/client/index.js",
+    "./webc/component": "./src/server/webc/common/Component.js",
     "./common/*": "./src/common/server/*.js",
     "./errors/*": "./src/errors/*.js",
     "./*": {

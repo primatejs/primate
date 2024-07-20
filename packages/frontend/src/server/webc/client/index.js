@@ -14,7 +14,7 @@ export default (name, props) => `
   });
   globalThis.registry = {};
 
-  const element = globalThis.document.createElement("${name}");
+  const element = globalThis.document.createElement("${name.replaceAll("/", "-")}");
   element.props = ${JSON.stringify(props)};
   globalThis.document.body.appendChild(element)
 `;
