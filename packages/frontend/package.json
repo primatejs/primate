@@ -129,6 +129,7 @@
     "./solid/common/*": "./src/server/solid/common/*.js",
     "./solid/context/*": "./src/server/solid/context/*.js",
     "./solid/head": "./src/server/solid/head/index.js",
+    "./vue/common/*": "./src/server/vue/common/*.js",
     "./common/*": "./src/common/server/*.js",
     "./errors/*": "./src/errors/*.js",
     "./*": {

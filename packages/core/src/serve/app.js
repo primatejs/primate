@@ -81,7 +81,8 @@ export default async (log, root, { config, assets, routes, components, loader, t
     root,
     log,
     get_component(name) {
-      return $components[name]?.default;
+      const component = $components[name];
+      return component?.default ?? component;
     },
     // pseudostatic thus arrowbound
     get: (config_key, fallback) => O.get(config, config_key) ?? fallback,
