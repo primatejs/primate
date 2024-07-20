@@ -117,10 +117,24 @@
     "./solid": "./src/client/solid.js",
     "./webc": "./src/client/webc/exports.js",
     "./spa": "./src/client/spa/exports.js",
-    "./svelte": "./src/frontends/svelte/module.js",
+    "./svelte": {
+      "runtime": "./src/frontends/svelte/runtime/runtime.js",
+      "default": "./src/frontends/svelte/module.js"
+    },
     "./svelte/runtime": "./src/frontends/svelte/runtime/runtime.js",
+    "./angular/common/*": "./src/server/angular/common/*.js",
+    "./eta/common/*": "./src/server/eta/common/*.js",
+    "./handlebars/common/*": "./src/server/handlebars/common/*.js",
+    "./html/common/*": "./src/server/html/common/*.js",
+    "./htmx/common/*": "./src/server/htmx/common/*.js",
+    "./markdown/common/*": "./src/server/markdown/common/*.js",
+    "./marko/common/*": "./src/server/marko/common/*.js",
+    "./voby/common/*": "./src/server/voby/common/*.js",
     "./common/*": "./src/common/server/*.js",
     "./errors/*": "./src/errors/*.js",
-    "./*": "./src/server/*/index.js"
+    "./*": {
+      "runtime": "./src/server/*/runtime/index.js",
+      "default": "./src/server/*/default/index.js"
+    }
   }
 }

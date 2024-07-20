@@ -7,20 +7,20 @@ const noop = _ => ({});
 const { APPLICATION_JSON } = MediaType;
 
 export default config => {
-  const { make, root, render, client, normalize } = register(config);
+  const { load, root, render, client, normalize } = register(config);
 
   const get_names = components => map(components, ({ name }) => normalize(name));
 
   return (name, props = {}, options = {}) =>
     async (app, { layouts = [], as_layout } = {}, request) => {
       if (as_layout) {
-        return make(name, props);
+        return load(name, props);
       }
       const components = (await Promise.all(layouts.map(layout =>
         layout(app, { as_layout: true }, request),
       )))
         /* set the actual page as the last component */
-        .concat(await make(name, props));
+        .concat(await load(name, props));
 
       const names = await get_names(components);
 

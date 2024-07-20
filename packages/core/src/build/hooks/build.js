@@ -69,6 +69,7 @@ components.push(["${component.slice(1, -".js".length)}", component${i}]);`,
 
 import * as root0 from "../server/root_svelte.js";
 components.push(["root_svelte.js", root0]);
+
 export default components;`;
   await build_directory.join("components.js").write(components_js);
 };
@@ -149,11 +150,8 @@ const post = async (app, target) => {
   await write_components(build_directory, app);
   await write_bootstrap(build_number, app);
 
-  // TODO: generalize
-  const config = (await app.root.join("primate.config.js").text())
-    .replace("@primate/frontend/svelte", "@primate/frontend/svelte/runtime")
-  ;
-  await app.path.build.join("primate.config.js").write(config);
+  const c = "primate.config.js";
+  await app.path.build.join(c).write(await app.root.join(c).text());
 
   app.log.system(`build written to ${dim(app.path.build)}`);
 
