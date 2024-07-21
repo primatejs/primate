@@ -1,4 +1,4 @@
-import memory from "@primate/store/drivers/memory";
+import memory from "@primate/store/memory";
 import { assert } from "rcompat/invariant";
 import build from "./build.js";
 import modes from "./modes.js";
