@@ -112,16 +112,20 @@
     },
     "./spa": "./src/spa/exports.js",
     "./*/common": "./src/server/*/common.js",
+    "./*/hooks/build": "./src/server/*/hooks/build/index.js",
+    "./*/hooks/serve": "./src/server/*/hooks/serve/index.js",
+    "./*/client/create-root": "./src/client/*/create-root.js",
+    "./*/client/expose": "./src/client/*/expose.js",
+    "./*/client": "./src/client/*/index.js",
     "./*/head": "./src/server/*/head.js",
     "./react/context/*": "./src/server/react/context/*.js",
     "./solid/context/*": "./src/server/solid/context/*.js",
-    "./webc/client": "./src/server/webc/client/index.js",
     "./webc/component": "./src/server/webc/Component.js",
     "./base/*": "./src/base/server/*.js",
     "./errors/*": "./src/errors/*.js",
     "./*": {
-      "runtime": "./src/server/*/runtime/index.js",
-      "default": "./src/server/*/default/index.js"
+      "runtime": "./src/server/*/runtime.js",
+      "default": "./src/server/*/default.js"
     }
   }
 }
