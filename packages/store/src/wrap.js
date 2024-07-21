@@ -1,12 +1,12 @@
+import InvalidValue from "@primate/store/errors/invalid-value";
+import InvalidDocument from "@primate/store/errors/invalid-document";
+import NoDocument from "@primate/store/errors/no-document";
 import { maybe } from "rcompat/invariant";
-import { tryreturn } from "rcompat/sync";
 import * as O from "rcompat/object";
-import errors from "./errors.js";
+import { tryreturn } from "rcompat/sync";
 import bases from "./bases.js";
-import validate from "./validate.js";
 import primary from "./primary.js";
-
-const { FailedDocumentValidation } = errors;
+import validate from "./validate.js";
 
 const transform = to => ({ types, schema, document = {}, path, mode }) =>
   O.transform(document, entry => entry
@@ -17,7 +17,7 @@ const transform = to => ({ types, schema, document = {}, path, mode }) =>
             return [field, document[field]];
           }
           const command = `(await ${path}.get("${document.id}")).${field}`;
-          return errors.CannotUnpackValue.throw(value, name, command);
+          return InvalidValue.throw(value, name, command);
         }),
     ));
 const defined = input => ({
@@ -44,7 +44,7 @@ export default (config, facade, types) => {
       if (O.empty(result.errors)) {
         return result.document;
       }
-      const error = FailedDocumentValidation.new(Object.keys(result));
+      const error = InvalidDocument.new(Object.keys(result));
       error.errors = result.errors;
       throw error;
     },
@@ -57,7 +57,7 @@ export default (config, facade, types) => {
       const document = await facade.get(name, primary, id);
 
       document === undefined &&
-        errors.NoDocumentFound.throw(primary, id,
+        NoDocument.throw(primary, id,
           `${path}.exists({${primary}: ${id}})`, `${path}.get$`);
 
       return unpack(document);

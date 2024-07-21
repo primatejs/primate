@@ -52,5 +52,9 @@
     }
   },
   "type": "module",
-  "exports": "./src/exports.js"
+  "exports": {
+    ".": "./src/index.js",
+    "./errors/*": "./src/errors/*.js",
+    "./drivers/memory": "./src/drivers/memory/index.js"
+  }
 }

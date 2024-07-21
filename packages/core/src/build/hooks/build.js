@@ -22,6 +22,7 @@ const pre = async (app, mode, target) => {
       resolveDir: app.path.build.path,
     },
   }, mode);
+  app.server_build = ["routes"];
 
   // remove build directory in case exists
   await app.path.build.remove();
@@ -38,20 +39,20 @@ const pre = async (app, mode, target) => {
 };
 
 const js_re = /^.*.js$/u;
-const write_routes = async (build_directory, app) => {
-  const location = app.get("location");
-  const d = app.runpath(location.routes);
-  const e = await Promise.all((await File.collect(d, js_re, { recursive: true }))
-    .map(async file => `${file}`.replace(d, _ => "")));
-
-  const routes_js = `
-  const routes = [];
-  ${e.map((route, i) =>
-    `import * as route${i} from "../routes${route}";
-  routes.push(["${route.slice(1, -".js".length)}", route${i}]);`,
+const write_directories = async (build_directory, app) => {
+  for (const name of app.server_build) {
+    const d = app.runpath(name);
+    const e = await Promise.all((await File.collect(d, js_re, { recursive: true }))
+      .map(async file => `${file}`.replace(d, _ => "")));
+    const files_js = `
+    const ${name} = [];
+    ${e.map((file , i) =>
+    `import * as ${name}${i} from "../${name}${file}";
+    ${name}.push(["${file.slice(1, -".js".length)}", ${name}${i}]);`,
   ).join("\n")}
-  export default routes;`;
-  await build_directory.join("routes.js").write(routes_js);
+    export default ${name};`;
+    await build_directory.join(`${name}.js`).write(files_js);
+  }
 };
 
 const write_components = async (build_directory, app) => {
@@ -80,14 +81,18 @@ const write_bootstrap = async (build_number, app) => {
 import { File } from "rcompat/fs";
 import serve from "@primate/core/serve";
 import config from "./primate.config.js";
-import routes from "./${build_number}/routes.js";
+const files = {};
+${app.server_build.map(name =>
+    `import ${name} from "./${build_number}/${name}.js";
+     files.${name} = ${name};`,
+  ).join("\n")}
 import components from "./${build_number}/components.js";
 import * as target from "./target.js";
 
 await serve(new File(import.meta.url).directory, {
   ...target,
   config,
-  routes,
+  files,
   components,
 });`;
   await app.path.build.join("serve.js").write(build_start_script);
@@ -147,8 +152,8 @@ const post = async (app, target) => {
   // TODO: remove after rcompat automatically creates directories
   await build_directory.create();
 
-  await write_routes(build_directory, app);
   await write_components(build_directory, app);
+  await write_directories(build_directory, app);
   await write_bootstrap(build_number, app);
 
   const c = "primate.config.js";

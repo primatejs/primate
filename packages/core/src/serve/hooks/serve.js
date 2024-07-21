@@ -1,6 +1,6 @@
 import { cascade, tryreturn } from "rcompat/async";
 import { dim } from "rcompat/colors";
-import { File, Router } from "rcompat/fs";
+import { Router } from "rcompat/fs";
 import { serve, Status } from "rcompat/http";
 import dispatch from "../dispatch.js";
 import * as loaders from "../loaders/exports.js";
@@ -8,8 +8,6 @@ import * as hooks from "./exports.js";
 
 const post = async app => {
   const location = app.get("location");
-  const http = app.get("http");
-  const client = app.runpath(app.get("location.client"));
   const user_types = await loaders.types(app.log, app.runpath(location.types));
   const types = { ...app.types, ...user_types };
   let router;
@@ -24,9 +22,9 @@ const post = async app => {
         predicate(route, request) {
           return route.default[request.method.toLowerCase()] !== undefined;
         },
-      }, app.routes);
+      }, app.files.routes);
   } catch (error) {
-    //console.log("YYYOYOOO", error);
+    //console.log(error);
   }
 
   app.create_csp();

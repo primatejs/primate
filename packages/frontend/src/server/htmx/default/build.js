@@ -1,7 +1,6 @@
 import compile from "@primate/frontend/base/compile";
 import depend from "@primate/frontend/base/depend";
-import MissingClientSideTemplateDependency from
-  "@primate/frontend/errors/missing-client-side-template-dependency";
+import NoClientExtension from "@primate/frontend/errors/no-client-extension";
 import { dependencies, name } from "@primate/frontend/htmx/common";
 import * as O from "rcompat/object";
 import { server } from "./compile.js";
@@ -32,9 +31,10 @@ export default ({
     app.build.export(`export * from "${htmx_esm}/${extension_name}";`));
 
   if (!O.empty(client_side_templates)) {
-    if (!extensions.includes(templates)) {
-      MissingClientSideTemplateDependency.throw(templates,
-        client_side_templates.join(", "));
+    const has_templates = extensions.includes(templates);
+    //app.assert(has_templates, nce(templates, client_side_templates.join(",")));
+    if (!has_templates) {
+      NoClientExtension.throw(templates, client_side_templates.join(", "));
     }
     client_side_templates.forEach(client_side_template =>
       import_template[client_side_template](app));

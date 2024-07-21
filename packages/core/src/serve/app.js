@@ -58,7 +58,7 @@ const render_head = (assets, fonts, head) =>
       tags.font({ href, type: "font/woff2" }),
     ).join("\n"));
 
-export default async (log, root, { config, assets, routes, components, loader, target }) => {
+export default async (log, root, { config, assets, files, components, loader, target }) => {
   const { http } = config;
   const secure = http?.ssl !== undefined;
   const path = O.valmap(config.location, value => root.join(value));
@@ -76,7 +76,7 @@ export default async (log, root, { config, assets, routes, components, loader, t
     secure,
     importmaps: {},
     assets,
-    routes,
+    files,
     path,
     root,
     log,
@@ -106,7 +106,7 @@ export default async (log, root, { config, assets, routes, components, loader, t
       };
     },
     runpath(...directories) {
-      return this.path.build.join(...directories);
+      return this.root.join(...directories);
     },
     async render(content) {
       const { body, head, partial, placeholders = {}, page } = content;
@@ -142,7 +142,6 @@ export default async (log, root, { config, assets, routes, components, loader, t
       return { head, integrity: `'${integrity}'` };
     },
     async publish({ src, code, type = "", inline = false }) {
-      console.log(src, code);
       if (inline || type === "style") {
         this.assets.push({
           src: File.join(http.static.root, src ?? "").path,

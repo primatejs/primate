@@ -69,7 +69,7 @@ export default class Connection {
     const documents = await this.#filter(name, criteria);
     if (options.sort !== undefined) {
       const sort = Object.entries(
-        o.valmap(options.sort, value => value === "asc" ? 1 : -1));
+        O.valmap(options.sort, value => value === "asc" ? 1 : -1));
       documents.sort((d1, d2) => {
         for (const [field, direction] of sort) {
           if (d1[field] === d2[field]) {
@@ -86,7 +86,7 @@ export default class Connection {
 
     return projection.length === 0
       ? documents
-      : documents.map(document => o.filter(document,
+      : documents.map(document => O.filter(document,
         ([key]) => projection.includes(key)));
   }
 

@@ -1,5 +1,4 @@
-import MissingComponentClassName from
-  "@primate/frontend/errors/missing-component-class-name";
+import NoClassName from "@primate/frontend/errors/no-class-name";
 import { File } from "rcompat/fs";
 
 const script_re = /(?<=<script)>(?<code>.*?)(?=<\/script>)/gus;
@@ -9,7 +8,8 @@ export const client = (app, extension) => async (text, component) => {
   const [script] = await Promise.all([...text.matchAll(script_re)]
     .map(({ groups: { code } }) => code));
   const { name } = script.match(webc_class_name_re)?.groups ?? {};
-  name === undefined && MissingComponentClassName.throw(component);
+  // app.assert(name !== undefined, NoClassName._(component))
+  name === undefined && NoClassName.throw(component);
   const tag = new File(component)
     .debase(`${app.runpath(app.get("location.components"))}/`)
     .path.replaceAll("/", "-").slice(0, -extension.length);

@@ -1,8 +1,6 @@
+import NoDependencies from "@primate/store/errors/no-dependencies";
 import { tryreturn } from "rcompat/async";
 import { packager } from "rcompat/package";
-import errors from "./errors.js";
-
-const { MissingDependencies } = errors;
 
 export default async (dependencies, from) => {
   const modules = Object.keys(dependencies);
@@ -16,7 +14,7 @@ export default async (dependencies, from) => {
     .map(([key, value]) => `${key}@${value}`);
   if (errored.length > 0) {
     const install = module => `${packager()} install ${module.join(" ")}`;
-    MissingDependencies.throw(errored.join(", "), from, install(versions));
+    NoDependencies.throw(errored.join(", "), from, install(versions));
   }
   return results.filter(result => typeof result !== "string");
 };
