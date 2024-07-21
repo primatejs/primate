@@ -1,21 +1,16 @@
 import compile from "@primate/frontend/base/compile";
 import depend from "@primate/frontend/base/depend";
-import peerdeps from "@primate/frontend/base/peerdeps";
-import { name, rootname } from "@primate/frontend/eta/common";
-import * as O from "rcompat/object";
+import { dependencies, name } from "@primate/frontend/eta/common";
 import { server } from "./compile.js";
 
-const dependencies = ["eta"];
-
 export default extension => async (app, next) => {
-  const on = O.filter(await peerdeps(), ([key]) => dependencies.includes(key));
-  await depend(on, `frontend:${name}`);
+  await depend(dependencies, name);
 
   app.register(extension, {
     ...await compile({
       app,
       extension,
-      rootname,
+      name,
       compile: { server },
     }),
     // no support for hydration

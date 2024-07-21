@@ -1,4 +1,4 @@
 import serve from "@primate/frontend/base/serve";
-import { rootname } from "@primate/frontend/markdown/common";
+import { name } from "@primate/frontend/markdown/common";
 
-export default serve({ rootname });
+export default serve({ name });

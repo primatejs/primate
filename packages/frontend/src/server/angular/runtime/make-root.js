@@ -1,11 +1,11 @@
 import { Component as as_component, reflectComponentType } from "@angular/core";
-import { rootname } from "@primate/frontend/angular/common";
+import { selector } from "@primate/frontend/angular/common";
 import * as O from "rcompat/object";
 
 const double_to_single = string => string.replaceAll("\"", "'");
 
 const root_component = ({ template, imports }) => as_component({
-  selector: rootname,
+  selector,
   imports,
   template,
   standalone: true,

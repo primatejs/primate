@@ -1,30 +1,23 @@
 import compile from "@primate/frontend/base/compile";
 import depend from "@primate/frontend/base/depend";
-import normalize from "@primate/frontend/base/normalize";
-import peerdeps from "@primate/frontend/base/peerdeps";
 import server_root from "@primate/frontend/base/server-root";
-import { name, rootname } from "@primate/frontend/solid/common";
-import * as O from "rcompat/object";
+import { dependencies, name } from "@primate/frontend/solid/common";
 import create_root from "../client/create-root.js";
 import { client, server } from "./compile.js";
 import prepare from "./prepare.js";
 import publish from "./publish.js";
 
-const dependencies = ["solid-js", "@babel/core", "babel-preset-solid"];
-
 export default extension => async (app, next) => {
-  const on = O.filter(await peerdeps(), ([key]) => dependencies.includes(key));
-  await depend(on, `frontend:${name}`);
+  await depend(dependencies, name);
 
   // compile server
-  await server_root(app, rootname, create_root, server);
+  await server_root(app, name, create_root, server);
 
   const compiled = await compile({
     app,
     extension,
-    rootname,
+    name,
     create_root,
-    normalize: normalize(name),
     compile: { server, client },
   });
 

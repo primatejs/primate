@@ -8,7 +8,7 @@ import {
   renderApplication,
   ɵSERVER_CONTEXT,
 } from "@angular/platform-server";
-import { rootname } from "@primate/frontend/angular/common";
+import { selector } from "@primate/frontend/angular/common";
 import "zone.js";
 import make_root from "./make-root.js";
 
@@ -16,7 +16,7 @@ import make_root from "./make-root.js";
 
 export default async (given_component, props) => {
   const component = make_root(given_component, props);
-  const document = `<${rootname}></${rootname}>`;
+  const document = `<${selector}></${selector}>`;
   const bootstrap = () => bootstrapApplication(component, {
     providers: [
       provideServerRendering(),

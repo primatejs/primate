@@ -10,10 +10,10 @@ const serve = render =>
         return app.view({ body: await render(component, props), ...options });
       };
 
-export default ({ rootname, render = default_render }) =>
+export default ({ name, render = default_render }) =>
   extension =>
     (app, next) => {
-      app.register(extension, serve(render)(register({ app, rootname })));
+      app.register(extension, serve(render)(register({ app, name })));
 
       return next(app);
     };

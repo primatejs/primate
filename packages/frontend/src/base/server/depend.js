@@ -1,10 +1,15 @@
-import { tryreturn } from "rcompat/async";
-import { packager } from "rcompat/package";
 import MissingDependencies from "@primate/frontend/errors/missing-dependencies";
+import { tryreturn } from "rcompat/async";
+import * as O from "rcompat/object";
+import { manifest, packager } from "rcompat/package";
 
+const peers = async () =>
+  ({ ...(await manifest(import.meta.filename)).peerDependencies });
 const MODULE_NOT_FOUND = "ERR_MODULE_NOT_FOUND";
 
-export default async (dependencies, from) => {
+export default async (on, name) => {
+  const from = `frontend:${name}`;
+  const dependencies = O.filter(await peers(), ([key]) => on.includes(key));
   const modules = Object.keys(dependencies);
 
   const results = await Promise.all(modules.map(module =>

@@ -1,9 +1,8 @@
 import compile from "@primate/frontend/base/compile";
 import depend from "@primate/frontend/base/depend";
-import peerdeps from "@primate/frontend/base/peerdeps";
 import MissingClientSideTemplateDependency from
   "@primate/frontend/errors/missing-client-side-template-dependency";
-import { name, rootname } from "@primate/frontend/htmx/common";
+import { dependencies, name } from "@primate/frontend/htmx/common";
 import * as O from "rcompat/object";
 import { server } from "./compile.js";
 
@@ -25,9 +24,7 @@ export default ({
   extensions,
   client_side_templates,
 }) => async (app, next) => {
-  const dependencies = ["htmx-esm"];
-  const on = O.filter(peerdeps(), ([key]) => dependencies.includes(key));
-  await depend(on, `frontend:${name}`);
+  await depend(dependencies, name);
 
   app.build.export(`export { default as htmx } from "${htmx_esm}";`);
 
@@ -47,7 +44,7 @@ export default ({
     ...await compile({
       app,
       extension,
-      rootname,
+      name,
       compile: { server },
     }),
     // no support for hydration

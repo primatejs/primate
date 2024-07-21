@@ -1,5 +1,5 @@
 import compile from "@primate/frontend/base/compile";
-import { rootname } from "@primate/frontend/html/common";
+import { name } from "@primate/frontend/html/common";
 import { server } from "./compile.js";
 
 export default extension => async (app, next) => {
@@ -7,7 +7,7 @@ export default extension => async (app, next) => {
     ...await compile({
       app,
       extension,
-      rootname,
+      name,
       compile: { server },
     }),
     // no support for hydration

@@ -1,3 +1,5 @@
+import make_normalize from "./normalize.js";
+
 const create = {
   async client_root(app, name, create_root, compile) {
     // vue does not yet support layouting
@@ -12,15 +14,15 @@ const create = {
 
 export default async ({
   extension,
-  rootname,
+  name,
   create_root,
   compile,
-  normalize,
 }) => {
   const extensions = {
     from: extension,
     to: `${extension}.js`,
   };
+  const normalize = make_normalize(name);
 
   return {
     async server(component, app) {
@@ -35,12 +37,12 @@ export default async ({
     async client(component, app) {
       const location = app.get("location");
       const source = app.runpath(location.components);
-      await create.client_root(app, rootname, create_root, compile);
-      const { path: name } = component.debase(source, "/");
+      await create.client_root(app, name, create_root, compile);
+      const { path } = component.debase(source, "/");
 
       // web import -> unix style
-      const code = `export { default as ${await normalize(name)} } from
-        "./${location.components}/${name}";`;
+      const code = `export { default as ${await normalize(path)} } from
+        "./${location.components}/${path}";`;
       app.build.export(code);
     },
   };

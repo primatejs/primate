@@ -2,12 +2,14 @@ import { Status, MediaType } from "rcompat/http";
 import { cascade, map } from "rcompat/async";
 import * as O from "rcompat/object";
 import register from "./register.js";
+import make_normalize from "./normalize.js";
 
 const noop = _ => ({});
 const { APPLICATION_JSON } = MediaType;
 
 export default config => {
-  const { load, root, render, client, normalize } = register(config);
+  const { load, root, render, client } = register(config);
+  const normalize = make_normalize(config.name);
 
   const get_names = components => map(components, ({ name }) => normalize(name));
 
