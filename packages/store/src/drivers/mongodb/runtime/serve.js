@@ -1,28 +1,11 @@
-import * as O from "rcompat/object";
-import ident from "../ident.js";
-import { peers } from "../common/exports.js";
-import depend from "../../depend.js";
-import wrap from "../../wrap.js";
+import { Decimal128, MongoClient, ObjectId } from "mongodb";
+import wrap from "../../../wrap.js";
+import ident from "../../ident.js";
 import Facade from "./Facade.js";
 
 const name = "mongodb";
-const dependencies = ["mongodb"];
-const on = O.filter(peers, ([key]) => dependencies.includes(key));
-const defaults = {
-  host: "localhost",
-  port: 27017,
-};
 
-export default ({
-  host = defaults.host,
-  port = defaults.port,
-  db,
-} = {}) => async _ => {
-  const [{
-    MongoClient,
-    ObjectId,
-    Decimal128,
-  }] = await depend(on, `store:${name}`);
+export default ({ host, port, database } = {}) => async _ => {
   const url = `mongodb://${host}:${port}?replicaSet=rs0&directConnection=true`;
   const client = new MongoClient(url);
   await client.connect();
@@ -64,7 +47,7 @@ export default ({
     async transact(stores) {
       return async (others, next) => {
         const session = client.startSession();
-        const facade = new Facade(client.db(db), session);
+        const facade = new Facade(client.db(database), session);
 
         try {
           return await session.withTransaction(async () => {
