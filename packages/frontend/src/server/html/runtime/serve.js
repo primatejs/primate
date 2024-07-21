@@ -1,9 +1,7 @@
-import html_handler from "@primate/frontend/base/html-handler";
-import register from "@primate/frontend/base/register";
-import { name } from "@primate/frontend/html/common";
+import handler from "@primate/frontend/base/html-handler";
 
 export default extension => (app, next) => {
-  app.register(extension, html_handler(register({ app, name })));
+  app.register(extension, handler);
 
   return next(app);
 };

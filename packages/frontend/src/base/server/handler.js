@@ -1,8 +1,16 @@
 import { Status, MediaType } from "rcompat/http";
 import { cascade, map } from "rcompat/async";
 import * as O from "rcompat/object";
-import register from "./register.js";
 import make_normalize from "./normalize.js";
+
+const register = ({ app, name, ...rest }) => ({
+  root: app.get_component(`root_${name}.js`),
+  async load(name, props) {
+    const component = await app.get_component(name);
+    return { name, props, component };
+  },
+  ...rest,
+});
 
 const noop = _ => ({});
 const { APPLICATION_JSON } = MediaType;

@@ -4,8 +4,8 @@ const script_re = /(?<=<script)>(?<code>.*?)(?=<\/script>)/gus;
 const style_re = /(?<=<style)>(?<code>.*?)(?=<\/style>)/gus;
 const remove = /<(?<tag>script|style)>.*?<\/\k<tag>>/gus;
 
-export default ({ load }) => (name, props = {}, options = {}) => async app => {
-  const { component } = await load(name, props);
+export default (name, props = {}, options = {}) => async app => {
+  const component = await app.get_component(name);
   const rendered = render(component, props);
   const { head: xhead = [], csp = {}, headers, ...rest } = options;
   const { script_src: xscript_src = [], style_src: xstyle_src = [] } = csp;

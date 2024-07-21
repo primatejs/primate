@@ -1,6 +1,6 @@
 import client from "@primate/frontend/webc/client";
 
-export default () => (name, props = {}, options = {}) => async app => {
+export default (name, props = {}, options = {}) => async app => {
   const [component] = name.split(".");
   const assets = [await app.inline(client(component, props), "module")];
   const head = assets.map(asset => asset.head).join("\n");

@@ -1,9 +1,9 @@
 import { createSSRApp } from "vue";
 import render from "./render.js";
 
-export default ({ load }) => (name, props = {}, options = {}) => async app => {
+export default (name, props = {}, options = {}) => async app => {
   const component = createSSRApp({
-    render: (await load(name, props)).component.render,
+    render: (await app.get_component(name)).render,
     data: () => props,
   });
 

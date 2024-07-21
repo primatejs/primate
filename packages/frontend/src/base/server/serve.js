@@ -1,19 +1,13 @@
-import register from "./register.js";
 import default_render from "./render.js";
 
-const serve = render =>
-  ({ load }) =>
-    (name, props = {}, options = {}) =>
-      async app => {
-        const { component } = await load(name, props);
+const serve = render => (name, props = {}, options = {}) => async app => {
+  const component = await app.get_component(name);
 
-        return app.view({ body: await render(component, props), ...options });
-      };
+  return app.view({ body: await render(component, props), ...options });
+};
 
-export default ({ name, render = default_render }) =>
-  extension =>
-    (app, next) => {
-      app.register(extension, serve(render)(register({ app, name })));
+export default ({ render = default_render } = {}) => extension => (app, next) => {
+  app.register(extension, serve(render));
 
-      return next(app);
-    };
+  return next(app);
+};
