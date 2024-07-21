@@ -6,20 +6,23 @@ export default async app => {
   const http = app.get("http");
   const client = app.runpath(location.client);
   const re = /app..*(?:js|css)$/u;
-  const $imports = (await client.collect(re, { recursive: false })).map((file, i) => {
-    const type = file.extension === ".css" ? "style" : "js";
-    const src = `${http.static.root}${file.debase(client).name}`;
-    const path = `./${file.debase(`${app.path.build}/`)}`;
-    return {
-      src,
-      path,
-      code: `await File.text(asset${i})`,
-      type,
-    };
-  });
+  const $imports = (await Promise.all((await client.collect(re, { recursive: false }))
+    .map(async (file, i) => {
+      const type = file.extension === ".css" ? "style" : "js";
+      const src = `${http.static.root}${file.debase(client).name}`;
+      const path = `./${file.debase(`${app.path.build}/`)}`;
+      return {
+        src,
+        path,
+        code: `await File.text(asset${i})`,
+        type,
+        empty: (await file.text()).length === 0,
+      };
+    }))).filter(file => !file.empty);
   const d = app.runpath(location.pages);
   const pages = await Promise.all((await File.collect(d, html, { recursive: true }))
     .map(async file => `${file}`.replace(`${d}/`, _ => "")));
+  const app_js = $imports.find($import => $import.src.endsWith(".js"));
 
   const assets_scripts = `
   import { File } from "rcompat/fs";
@@ -44,17 +47,18 @@ export default async app => {
   integrity: await hash(file${i}),
   }`).join(",\n  ")}];
 
-  const imports = {
-   app: File.join("${http.static.root}", "${$imports.find($import =>
+  ${app_js === undefined ? "" :
+    `const imports = {
+     app: File.join("${http.static.root}", "${$imports.find($import =>
   $import.src.endsWith(".js")).src}").webpath(),
-  };
-  // importmap
-  assets.push({
-    inline: true,
-    code: stringify({ imports }),
-    type: "importmap",
-    integrity: await hash(stringify({ imports })),
-  });
+    };
+    // importmap
+    assets.push({
+      inline: true,
+      code: stringify({ imports }),
+      type: "importmap",
+      integrity: await hash(stringify({ imports })),
+    });`}
 
   ${pages.map((page, i) =>
     `import i_page${i} from "./${location.pages}/${page}" with { type: "file" };
