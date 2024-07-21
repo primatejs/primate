@@ -1,7 +1,6 @@
-import depend from "../../../depend.js";
+import depend from "@primate/store/base/depend";
+import { name, dependencies } from "@primate/store/mongodb/common";
 
-const dependencies = ["mongodb"];
-
-export default name => async () => {
+export default async () => {
   await depend(dependencies, name);
 };

@@ -1,5 +1,5 @@
 import * as O from "rcompat/object";
-import { make_sort } from "../../sql/exports.js";
+import make_sort from "@primate/store/sql/make-sort";
 import typemap from "./typemap.js";
 
 const filter_null = object => O.filter(object, ([, value]) => value !== null);

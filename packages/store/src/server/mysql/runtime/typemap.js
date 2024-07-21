@@ -22,4 +22,3 @@ const types = {
 };
 
 export default value => types[value];
-

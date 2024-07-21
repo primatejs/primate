@@ -1,9 +1,5 @@
+import { defaults } from "@primate/store/mongodb/common";
 import serve from "./serve.js";
-
-const defaults = {
-  host: "localhost",
-  port: 27017,
-};
 
 export default ({
   host = defaults.host,

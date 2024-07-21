@@ -1,19 +1,12 @@
-import Driver from "postgres";
+import ident from "@primate/store/base/ident";
+import wrap from "@primate/store/base/wrap";
+import { name } from "@primate/store/postgresql/common";
 import { numeric } from "rcompat/invariant";
-import wrap from "../../../wrap.js";
-import ident from "../../ident.js";
+import { connect } from "./driver.js";
 import Facade from "./Facade.js";
 
-const name = "postgresql";
-
-export default ({ host, port, database, username, password }) => async () => {
-  const driver = new Driver({
-    host,
-    port,
-    db: database,
-    user: username,
-    pass: password,
-  });
+export default options => async () => {
+  const client = connect(options);
 
   const types = {
     primary: {
@@ -59,7 +52,7 @@ export default ({ host, port, database, username, password }) => async () => {
     types,
     async transact(stores) {
       return (others, next) =>
-        driver.begin(async connection => {
+        client.begin(async connection => {
           const facade = new Facade(connection);
           return next([
             ...others, ...stores.map(([name, store]) =>

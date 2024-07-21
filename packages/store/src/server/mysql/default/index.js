@@ -1,11 +1,6 @@
 import build from "./build.js";
 import serve from "../runtime/serve.js";
-
-const defaults = {
-  host: "localhost",
-  port: 3306,
-};
-const name = "mysql";
+import { defaults } from "@primate/store/mysql/common";
 
 export default ({
   host = defaults.host,
@@ -14,6 +9,6 @@ export default ({
   username,
   password,
 } = {}) => ({
-  build: build(name),
+  build,
   serve: serve({ host, port, database, username, password }),
 });

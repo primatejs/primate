@@ -1,17 +1,12 @@
-import build from "./build.js";
+import { defaults } from "@primate/store/mongodb/common";
 import serve from "../runtime/serve.js";
-
-const defaults = {
-  host: "localhost",
-  port: 27017,
-};
-const name = "mongodb";
+import build from "./build.js";
 
 export default ({
   host = defaults.host,
   port = defaults.port,
   database,
 } = {}) => ({
-  build: build(name),
+  build,
   serve: serve({ host, port, database }),
 });

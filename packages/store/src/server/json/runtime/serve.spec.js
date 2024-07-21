@@ -1,6 +1,6 @@
+import base from "@primate/store/base/test";
 import { File } from "rcompat/fs";
 import serve from "./serve.js";
-import base from "../base.test.js";
 
 const database = new File(import.meta.url).up(1).join("db.json");
 

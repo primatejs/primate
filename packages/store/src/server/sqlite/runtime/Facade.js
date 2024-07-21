@@ -1,7 +1,7 @@
+import make_sort from "@primate/store/sql/make-sort";
 import * as O from "rcompat/object";
 import { platform } from "rcompat/package";
 import typemap from "./typemap.js";
-import { make_sort } from "../../sql/exports.js";
 
 const is_bun = platform() === "bun";
 

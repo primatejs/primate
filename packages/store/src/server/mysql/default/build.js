@@ -1,7 +1,6 @@
-import depend from "../../../depend.js";
+import depend from "@primate/store/base/depend";
+import { dependencies, name } from "@primate/store/mysql/common";
 
-const dependencies = ["mysql2"];
-
-export default name => async () => {
+export default async () => {
   await depend(dependencies, name);
 };

@@ -1,10 +1,10 @@
+import primary from "@primate/store/base/primary";
 import EmptyStoreDirectory from "@primate/store/errors/empty-store-directory";
 import InvalidType from "@primate/store/errors/invalid-type";
 import NoPrimaryKey from "@primate/store/errors/no-primary-key";
 import * as A from "rcompat/array";
 import { dim } from "rcompat/colors";
 import * as O from "rcompat/object";
-import primary from "./primary.js";
 
 const valid_type = ({ base, validate }) =>
   base !== undefined && typeof validate === "function";

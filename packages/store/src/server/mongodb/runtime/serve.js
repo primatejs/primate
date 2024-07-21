@@ -1,14 +1,11 @@
-import { Decimal128, MongoClient, ObjectId } from "mongodb";
-import wrap from "../../../wrap.js";
-import ident from "../../ident.js";
+import ident from "@primate/store/base/ident";
+import wrap from "@primate/store/base/wrap";
+import { name } from "@primate/store/mongodb/common";
 import Facade from "./Facade.js";
-
-const name = "mongodb";
+import { connect, Decimal128, ObjectId } from "./driver.js";
 
 export default ({ host, port, database } = {}) => async _ => {
-  const url = `mongodb://${host}:${port}?replicaSet=rs0&directConnection=true`;
-  const client = new MongoClient(url);
-  await client.connect();
+  const client = await connect({ host, port });
 
   const types = {
     primary: {

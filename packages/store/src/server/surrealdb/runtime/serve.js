@@ -1,29 +1,11 @@
-import { Surreal } from "surrealdb.js";
-import wrap from "../../../wrap.js";
-import ident from "../../ident.js";
+import ident from "@primate/store/base/ident";
+import wrap from "@primate/store/base/wrap";
+import { name } from "@primate/store/surrealdb/common";
 import Facade from "./Facade.js";
+import { connect } from "./driver.js";
 
-const name = "surrealdb";
-
-export default ({
-  host,
-  port,
-  path,
-  namespace,
-  database,
-  username,
-  password,
-} = {}) => async _ => {
-  const client = new Surreal();
-
-  const url = `${host}:${port}/${path}`;
-  const auth = username !== undefined && password !== undefined ?
-    {
-      username,
-      password,
-    }
-    : {};
-  await client.connect(url, { namespace, database, auth });
+export default options => async () => {
+  const client = await connect(options);
 
   const types = {
     primary: {

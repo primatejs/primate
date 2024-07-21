@@ -1,7 +1,6 @@
-import depend from "../../../depend.js";
+import depend from "@primate/store/base/depend";
+import { dependencies, name } from "@primate/store/surrealdb/common";
 
-const dependencies = ["surrealdb.js"];
-
-export default name => async () => {
+export default async () => {
   await depend(dependencies, name);
 };

@@ -1,9 +1,5 @@
+import { defaults } from "@primate/store/postgresql/common";
 import serve from "../runtime/serve.js";
-
-const defaults = {
-  host: "localhost",
-  port: 5432,
-};
 
 export default ({
   host = defaults.host,

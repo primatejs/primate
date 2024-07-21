@@ -1,9 +1,7 @@
-import build from "./build.js";
 import serve from "../runtime/serve.js";
-
-const name = "json";
+import build from "./build.js";
 
 export default ({ database }) => ({
-  build: build(name),
-  serve: serve(database),
+  build,
+  serve: serve({ database }),
 });

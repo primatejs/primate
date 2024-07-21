@@ -1,7 +1,7 @@
+import modes from "@primate/store/base/modes";
 import memory from "@primate/store/memory";
 import { assert } from "rcompat/invariant";
 import build from "./build.js";
-import modes from "./modes.js";
 import route from "./route.js";
 import serve from "./serve.js";
 

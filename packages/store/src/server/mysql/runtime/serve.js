@@ -1,25 +1,12 @@
-import mysql from "mysql2/promise";
+import ident from "@primate/store/base/ident";
+import wrap from "@primate/store/base/wrap";
+import { name } from "@primate/store/mysql/common";
 import { numeric } from "rcompat/invariant";
-import wrap from "../../../wrap.js";
-import ident from "../../ident.js";
 import Facade from "./Facade.js";
+import { connect } from "./driver.js";
 
-const name = "mysql";
-
-export default ({ host, port, database, username, password }) => async () => {
-  const pool = mysql.createPool({
-    host,
-    port,
-    database,
-    user: username,
-    password,
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0,
-    enableKeepAlive: true,
-    keepAliveInitialDelay: 0,
-    namedPlaceholders: true,
-  });
+export default options => async () => {
+  const client = await connect(options);
 
   const types = {
     primary: {
@@ -72,7 +59,7 @@ export default ({ host, port, database, username, password }) => async () => {
     types,
     async transact(stores) {
       return async (others, next) => {
-        const connection = await pool.getConnection();
+        const connection = await client.getConnection();
         const facade = new Facade(connection);
         try {
           await connection.query("start transaction");
@@ -87,7 +74,7 @@ export default ({ host, port, database, username, password }) => async () => {
           throw error;
         } finally {
           // noop, no end transaction
-          pool.releaseConnection(connection);
+          client.releaseConnection(connection);
         }
       };
     },

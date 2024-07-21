@@ -1,14 +1,10 @@
-import build from "./build.js";
+import { defaults } from "@primate/store/sqlite/common";
 import serve from "../runtime/serve.js";
-
-const defaults = {
-  database: ":memory:",
-};
-const name = "sqlite";
+import build from "./build.js";
 
 export default ({
   database = defaults.database,
 } = {}) => ({
-  build: build(name),
-  serve: serve(database),
+  build,
+  serve: serve({ database }),
 });

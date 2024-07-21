@@ -1,11 +1,6 @@
-import build from "./build.js";
+import { defaults } from "@primate/store/postgresql/common";
 import serve from "../runtime/serve.js";
-
-const defaults = {
-  host: "localhost",
-  port: 5432,
-};
-const name = "postgresql";
+import build from "./build.js";
 
 export default ({
   host = defaults.host,
@@ -14,6 +9,6 @@ export default ({
   username,
   password,
 } = {}) => ({
-  build: build(name),
+  build,
   serve: serve({ host, port, database, username, password }),
 });

@@ -1,10 +1,5 @@
+import { defaults } from "@primate/store/surrealdb/common";
 import serve from "./serve.js";
-
-const defaults = {
-  host: "http://localhost",
-  port: 8000,
-  path: "rpc",
-};
 
 export default ({
   host = defaults.host,

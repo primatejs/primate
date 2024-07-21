@@ -1,4 +1,5 @@
-import modes from "./modes.js";
+import modes from "@primate/store/base/modes";
+
 const normalize = string => string.trim() === "" ? undefined : string;
 
 const is_strict = mode => mode === modes.strict;

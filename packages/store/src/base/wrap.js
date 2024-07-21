@@ -1,12 +1,12 @@
-import InvalidValue from "@primate/store/errors/invalid-value";
 import InvalidDocument from "@primate/store/errors/invalid-document";
+import InvalidValue from "@primate/store/errors/invalid-value";
 import NoDocument from "@primate/store/errors/no-document";
 import { maybe } from "rcompat/invariant";
 import * as O from "rcompat/object";
 import { tryreturn } from "rcompat/sync";
-import bases from "./bases.js";
 import primary from "./primary.js";
-import validate from "./validate.js";
+import bases from "./wrap/bases.js";
+import validate from "./wrap/validate.js";
 
 const transform = to => ({ types, schema, document = {}, path, mode }) =>
   O.transform(document, entry => entry

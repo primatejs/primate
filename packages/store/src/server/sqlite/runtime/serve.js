@@ -1,19 +1,12 @@
-import Database from "@rcompat/sql/sqlite";
+import ident from "@primate/store/base/ident";
+import wrap from "@primate/store/base/wrap";
+import { name } from "@primate/store/sqlite/common";
 import { numeric } from "rcompat/invariant";
-import Pool from "../../../pool/exports.js";
-import wrap from "../../../wrap.js";
-import ident from "../../ident.js";
 import Facade from "./Facade.js";
+import { connect } from "./driver.js";
 
-const name = "sqlite";
-
-export default database => () => {
-  const pool = new Pool({
-    manager: {
-      new: () => new Database(database, { create: true }),
-      kill: connection => connection.close(),
-    },
-  });
+export default options => async () => {
+  const client = await connect(options);
 
   const types = {
     primary: {
@@ -73,7 +66,7 @@ export default database => () => {
     types,
     async transact(stores) {
       return async (others, next) => {
-        const connection = await pool.acquire();
+        const connection = await client.acquire();
         const facade = new Facade(connection);
         try {
           connection.prepare("begin transaction").run();
@@ -88,7 +81,7 @@ export default database => () => {
           throw error;
         } finally {
           // noop, no end transaction
-          pool.release(connection);
+          client.release(connection);
         }
       };
     },

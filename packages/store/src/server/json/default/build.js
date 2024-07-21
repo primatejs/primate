@@ -1,2 +1,2 @@
 // noop
-export default name => async () => {};
+export default async () => {};
