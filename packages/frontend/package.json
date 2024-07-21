@@ -15,8 +15,8 @@
     "directory": "packages/frontend"
   },
   "dependencies": {
-    "rcompat": "^0.17.0",
-    "@rcompat/crypto": "^0.2.0"
+    "@rcompat/crypto": "^0.2.0",
+    "rcompat": "^0.17.1"
   },
   "peerDependencies": {
     "@angular/compiler": "18",
@@ -112,10 +112,9 @@
     },
     "./spa": "./src/spa/exports.js",
     "./*/common": "./src/server/*/common.js",
+    "./*/head": "./src/server/*/head.js",
     "./react/context/*": "./src/server/react/context/*.js",
-    "./react/head": "./src/server/react/head/index.js",
     "./solid/context/*": "./src/server/solid/context/*.js",
-    "./solid/head": "./src/server/solid/head/index.js",
     "./webc/client": "./src/server/webc/client/index.js",
     "./webc/component": "./src/server/webc/Component.js",
     "./base/*": "./src/base/server/*.js",
