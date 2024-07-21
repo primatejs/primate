@@ -1,5 +1,5 @@
-import serve from "@primate/frontend/common/serve";
-import rootname from "@primate/frontend/handlebars/common/rootname";
+import serve from "@primate/frontend/base/serve";
+import { rootname } from "@primate/frontend/handlebars/common";
 import render from "./render.js";
 
 export default serve({ rootname, render });

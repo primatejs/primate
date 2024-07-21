@@ -1,6 +1,6 @@
-import compile from "@primate/frontend/common/compile";
-import normalize from "@primate/frontend/common/normalize";
-import name from "@primate/frontend/webc/common/name";
+import compile from "@primate/frontend/base/compile";
+import normalize from "@primate/frontend/base/normalize";
+import { name } from "@primate/frontend/webc/common";
 import { client } from "./compile.js";
 import publish from "./publish.js";
 

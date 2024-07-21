@@ -1,22 +1,11 @@
-import compile from "@primate/frontend/common/compile";
-import depend from "@primate/frontend/common/depend";
-import peerdeps from "@primate/frontend/common/peerdeps";
-import name from "@primate/frontend/eta/common/name";
-import rootname from "@primate/frontend/eta/common/rootname";
-import { Eta } from "eta";
+import compile from "@primate/frontend/base/compile";
+import depend from "@primate/frontend/base/depend";
+import peerdeps from "@primate/frontend/base/peerdeps";
+import { name, rootname } from "@primate/frontend/eta/common";
 import * as O from "rcompat/object";
+import { server } from "./compile.js";
 
-const eta = new Eta();
 const dependencies = ["eta"];
-
-const server = text => `
-  import { Eta } from "eta";
-  const eta = new Eta();
-
-  ${eta.compile(text).toString()}
-
-  export default (props, options) => anonymous.call(eta, props, options);
-`;
 
 export default extension => async (app, next) => {
   const on = O.filter(await peerdeps(), ([key]) => dependencies.includes(key));

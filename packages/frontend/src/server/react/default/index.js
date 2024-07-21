@@ -1,5 +1,4 @@
-import default_extension from "@primate/frontend/react/common/extension";
-import name from "@primate/frontend/react/common/name";
+import { default_extension, name } from "@primate/frontend/react/common";
 import serve from "../runtime/serve.js";
 import build from "./build.js";
 

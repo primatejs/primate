@@ -1,6 +1,6 @@
 import { Component as as_component, reflectComponentType } from "@angular/core";
+import { rootname } from "@primate/frontend/angular/common";
 import * as O from "rcompat/object";
-import rootname from "@primate/frontend/angular/common/rootname";
 
 const double_to_single = string => string.replaceAll("\"", "'");
 

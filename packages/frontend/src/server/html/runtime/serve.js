@@ -1,9 +1,9 @@
-import register from "@primate/frontend/common/register";
-import rootname from "@primate/frontend/html/common/rootname";
-import handler from "@primate/frontend/html/common/handler";
+import html_handler from "@primate/frontend/base/html-handler";
+import register from "@primate/frontend/base/register";
+import { rootname } from "@primate/frontend/html/common";
 
 export default extension => (app, next) => {
-  app.register(extension, handler(register({ app, rootname })));
+  app.register(extension, html_handler(register({ app, rootname })));
 
   return next(app);
 };

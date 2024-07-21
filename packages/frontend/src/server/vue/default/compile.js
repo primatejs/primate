@@ -1,4 +1,3 @@
-
 import { parse, compileTemplate } from "vue/compiler-sfc";
 
 export const server = text => compileTemplate({

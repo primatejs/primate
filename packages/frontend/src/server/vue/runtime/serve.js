@@ -1,5 +1,5 @@
-import register from "@primate/frontend/common/register";
-import rootname from "@primate/frontend/html/common/rootname";
+import register from "@primate/frontend/base/register";
+import { rootname } from "@primate/frontend/vue/common";
 import handler from "./handler.js";
 
 export default extension => (app, next) => {

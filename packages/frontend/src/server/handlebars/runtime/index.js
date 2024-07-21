@@ -1,5 +1,4 @@
-import default_extension from "@primate/frontend/handlebars/common/extension";
-import name from "@primate/frontend/handlebars/common/name";
+import { name, default_extension } from "@primate/frontend/handlebars/common";
 import serve from "./serve.js";
 
 export default ({ extension = default_extension } = {}) => ({

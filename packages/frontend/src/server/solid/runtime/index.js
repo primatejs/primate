@@ -1,5 +1,4 @@
-import default_extension from "@primate/frontend/solid/common/extension";
-import name from "@primate/frontend/solid/common/name";
+import { default_extension, name } from "@primate/frontend/solid/common";
 import serve from "./serve.js";
 
 export default ({

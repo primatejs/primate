@@ -8,7 +8,7 @@ import {
   renderApplication,
   ɵSERVER_CONTEXT,
 } from "@angular/platform-server";
-import rootname from "@primate/frontend/angular/common/rootname";
+import { rootname } from "@primate/frontend/angular/common";
 import "zone.js";
 import make_root from "./make-root.js";
 

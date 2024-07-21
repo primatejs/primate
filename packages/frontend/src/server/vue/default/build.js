@@ -1,8 +1,7 @@
-import compile from "@primate/frontend/common/compile";
-import depend from "@primate/frontend/common/depend";
-import peerdeps from "@primate/frontend/common/peerdeps";
-import name from "@primate/frontend/vue/common/name";
-import rootname from "@primate/frontend/vue/common/rootname";
+import compile from "@primate/frontend/base/compile";
+import depend from "@primate/frontend/base/depend";
+import peerdeps from "@primate/frontend/base/peerdeps";
+import { name, rootname } from "@primate/frontend/vue/common";
 import * as O from "rcompat/object";
 import { server } from "./compile.js";
 

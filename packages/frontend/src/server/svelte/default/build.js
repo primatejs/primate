@@ -1,24 +1,16 @@
-import name from "@primate/frontend/svelte/common/name";
-import rootname from "@primate/frontend/svelte/common/rootname";
-import depend from "@primate/frontend/common/depend";
-import normalize from "@primate/frontend/common/normalize";
-import peerdeps from "@primate/frontend/common/peerdeps";
-import compile from "@primate/frontend/common/compile";
+import compile from "@primate/frontend/base/compile";
+import depend from "@primate/frontend/base/depend";
+import normalize from "@primate/frontend/base/normalize";
+import peerdeps from "@primate/frontend/base/peerdeps";
+import server_root from "@primate/frontend/base/server-root";
+import { name, rootname } from "@primate/frontend/svelte/common";
 import * as O from "rcompat/object";
-import { server, client } from "./compile.js";
-import publish from "./publish.js";
-import prepare from "./prepare.js";
 import create_root from "../client/create-root.js";
+import { client, server } from "./compile.js";
+import prepare from "./prepare.js";
+import publish from "./publish.js";
 
 const dependencies = ["svelte"];
-
-const server_root = async (app, name, create_root, compile) => {
-  const filename = `root_${name}.js`;
-  const root = await compile(create_root(app.get("layout").depth));
-  const path = app.runpath(app.get("location.server"), filename);
-  await path.write(root);
-  app.roots.push(path);
-};
 
 export default extension => async (app, next) => {
   const on = O.filter(await peerdeps(), ([key]) => dependencies.includes(key));

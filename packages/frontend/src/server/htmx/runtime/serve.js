@@ -1,6 +1,6 @@
-import register from "@primate/frontend/common/register";
-import html from "@primate/frontend/html/common/handler";
-import rootname from "@primate/frontend/htmx/common/rootname";
+import html_handler from "@primate/frontend/base/html-handler";
+import register from "@primate/frontend/base/register";
+import { rootname } from "@primate/frontend/htmx/common";
 
 const handler = ({ load }) => (name, props, options = {}) =>
   async (app, _, request) => {
@@ -8,7 +8,7 @@ const handler = ({ load }) => (name, props, options = {}) =>
     const { head , integrity } = await app.inline(code, "module");
     const script_src = [integrity];
 
-    return html({ load })(name, props, { head: [head],
+    return html_handler({ load })(name, props, { head: [head],
       csp: { script_src },
       partial: Boolean(request.headers.get("hx-request")),
       ...options,

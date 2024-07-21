@@ -1,14 +1,6 @@
-import compile from "@primate/frontend/common/compile";
-import rootname from "@primate/frontend/html/common/rootname";
-
-const server = text => `import { HTML } from "rcompat/string";
-  export default (props = {}, options) => {
-  const encoded = JSON.parse(HTML.escape(JSON.stringify(props)));
-  const keys = Object.keys(encoded);
-  const values = Object.values(encoded);
-  const text = ${JSON.stringify(text)};
-  return new Function(...keys, \`return \\\`\${text}\\\`;\`)(...values);
-}`;
+import compile from "@primate/frontend/base/compile";
+import { rootname } from "@primate/frontend/html/common";
+import { server } from "./compile.js";
 
 export default extension => async (app, next) => {
   app.register(extension, {

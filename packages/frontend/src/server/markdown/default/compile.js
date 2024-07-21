@@ -1,12 +1,10 @@
 import { marked } from "marked";
 
-const server = text => `export default () => ${JSON.stringify(text)};`;
+const compile = text => `export default () => ${JSON.stringify(text)};`;
 
-export default options => ({
-  async server(text) {
-    const renderer = { ...options?.renderer ?? {} };
-    marked.use({ ...options, renderer });
+export const server = options => async (text) => {
+  const renderer = { ...options?.renderer ?? {} };
+  marked.use({ ...options, renderer });
 
-    return server(await marked.parse(text));
-  },
-});
+  return compile(await marked.parse(text));
+};

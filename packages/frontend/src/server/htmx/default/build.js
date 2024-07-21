@@ -1,11 +1,11 @@
-import compile from "@primate/frontend/common/compile";
-import depend from "@primate/frontend/common/depend";
-import peerdeps from "@primate/frontend/common/peerdeps";
+import compile from "@primate/frontend/base/compile";
+import depend from "@primate/frontend/base/depend";
+import peerdeps from "@primate/frontend/base/peerdeps";
 import MissingClientSideTemplateDependency from
   "@primate/frontend/errors/missing-client-side-template-dependency";
-import name from "@primate/frontend/htmx/common/name";
-import rootname from "@primate/frontend/htmx/common/rootname";
+import { name, rootname } from "@primate/frontend/htmx/common";
 import * as O from "rcompat/object";
+import { server } from "./compile.js";
 
 const templates = "client-side-templates";
 const htmx_esm = "htmx-esm";
@@ -19,15 +19,6 @@ const import_template = {
   // noop
   xslt: _ => _,
 };
-
-const server = text => `import { HTML } from "rcompat/string";
-  export default (props = {}, options) => {
-  const encoded = JSON.parse(HTML.escape(JSON.stringify(props)));
-  const keys = Object.keys(encoded);
-  const values = Object.values(encoded);
-  const text = ${JSON.stringify(text)};
-  return new Function(...keys, \`return \\\`\${text}\\\`;\`)(...values);
-}`;
 
 export default ({
   extension,

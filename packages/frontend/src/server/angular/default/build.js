@@ -1,8 +1,8 @@
-import name from "@primate/frontend/angular/common/name";
-import depend from "@primate/frontend/common/depend";
-import peerdeps from "@primate/frontend/common/peerdeps";
+import { name } from "@primate/frontend/angular/common";
+import depend from "@primate/frontend/base/depend";
+import peerdeps from "@primate/frontend/base/peerdeps";
 import * as O from "rcompat/object";
-import compile from "./compile.js";
+import { server } from "./compile.js";
 
 const dependencies = [
   "@angular/compiler",
@@ -21,7 +21,7 @@ export default extension => async (app, next) => {
   await depend(on, `frontend:${name}`);
 
   app.register(extension, {
-    server: component => compile.server(app, component, extensions),
+    server: component => server(app, component, extensions),
     client: _ => _,
   });
 

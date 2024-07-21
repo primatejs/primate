@@ -1,6 +1,6 @@
-import serve from "@primate/frontend/common/serve";
+import { rootname } from "@primate/frontend/angular/common";
+import serve from "@primate/frontend/base/serve";
 import render from "./render.js";
-import rootname from "@primate/frontend/angular/common/rootname";
 import set_mode from "./set-mode.js";
 
 export default extension => {

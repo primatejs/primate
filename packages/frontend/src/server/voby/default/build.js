@@ -1,25 +1,11 @@
-import compile from "@primate/frontend/common/compile";
-import depend from "@primate/frontend/common/depend";
-import peerdeps from "@primate/frontend/common/peerdeps";
-import name from "@primate/frontend/voby/common/name";
-import rootname from "@primate/frontend/voby/common/rootname";
-import { transform } from "rcompat/build";
+import compile from "@primate/frontend/base/compile";
+import depend from "@primate/frontend/base/depend";
+import peerdeps from "@primate/frontend/base/peerdeps";
+import { name, rootname } from "@primate/frontend/voby/common";
 import * as O from "rcompat/object";
+import { server } from "./compile.js";
 
 const dependencies = ["voby", "linkedom-global"];
-
-const options = {
-  loader: "tsx",
-  jsx: "automatic",
-  tsconfig: {
-    compilerOptions: {
-      esModuleInterop: true,
-      jsx: "react-jsx",
-      jsxImportSource: "voby",
-    },
-  },
-};
-const server = async text => (await transform(text, options)).code;
 
 export default extension => async (app, next) => {
   const on = O.filter(await peerdeps(), ([key]) => dependencies.includes(key));

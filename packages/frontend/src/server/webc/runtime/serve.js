@@ -1,5 +1,5 @@
-import register from "@primate/frontend/common/register";
-import rootname from "@primate/frontend/webc/common/rootname";
+import register from "@primate/frontend/base/register";
+import { rootname } from "@primate/frontend/webc/common";
 import handler from "./handler.js";
 
 export default extension => (app, next) => {

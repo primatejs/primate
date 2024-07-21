@@ -1,12 +1,10 @@
-import handler from "@primate/frontend/common/handler";
-import normalize from "@primate/frontend/common/normalize";
-import name from "@primate/frontend/svelte/common/name";
-import rootname from "@primate/frontend/svelte/common/rootname";
-import render from "./render.js";
+import handler from "@primate/frontend/base/handler";
+import normalize from "@primate/frontend/base/normalize";
+import { name, rootname } from "@primate/frontend/svelte/common";
 import client from "../client/default.js";
+import render from "./render.js";
 
 export default (extension, spa) => (app, next) => {
-
   app.register(extension, handler({
     app,
     rootname,

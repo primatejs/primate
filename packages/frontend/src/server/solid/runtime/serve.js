@@ -1,7 +1,6 @@
-import handler from "@primate/frontend/common/handler";
-import normalize from "@primate/frontend/common/normalize";
-import name from "@primate/frontend/solid/common/name";
-import rootname from "@primate/frontend/solid/common/rootname";
+import handler from "@primate/frontend/base/handler";
+import normalize from "@primate/frontend/base/normalize";
+import { name, rootname } from "@primate/frontend/solid/common";
 import render from "./render.js";
 import client from "../client/default.js";
 

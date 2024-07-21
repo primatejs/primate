@@ -1,5 +1,4 @@
-import default_extension from "@primate/frontend/vue/common/extension";
-import name from "@primate/frontend/vue/common/name";
+import { default_extension, name } from "@primate/frontend/vue/common";
 import serve from "../runtime/serve.js";
 import build from "./build.js";
 
