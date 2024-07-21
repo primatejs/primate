@@ -1,39 +1,29 @@
-import * as O from "rcompat/object";
-import ident from "../ident.js";
-import { peers } from "../common/exports.js";
-import depend from "../../depend.js";
+import { Surreal } from "surrealdb.js";
+import wrap from "../../../wrap.js";
+import ident from "../../ident.js";
 import Facade from "./Facade.js";
-import wrap from "../../wrap.js";
 
 const name = "surrealdb";
-const dependencies = ["surrealdb.js"];
-const on = O.filter(peers, ([key]) => dependencies.includes(key));
-const defaults = {
-  host: "http://localhost",
-  port: 8000,
-  path: "rpc",
-};
 
 export default ({
-  host = defaults.host,
-  port = defaults.port,
-  path = defaults.path,
+  host,
+  port,
+  path,
   namespace,
   database,
   username,
   password,
 } = {}) => async _ => {
-  const [{ Surreal }] = await depend(on, `store:${name}`);
   const client = new Surreal();
 
-  const address = `${host}:${port}/${path}`;
+  const url = `${host}:${port}/${path}`;
   const auth = username !== undefined && password !== undefined ?
     {
       username,
       password,
     }
     : {};
-  await client.connect(address, { namespace, database, auth });
+  await client.connect(url, { namespace, database, auth });
 
   const types = {
     primary: {

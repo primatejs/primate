@@ -1,6 +1,6 @@
 import * as O from "rcompat/object";
 import typemap from "./typemap.js";
-import { make_sort } from "../sql/exports.js";
+import { make_sort } from "../../sql/exports.js";
 
 const null_to_undefined = delta =>
   O.valmap(delta, value => value === null ? undefined : value);

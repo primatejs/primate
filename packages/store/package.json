@@ -16,7 +16,7 @@
     "directory": "packages/store"
   },
   "scripts": {
-    "db:surreal": "surreal start --user test --pass test"
+    "db:surreal": "surreal start --user primate --pass primate"
   },
   "dependencies": {
     "rcompat": "^0.17.0",
@@ -56,29 +56,9 @@
   "exports": {
     ".": "./src/index.js",
     "./errors/*": "./src/errors/*.js",
-    "./memory": {
-      "runtime": "./src/drivers/memory/runtime/index.js",
-      "default": "./src/drivers/memory/default/index.js"
-    },
-    "./json": {
-      "runtime": "./src/drivers/json/runtime/index.js",
-      "default": "./src/drivers/json/default/index.js"
-    },
-    "./sqlite": {
-      "runtime": "./src/drivers/sqlite/runtime/index.js",
-      "default": "./src/drivers/sqlite/default/index.js"
-    },
-    "./mysql": {
-      "runtime": "./src/drivers/mysql/runtime/index.js",
-      "default": "./src/drivers/mysql/default/index.js"
-    },
-    "./mongodb": {
-      "runtime": "./src/drivers/mongodb/runtime/index.js",
-      "default": "./src/drivers/mongodb/default/index.js"
-    },
-    "./postgresql": {
-      "runtime": "./src/drivers/mongodb/runtime/index.js",
-      "default": "./src/drivers/mongodb/default/index.js"
+    "./*": {
+      "runtime": "./src/server/*/runtime/index.js",
+      "default": "./src/server/*/default/index.js"
     }
   }
 }
