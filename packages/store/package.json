@@ -54,7 +54,10 @@
   },
   "type": "module",
   "exports": {
-    ".": "./src/index.js",
+    ".": {
+      "runtime": "./src/runtime/index.js",
+      "default": "./src/default/index.js"
+    },
     "./*/common": "./src/server/*/common.js",
     "./base/*": "./src/base/*.js",
     "./sql/*": "./src/sql/*.js",

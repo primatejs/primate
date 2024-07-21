@@ -1,7 +1,6 @@
 import modes from "@primate/store/base/modes";
 import memory from "@primate/store/memory";
 import { assert } from "rcompat/invariant";
-import build from "./build.js";
 import route from "./route.js";
 import serve from "./serve.js";
 
@@ -20,7 +19,6 @@ export default ({
 
   return {
     name: "primate:store",
-    build: build(directory, driver.build),
     serve: serve(directory, mode, driver.serve, env),
     route: route(env),
   };
