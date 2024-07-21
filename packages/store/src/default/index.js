@@ -1,9 +1,9 @@
 import modes from "@primate/store/base/modes";
+import build from "@primate/store/hooks/build";
+import route from "@primate/store/hooks/route";
+import serve from "@primate/store/hooks/serve";
 import memory from "@primate/store/memory";
 import { assert } from "rcompat/invariant";
-import route from "../runtime/route.js";
-import serve from "../runtime/serve.js";
-import build from "./build.js";
 
 export default ({
   // directory for stores

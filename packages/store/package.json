@@ -60,6 +60,7 @@
     },
     "./*/common": "./src/server/*/common.js",
     "./base/*": "./src/base/*.js",
+    "./hooks/*": "./src/hooks/*.js",
     "./sql/*": "./src/sql/*.js",
     "./errors/*": "./src/errors/*.js",
     "./*": {
