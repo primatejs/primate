@@ -1,11 +1,11 @@
 import { File } from "rcompat/fs";
 import * as O from "rcompat/object";
 import { is } from "rcompat/invariant";
-import wrap from "../../wrap.js";
-import Facade from "../memory/Facade.js";
-import types from "../memory/types.js";
+import wrap from "../../../wrap.js";
+import Facade from "../../memory/runtime/Facade.js";
+import types from "../../memory/runtime/types.js";
 
-export default ({ filename }) => async () => {
+export default filename => async () => {
   is(filename).string();
 
   const path = new File(filename);

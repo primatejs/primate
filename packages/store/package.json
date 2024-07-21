@@ -19,7 +19,8 @@
     "db:surreal": "surreal start --user test --pass test"
   },
   "dependencies": {
-    "rcompat": "^0.17.0"
+    "rcompat": "^0.17.0",
+    "@rcompat/sql": "^0.1.0"
   },
   "devDependencies": {
     "@primate/types": "workspace:^",
@@ -55,7 +56,17 @@
   "exports": {
     ".": "./src/index.js",
     "./errors/*": "./src/errors/*.js",
-    "./memory": "./src/drivers/memory/index.js",
-    "./json": "./src/drivers/json/index.js"
+    "./memory": {
+      "runtime": "./src/drivers/memory/runtime/index.js",
+      "default": "./src/drivers/memory/default/index.js"
+    },
+    "./json": {
+      "runtime": "./src/drivers/json/runtime/index.js",
+      "default": "./src/drivers/json/default/index.js"
+    },
+    "./sqlite": {
+      "runtime": "./src/drivers/sqlite/runtime/index.js",
+      "default": "./src/drivers/sqlite/default/index.js"
+    }
   }
 }

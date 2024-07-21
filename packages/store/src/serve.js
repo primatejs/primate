@@ -6,16 +6,13 @@ import { dim } from "rcompat/colors";
 import * as O from "rcompat/object";
 import primary from "./primary.js";
 
-const last = -1;
-const ending = -3;
-
 const valid_type = ({ base, validate }) =>
   base !== undefined && typeof validate === "function";
 
 const valid = (type, name, store) =>
   valid_type(type) ? type : InvalidType.throw(name, store);
 
-export default (directory, mode, driver, env) => async (app, next) => {
+export default (directory, mode, driver_serve, env) => async (app, next) => {
   const root = app.runpath(directory);
   const module = "primate/store";
 
@@ -56,7 +53,7 @@ export default (directory, mode, driver, env) => async (app, next) => {
 
   app.log.info("all stores nominal", { module });
 
-  const default_driver = await driver();
+  const default_driver = await driver_serve();
 
   env.root = root;
   env.log = app.log;
@@ -65,8 +62,8 @@ export default (directory, mode, driver, env) => async (app, next) => {
     driver: default_driver,
     ...defaults,
   };
-  env.drivers = [...new Set(stores.map(({ driver: $driver }) =>
-    $driver ?? default_driver))];
+  env.drivers = [...new Set(stores.map(({ driver }) =>
+    driver ?? default_driver))];
   env.active = true;
 
   return next({ ...app, stores });

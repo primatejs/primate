@@ -1,7 +1,8 @@
 import types from "./types.js";
 import Facade from "./Facade.js";
-import wrap from "../../wrap.js";
+import wrap from "../../../wrap.js";
 
+// no conf
 export default () => async () => {
   const database = {
     collections: {},

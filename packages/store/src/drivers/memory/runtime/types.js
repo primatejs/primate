@@ -1,4 +1,4 @@
-import ident from "../ident.js";
+import ident from "../../ident.js";
 
 // we can't depend on @primate/types here
 const valid = /^[^\W_]{8}-[^\W_]{4}-[^\W_]{4}-[^\W_]{4}-[^\W_]{12}$/u;

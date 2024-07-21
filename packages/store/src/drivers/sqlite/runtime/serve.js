@@ -1,28 +1,16 @@
+import Database from "@rcompat/sql/sqlite";
 import { numeric } from "rcompat/invariant";
-import * as O from "rcompat/object";
-import { platform } from "rcompat/package";
-import ident from "../ident.js";
-import { peers } from "../common/exports.js";
-import depend from "../../depend.js";
-import Pool from "../../pool/exports.js";
-import wrap from "../../wrap.js";
+import Pool from "../../../pool/exports.js";
+import wrap from "../../../wrap.js";
+import ident from "../../ident.js";
 import Facade from "./Facade.js";
 
 const name = "sqlite";
-const dependencies = ["better-sqlite3"];
-const on = O.filter(peers, ([key]) => dependencies.includes(key));
-const defaults = {
-  filename: ":memory:",
-};
 
-export default ({
-  filename = defaults.filename,
-} = {}) => async () => {
-  const $on = platform() === "bun" ? { "bun:sqlite": null } : on;
-  const [{ default: Connection }] = await depend($on, `store:${name}`);
+export default filename => () => {
   const pool = new Pool({
     manager: {
-      new: () => new Connection(filename, { create: true }),
+      new: () => new Database(filename, { create: true }),
       kill: connection => connection.close(),
     },
   });

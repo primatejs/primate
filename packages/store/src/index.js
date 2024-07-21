@@ -20,8 +20,8 @@ export default ({
 
   return {
     name: "primate:store",
-    build: build(directory),
-    serve: serve(directory, mode, driver, env),
+    build: build(directory, driver.build),
+    serve: serve(directory, mode, driver.serve, env),
     route: route(env),
   };
 };
