@@ -67,6 +67,10 @@
     "./sqlite": {
       "runtime": "./src/drivers/sqlite/runtime/index.js",
       "default": "./src/drivers/sqlite/default/index.js"
+    },
+    "./mysql": {
+      "runtime": "./src/drivers/mysql/runtime/index.js",
+      "default": "./src/drivers/mysql/default/index.js"
     }
   }
 }

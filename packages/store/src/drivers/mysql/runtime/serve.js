@@ -1,29 +1,12 @@
+import mysql from "mysql2/promise";
 import { numeric } from "rcompat/invariant";
-import * as O from "rcompat/object";
-import ident from "../ident.js";
-import { peers } from "../common/exports.js";
-import depend from "../../depend.js";
-import wrap from "../../wrap.js";
+import wrap from "../../../wrap.js";
+import ident from "../../ident.js";
 import Facade from "./Facade.js";
 
 const name = "mysql";
-const dependencies = ["mysql2"];
-const on = O.filter(peers, ([key]) => dependencies.includes(key));
-const defaults = {
-  host: "localhost",
-  port: 3306,
-};
 
-export default ({
-  host = defaults.host,
-  port = defaults.port,
-  database,
-  user,
-  password,
-} = {}) => async _ => {
-  await depend(on, `store:${name}`);
-  const { default: mysql } = await import("mysql2/promise");
-
+export default ({ host, port, database, user, password }) => async () => {
   const pool = mysql.createPool({
     host,
     port,
