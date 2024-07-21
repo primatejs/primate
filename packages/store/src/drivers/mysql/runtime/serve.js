@@ -6,12 +6,12 @@ import Facade from "./Facade.js";
 
 const name = "mysql";
 
-export default ({ host, port, database, user, password }) => async () => {
+export default ({ host, port, database, username, password }) => async () => {
   const pool = mysql.createPool({
     host,
     port,
     database,
-    user,
+    user: username,
     password,
     waitForConnections: true,
     connectionLimit: 10,

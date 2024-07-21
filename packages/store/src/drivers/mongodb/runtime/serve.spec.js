@@ -1,4 +1,4 @@
-import driver from "./driver.js";
+import serve from "./serve.js";
 import base from "../../base.test.js";
 
-export default async test => base(test, () => driver({ database: "test" })());
+export default async test => base(test, () => serve({ database: "primate" })());

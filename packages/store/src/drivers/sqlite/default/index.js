@@ -2,13 +2,13 @@ import build from "./build.js";
 import serve from "../runtime/serve.js";
 
 const defaults = {
-  filename: ":memory:",
+  database: ":memory:",
 };
 const name = "sqlite";
 
 export default ({
-  filename = defaults.filename,
+  database = defaults.database,
 } = {}) => ({
   build: build(name),
-  serve: serve(filename),
+  serve: serve(database),
 });

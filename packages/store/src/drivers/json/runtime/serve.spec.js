@@ -1,18 +1,18 @@
 import { File } from "rcompat/fs";
-import json from "./driver.js";
+import serve from "./serve.js";
 import base from "../base.test.js";
 
-const filename = new File(import.meta.url).up(1).join("db.json");
+const database = new File(import.meta.url).up(1).join("db.json");
 
-const client = () => json({ filename: `${filename}` })();
+const client = () => serve({ database: `${database}` })();
 
 export default async test => {
   base(test, client, {
     before: async () => {
-      await filename.remove();
+      await database.remove();
     },
     after: async () => {
-      await filename.remove();
+      await database.remove();
     },
   });
 };

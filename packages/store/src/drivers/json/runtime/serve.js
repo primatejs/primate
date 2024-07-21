@@ -5,22 +5,22 @@ import wrap from "../../../wrap.js";
 import Facade from "../../memory/runtime/Facade.js";
 import types from "../../memory/runtime/types.js";
 
-export default filename => async () => {
-  is(filename).string();
+export default database => async () => {
+  is(database).string();
 
-  const path = new File(filename);
-  const database = {
+  const path = new File(database);
+  const db = {
     collections: await path.exists() ? await path.json() : {},
   };
 
   const connection = {
     read(name) {
-      return database.collections[name] ?? [];
+      return db.collections[name] ?? [];
     },
     async write(name, callback) {
-      database.collections[name] = await callback(this.read(name));
+      db.collections[name] = await callback(this.read(name));
       // write to file
-      await path.write(O.stringify(database.collections));
+      await path.write(O.stringify(db.collections));
     },
   };
 

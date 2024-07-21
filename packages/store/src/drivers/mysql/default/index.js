@@ -11,9 +11,9 @@ export default ({
   host = defaults.host,
   port = defaults.port,
   database,
-  user,
+  username,
   password,
 } = {}) => ({
   build: build(name),
-  serve: serve({ host, port, database, user, password }),
+  serve: serve({ host, port, database, username, password }),
 });

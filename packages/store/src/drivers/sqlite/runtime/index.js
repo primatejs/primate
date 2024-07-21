@@ -1,11 +1,11 @@
 import serve from "./serve.js";
 
 const defaults = {
-  filename: ":memory:",
+  database: ":memory:",
 };
 
 export default ({
-  filename = defaults.filename,
+  database = defaults.database,
 } = {}) => ({
-  serve: serve(filename),
+  serve: serve(database),
 });

@@ -7,10 +7,10 @@ import Facade from "./Facade.js";
 
 const name = "sqlite";
 
-export default filename => () => {
+export default database => () => {
   const pool = new Pool({
     manager: {
-      new: () => new Database(filename, { create: true }),
+      new: () => new Database(database, { create: true }),
       kill: connection => connection.close(),
     },
   });

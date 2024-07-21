@@ -1,8 +1,8 @@
-import serve from "./serve.js";
+import serve from "../runtime/serve.js";
 
 const defaults = {
   host: "localhost",
-  port: 3306,
+  port: 5432,
 };
 
 export default ({

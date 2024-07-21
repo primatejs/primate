@@ -75,6 +75,10 @@
     "./mongodb": {
       "runtime": "./src/drivers/mongodb/runtime/index.js",
       "default": "./src/drivers/mongodb/default/index.js"
+    },
+    "./postgresql": {
+      "runtime": "./src/drivers/mongodb/runtime/index.js",
+      "default": "./src/drivers/mongodb/default/index.js"
     }
   }
 }

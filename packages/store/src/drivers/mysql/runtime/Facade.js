@@ -1,6 +1,6 @@
 import * as O from "rcompat/object";
-import typemap from "./typemap.js";
 import { make_sort } from "../../sql/exports.js";
+import typemap from "./typemap.js";
 
 const filter_null = object => O.filter(object, ([, value]) => value !== null);
 const filter_nulls = objects => objects.map(object => filter_null(object));

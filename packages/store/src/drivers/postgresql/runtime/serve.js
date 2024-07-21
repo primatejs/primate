@@ -1,34 +1,18 @@
+import Driver from "postgres";
 import { numeric } from "rcompat/invariant";
-import * as O from "rcompat/object";
-import ident from "../ident.js";
-import { peers } from "../common/exports.js";
-import depend from "../../depend.js";
-import wrap from "../../wrap.js";
+import wrap from "../../../wrap.js";
+import ident from "../../ident.js";
 import Facade from "./Facade.js";
 
 const name = "postgresql";
-const dependencies = ["postgres"];
-const on = O.filter(peers, ([key]) => dependencies.includes(key));
-const defaults = {
-  host: "localhost",
-  port: 5432,
-};
 
-export default ({
-  host = defaults.host,
-  port = defaults.port,
-  db,
-  user,
-  pass,
-} = {}) => async _ => {
-  const [{ default: Driver }] = await depend(on, `store:${name}`);
-
+export default ({ host, port, database, username, password }) => async () => {
   const driver = new Driver({
     host,
     port,
-    db,
-    user,
-    pass,
+    db: database,
+    user: username,
+    pass: password,
   });
 
   const types = {

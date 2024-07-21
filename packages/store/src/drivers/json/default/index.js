@@ -3,7 +3,7 @@ import serve from "../runtime/serve.js";
 
 const name = "json";
 
-export default ({ filename }) => ({
+export default ({ database }) => ({
   build: build(name),
-  serve: serve(filename),
+  serve: serve(database),
 });

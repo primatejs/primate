@@ -1,9 +1,11 @@
-import serve from "./serve.js";
+import build from "./build.js";
+import serve from "../runtime/serve.js";
 
 const defaults = {
   host: "localhost",
-  port: 3306,
+  port: 5432,
 };
+const name = "postgresql";
 
 export default ({
   host = defaults.host,
@@ -12,5 +14,6 @@ export default ({
   username,
   password,
 } = {}) => ({
+  build: build(name),
   serve: serve({ host, port, database, username, password }),
 });
