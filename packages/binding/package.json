@@ -42,11 +42,11 @@
   },
   "type": "module",
   "exports": {
-    ".": {
-      "default": "./src/exports.js"
-    },
-    "./go": "./src/bindings/go/exports.js",
-    "./python": "./src/bindings/python/exports.js",
-    "./ruby": "./src/bindings/ruby/exports.js"
+    "./*/common": "./src/server/*/common.js",
+    "./errors/*": "./src/errors/*.js",
+    "./*": {
+      "runtime": "./src/server/*/runtime.js",
+      "default": "./src/server/*/default.js"
+    }
   }
 }

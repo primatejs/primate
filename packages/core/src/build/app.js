@@ -11,6 +11,7 @@ export default async (log, root, config) => {
   const error = await path.routes.join("+error.js");
 
   return {
+    bindings: {},
     roots: [],
     targets: { web },
     importmaps: {},
@@ -97,6 +98,9 @@ export default async (log, root, config) => {
     },
     target(name, handler) {
       this.targets[name] = handler;
+    },
+    bind(extension, handler) {
+      this.bindings[extension] = handler;
     },
   };
 };

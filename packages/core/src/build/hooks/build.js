@@ -110,8 +110,8 @@ const post = async (app, target) => {
 
   const directory = app.runpath(location.routes);
   for (const path of await directory.collect()) {
-    await app.extensions[path.extension]
-      ?.route(directory, path.debase(`${directory}/`), types);
+    await app.bindings[path.extension]
+      ?.(directory, path.debase(`${directory}/`), types);
   }
   // copy framework pages
   await app.stage(defaults, location.pages, html);
