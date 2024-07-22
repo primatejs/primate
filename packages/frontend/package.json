@@ -15,6 +15,7 @@
     "directory": "packages/frontend"
   },
   "dependencies": {
+    "@primate/core": "workspace:^",
     "@rcompat/crypto": "^0.2.0",
     "rcompat": "^0.17.1"
   },
@@ -121,7 +122,7 @@
     "./react/context/*": "./src/server/react/context/*.js",
     "./solid/context/*": "./src/server/solid/context/*.js",
     "./webc/component": "./src/server/webc/Component.js",
-    "./base/*": "./src/base/server/*.js",
+    "./base/*": "./src/base/*.js",
     "./errors/*": "./src/errors/*.js",
     "./*": {
       "runtime": "./src/server/*/runtime.js",
