@@ -15,7 +15,6 @@
     "directory": "packages/frontend"
   },
   "dependencies": {
-    "@primate/core": "workspace:^",
     "@rcompat/crypto": "^0.2.0",
     "rcompat": "^0.17.1"
   },

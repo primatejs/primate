@@ -19,7 +19,6 @@
     "db:surreal": "surreal start --user primate --pass primate"
   },
   "dependencies": {
-    "@primate/core": "workspace:^",
     "rcompat": "^0.17.0",
     "@rcompat/sql": "^0.1.0"
   },
