@@ -1,5 +1,24 @@
-import { File } from "rcompat/fs";
-
-const wrap = await new File(import.meta.url).directory.join("wrap.py").text();
-
-export default code => `${wrap}\n${code}`;
+export default code => `
+class Primate():
+    @staticmethod
+    def view(name, props = None, options = None):
+        return {
+            "__handler__": "view",
+            "name": name,
+            "props": props,
+            "options": options,
+        }
+    @staticmethod
+    def redirect(location, options = None):
+        return {
+            "__handler__": "redirect",
+            "location": location,
+            "options": options,
+        }
+    @staticmethod
+    def error(body, options = None):
+        return {
+            "__handler__": "error",
+            "body": body,
+            "options": options,
+        }\n${code}`;

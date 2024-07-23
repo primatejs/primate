@@ -7,7 +7,7 @@ const get_routes = code => [...code.matchAll(routes_re)]
 
 const make_route = route => `async ${route.toLowerCase()}(request) {
   const ${route}_fn = pyodide.globals.get("${route}");
-  return to_request(await ${route}_fn(to_request(pyodide.toPy, request)));
+  return to_response(await ${route}_fn(to_request(pyodide.toPy, request)));
 }`;
 
 const make_package = pkg => `await pyodide.loadPackage("${pkg}", {
@@ -31,7 +31,7 @@ const js_wrapper = async (path, routes, packages) => `
 `;
 
 export default ({ extension, packages }) => async (app, next) => {
-  await depend(dependencies, `primate:${name}`);
+  //await depend(import.meta.filename, dependencies, `primate:${name}`);
 
   app.bind(extension, async (directory, file) => {
     const path = directory.join(file);

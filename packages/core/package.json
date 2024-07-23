@@ -27,6 +27,7 @@
     "./logger/print": "./src/shared/print.js",
     "./logger/error": "./src/shared/error.js",
     "./logger/warn": "./src/shared/warn.js",
+    "./depend": "./src/shared/depend.js",
     "./config": "./src/shared/primate.config.js",
     "./handlers/*": "./src/serve/handlers/*.js"
   }

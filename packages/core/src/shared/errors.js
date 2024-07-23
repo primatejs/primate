@@ -2,6 +2,16 @@ import Logger from "@primate/core/logger";
 
 const json = {
   errors: {
+    MissingDependencies: {
+      message: "cannot find {0} (imported from {1})",
+      fix: "install dependencies by issuing {2}",
+      level: "Error",
+    },
+    UpgradeDependencies: {
+      message: "dependencies {0} are outdated (imported from {1})",
+      fix: "upgrade dependencies by issuing {2}",
+      level: "Error",
+    },
     DoubleFileExtension: {
       message: "double file extension {0}",
       fix: "unload one of the two handlers registering the file extension",

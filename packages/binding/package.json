@@ -43,6 +43,9 @@
   "type": "module",
   "exports": {
     "./*/common": "./src/server/*/common.js",
+    "./*/to-request": "./src/server/*/to-request.js",
+    "./*/to-response": "./src/server/*/to-response.js",
+    "./*/wrap": "./src/server/*/wrap.js",
     "./errors/*": "./src/errors/*.js",
     "./*": {
       "runtime": "./src/server/*/runtime.js",
