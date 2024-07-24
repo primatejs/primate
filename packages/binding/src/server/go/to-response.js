@@ -1,4 +1,6 @@
-import { view, redirect, error } from "primate";
+import error from "@primate/core/handlers/error";
+import redirect from "@primate/core/handlers/redirect";
+import view from "@primate/core/handlers/view";
 
 const handlers = {
   view({ component, props = "{}", options = "{}" }) {

@@ -1,8 +1,5 @@
 import { File } from "rcompat/fs";
-import * as O from "rcompat/object";
 import { upperfirst } from "rcompat/string";
-import { peers } from "../common/exports.js";
-import depend from "../depend.js";
 
 const routes_re = /def (?<route>get|post|put|delete)/gu;
 const get_routes = code => [...code.matchAll(routes_re)]
@@ -12,7 +9,7 @@ const directory = new File(import.meta.url).up(1);
 const session_rb = await directory.join("session.rb").text();
 const request = await directory.join("./request.rb").text();
 const make_route = route => `async ${route.toLowerCase()}(request) {
-    return make_response(await environment.callAsync("run_${route}",
+    return to_response(await environment.callAsync("run_${route}",
       vm.wrap(request), vm.wrap(helpers)));
   },`;
 
@@ -59,9 +56,10 @@ const js_wrapper = async (path, routes, types, app) => {
 end`);
   }
 
-  return `import { make_response, module, rubyvm, helpers } 
-  from "@primate/binding/ruby";
-import { File } from "rcompat/fs";
+  return `
+  import to_response from "@primate/binding/ruby/to-response";
+  import { module, rubyvm, helpers } from "@primate/binding/ruby/common";
+  import { File } from "rcompat/fs";
 
 const { vm } = await rubyvm(module);
 const file = await File.text(${JSON.stringify(path)});
@@ -80,35 +78,19 @@ export default {
 `;
 };
 
-export default ({
-  extension = ".rb",
-} = {}) => {
-  const module = "primate:binding";
-  const name = "ruby";
-  const dependencies = ["@ruby/head-wasm-wasi", "@ruby/wasm-wasi"];
-  const on = O.filter(peers, ([key]) => dependencies.includes(key));
+export default ({ extension } = {}) => (app, next) => {
+  //await depend(import.meta.filename, dependencies, `primate:${name}`);
+  //
+  app.bind(extension, async (directory, file, types) => {
+    const path = directory.join(file);
+    const base = path.directory;
+    const js = path.base.concat(".js");
+    const code = await path.text();
+    const routes = get_routes(code);
+    // write .js wrapper
+    await base.join(js).write(await js_wrapper(`${path}`, routes, types,
+      app));
+  });
 
-  return {
-    name: `${module}/${name}`,
-    async init(app, next) {
-      await depend(on, `binding:${name}`);
-
-      return next(app);
-    },
-    async build(app, next) {
-      app.register(extension, {
-        route: async (directory, file, types) => {
-          const path = directory.join(file);
-          const base = path.directory;
-          const js = path.base.concat(".js");
-          const code = await path.text();
-          const routes = get_routes(code);
-          // write .js wrapper
-          await base.join(js).write(await js_wrapper(`${path}`, routes, types,
-            app));
-        },
-      });
-      return next(app);
-    },
-  };
+  return next(app);
 };

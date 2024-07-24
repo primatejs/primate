@@ -46,6 +46,7 @@
     "./*/to-request": "./src/server/*/to-request.js",
     "./*/to-response": "./src/server/*/to-response.js",
     "./*/wrap": "./src/server/*/wrap.js",
+    "./base/*": "./src/base/*.js",
     "./errors/*": "./src/errors/*.js",
     "./*": {
       "runtime": "./src/server/*/runtime.js",

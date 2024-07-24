@@ -1,12 +1,14 @@
+import ErrorInGoRoute from "@primate/binding/errors/error-in-go-route";
+import { name } from "@primate/binding/go/common";
 import { dim } from "rcompat/colors";
-import { File } from "rcompat/fs";
-import { upperfirst } from "rcompat/string";
-import { execute } from "rcompat/stdio";
 import { user } from "rcompat/env";
+import { File } from "rcompat/fs";
 import * as O from "rcompat/object";
-import errors from "./errors.js";
+import { execute } from "rcompat/stdio";
+import { upperfirst } from "rcompat/string";
+import { platform } from "rcompat/package";
 
-const default_extension = ".go";
+const module = `@primate:${name}`;
 const command = "go";
 const run = (wasm, go, includes = "request.go") =>
   `${command} build -o ${wasm} ${go} ${includes}`;
@@ -25,16 +27,24 @@ const make_route = route =>
     const go = new globalThis.Go();
     return WebAssembly.instantiate(route, {...go.importObject}).then(result => {
       go.run(result.instance);
-      return make_response(globalThis.${route}(make_request(request)));
+      return to_response(globalThis.${route}(to_request(request)));
     });
   }`;
 
-const js_wrapper = routes =>
-  `import {
-  load_wasm, make_request, make_response, env,
-} from "@primate/binding/go";
+const js_wrapper = (path, routes) => `
+import to_request from "@primate/binding/go/to-request";
+import to_response from "@primate/binding/go/to-response";
+${
+  platform() === "bun" ? `
+    import route_path from "${path}" with { type: "file" };
+    const route = await Bun.file(route_path).arrayBuffer();
+  ` : `
+    import { File } from "rcompat/fs";
+    const route = new Uint8Array(await File.arrayBuffer(import.meta.dirname+"/${path}"));
+  `
+}
+import { env } from "@primate/binding/go/common";
 
-const route = await load_wasm(import.meta.url);
 env();
 
 export default {
@@ -148,44 +158,37 @@ const create_meta_files = async (directory, types, app) => {
   ;
 };
 
-export default ({ extension = default_extension } = {}) => {
-  const module = "primate:binding";
-  const name = `${module}/go`;
-  const env = { GOOS: "js", GOARCH: "wasm" };
+const env = { GOOS: "js", GOARCH: "wasm" };
 
-  return {
-    name,
-    async build(app, next) {
-      app.register(extension, {
-        route: async (directory, file, types) => {
-          const path = directory.join(file);
-          const base = path.directory;
-          const go = path.base.concat(".go");
-          const wasm = path.base.concat(".wasm");
-          const js = path.base.concat(".js");
+export default ({ extension }) => (app, next) => {
+  app.bind(extension, async (directory, file, types) => {
+    const path = directory.join(file);
+    const base = path.directory;
+    const go = path.base.concat(".go");
+    const wasm = path.base.concat(".wasm");
+    const js = path.base.concat(".js");
 
-          // create meta files
-          const includes = await create_meta_files(base, types, app);
+    // create meta files
+    const includes = await create_meta_files(base, types, app);
 
-          const code = await path.text();
-          const routes = get_routes(code);
-          // write .go file
-          await path.write(go_wrapper(code, routes));
-          // write .js wrapper
-          await base.join(js).write(js_wrapper(routes));
+    const code = await path.text();
+    const routes = get_routes(code);
+    // write .go file
+    await path.write(go_wrapper(code, routes));
+    // write .js wrapper
+    const wasm_route_path = `./${file.name.slice(0, -extension.length)}.wasm`;
+    await base.join(js).write(js_wrapper(wasm_route_path, routes));
 
-          try {
-            app.log.info(`compiling ${dim(file)} to WebAssembly`, { module });
-            const cwd = `${base}`;
-            // compile .go to .wasm
-            await execute(run(wasm, go, includes.join(" ")),
-              { cwd, env: { HOME: user.HOME, ...env } });
-          } catch (error) {
-            errors.ErrorInGoRoute.throw(file, error);
-          }
-        },
-      });
-      return next(app);
-    },
-  };
+    try {
+      app.log.info(`compiling ${dim(file)} to WebAssembly`, { module });
+      const cwd = `${base}`;
+      // compile .go to .wasm
+      await execute(run(wasm, go, includes.join(" ")),
+        { cwd, env: { HOME: user.HOME, ...env } });
+    } catch (error) {
+      ErrorInGoRoute.throw(file, error);
+    }
+  });
+
+  return next(app);
 };

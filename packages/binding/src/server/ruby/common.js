@@ -1,15 +1,11 @@
 import { File } from "rcompat/fs";
-import * as P from "rcompat/package";
 import { DefaultRubyVM } from "@ruby/wasm-wasi/dist/node";
+import * as P from "rcompat/package";
 
 const ruby_path = (await P.root())
   .join("node_modules/@ruby/head-wasm-wasi/dist/ruby+stdlib.wasm");
 const ruby_wasm = await File.arrayBuffer(ruby_path);
 const module = await WebAssembly.compile(ruby_wasm);
-
-export { default as make_response } from "./make_response.js";
-export { module };
-export { DefaultRubyVM as rubyvm };
 
 const helpers = {
   wrap(value) {
@@ -42,4 +38,10 @@ const helpers = {
   },
 };
 
-export { helpers };
+export const name = "ruby";
+
+export const default_extension = ".rb";
+
+export const dependencies = ["@ruby/head-wasm-wasi", "@ruby/wasm-wasi"];
+
+export { module, DefaultRubyVM as rubyvm, helpers };

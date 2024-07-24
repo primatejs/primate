@@ -5,7 +5,7 @@ const to_search_params = url =>
 const dispatchers = ["path", "query", "cookies", "headers"];
 
 const to_dispatcher = dispatcher =>
-  O.valmap(O.excludes(dispatcher, ["get", "raw"]), getter => {
+  O.valmap(O.exclude(dispatcher, ["get", "raw"]), getter => {
     try {
       return getter();
     } catch ({ message }) {

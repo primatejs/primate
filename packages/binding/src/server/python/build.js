@@ -40,8 +40,7 @@ export default ({ extension, packages }) => async (app, next) => {
     const code = await path.text();
     const routes = get_routes(code);
     // write .js wrapper
-    await base.join(js)
-      .write(await js_wrapper(`${path}`, routes, packages));
+    await base.join(js).write(await js_wrapper(`${path}`, routes, packages));
   });
 
   return next(app);
