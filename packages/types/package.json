@@ -21,5 +21,9 @@
     "primate": "workspace:^"
   },
   "type": "module",
-  "exports": "./src/exports.js"
+  "exports": {
+    "./base/*": "./src/base/*.js",
+    "./predicates/*": "./src/predicates/*.js",
+    "./*": "./src/types/*/index.js"
+  }
 }

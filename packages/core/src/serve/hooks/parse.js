@@ -1,9 +1,10 @@
+import dispatch from "@primate/core/dispatch";
 import * as O from "rcompat/object";
 
-export default app => async original => {
+export default () => async original => {
   const { headers } = original;
 
-  const url = new URL(globalThis.decodeURIComponent(original.url));
+  const url = new URL(original.url);
   const cookies = headers.get("cookie");
 
   return { original, url,
@@ -12,5 +13,5 @@ export default app => async original => {
     headers: [Object.fromEntries(headers), headers, false],
     cookies: [Object.fromEntries(cookies?.split(";").map(cookie =>
       cookie.trim().split("=")) ?? []), cookies],
-  }, value => app.dispatch(...value)) };
+  }, value => dispatch(...value)) };
 };

@@ -1,5 +1,5 @@
 import int from "./int.js";
-const toDouble = string => {
+const to_double = string => {
   const [d, i] = string.split(".");
 
   return {
@@ -9,7 +9,7 @@ const toDouble = string => {
 };
 
 const coercibles = {
-  string: value => toDouble(value),
+  string: value => to_double(value),
   number: value => [Math.trunc(value), value - Math.trunc(value)],
   bigint: value => [Number(value), 0],
 };

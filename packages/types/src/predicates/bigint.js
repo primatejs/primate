@@ -27,12 +27,10 @@ const coercibles = {
 
 const coerce = value => coercibles[typeof value]?.(value) ?? value;
 
-const biginteger = value => {
+export default value => {
   const coerced = coerce(value);
   if (typeof coerced === "bigint") {
     return coerced;
   }
   throw new Error(`${value} is not a big integer`);
 };
-
-export default biginteger;

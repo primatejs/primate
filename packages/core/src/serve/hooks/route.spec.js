@@ -1,9 +1,7 @@
-import { File, Router } from "rcompat/fs";
+import { Router } from "rcompat/fs";
 import * as O from "rcompat/object";
-import dispatch from "../dispatch.js";
-import * as loaders from "../loaders/exports.js";
-import route from "./route.js";
 import { mark } from "../../shared/Logger.js";
+import route from "./route.js";
 
 const numeric = (id, property) => {
   if (/^\d*$/u.test(id)) {
@@ -16,22 +14,6 @@ const id = name => (value, property) => {
     return value;
   }
   throw new Error(`\`${property}\` not equal \`${name}\` (given \`${value}\`)`);
-};
-
-const $app = {
-  log: {
-    auto(error) {
-      throw error;
-    },
-  },
-  runpath() {
-    return new File("/routes");
-  },
-  get: config_key => O.get({
-    config: {
-      location: {},
-    },
-  }, config_key),
 };
 
 const r = (route, expected = route) => [route, {
@@ -95,7 +77,6 @@ const app = {
     Id: id("Id"),
     ID: id("ID"),
   },
-  dispatch: dispatch(),
 };
 
 export default test => {

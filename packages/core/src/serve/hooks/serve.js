@@ -2,14 +2,11 @@ import { cascade, tryreturn } from "rcompat/async";
 import { dim } from "rcompat/colors";
 import { Router } from "rcompat/fs";
 import { serve, Status } from "rcompat/http";
-import dispatch from "../dispatch.js";
-import * as loaders from "../loaders/exports.js";
 import * as hooks from "./exports.js";
 
 const post = async app => {
-  const location = app.get("location");
-  const user_types = await loaders.types(app.log, app.runpath(location.types));
-  const types = { ...app.types, ...user_types };
+  const types = Object.fromEntries(app.files.types.map(([key, value]) =>
+    [key, value.default]));
   let router;
 
   try {
@@ -29,7 +26,7 @@ const post = async app => {
 
   app.create_csp();
 
-  const $app = { ...app, types, dispatch: dispatch(types), router };
+  const $app = { ...app, types, router };
   $app.route = hooks.route($app);
   $app.parse = hooks.parse($app);
   const $handle = await hooks.handle($app);

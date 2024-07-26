@@ -22,7 +22,7 @@ const pre = async (app, mode, target) => {
       resolveDir: app.path.build.path,
     },
   }, mode);
-  app.server_build = ["routes"];
+  app.server_build = ["routes", "types"];
 
   // remove build directory in case exists
   await app.path.build.remove();
