@@ -1,6 +1,6 @@
-import { AppContext } from "@primate/frontend/solid";
+import AppContext from "@primate/frontend/solid/context/app";
+import save from "@primate/i18n/base/save";
 import { useContext } from "solid-js";
-import save from "../shared/save.js";
 
 const $ = {
   context: Symbol("context"),

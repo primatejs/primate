@@ -3,12 +3,10 @@ import { name } from "@primate/binding/go/common";
 import { dim } from "rcompat/colors";
 import { user } from "rcompat/env";
 import { File } from "rcompat/fs";
-import * as O from "rcompat/object";
-import { execute } from "rcompat/stdio";
-import { upperfirst } from "rcompat/string";
 import { platform } from "rcompat/package";
+import { execute } from "rcompat/stdio";
 
-const module = `@primate:${name}`;
+const module = `@primate/binding/${name}`;
 const command = "go";
 const run = (wasm, go, includes = "request.go") =>
   `${command} build -o ${wasm} ${go} ${includes}`;

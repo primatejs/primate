@@ -1,3 +1,4 @@
+import name from "@primate/store/base/name";
 import primary from "@primate/store/base/primary";
 import EmptyStoreDirectory from "@primate/store/errors/empty-store-directory";
 import InvalidType from "@primate/store/errors/invalid-type";
@@ -5,6 +6,8 @@ import NoPrimaryKey from "@primate/store/errors/no-primary-key";
 import * as A from "rcompat/array";
 import { dim } from "rcompat/colors";
 import * as O from "rcompat/object";
+
+const module = name;
 
 const valid_type = ({ base, validate }) =>
   base !== undefined && typeof validate === "function";
@@ -14,7 +17,6 @@ const valid = (type, name, store) =>
 
 export default (directory, mode, driver_serve, env) => async (app, next) => {
   const root = app.runpath(directory);
-  const module = "primate/store";
 
   const defaults = {
     mode,
@@ -44,14 +46,12 @@ export default (directory, mode, driver_serve, env) => async (app, next) => {
     }];
   });
 
-  app.log.info(`loading ${loaded.map(l => dim(l)).join(" ")}`, { module });
+  app.log.info(`loaded ${loaded.map(l => dim(l)).join(" ")}`, { module });
 
   if (A.empty(stores)) {
     EmptyStoreDirectory.warn(app.log, root);
     return next(app);
   }
-
-  app.log.info("all stores nominal", { module });
 
   const default_driver = await driver_serve();
 

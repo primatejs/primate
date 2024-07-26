@@ -1,6 +1,6 @@
-import { writable } from "svelte/store";
+import save from "@primate/i18n/base/save";
 import { getContext } from "svelte";
-import save from "../shared/save.js";
+import { writable } from "svelte/store";
 
 const store = writable("", set => {
   const { locale } = getContext("__primate__").i18n;

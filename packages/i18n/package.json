@@ -23,16 +23,14 @@
   },
   "type": "module",
   "exports": {
+    "./base/*": "./src/base/*.js",
+    "./hooks/*": "./src/hooks/*.js",
+    "./errors/*": "./src/errors/*.js",
+    "./*/locale": "./src/server/*/locale.js",
+    "./*": "./src/server/*/index.js",
     ".": {
-      "browser": {
-        "svelte": "./src/svelte/exports.js",
-        "react": "./src/react/exports.js",
-        "solid": "./src/solid/exports.js"
-      },
-      "default": "./src/exports.js"
-    },
-    "./svelte": "./src/svelte/exports.js",
-    "./react": "./src/react/exports.js",
-    "./solid": "./src/solid/exports.js"
+      "runtime": "./src/runtime.js",
+      "default": "./src/default.js"
+    }
   }
 }
