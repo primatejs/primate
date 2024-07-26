@@ -2,7 +2,6 @@ package main
 
 import "syscall/js"
 import "encoding/json"
-%%IMPORTS%%
 
 type t_request func(Request) any
 type t_response func(js.Value, []js.Value) any
@@ -12,7 +11,6 @@ type Array []any
 type Dispatcher struct {
   Get func(string) any
   Json func() map[string]any
-  %%DISPATCH_STRUCT%%
 }
 
 type URL struct {
@@ -80,7 +78,6 @@ func make_dispatcher(key string, request js.Value) Dispatcher {
     func() map[string]any {
       return properties;
     },
-    %%DISPATCH_MAKE%%
   };
 }
 

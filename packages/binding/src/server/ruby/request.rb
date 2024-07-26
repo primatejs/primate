@@ -70,8 +70,6 @@ class Dispatcher
   def json()
     @json
   end
-
-  %%DISPATCH_DEFS%%
 end
 
 class URL

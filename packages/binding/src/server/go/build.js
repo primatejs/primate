@@ -90,7 +90,7 @@ const error_default = {
 };
 const root = new File(import.meta.url).up(1);
 
-const create_meta_files = async (directory, types, app) => {
+const create_meta_files = async (directory, app) => {
   const meta = {
     mod: "go.mod",
     sum: "go.sum",
@@ -120,29 +120,9 @@ const create_meta_files = async (directory, types, app) => {
     // copy go.sum file
     await directory.join(meta.sum).write(await root.join(meta.sum).text());
 
-    const supported_types = Object.entries(types)
-      .filter(([_, { base }]) => type_map[base] !== undefined);
-    const dispatch_struct = supported_types.map(([name, { base }]) =>
-      `Get${upperfirst(name)} func(string) (${type_map[base].type}, error)`,
-    ).join("\n  ");
-    const dispatch_make = supported_types.map(([name, { base }]) => {
-      const { transfer, type } = type_map[base];
-      const upper = upperfirst(name);
-      return `func(property string) (${type}, error) {
-      r := value.Get("get${upper}").Invoke(property);
-      if (r.Type() == 7) {
-        return ${error_default[transfer]}, errors.New(r.Invoke().String());
-      }
-      return ${type}(r.${transfer}()), nil;
-    },`;
-    }).join("\n    ");
-
     // copy transformed request.go file
     await directory.join(meta.request).write((await root.join(meta.request)
       .text())
-      .replace("%%DISPATCH_STRUCT%%", _ => dispatch_struct)
-      .replace("%%DISPATCH_MAKE%%", _ => dispatch_make)
-      .replace("%%IMPORTS%%", _ => O.empty(types) ? "" : "import \"errors\"")
       .replace("%%REQUEST_STRUCT%%", _ => request_struct)
       .replace("%%REQUEST_MAKE%%", _ => request_make),
     );
@@ -161,7 +141,7 @@ const create_meta_files = async (directory, types, app) => {
 const env = { GOOS: "js", GOARCH: "wasm" };
 
 export default ({ extension }) => (app, next) => {
-  app.bind(extension, async (directory, file, types) => {
+  app.bind(extension, async (directory, file) => {
     const path = directory.join(file);
     const base = path.directory;
     const go = path.base.concat(".go");
@@ -169,7 +149,7 @@ export default ({ extension }) => (app, next) => {
     const js = path.base.concat(".js");
 
     // create meta files
-    const includes = await create_meta_files(base, types, app);
+    const includes = await create_meta_files(base, app);
 
     const code = await path.text();
     const routes = get_routes(code);

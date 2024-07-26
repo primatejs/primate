@@ -33,15 +33,7 @@ const create_ruby_wrappers = routes => routes.map(route =>
   ${route}(Request.new(js_request, helpers))
 end`).join("\n");
 
-const js_wrapper = async (path, routes, types, app) => {
-  const supported_types = Object.entries(types)
-    .filter(([_, { base }]) => type_map[base] !== undefined);
-  const type_defs = supported_types.map(([name, { base }]) => {
-    const { transfer } = type_map[base];
-    return `def get${upperfirst(name)}(name)
-    @dispatcher.call("get${upperfirst(name)}", name).${transfer}
-  end`;
-  }).join("\n  ");
+const js_wrapper = async (path, routes, app) => {
   const has_session = app.modules.names.includes("primate:session");
   const classes = [];
   const request_initialize = [];
@@ -65,7 +57,6 @@ const { vm } = await rubyvm(module);
 const file = await File.text(${JSON.stringify(path)});
 const wrappers = ${JSON.stringify(create_ruby_wrappers(routes))};
 const request = ${JSON.stringify(request
-    .replace("%%DISPATCH_DEFS%%", _ => type_defs)
     .replace("%%CLASSES%%", _ => classes.join("\n"))
     .replace("%%REQUEST_INITIALIZE%%", _ => request_initialize.join("\n"))
     .replace("%%REQUEST_DEFS%%", _ => request_defs.join("\n")))};
@@ -81,15 +72,14 @@ export default {
 export default ({ extension } = {}) => (app, next) => {
   //await depend(import.meta.filename, dependencies, `primate:${name}`);
   //
-  app.bind(extension, async (directory, file, types) => {
+  app.bind(extension, async (directory, file) => {
     const path = directory.join(file);
     const base = path.directory;
     const js = path.base.concat(".js");
     const code = await path.text();
     const routes = get_routes(code);
     // write .js wrapper
-    await base.join(js).write(await js_wrapper(`${path}`, routes, types,
-      app));
+    await base.join(js).write(await js_wrapper(`${path}`, routes, app));
   });
 
   return next(app);
