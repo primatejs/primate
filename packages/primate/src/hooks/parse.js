@@ -4,7 +4,7 @@ import o from "rcompat/object";
 export default app => async original => {
   const { headers } = original;
 
-  const url = new URL(globalThis.decodeURIComponent(original.url));
+  const url = new URL(original.url);
   const cookies = headers.get("cookie");
 
   return { original, url,
