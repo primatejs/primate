@@ -6,6 +6,7 @@ import * as O from "rcompat/object";
 import * as loaders from "../loaders/exports.js";
 import copy_includes from "./copy_includes.js";
 import $router from "./router.js";
+import * as P from "rcompat/package";
 
 const html = /^.*.html$/u;
 
@@ -156,8 +157,14 @@ const post = async (app, target) => {
   await write_directories(build_directory, app);
   await write_bootstrap(build_number, app);
 
-  const c = "primate.config.js";
-  await app.path.build.join(c).write(await app.root.join(c).text());
+  // copy config file
+  const config = "primate.config.js";
+  await app.root.join(config).copy(app.path.build.join(config));
+
+  const manifest = await P.manifest();
+  // create package.json
+  const package_json = "package.json";
+  await app.path.build.join(package_json).write(O.stringify(manifest));
 
   app.log.system(`build written to ${dim(app.path.build)}`);
 
