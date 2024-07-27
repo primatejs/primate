@@ -20,7 +20,7 @@ const pre = async (app, mode, target) => {
     ...O.exclude(app.get("build"), ["includes", "index", "transform"]),
     outdir: app.runpath(app.get("location.client")).path,
     stdin: {
-      resolveDir: app.path.build.path,
+      resolveDir: app.root.path,
     },
   }, mode);
   app.server_build = ["routes", "types"];
@@ -122,8 +122,8 @@ const post = async (app, target) => {
   // copy static files to build/server/static
   await app.stage(app.path.static, File.join(location.server, location.static));
 
-  // copy static files to build/static
-  await app.stage(app.path.static, File.join(location.static));
+  // copy static files to build/client/static
+  await app.stage(app.path.static, File.join(location.client, location.static));
 
   // publish JavaScript and CSS files
   const imports = await File.collect(app.path.static, /\.(?:css)$/u);
@@ -134,8 +134,6 @@ const post = async (app, target) => {
 
   // copy additional subdirectories to build/server
   await copy_includes(app, location.server);
-  // copy additional subdirectories to build
-  await copy_includes(app, "");
 
   const components = await app.runpath(location.components).collect();
 
