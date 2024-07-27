@@ -1,4 +1,4 @@
-import { File } from "rcompat/fs";
+import { collect } from "@rcompat/fs";
 const html = /^.*.html$/u;
 
 export default async app => {
@@ -14,18 +14,18 @@ export default async app => {
       return {
         src,
         path,
-        code: `await File.text(asset${i})`,
+        code: `await text(asset${i})`,
         type,
         empty: (await file.text()).length === 0,
       };
     }))).filter(file => !file.empty);
   const d = app.runpath(location.pages);
-  const pages = await Promise.all((await File.collect(d, html, { recursive: true }))
+  const pages = await Promise.all((await collect(d, html, { recursive: true }))
     .map(async file => `${file}`.replace(`${d}/`, _ => "")));
   const app_js = $imports.find($import => $import.src.endsWith(".js"));
 
   const assets_scripts = `
-  import { File } from "rcompat/fs";
+  import { join, text } from "@rcompat/fs";
   import { stringify } from "rcompat/object";
   import crypto from "rcompat/crypto";
 
@@ -38,7 +38,7 @@ export default async app => {
 
   ${$imports.map(({ path }, i) =>
     `import asset${i} from "${path}" with { type: "file" };
-    const file${i} = await File.text(asset${i});`).join("\n  ")}
+    const file${i} = await text(asset${i});`).join("\n  ")}
   const assets = [${$imports.map(($import, i) => `{
   src: "${$import.src}",
   code: file${i},
@@ -49,7 +49,7 @@ export default async app => {
 
   ${app_js === undefined ? "" :
     `const imports = {
-     app: File.join("${http.static.root}", "${$imports.find($import =>
+     app: join("${http.static.root}", "${$imports.find($import =>
   $import.src.endsWith(".js")).src}").webpath(),
     };
     // importmap
@@ -62,7 +62,7 @@ export default async app => {
 
   ${pages.map((page, i) =>
     `import i_page${i} from "./${location.pages}/${page}" with { type: "file" };
-    const page${i} = await File.text(i_page${i});`).join("\n  ")}
+    const page${i} = await text(i_page${i});`).join("\n  ")}
 
   const pages = {
   ${pages.map((page, i) => `"${page}": page${i},`).join("\n  ")}

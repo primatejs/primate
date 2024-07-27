@@ -18,7 +18,7 @@ export default ({
         webview.navigate(`http://${host}:${port}${start}`);
         webview.run();
         webview.closed(() => {
-          app.stop();
+          //app.stop();
         });
       }
       return next(app);

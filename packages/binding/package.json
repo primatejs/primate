@@ -27,7 +27,7 @@
     "@ruby/head-wasm-wasi": "2",
     "@ruby/wasm-wasi": "2",
     "primate": "workspace:^",
-    "pyodide": "0.25"
+    "pyodide": "0.26"
   },
   "peerDependenciesMeta": {
     "@ruby/head-wasm-wasi": {

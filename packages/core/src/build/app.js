@@ -1,8 +1,5 @@
 import { File } from "rcompat/fs";
-import { identity } from "rcompat/function";
-import { is } from "rcompat/invariant";
 import * as O from "rcompat/object";
-import { globify } from "rcompat/string";
 import * as loaders from "./loaders/exports.js";
 import { web } from "./targets/exports.js";
 

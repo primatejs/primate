@@ -3,6 +3,6 @@ import serve from "./serve.js";
 
 // build for development and serve
 export default async () => {
-  await build("development");
+  await build("web", "development");
   serve();
 };

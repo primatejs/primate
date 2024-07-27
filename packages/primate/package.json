@@ -29,7 +29,7 @@
   "type": "module",
   "types": "./types/index.d.ts",
   "exports": {
-    ".": "./src/exports.js",
+    "./logger": "./src/logger.js",
     "./errors": "./src/errors.js",
     "./handlers/*": "./src/handlers/*.js"
   },
