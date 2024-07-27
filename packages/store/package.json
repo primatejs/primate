@@ -55,17 +55,15 @@
   "type": "module",
   "exports": {
     ".": {
-      "runtime": "./src/runtime/index.js",
-      "default": "./src/default/index.js"
+      "runtime": "./src/runtime.js",
+      "default": "./src/default.js"
     },
     "./*/common": "./src/server/*/common.js",
+    "./*/hooks/serve": "./src/server/*/hooks/serve/index.js",
     "./base/*": "./src/base/*.js",
     "./hooks/*": "./src/hooks/*.js",
     "./sql/*": "./src/sql/*.js",
     "./errors/*": "./src/errors/*.js",
-    "./*": {
-      "runtime": "./src/server/*/runtime/index.js",
-      "default": "./src/server/*/default/index.js"
-    }
+    "./*": "./src/server/*/default.js"
   }
 }

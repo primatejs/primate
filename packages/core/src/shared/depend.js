@@ -1,43 +1,20 @@
 import * as O from "rcompat/object";
-import { manifest, packager } from "rcompat/package";
+import * as P from "rcompat/package";
+import { packager } from "rcompat/package";
 import errors from "./errors.js";
 
-const semver_regexp = /^\^?(?<integer>\d+)\.?(?<float>.*)$/gu;
-const semnum = version => {
-  const { integer, float = 0 } = [...version.matchAll(semver_regexp)][0].groups;
-  return Number(integer) + Number(float) * 0.1;
-};
+const { MissingDependencies } = errors;
 
-// this isn't a complete semver comparison, but should work for most cases
-const semver = (target, is) => semnum(is) >= semnum(target);
+export default async (library_manifest, desired, from) => {
+  const app_dependencies = (await P.manifest()).dependencies;
+  const keys = Object.keys(app_dependencies);
+  const library_peers = O.filter(library_manifest.peerDependencies,
+    ([key]) => desired.includes(key));
+  const missing = desired.filter(peer => !keys.includes(peer));
 
-const compare_dependencies = (target, current) =>
-  Object.entries(target).filter(([key, value]) => !semver(value, current[key]));
-
-const find_dependencies = (target, current) =>
-  O.filter(current, ([key]) => target.includes(key));
-
-const { MissingDependencies, UpgradeDependencies } = errors;
-
-const peers = async base =>
-  ({ ...(await manifest(import.meta.filename)).peerDependencies });
-
-export default async (base, target_dependencies, from) => {
-  const dependencies = await peers(base);
-
-  const versions = Object.entries(find_dependencies(target_dependencies, dependencies));
-  if (versions.length > 0) {
-    const keys = versions.map(([key]) => key);
-    const to_upgrade = versions.map(([key, value]) => `${key}@${value}`);
-    const install = `${packager} install ${to_upgrade.join(" ")}`;
-    MissingDependencies.throw(keys.join(", "), from, install);
-  }
-
-  const upgradeable = compare_dependencies(target_dependencies, dependencies);
-  if (upgradeable.length > 0) {
-    const keys = upgradeable.map(([key]) => key);
-    const to_upgrade = upgradeable.map(([key, value]) => `${key}@${value}`);
-    const install = `${packager} install ${to_upgrade.join(" ")}`;
-    UpgradeDependencies.throw(keys.join(", "), from, install);
+  if (missing.length > 0) {
+    const to_install = missing.map(key => `${key}@${library_peers[key]}`);
+    const install = `${packager()} install ${to_install.join(" ")}`;
+    MissingDependencies.throw(missing.join(", "), from, install);
   }
 };

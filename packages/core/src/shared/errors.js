@@ -97,11 +97,6 @@ const json = {
       fix: "fix the type or the caller",
       level: "Info",
     },
-    ModuleNoHooks: {
-      message: "module {0} has no hooks",
-      fix: "ensure every module uses at least one hook or deactivate it",
-      level: "Warn",
-    },
     ModuleNoName: {
       message: "module at index {0} has no name",
       fix: "update module at index {0} and inform maintainer",
@@ -158,7 +153,6 @@ const {
   EmptyDirectory,
   ModulesArray,
   ModuleNoName,
-  ModuleNoHooks,
   DoubleModule,
   BadTypeExport,
   BadTypeName,
@@ -182,7 +176,6 @@ export {
   EmptyDirectory,
   ModulesArray,
   ModuleNoName,
-  ModuleNoHooks,
   BadTypeExport,
   BadTypeName,
   ReservedTypeName,

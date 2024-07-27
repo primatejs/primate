@@ -3,6 +3,6 @@ import serve from "./serve.js";
 
 // build for development and serve
 export default async () => {
-  await build("web", "development");
-  serve();
+  // will only serve is build is successful
+  await build("web", "development") === true && serve();
 };

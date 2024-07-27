@@ -32,6 +32,7 @@
     "handlebars": "4",
     "htmx-esm": "0.2",
     "marked": "13",
+    "marko": "5",
     "primate": "workspace:^",
     "react": "18",
     "react-dom": "18",
@@ -79,6 +80,9 @@
       "optional": true
     },
     "marked": {
+      "optional": true
+    },
+    "marko": {
       "optional": true
     },
     "react": {

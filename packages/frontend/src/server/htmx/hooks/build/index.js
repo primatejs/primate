@@ -1,7 +1,6 @@
 import compile from "@primate/frontend/base/compile";
-import depend from "@primate/frontend/base/depend";
 import NoClientExtension from "@primate/frontend/errors/no-client-extension";
-import { dependencies, name } from "@primate/frontend/htmx/common";
+import { name } from "@primate/frontend/htmx/common";
 import * as O from "rcompat/object";
 import { server } from "./compile.js";
 
@@ -23,8 +22,6 @@ export default ({
   extensions,
   client_side_templates,
 }) => async (app, next) => {
-  await depend(dependencies, name);
-
   app.build.export(`export { default as htmx } from "${htmx_esm}";`);
 
   extensions.forEach(extension_name =>

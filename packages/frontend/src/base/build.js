@@ -1,16 +1,12 @@
 import compile from "@primate/frontend/base/compile";
-import depend from "@primate/frontend/base/depend";
 import server_root from "@primate/frontend/base/server-root";
 
 export default ({
   create_root,
   extension,
-  dependencies,
   name,
   actions,
 }) => async (app, next) => {
-  await depend(dependencies, name);
-
   // compile server
   await server_root(app, name, create_root, actions.compile.server);
 

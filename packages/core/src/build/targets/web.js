@@ -22,7 +22,6 @@ export default async app => {
     .map(async file => `${file}`.replace(`${d}/`, _ => "")));
   const pages_str = pages.map(page =>
     `"${page}": await File.text("./${location.pages}/${page}"),`).join("\n");
-  console.log($imports)
 
   const assets_scripts = `
   import { File } from "rcompat/fs";

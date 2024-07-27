@@ -20,9 +20,7 @@ const post = async app => {
           return route.default[request.method.toLowerCase()] !== undefined;
         },
       }, app.files.routes);
-  } catch (error) {
-    //console.log(error);
-  }
+  } catch {}
 
   app.create_csp();
 

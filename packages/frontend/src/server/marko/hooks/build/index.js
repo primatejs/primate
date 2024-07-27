@@ -1,11 +1,8 @@
 import compile from "@primate/frontend/base/compile";
-import depend from "@primate/frontend/base/depend";
-import { dependencies, name } from "@primate/frontend/marko/common";
+import { name } from "@primate/frontend/marko/common";
 import { server } from "./compile.js";
 
 export default extension => async (app, next) => {
-  await depend(dependencies, name);
-
   app.register(extension, {
     ...await compile({
       app,
