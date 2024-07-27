@@ -32,27 +32,26 @@ export default async (log, root, config) => {
     fonts: [],
     // copy files to build folder, potentially transforming them
     async stage(source, directory, filter) {
-      const { paths = [], mapper = identity } = this.get("build.transform", {});
-      is(paths).array();
-      is(mapper).function();
+      const { define = {} } = this.get("build", {});
 
       if (!await source.exists()) {
         return;
       }
 
-      const regexs = paths.map(file => globify(file));
       const target_base = this.runpath(directory);
+      const defines = Object.entries(define);
 
       // first, copy everything
- //     console.log(source.path, target_base.path);
       await source.copy(target_base);
 
       const location = this.get("location");
       const client_location = File.join(location.client, location.static).path;
+      const mapper = text =>
+        defines.reduce((replaced, [key, substitution]) =>
+          replaced.replaceAll(key, substitution), text);
 
       // then, copy and transform whitelisted paths using mapper
       await Promise.all((await source.collect(filter)).map(async abs_path => {
-        const debased = abs_path.debase(this.root).path.slice(1);
         const rel_path = File.join(directory, abs_path.debase(source));
         if (directory.path === client_location && rel_path.path.endsWith(".css")) {
           const contents = await abs_path.text();
@@ -62,17 +61,16 @@ export default async (log, root, config) => {
         const target = await target_base.join(rel_path.debase(directory));
         await target.directory.create();
 
-        regexs.some(regex => regex.test(debased)) &&
-          await target.write(mapper(await abs_path.text()));
+        defines.length > 0 && await target.write(mapper(await abs_path.text()));
       }));
     },
     async compile(component) {
       const { server, client, components } = this.get("location");
 
-      const source = this.path.components;
       const compile = this.extensions[component.fullExtension]
         ?? this.extensions[component.extension];
       if (compile === undefined) {
+        const source = this.path.build.join(components);
         const debased = `${component.path}`.replace(source, "");
 
         const server_target = this.runpath(server, components, debased);

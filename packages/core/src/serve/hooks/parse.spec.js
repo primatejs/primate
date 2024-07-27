@@ -1,7 +1,7 @@
 import { MediaType } from "rcompat/http";
 import * as O from "rcompat/object";
 import { mark } from "../../shared/Logger.js";
-import config from "../defaults/primate.config.js";
+import config from "@primate/core/config";
 import parse from "./parse.js";
 
 const { APPLICATION_JSON, APPLICATION_FORM_URLENCODED } = MediaType;

@@ -47,9 +47,5 @@ export default {
     name: "app",
     includes: [],
     excludes: [],
-    transform: {
-      paths: [],
-      mapper: identity,
-    },
   },
 };

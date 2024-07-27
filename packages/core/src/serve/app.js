@@ -58,7 +58,7 @@ const render_head = (assets, fonts, head) =>
       tags.font({ href, type: "font/woff2" }),
     ).join("\n"));
 
-export default async (log, root, { config, assets, files, components, loader, target }) => {
+export default async (log, root, { config, assets, files, components, loader, target, mode }) => {
   const { http } = config;
   const secure = http?.ssl !== undefined;
   const path = O.valmap(config.location, value => root.join(value));
@@ -184,5 +184,6 @@ export default async (log, root, { config, assets, files, components, loader, ta
     stop() {
       this.get("server").stop();
     },
+    mode,
   };
 };

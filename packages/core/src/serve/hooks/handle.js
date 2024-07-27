@@ -93,9 +93,25 @@ export default app => {
       return fetch(input, { headers, method, body, duplex: "half" });
     },
   });
-  const hotreload = (request, next) => app.build === undefined
-    ? next(request)
-    : app.build.proxy(request.original, () => next(request));
+
+  const paths = ["/esbuild"].concat(app.assets
+    .filter(asset => asset.type !== "importmap")
+    .map(asset => asset.src));
+  const http = app.get("http");
+  const url = `http://${http.host}:6262`;
+
+  const proxy = (request, fallback) => {
+    const { pathname } = new URL(request.url);
+    const { method, headers, body } = request;
+
+    return paths.includes(pathname)
+      ? fetch(`${url}${pathname}`, { headers, method, body, duplex: "half" })
+      : fallback();
+  };
+
+  const hotreload = (request, next) => app.mode === "development"
+    ? proxy(request.original, () => next(request))
+    : next(request);
 
   return cascade([pass, hotreload, ...app.modules.handle], handle);
 };

@@ -11,7 +11,7 @@ export const client = (app, extension) => async (text, component) => {
   // app.assert(name !== undefined, NoClassName._(component))
   name === undefined && NoClassName.throw(component);
   const tag = new File(component)
-    .debase(`${app.runpath(app.get("location.components"))}/`)
+    .debase(`${app.path.components}/`)
     .path.replaceAll("/", "-").slice(0, -extension.length);
 
   const js = `${script} globalThis.customElements.define("${tag}", ${name});`;

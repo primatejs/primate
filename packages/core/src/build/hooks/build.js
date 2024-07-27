@@ -17,12 +17,13 @@ const pre = async (app, mode, target) => {
   app.log.system(`starting ${dim(target)} build in ${dim(mode)} mode`);
 
   app.build = new Build({
-    ...O.exclude(app.get("build"), ["includes", "index", "transform"]),
+    ...O.exclude(app.get("build"), ["includes", "index"]),
     outdir: app.runpath(app.get("location.client")).path,
     stdin: {
       resolveDir: app.root.path,
     },
   }, mode);
+
   app.server_build = ["routes", "types"];
 
   // remove build directory in case exists
@@ -77,7 +78,7 @@ export default components;`;
   await build_directory.join("components.js").write(components_js);
 };
 
-const write_bootstrap = async (build_number, app) => {
+const write_bootstrap = async (build_number, app, mode) => {
   const build_start_script = `
 import { File } from "rcompat/fs";
 import serve from "@primate/core/serve";
@@ -95,11 +96,12 @@ await serve(new File(import.meta.url).directory, {
   config,
   files,
   components,
+  mode: "${mode}",
 });`;
   await app.path.build.join("serve.js").write(build_start_script);
 };
 
-const post = async (app, target) => {
+const post = async (app, mode, target) => {
   const location = app.get("location");
   const defaults = new File(import.meta.dirname).join("../defaults");
 
@@ -153,7 +155,7 @@ const post = async (app, target) => {
 
   await write_components(build_directory, app);
   await write_directories(build_directory, app);
-  await write_bootstrap(build_number, app);
+  await write_bootstrap(build_number, app, mode);
 
   // copy config file
   const config = "primate.config.js";
@@ -165,8 +167,7 @@ const post = async (app, target) => {
   await app.path.build.join(package_json).write(O.stringify(manifest));
 
   app.log.system(`build written to ${dim(app.path.build)}`);
-
 };
 
 export default async (app, mode = "development", target = "web") =>
-  post(await (await cascade(app.modules.build))(await pre(app, mode, target)), target);
+  post(await (await cascade(app.modules.build))(await pre(app, mode, target)), mode, target);
