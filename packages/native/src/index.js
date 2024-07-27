@@ -17,6 +17,9 @@ export default ({
         const { host, port } = app.get("http");
         webview.navigate(`http://${host}:${port}${start}`);
         webview.run();
+        webview.closed(() => {
+          app.stop();
+        });
       }
       return next(app);
     },

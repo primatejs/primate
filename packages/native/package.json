@@ -16,15 +16,11 @@
     "directory": "packages/native"
   },
   "dependencies": {
-    "@rcompat/webview": "^0.3.0"
+    "@rcompat/webview": "^0.4.0"
   },
   "type": "module",
   "exports": {
     "./worker": "./src/worker.js",
-    ".": {
-      "import": {
-        "default": "./src/exports.js"
-      }
-    }
+    ".": "./src/index.js"
   }
 }
