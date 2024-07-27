@@ -25,6 +25,7 @@ export default async app => {
   const app_js = $imports.find($import => $import.src.endsWith(".js"));
 
   const assets_scripts = `
+  import Webview from "@rcompat/webview/worker/${app.build_target}";
   import { join, text } from "@rcompat/fs";
   import { stringify } from "rcompat/object";
   import crypto from "rcompat/crypto";
@@ -75,6 +76,9 @@ export default async app => {
     asset(pathname) {
       return assets.find(asset => asset.src === pathname);
     },
+    webview() {
+      return Webview;
+    }
   };
   const target = "desktop";
 

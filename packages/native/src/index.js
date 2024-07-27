@@ -1,5 +1,9 @@
-import Webview from "@rcompat/webview/worker";
-import { desktop } from "./targets/exports.js";
+import { dim } from "rcompat/colors";
+import { execute } from "rcompat/stdio";
+import desktop from "./desktop.js";
+import targets from "./targets.js";
+
+const command = "bun build build/serve.js --conditions=runtime --compile --minify";
 
 export default ({
   start = "/",
@@ -7,12 +11,21 @@ export default ({
   return {
     name: "primate:native",
     init(app, next) {
-      ["windows", "linux", "darwin"]
-        .forEach(target => app.target(target, desktop));
+      Object.keys(targets).forEach(target => app.target(target, desktop));
+      return next(app);
+    },
+    build(app, next) {
+      app.done(async () => {
+        const { flags, exe } = targets[app.build_target];
+        const executable_path = dim(`${app.path.build}/${exe}`);
+        await execute(`${command} ${flags} --outfile build/${exe}`);
+        app.log.system(`executable written to ${executable_path}`);
+      });
       return next(app);
     },
     async serve(app, next) {
       if (app.build_target === "desktop") {
+        const Webview = app.loader.webview();
         const webview = new Webview();
         const { host, port } = app.get("http");
         webview.navigate(`http://${host}:${port}${start}`);
