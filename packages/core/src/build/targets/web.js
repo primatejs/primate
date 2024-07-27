@@ -22,6 +22,7 @@ export default async app => {
     .map(async file => `${file}`.replace(`${d}/`, _ => "")));
   const pages_str = pages.map(page =>
     `"${page}": await File.text("./${location.pages}/${page}"),`).join("\n");
+  console.log($imports)
 
   const assets_scripts = `
   import { File } from "rcompat/fs";
@@ -48,7 +49,7 @@ export default async app => {
 
   const imports = {
    app: File.join("${http.static.root}", "${$imports.find($import =>
-  $import.src.endsWith(".js")).src}").webpath(),
+  $import.src.includes("app") && $import.src.endsWith(".js")).src}").webpath(),
   };
   // importmap
   assets.push({

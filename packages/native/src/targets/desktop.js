@@ -50,7 +50,7 @@ export default async app => {
   ${app_js === undefined ? "" :
     `const imports = {
      app: join("${http.static.root}", "${$imports.find($import =>
-  $import.src.endsWith(".js")).src}").webpath(),
+  $import.src.includes("app") && $import.src.endsWith(".js")).src}").webpath(),
     };
     // importmap
     assets.push({
