@@ -181,5 +181,8 @@ export default async (log, root, { config, assets, files, components, loader, ta
     target(name, handler) {},
     build_target: target,
     loader,
+    stop() {
+      this.get("server").stop();
+    },
   };
 };

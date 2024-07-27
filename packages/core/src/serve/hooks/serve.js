@@ -41,6 +41,8 @@ const post = async app => {
   const address = `http${$app.secure ? "s" : ""}://${host}:${port}`;
   $app.log.system(`started ${dim("->")} ${dim(address)}`);
 
+  app.set("server", $app.server);
+
   return $app;
 };
 
