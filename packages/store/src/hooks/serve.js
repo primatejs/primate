@@ -1,13 +1,14 @@
-import name from "@primate/store/base/name";
+import base_name from "@primate/store/base/name";
 import primary from "@primate/store/base/primary";
 import EmptyStoreDirectory from "@primate/store/errors/empty-store-directory";
 import InvalidType from "@primate/store/errors/invalid-type";
 import NoPrimaryKey from "@primate/store/errors/no-primary-key";
-import * as A from "rcompat/array";
-import { dim } from "rcompat/colors";
-import * as O from "rcompat/object";
+import empty from "@rcompat/array/empty";
+import dim from "@rcompat/cli/color/dim";
+import exclude from "@rcompat/object/exclude";
+import transform from "@rcompat/object/transform";
 
-const module = name;
+const module = base_name;
 
 const valid_type = ({ base, validate }) =>
   base !== undefined && typeof validate === "function";
@@ -27,7 +28,7 @@ export default (directory, mode, driver_serve, env) => async (app, next) => {
   const loaded = [];
 
   const stores = app.files.stores.map(([name, definition]) => {
-    const schema = O.transform(definition.default, entry => entry
+    const schema = transform(definition.default, entry => entry
       .filter(([property, type]) => valid(type, property, name)));
 
     definition.ambiguous !== true && schema.id === undefined
@@ -39,7 +40,7 @@ export default (directory, mode, driver_serve, env) => async (app, next) => {
     loaded.push(pathed);
 
     return [pathed, {
-      ...O.exclude(definition, ["default"]),
+      ...exclude(definition, ["default"]),
       schema,
       name: definition.name ?? name.replaceAll("/", "_"),
       defaults,
@@ -48,7 +49,7 @@ export default (directory, mode, driver_serve, env) => async (app, next) => {
 
   app.log.info(`loaded ${loaded.map(l => dim(l)).join(" ")}`, { module });
 
-  if (A.empty(stores)) {
+  if (empty(stores)) {
     EmptyStoreDirectory.warn(app.log, root);
     return next(app);
   }

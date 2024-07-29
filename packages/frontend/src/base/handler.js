@@ -1,10 +1,13 @@
-import { Status, MediaType } from "rcompat/http";
-import { cascade, map } from "rcompat/async";
-import * as O from "rcompat/object";
+import cascade from "@rcompat/async/cascade";
+import map from "@rcompat/async/map";
+import { APPLICATION_JSON } from "@rcompat/http/media-type";
+import { OK } from "@rcompat/http/status";
+import filter from "@rcompat/object/filter";
+import valmap from "@rcompat/object/valmap";
 import make_normalize from "./normalize.js";
 
-const register = ({ app, name, ...rest }) => ({
-  root: app.get_component(`root_${name}.js`),
+const register = ({ app, name: rootname, ...rest }) => ({
+  root: app.get_component(`root_${rootname}.js`),
   async load(name, props) {
     const component = await app.get_component(name);
     return { name, props, component };
@@ -13,13 +16,13 @@ const register = ({ app, name, ...rest }) => ({
 });
 
 const noop = _ => ({});
-const { APPLICATION_JSON } = MediaType;
 
 export default config => {
   const { load, root, render, client } = register(config);
   const normalize = make_normalize(config.name);
 
-  const get_names = components => map(components, ({ name }) => normalize(name));
+  const get_names = components => map(components, ({ name }) =>
+    normalize(name));
 
   return (name, props = {}, options = {}) =>
     async (app, { layouts = [], as_layout } = {}, request) => {
@@ -38,17 +41,15 @@ export default config => {
         data: components.map(component => component.props),
         context: await (await cascade(app.modules.context, noop))(request),
         request: {
-          ...O.valmap(O.filter(request, ([, { get }]) => get !== undefined),
+          ...valmap(filter(request, ([, { get }]) => get !== undefined),
             dispatcher => JSON.parse(dispatcher.toString() ?? "{}")),
           url: request.url,
         },
       };
 
-      const status = options.status ?? Status.OK;
-
       if (config.spa && request.headers.get("Accept") === APPLICATION_JSON) {
         return new Response(JSON.stringify({ names, ...shared }), {
-          status,
+          status: options.status ?? OK,
           headers: {
             ...await app.headers(),
             "Content-Type": APPLICATION_JSON,

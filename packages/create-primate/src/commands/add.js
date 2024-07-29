@@ -1,4 +1,4 @@
-import { File } from "rcompat/fs";
+import resolve from "@rcompat/fs/resolve";
 import { intro } from "@clack/prompts";
 import { select } from "../prompts.js";
 
@@ -10,7 +10,7 @@ const options = [
 ];
 
 export default async () => {
-  intro(`Managing ${File.resolve()}`);
+  intro(`Managing ${resolve()}`);
 
   const selected = await select({
     message: "Choose action",

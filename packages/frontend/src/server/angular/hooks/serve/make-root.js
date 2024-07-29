@@ -1,6 +1,6 @@
 import { Component as as_component, reflectComponentType } from "@angular/core";
 import { selector } from "@primate/frontend/angular/common";
-import * as O from "rcompat/object";
+import stringify from "@rcompat/object/stringify";
 
 const double_to_single = string => string.replaceAll("\"", "'");
 
@@ -14,7 +14,7 @@ const root_component = ({ template, imports }) => as_component({
 export default (real_root, props) => {
   const { selector } = reflectComponentType(real_root);
   const attributes = Object.entries(props)
-    .map(([key, value]) => `[${key}]="${double_to_single(O.stringify(value))}"`)
+    .map(([key, value]) => `[${key}]="${double_to_single(stringify(value))}"`)
     .join(" ");
 
   return root_component({

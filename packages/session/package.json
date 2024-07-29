@@ -15,7 +15,7 @@
     "directory": "packages/session"
   },
   "dependencies": {
-    "rcompat": "^0.17.0"
+    "@rcompat/invariant": "^0.4.0"
   },
   "peerDependencies": {
     "primate": "workspace:^"

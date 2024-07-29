@@ -1,5 +1,5 @@
-import { Router } from "rcompat/fs";
-import * as O from "rcompat/object";
+import Router from "@rcompat/fs/router";
+import get from "@rcompat/object/get";
 import { mark } from "../../shared/Logger.js";
 import route from "./route.js";
 
@@ -25,7 +25,7 @@ const r = (route, expected = route) => [route, {
 }];
 
 const app = {
-  get: config_key => O.get({
+  get: config_key => get({
     location: {
       routes: "/routes",
     },

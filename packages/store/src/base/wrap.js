@@ -1,15 +1,17 @@
 import InvalidDocument from "@primate/store/errors/invalid-document";
 import InvalidValue from "@primate/store/errors/invalid-value";
 import NoDocument from "@primate/store/errors/no-document";
-import { maybe } from "rcompat/invariant";
-import * as O from "rcompat/object";
-import { tryreturn } from "rcompat/sync";
+import maybe from "@rcompat/invariant/maybe";
+import empty from "@rcompat/object/empty";
+import filter from "@rcompat/object/filter";
+import transform from "@rcompat/object/transform";
+import tryreturn from "@rcompat/sync/tryreturn";
 import primary from "./primary.js";
 import bases from "./wrap/bases.js";
 import validate from "./wrap/validate.js";
 
-const transform = to => ({ types, schema, document = {}, path, mode }) =>
-  O.transform(document, entry => entry
+const serdes = to => ({ types, schema, document = {}, path, mode }) =>
+  transform(document, entry => entry
     .map(([field, value]) =>
       tryreturn(_ => [field, types[bases[schema[field].base]][to](value)])
         .orelse(_ => {
@@ -22,7 +24,7 @@ const transform = to => ({ types, schema, document = {}, path, mode }) =>
     ));
 const defined = input => ({
   errors: input.errors,
-  document: O.filter(input.document, ([, value]) => value !== undefined),
+  document: filter(input.document, ([, value]) => value !== undefined),
 });
 
 export default (config, facade, types) => {
@@ -31,9 +33,9 @@ export default (config, facade, types) => {
   const { mode = config.defaults.mode, schema, actions = _ => ({}) } = config;
 
   const pack = document =>
-    transform("in")({ document, path, schema, types, mode });
+    serdes("in")({ document, path, schema, types, mode });
   const unpack = result => typeof result === "object"
-    ? transform("out")({ document: result, path, schema, types, mode })
+    ? serdes("out")({ document: result, path, schema, types, mode })
     : result;
 
   const store = {
@@ -41,7 +43,7 @@ export default (config, facade, types) => {
     facade,
     async validate(input) {
       const result = defined(await validate({ input, types, schema, mode }));
-      if (O.empty(result.errors)) {
+      if (empty(result.errors)) {
         return result.document;
       }
       const error = InvalidDocument.new(Object.keys(result));

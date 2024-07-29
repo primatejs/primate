@@ -1,4 +1,4 @@
-import { MediaType } from "rcompat/http";
+import { TEXT_PLAIN } from "@rcompat/http/media-type";
 import base from "./shared/base.js";
 
 /**
@@ -7,4 +7,4 @@ import base from "./shared/base.js";
  * @param {MinOptions} options rendering options
  * @return {ResponseFn}
  */
-export default base(MediaType.TEXT_PLAIN);
+export default base(TEXT_PLAIN);

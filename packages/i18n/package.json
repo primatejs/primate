@@ -16,10 +16,9 @@
     "directory": "packages/i18n"
   },
   "dependencies": {
-    "rcompat": "^0.17.0"
-  },
-  "peerDependencies": {
-    "primate": "workspace:^"
+    "@primate/core": "workspace:^",
+    "@rcompat/cli": "^0.2.0",
+    "@rcompat/http": "^0.3.0"
   },
   "type": "module",
   "exports": {

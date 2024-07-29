@@ -1,9 +1,10 @@
 import make_sort from "@primate/store/sql/make-sort";
-import * as O from "rcompat/object";
+import keymap from "@rcompat/object/keymap";
+import valmap from "@rcompat/object/valmap";
 import typemap from "./typemap.js";
 
 const null_to_undefined = delta =>
-  O.valmap(delta, value => value === null ? undefined : value);
+  valmap(delta, value => value === null ? undefined : value);
 
 const predicate = criteria => {
   const keys = Object.keys(criteria);
@@ -21,7 +22,7 @@ const change = delta => {
   const set = keys.map(field => `${field}=$s_${field}`).join(",");
   return {
     set: `set ${set}`,
-    bindings: O.keymap(delta, key => `s_${key}`),
+    bindings: keymap(delta, key => `s_${key}`),
   };
 };
 
@@ -29,7 +30,7 @@ export default class Connection {
   schema = {
     create: async (name, description) => {
       const body =
-        Object.entries(O.valmap(description, value => typemap(value.base)))
+        Object.entries(valmap(description, value => typemap(value.base)))
           .filter(([column]) => column !== "id")
           .map(([column, dataType]) =>
             `define field ${column} on ${name} type option<${dataType}>;`)
@@ -82,19 +83,19 @@ export default class Connection {
     const keys = Object.keys(document);
     const columns = keys.map(key => `${key}`);
     const values = keys.map(key => `$${key}`).join(",");
-    const predicate = columns.length > 0
+    const columns_values = columns.length > 0
       ? `(${columns.join(",")}) values (${values})`
       : "{}";
-    const query = `insert into ${name} ${predicate}`;
+    const query = `insert into ${name} ${columns_values}`;
     const [{ result: [{ id }] }] = await this.#query(query, document);
     return { ...document, id };
   }
 
   async update(name, criteria = {}, delta = {}) {
     const { where, bindings } = predicate(criteria);
-    const { set, bindings: bindings2 } = change(null_to_undefined(delta));
+    const { set, bindings: changed } = change(null_to_undefined(delta));
     const query = `update ${name} ${set} ${where}`;
-    const [{ result }] = await this.#query(query, { ...bindings, ...bindings2 });
+    const [{ result }] = await this.#query(query, { ...bindings, ...changed });
     return result.length;
   }
 

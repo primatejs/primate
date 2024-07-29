@@ -1,11 +1,10 @@
-import { File } from "rcompat/fs";
-import { upperfirst } from "rcompat/string";
+import file from "@rcompat/fs/file";
 
 const routes_re = /def (?<route>get|post|put|delete)/gu;
 const get_routes = code => [...code.matchAll(routes_re)]
   .map(({ groups: { route } }) => route);
 
-const directory = new File(import.meta.url).up(1);
+const directory = file(import.meta.url).up(1);
 const session_rb = await directory.join("session.rb").text();
 const request = await directory.join("./request.rb").text();
 const make_route = route => `async ${route.toLowerCase()}(request) {
@@ -51,17 +50,17 @@ end`);
   return `
   import to_response from "@primate/binding/ruby/to-response";
   import { module, rubyvm, helpers } from "@primate/binding/ruby/common";
-  import { File } from "rcompat/fs";
+  import file from "@rcompat/fs/file";
 
 const { vm } = await rubyvm(module);
-const file = await File.text(${JSON.stringify(path)});
+const code = await file(${JSON.stringify(path)}).text();
 const wrappers = ${JSON.stringify(create_ruby_wrappers(routes))};
 const request = ${JSON.stringify(request
     .replace("%%CLASSES%%", _ => classes.join("\n"))
     .replace("%%REQUEST_INITIALIZE%%", _ => request_initialize.join("\n"))
     .replace("%%REQUEST_DEFS%%", _ => request_defs.join("\n")))};
 
-const environment = await vm.evalAsync(request+file+wrappers);
+const environment = await vm.evalAsync(request+code+wrappers);
 
 export default {
   ${routes.map(route => make_route(route)).join("\n  ")}

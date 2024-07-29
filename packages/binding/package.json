@@ -21,7 +21,14 @@
     "directory": "packages/binding"
   },
   "dependencies": {
-    "rcompat": "^0.17.0"
+    "@primate/core": "workspace:^",
+    "@rcompat/build": "^0.2.0",
+    "@rcompat/cli": "^0.2.0",
+    "@rcompat/env": "^0.2.1",
+    "@rcompat/fs": "^0.3.0",
+    "@rcompat/object": "^0.4.0",
+    "@rcompat/platform": "^0.2.0",
+    "@rcompat/stdio": "^0.2.0"
   },
   "peerDependencies": {
     "@ruby/head-wasm-wasi": "2",
@@ -46,7 +53,7 @@
     "./*/to-request": "./src/server/*/to-request.js",
     "./*/to-response": "./src/server/*/to-response.js",
     "./*/wrap": "./src/server/*/wrap.js",
-    "./base/*": "./src/base/*.js",
+    "./#/*": "./lib/private/*/index.js",
     "./errors/*": "./src/errors/*.js",
     "./*": {
       "runtime": "./src/server/*/runtime.js",

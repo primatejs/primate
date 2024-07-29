@@ -1,5 +1,5 @@
 import dispatch from "@primate/core/dispatch";
-import * as O from "rcompat/object";
+import valmap from "@rcompat/object/valmap";
 
 export default () => async original => {
   const { headers } = original;
@@ -8,7 +8,7 @@ export default () => async original => {
   const cookies = headers.get("cookie");
 
   return { original, url,
-  ...O.valmap({
+  ...valmap({
     query: [Object.fromEntries(url.searchParams), url.search],
     headers: [Object.fromEntries(headers), headers, false],
     cookies: [Object.fromEntries(cookies?.split(";").map(cookie =>

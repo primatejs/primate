@@ -1,7 +1,9 @@
-import { cascade, tryreturn } from "rcompat/async";
-import { dim } from "rcompat/colors";
-import { Router } from "rcompat/fs";
-import { serve, Status } from "rcompat/http";
+import cascade from "@rcompat/async/cascade";
+import tryreturn from "@rcompat/async/tryreturn";
+import dim from "@rcompat/cli/color/dim";
+import Router from "@rcompat/fs/router";
+import serve from "@rcompat/http/serve";
+import { INTERNAL_SERVER_ERROR } from "@rcompat/http/status";
 import * as hooks from "./exports.js";
 
 const post = async app => {
@@ -33,7 +35,7 @@ const post = async app => {
     tryreturn(async _ => $handle(await $app.parse(request)))
       .orelse(error => {
         $app.log.auto(error);
-        return new Response(null, { status: Status.INTERNAL_SERVER_ERROR });
+        return new Response(null, { status: INTERNAL_SERVER_ERROR });
       }), $app.get("http"));
   const { host, port } = $app.get("http");
   const address = `http${$app.secure ? "s" : ""}://${host}:${port}`;

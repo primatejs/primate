@@ -1,13 +1,14 @@
-import { MediaType, Status } from "rcompat/http";
+import { FOUND, OK } from "@rcompat/http/status";
+import { TEXT_HTML } from "@rcompat/http/media-type";
 
 import respond from "./respond.js";
 
 const app = {
-  respond(body, { status = Status.OK, headers = {} } = {}) {
+  respond(body, { status = OK, headers = {} } = {}) {
     return new Response(body, {
       status,
       headers: {
-        "Content-Type": MediaType.TEXT_HTML, ...headers,
+        "Content-Type": TEXT_HTML, ...headers,
       },
     });
   },
@@ -16,7 +17,7 @@ const app = {
 export default test => {
   test.case("guess URL", async assert => {
     const url = "https://primatejs.com/";
-    const status = Status.FOUND;
+    const status = FOUND;
     const response = respond(new URL(url))(app);
     // assert(await response.text()).null();
     assert(response.status).equals(status);

@@ -1,4 +1,4 @@
-import { transform } from "rcompat/build";
+import transform from "@rcompat/build/transform";
 
 const options = {
   loader: "ts",

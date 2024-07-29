@@ -1,5 +1,5 @@
 import * as errors from "@primate/core/errors";
-import { Router } from "rcompat/fs";
+import Router from "@rcompat/fs/router";
 
 export default async directory => {
 

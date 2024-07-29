@@ -1,5 +1,4 @@
-import crypto from "rcompat/crypto";
-import { is } from "rcompat/invariant";
+import is from "@rcompat/invariant/is";
 
 export default (store, id) => {
   let $id = id;

@@ -1,11 +1,13 @@
-import * as O from "rcompat/object";
+import exclude from "@rcompat/object/exclude";
+import stringify from "@rcompat/object/stringify";
+import valmap from "@rcompat/object/valmap";
 
 const to_search_params = url =>
-  O.stringify(Object.fromEntries(url.searchParams.entries()));
+  stringify(Object.fromEntries(url.searchParams.entries()));
 const dispatchers = ["path", "query", "cookies", "headers"];
 
 const to_dispatcher = dispatcher =>
-  O.valmap(O.exclude(dispatcher, ["get", "raw"]), getter => {
+  valmap(exclude(dispatcher, ["get", "raw"]), getter => {
     try {
       return getter();
     } catch ({ message }) {

@@ -1,10 +1,10 @@
 import { EmptyDirectory } from "@primate/core/errors";
-import * as A from "rcompat/array";
-import { File } from "rcompat/fs";
-import { identity } from "rcompat/function";
+import array_empty from "@rcompat/array/empty";
+import collect from "@rcompat/fs/collect";
+import identity from "@rcompat/function/identity";
 
 const empty = log => (objects, name, path) =>
-  A.empty(objects) && EmptyDirectory.warn(log, name, path);
+  array_empty(objects) && EmptyDirectory.warn(log, name, path);
 
 export default async ({
   log,
@@ -15,7 +15,7 @@ export default async ({
   warn = true,
 } = {}) => {
   const objects = directory === undefined ? [] : await Promise.all(
-    (await File.collect(directory, /^.*.js$/u, { recursive }))
+    (await collect(directory, /^.*.js$/u, { recursive }))
       .filter(filter)
       .map(async file => [
         `${file}`.replace(directory, _ => "").slice(1, -".js".length),

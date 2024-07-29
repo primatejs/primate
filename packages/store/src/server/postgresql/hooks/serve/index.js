@@ -1,7 +1,7 @@
 import ident from "@primate/store/base/ident";
 import wrap from "@primate/store/base/wrap";
 import { name } from "@primate/store/postgresql/common";
-import { numeric } from "rcompat/invariant";
+import numeric from "@rcompat/invariant/numeric";
 import { connect } from "./driver.js";
 import Facade from "./Facade.js";
 

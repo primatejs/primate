@@ -1,5 +1,4 @@
 import Logger from "@primate/core/logger";
-import { identity } from "rcompat/function";
 
 export default {
   base: "/",

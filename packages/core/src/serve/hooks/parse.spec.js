@@ -1,12 +1,14 @@
-import { MediaType } from "rcompat/http";
-import * as O from "rcompat/object";
-import { mark } from "../../shared/Logger.js";
 import config from "@primate/core/config";
+import {
+  APPLICATION_FORM_URLENCODED,
+  APPLICATION_JSON,
+} from "@rcompat/http/media-type";
+import get from "@rcompat/object/get";
+import { mark } from "../../shared/Logger.js";
 import parse from "./parse.js";
 
-const { APPLICATION_JSON, APPLICATION_FORM_URLENCODED } = MediaType;
 const app = {
-  get: config_key => O.get(config, config_key),
+  get: config_key => get(config, config_key),
 };
 const verbs = ["get", "post", "put", "delete"];
 const r = await (async () => {

@@ -18,10 +18,12 @@
     "directory": "packages/primate"
   },
   "dependencies": {
-    "@primate/core": "file:../core",
-    "@rcompat/async": "^0.1.1",
-    "@rcompat/fs": "^0.1.1",
-    "rcompat": "^0.17.0"
+    "@primate/core": "workspace:^",
+    "@rcompat/args": "^0.2.0",
+    "@rcompat/async": "^0.2.0",
+    "@rcompat/cli": "^0.2.0",
+    "@rcompat/fs": "^0.3.0",
+    "@rcompat/package": "^0.2.0"
   },
   "engines": {
     "node": ">=18"

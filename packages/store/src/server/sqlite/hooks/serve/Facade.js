@@ -1,12 +1,14 @@
 import make_sort from "@primate/store/sql/make-sort";
-import * as O from "rcompat/object";
-import { platform } from "rcompat/package";
+import filter from "@rcompat/object/filter";
+import keymap from "@rcompat/object/keymap";
+import valmap from "@rcompat/object/valmap";
+import platform from "@rcompat/platform";
 import typemap from "./typemap.js";
 
-const is_bun = platform() === "bun";
+const is_bun = platform === "bun";
 
 const filter_null = results =>
-  results.map(result => O.filter(result, ([, value]) => value !== null));
+  results.map(result => filter(result, ([, value]) => value !== null));
 
 const predicate = criteria => {
   const keys = Object.keys(criteria);
@@ -24,7 +26,7 @@ const change = delta => {
   const set = keys.map(field => `"${field}"=$s_${field}`).join(",");
   return {
     set: `set ${set}`,
-    bindings: O.keymap(delta, key => `s_${key}`),
+    bindings: keymap(delta, key => `s_${key}`),
   };
 };
 
@@ -32,7 +34,7 @@ export default class Connection {
   schema = {
     create: async (name, description) => {
       const body =
-        Object.entries(O.valmap(description, value => typemap(value.base)))
+        Object.entries(valmap(description, value => typemap(value.base)))
           .map(([column, dataType]) => `"${column}" ${dataType}`).join(",");
       const query = `create table if not exists ${name} (${body})`;
       this.connection.prepare(query).run();

@@ -1,10 +1,10 @@
-import { File } from "rcompat/fs";
+import file from "@rcompat/fs/file";
 import { DefaultRubyVM } from "@ruby/wasm-wasi/dist/node";
-import * as P from "rcompat/package";
+import root from "@rcompat/package/root";
 
-const ruby_path = (await P.root())
+const ruby_path = (await root())
   .join("node_modules/@ruby/head-wasm-wasi/dist/ruby+stdlib.wasm");
-const ruby_wasm = await File.arrayBuffer(ruby_path);
+const ruby_wasm = await file(ruby_path).arrayBuffer();
 const module = await WebAssembly.compile(ruby_wasm);
 
 const helpers = {

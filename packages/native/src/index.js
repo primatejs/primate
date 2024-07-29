@@ -1,5 +1,5 @@
-import { dim } from "rcompat/colors";
-import { execute } from "rcompat/stdio";
+import dim from "@rcompat/cli/color/dim";
+import execute from "@rcompat/stdio/execute";
 import desktop from "./desktop.js";
 import targets from "./targets.js";
 
@@ -15,12 +15,14 @@ export default ({
       return next(app);
     },
     build(app, next) {
-      app.done(async () => {
-        const { flags, exe } = targets[app.build_target];
-        const executable_path = dim(`${app.path.build}/${exe}`);
-        await execute(`${command} ${flags} --outfile build/${exe}`);
-        app.log.system(`executable written to ${executable_path}`);
-      });
+      if (app.build_target === "desktop") {
+        app.done(async () => {
+          const { flags, exe } = targets[app.build_target];
+          const executable_path = dim(`${app.path.build}/${exe}`);
+          await execute(`${command} ${flags} --outfile build/${exe}`);
+          app.log.system(`executable written to ${executable_path}`);
+        });
+      }
       return next(app);
     },
     async serve(app, next) {

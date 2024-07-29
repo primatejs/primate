@@ -1,5 +1,7 @@
-import { maybe } from "rcompat/invariant";
-import * as O from "rcompat/object";
+import maybe from "@rcompat/invariant/maybe";
+import empty from "@rcompat/object/empty";
+import filter from "@rcompat/object/filter";
+import valmap from "@rcompat/object/valmap";
 
 const toid = ({ _id, ...rest }) => ({ id: _id, ...rest });
 const to_id = ({ id, ...rest }) => id === undefined
@@ -7,15 +9,15 @@ const to_id = ({ id, ...rest }) => id === undefined
   : { _id: id, ...rest };
 const cid = criteria => criteria.id === undefined ? criteria : to_id(criteria);
 const null_to_set_unset = delta => {
-  const $set = O.filter(delta, ([, value]) => value !== null);
-  const $unset = O.filter(delta, ([, value]) => value === null);
+  const $set = filter(delta, ([, value]) => value !== null);
+  const $unset = filter(delta, ([, value]) => value === null);
   return { $set, $unset };
 };
 
 const make_sort = ({ sort = {} } = {}) => {
   maybe(sort).object();
 
-  return O.valmap(sort, value => value === "asc" ? 1 : -1);
+  return valmap(sort, value => value === "asc" ? 1 : -1);
 };
 
 export default class Facade {
@@ -54,7 +56,7 @@ export default class Facade {
             ...Object.fromEntries(projection.map(field => [field, 1])),
           },
         },
-      ...O.empty(sort) ? {} : { sort },
+      ...empty(sort) ? {} : { sort },
     };
     return (await this.#by(name).find(cid(criteria), $options).toArray())
       .map(document => toid(document));

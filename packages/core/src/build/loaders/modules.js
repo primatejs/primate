@@ -16,11 +16,6 @@ export default async (log, root, modules) => {
   new Set(names).size !== modules.length &&
     e.DoubleModule.throw(doubled(names), root.join("primate.config.js"));
 
-  const hookless = modules.filter(module => !Object.keys(module).some(key =>
-    [...Object.keys(hooks), "load", "context"].includes(key)));
-  hookless.length > 0 && e.ModuleNoHooks.warn(log,
-    hookless.map(({ name }) => name).join(", "));
-
   // collect modules
   const loaded = load(modules).flat(2);
 

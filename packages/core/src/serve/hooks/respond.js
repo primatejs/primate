@@ -3,9 +3,9 @@ import json from "@primate/core/handlers/json";
 import redirect from "@primate/core/handlers/redirect";
 import stream from "@primate/core/handlers/stream";
 import text from "@primate/core/handlers/text";
-import { s_streamable } from "rcompat/fs";
-import { identity } from "rcompat/function";
-import * as O from "rcompat/object";
+import streamable from "@rcompat/fs/streamable";
+import identity from "@rcompat/function/identity";
+import proper from "@rcompat/object/proper";
 
 const not_found = value => BadBody.throw(value);
 const is_text = value => typeof value === "string";
@@ -13,7 +13,7 @@ const is_instance = of => value => value instanceof of;
 const is_response = is_instance(globalThis.Response);
 const is_fake_response = is_instance(Response);
 const is_streamable =
-  value => value instanceof Blob || value?.streamable === s_streamable;
+  value => value instanceof Blob || value?.streamable === streamable;
 
 // [if, then]
 const guesses = [
@@ -21,7 +21,7 @@ const guesses = [
   [is_streamable, value => stream(value.stream())],
   [is_instance(ReadableStream), stream],
   [value => is_response(value) || is_fake_response(value), value => _ => value],
-  [O.proper, json],
+  [proper, json],
   [is_text, text],
   [not_found, identity],
 ];

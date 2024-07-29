@@ -1,5 +1,5 @@
 import { NoHandler } from "@primate/core/errors";
-import { File } from "rcompat/fs";
+import file from "@rcompat/fs/file";
 
 const extensions = ["extension", "fullExtension"];
 /**
@@ -10,6 +10,6 @@ const extensions = ["extension", "fullExtension"];
  * @return {ResponseFn}
  */
 export default (name, props, options) => (app, ...rest) => extensions
-  .map(extension => app.handlers[new File(name)[extension]])
+  .map(extension => app.handlers[file(name)[extension]])
   .find(extension => extension !== undefined)
   ?.(name, props, options)(app, ...rest) ?? NoHandler.throw(name);

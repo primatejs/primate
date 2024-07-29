@@ -1,4 +1,4 @@
-import { File } from "rcompat/fs";
+import collect from "@rcompat/fs/collect";
 const html = /^.*.html$/u;
 
 export default async app => {
@@ -13,20 +13,21 @@ export default async app => {
     return {
       src,
       path,
-      code: `await File.text(asset${i})`,
+      code: `await file(asset${i}).text()`,
       type,
     };
   });
   const d = app.runpath(location.pages);
-  const pages = await Promise.all((await File.collect(d, html, { recursive: true }))
+  const pages = await Promise.all((await collect(d, html, { recursive: true }))
     .map(async file => `${file}`.replace(`${d}/`, _ => "")));
   const pages_str = pages.map(page =>
-    `"${page}": await File.text("./${location.pages}/${page}"),`).join("\n");
+    `"${page}": await file("./${location.pages}/${page}").text(),`).join("\n");
 
   const assets_scripts = `
-  import { File } from "rcompat/fs";
-  import { stringify } from "rcompat/object";
-  import crypto from "rcompat/crypto";
+  import file from "@rcompat/fs/file";
+  import join from "@rcompat/fs/join";
+  import stringify from "@rcompat/object/stringify";
+  import crypto from "@rcompat/crypto";
 
   const encoder = new TextEncoder();
   const hash = async (data, algorithm = "sha-384") => {
@@ -36,8 +37,8 @@ export default async app => {
   };
 
   ${$imports.map(({ path }, i) =>
-    `const asset${i} = await new File(import.meta.dirname)
-      .join("${path}").text();`).join("\n  ")}
+    `const asset${i} = await join(import.meta.dirname, "${path}").text();`)
+    .join("\n  ")}
   const assets = [${$imports.map(($import, i) => `{
   src: "${$import.src}",
   code: asset${i},
@@ -47,7 +48,7 @@ export default async app => {
   }`).join(",\n  ")}];
 
   const imports = {
-   app: File.join("${http.static.root}", "${$imports.find($import =>
+   app: join("${http.static.root}", "${$imports.find($import =>
   $import.src.includes("app") && $import.src.endsWith(".js")).src}").webpath(),
   };
   // importmap

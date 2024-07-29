@@ -1,4 +1,4 @@
-import * as O from "rcompat/object";
+import stringify from "@rcompat/object/stringify";
 import dependencies from "../dependencies.js";
 
 export default async (root, config) => {
@@ -16,6 +16,6 @@ export default async (root, config) => {
     },
     type: "module",
   };
-  const contents = `${O.stringify(json)}\n`;
+  const contents = `${stringify(json)}\n`;
   await root.join("package.json").write(contents);
 };

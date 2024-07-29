@@ -1,13 +1,15 @@
-import { File } from "rcompat/fs";
-import * as O from "rcompat/object";
+import join from "@rcompat/fs/join";
+import get from "@rcompat/object/get";
+import valmap from "@rcompat/object/valmap";
 import * as loaders from "./loaders/exports.js";
 import { web } from "./targets/exports.js";
 
 export default async (log, root, config) => {
-  const path = O.valmap(config.location, value => root.join(value));
+  const path = valmap(config.location, value => root.join(value));
   const error = await path.routes.join("+error.js");
 
   return {
+    postbuild: [],
     bindings: {},
     roots: [],
     targets: { web },
@@ -17,7 +19,7 @@ export default async (log, root, config) => {
     root,
     log,
     // pseudostatic thus arrowbound
-    get: (config_key, fallback) => O.get(config, config_key) ?? fallback,
+    get: (config_key, fallback) => get(config, config_key) ?? fallback,
     set: (key, value) => {
       config[key] = value;
     },
@@ -42,14 +44,14 @@ export default async (log, root, config) => {
       await source.copy(target_base);
 
       const location = this.get("location");
-      const client_location = File.join(location.client, location.static).path;
+      const client_location = join(location.client, location.static).path;
       const mapper = text =>
         defines.reduce((replaced, [key, substitution]) =>
           replaced.replaceAll(key, substitution), text);
 
       // then, copy and transform whitelisted paths using mapper
       await Promise.all((await source.collect(filter)).map(async abs_path => {
-        const rel_path = File.join(directory, abs_path.debase(source));
+        const rel_path = join(directory, abs_path.debase(source));
         if (directory.path === client_location && rel_path.path.endsWith(".css")) {
           const contents = await abs_path.text();
           const font_regex = /@font-face\s*\{.+?url\("(.+?\.woff2)"\).+?\}/gus;
@@ -96,6 +98,9 @@ export default async (log, root, config) => {
     },
     bind(extension, handler) {
       this.bindings[extension] = handler;
+    },
+    done(fn) {
+      this.postbuild.push(fn);
     },
   };
 };

@@ -1,4 +1,4 @@
-import { numeric } from "rcompat/invariant";
+import numeric from "@rcompat/invariant/numeric";
 
 const coercibles = {
   string: value => numeric(value) ? Number(value) : value,

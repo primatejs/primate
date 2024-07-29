@@ -1,4 +1,4 @@
-import HANDLER_PROPERTY from "@primate/binding/base/handler-property";
+import HANDLER_PROPERTY from "@primate/binding/#/handler-property";
 import error from "@primate/core/handlers/error";
 import redirect from "@primate/core/handlers/redirect";
 import view from "@primate/core/handlers/view";

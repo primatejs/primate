@@ -1,12 +1,14 @@
-import { tryreturn } from "rcompat/async";
-import * as O from "rcompat/object";
-import * as P from "rcompat/package";
+import defaults from "@primate/core/config";
 import { EmptyConfigFile, ErrorInConfigFile } from "@primate/core/errors";
 import Logger from "@primate/core/logger";
-import defaults from "@primate/core/config";
-import app from "./app.js";
-import { init, build } from "./hooks/exports.js";
+import tryreturn from "@rcompat/async/tryreturn";
+import empty from "@rcompat/object/empty";
+import override from "@rcompat/object/override";
+import root from "@rcompat/package/root";
+import platform from "@rcompat/platform";
 import { bye } from "../shared/Logger.js";
+import app from "./app.js";
+import { build, init } from "./hooks/exports.js";
 
 let logger = new Logger({ level: Logger.Warn });
 const config_filename = "primate.config.js";
@@ -17,19 +19,19 @@ const get_config = async root => {
     ? tryreturn(async _ => {
       const imported = await config.import("default");
 
-      O.empty(imported) && EmptyConfigFile.warn(logger, config);
+      empty(imported) && EmptyConfigFile.warn(logger, config);
 
       return imported;
     }).orelse(({ message }) =>
-      ErrorInConfigFile.throw(message, `${P.platform()} ${config}`))
+      ErrorInConfigFile.throw(message, `${platform} ${config}`))
     : defaults;
 };
 
 export default async (mode, target) => tryreturn(async _ => {
-  const root = await P.root();
-  const config = O.extend(defaults, await get_config(root));
+  const package_root = await root();
+  const config = override(defaults, await get_config(package_root));
   logger = new Logger(config.logger);
-  const $app = await app(logger, root, config);
+  const $app = await app(logger, package_root, config);
   await build(await init($app), mode, target);
   return true;
 }).orelse(error => {

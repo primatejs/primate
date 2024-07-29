@@ -1,4 +1,4 @@
-import { collect } from "@rcompat/fs";
+import collect from "@rcompat/fs/collect";
 const html = /^.*.html$/u;
 
 export default async app => {
@@ -26,9 +26,10 @@ export default async app => {
 
   const assets_scripts = `
   import Webview from "@rcompat/webview/worker/${app.build_target}";
-  import { join, text } from "@rcompat/fs";
-  import { stringify } from "rcompat/object";
-  import crypto from "rcompat/crypto";
+  import join from "@rcompat/fs/join";
+  import file from "@rcompat/fs/file";
+  import stringify from "@rcompat/object/stringify";
+  import crypto from "@rcompat/crypto";
 
   const encoder = new TextEncoder();
   const hash = async (data, algorithm = "sha-384") => {
@@ -39,7 +40,7 @@ export default async app => {
 
   ${$imports.map(({ path }, i) =>
     `import asset${i} from "${path}" with { type: "file" };
-    const file${i} = await text(asset${i});`).join("\n  ")}
+    const file${i} = await file(asset${i}).text();`).join("\n  ")}
   const assets = [${$imports.map(($import, i) => `{
   src: "${$import.src}",
   code: file${i},

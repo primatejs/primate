@@ -1,4 +1,10 @@
-import { primary, string, object, u8, boolean, i64, date } from "@primate/types";
+import boolean from "@primate/types/boolean";
+import date from "@primate/types/date";
+import i64 from "@primate/types/i64";
+import object from "@primate/types/object";
+import primary from "@primate/types/primary";
+import string from "@primate/types/string";
+import u8 from "@primate/types/u8";
 
 const w = (document, id) => ({ ...document, id });
 const defaults = {

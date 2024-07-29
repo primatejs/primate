@@ -1,4 +1,5 @@
-import { is, every } from "rcompat/invariant";
+import every from "@rcompat/invariant/every";
+import is from "@rcompat/invariant/is";
 import make_session from "./make_session.js";
 
 const cookie = (name, value, { path, secure, httpOnly, sameSite }) =>

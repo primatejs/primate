@@ -1,5 +1,5 @@
 import { name } from "@primate/binding/typescript/common";
-import { dim } from "rcompat/colors";
+import dim from "@rcompat/cli/color/dim";
 import compile from "./compile.js";
 
 const module = `@primate/binding/${name}`;

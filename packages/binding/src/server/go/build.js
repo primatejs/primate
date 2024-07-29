@@ -1,10 +1,10 @@
 import ErrorInGoRoute from "@primate/binding/errors/error-in-go-route";
 import { name } from "@primate/binding/go/common";
-import { dim } from "rcompat/colors";
-import { user } from "rcompat/env";
-import { File } from "rcompat/fs";
-import { platform } from "rcompat/package";
-import { execute } from "rcompat/stdio";
+import dim from "@rcompat/cli/color/dim";
+import { user } from "@rcompat/env";
+import file from "@rcompat/fs/file";
+import platform from "@rcompat/platform";
+import execute from "@rcompat/stdio/execute";
 
 const module = `@primate/binding/${name}`;
 const command = "go";
@@ -33,12 +33,13 @@ const js_wrapper = (path, routes) => `
 import to_request from "@primate/binding/go/to-request";
 import to_response from "@primate/binding/go/to-response";
 ${
-  platform() === "bun" ? `
+  platform === "bun" ? `
     import route_path from "${path}" with { type: "file" };
     const route = await Bun.file(route_path).arrayBuffer();
   ` : `
-    import { File } from "rcompat/fs";
-    const route = new Uint8Array(await File.arrayBuffer(import.meta.dirname+"/${path}"));
+    import file from "@rcompat/fs/file";
+    const route = new Uint8Array(await file(import.meta.dirname+"/${path}")
+      .arrayBuffer());
   `
 }
 import { env } from "@primate/binding/go/common";
@@ -86,7 +87,7 @@ const error_default = {
   Float: 0,
   String: "\"\"",
 };
-const root = new File(import.meta.url).up(1);
+const root = file(import.meta.url).up(1);
 
 const create_meta_files = async (directory, app) => {
   const meta = {

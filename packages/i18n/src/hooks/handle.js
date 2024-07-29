@@ -1,5 +1,5 @@
-import { Status } from "rcompat/http";
 import name from "@primate/i18n/base/name";
+import { OK } from "@rcompat/http/status";
 
 const cookie = (key, value, { path, secure, httpOnly, sameSite }) =>
   `${key}=${value};${httpOnly};Path=${path};${secure};SameSite=${sameSite}`;
@@ -21,7 +21,7 @@ export default ({ env }) => (request, next) => {
   }
 
   return new Response("", {
-    status: Status.OK,
+    status: OK,
     headers: {
       "Set-Cookie": cookie(name, set_locale, options),
     },

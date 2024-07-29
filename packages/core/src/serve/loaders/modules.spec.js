@@ -1,4 +1,4 @@
-import { File } from "rcompat/fs";
+import file from "@rcompat/fs/file";
 import { mark } from "../Logger.js";
 import loader from "./modules.js";
 
@@ -7,7 +7,7 @@ const log = {
     throw error;
   },
 };
-const modules = defs => loader(log, new File("/"), defs);
+const modules = defs => loader(log, file("/"), defs);
 
 export default test => {
   test.case("errors.ModulesMustBeArray", assert => {

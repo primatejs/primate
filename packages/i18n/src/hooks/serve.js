@@ -1,5 +1,5 @@
-import { dim } from "rcompat/colors";
 import name from "@primate/i18n/base/name";
+import dim from "@rcompat/cli/color/dim";
 
 const module = name;
 

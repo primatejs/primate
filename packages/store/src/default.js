@@ -3,7 +3,7 @@ import build from "@primate/store/hooks/build";
 import route from "@primate/store/hooks/route";
 import serve from "@primate/store/hooks/serve";
 import memory from "@primate/store/memory";
-import { assert } from "rcompat/invariant";
+import assert from "@rcompat/invariant/assert";
 
 export default ({
   // directory for stores

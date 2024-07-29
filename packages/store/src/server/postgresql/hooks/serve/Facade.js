@@ -1,8 +1,9 @@
 import make_sort from "@primate/store/sql/make-sort";
-import * as O from "rcompat/object";
+import filter from "@rcompat/object/filter";
+import valmap from "@rcompat/object/valmap";
 import typemap from "./typemap.js";
 
-const filter_null = object => O.filter(object, ([, value]) => value !== null);
+const filter_null = object => filter(object, ([, value]) => value !== null);
 const filter_nulls = objects => objects.map(object => filter_null(object));
 
 export default class Connection {
@@ -10,7 +11,7 @@ export default class Connection {
     create: async (name, description) => {
       const { connection } = this;
       const body =
-        Object.entries(O.valmap(description, value => typemap(value.base)))
+        Object.entries(valmap(description, value => typemap(value.base)))
           .map(([column, dataType]) => `"${column}" ${dataType}`).join(",");
       await connection`
         create table if not exists 

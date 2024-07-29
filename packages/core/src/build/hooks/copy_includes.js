@@ -1,4 +1,4 @@
-import { File } from "rcompat/fs";
+import join from "@rcompat/fs/join";
 
 export default async (app, type, post = () => undefined) => {
   const includes = app.get("build.includes");
@@ -11,7 +11,7 @@ export default async (app, type, post = () => undefined) => {
       .map(async include => {
         const path = app.root.join(include);
         if (await path.exists()) {
-          const target = File.join(type, include);
+          const target = join(type, include);
           await app.stage(path, target);
           await post(target);
         }

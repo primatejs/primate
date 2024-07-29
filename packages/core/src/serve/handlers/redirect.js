@@ -1,4 +1,4 @@
-import { Status } from "rcompat/http";
+import { FOUND } from "@rcompat/http/status";
 
 /**
  * Redirect request
@@ -6,6 +6,6 @@ import { Status } from "rcompat/http";
  * @param {MinOptions} options handler options
  * @return {ResponseFn}
  */
-export default (Location, { status = Status.FOUND } = {}) => app =>
+export default (Location, { status = FOUND } = {}) => app =>
   // no body
   app.respond(null, { status, headers: { Location } });

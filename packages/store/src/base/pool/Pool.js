@@ -1,5 +1,7 @@
-import { is, assert, every } from "rcompat/invariant";
-import { map } from "rcompat/async";
+import assert from "@rcompat/invariant/assert";
+import every from "@rcompat/invariant/every";
+import is from "@rcompat/invariant/is";
+import map from "@rcompat/async/map";
 import errors from "./errors.js";
 
 export default class Pool {

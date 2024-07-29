@@ -1,4 +1,5 @@
-import { is, maybe } from "rcompat/invariant";
+import is from "@rcompat/invariant/is";
+import maybe from "@rcompat/invariant/maybe";
 
 const base = "array";
 

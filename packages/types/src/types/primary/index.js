@@ -1,4 +1,4 @@
-import { is } from "rcompat/invariant";
+import is from "@rcompat/invariant/is";
 
 const error = "types.primary :: driver missing primary key";
 

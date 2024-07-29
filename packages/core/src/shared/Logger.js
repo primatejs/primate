@@ -1,6 +1,12 @@
-import { blue, bold, dim, green, red, yellow } from "rcompat/colors";
-import { assert, is } from "rcompat/invariant";
-import * as O from "rcompat/object";
+import blue from "@rcompat/cli/color/blue";
+import bold from "@rcompat/cli/color/bold";
+import dim from "@rcompat/cli/color/dim";
+import green from "@rcompat/cli/color/green";
+import red from "@rcompat/cli/color/red";
+import yellow from "@rcompat/cli/color/yellow";
+import assert from "@rcompat/invariant/assert";
+import is from "@rcompat/invariant/is";
+import map from "@rcompat/object/map";
 import print from "./print.js";
 
 const levels = {
@@ -47,7 +53,7 @@ export default class Logger {
   #level; #trace;
 
   static err(errors, module) {
-    return O.map(errors, ([key, value]) => [key, throwable(value, key, module)]);
+    return map(errors, ([key, value]) => [key, throwable(value, key, module)]);
   }
 
   constructor({ level = levels.Error, trace = false } = {}) {
@@ -103,7 +109,7 @@ export default class Logger {
 
   auto(error) {
     const { message } = error;
-    const matches = O.map(levels, ([key, level]) => [level, key.toLowerCase()]);
+    const matches = map(levels, ([key, level]) => [level, key.toLowerCase()]);
     return this[matches[error.level] ?? "error"](message, error);
   }
 }

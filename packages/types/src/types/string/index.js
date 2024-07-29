@@ -1,4 +1,6 @@
-import { assert, every, is } from "rcompat/invariant";
+import assert from "@rcompat/invariant/assert";
+import every from "@rcompat/invariant/every";
+import is from "@rcompat/invariant/is";
 
 const between = ({ length }, min, max) => length >= min && length <= max;
 const base = "string";

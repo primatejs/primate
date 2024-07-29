@@ -1,4 +1,4 @@
-export const server = text => `import { HTML } from "rcompat/string";
+export const server = text => `import HTML from "@rcompat/string/html";
   export default (props = {}, options) => {
   const encoded = JSON.parse(HTML.escape(JSON.stringify(props)));
   const keys = Object.keys(encoded);

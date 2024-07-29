@@ -1,8 +1,8 @@
 import dispatch from "@primate/core/dispatch";
 import { MismatchedBody, MismatchedPath, NoRouteToPath } from "@primate/core/errors";
-import { Body } from "rcompat/http";
-import * as O from "rcompat/object";
-import { tryreturn } from "rcompat/sync";
+import Body from "@rcompat/http/body";
+import map from "@rcompat/object/map";
+import tryreturn from "@rcompat/sync/tryreturn";
 import validate from "../validate.js";
 
 const deroot = pathname => pathname.endsWith("/") && pathname !== "/"
@@ -39,7 +39,7 @@ export default app => {
     const path = dispatch({ ...untyped_path, ...typed_path });
     const local_parse_body = route.file.body?.parse ?? $request_body_parse;
     const body = local_parse_body ? await parse_body(original, url) : null;
-    const { guards = [], errors = [], layouts = [] } = O.map(route.specials,
+    const { guards = [], errors = [], layouts = [] } = map(route.specials,
       ([key, value]) => [`${key}s`, value.map(i => i.default)]);
     const handler = route.file.default[original.method.toLowerCase()];
 

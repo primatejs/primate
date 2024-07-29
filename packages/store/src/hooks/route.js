@@ -1,6 +1,6 @@
 import TransactionRollback from "@primate/store/errors/transaction-rollback";
-import crypto from "rcompat/crypto";
-import * as O from "rcompat/object";
+import inflate from "@rcompat/object/inflate";
+import override from "@rcompat/object/override";
 
 const make_transaction = async env => {
   const [transaction] = await Promise.all(env.drivers.map(driver =>
@@ -24,7 +24,7 @@ export default env => async (request, next) => {
   try {
     return await transaction([], stores => {
       const store = stores.reduce((base, [name, store]) =>
-        O.extend(base, O.inflate(name, store))
+        override(base, inflate(name, store))
       , {});
       return next({ ...request, store });
     },

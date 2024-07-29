@@ -1,9 +1,9 @@
-import crypto from "rcompat/crypto";
-import * as O from "rcompat/object";
+import filter from "@rcompat/object/filter";
+import valmap from "@rcompat/object/valmap";
 
-const remove_null = delta => O.filter(delta , ([, value]) => value !== null);
+const remove_null = delta => filter(delta , ([, value]) => value !== null);
 const remove_by_null = (document, delta) =>
-  O.filter(document, ([key]) => delta[key] !== null);
+  filter(document, ([key]) => delta[key] !== null);
 const filter_in = (collection, criteria) => {
   if (criteria === undefined) {
     return collection;
@@ -69,7 +69,7 @@ export default class Connection {
     const documents = await this.#filter(name, criteria);
     if (options.sort !== undefined) {
       const sort = Object.entries(
-        O.valmap(options.sort, value => value === "asc" ? 1 : -1));
+        valmap(options.sort, value => value === "asc" ? 1 : -1));
       documents.sort((d1, d2) => {
         for (const [field, direction] of sort) {
           if (d1[field] === d2[field]) {
@@ -86,7 +86,7 @@ export default class Connection {
 
     return projection.length === 0
       ? documents
-      : documents.map(document => O.filter(document,
+      : documents.map(document => filter(document,
         ([key]) => projection.includes(key)));
   }
 

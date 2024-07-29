@@ -1,4 +1,4 @@
-import { MediaType } from "rcompat/http";
+import { TEXT_EVENT_STREAM } from "@rcompat/http/media-type";
 import base from "./shared/base.js";
 
 /**
@@ -7,7 +7,7 @@ import base from "./shared/base.js";
  * @param {object} options docs2
  * @return {ResponseFn}
  */
-export default base(MediaType.TEXT_EVENT_STREAM, implementation =>
+export default base(TEXT_EVENT_STREAM, implementation =>
   new ReadableStream({
     start(controller) {
       implementation.open({

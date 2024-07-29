@@ -1,4 +1,4 @@
-import { boolish } from "rcompat/invariant";
+import boolish from "@rcompat/invariant/boolish";
 
 const coerce = value => boolish(value) ? value === "true" : value;
 

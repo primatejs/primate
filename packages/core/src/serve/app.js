@@ -1,9 +1,12 @@
 import { DoubleFileExtension } from "@primate/core/errors";
-import crypto from "rcompat/crypto";
-import { File } from "rcompat/fs";
-import { MediaType, Status } from "rcompat/http";
-import { is } from "rcompat/invariant";
-import * as O from "rcompat/object";
+import crypto from "@rcompat/crypto";
+import join from "@rcompat/fs/join";
+import { TEXT_HTML } from "@rcompat/http/media-type";
+import { OK } from "@rcompat/http/status";
+import is from "@rcompat/invariant/is";
+import empty from "@rcompat/object/empty";
+import valmap from "@rcompat/object/valmap";
+import get from "@rcompat/object/get";
 import * as loaders from "./loaders/exports.js";
 import to_sorted from "./to_sorted.js";
 
@@ -20,7 +23,7 @@ const to_csp = (config_csp, assets, csp) => config_csp
 
 const encoder = new TextEncoder();
 
-const attribute = attributes => O.empty(attributes)
+const attribute = attributes => empty(attributes)
   ? ""
   : " ".concat(Object.entries(attributes)
     .map(([key, value]) => `${key}="${value}"`).join(" "))
@@ -61,7 +64,7 @@ const render_head = (assets, fonts, head) =>
 export default async (log, root, { config, assets, files, components, loader, target, mode }) => {
   const { http } = config;
   const secure = http?.ssl !== undefined;
-  const path = O.valmap(config.location, value => root.join(value));
+  const path = valmap(config.location, value => root.join(value));
 
   // if ssl activated, resolve key and cert early
   if (secure) {
@@ -85,7 +88,7 @@ export default async (log, root, { config, assets, files, components, loader, ta
       return component?.default ?? component;
     },
     // pseudostatic thus arrowbound
-    get: (config_key, fallback) => O.get(config, config_key) ?? fallback,
+    get: (config_key, fallback) => get(config, config_key) ?? fallback,
     set: (key, value) => {
       config[key] = value;
     },
@@ -122,9 +125,9 @@ export default async (log, root, { config, assets, files, components, loader, ta
         .replace("%body%", body)
         .replace("%head%", render_head(this.assets, this.fonts, head));
     },
-    respond(body, { status = Status.OK, headers = {} } = {}) {
+    respond(body, { status = OK, headers = {} } = {}) {
       return new Response(body, { status, headers: {
-        "Content-Type": MediaType.TEXT_HTML, ...this.headers(), ...headers },
+        "Content-Type": TEXT_HTML, ...this.headers(), ...headers },
       });
     },
     async view(options) {
@@ -144,7 +147,7 @@ export default async (log, root, { config, assets, files, components, loader, ta
     async publish({ src, code, type = "", inline = false }) {
       if (inline || type === "style") {
         this.assets.push({
-          src: File.join(http.static.root, src ?? "").path,
+          src: join(http.static.root, src ?? "").path,
           code: inline ? code : "",
           type,
           inline,

@@ -1,6 +1,8 @@
-import { cascade, tryreturn } from "rcompat/async";
-import { MediaType, Status } from "rcompat/http";
 import clientError from "@primate/core/handlers/error";
+import cascade from "@rcompat/async/cascade";
+import tryreturn from "@rcompat/async/tryreturn";
+import { resolve } from "@rcompat/http/media-type";
+import { OK } from "@rcompat/http/status";
 import respond from "./respond.js";
 
 const guard_error = Symbol("guard_error");
@@ -69,9 +71,9 @@ export default app => {
   };
 
   const as_asset = async (pathname, code) => new Response(code, {
-    status: Status.OK,
+    status: OK,
     headers: {
-      "Content-Type": MediaType.resolve(pathname),
+      "Content-Type": resolve(pathname),
 //      Etag: await path.modified(),
     },
   });

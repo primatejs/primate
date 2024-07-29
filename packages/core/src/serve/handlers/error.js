@@ -1,4 +1,4 @@
-import { Status } from "rcompat/http";
+import { NOT_FOUND } from "@rcompat/http/status";
 
 /**
  * Render an error page
@@ -6,5 +6,5 @@ import { Status } from "rcompat/http";
  * @param {ErrorOptions} options rendering options
  * @return {ResponseFn}
  */
-export default (body = "Not Found", { status = Status.NOT_FOUND, page } = {}) =>
+export default (body = "Not Found", { status = NOT_FOUND, page } = {}) =>
   app => app.view({ body, status, page: page ?? app.get("pages.error") });

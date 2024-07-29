@@ -1,4 +1,5 @@
-import { File } from "rcompat/fs";
+import file from "@rcompat/fs/file";
+import webpath from "@rcompat/fs/webpath";
 import { client } from "./compile.js";
 
 const css_filter = /\.sveltecss$/u;
@@ -14,7 +15,7 @@ export default (app, extension) => ({
       return { path, namespace: "svelteroot" };
     });
     build.onLoad({ filter: css_filter }, ({ path }) => {
-      const contents = app.build.load(File.webpath(path));
+      const contents = app.build.load(webpath(path));
       return contents ? { contents, loader: "css", resolveDir: app.root.path } : null;
     });
     build.onLoad({ filter: root_filter }, ({ path }) => {
@@ -23,7 +24,7 @@ export default (app, extension) => ({
     });
     build.onLoad({ filter: new RegExp(`${extension}$`, "u") }, async args => {
       // Load the file from the file system
-      const source = await File.text(args.path);
+      const source = await file(args.path).text();
 
       // Convert Svelte syntax to JavaScript
       const { js, css } = client(source);

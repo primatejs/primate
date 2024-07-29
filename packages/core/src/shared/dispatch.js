@@ -1,4 +1,4 @@
-import { is } from "rcompat/invariant";
+import is from "@rcompat/invariant/is";
 
 export default (object, raw, cased = true) => {
   return Object.assign(Object.create(null), {

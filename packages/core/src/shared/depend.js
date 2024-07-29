@@ -1,15 +1,15 @@
-import * as O from "rcompat/object";
-import * as P from "rcompat/package";
-import { packager } from "rcompat/package";
+import manifest from "@rcompat/package/manifest";
+import packager from "@rcompat/package/packager";
+import filter from "@rcompat/object/filter";
 import errors from "./errors.js";
 
 const { MissingDependencies } = errors;
 
 export default async (library_manifest, desired, from) => {
-  const app_dependencies = (await P.manifest()).dependencies;
+  const app_dependencies = (await manifest()).dependencies;
   const keys = Object.keys(app_dependencies);
-  const library_peers = O.filter(library_manifest.peerDependencies,
-    ([key]) => desired.includes(key));
+  const library_peers = filter(library_manifest.peerDependencies, ([key]) =>
+    desired.includes(key));
   const missing = desired.filter(peer => !keys.includes(peer));
 
   if (missing.length > 0) {
