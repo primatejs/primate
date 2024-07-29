@@ -15,7 +15,7 @@ export default ({
       return next(app);
     },
     build(app, next) {
-      if (app.build_target === "desktop") {
+      if (app.build_target === "linux-x64") {
         app.done(async () => {
           const { flags, exe } = targets[app.build_target];
           const executable_path = dim(`${app.path.build}/${exe}`);
@@ -33,7 +33,7 @@ export default ({
         webview.navigate(`http://${host}:${port}${start}`);
         webview.run();
         webview.closed(() => {
-          //app.stop();
+          app.stop();
         });
       }
       return next(app);

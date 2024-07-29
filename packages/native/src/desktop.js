@@ -14,7 +14,7 @@ export default async app => {
       return {
         src,
         path,
-        code: `await text(asset${i})`,
+        code: `await file(asset${i}).text()`,
         type,
         empty: (await file.text()).length === 0,
       };
@@ -64,7 +64,7 @@ export default async app => {
 
   ${pages.map((page, i) =>
     `import i_page${i} from "./${location.pages}/${page}" with { type: "file" };
-    const page${i} = await text(i_page${i});`).join("\n  ")}
+    const page${i} = await file(i_page${i}).text();`).join("\n  ")}
 
   const pages = {
   ${pages.map((page, i) => `"${page}": page${i},`).join("\n  ")}
