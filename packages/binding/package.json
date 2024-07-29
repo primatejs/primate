@@ -22,13 +22,13 @@
   },
   "dependencies": {
     "@primate/core": "workspace:^",
-    "@rcompat/build": "^0.2.0",
-    "@rcompat/cli": "^0.2.0",
-    "@rcompat/env": "^0.2.1",
-    "@rcompat/fs": "^0.3.0",
-    "@rcompat/object": "^0.4.0",
-    "@rcompat/platform": "^0.2.0",
-    "@rcompat/stdio": "^0.2.0"
+    "@rcompat/build": "^0.3.0",
+    "@rcompat/cli": "^0.3.0",
+    "@rcompat/env": "^0.3.0",
+    "@rcompat/fs": "^0.4.0",
+    "@rcompat/object": "^0.5.0",
+    "@rcompat/platform": "^0.3.0",
+    "@rcompat/stdio": "^0.3.0"
   },
   "peerDependencies": {
     "@ruby/head-wasm-wasi": "2",

@@ -19,11 +19,11 @@
   },
   "dependencies": {
     "@primate/core": "workspace:^",
-    "@rcompat/args": "^0.2.0",
-    "@rcompat/async": "^0.2.0",
-    "@rcompat/cli": "^0.2.0",
-    "@rcompat/fs": "^0.3.0",
-    "@rcompat/package": "^0.2.0"
+    "@rcompat/args": "^0.3.0",
+    "@rcompat/async": "^0.3.0",
+    "@rcompat/cli": "^0.3.0",
+    "@rcompat/fs": "^0.4.0",
+    "@rcompat/package": "^0.3.0"
   },
   "engines": {
     "node": ">=18"
