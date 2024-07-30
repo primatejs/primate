@@ -1,10 +1,10 @@
 # Frontends
 
 Primate isn't tied to any specific frontend framework. The core platform comes
-along with a [`view`][view] handler that serves `html` files from the
-`components` directory. Additionally there are officially supported modules
-that cover many frontend frameworks. When loaded, they extend the `view`
-handler to support more file extensions.
+along with a [`view`][view] handler that serves files from the `components`
+directory. Additionally there are officially supported modules that cover many
+frontend frameworks. When loaded, they extend the `view` handler to support
+more file extensions.
 
 Those frameworks come with different capabilities, like server-side rendering
 (SSR), hydration and SPA support. In some cases, some capabilities have simply
@@ -49,7 +49,7 @@ reloading the entire page, and also manages browsing the history.
 
 If you need to manipulate the `<head>` part from within an individual
 component, use `<svelte:head>` for Svelte. For React and Solid, you can use the
-`Head` export of `@primate/frontend/react` and `@primate/frontend/solid` for
+`@primate/frontend/react/head` or `@primate/frontend/solid/head` export for
 the same behavior.
 
 ## Support matrix
@@ -60,16 +60,17 @@ use different frontend frameworks alongside each other, in different routes.
 
 |Framework   |Extension      |Props|Layouts|SSR|Hydration|SPA|Head|I18N|
 |------------|---------------|-----|-------|---|---------|---|----|----|
-|HTML        |`.html`        |✗    |✗      |✗  |✗        |✗  |✗   |✗   |
 |[Svelte]    |`.svelte`      |✓    |✓      |✓  |✓        |✓  |✓   |✓   |
 |[React]     |`.jsx`         |✓    |✓      |✓  |✓        |✓  |✓   |✓   |
 |[Solid]     |`.jsx`         |✓    |✓      |✓  |✓        |✓  |✓   |✓   |
 |[Vue]       |`.vue`         |✓    |✗      |✓  |✗        |✗  |✗   |✗   |
 |[Angular]   |`.component.ts`|✓    |✗      |✓  |✗        |✗  |✗   |✗   |
+|[HTML]      |`.html`        |✗    |✗      |✗  |✗        |✗  |✗   |✗   |
 |[HTMX]      |`.htmx`        |✓    |✗      |✗  |✗        |✗  |✗   |✗   |
 |[Handlebars]|`.hbs`         |✓    |✗      |✓  |✓        |✗  |✗   |✗   |
 |[Marko]     |`.marko`       |✓    |✗      |✓  |✗        |✗  |✗   |✗   |
 |[Eta]       |`.eta`         |✓    |✗      |✓  |✗        |✗  |✗   |✗   |
+|[webc]      |`.webc`        |✓    |✗      |✗  |✗        |✗  |✗   |✗   |
 
 ## Error list
 
@@ -92,10 +93,12 @@ dependency is missing and what command you need to issue to install it.
 [Solid]: /modules/solid
 [Vue]: /modules/vue
 [Angular]: /modules/angular
+[HTML]: /modules/html
 [HTMX]: /modules/htmx
 [Handlebars]: /modules/handlebars
 [Marko]: /modules/marko
 [Eta]: /modules/eta
+[webc]: /modules/webc
 [Layouts]: /guide/layouts
 [I18N]: /modules/i18n
 [bailout]: /guide/logging#bailout

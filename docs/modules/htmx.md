@@ -4,7 +4,7 @@ This handler module serves HTMX components with the `.htmx` extension.
 
 ## Install
 
-`npm install @primate/frontend htmx-esm@0.2`
+`npm install @primate/frontend htmx-esm`
 
 ## Configure
 
