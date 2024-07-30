@@ -9,6 +9,7 @@
   "repository": "https://github.com/primatejs/primate",
   "scripts": {
     "publish": "pnpm -r --access=public publish",
+    "upgrade": "pnpm -r update -i -L",
     "test": "npx debris",
     "lint": "npx eslint .",
     "deps": "pnpm update -i -L"
