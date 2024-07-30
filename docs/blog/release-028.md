@@ -274,8 +274,7 @@ Given the above form and the following route, `request.body` will contain three
 fields: `title` and `text`, both strings, and `attachment`, a blob.
 
 ```js caption=routes/file-upload.js
-import {view} from "primate";
-import { File } from "rcompat/fs";
+import { view } from "primate";
 
 export default {
   get() {

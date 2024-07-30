@@ -11,7 +11,7 @@ This handler module serves HTMX components with the `.htmx` extension.
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import { htmx } from "@primate/frontend";
+import htmx from "@primate/frontend/htmx";
 
 export default {
   modules: [
@@ -38,7 +38,7 @@ ${posts.map(post => `
 Serve it from a route.
 
 ```js caption=routes/htmx.js
-import { view } from "primate";
+import view from "primate/handler/view";
 
 const posts = [{
   id: 1,

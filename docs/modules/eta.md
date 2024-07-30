@@ -11,7 +11,7 @@ This handler module serves Eta components with the `.eta` extension.
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import { eta } from "@primate/frontend";
+import eta from "@primate/frontend/eta";
 
 export default {
   modules: [
@@ -36,7 +36,7 @@ Create a Eta component in `components`.
 Serve it from a route.
 
 ```js caption=routes/eta.js
-import { view } from "primate";
+import view from "primate/handler/view";
 
 const posts = [{
   id: 1,

@@ -30,7 +30,8 @@ them the string "Donald" in plain text.
 To use this handler explicitly, import and use the `text` function.
 
 ```js caption=routes/plain-text.js
-import { text, Status } from "primate";
+import text from "primate/handler/text";
+import { UNPROCESSABLE_ENTITY, STATUS } from "@rcompat/http/status";
 
 export default {
   post(request) {
@@ -76,11 +77,11 @@ Instances of `ReadableStream` or `Blob` are streamed to the client with the
 content type `application/octet-stream`.
 
 ```js caption=routes/stream.js
-import { File } from "rcompat/fs";
+import file from "@rcompat/fs/file";
 
 export default {
   get() {
-    return File.stream("/tmp/users.json");
+    return file("/tmp/users.json").stream();
   },
 };
 ```
@@ -89,8 +90,8 @@ This route function handles GET requests to the path `/stream` by streaming
 them the contents of the file at `/tmp/users.json`.
 
 !!!
-We used here the `File.stream` function from the `rcompat/fs` module, which
-exposes a `ReadableStream`.
+We used here the `FileRef#stream` function from the `@rcompat/fs` package,
+which exposes a `ReadableStream`.
 !!!
 
 This handler can be also used explicitly with the `stream` import.
@@ -101,8 +102,6 @@ Instances of `URL` redirect the client to the location they represent using the
 status code `302 Found`.
 
 ```js caption=routes/redirect.js
-import { URL } from "primate";
-
 export default {
   get() {
     return new URL("https://primatejs.com");
@@ -123,7 +122,8 @@ easier to use the explicit `redirect` handler to redirect to paths within the
 same app.
 
 ```js caption=routes/redirect.js
-import { redirect, Status } from "primate";
+import redirect from "primate/handler/redirect";
+import { MOVED_PERMANENTLY } from "@rcompat/http/status";
 
 export default {
   get() {
@@ -141,7 +141,7 @@ The `view` handler allows you to serve responses with content type `text/html`
 from the `components` directory.
 
 ```js caption=routes/view.js
-import { view } from "primate";
+import view from "primate/handler/view";
 
 export default {
   get() {
@@ -161,14 +161,14 @@ exists, Primate will fall back to its [default index page][default-page].
 
 In addition to the built-in support for HTML components, Primate features many
 [frontend frameworks][frontend] you can add by installing the
-`@primate/frontend` module.
+`@primate/frontend` package.
 
 ### Props
 
 You can pass props to your view handler.
 
 ```js caption=routes/view-props.js
-import { view } from "primate";
+import view from "primate/handler/view";
 
 export default {
   get() {
@@ -196,7 +196,7 @@ To use a different HTML page to embed your component instead of [the
 default][default-page], pass in a differing `page` string property.
 
 ```js caption=routes/view-page.js
-import { view } from "primate";
+import view from "primate/handler/view";
 
 export default {
   get() {
@@ -214,7 +214,7 @@ You may sometimes want to serve only the component HTML (without the encasing
 page). For that pass in the boolean property `partial` set to `true`.
 
 ```js caption=routes/view-partial.js
-import { view } from "primate";
+import view from "primate/handler/view";
 
 export default {
   get() {
@@ -232,7 +232,7 @@ To replace any placeholders of the form `%placeholder%` in your rendered HTML,
 pass any an object property `placeholders`.
 
 ```js caption=routes/view-placeholders.js
-import { view } from "primate";
+import view from "primate/handler/view";
 
 export default {
   get() {
@@ -253,7 +253,7 @@ The `error` handler allows you to generate an error (typically with a 4xx or
 `404 Not Found` using the content type `text/html`.
 
 ```js caption=routes/error.js
-import { error } from "primate";
+import error from "primate/handler/error";
 
 export default {
   get() {
@@ -267,7 +267,8 @@ A request to `/error` will result in a `404 Not Found` response.
 You can customize the body and the status of this handler.
 
 ```js caption=routes/server-error.js
-import { error, Status } from "primate";
+import error from "primate/handler/error";
+import { INTERNAL_SERVER_ERROR } from "@rcompat/http/status";
 
 export default {
   get() {
@@ -285,7 +286,7 @@ A request to `/server-error` will result in a `500` response with the HTML body
 You can upgrade any `GET` route to a WebSocket route with the `ws` handler.
 
 ```js caption=routes/ws.js
-import { ws } from "primate";
+import ws from "primate/handler/ws";
 
 export default {
   get(request) {
@@ -353,7 +354,7 @@ Similarly to `ws`, you can use the `sse` handler to upgrade a `GET` request to
 stream out server-sent events to the client.
 
 ```js caption=routes/sse.js
-import { sse } from "primate";
+import sse from "primate/handler/sse";
 
 const passed = start_time => Math.floor((Date.now() - start_time) / 1000);
 
@@ -393,7 +394,7 @@ The client subscribes to this event and prints it to the console.
 This client is then served using another route.
 
 ```js caption=routes/sse-client.js
-import { view } from "primate";
+import view from "primate/handler/view";
 
 export default {
   get() {
@@ -408,7 +409,7 @@ Lastly, for a custom response status, you can return a `Response` object from a
 route.
 
 ```js caption=routes/response.js
-import { Response, Status } from "primate";
+import { CREATED } from "@rcompat/http/status";
 
 export default {
   get() {

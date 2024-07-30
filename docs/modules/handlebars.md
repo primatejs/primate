@@ -11,7 +11,7 @@ This handler module serves Handlebars components with the `.hbs` extension.
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import { handlebars } from "@primate/frontend";
+import handlebars from "@primate/frontend/handlebars";
 
 export default {
   modules: [
@@ -36,7 +36,7 @@ Create a Handlebars component in `components`.
 Serve it from a route.
 
 ```js caption=routes/hbs.js
-import { view } from "primate";
+import view from "primate/handler/view";
 
 const posts = [{
   id: 1,

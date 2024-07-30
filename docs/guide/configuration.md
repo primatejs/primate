@@ -10,14 +10,13 @@ If Primate doesn't find a `primate.config.js` in your project root directory
 a default object, Primate will fall back to its default configuration file.
 
 ```js
-import { identity } from "rcompat/function";
-import { Logger } from "primate";
+import Logger from "primate/logger";
 
 export default {
   base: "/",
   modules: [],
   pages: {
-    index: "app.html",
+    app: "app.html",
     error: "error.html",
   },
   logger: {
@@ -51,10 +50,7 @@ export default {
     name: "app",
     includes: [],
     excludes: [],
-    transform: {
-      paths: [],
-      mapper: identity,
-    },
+    define: {},
   },
 };
 ```
@@ -68,7 +64,7 @@ To illustrate this, if you wanted to change the default logging level to
 `primate.config.js` in your project root with the following overrides.
 
 ```js
-import { Logger } from "primate";
+import Logger from "primate/logger";
 
 export default {
   logger: {
@@ -84,14 +80,13 @@ Primate will merge your custom configuration with its default, resulting in
 effectively the following configuration.
 
 ```js
-import { identity } from "rcompat/function";
-import { Logger } from "primate";
+import Logger from "primate/logger";
 
 export default {
   base: "/",
   modules: [],
   pages: {
-    index: "app.html",
+    app: "app.html",
     error: "error.html",
   },
   logger: {
@@ -125,10 +120,6 @@ export default {
     name: "app",
     includes: [],
     excludes: [],
-    transform: {
-      paths: [],
-      mapper: identity,
-    },
   },
 };
 ```
@@ -152,7 +143,7 @@ their hooks will be evaluated, and modules can depend on each using
 
 ## Page options
 
-### index
+### app
 
 Default: `app.html`
 
@@ -343,19 +334,26 @@ Default `[]`
 
 A list of files to be excluded from bundling. Wildcards can be used.
 
-### build.transform.paths
+### build.define
 
-Default `[]`
+Default `{}`
 
-A list of paths for which the contents are to be transformed at runtime before
-being copied to the [build directory](#location-build). Relative paths will be
-relative to project root. Glob patterns are supported.
+A map of identifier substitutions during build-time. For example, you could
+replace `APP_NAME` with your actual application name, loading from an `.env`
+file, by specifying
 
-### build.transform.mapper
+```js
+export default {
+  build: {
+    define: {
+      APP_NAME: "'my-app'",
+    },
+  },
+};
+```
 
-Default `_ => _` (identity function)
-
-A file content mapper for the files specified in `build.transform.files`.
+Note that subtitutions take place as in -- if you want a string to be
+substituted in, you need to quote it properly, as in the example.
 
 ## pages/app.html
 

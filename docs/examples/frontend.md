@@ -96,7 +96,7 @@ ${posts.map(post => `
 
 ```html caption=components/post-index.webc
 <script>
-import { Component } from "@primate/frontend/webc";
+import Component from "@primate/frontend/webc/component";
 
 export default class PostIndex extends Component {
   render() {

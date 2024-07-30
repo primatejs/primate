@@ -159,7 +159,7 @@ saying Hello and the provided name.
 The request's path, an object containing path parameters.
 
 ```js caption=routes/users/[user].js
-import { error } from "primate";
+import error from "primate/handler/error";
 
 const users = ["Donald", "Ryan"];
 
@@ -187,7 +187,7 @@ We will later handle [routes with parameters](#parameters) in depth.
 The request's query string, broken down into its constituent parts.
 
 ```js caption=routes/users.js
-import { error } from "primate";
+import error from "primate/handler/error";
 
 const users = ["Donald", "Ryan"];
 
@@ -212,7 +212,7 @@ will respond with `200`, otherwise with `404`.
 The request's `Cookie` header, broken down into individual cookies.
 
 ```js caption=routes/current-user.js
-import { error } from "primate";
+import error from "primate/handler/error";
 
 const users = ["Donald", "Ryan"];
 
@@ -238,7 +238,7 @@ If a user requests POST `/current-user` with the `Cookie` header set to
 The request's individual headers.
 
 ```js caption=routes/current-x-user.js
-import { error } from "primate";
+import error from "primate/handler/error";
 
 const users = ["Donald", "Ryan"];
 

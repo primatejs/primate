@@ -74,8 +74,7 @@ instructing the client to save the cookie so that it sends it with the next
 request.
 
 !!!
-Modules may subscribe to any or all hooks, including none. Primate will warn
-you in case you try to use a module that subscribes to no hook. All modules must
+Modules may subscribe to any or all hooks, including none. All modules must
 advertise a `name` property, and Primate will refuse to start if it encounters
 the same name for a module more than once.
 !!!
@@ -122,8 +121,6 @@ All modules are just subscription objects. You can therefore easily create and
 pass modules directly in your configuration file.
 
 ```js caption=primate.config.js
-import console from "rcompat/console";
-
 export default {
   modules: [{
     name: "ad-hoc module",

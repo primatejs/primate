@@ -11,7 +11,7 @@ This binding introduces support for routes written in TypeScript.
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import { typescript } from "@primate/binding";
+import typescript from "@primate/binding/typescript";
 
 export default {
   modules: [
@@ -27,7 +27,7 @@ get proper editor completions for your route function parameters and return
 code, your route needs to use `satisfies Route` with the Primate `Route` export.
 
 ```ts caption=routes/plain-text.ts
-import { Route } from "primate";
+import type { Route } from "primate";
 
 export default {
   get() {

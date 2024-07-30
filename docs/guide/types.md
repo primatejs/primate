@@ -29,7 +29,8 @@ numeric and outputs its as a number.
 
 ```js caption=types/number.js
 // `is` asserts invariants, `numeric` returns true if a string is numeric
-import { is, numeric } from "rcompat/invariant";
+import is from "@rcompat/invariant/is";
+import numeric from "@rcompat/invariant/numeric";
 
 export default {
   base: "f64",
@@ -63,7 +64,7 @@ JavaScript (like Go).
 You can also create more elaborate types, like `uuid`.
 
 ```js caption=types/uuid.js
-import { is } from "rcompat/invariant";
+import is from "@rcompat/invariant/is";
 
 const valid = /^[^\W_]{8}-[^\W_]{4}-[^\W_]{4}-[^\W_]{4}-[^\W_]{12}$/u;
 

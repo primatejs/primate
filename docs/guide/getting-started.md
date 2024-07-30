@@ -19,7 +19,7 @@ http://localhost:6161.
 !!!
 Primate is a multi-runtime platform. If you're a Bun user, you can take
 advantage of [significant speed gains][r24] by running `bun --bun x primate`.
-If you're a Deno user, use `deno run --allow-all npm:primate` to run Primate.
+If you're a Deno user, use `deno run -A npm:primate` to run Primate.
 !!!
 
 !!!
@@ -64,7 +64,7 @@ and redirect users who have submitted the form to a success page. This requires
 first changing the previous route to show a form.
 
 ```js caption=routes/index.js
-import { view } from "primate";
+import view from "primate/handler/view";
 
 export default {
   get() {
@@ -98,7 +98,8 @@ Next we need to handle the form submission. We'll do that by adding a `post`
 function to our route.
 
 ```js caption=routes/index.js
-import { view, redirect } from "primate";
+import view from "primate/handler/view";
+import redirect from "primate/handler/redirect";
 
 export default {
   get() {
@@ -150,7 +151,7 @@ loading the frontend framework of your choice in your configuration file
 (create it first).
 
 ```js caption=primate.config.js
-import { svelte } from "@primate/frontend";
+import svelte from "@primate/frontend/svelte";
 
 export default {
   modules: [
@@ -165,7 +166,7 @@ svelte@4`.
 Now change your route to serve a Svelte component.
 
 ```js caption=routes/index.js
-import { view } from "primate";
+import view from "primate/handler/view";
 
 export default {
   get() {

@@ -13,7 +13,7 @@ By default, the error level is to set to `Warn`, which logs all errors and
 warnings. You can change this in your configuration.
 
 ```js primate.config.js
-import { Logger } from "primate";
+import Logger from "primate/logger";
 
 export default {
   logger: {
@@ -28,7 +28,7 @@ you want the stack trace to be output in addition to Primate's own logging (in
 the case of `Error` or `Warn` logs), set `trace` to `true`.
 
 ```js primate.config.js
-import { Logger } from "primate";
+import Logger from "primate/logger";
 
 export default {
   logger: {

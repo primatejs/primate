@@ -4,14 +4,14 @@ This binding introduces support for routes written in Ruby.
 
 ## Install
 
-`npm install @primate/binding @ruby/head-wasm-wasi@2.5 @ruby/wasm-wasi@2.5`
+`npm install @primate/binding @ruby/head-wasm-wasi @ruby/wasm-wasi`
 
 ## Configure
 
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import { ruby } from "@primate/binding";
+import ruby from "@primate/binding/ruby";
 
 export default {
   modules: [
@@ -198,7 +198,7 @@ function to access individual properties. In addition, any types defined in
 Suppose you have defined the following type.
 
 ```js caption=types/uuid.js
-import { is } from "rcompat/invariant";
+import is from "@rcompat/invariant/is";
 
 const valid = /^[^\W_]{8}-[^\W_]{4}-[^\W_]{4}-[^\W_]{4}-[^\W_]{12}$/u;
 

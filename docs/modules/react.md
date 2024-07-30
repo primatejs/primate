@@ -5,14 +5,14 @@ components with the `.jsx` extension.
 
 ## Install
 
-`npm install @primate/frontend react@18 react-dom@18`
+`npm install @primate/frontend react react-dom`
 
 ## Configure
 
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import { react } from "@primate/frontend";
+import react from "@primate/frontend/react";
 
 export default {
   modules: [
@@ -39,7 +39,7 @@ export default function PostIndex({ posts }) {
 Serve it from a route.
 
 ```js caption=routes/react.js
-import { view } from "primate";
+import view from "primate/handler/view";
 
 const posts = [{
   id: 1,
@@ -60,7 +60,7 @@ The rendered component will be accessible at http://localhost:6161/react.
 To use TSX instead of JSX files, change this handler's extension to `.tsx`.
 
 ```js caption=primate.config.js
-import { react } from "@primate/frontend";
+import react from "@primate/frontend/react";
 
 export default {
   modules: [

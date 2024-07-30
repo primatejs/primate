@@ -5,14 +5,14 @@ This handler module supports SSR and serves Angular components with the
 
 ## Install
 
-`npm install @primate/frontend @angular/{compiler,core,platform-browser,platform-server,ssr}@17`
+`npm install @primate/frontend @angular/{compiler,core,platform-browser,platform-server,ssr}`
 
 ## Configure
 
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import { angular } from "@primate/frontend";
+import angular from "@primate/frontend/angular";
 
 export default {
   modules: [
@@ -52,7 +52,7 @@ export default class PostIndex {
 Serve it from a route.
 
 ```js caption=routes/angular.js
-import { view } from "primate";
+import view from "primate/handler/view";
 
 const posts = [{
   id: 1,

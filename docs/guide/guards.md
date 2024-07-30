@@ -15,7 +15,7 @@ Guards are defined hierarchically alongside routes in the `routes` directory.
 To define a guard, create a `+guard.js` file inside `routes`.
 
 ```js caption=routes/+guard.js
-import { redirect } from "primate";
+import redirect from "primate/handler/redirect";
 
 export default request => {
   const { headers } = request;

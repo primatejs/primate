@@ -126,7 +126,7 @@ as Handlebars to generate an XML file.
 
 ```js caption=routes/sitemap.xml.js
 import { view } from "primate";
-import { MediaType } from "rcompat/http";
+import MediaType from "@rcompat/http/media-type";
 
 // this assumes you've imported and loaded the `handlebars` module from
 // `@primate/frontend`

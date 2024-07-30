@@ -4,14 +4,14 @@ This binding introduces support for routes written in Python.
 
 ## Install
 
-`npm install @primate/binding pyodide@0.25`
+`npm install @primate/binding pyodide`
 
 ## Configure
 
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import { python } from "@primate/binding";
+import python from "@primate/binding/python";
 
 export default {
   modules: [
@@ -25,7 +25,7 @@ standard library) you'd like to use to the `packages` configuration array of
 this module.
 
 ```js caption=primate.config.js
-import { python } from "@primate/binding";
+import python from "@primate/binding/python";
 
 export default {
   modules: [
@@ -206,7 +206,7 @@ function to access individual properties. In addition, any types defined in
 Suppose you have defined the following type.
 
 ```js caption=types/uuid.js
-import { is } from "rcompat/invariant";
+import is from "@rcompat/invariant/is";
 
 const valid = /^[^\W_]{8}-[^\W_]{4}-[^\W_]{4}-[^\W_]{4}-[^\W_]{12}$/u;
 
