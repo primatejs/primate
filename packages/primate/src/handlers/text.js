@@ -1,1 +1,1 @@
-export { default } from "@primate/core/handlers/text";
+export { default } from "@primate/core/handler/text";

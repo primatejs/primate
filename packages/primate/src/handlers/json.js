@@ -1,1 +1,1 @@
-export { default } from "@primate/core/handlers/json";
+export { default } from "@primate/core/handler/json";

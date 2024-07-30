@@ -33,7 +33,7 @@
   "exports": {
     "./logger": "./src/logger.js",
     "./errors": "./src/errors.js",
-    "./handlers/*": "./src/handlers/*.js"
+    "./handler/*": "./src/handler/*.js"
   },
   "scripts": {
     "prepublishOnly": "dts-buddy"

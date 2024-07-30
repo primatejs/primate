@@ -1,1 +1,1 @@
-export { default } from "@primate/core/handlers/redirect";
+export { default } from "@primate/core/handler/redirect";

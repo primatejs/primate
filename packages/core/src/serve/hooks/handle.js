@@ -1,4 +1,4 @@
-import clientError from "@primate/core/handlers/error";
+import clientError from "@primate/core/handler/error";
 import cascade from "@rcompat/async/cascade";
 import tryreturn from "@rcompat/async/tryreturn";
 import { resolve } from "@rcompat/http/media-type";

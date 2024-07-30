@@ -1,7 +1,7 @@
 import HANDLER_PROPERTY from "@primate/binding/#/handler-property";
-import error from "@primate/core/handlers/error";
-import redirect from "@primate/core/handlers/redirect";
-import view from "@primate/core/handlers/view";
+import error from "@primate/core/handler/error";
+import redirect from "@primate/core/handler/redirect";
+import view from "@primate/core/handler/view";
 
 const handlers = {
   view({ name, props = {}, options = {} }) {

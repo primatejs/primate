@@ -1,8 +1,8 @@
 import { BadBody } from "@primate/core/errors";
-import json from "@primate/core/handlers/json";
-import redirect from "@primate/core/handlers/redirect";
-import stream from "@primate/core/handlers/stream";
-import text from "@primate/core/handlers/text";
+import json from "@primate/core/handler/json";
+import redirect from "@primate/core/handler/redirect";
+import stream from "@primate/core/handler/stream";
+import text from "@primate/core/handler/text";
 import streamable from "@rcompat/fs/streamable";
 import identity from "@rcompat/function/identity";
 import proper from "@rcompat/object/proper";
