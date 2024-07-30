@@ -47,9 +47,24 @@ export default {
 
 The rendered component will be accessible at http://localhost:6161/eta.
 
+## Supporting Voby
+
 ## Quality of life improvements
 
 ## Migrating from 0.31
+
+### HTML removed from core
+
+use `@primate/frontend/html`
+
+### Normalized names for database conf 
+
+(filename -> database)
+
+### Debarrelled imports for modules
+
+### Debarrelled imports for handlers
+# 
 
 ## Next on the road
 
