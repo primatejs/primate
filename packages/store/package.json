@@ -15,14 +15,11 @@
     "url": "https://github.com/primatejs/primate",
     "directory": "packages/store"
   },
-  "scripts": {
-    "db:surreal": "surreal start --user primate --pass primate"
-  },
   "dependencies": {
     "@primate/core": "workspace:^",
     "@rcompat/array": "^0.3.0",
     "@rcompat/async": "^0.3.0",
-    "@rcompat/cli": "^0.3.0",
+    "@rcompat/cli": "^0.5.0",
     "@rcompat/fs": "^0.4.0",
     "@rcompat/function": "^0.4.0",
     "@rcompat/invariant": "^0.5.0",
@@ -32,20 +29,10 @@
     "@rcompat/sync": "^0.3.0"
   },
   "devDependencies": {
-    "@primate/types": "workspace:^",
-    "better-sqlite3": "^11.1.2",
-    "mongodb": "^6.8.0",
-    "mysql2": "^3.11.0",
-    "postgres": "^3.4.4",
-    "surrealdb.js": "^0.11.1"
+    "@primate/types": "workspace:^"
   },
   "peerDependencies": {
-    "better-sqlite3": "11",
-    "mongodb": "6",
-    "mysql2": "3",
-    "postgres": "3",
-    "primate": "workspace:^",
-    "surrealdb.js": "0.11"
+    "primate": "workspace:^"
   },
   "peerDependenciesMeta": {
     "better-sqlite3": {
@@ -62,17 +49,40 @@
     }
   },
   "type": "module",
-  "exports": {
-    ".": {
-      "runtime": "./src/runtime.js",
-      "default": "./src/default.js"
+  "imports": {
+    "#*": {
+      "@primate/lt": "./src/private/*.js",
+      "default": "./src/private/*.js"
     },
-    "./*/common": "./src/server/*/common.js",
-    "./*/hooks/serve": "./src/server/*/hooks/serve/index.js",
-    "./base/*": "./src/base/*.js",
-    "./hooks/*": "./src/hooks/*.js",
-    "./sql/*": "./src/sql/*.js",
-    "./errors/*": "./src/errors/*.js",
-    "./*": "./src/server/*/default.js"
+    "#hook/*": {
+      "@primate/lt": "./src/private/hook/*.js",
+      "default": "./src/private/hook/*.js"
+    },
+    "#error/*": {
+      "@primate/lt": "./src/private/error/*.js",
+      "default": "./src/private/error/*.js"
+    },
+    "#driver/*": {
+      "@primate/lt": "./src/private/driver/*/index.js",
+      "default": "./src/private/driver/*/index.js"
+    },
+    "#driver/memory/*": {
+      "@primate/lt": "./src/private/driver/memory/*.js",
+      "default": "./src/private/driver/memory/*.js"
+    },
+    "#driver/json/*": {
+      "@primate/lt": "./src/private/driver/json/*.js",
+      "default": "./src/private/driver/json/*.js"
+    }
+  },
+  "exports": {
+    "./core/*": "./src/public/core/*.js",
+    "./sql/*": "./src/public/sql/*.js",
+    "./json": "./src/public/json/index.js",
+    "./memory": "./src/public/memory/index.js",
+    ".": {
+      "runtime": "./src/public/runtime.js",
+      "default": "./src/public/default.js"
+    }
   }
 }

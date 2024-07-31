@@ -1,4 +1,4 @@
-import { DoubleFileExtension } from "@primate/core/errors";
+import double_extension from "#error/double-extension";
 import crypto from "@rcompat/crypto";
 import join from "@rcompat/fs/join";
 import { html } from "@rcompat/http/mime";
@@ -7,7 +7,7 @@ import is from "@rcompat/invariant/is";
 import empty from "@rcompat/object/empty";
 import get from "@rcompat/object/get";
 import valmap from "@rcompat/object/valmap";
-import * as loaders from "./loaders/exports.js";
+import module_loader from "./module_loader.js";
 import to_sorted from "./to_sorted.js";
 
 const to_csp = (config_csp, assets, csp) => config_csp
@@ -61,7 +61,7 @@ const render_head = (assets, fonts, head) =>
       tags.font({ href, type: "font/woff2" }),
     ).join("\n"));
 
-export default async (log, root, { config, assets, files, components, loader, target, mode }) => {
+export default async (root, { config, assets, files, components, loader, target, mode }) => {
   const { http } = config;
   const secure = http?.ssl !== undefined;
   const path = valmap(config.location, value => root.join(value));
@@ -82,7 +82,6 @@ export default async (log, root, { config, assets, files, components, loader, ta
     files,
     path,
     root,
-    log,
     get_component(name) {
       const component = $components[name];
       return component?.default ?? component;
@@ -96,7 +95,7 @@ export default async (log, root, { config, assets, files, components, loader, ta
       default: await error.exists() ? await error.import("default") : undefined,
     },
     handlers: {},
-    modules: await loaders.modules(log, root, config.modules ?? []),
+    modules: await module_loader(root, config.modules ?? []),
     fonts: [],
     headers(csp = {}) {
       const http_csp = Object.entries(this.get("http.csp", {}));
@@ -172,7 +171,7 @@ export default async (log, root, { config, assets, files, components, loader, ta
         );
     },
     register(extension, handle) {
-      is(this.handlers[extension]).undefined(DoubleFileExtension.new(extension));
+      this.handlers[extension] !== undefined && double_extension(extension);
       this.handlers[extension] = handle;
     },
     async hash(data, algorithm = "sha-384") {

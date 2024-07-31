@@ -1,0 +1,39 @@
+{
+  "name": "@primate/postgresql",
+  "version": "0.1.0",
+  "description": "Primate PostGreSQL module",
+  "homepage": "https://primatejs.com/modules/postgresql",
+  "bugs": "https://github.com/primatejs/primate/issues",
+  "license": "MIT",
+  "files": [
+    "src/**/*.js",
+    "!src/**/*.spec.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/primatejs/primate",
+    "directory": "packages/postgresql"
+  },
+  "dependencies": {
+    "@primate/core": "workspace:^",
+    "@primate/store": "workspace:^",
+    "@rcompat/invariant": "^0.5.0",
+    "@rcompat/object": "^0.5.0"
+  },
+  "devDependencies": {
+    "postgres": "^3.4.4"
+  },
+  "peerDependencies": {
+    "postgres": "3"
+  },
+  "type": "module",
+  "imports": {
+    "#*": {
+      "@primate/lt": "./src/private/*.js",
+      "default": "./src/private/*.js"
+    }
+  },
+  "exports": {
+    ".": "./src/default.js"
+  }
+}

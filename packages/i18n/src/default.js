@@ -1,7 +1,8 @@
-import build from "@primate/i18n/hooks/build";
-import context from "@primate/i18n/hooks/context";
-import handle from "@primate/i18n/hooks/handle";
-import serve from "@primate/i18n/hooks/serve";
+import build from "#hook/build";
+import context from "#hook/context";
+import handle from "#hook/handle";
+import serve from "#hook/serve";
+import name from "#name";
 
 export default ({
   // directory for stores
@@ -12,7 +13,7 @@ export default ({
   const env = {};
 
   return {
-    name: "primate:i18n",
+    name,
     build: build({ directory, locale }),
     context: context({ env }),
     handle: handle({ env }),

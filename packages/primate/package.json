@@ -21,7 +21,7 @@
     "@primate/core": "workspace:^",
     "@rcompat/args": "^0.3.0",
     "@rcompat/async": "^0.3.0",
-    "@rcompat/cli": "^0.3.0",
+    "@rcompat/cli": "^0.5.0",
     "@rcompat/fs": "^0.4.0",
     "@rcompat/package": "^0.3.0"
   },
@@ -32,7 +32,6 @@
   "types": "./types/index.d.ts",
   "exports": {
     "./logger": "./src/logger.js",
-    "./errors": "./src/errors.js",
     "./handler/*": "./src/handlers/*.js"
   },
   "scripts": {

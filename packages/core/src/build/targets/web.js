@@ -1,4 +1,5 @@
 import collect from "@rcompat/fs/collect";
+
 const html = /^.*.html$/u;
 
 export default async app => {

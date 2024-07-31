@@ -1,5 +1,5 @@
+import resolve from "#resolve";
 import AppContext from "@primate/frontend/react/context/app";
-import resolve from "@primate/i18n/base/resolve";
 import { useContext } from "react";
 import locale_store from "./locale.js";
 

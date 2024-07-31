@@ -1,6 +1,6 @@
-import print from "@primate/core/logger/print";
 import blue from "@rcompat/cli/color/blue";
 import bold from "@rcompat/cli/color/bold";
+import print from "@rcompat/cli/print";
 import manifest from "@rcompat/package/manifest";
 import find from "./commands/exports.js";
 

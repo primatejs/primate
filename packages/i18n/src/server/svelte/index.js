@@ -1,4 +1,4 @@
-import resolve from "@primate/i18n/base/resolve";
+import resolve from "#resolve";
 import { getContext } from "svelte";
 import { derived } from "svelte/store";
 import locale_store from "./locale.js";

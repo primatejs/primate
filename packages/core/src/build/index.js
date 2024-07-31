@@ -1,42 +1,39 @@
-import defaults from "@primate/core/config";
-import { EmptyConfigFile, ErrorInConfigFile } from "@primate/core/errors";
-import Logger from "@primate/core/logger";
+import bye from "#bye";
+import config from "#config";
+import config_filename from "#config-filename";
+import empty_config_file from "#error/empty-config-file";
+import error_in_config_file from "#error/error-in-config-file";
+import log from "@primate/core/log";
 import tryreturn from "@rcompat/async/tryreturn";
 import empty from "@rcompat/object/empty";
 import override from "@rcompat/object/override";
 import root from "@rcompat/package/root";
 import platform from "@rcompat/platform";
-import { bye } from "../shared/Logger.js";
 import app from "./app.js";
-import { build, init } from "./hooks/exports.js";
+import { build, init } from "./hook/exports.js";
 
-let logger = new Logger({ level: Logger.Warn });
-const config_filename = "primate.config.js";
-
-const get_config = async root => {
-  const config = root.join(config_filename);
-  return await config.exists()
+const get_config = async project_root => {
+  const local_config = project_root.join(config_filename);
+  return await local_config.exists()
     ? tryreturn(async _ => {
-      const imported = await config.import("default");
+      const imported = await local_config.import("default");
 
-      empty(imported) && EmptyConfigFile.warn(logger, config);
+      empty(imported) && empty_config_file(local_config);
 
       return imported;
     }).orelse(({ message }) =>
-      ErrorInConfigFile.throw(message, `${platform} ${config}`))
-    : defaults;
+      error_in_config_file(message, `${platform} ${local_config}`))
+    : config;
 };
 
 export default async (mode, target) => tryreturn(async _ => {
   const package_root = await root();
-  const config = override(defaults, await get_config(package_root));
-  logger = new Logger(config.logger);
-  const $app = await app(logger, package_root, config);
+  const app_config = override(config, await get_config(package_root));
+  const $app = await app(package_root, app_config);
   await build(await init($app), mode, target);
   return true;
 }).orelse(error => {
-  if (error.level === Logger.Error) {
-    logger.auto(error);
+  if (error.level === "error") {
     bye();
     return;
   }

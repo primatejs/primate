@@ -1,10 +1,10 @@
 import join from "@rcompat/fs/join";
 import get from "@rcompat/object/get";
 import valmap from "@rcompat/object/valmap";
-import * as loaders from "./loaders/exports.js";
+import module_loader from "./module_loader.js";
 import { web } from "./targets/exports.js";
 
-export default async (log, root, config) => {
+export default async (root, config) => {
   const path = valmap(config.location, value => root.join(value));
   const error = await path.routes.join("+error.js");
 
@@ -17,7 +17,6 @@ export default async (log, root, config) => {
     assets: [],
     path,
     root,
-    log,
     // pseudostatic thus arrowbound
     get: (config_key, fallback) => get(config, config_key) ?? fallback,
     set: (key, value) => {
@@ -27,7 +26,7 @@ export default async (log, root, config) => {
       default: await error.exists() ? await error.import("default") : undefined,
     },
     extensions: {},
-    modules: await loaders.modules(log, root, config.modules ?? []),
+    modules: await module_loader(root, config.modules ?? []),
     fonts: [],
     // copy files to build folder, potentially transforming them
     async stage(source, directory, filter) {

@@ -19,9 +19,9 @@ const js_wrapper = async (path, routes, packages) => `
   import { loadPyodide as load } from "pyodide";
 
   const pyodide = await load({ indexURL: "./node_modules/pyodide" });
-  const file = await file(${JSON.stringify(path)}).text();
+  const python_route = await file(${JSON.stringify(path)}).text();
   ${packages.map(make_package)}
-  pyodide.runPython(wrap(file));
+  pyodide.runPython(wrap(python_route));
   export default {
   ${routes.map(route => make_route(route)).join(",\n")}
   };

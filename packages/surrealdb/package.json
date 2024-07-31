@@ -1,0 +1,42 @@
+{
+  "name": "@primate/surrealdb",
+  "version": "0.3.0",
+  "description": "Primate SurrealDB module",
+  "homepage": "https://primatejs.com/modules/surrealdb",
+  "bugs": "https://github.com/primatejs/primate/issues",
+  "license": "MIT",
+  "files": [
+    "src/**/*.js",
+    "!src/**/*.spec.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/primatejs/primate",
+    "directory": "packages/surrealdb"
+  },
+  "scripts": {
+    "db:surreal": "surreal start --user primate --pass primate"
+  },
+  "dependencies": {
+    "@primate/core": "workspace:^",
+    "@primate/store": "workspace:^",
+    "@rcompat/invariant": "^0.5.0",
+    "@rcompat/object": "^0.5.0"
+  },
+  "devDependencies": {
+    "surrealdb.js": "^0.11.1"
+  },
+  "peerDependencies": {
+    "surrealdb.js": "0.11"
+  },
+  "type": "module",
+  "imports": {
+    "#*": {
+      "@primate/lt": "./src/private/*.js",
+      "default": "./src/private/*.js"
+    }
+  },
+  "exports": {
+    ".": "./src/default.js"
+  }
+}

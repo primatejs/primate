@@ -20,7 +20,7 @@
     "@rcompat/build": "^0.3.0",
     "@rcompat/crypto": "^0.5.0",
     "@rcompat/fs": "^0.4.0",
-    "@rcompat/http": "^0.4.0",
+    "@rcompat/http": "^0.5.0",
     "@rcompat/object": "^0.5.0"
   },
   "peerDependencies": {
@@ -117,6 +117,56 @@
     }
   },
   "type": "module",
+  "imports": {
+    "#*": {
+      "@primate/lt": "./src/private/*.js",
+      "default": "./src/private/*.js"
+    },
+    "#error/*": {
+      "@primate/lt": "./src/private/error/*.js",
+      "default": "./src/private/error/*.js"
+    },
+    "#*/name": {
+      "@primate/lt": "./src/server/*/name.js",
+      "default": "./src/server/*/name.js"
+    },
+    "#*/extension": {
+      "@primate/lt": "./src/server/*/extension.js",
+      "default": "./src/server/*/extension.js"
+    },
+    "#*/handler": {
+      "@primate/lt": "./src/server/*/handler.js",
+      "default": "./src/server/*/handler.js"
+    },
+    "#*/build": {
+      "@primate/lt": "./src/server/*/build/index.js",
+      "default": "./src/server/*/build/index.js"
+    },
+    "#*/serve": {
+      "@primate/lt": "./src/server/*/serve/index.js",
+      "default": "./src/server/*/serve/index.js"
+    },
+    "#*/context/app": {
+      "@primate/lt": "./src/server/*/context/app.js",
+      "default": "./src/server/*/context/app.js"
+    },
+    "#*/context/head": {
+      "@primate/lt": "./src/server/*/context/head.js",
+      "default": "./src/server/*/context/head.js"
+    },
+    "#*/client": {
+      "@primate/lt": "./src/client/*/index.js",
+      "default": "./src/client/*/index.js"
+    },
+    "#*/client/create-root": {
+      "@primate/lt": "./src/client/*/create-root.js",
+      "default": "./src/client/*/create-root.js"
+    },
+    "#*/client/expose": {
+      "@primate/lt": "./src/client/*/expose.js",
+      "default": "./src/client/*/expose.js"
+    }
+  },
   "exports": {
     ".": {
       "browser": {
@@ -124,21 +174,13 @@
       }
     },
     "./spa": "./src/spa/exports.js",
-    "./*/common": "./src/server/*/common.js",
-    "./*/hooks/build": "./src/server/*/hooks/build/index.js",
-    "./*/hooks/serve": "./src/server/*/hooks/serve/index.js",
-    "./*/client/create-root": "./src/client/*/create-root.js",
-    "./*/client/expose": "./src/client/*/expose.js",
-    "./*/client": "./src/client/*/index.js",
-    "./*/head": "./src/server/*/head.js",
-    "./react/context/*": "./src/server/react/context/*.js",
-    "./solid/context/*": "./src/server/solid/context/*.js",
-    "./webc/component": "./src/server/webc/Component.js",
-    "./base/*": "./src/base/*.js",
-    "./errors/*": "./src/errors/*.js",
+    "./*/head": "./src/server/*/public/head.js",
+    "./*/context/app": "./src/server/*/context/app.js",
+    "./*/context/head": "./src/server/*/context/head.js",
+    "./webc/Component": "./src/server/webc/public/Component.js",
     "./*": {
-      "runtime": "./src/server/*/runtime.js",
-      "default": "./src/server/*/default.js"
+      "runtime": "./src/server/*/public/runtime.js",
+      "default": "./src/server/*/public/default.js"
     }
   }
 }

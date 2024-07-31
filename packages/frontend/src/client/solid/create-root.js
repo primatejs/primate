@@ -12,7 +12,6 @@ export default length => {
     import { createComponent } from "solid-js/web";
     import AppContext from "@primate/frontend/solid/context/app";
     import HeadContext from "@primate/frontend/solid/context/head";
-    import is from "@primate/frontend/solid/context/is";
 
     export default ({
       components,
@@ -23,12 +22,12 @@ export default length => {
     }) => {
       const [context, setContext] = createSignal(c);
       const $value = { context, setContext };
-      
+
       return <AppContext.Provider value={$value}>
-        <HeadContext.Provider value={value}>
-          {${body}}
-        </HeadContext.Provider>
-      </AppContext.Provider>
+          <HeadContext.Provider value={value}>
+            {${body}}
+          </HeadContext.Provider>
+        </AppContext.Provider>
     }
   `;
 };

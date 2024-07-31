@@ -23,12 +23,12 @@
   "dependencies": {
     "@primate/core": "workspace:^",
     "@rcompat/build": "^0.3.0",
-    "@rcompat/cli": "^0.3.0",
+    "@rcompat/cli": "^0.5.0",
     "@rcompat/env": "^0.3.0",
     "@rcompat/fs": "^0.4.0",
     "@rcompat/object": "^0.5.0",
     "@rcompat/platform": "^0.3.0",
-    "@rcompat/stdio": "^0.3.0"
+    "@rcompat/stdio": "^0.4.0"
   },
   "peerDependencies": {
     "@ruby/head-wasm-wasi": "2",
@@ -48,13 +48,21 @@
     }
   },
   "type": "module",
+  "imports": {
+    "#*": {
+      "@primate/lt": "./src/private/*.js",
+      "default": "./src/private/*.js"
+    },
+    "#error/*": {
+      "@primate/lt": "./src/private/error/*.js",
+      "default": "./src/private/error/*.js"
+    }
+  },
   "exports": {
     "./*/common": "./src/server/*/common.js",
     "./*/to-request": "./src/server/*/to-request.js",
     "./*/to-response": "./src/server/*/to-response.js",
     "./*/wrap": "./src/server/*/wrap.js",
-    "./#/*": "./lib/private/*/index.js",
-    "./errors/*": "./src/errors/*.js",
     "./*": {
       "runtime": "./src/server/*/runtime.js",
       "default": "./src/server/*/default.js"

@@ -1,5 +1,5 @@
+import save from "#save";
 import AppContext from "@primate/frontend/react/context/app";
-import save from "@primate/i18n/base/save";
 import { useContext } from "react";
 
 const $ = {

@@ -2,6 +2,7 @@ import dim from "@rcompat/cli/color/dim";
 import execute from "@rcompat/stdio/execute";
 import desktop from "./desktop.js";
 import targets from "./targets.js";
+import log from "@primate/core/log";
 
 const command = "bun build build/serve.js --conditions=runtime --compile --minify";
 
@@ -20,7 +21,7 @@ export default ({
           const { flags, exe } = targets[app.build_target];
           const executable_path = dim(`${app.path.build}/${exe}`);
           await execute(`${command} ${flags} --outfile build/${exe}`);
-          app.log.system(`executable written to ${executable_path}`);
+          log.system(`executable written to ${executable_path}`);
         });
       }
       return next(app);

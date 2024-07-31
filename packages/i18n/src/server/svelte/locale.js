@@ -1,4 +1,4 @@
-import save from "@primate/i18n/base/save";
+import save from "#save";
 import { getContext } from "svelte";
 import { writable } from "svelte/store";
 

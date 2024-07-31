@@ -17,14 +17,26 @@
   },
   "dependencies": {
     "@primate/core": "workspace:^",
-    "@rcompat/cli": "^0.3.0",
-    "@rcompat/http": "^0.4.0"
+    "@rcompat/cli": "^0.5.0",
+    "@rcompat/fs": "^0.4.0",
+    "@rcompat/http": "^0.5.0"
   },
   "type": "module",
+  "imports": {
+    "#*": {
+      "@primate/lt": "./src/private/*.js",
+      "default": "./src/private/*.js"
+    },
+    "#hook/*": {
+      "@primate/lt": "./src/private/hook/*.js",
+      "default": "./src/private/hook/*.js"
+    },
+    "#error/*": {
+      "@primate/lt": "./src/private/error/*.js",
+      "default": "./src/private/error/*.js"
+    }
+  },
   "exports": {
-    "./base/*": "./src/base/*.js",
-    "./hooks/*": "./src/hooks/*.js",
-    "./errors/*": "./src/errors/*.js",
     "./*/locale": "./src/server/*/locale.js",
     "./*": "./src/server/*/index.js",
     ".": {

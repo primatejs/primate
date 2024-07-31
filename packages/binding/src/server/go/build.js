@@ -1,10 +1,11 @@
-import ErrorInGoRoute from "@primate/binding/errors/error-in-go-route";
+import faulty_go_route from "#error/faulty-go-route";
 import { name } from "@primate/binding/go/common";
 import dim from "@rcompat/cli/color/dim";
 import { user } from "@rcompat/env";
 import file from "@rcompat/fs/file";
 import platform from "@rcompat/platform";
 import execute from "@rcompat/stdio/execute";
+import log from "@primate/core/log";
 
 const module = `@primate/binding/${name}`;
 const command = "go";
@@ -159,13 +160,13 @@ export default ({ extension }) => (app, next) => {
     await base.join(js).write(js_wrapper(wasm_route_path, routes));
 
     try {
-      app.log.info(`compiling ${dim(file)} to WebAssembly`, { module });
+      log.info(`compiling ${dim(file)} to WebAssembly`, { module });
       const cwd = `${base}`;
       // compile .go to .wasm
       await execute(run(wasm, go, includes.join(" ")),
         { cwd, env: { HOME: user.HOME, ...env } });
     } catch (error) {
-      ErrorInGoRoute.throw(file, error);
+      faulty_go_route(file, error);
     }
   });
 

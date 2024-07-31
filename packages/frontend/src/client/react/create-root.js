@@ -10,7 +10,7 @@ export default length => {
     import { createElement, useState } from "react";
     import AppContext from "@primate/frontend/react/context/app";
     import HeadContext from "@primate/frontend/react/context/head";
-    import is from "@primate/frontend/react/context/is";
+    import platform from "@rcompat/platform";
 
     export default ({
       components,
@@ -21,7 +21,7 @@ export default length => {
     }) => {
       const [context, setContext] = useState(c);
       const $value = { context, setContext };
-      return is.client
+      return platform === "browser"
         ? createElement(AppContext.Provider, { value: $value }, ${body})
         : createElement(AppContext.Provider, { value: $value },
             createElement(HeadContext.Provider, { value }, ${body}))
