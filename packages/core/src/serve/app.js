@@ -1,12 +1,12 @@
 import { DoubleFileExtension } from "@primate/core/errors";
 import crypto from "@rcompat/crypto";
 import join from "@rcompat/fs/join";
-import { TEXT_HTML } from "@rcompat/http/media-type";
+import { html } from "@rcompat/http/mime";
 import { OK } from "@rcompat/http/status";
 import is from "@rcompat/invariant/is";
 import empty from "@rcompat/object/empty";
-import valmap from "@rcompat/object/valmap";
 import get from "@rcompat/object/get";
+import valmap from "@rcompat/object/valmap";
 import * as loaders from "./loaders/exports.js";
 import to_sorted from "./to_sorted.js";
 
@@ -127,7 +127,7 @@ export default async (log, root, { config, assets, files, components, loader, ta
     },
     respond(body, { status = OK, headers = {} } = {}) {
       return new Response(body, { status, headers: {
-        "Content-Type": TEXT_HTML, ...this.headers(), ...headers },
+        "Content-Type": html, ...this.headers(), ...headers },
       });
     },
     async view(options) {

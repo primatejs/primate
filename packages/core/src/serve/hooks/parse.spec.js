@@ -1,8 +1,5 @@
 import config from "@primate/core/config";
-import {
-  APPLICATION_FORM_URLENCODED,
-  APPLICATION_JSON,
-} from "@rcompat/http/media-type";
+import { form, json } from "@rcompat/http/mime";
 import get from "@rcompat/object/get";
 import { mark } from "../../shared/Logger.js";
 import parse from "./parse.js";
@@ -26,25 +23,25 @@ export default test => {
     assert((await r.post("/")).body).equals({});
   });
 
-  test.case("body application/json", async assert => {
+  test.case("body is json", async assert => {
     const body = JSON.stringify({ foo: "bar" });
-    const headers = { "Content-Type": APPLICATION_JSON };
+    const headers = { "Content-Type": json };
     const response = await r.post("/", { body, headers });
     assert(response.body).equals({ foo: "bar" });
     assert(response.body.foo).equals("bar");
     assert(response.body.bar).undefined();
 
     const faulty = `${body}%`;
-    const error = `cannot parse body with content type ${APPLICATION_JSON}`;
+    const error = `cannot parse body with content type ${json}`;
     const throws = mark("{0}: {1}", "/", error);
     assert(() => r.post("/", { body: faulty, headers })).throws(throws);
   });
 
-  test.case("body is application/x-www-form-urlencoded", async assert => {
+  test.case("body is form", async assert => {
     const { body } = await r.post("/", {
        body: encodeURI("foo=bar &bar=baz"),
        headers: {
-         "Content-Type": APPLICATION_FORM_URLENCODED,
+         "Content-Type": form,
        },
     });
 
@@ -153,10 +150,10 @@ export default test => {
   });
 
   test.case("raw", async assert => {
-    const headers = { "Content-Type": APPLICATION_JSON, Cookie: "key=value" };
+    const headers = { "Content-Type": json, Cookie: "key=value" };
     const response = await r.post("/?foo=bar", { body: null, headers });
     assert(response.query.raw).equals("?foo=bar");
-    assert(response.headers.raw.get("content-type")).equals(APPLICATION_JSON);
+    assert(response.headers.raw.get("content-type")).equals(json);
     assert(response.cookies.raw).equals("key=value");
   });
 

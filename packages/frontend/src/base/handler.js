@@ -1,6 +1,6 @@
 import cascade from "@rcompat/async/cascade";
 import map from "@rcompat/async/map";
-import { APPLICATION_JSON } from "@rcompat/http/media-type";
+import { json } from "@rcompat/http/mime";
 import { OK } from "@rcompat/http/status";
 import filter from "@rcompat/object/filter";
 import valmap from "@rcompat/object/valmap";
@@ -47,12 +47,12 @@ export default config => {
         },
       };
 
-      if (config.spa && request.headers.get("Accept") === APPLICATION_JSON) {
+      if (config.spa && request.headers.get("Accept") === json) {
         return new Response(JSON.stringify({ names, ...shared }), {
           status: options.status ?? OK,
           headers: {
             ...await app.headers(),
-            "Content-Type": APPLICATION_JSON,
+            "Content-Type": json,
           },
         });
       }

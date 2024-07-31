@@ -1,11 +1,11 @@
 import clientError from "@primate/core/handler/error";
 import cascade from "@rcompat/async/cascade";
 import tryreturn from "@rcompat/async/tryreturn";
-import { resolve } from "@rcompat/http/media-type";
+import reload_defaults from "@rcompat/build/reload/defaults";
+import reload_path from "@rcompat/build/reload/path";
+import { resolve } from "@rcompat/http/mime";
 import { OK } from "@rcompat/http/status";
 import respond from "./respond.js";
-import reload_path from "@rcompat/build/reload/path";
-import reload_defaults from "@rcompat/build/reload/defaults";
 
 const guard_error = Symbol("guard_error");
 const guard = (app, guards) => async (request, next) => {

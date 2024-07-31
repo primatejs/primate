@@ -1,4 +1,4 @@
-import { APPLICATION_JSON } from "@rcompat/http/media-type";
+import { json } from "@rcompat/http/mime";
 import base from "./shared/base.js";
 
 /**
@@ -7,4 +7,4 @@ import base from "./shared/base.js";
  * @param {MinOptions} options rendering options
  * @return {ResponseFn}
  */
-export default base(APPLICATION_JSON, JSON.stringify);
+export default base(json, JSON.stringify);

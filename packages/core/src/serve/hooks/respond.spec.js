@@ -1,5 +1,5 @@
+import { html } from "@rcompat/http/mime";
 import { FOUND, OK } from "@rcompat/http/status";
-import { TEXT_HTML } from "@rcompat/http/media-type";
 
 import respond from "./respond.js";
 
@@ -8,7 +8,7 @@ const app = {
     return new Response(body, {
       status,
       headers: {
-        "Content-Type": TEXT_HTML, ...headers,
+        "Content-Type": html, ...headers,
       },
     });
   },
