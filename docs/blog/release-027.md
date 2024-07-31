@@ -126,7 +126,7 @@ as Handlebars to generate an XML file.
 
 ```js caption=routes/sitemap.xml.js
 import { view } from "primate";
-import MediaType from "@rcompat/http/media-type";
+import { xml } from "@rcompat/http/mime";
 
 // this assumes you've imported and loaded the `handlebars` module from
 // `@primate/frontend`
@@ -136,7 +136,7 @@ export default {
     // load data and save it in a variable `pages`
     // ...
 
-    const headers = { "Content-Type": MediaType.APPLICATION_XML };
+    const headers = { "Content-Type": xml };
 
     // serve Handlebars template as XML
     return view("sitemap.hbs", { pages }, { headers });
