@@ -4,6 +4,8 @@ import tryreturn from "@rcompat/async/tryreturn";
 import { resolve } from "@rcompat/http/media-type";
 import { OK } from "@rcompat/http/status";
 import respond from "./respond.js";
+import reload_path from "@rcompat/build/reload/path";
+import reload_defaults from "@rcompat/build/reload/defaults";
 
 const guard_error = Symbol("guard_error");
 const guard = (app, guards) => async (request, next) => {
@@ -96,11 +98,11 @@ export default app => {
     },
   });
 
-  const paths = ["/esbuild"].concat(app.assets
+  const paths = [reload_path].concat(app.assets
     .filter(asset => asset.type !== "importmap")
     .map(asset => asset.src));
   const http = app.get("http");
-  const url = `http://${http.host}:6262`;
+  const url = `http://${http.host}:${reload_defaults.port}`;
 
   const proxy = (request, fallback) => {
     const { pathname } = new URL(request.url);
