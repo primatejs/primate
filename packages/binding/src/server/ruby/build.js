@@ -69,8 +69,6 @@ export default {
 };
 
 export default ({ extension } = {}) => (app, next) => {
-  //await depend(import.meta.filename, dependencies, `primate:${name}`);
-  //
   app.bind(extension, async (directory, file) => {
     const path = directory.join(file);
     const base = path.directory;
