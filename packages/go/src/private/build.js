@@ -1,13 +1,12 @@
-import faulty_go_route from "#error/faulty-go-route";
-import { name } from "@primate/binding/go/common";
+import faulty_route from "#error/faulty-route";
+import module from "#name";
+import log from "@primate/core/log";
 import dim from "@rcompat/cli/color/dim";
 import { user } from "@rcompat/env";
 import file from "@rcompat/fs/file";
 import platform from "@rcompat/platform";
 import execute from "@rcompat/stdio/execute";
-import log from "@primate/core/log";
 
-const module = `@primate/binding/${name}`;
 const command = "go";
 const run = (wasm, go, includes = "request.go") =>
   `${command} build -o ${wasm} ${go} ${includes}`;
@@ -31,8 +30,9 @@ const make_route = route =>
   }`;
 
 const js_wrapper = (path, routes) => `
-import to_request from "@primate/binding/go/to-request";
-import to_response from "@primate/binding/go/to-response";
+import env from "@primate/go/env";
+import to_request from "@primate/go/to-request";
+import to_response from "@primate/go/to-response";
 ${
   platform === "bun" ? `
     import route_path from "${path}" with { type: "file" };
@@ -43,8 +43,6 @@ ${
       .arrayBuffer());
   `
 }
-import { env } from "@primate/binding/go/common";
-
 env();
 
 export default {
@@ -97,7 +95,7 @@ const create_meta_files = async (directory, app) => {
     request: "request.go",
     session: "session.go",
   };
-  const has_session = app.modules.names.includes("primate:session");
+  const has_session = app.modules.names.includes("@primate/session");
 
   if (!await directory.join(meta.mod).exists()) {
     const request_struct_items = [];
@@ -166,7 +164,7 @@ export default ({ extension }) => (app, next) => {
       await execute(run(wasm, go, includes.join(" ")),
         { cwd, env: { HOME: user.HOME, ...env } });
     } catch (error) {
-      faulty_go_route(file, error);
+      faulty_route(file, error);
     }
   });
 

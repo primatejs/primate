@@ -8,11 +8,8 @@
   "files": [
     "src/**/*.js",
     "src/**/*.json",
-    "src/**/*.go",
     "src/**/*.py",
     "src/**/*.rb",
-    "src/**/*.sum",
-    "src/**/*.mod",
     "!src/**/*.spec.js"
   ],
   "repository": {
