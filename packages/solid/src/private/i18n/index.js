@@ -1,5 +1,5 @@
-import resolve from "#resolve";
-import AppContext from "@primate/solid/context/app";
+import resolve from "@primate/i18n/core/resolve";
+import AppContext from "#context/app";
 import { useContext } from "solid-js";
 import locale_store from "./locale.js";
 

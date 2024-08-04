@@ -1,7 +1,7 @@
-import resolve from "#resolve";
-import AppContext from "@primate/react/context/app";
+import AppContext from "#context/app";
+import locale_store from "#i18n/locale";
+import resolve from "@primate/i18n/core/resolve";
 import { useContext } from "react";
-import locale_store from "./locale.js";
 
 export default (key, placeholders) => {
   locale_store.init();

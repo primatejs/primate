@@ -1,6 +1,6 @@
-import save from "#save";
-import AppContext from "@primate/solid/context/app";
-import { useContext } from "solid-js";
+import AppContext from "#context/app";
+import save from "@primate/i18n/core/save";
+import { useContext } from "react";
 
 const $ = {
   context: Symbol("context"),
@@ -31,7 +31,7 @@ export default {
     }
 
     const { context, setContext } = useContext(AppContext);
-    this[$.context] = context();
+    this[$.context] = context;
     this[$.setContext] = setContext;
   },
 };

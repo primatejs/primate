@@ -19,8 +19,14 @@
     "@rcompat/fs": "^0.4.0"
   },
   "peerDependencies": {
+    "@primate/i18n": "workspace:^",
     "primate": "workspace:^",
     "svelte": "4"
+  },
+  "peerDependenciesMeta": {
+    "@primate/i18n": {
+      "optional": true
+    }
   },
   "type": "module",
   "imports": {
@@ -43,12 +49,17 @@
     "#client/*": {
       "@primate/lt": "./src/private/client/*.js",
       "default": "./src/private/client/*.js"
+    },
+    "#i18n/*": {
+      "@primate/lt": "./src/private/i18n/*.js",
+      "default": "./src/private/i18n/*.js"
     }
   },
   "exports": {
     ".": {
       "runtime": "./src/public/runtime.js",
       "default": "./src/public/default.js"
-    }
+    },
+    "./*": "./src/public/*.js"
   }
 }

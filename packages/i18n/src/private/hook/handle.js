@@ -1,3 +1,4 @@
+import header from "#header";
 import name from "#name";
 import { OK } from "@rcompat/http/status";
 
@@ -14,7 +15,7 @@ export default ({ env }) => (request, next) => {
     return next(request);
   }
 
-  const set_locale = request.headers.get("primate-i18n-locale");
+  const set_locale = request.headers.get(header);
 
   if (set_locale === undefined) {
     return next(request);

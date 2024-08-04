@@ -21,9 +21,15 @@
     "@rcompat/platform": "^0.3.0"
   },
   "peerDependencies": {
+    "@primate/i18n": "workspace:^",
     "primate": "workspace:^",
     "react": "18",
     "react-dom": "18"
+  },
+  "peerDependenciesMeta": {
+    "@primate/i18n": {
+      "optional": true
+    }
   },
   "type": "module",
   "imports": {
@@ -50,6 +56,10 @@
     "#client/*": {
       "@primate/lt": "./src/private/client/*.js",
       "default": "./src/private/client/*.js"
+    },
+    "#i18n/*": {
+      "@primate/lt": "./src/private/i18n/*.js",
+      "default": "./src/private/i18n/*.js"
     }
   },
   "exports": {
@@ -57,7 +67,7 @@
       "runtime": "./src/public/runtime.js",
       "default": "./src/public/default.js"
     },
-    "./head": "./src/public/head.js",
+    "./*": "./src/public/*.js",
     "./context/*": "./src/public/context/*.js"
   }
 }

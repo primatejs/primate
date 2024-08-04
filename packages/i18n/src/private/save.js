@@ -1,7 +1,7 @@
+import header from "#header";
+
 export default locale => fetch("/", {
-  headers: {
-    "Primate-I18N-Locale": locale,
-  },
+  headers: { [header]: locale },
   method: "post",
   body: null,
 });
