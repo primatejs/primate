@@ -171,7 +171,7 @@ export default {
             { heading: "Frontends" },
             "Frontend",
             "Angular",
-            "Eta"
+            "Eta",
             "Handlebars",
             "HTML",
             "HTMX",
