@@ -1,0 +1,41 @@
+{
+  "name": "@primate/typescript",
+  "version": "0.1.0",
+  "description": "Primate TypeScript module",
+  "homepage": "https://primatejs.com/modules/typescript",
+  "bugs": "https://github.com/primatejs/primate/issues",
+  "license": "MIT",
+  "files": [
+    "src/**/*.rb",
+    "src/**/*.js",
+    "!src/**/*.spec.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/primatejs/primate",
+    "directory": "packages/typescript"
+  },
+  "dependencies": {
+    "@primate/core": "workspace:^",
+    "@rcompat/build": "^0.3.0",
+    "@rcompat/cli": "^0.5.0"
+  },
+  "peerDependencies": {
+    "@ruby/head-wasm-wasi": "2",
+    "primate": "workspace:^"
+  },
+  "type": "module",
+  "imports": {
+    "#*": {
+      "@primate/lt": "./src/private/*.js",
+      "default": "./src/private/*.js"
+    }
+  },
+  "exports": {
+    ".": {
+      "runtime": "./src/runtime.js",
+      "default": "./src/default.js"
+    },
+    "./*": "./src/*.js"
+  }
+}

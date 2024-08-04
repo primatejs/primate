@@ -1,9 +1,7 @@
-import { name } from "@primate/binding/typescript/common";
-import dim from "@rcompat/cli/color/dim";
-import compile from "./compile.js";
+import compile from "#compile";
+import module from "#name";
 import log from "@primate/core/log";
-
-const module = `@primate/binding/${name}`;
+import dim from "@rcompat/cli/color/dim";
 
 export default ({ extension }) => (app, next) => {
   app.bind(extension, async (directory, file) => {
