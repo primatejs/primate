@@ -82,7 +82,7 @@ export default class Connection {
     const result = statement.get({ primary: value });
     return result === undefined
       ? result
-      : O.filter(result, ([, $value]) => $value !== null);
+      : filter(result, ([, $value]) => $value !== null);
   }
 
   insert(collection, primary, document) {
@@ -94,7 +94,7 @@ export default class Connection {
       : "default values";
     const query = `insert into ${collection} ${$predicate} returning id`;
     const prepared = this.connection.prepare(query);
-    const $document = is_bun ? O.keymap(document, key => `$${key}`) : document;
+    const $document = is_bun ? keymap(document, key => `$${key}`) : document;
     const { id } = prepared.get($document);
     return { ...document, id };
   }
