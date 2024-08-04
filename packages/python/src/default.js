@@ -1,8 +1,8 @@
 import build from "#build";
 import default_extension from "#extension";
-import name from "#name";
+import pkgname from "#pkgname";
 
 export default ({ extension = default_extension, packages = [] } = {}) => ({
-  name,
-  build: build({ name, extension, packages }),
+  name: pkgname,
+  build: build({ extension, packages }),
 });

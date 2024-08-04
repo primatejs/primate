@@ -1,3 +1,3 @@
-import name from "#name";
+import pkgname from "#pkgname";
 
-export default () => ({ name });
+export default () => ({ name: pkgname });

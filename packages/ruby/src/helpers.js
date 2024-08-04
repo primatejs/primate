@@ -1,4 +1,3 @@
-
 export default {
   wrap(value) {
     if (typeof value === "number") {
