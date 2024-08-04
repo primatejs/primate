@@ -1,7 +1,7 @@
 {
   "name": "@primate/python",
   "version": "0.1.0",
-  "description": "Primate Python module",
+  "description": "Primate Python binding",
   "homepage": "https://primatejs.com/modules/python",
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
@@ -13,7 +13,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/primatejs/primate",
-    "directory": "packages/py"
+    "directory": "packages/python"
   },
   "dependencies": {
     "@primate/core": "workspace:^",
