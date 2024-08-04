@@ -12,6 +12,7 @@
     svelte: ["PostIndex", "svelte"],
     vue: ["PostIndex", "vue"],
     angular: ["post-index", "component.ts"],
+    htmx: ["post-index", "htmx"],
     webc: ["post-index", "webc"]
   };
 
