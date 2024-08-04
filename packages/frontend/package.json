@@ -31,7 +31,6 @@
     "@angular/ssr": "18",
     "@babel/core": "7",
     "babel-preset-solid": "1",
-    "handlebars": "4",
     "htmx-esm": "0.2",
     "linkedom-global": "1",
     "primate": "workspace:^",
@@ -63,9 +62,6 @@
       "optional": true
     },
     "babel-preset-solid": {
-      "optional": true
-    },
-    "handlebars": {
       "optional": true
     },
     "htmx-esm": {
