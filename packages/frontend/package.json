@@ -17,7 +17,7 @@
   "dependencies": {
     "@primate/core": "workspace:^",
     "@rcompat/async": "^0.3.0",
-    "@rcompat/build": "^0.3.0",
+    "@rcompat/build": "^0.4.0",
     "@rcompat/crypto": "^0.5.0",
     "@rcompat/fs": "^0.4.0",
     "@rcompat/http": "^0.5.0",
@@ -113,7 +113,6 @@
     "./*/head": "./src/server/*/public/head.js",
     "./*/context/app": "./src/server/*/context/app.js",
     "./*/context/head": "./src/server/*/context/head.js",
-    "./webc/Component": "./src/server/webc/public/Component.js",
     "./core/*": {
       "@primate/lt": "./src/private/*.js",
       "default": "./src/private/*.js"

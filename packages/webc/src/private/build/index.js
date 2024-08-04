@@ -1,5 +1,5 @@
-import compile from "#compile";
-import name from "#webc/name";
+import name from "#name";
+import compile from "@primate/frontend/core/compile";
 import client from "./client.js";
 import publish from "./publish.js";
 

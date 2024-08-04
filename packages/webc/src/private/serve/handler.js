@@ -1,4 +1,4 @@
-import client from "#webc/client";
+import client from "#client";
 
 export default (name, props = {}, options = {}) => async app => {
   const [component] = name.split(".");
