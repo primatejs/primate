@@ -1,5 +1,5 @@
 import save from "#save";
-import AppContext from "@primate/frontend/solid/context/app";
+import AppContext from "@primate/solid/context/app";
 import { useContext } from "solid-js";
 
 const $ = {

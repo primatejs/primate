@@ -24,13 +24,7 @@
     "@rcompat/object": "^0.5.0"
   },
   "peerDependencies": {
-    "primate": "workspace:^",
-    "svelte": "4"
-  },
-  "peerDependenciesMeta": {
-    "svelte": {
-      "optional": true
-    }
+    "primate": "workspace:^"
   },
   "type": "module",
   "imports": {
@@ -61,26 +55,6 @@
     "#*/serve": {
       "@primate/lt": "./src/server/*/serve/index.js",
       "default": "./src/server/*/serve/index.js"
-    },
-    "#*/context/app": {
-      "@primate/lt": "./src/server/*/context/app.js",
-      "default": "./src/server/*/context/app.js"
-    },
-    "#*/context/head": {
-      "@primate/lt": "./src/server/*/context/head.js",
-      "default": "./src/server/*/context/head.js"
-    },
-    "#*/client": {
-      "@primate/lt": "./src/client/*/index.js",
-      "default": "./src/client/*/index.js"
-    },
-    "#*/client/create-root": {
-      "@primate/lt": "./src/client/*/create-root.js",
-      "default": "./src/client/*/create-root.js"
-    },
-    "#*/client/expose": {
-      "@primate/lt": "./src/client/*/expose.js",
-      "default": "./src/client/*/expose.js"
     }
   },
   "exports": {
@@ -90,9 +64,6 @@
       }
     },
     "./spa": "./src/spa/exports.js",
-    "./*/head": "./src/server/*/public/head.js",
-    "./*/context/app": "./src/server/*/context/app.js",
-    "./*/context/head": "./src/server/*/context/head.js",
     "./core/*": {
       "@primate/lt": "./src/private/*.js",
       "default": "./src/private/*.js"

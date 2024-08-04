@@ -1,0 +1,54 @@
+{
+  "name": "@primate/svelte",
+  "version": "0.18.0",
+  "description": "Primate Svelte frontend",
+  "homepage": "https://primatejs.com/modules/svelte",
+  "bugs": "https://github.com/primatejs/primate/issues",
+  "license": "MIT",
+  "files": [
+    "src/**/*.js",
+    "!src/**/*.spec.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/primatejs/primate",
+    "directory": "packages/svelte"
+  },
+  "dependencies": {
+    "@primate/frontend": "workspace:^",
+    "@rcompat/fs": "^0.4.0"
+  },
+  "peerDependencies": {
+    "primate": "workspace:^",
+    "svelte": "4"
+  },
+  "type": "module",
+  "imports": {
+    "#*": {
+      "@primate/lt": "./src/private/*.js",
+      "default": "./src/private/*.js"
+    },
+    "#build": {
+      "@primate/lt": "./src/private/build/index.js",
+      "default": "./src/private/build/index.js"
+    },
+    "#serve": {
+      "@primate/lt": "./src/private/serve/index.js",
+      "default": "./src/private/serve/index.js"
+    },
+    "#client": {
+      "@primate/lt": "./src/private/client/index.js",
+      "default": "./src/private/client/index.js"
+    },
+    "#client/*": {
+      "@primate/lt": "./src/private/client/*.js",
+      "default": "./src/private/client/*.js"
+    }
+  },
+  "exports": {
+    ".": {
+      "runtime": "./src/public/runtime.js",
+      "default": "./src/public/default.js"
+    }
+  }
+}

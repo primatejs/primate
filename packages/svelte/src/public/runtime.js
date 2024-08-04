@@ -1,12 +1,12 @@
-import default_extension from "#svelte/extension";
-import name from "#svelte/name";
-import serve from "#svelte/serve";
+import default_extension from "#extension";
+import pkgname from "#pkgname";
+import serve from "#serve";
 
 export default ({
   extension = default_extension,
   // activate fetch-based browsing
   spa = true,
 } = {}) => ({
-  name: `primate:${name}`,
+  name: pkgname,
   serve: serve(extension, spa),
 });
