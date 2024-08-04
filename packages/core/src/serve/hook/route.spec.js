@@ -1,6 +1,6 @@
+import mark from "#mark";
 import Router from "@rcompat/fs/router";
 import get from "@rcompat/object/get";
-import { mark } from "../../shared/Logger.js";
 import route from "./route.js";
 
 const numeric = (id, property) => {

@@ -1,6 +1,6 @@
+import mark from "#mark";
 import file from "@rcompat/fs/file";
-import { mark } from "../Logger.js";
-import loader from "./modules.js";
+import loader from "./module_loader.js";
 
 const modules = defs => loader(file("/"), defs);
 
