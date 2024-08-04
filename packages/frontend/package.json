@@ -31,7 +31,6 @@
     "@angular/ssr": "18",
     "@babel/core": "7",
     "babel-preset-solid": "1",
-    "eta": "3",
     "handlebars": "4",
     "htmx-esm": "0.2",
     "linkedom-global": "1",
@@ -64,9 +63,6 @@
       "optional": true
     },
     "babel-preset-solid": {
-      "optional": true
-    },
-    "eta": {
       "optional": true
     },
     "handlebars": {

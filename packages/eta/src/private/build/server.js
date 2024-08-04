@@ -1,4 +1,5 @@
 import { Eta } from "eta";
+
 const eta = new Eta();
 
 export default text => `

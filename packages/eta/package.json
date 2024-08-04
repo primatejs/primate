@@ -1,0 +1,44 @@
+{
+  "name": "@primate/eta",
+  "version": "0.1.0",
+  "description": "Primate Eta frontend",
+  "bugs": "https://github.com/primatejs/primate/issues",
+  "license": "MIT",
+  "files": [
+    "src/**/*.js",
+    "!src/**/*.spec.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/primatejs/primate",
+    "directory": "packages/eta"
+  },
+  "dependencies": {
+    "@primate/core": "workspace:^"
+  },
+  "peerDependencies": {
+    "eta": "3",
+    "primate": "workspace:^"
+  },
+  "type": "module",
+  "imports": {
+    "#*": {
+      "@primate/lt": "./src/private/*.js",
+      "default": "./src/private/*.js"
+    },
+    "#build": {
+      "@primate/lt": "./src/private/build/index.js",
+      "default": "./src/private/build/index.js"
+    },
+    "#serve": {
+      "@primate/lt": "./src/private/serve/index.js",
+      "default": "./src/private/serve/index.js"
+    }
+  },
+  "exports": {
+    ".": {
+      "runtime": "./src/public/runtime.js",
+      "default": "./src/public/default.js"
+    }
+  }
+}
