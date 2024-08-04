@@ -1,4 +1,4 @@
-import HeadContext from "@primate/frontend/react/context/head";
+import HeadContext from "@primate/react/context/head";
 import platform from "@rcompat/platform";
 import { Component } from "react";
 

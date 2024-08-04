@@ -27,8 +27,6 @@
     "@babel/core": "7",
     "babel-preset-solid": "1",
     "primate": "workspace:^",
-    "react": "18",
-    "react-dom": "18",
     "solid-js": "1",
     "svelte": "4"
   },
@@ -37,12 +35,6 @@
       "optional": true
     },
     "babel-preset-solid": {
-      "optional": true
-    },
-    "react": {
-      "optional": true
-    },
-    "react-dom": {
       "optional": true
     },
     "solid-js": {
