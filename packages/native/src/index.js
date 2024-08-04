@@ -1,9 +1,9 @@
 import dim from "@rcompat/cli/color/dim";
 import execute from "@rcompat/stdio/execute";
-import desktop from "./desktop.js";
 import targets from "./targets.js";
 import log from "@primate/core/log";
 
+const target_keys = Object.keys(targets);
 const command = "bun build build/serve.js --conditions=runtime --compile --minify";
 
 export default ({
@@ -12,11 +12,11 @@ export default ({
   return {
     name: "primate:native",
     init(app, next) {
-      Object.keys(targets).forEach(target => app.target(target, desktop));
+      target_keys.forEach(target => app.target(target, targets[target]));
       return next(app);
     },
     build(app, next) {
-      if (app.build_target === "linux-x64") {
+      if (target_keys.includes(app.build_target)) {
         app.done(async () => {
           const { flags, exe } = targets[app.build_target];
           const executable_path = dim(`${app.path.build}/${exe}`);
@@ -27,7 +27,7 @@ export default ({
       return next(app);
     },
     async serve(app, next) {
-      if (app.build_target === "desktop") {
+      if (target_keys.includes(app.build_target)) {
         const Webview = app.loader.webview();
         const webview = new Webview();
         const { host, port } = app.get("http");

@@ -12,7 +12,7 @@ export default async (root, config) => {
     postbuild: [],
     bindings: {},
     roots: [],
-    targets: { web },
+    targets: { web: { target: web } },
     importmaps: {},
     assets: [],
     path,

@@ -14,11 +14,15 @@ import $router from "./router.js";
 const html = /^.*.html$/u;
 
 const pre = async (app, mode, target) => {
-  if (app.targets[target] === undefined) {
+  let target$ = target;
+  if (app.targets[target$] === undefined) {
     throw new Error(`target ${dim(target)} does not exist`);
   }
-  app.build_target = target;
-  log.system(`starting ${dim(target)} build in ${dim(mode)} mode`);
+  if (app.targets[target$].forward) {
+    target$ = app.targets[target$].forward;
+  }
+  app.build_target = target$;
+  log.system(`starting ${dim(target$)} build in ${dim(mode)} mode`);
 
   app.build = new Build({
     ...exclude(app.get("build"), ["includes", "index"]),
@@ -147,7 +151,7 @@ const post = async (app, mode, target) => {
   await app.build.start();
 
   // a target needs to create an `assets.js` that exports assets
-  await app.targets[target](app);
+  await app.targets[app.build_target].target(app);
 
   const build_number = crypto.randomUUID().slice(0, 8);
   const build_directory = app.path.build.join(build_number);

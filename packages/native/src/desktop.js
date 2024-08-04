@@ -81,7 +81,7 @@ export default async app => {
       return Webview;
     }
   };
-  const target = "desktop";
+  const target = "${app.build_target}";
 
   export { assets, loader, target };
 `;
