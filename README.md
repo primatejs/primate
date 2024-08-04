@@ -22,32 +22,7 @@ backend languages, eliminating the constraints of being tied to specific
 options like Next, Nuxt, or others. Primate runs on Node, Deno and Bun with the
 same codebase.
 
-<<<<<<< Updated upstream
-### Frameworks We Support
-
-- Svelte
-- React
-- Solid
-- Vue
-- Angular
-- Web Components
-- HTMX
-- Handlebars
-- Marko
-- Eta
-
-### Databases We Support
-
-- SQLite
-- MongoDB
-- Postgresql
-- MySQL
-- SurrealDB
-
-### Languages We Support
-=======
 ### Supported backends
->>>>>>> Stashed changes
 
 - Go
 - JavaScript
