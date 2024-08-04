@@ -283,6 +283,10 @@ Default `".go"`
 
 The file extension associated with Go routes.
 
+## Resources
+
+* [Repository][repo]
+
 [plain text]: /guide/responses#plain-text
 [json]: /guide/responses#json
 [redirect]: /guide/responses#redirect
@@ -291,4 +295,5 @@ The file extension associated with Go routes.
 [path]: /guide/routes#path
 [session]: /modules/session#use
 [default-index]:
-https://github.com/primatejs/primate/blob/master/packages/primate/src/defaults/app.html
+https://github.com/primatejs/primate/blob/master/packages/core/src/build/defaults/app.html
+[repo]: https://github.com/primatejs/primate/tree/master/packages/go

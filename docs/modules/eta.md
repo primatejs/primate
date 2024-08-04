@@ -22,7 +22,7 @@ export default {
 
 ## Use
 
-Create a Eta component in `components`.
+Create an Eta component in `components`.
 
 ```html caption=components/post-index.eta
 <h1>All posts</h1>
@@ -64,4 +64,4 @@ The file extension associated with Eta components.
 
 * [Repository][repo]
 
-[repo]: https://github.com/primatejs/primate/tree/master/packages/frontend
+[repo]: https://github.com/primatejs/primate/tree/master/packages/eta

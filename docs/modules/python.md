@@ -279,6 +279,10 @@ Default `[]`
 A list of package names to be loaded, in addition to the Python standard
 library.
 
+## Resources
+
+* [Repository][repo]
+
 [plain text]: /guide/responses#plain-text
 [json]: /guide/responses#json
 [redirect]: /guide/responses#redirect
@@ -289,4 +293,5 @@ library.
 [session]: /modules/session#use
 [session]: /modules/store
 [default-index]:
-https://github.com/primatejs/primate/blob/master/packages/primate/src/defaults/app.html
+https://github.com/primatejs/primate/blob/master/packages/core/src/build/defaults/app.html
+[repo]: https://github.com/primatejs/primate/tree/master/packages/python

@@ -52,5 +52,10 @@ Default `".ts"`
 
 The file extension associated with TypeScript routes.
 
+## Resources
+
+* [Repository][repo]
+
 [routes]: /guide/routes
 [responses]: /guide/responses
+[repo]: https://github.com/primatejs/primate/tree/master/packages/typescript

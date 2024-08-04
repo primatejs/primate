@@ -251,6 +251,10 @@ Default `".rb"`
 
 The file extension associated with Ruby routes.
 
+## Resources
+
+* [Repository][repo]
+
 [plain text]: /guide/responses#plain-text
 [json]: /guide/responses#json
 [redirect]: /guide/responses#redirect
@@ -259,4 +263,5 @@ The file extension associated with Ruby routes.
 [body]: /guide/routes#body
 [path]: /guide/routes#path
 [default-index]:
-https://github.com/primatejs/primate/blob/master/packages/primate/src/defaults/app.html
+https://github.com/primatejs/primate/blob/master/packages/core/src/build/defaults/app.html
+[repo]: https://github.com/primatejs/primate/tree/master/packages/ruby

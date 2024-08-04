@@ -87,7 +87,7 @@ add `"client-side-templates"` to the `extensions` array option.
 
 * [Repository][repo]
 
-[repo]: https://github.com/primatejs/primate/tree/master/packages/frontend
+[repo]: https://github.com/primatejs/primate/tree/master/packages/htmx
 [extensions]: https://htmx.org/extensions
 [client-side-templates]: https://htmx.org/extensions/client-side-templates
 [partial]: /guide/responses#partial
