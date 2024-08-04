@@ -30,15 +30,12 @@
     "@angular/platform-server": "18",
     "@angular/ssr": "18",
     "@babel/core": "7",
-    "@marko/compiler": "5",
-    "@marko/translator-default": "6",
     "babel-preset-solid": "1",
     "eta": "3",
     "handlebars": "4",
     "htmx-esm": "0.2",
     "linkedom-global": "1",
     "marked": "13",
-    "marko": "5",
     "primate": "workspace:^",
     "react": "18",
     "react-dom": "18",
@@ -67,12 +64,6 @@
     "@babel/core": {
       "optional": true
     },
-    "@marko/compiler": {
-      "optional": true
-    },
-    "@marko/translator-default": {
-      "optional": true
-    },
     "babel-preset-solid": {
       "optional": true
     },
@@ -89,9 +80,6 @@
       "optional": true
     },
     "marked": {
-      "optional": true
-    },
-    "marko": {
       "optional": true
     },
     "react": {
@@ -178,6 +166,10 @@
     "./*/context/app": "./src/server/*/context/app.js",
     "./*/context/head": "./src/server/*/context/head.js",
     "./webc/Component": "./src/server/webc/public/Component.js",
+    "./core/*": {
+      "@primate/lt": "./src/private/*.js",
+      "default": "./src/private/*.js"
+    },
     "./*": {
       "runtime": "./src/server/*/public/runtime.js",
       "default": "./src/server/*/public/default.js"
