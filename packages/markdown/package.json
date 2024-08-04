@@ -14,7 +14,7 @@
     "directory": "packages/markdown"
   },
   "dependencies": {
-    "@primate/core": "workspace:^"
+    "@primate/frontend": "workspace:^"
   },
   "peerDependencies": {
     "marked": "13",

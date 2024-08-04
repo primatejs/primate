@@ -14,7 +14,7 @@
     "directory": "packages/marko"
   },
   "dependencies": {
-    "@primate/core": "workspace:^"
+    "@primate/frontend": "workspace:^"
   },
   "peerDependencies": {
     "@marko/compiler": "5",

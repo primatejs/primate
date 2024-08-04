@@ -1,7 +1,7 @@
 {
-  "name": "@primate/handlebars",
+  "name": "@primate/htmx",
   "version": "0.1.0",
-  "description": "Primate Handlebars frontend",
+  "description": "Primate HTMX frontend",
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
   "files": [
@@ -11,13 +11,16 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/primatejs/primate",
-    "directory": "packages/handlebars"
+    "directory": "packages/htmx"
   },
   "dependencies": {
-    "@primate/frontend": "workspace:^"
+    "@primate/frontend": "workspace:^",
+    "@primate/html": "workspace:^",
+    "@rcompat/object": "^0.5.0",
+    "@rcompat/string": "^0.3.0"
   },
   "peerDependencies": {
-    "handlebars": "4",
+    "htmx-esm": "0.2",
     "primate": "workspace:^"
   },
   "type": "module",
@@ -33,6 +36,10 @@
     "#serve": {
       "@primate/lt": "./src/private/serve/index.js",
       "default": "./src/private/serve/index.js"
+    },
+    "#error/*": {
+      "@primate/lt": "./src/private/error/*.js",
+      "default": "./src/private/error/*.js"
     }
   },
   "exports": {

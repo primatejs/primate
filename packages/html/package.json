@@ -1,7 +1,7 @@
 {
-  "name": "@primate/handlebars",
+  "name": "@primate/html",
   "version": "0.1.0",
-  "description": "Primate Handlebars frontend",
+  "description": "Primate HTML frontend",
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
   "files": [
@@ -11,13 +11,13 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/primatejs/primate",
-    "directory": "packages/handlebars"
+    "directory": "packages/html"
   },
   "dependencies": {
-    "@primate/frontend": "workspace:^"
+    "@primate/frontend": "workspace:^",
+    "@rcompat/string": "^0.3.0"
   },
   "peerDependencies": {
-    "handlebars": "4",
     "primate": "workspace:^"
   },
   "type": "module",
@@ -39,6 +39,7 @@
     ".": {
       "runtime": "./src/public/runtime.js",
       "default": "./src/public/default.js"
-    }
+    },
+    "./handler": "./src/public/handler.js"
   }
 }

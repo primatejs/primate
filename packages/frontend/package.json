@@ -26,7 +26,6 @@
   "peerDependencies": {
     "@babel/core": "7",
     "babel-preset-solid": "1",
-    "htmx-esm": "0.2",
     "primate": "workspace:^",
     "react": "18",
     "react-dom": "18",
@@ -38,9 +37,6 @@
       "optional": true
     },
     "babel-preset-solid": {
-      "optional": true
-    },
-    "htmx-esm": {
       "optional": true
     },
     "react": {

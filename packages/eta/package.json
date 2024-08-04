@@ -14,7 +14,7 @@
     "directory": "packages/eta"
   },
   "dependencies": {
-    "@primate/core": "workspace:^"
+    "@primate/frontend": "workspace:^"
   },
   "peerDependencies": {
     "eta": "3",

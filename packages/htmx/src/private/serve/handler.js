@@ -1,4 +1,4 @@
-import handler from "#html/handler";
+import handler from "@primate/html/handler";
 
 export default (name, props, options = {}) => async (app, _, request) => {
   const code = "import { htmx } from \"app\";";

@@ -14,7 +14,8 @@
     "directory": "packages/voby"
   },
   "dependencies": {
-    "@primate/core": "workspace:^"
+    "@primate/frontend": "workspace:^",
+    "@rcompat/build": "^0.3.0"
   },
   "peerDependencies": {
     "linkedom-global": "1",

@@ -1,4 +1,4 @@
-import render from "#render";
+import render from "@primate/frontend/core/render";
 
 const script_re = /(?<=<script)>(?<code>.*?)(?=<\/script>)/gus;
 const style_re = /(?<=<style)>(?<code>.*?)(?=<\/style>)/gus;

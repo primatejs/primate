@@ -1,6 +1,6 @@
-import compile from "#compile";
 import no_client_extension from "#error/no-client-extension";
-import name from "#htmx/name";
+import name from "#name";
+import compile from "@primate/frontend/core/compile";
 import empty from "@rcompat/object/empty";
 import server from "./server.js";
 
