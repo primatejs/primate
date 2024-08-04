@@ -20,6 +20,7 @@
     "@rcompat/fs": "^0.4.0"
   },
   "peerDependencies": {
+    "primate": "workspace:^",
     "pyodide": "0.26"
   },
   "type": "module",

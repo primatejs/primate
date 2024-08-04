@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@primate/core": "workspace:^",
-    "@rcompat/cli": "^0.5.0",
+    "@rcompat/cli": "^0.5.1",
     "@rcompat/fs": "^0.4.0",
     "@rcompat/http": "^0.5.0"
   },

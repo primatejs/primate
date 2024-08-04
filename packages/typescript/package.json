@@ -6,7 +6,6 @@
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
   "files": [
-    "src/**/*.rb",
     "src/**/*.js",
     "!src/**/*.spec.js"
   ],
@@ -18,7 +17,7 @@
   "dependencies": {
     "@primate/core": "workspace:^",
     "@rcompat/build": "^0.3.0",
-    "@rcompat/cli": "^0.5.0"
+    "@rcompat/cli": "^0.5.1"
   },
   "peerDependencies": {
     "@ruby/head-wasm-wasi": "2",
