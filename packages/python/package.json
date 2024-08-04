@@ -1,41 +1,32 @@
 {
-  "name": "@primate/go",
+  "name": "@primate/python",
   "version": "0.1.0",
-  "description": "Primate Go module",
-  "homepage": "https://primatejs.com/modules/go",
+  "description": "Primate Python module",
+  "homepage": "https://primatejs.com/modules/python",
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
   "files": [
-    "src/**/*.go",
-    "src/**/*.sum",
-    "src/**/*.mod",
+    "src/**/*.py",
     "src/**/*.js",
     "!src/**/*.spec.js"
   ],
   "repository": {
     "type": "git",
     "url": "https://github.com/primatejs/primate",
-    "directory": "packages/go"
+    "directory": "packages/py"
   },
   "dependencies": {
     "@primate/core": "workspace:^",
-    "@rcompat/cli": "^0.5.0",
-    "@rcompat/env": "^0.3.0",
-    "@rcompat/fs": "^0.4.0",
-    "@rcompat/invariant": "^0.5.0",
-    "@rcompat/object": "^0.5.0",
-    "@rcompat/platform": "^0.3.0",
-    "@rcompat/stdio": "^0.4.0"
+    "@rcompat/fs": "^0.4.0"
+  },
+  "peerDependencies": {
+    "pyodide": "0.26"
   },
   "type": "module",
   "imports": {
     "#*": {
       "@primate/lt": "./src/private/*.js",
       "default": "./src/private/*.js"
-    },
-    "#error/*": {
-      "@primate/lt": "./src/private/error/*.js",
-      "default": "./src/private/error/*.js"
     }
   },
   "exports": {

@@ -30,17 +30,13 @@
   "peerDependencies": {
     "@ruby/head-wasm-wasi": "2",
     "@ruby/wasm-wasi": "2",
-    "primate": "workspace:^",
-    "pyodide": "0.26"
+    "primate": "workspace:^"
   },
   "peerDependenciesMeta": {
     "@ruby/head-wasm-wasi": {
       "optional": true
     },
     "@ruby/wasm-wasi": {
-      "optional": true
-    },
-    "pyodide": {
       "optional": true
     }
   },
@@ -49,10 +45,6 @@
     "#*": {
       "@primate/lt": "./src/private/*.js",
       "default": "./src/private/*.js"
-    },
-    "#error/*": {
-      "@primate/lt": "./src/private/error/*.js",
-      "default": "./src/private/error/*.js"
     }
   },
   "exports": {

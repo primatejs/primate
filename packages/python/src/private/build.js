@@ -13,9 +13,9 @@ const make_package = pkg => `await pyodide.loadPackage("${pkg}", {
 
 const js_wrapper = async (path, routes, packages) => `
   import file from "@rcompat/fs/file";
-  import to_request from "@primate/binding/python/to-request";
-  import to_response from "@primate/binding/python/to-response";
-  import wrap from "@primate/binding/python/wrap";
+  import to_request from "@primate/python/to-request";
+  import to_response from "@primate/python/to-response";
+  import wrap from "@primate/python/wrap";
   import { loadPyodide as load } from "pyodide";
 
   const pyodide = await load({ indexURL: "./node_modules/pyodide" });
