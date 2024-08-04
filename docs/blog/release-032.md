@@ -70,7 +70,7 @@ Currently available targets are `linux-x64`, `windows-x64`, `darwin-x64` and
 
 ## New supported frontend: Voby
 
-[Voby] is a high-performance framework with fine-grained observable-based
+[Voby] is a high-performance framework with fine-grained signal-based
 reactivity for building rich applications.
 
 ## Install
