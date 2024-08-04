@@ -4,14 +4,14 @@ This handler module serves Eta components with the `.eta` extension.
 
 ## Install
 
-`npm install @primate/frontend eta@3`
+`npm install @primate/eta`
 
 ## Configure
 
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import eta from "@primate/frontend/eta";
+import eta from "@primate/eta";
 
 export default {
   modules: [

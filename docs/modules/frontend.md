@@ -49,8 +49,7 @@ reloading the entire page, and also manages browsing the history.
 
 If you need to manipulate the `<head>` part from within an individual
 component, use `<svelte:head>` for Svelte. For React and Solid, you can use the
-`@primate/frontend/react/head` or `@primate/frontend/solid/head` export for
-the same behavior.
+`@primate/react/head` or `@primate/solid/head` export for the same behavior.
 
 ## Support matrix
 

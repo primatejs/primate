@@ -5,14 +5,14 @@ This handler module supports SSR and serves Angular components with the
 
 ## Install
 
-`npm install @primate/frontend @angular/{compiler,core,platform-browser,platform-server,ssr}`
+`npm install @primate/angular`
 
 ## Configure
 
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import angular from "@primate/frontend/angular";
+import angular from "@primate/angular";
 
 export default {
   modules: [

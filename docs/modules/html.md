@@ -4,14 +4,14 @@ This handler module serves HTML components with the `.html` extension.
 
 ## Install
 
-`npm install @primate/frontend`
+`npm install @primate/html`
 
 ## Configure
 
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import html from "@primate/frontend/html";
+import html from "@primate/html";
 
 export default {
   modules: [

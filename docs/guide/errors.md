@@ -12,7 +12,7 @@ directory. To define an error route, create a `+error.js` file inside `routes`.
 
 Similarly to the special guard and layout files, the error route gets a
 `request` parameter and can respond with a proper handler. Here is an example
-with an error route file rendering a Svelte component (`@primate/frontend` must
+with an error route file rendering a Svelte component (`@primate/svelte` must
 be installed and loaded in the project).
 
 ```js caption=routes/+error.js

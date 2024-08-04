@@ -54,18 +54,15 @@ export default {
 
 ## SQLite
 
-`npm install better-sqlite3`
-
-The SQLite driver uses the `better-sqlite3` package for its underlying driver.
-Install this package before you proceed.
+`npm install @primate/sqlite`
 
 Similarly to the JSON file driver, the SQLite driver uses the `database`
-property to indicate where manage the data. If unset, it will default to
-`":memory:"`, using SQLite in-memory, volatile database.
+property to indicate in what file to manage the data. If unset, it will default
+to `":memory:"`, using SQLite in-memory, volatile database.
 
 ```js caption=primate.config.js
 import store from "@primate/store";
-import sqlite from "@primate/store/sqlite";
+import sqlite from "@primate/sqlite";
 
 export default {
   modules: [
@@ -81,19 +78,18 @@ export default {
 
 ## MongoDB
 
-`npm install mongodb`
+`npm install @primate/mongodb`
 
-The SQLite driver uses the `mongodb` package for its underlying driver.
-Install this package before you proceed. In addition, it requires running
-MongoDB server either locally or remotely. Visit the MongoDB website or consult
-your operating system's manuals on how to install and run a server.
+The MongoDB module requires running a MongoDB server either locally or
+remotely. Visit the MongoDB website or consult your operating system's manuals
+on how to install and run a server.
 
 This driver uses the `host` (default `"localhost"`), `port` (default `27017`)
 and `database` configuration properties.
 
 ```js caption=primate.config.js
 import store from "@primate/store";
-import mongodb from "@primate/store/mongodb";
+import mongodb from "@primate/mongodb";
 
 export default {
   modules: [
@@ -114,19 +110,18 @@ export default {
 
 ## PostgreSQL
 
-`npm install postgres`
+`npm install @primate/postgresql`
 
-The SQLite driver uses the `postgres` package for its underlying driver.
-Install this package before you proceed. In addition, it requires running
-PostgerSQL server either locally or remotely. Visit the PostGreSQL website or
-consult your operating system's manuals on how to install and run a server.
+The PostgreSQL module requires running a PostgerSQL server either locally or
+remotely. Visit the PostgreSQL website or consult your operating system's
+manuals on how to install and run a server.
 
 This driver uses the `host` (default `"localhost"`), `port` (default `5432`)
 `database`, `username`, and `password` configuration properties.
 
 ```js caption=primate.config.js
 import store from "@primate/store";
-import postgresql from "@primate/store/postgresql";
+import postgresql from "@primate/postgresql";
 
 export default {
   modules: [
@@ -150,12 +145,11 @@ export default {
 
 ## MySQL
 
-`npm install mysql2`
+`npm install @primate/mysql`
 
-The MySQL driver uses the `mysql2` package for its underlying driver. Install
-this package before you proceed. In addition, it requires running a MySQL
-server either locally or remotely. Visit the MySQL website or consult your
-operating system's manuals on how to install and run a server.
+The MySQL module requires running a MySQL server either locally or remotely.
+Visit the MySQL website or consult your operating system's manuals on how to
+install and run a server.
 
 This driver uses the `host` (default `"localhost"`), `port` (default `3306`)
 `database`, `username`, and `password` configuration properties.
@@ -164,7 +158,7 @@ This driver uses the `host` (default `"localhost"`), `port` (default `3306`)
 
 ```js caption=primate.config.js
 import store from "@primate/store";
-import mysql from "@primate/store/mysql";
+import mysql from "@primate/mysql";
 
 export default {
   modules: [
@@ -192,20 +186,19 @@ export default {
 This driver does not yet support automatic transaction rollback.
 !!!
 
-`npm install surrealdb.js`
+`npm install @primate/surrealdb`
 
-The MySQL driver uses the `surrealdb.js` package for its underlying driver.
-Install this package before you proceed. In addition, it requires running a
-SurrealDB server either locally or remotely. Visit the SurrealDB website or
-consult your operating system's manuals on how to install and run a server.
+The SurrealDB module requires running a SurrealDB server either locally or
+remotely. Visit the SurrealDB website or consult your operating system's
+manuals on how to install and run a server.
 
 This driver uses the `host` (default `"http://localhost"`), `port` (default
-`8000`), `path`  (default: "`rpc`"), `namespace`, `database`, `username`, and
+`8000`), `path`  (default: "`"rpc"`"), `namespace`, `database`, `username`, and
 `password` configuration properties.
 
 ```js caption=primate.config.js
 import store from "@primate/store";
-import surrealdb from "@primate/store/surrealdb";
+import surrealdb from "@primate/surrealdb";
 
 export default {
   modules: [

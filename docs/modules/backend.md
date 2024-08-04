@@ -1,21 +1,19 @@
-# Bindings
+# Backends
 
-The binding module allows you to write backend logic (route files) in other
-programming languages than JavaScript. Primate will then compile your 
-non-JavaScript routes to Wasm, and run them as WebAssembly.
+Primate supports writing backend logic (route files) in other programming
+languages than JavaScript. Non-JavaScript/TypeScript routes will be compiled to
+Wasm and run as WebAssembly.
 
-As a general rule, Primate endeavors to offer the same or a similar API in other
-programming languages as concerns the request object that is passed to and
-the handlers (`view`, `redirect`) that are available to JavaScript routes.
+As a general rule, Primate endeavors to offer the same or a similar API in
+other programming languages as concerns the request object that is passed to 
+the route and the available handlers (`view`, `redirect`).
 
-The `@primate/binding` module currently supports TypeScript, Go, Python and
-Ruby.
+## Supported backends
 
-## Install
-
-`npm install @primate/binding`
-
-The individual programming languages are available as individual exports.
+* [Go](/modules/go)
+* [Python](/modules/python)
+* [Ruby](/modules/ruby)
+* [TypeScript](/modules/typescript)
 
 ## Support matrix
 

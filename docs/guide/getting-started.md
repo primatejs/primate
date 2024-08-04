@@ -49,8 +49,9 @@ Same as before, run `npx -y primate@latest` and point your browser to
 http://localhost:6161 to run your route.
 
 !!!
-Additional backend languages require installing `@primate/binding` and
-[initializing the module](https://primatejs.com/modules/binding) in your config.
+Additional backend languages require loading
+[additional backend packages](https://primatejs.com/modules/backend) in your
+config.
 !!!
 
 ## Serving HTML
@@ -146,12 +147,11 @@ export default {
 Beyond pure HTML, Primate supports a variety of frontend frameworks. Here is
 the same code as before, in Svelte.
 
-First add frontend support by issuing `npm install @primate/frontend` and
-loading the frontend framework of your choice in your configuration file
-(create it first).
+First add Svelte support by issuing `npm install @primate/svelte` and
+loading it your configuration file.
 
 ```js caption=primate.config.js
-import svelte from "@primate/frontend/svelte";
+import svelte from "@primate/svelte";
 
 export default {
   modules: [
@@ -203,7 +203,7 @@ by Svelte.
 
 !!!
 It is likewise easily possible to write React, Vue or HTMX components. Refer to
-the [frontend] module page to see what's available.
+the [frontend] page to see what's available.
 !!!
 
 ## Deeper dive

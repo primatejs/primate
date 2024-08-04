@@ -1,10 +1,10 @@
 # Go
 
-This binding introduces support for routes written in Golang.
+This backend introduces support for routes written in Golang.
 
 ## Install
 
-`npm install @primate/binding`
+`npm install @primate/go`
 
 In addition, your system needs to have the `go` executable in its path, as it
 is used to compile the Go routes into Wasm.
@@ -14,7 +14,7 @@ is used to compile the Go routes into Wasm.
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import go from "@primate/binding/go";
+import go from "@primate/go";
 
 export default {
   modules: [

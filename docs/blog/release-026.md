@@ -21,9 +21,9 @@ rendering.
 
 ### Install
 
-To add support for Go, install the `@primate/binding` module.
+To add support for Go, install the `@primate/go` module.
 
-`npm install @primate/binding`
+`npm install @primate/go`
 
 In addition, your system needs to have the `go` executable in its path, as it
 is used to compile Go routes into WebAssembly.
@@ -33,7 +33,7 @@ is used to compile Go routes into WebAssembly.
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import { go } from "@primate/binding";
+import go from "@primate/go";
 
 export default {
   modules: [
@@ -155,7 +155,7 @@ To use an HTMX extension, pass it to the HTMX module's `extensions` array
 property in your Primate configuration.
 
 ```js primate.config.js
-import { htmx } from "@primate/frontend";
+import htmx from "@primate/htmx";
 
 export default {
   modules: [
@@ -170,7 +170,7 @@ If you're using the `client-side-templates` extension, include the individual
 client side templates in the `client_side_templates` array property.
 
 ```js primate.config.js
-import { htmx } from "@primate/frontend";
+import htmx from "@primate/frontend/htmx";
 
 export default {
   modules: [
@@ -275,7 +275,7 @@ Some of the things we plan to tackle in the upcoming weeks are,
 * Add projections and relations to stores
 * Multidriver transactions
 * Introduce IDE TypeScript support
-* Add support for TypeScript (.ts) routes in `@primate/binding`
+* Add support for TypeScript (.ts) routes
 * Add a `command` hook that would allow modules to register command line
   namespaces, to be able to run `npx primate [namespace] [command] [flags]`
 * Use this new hook to create database migrations for SQL-flavored databases

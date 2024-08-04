@@ -5,14 +5,14 @@ components with the `.jsx` extension.
 
 ## Install
 
-`npm install @primate/frontend @babel/core babel-preset-solid solid-js`
+`npm install @primate/solid`
 
 ## Configure
 
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import solid from "@primate/frontend/solid";
+import solid from "@primate/solid";
 
 export default {
   modules: [
@@ -21,11 +21,11 @@ export default {
 };
 ```
 
-If you're using another JSX frontend module alongside Solid, consider changing
-the file extension for Solid to something else, to avoid conflicts.
+If you're using another JSX frontend framework alongside Solid, consider
+changing the file extension for Solid to something else, to avoid conflicts.
 
 ```js caption=primate.config.js
-import solid from "@primate/frontend/solid";
+import solid from "@primate/solid";
 
 export default {
   modules: [

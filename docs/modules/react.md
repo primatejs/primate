@@ -5,14 +5,14 @@ components with the `.jsx` extension.
 
 ## Install
 
-`npm install @primate/frontend react react-dom`
+`npm install @primate/react`
 
 ## Configure
 
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import react from "@primate/frontend/react";
+import react from "@primate/react";
 
 export default {
   modules: [
@@ -60,7 +60,7 @@ The rendered component will be accessible at http://localhost:6161/react.
 To use TSX instead of JSX files, change this handler's extension to `.tsx`.
 
 ```js caption=primate.config.js
-import react from "@primate/frontend/react";
+import react from "@primate/react";
 
 export default {
   modules: [

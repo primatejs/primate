@@ -313,7 +313,7 @@ module (which defaults to the in-memory driver). A store can override this
 default by exporting a `driver`.
 
 ```js caption=stores/Comment.js
-import mongodb from "@primate/store/mongodb";
+import mongodb from "@primate/mongodb";
 import primary from "@primate/types/primary";
 import string from "@primate/types/string";
 
@@ -330,7 +330,7 @@ recommend initializing it in a separate file (lowercase-first files in the
 `stores` directory are ignored by Primate).
 
 ```js caption=stores/mongodb.js
-import mongodb from "@primate/store/mongodb";
+import mongodb from "@primate/mongodb";
 
 export default mongodb();
 ```

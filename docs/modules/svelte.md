@@ -5,14 +5,14 @@ with the `.svelte` extension.
 
 ## Install
 
-`npm install @primate/frontend svelte`
+`npm install @primate/svelte`
 
 ## Configure
 
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import svelte from "@primate/frontend/svelte";
+import svelte from "@primate/svelte";
 
 export default {
   modules: [

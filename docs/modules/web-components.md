@@ -4,14 +4,14 @@ This handler module serves web components with the `.webc` extension.
 
 ## Install
 
-`npm install @primate/frontend`
+`npm install @primate/webc`
 
 ## Configure
 
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import webc from "@primate/frontend/webc";
+import webc from "@primate/webc";
 
 export default {
   modules: [
@@ -26,7 +26,7 @@ Create an web component in `components`.
 
 ```html caption=components/post-index.webc
 <script>
-  import Component from "@primate/frontend/webc/component";
+  import Component from "@primate/webc/Component";
   import PostLink from "./post-link.webc";
 
   export default class PostIndex extends Component {
@@ -50,7 +50,7 @@ And another component for displaying post links.
 
 ```html caption=components/post-link.webc
 <script>
-  import Component from "@primate/frontend/webc/component";
+  import Component from "@primate/webc/Component";
 
   export default class PostLink extends Component {
     render() {

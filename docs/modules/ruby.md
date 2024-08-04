@@ -1,17 +1,17 @@
 # Ruby
 
-This binding introduces support for routes written in Ruby.
+This backend introduces support for routes written in Ruby.
 
 ## Install
 
-`npm install @primate/binding @ruby/head-wasm-wasi @ruby/wasm-wasi`
+`npm install @primate/ruby`
 
 ## Configure
 
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import ruby from "@primate/binding/ruby";
+import ruby from "@primate/ruby";
 
 export default {
   modules: [

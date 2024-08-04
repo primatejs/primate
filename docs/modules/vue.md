@@ -5,14 +5,14 @@ extension.
 
 ## Install
 
-`npm install @primate/frontend vue`
+`npm install @primate/vue`
 
 ## Configure
 
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import vue from "@primate/frontend/vue";
+import vue from "@primate/vue";
 
 export default {
   modules: [

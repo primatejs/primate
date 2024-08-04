@@ -1,17 +1,17 @@
 # Python
 
-This binding introduces support for routes written in Python.
+This backend introduces support for routes written in Python, using Pyodide.
 
 ## Install
 
-`npm install @primate/binding pyodide`
+`npm install @primate/python`
 
 ## Configure
 
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import python from "@primate/binding/python";
+import python from "@primate/python";
 
 export default {
   modules: [
@@ -25,7 +25,7 @@ standard library) you'd like to use to the `packages` configuration array of
 this module.
 
 ```js caption=primate.config.js
-import python from "@primate/binding/python";
+import python from "@primate/python";
 
 export default {
   modules: [

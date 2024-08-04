@@ -31,7 +31,7 @@ Create a Eta component in `components`.
 Serve it from a route.
 
 ```js caption=routes/eta.js
-import { view } from "primate";
+import view from "primate/handler/view";
 
 const posts = [{
   id: 1,
@@ -55,16 +55,17 @@ The rendered component will be accessible at http://localhost:6161/eta.
 
 ### HTML removed from core
 
-use `@primate/frontend/html`
+use `@primate/html`
 
 ### Normalized names for database conf 
 
 (filename -> database)
 
-### Debarrelled imports for modules
+### Debarrelled imports/repackaging for modules (backend, frontend, store)
 
 ### Debarrelled imports for handlers
-# 
+
+### Changed i18 t and locale imports
 
 ## Next on the road
 

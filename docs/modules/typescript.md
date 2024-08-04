@@ -1,17 +1,17 @@
 # TypeScript
 
-This binding introduces support for routes written in TypeScript.
+This backend introduces support for routes written in TypeScript.
 
 ## Install
 
-`npm install @primate/binding`
+`npm install @primate/typescript`
 
 ## Configure
 
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import typescript from "@primate/binding/typescript";
+import typescript from "@primate/typescript";
 
 export default {
   modules: [

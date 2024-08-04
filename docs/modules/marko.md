@@ -5,14 +5,14 @@ extension.
 
 ## Install
 
-`npm install @primate/frontend @marko/{compiler,translator-default}`
+`npm install @primate/marko`
 
 ## Configure
 
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import marko from "@primate/frontend/marko";
+import marko from "@primate/marko";
 
 export default {
   modules: [

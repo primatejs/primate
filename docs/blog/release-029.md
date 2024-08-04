@@ -67,7 +67,7 @@ export default class PostIndex {
 Serve it from a route.
 
 ```js caption=routes/angular.js
-import { view } from "primate";
+import view from "primate/handler/view";
 
 const posts = [{
   id: 1,
@@ -124,7 +124,7 @@ Create a Marko component in `components`.
 Serve it from a route.
 
 ```js caption=routes/marko.js
-import { view } from "primate";
+import view from "primate/handler/view";
 
 const posts = [{
   id: 1,
@@ -144,22 +144,22 @@ The rendered component will be accessible at http://localhost:6161/marko.
 
 This release introduces support for MySQL using the `mysql2` driver. The MySQL
 driver supports all of Primate's ORM operations as well as transactions and
-connection pools. In addition to installing the `mysql2` package, this driver
-requires running a MySQL server either locally or remotely. Visit the MySQL
-website or consult your operating system's manuals on how to install and run a
-server.
+connection pools. This module requires running a MySQL server either locally
+or remotely. Visit the MySQL website or consult your operating system's manuals
+on how to install and run a server.
 
 ### Install
 
-`npm install @primate/store mysql2@3`
+`npm install @primate/mysql`
 
 ### Configure
 
 The MySQL driver uses the `host` (default `"localhost"`), `port` (default
-`3306`) `database`, `user`, and `password` configuration properties.
+`3306`) `database`, `username`, and `password` configuration properties.
 
 ```js caption=primate.config.js
-import { default as store, mysql } from "@primate/store";
+import store from "@primate/store";
+import mysql from "@primate/mysql";
 
 export default {
   modules: [
@@ -171,7 +171,7 @@ export default {
         // if 3306, can be omitted
         port: 3306,
         database: "app",
-        user: "username",
+        username: "username",
         // can be omitted
         password: "password",
       }),
@@ -193,7 +193,7 @@ addition, we added a new handler for Server-sent events, `sse`.
 You can now upgrade any `GET` route to a WebSocket route with the `ws` handler.
 
 ```js caption=routes/ws.js
-import { ws } from "primate";
+import ws from "primate/handler/ws";
 
 export default {
   get(request) {
@@ -261,7 +261,7 @@ Similarly to `ws`, you can use the `sse` handler to upgrade a `GET` request to
 stream out server-sent events to the client.
 
 ```js caption=routes/sse.js
-import { sse } from "primate";
+import sse from "primate/handler/sse";
 
 const passed = start_time => Math.floor((Date.now() - start_time) / 1000);
 
@@ -301,7 +301,7 @@ The client subscribes to this event and prints it to the console.
 This client is then served using another route.
 
 ```js caption=routes/sse-client.js
-import { view } from "primate";
+import view from "primate/handler/view";
 
 export default {
   get() {
