@@ -1,6 +1,6 @@
-import default_extension from "#vue/extension";
-import pkgname from "#name";
-import serve from "#vue/serve";
+import pkgname from "#pkgname";
+import serve from "#serve";
+import default_extension from "#extension";
 
 export default ({ extension = default_extension } = {}) => ({
   name: pkgname,
