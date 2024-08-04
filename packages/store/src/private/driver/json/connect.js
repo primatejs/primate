@@ -5,9 +5,9 @@ import file from "@rcompat/fs/file";
 export default async ({ database }) => {
   is(database).string();
 
-  const fileref = file(database);
+  const dbfile = file(database);
   const db = {
-    collections: await fileref.exists() ? await fileref.json() : {},
+    collections: await dbfile.exists() ? await dbfile.json() : {},
   };
 
   return {
@@ -17,7 +17,7 @@ export default async ({ database }) => {
     async write(name, callback) {
       db.collections[name] = await callback(this.read(name));
       // write to file
-      await path.write(stringify(db.collections));
+      await dbfile.write(stringify(db.collections));
     },
   };
 };

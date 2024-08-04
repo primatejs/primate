@@ -15,7 +15,7 @@
     "directory": "packages/surrealdb"
   },
   "scripts": {
-    "db:surreal": "surreal start --user primate --pass primate"
+    "db:start": "surreal start --user primate --pass primate"
   },
   "dependencies": {
     "@primate/core": "workspace:^",
