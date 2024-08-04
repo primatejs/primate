@@ -65,7 +65,7 @@ use `@primate/html`
 
 ### Debarrelled imports for handlers
 
-### Changed i18 t and locale imports
+### Changed i18n t and locale imports
 
 ## Next on the road
 
