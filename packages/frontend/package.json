@@ -24,11 +24,6 @@
     "@rcompat/object": "^0.5.0"
   },
   "peerDependencies": {
-    "@angular/compiler": "18",
-    "@angular/core": "18",
-    "@angular/platform-browser": "18",
-    "@angular/platform-server": "18",
-    "@angular/ssr": "18",
     "@babel/core": "7",
     "babel-preset-solid": "1",
     "htmx-esm": "0.2",
@@ -36,25 +31,9 @@
     "react": "18",
     "react-dom": "18",
     "solid-js": "1",
-    "svelte": "4",
-    "zone.js": "0.14"
+    "svelte": "4"
   },
   "peerDependenciesMeta": {
-    "@angular/compiler": {
-      "optional": true
-    },
-    "@angular/core": {
-      "optional": true
-    },
-    "@angular/platform-browser": {
-      "optional": true
-    },
-    "@angular/platform-server": {
-      "optional": true
-    },
-    "@angular/ssr": {
-      "optional": true
-    },
     "@babel/core": {
       "optional": true
     },
@@ -74,9 +53,6 @@
       "optional": true
     },
     "svelte": {
-      "optional": true
-    },
-    "zone.js": {
       "optional": true
     }
   },

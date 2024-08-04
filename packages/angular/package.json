@@ -1,0 +1,50 @@
+{
+  "name": "@primate/angular",
+  "version": "0.1.0",
+  "description": "Primate Angular frontend",
+  "bugs": "https://github.com/primatejs/primate/issues",
+  "license": "MIT",
+  "files": [
+    "src/**/*.js",
+    "!src/**/*.spec.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/primatejs/primate",
+    "directory": "packages/angular"
+  },
+  "dependencies": {
+    "@angular/compiler": "18",
+    "@angular/core": "18",
+    "@angular/platform-browser": "18",
+    "@angular/platform-server": "18",
+    "@angular/ssr": "18",
+    "@primate/core": "workspace:^",
+    "zone.js": "0.14"
+  },
+  "peerDependencies": {
+    "vue": "3",
+    "primate": "workspace:^"
+  },
+  "type": "module",
+  "imports": {
+    "#*": {
+      "@primate/lt": "./src/private/*.js",
+      "default": "./src/private/*.js"
+    },
+    "#build": {
+      "@primate/lt": "./src/private/build/index.js",
+      "default": "./src/private/build/index.js"
+    },
+    "#serve": {
+      "@primate/lt": "./src/private/serve/index.js",
+      "default": "./src/private/serve/index.js"
+    }
+  },
+  "exports": {
+    ".": {
+      "runtime": "./src/public/runtime.js",
+      "default": "./src/public/default.js"
+    }
+  }
+}

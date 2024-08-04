@@ -1,4 +1,4 @@
-import serve from "#serve";
+import serve from "@primate/frontend/core/serve";
 import render from "./render.js";
 import set_mode from "./set-mode.js";
 
