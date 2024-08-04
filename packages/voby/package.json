@@ -1,0 +1,49 @@
+{
+  "name": "@primate/voby",
+  "version": "0.1.0",
+  "description": "Primate Voby frontend",
+  "bugs": "https://github.com/primatejs/primate/issues",
+  "license": "MIT",
+  "files": [
+    "src/**/*.js",
+    "!src/**/*.spec.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/primatejs/primate",
+    "directory": "packages/voby"
+  },
+  "dependencies": {
+    "@primate/core": "workspace:^"
+  },
+  "peerDependencies": {
+    "linkedom-global": "1",
+    "primate": "workspace:^",
+    "voby": "0.58"
+  },
+  "type": "module",
+  "imports": {
+    "#*": {
+      "@primate/lt": "./src/private/*.js",
+      "default": "./src/private/*.js"
+    },
+    "#pkg": {
+      "@primate/lt": "./package.json",
+      "default": "./package.json"
+    },
+    "#build": {
+      "@primate/lt": "./src/private/build/index.js",
+      "default": "./src/private/build/index.js"
+    },
+    "#serve": {
+      "@primate/lt": "./src/private/serve/index.js",
+      "default": "./src/private/serve/index.js"
+    }
+  },
+  "exports": {
+    ".": {
+      "runtime": "./src/public/runtime.js",
+      "default": "./src/public/default.js"
+    }
+  }
+}

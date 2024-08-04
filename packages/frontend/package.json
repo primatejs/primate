@@ -32,13 +32,11 @@
     "@babel/core": "7",
     "babel-preset-solid": "1",
     "htmx-esm": "0.2",
-    "linkedom-global": "1",
     "primate": "workspace:^",
     "react": "18",
     "react-dom": "18",
     "solid-js": "1",
     "svelte": "4",
-    "voby": "0.58",
     "vue": "3",
     "zone.js": "0.14"
   },
@@ -67,9 +65,6 @@
     "htmx-esm": {
       "optional": true
     },
-    "linkedom-global": {
-      "optional": true
-    },
     "react": {
       "optional": true
     },
@@ -80,9 +75,6 @@
       "optional": true
     },
     "svelte": {
-      "optional": true
-    },
-    "voby": {
       "optional": true
     },
     "vue": {
