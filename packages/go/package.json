@@ -6,11 +6,11 @@
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
   "files": [
+    "src/**/*.js",
+    "!src/**/*.spec.js",
     "src/**/*.go",
     "src/**/*.sum",
-    "src/**/*.mod",
-    "src/**/*.js",
-    "!src/**/*.spec.js"
+    "src/**/*.mod"
   ],
   "repository": {
     "type": "git",

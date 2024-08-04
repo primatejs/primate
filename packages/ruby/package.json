@@ -6,9 +6,9 @@
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
   "files": [
-    "src/**/*.rb",
     "src/**/*.js",
-    "!src/**/*.spec.js"
+    "!src/**/*.spec.js",
+    "src/**/*.rb"
   ],
   "repository": {
     "type": "git",

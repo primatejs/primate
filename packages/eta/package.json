@@ -2,6 +2,7 @@
   "name": "@primate/eta",
   "version": "0.1.0",
   "description": "Primate Eta frontend",
+  "homepage": "https://primatejs.com/modules/eta",
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
   "files": [

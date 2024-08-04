@@ -6,7 +6,6 @@
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
   "files": [
-    "src/**/*.py",
     "src/**/*.js",
     "!src/**/*.spec.js"
   ],

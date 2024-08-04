@@ -1,12 +1,12 @@
 {
   "name": "@primate/frontend",
-  "version": "0.15.2",
-  "description": "Primate frontend code",
+  "version": "0.16.0",
+  "description": "Primate frontend core",
+  "homepage": "https://primatejs.com/modules/frontend",
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
   "files": [
     "src/**/*.js",
-    "src/**/errors.json",
     "!src/**/*.spec.js"
   ],
   "repository": {

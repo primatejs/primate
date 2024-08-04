@@ -1,7 +1,7 @@
 {
   "name": "@primate/mysql",
   "version": "0.1.0",
-  "description": "Primate MySQL module",
+  "description": "Primate MySQL database",
   "homepage": "https://primatejs.com/modules/mysql",
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",

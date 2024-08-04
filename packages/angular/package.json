@@ -2,6 +2,7 @@
   "name": "@primate/angular",
   "version": "0.1.0",
   "description": "Primate Angular frontend",
+  "homepage": "https://primatejs.com/modules/angular",
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
   "files": [

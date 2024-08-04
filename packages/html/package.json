@@ -2,6 +2,7 @@
   "name": "@primate/html",
   "version": "0.1.0",
   "description": "Primate HTML frontend",
+  "homepage": "https://primatejs.com/modules/html",
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
   "files": [

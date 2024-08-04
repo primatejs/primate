@@ -1,13 +1,12 @@
 {
   "name": "@primate/i18n",
-  "version": "0.7.0",
-  "description": "Primate I18N module",
+  "version": "0.8.0",
+  "description": "Primate internalization",
   "homepage": "https://primatejs.com/modules/i18n",
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
   "files": [
     "src/**/*.js",
-    "src/errors.json",
     "!src/**/*.spec.js"
   ],
   "repository": {

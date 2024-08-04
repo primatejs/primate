@@ -1,7 +1,7 @@
 {
   "name": "@primate/postgresql",
   "version": "0.1.0",
-  "description": "Primate PostGreSQL module",
+  "description": "Primate PostgreSQL database",
   "homepage": "https://primatejs.com/modules/postgresql",
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",

@@ -1,7 +1,7 @@
 {
   "name": "@primate/surrealdb",
   "version": "0.3.0",
-  "description": "Primate SurrealDB module",
+  "description": "Primate SurrealDB database",
   "homepage": "https://primatejs.com/modules/surrealdb",
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",

@@ -2,6 +2,7 @@
   "name": "@primate/handlebars",
   "version": "0.1.0",
   "description": "Primate Handlebars frontend",
+  "homepage": "https://primatejs.com/modules/handlebars",
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
   "files": [

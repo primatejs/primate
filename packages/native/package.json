@@ -7,7 +7,6 @@
   "license": "MIT",
   "files": [
     "src/**/*.js",
-    "src/errors.json",
     "!src/**/*.spec.js"
   ],
   "repository": {

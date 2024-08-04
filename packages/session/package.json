@@ -1,7 +1,7 @@
 {
   "name": "@primate/session",
-  "version": "0.19.0",
-  "description": "Primate session module",
+  "version": "0.20.0",
+  "description": "Primate user sessions",
   "homepage": "https://primatejs.com/modules/session",
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",

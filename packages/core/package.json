@@ -1,14 +1,14 @@
 {
   "name": "@primate/core",
   "version": "0.1.0",
-  "description": "Primate core module",
+  "description": "Primate core",
   "homepage": "https://primatejs.com",
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
   "files": [
     "src/**/*.js",
-    "src/build/defaults/*.html",
-    "!src/**/*.spec.js"
+    "!src/**/*.spec.js",
+    "src/build/defaults/*.html"
   ],
   "repository": {
     "type": "git",

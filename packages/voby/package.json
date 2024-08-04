@@ -2,6 +2,7 @@
   "name": "@primate/voby",
   "version": "0.1.0",
   "description": "Primate Voby frontend",
+  "homepage": "https://primatejs.com/modules/voby",
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
   "files": [
