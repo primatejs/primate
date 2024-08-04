@@ -10,8 +10,8 @@ export default length => {
   return `
     import { createSignal } from "solid-js";
     import { createComponent } from "solid-js/web";
-    import AppContext from "@primate/frontend/solid/context/app";
-    import HeadContext from "@primate/frontend/solid/context/head";
+    import AppContext from "@primate/solid/context/app";
+    import HeadContext from "@primate/solid/context/head";
 
     export default ({
       components,

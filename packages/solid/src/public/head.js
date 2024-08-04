@@ -1,4 +1,4 @@
-import HeadContext from "#solid/context/head";
+import HeadContext from "#context/head";
 import platform from "@rcompat/platform";
 import { onCleanup, onMount, useContext } from "solid-js";
 

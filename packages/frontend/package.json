@@ -24,22 +24,10 @@
     "@rcompat/object": "^0.5.0"
   },
   "peerDependencies": {
-    "@babel/core": "7",
-    "babel-preset-solid": "1",
     "primate": "workspace:^",
-    "solid-js": "1",
     "svelte": "4"
   },
   "peerDependenciesMeta": {
-    "@babel/core": {
-      "optional": true
-    },
-    "babel-preset-solid": {
-      "optional": true
-    },
-    "solid-js": {
-      "optional": true
-    },
     "svelte": {
       "optional": true
     }

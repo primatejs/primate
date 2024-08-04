@@ -1,12 +1,12 @@
-import default_extension from "#solid/extension";
-import name from "#solid/name";
-import serve from "#solid/serve";
+import default_extension from "#extension";
+import pkgname from "#pkgname";
+import serve from "#serve";
 
 export default ({
   extension = default_extension,
   // activate fetch-based browsing
   spa = true,
 } = {}) => ({
-  name: `primate:${name}`,
+  name: pkgname,
   serve: serve(extension, spa),
 });

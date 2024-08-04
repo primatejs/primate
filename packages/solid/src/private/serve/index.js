@@ -1,6 +1,6 @@
-import handler from "#handler";
-import client from "#solid/client";
-import name from "#solid/name";
+import handler from "@primate/frontend/core/handler";
+import client from "#client";
+import name from "#name";
 import render from "./render.js";
 
 export default (extension, spa) => (app, next) => {
