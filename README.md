@@ -86,6 +86,7 @@ same codebase.
 |[@primate/types](packages/types)             | Schema validation             |
 |[@primate/session](packages/session)         | User sessions                 |
 |[@primate/i18n](packages/i18n)               | Internationalization          |
+|[@primate/native](packages/native)           | Compile native apps           |
 |[website](packages/website)                  | Primate website               |
 |[create-primate](packages/create-primate)    | GUI for creating Primate apps |
 
@@ -95,7 +96,7 @@ same codebase.
 |------------------|------|------|---------|--------------------------------------------------------|
 |Backend           |JS, TS|JS, TS|JS, TS   |JS, TS, Go, Python, Ruby                                |
 |Frontend          |React |Vue   |Svelte   |React, Vue, Svelte, Solid, Angular, HTMX, Handlebars, WC|
-|Native runtime    |Node  |Node  |Node     |Node, Deno, Bun                                         |
+|Runtime           |Node  |Node  |Node     |Node, Deno, Bun                                         |
 |I18N              |✓     |✓     |✗        |@primate/i18n                                           |
 |Head Component    |✓     |✓     |✗        |React, Svelte, Solid                                    |
 |Route guards      |✗     |✗     |✗        |✓                                                       |

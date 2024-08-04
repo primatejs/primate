@@ -10,8 +10,6 @@ If Primate doesn't find a `primate.config.js` in your project root directory
 a default object, Primate will fall back to its default configuration file.
 
 ```js
-import Logger from "primate/logger";
-
 export default {
   base: "/",
   modules: [],
@@ -19,9 +17,8 @@ export default {
     app: "app.html",
     error: "error.html",
   },
-  logger: {
-    level: Logger.Warn,
-    trace: false,
+  log: {
+    level: "warn",
   },
   http: {
     host: "localhost",
@@ -64,11 +61,9 @@ To illustrate this, if you wanted to change the default logging level to
 `primate.config.js` in your project root with the following overrides.
 
 ```js
-import Logger from "primate/logger";
-
 export default {
-  logger: {
-    level: Logger.Info,
+  log: {
+    level: "info",
   },
   http: {
     port: 6262,
@@ -80,8 +75,6 @@ Primate will merge your custom configuration with its default, resulting in
 effectively the following configuration.
 
 ```js
-import Logger from "primate/logger";
-
 export default {
   base: "/",
   modules: [],
@@ -89,9 +82,8 @@ export default {
     app: "app.html",
     error: "error.html",
   },
-  logger: {
-    level: Logger.Info,
-    trace: false,
+  log: {
+    level: "info",
   },
   http: {
     host: "localhost",
@@ -163,19 +155,12 @@ Name of the default error HTML page located in `location.pages`. If
 
 For more info on logging, refer to the [Logging](/guide/logging) section.
 
-### logger.level
+### log.level
 
-Default `Logger.Warn`
+Default `"warn"`
 
 The logging level to be used. Primate has three logging levels, `Error`, `Warn`
 and `Info`.
-
-### logger.trace
-
-Default `false`
-
-Whether Primate should show the original stack trace of errors in addition to
-its own errors.
 
 ## HTTP options
 
