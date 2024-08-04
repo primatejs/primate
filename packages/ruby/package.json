@@ -1,0 +1,44 @@
+{
+  "name": "@primate/ruby",
+  "version": "0.1.0",
+  "description": "Primate Ruby module",
+  "homepage": "https://primatejs.com/modules/ruby",
+  "bugs": "https://github.com/primatejs/primate/issues",
+  "license": "MIT",
+  "files": [
+    "src/**/*.rb",
+    "src/**/*.js",
+    "!src/**/*.spec.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/primatejs/primate",
+    "directory": "packages/ruby"
+  },
+  "dependencies": {
+    "@primate/core": "workspace:^"
+  },
+  "peerDependencies": {
+    "@ruby/head-wasm-wasi": "2",
+    "@ruby/wasm-wasi": "2",
+    "primate": "workspace:^"
+  },
+  "type": "module",
+  "imports": {
+    "#*": {
+      "@primate/lt": "./src/private/*.js",
+      "default": "./src/private/*.js"
+    },
+    "#error/*": {
+      "@primate/lt": "./src/private/error/*.js",
+      "default": "./src/private/error/*.js"
+    }
+  },
+  "exports": {
+    ".": {
+      "runtime": "./src/runtime.js",
+      "default": "./src/default.js"
+    },
+    "./*": "./src/*.js"
+  }
+}

@@ -4,9 +4,9 @@ const routes_re = /def (?<route>get|post|put|delete)/gu;
 const get_routes = code => [...code.matchAll(routes_re)]
   .map(({ groups: { route } }) => route);
 
-const directory = file(import.meta.url).up(1);
-const session_rb = await directory.join("session.rb").text();
-const request = await directory.join("./request.rb").text();
+const this_directory = file(import.meta.url).up(1);
+const session_rb = await this_directory.join("session.rb").text();
+const request = await this_directory.join("./request.rb").text();
 const make_route = route => `async ${route.toLowerCase()}(request) {
     return to_response(await environment.callAsync("run_${route}",
       vm.wrap(request), vm.wrap(helpers)));
@@ -48,11 +48,13 @@ end`);
   }
 
   return `
-  import to_response from "@primate/binding/ruby/to-response";
-  import { module, rubyvm, helpers } from "@primate/binding/ruby/common";
+  import to_response from "@primate/ruby/to-response";
+  import helpers from "@primate/ruby/helpers";
+  import { DefaultRubyVM } from "@ruby/wasm-wasi/dist/node";
+  import ruby from "@primate/ruby/ruby";
   import file from "@rcompat/fs/file";
 
-const { vm } = await rubyvm(module);
+const { vm } = await DefaultRubyVM(ruby);
 const code = await file(${JSON.stringify(path)}).text();
 const wrappers = ${JSON.stringify(create_ruby_wrappers(routes))};
 const request = ${JSON.stringify(request
@@ -69,8 +71,8 @@ export default {
 };
 
 export default ({ extension } = {}) => (app, next) => {
-  app.bind(extension, async (directory, file) => {
-    const path = directory.join(file);
+  app.bind(extension, async (directory, route) => {
+    const path = directory.join(route);
     const base = path.directory;
     const js = path.base.concat(".js");
     const code = await path.text();

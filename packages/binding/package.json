@@ -7,9 +7,6 @@
   "license": "MIT",
   "files": [
     "src/**/*.js",
-    "src/**/*.json",
-    "src/**/*.py",
-    "src/**/*.rb",
     "!src/**/*.spec.js"
   ],
   "repository": {
@@ -28,25 +25,9 @@
     "@rcompat/stdio": "^0.4.0"
   },
   "peerDependencies": {
-    "@ruby/head-wasm-wasi": "2",
-    "@ruby/wasm-wasi": "2",
     "primate": "workspace:^"
   },
-  "peerDependenciesMeta": {
-    "@ruby/head-wasm-wasi": {
-      "optional": true
-    },
-    "@ruby/wasm-wasi": {
-      "optional": true
-    }
-  },
   "type": "module",
-  "imports": {
-    "#*": {
-      "@primate/lt": "./src/private/*.js",
-      "default": "./src/private/*.js"
-    }
-  },
   "exports": {
     "./*/common": "./src/server/*/common.js",
     "./*/to-request": "./src/server/*/to-request.js",
