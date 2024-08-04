@@ -1,3 +1,5 @@
+import component_error from "#error/component-error";
+import no_component from "#error/no-component";
 import normalize from "#normalize";
 import cascade from "@rcompat/async/cascade";
 import map from "@rcompat/async/map";
@@ -5,12 +7,15 @@ import { json } from "@rcompat/http/mime";
 import { OK } from "@rcompat/http/status";
 import filter from "@rcompat/object/filter";
 import valmap from "@rcompat/object/valmap";
+import tryreturn from "@rcompat/async/tryreturn";
 
 const register = ({ app, name: rootname, ...rest }) => ({
   root: app.get_component(`root_${rootname}.js`),
   async load(name, props) {
     const component = await app.get_component(name);
-    return { name, props, component };
+    return component === undefined
+      ? no_component(name, `${app.get("location.components")}/${name}`)
+      : { name, props, component };
   },
   ...rest,
 });
@@ -57,20 +62,23 @@ export default config => {
         });
       }
 
-      const { body, head } = render(root, {
-        components: components.map(({ component }) => component),
-        ...shared,
-      });
+      return tryreturn(async () => {
+        const { body, head } = render(root, {
+          components: components.map(({ component }) => component),
+          ...shared,
+        });
+        const code = client({ names, ...shared }, { spa: config.spa });
+        const inlined = await app.inline(code, "module");
+        const script_src = [inlined.integrity];
 
-      const code = client({ names, ...shared }, { spa: config.spa });
-      const inlined = await app.inline(code, "module");
-      const script_src = [inlined.integrity];
-
-      return app.view({
-        body,
-        head: head.concat(inlined.head),
-        headers: app.headers({ "script-src": script_src }),
-        ...options,
+        return app.view({
+          body,
+          head: head.concat(inlined.head),
+          headers: app.headers({ "script-src": script_src }),
+          ...options,
+        });
+      }).orelse(error => {
+        component_error(`${app.get("location.components")}/${name}`, error);
       });
     };
 };

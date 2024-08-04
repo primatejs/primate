@@ -64,9 +64,7 @@ export default app => {
 
       const $layouts = { layouts: await get_layouts(layouts, routed.request) };
       return respond(routed.response)(app, $layouts, routed.request);
-    }).orelse(async error => {
-      log.auto(error);
-
+    }).orelse(async () => {
       // the +error.js page itself could fail
       return tryreturn(_ => respond(error_handler(request))(app, {}, request))
         .orelse(_ => client_error()(app, {}, request));

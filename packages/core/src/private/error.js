@@ -4,7 +4,7 @@ import file from "@rcompat/fs/file";
 const base = level => (url, args) => (...params) => log[level]({
   params,
   name: file(url).base,
-  module: "primate",
+  module: "@primate/core",
   ...args,
 });
 
