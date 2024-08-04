@@ -1,5 +1,5 @@
 import faulty_route from "#error/faulty-route";
-import pkg from "#pkg" with { type: "json" };
+import pkgname from "#pkgname";
 import log from "@primate/core/log";
 import dim from "@rcompat/cli/color/dim";
 import { user } from "@rcompat/env";
@@ -158,7 +158,7 @@ export default ({ extension }) => (app, next) => {
     await base.join(js).write(js_wrapper(wasm_route_path, routes));
 
     try {
-      log.info(`compiling ${dim(file)} to WebAssembly`, { module: pkg.name });
+      log.info(`compiling ${dim(file)} to WebAssembly`, { module: pkgname });
       const cwd = `${base}`;
       // compile .go to .wasm
       await execute(run(wasm, go, includes.join(" ")),
