@@ -1,5 +1,5 @@
-import compile from "#compile";
-import name from "#markdown/name";
+import name from "#name";
+import compile from "@primate/frontend/core/compile";
 import server from "./server.js";
 
 export default (extension, options) => async (app, next) => {

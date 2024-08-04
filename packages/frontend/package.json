@@ -35,7 +35,6 @@
     "handlebars": "4",
     "htmx-esm": "0.2",
     "linkedom-global": "1",
-    "marked": "13",
     "primate": "workspace:^",
     "react": "18",
     "react-dom": "18",
@@ -77,9 +76,6 @@
       "optional": true
     },
     "linkedom-global": {
-      "optional": true
-    },
-    "marked": {
       "optional": true
     },
     "react": {
