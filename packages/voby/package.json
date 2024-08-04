@@ -27,10 +27,6 @@
       "@primate/lt": "./src/private/*.js",
       "default": "./src/private/*.js"
     },
-    "#pkg": {
-      "@primate/lt": "./package.json",
-      "default": "./package.json"
-    },
     "#build": {
       "@primate/lt": "./src/private/build/index.js",
       "default": "./src/private/build/index.js"

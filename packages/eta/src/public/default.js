@@ -1,10 +1,10 @@
 import build from "#build";
 import default_extension from "#extension";
-import name from "#name";
+import pkgname from "#pkgname";
 import serve from "#serve";
 
 export default ({ extension = default_extension } = {}) => ({
-  name,
+  name: pkgname,
   build: build(extension),
   serve: serve(extension),
 });

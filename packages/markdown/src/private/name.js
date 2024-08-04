@@ -1,1 +1,1 @@
-export default "@primate/markdown";
+export default "markdown";

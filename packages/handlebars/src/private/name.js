@@ -1,1 +1,1 @@
-export default "@primate/handlebars";
+export default "handlebars";

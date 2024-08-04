@@ -1,1 +1,1 @@
-export default "@primate/eta";
+export default "eta";
