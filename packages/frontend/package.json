@@ -65,8 +65,8 @@
     },
     "./spa": "./src/spa/exports.js",
     "./core/*": {
-      "@primate/lt": "./src/private/*.js",
-      "default": "./src/private/*.js"
+      "@primate/lt": "./src/public/*.js",
+      "default": "./src/public/*.js"
     },
     "./*": {
       "runtime": "./src/server/*/public/runtime.js",
