@@ -15,6 +15,7 @@
     "directory": "packages/native"
   },
   "dependencies": {
+    "@primate/core": "workspace:^",
     "@rcompat/cli": "^0.5.1",
     "@rcompat/fs": "^0.4.0",
     "@rcompat/stdio": "^0.4.0",

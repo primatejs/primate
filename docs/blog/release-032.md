@@ -231,24 +231,11 @@ export default {
 };
 ```
 
-You can apply the following command in your routes directory to convert
+You can apply a [route migration script] your routes directory to convert
 all routes to the new format.
 
-```sh
-find . -type f -exec sed -i 's/import { view } from "primate"/import view from "primate\/handler\/view"/g' {} + &&
-find . -type f -exec sed -i "s/import { view } from 'primate'/import view from 'primate\/handler\/view'/g" {} + &&
-find . -type f -exec sed -i 's/import { error } from "primate"/import error from "primate\/handler\/error"/g' {} + &&
-find . -type f -exec sed -i "s/import { error } from 'primate'/import error from 'primate\/handler\/error'/g" {} + &&
-find . -type f -exec sed -i 's/import { redirect } from "primate"/import redirect from "primate\/handler\/redirect "/g' {} + &&
-find . -type f -exec sed -i "s/import { redirect } from 'primate'/import redirect from 'primate\/handler\/redirect'/g" {} + &&
-find . -type f -exec sed -i 's/import { ws } from "primate"/import ws from "primate\/handler\/ws"/g' {} + &&
-find . -type f -exec sed -i "s/import { ws } from 'primate'/import ws from 'primate\/handler\/ws'/g" {} + &&
-find . -type f -exec sed -i 's/import { sse } from "primate"/import sse from "primate\/handler\/sse"/g' {} + &&
-find . -type f -exec sed -i "s/import { sse } from 'primate'/import sse from 'primate\/handler\/sse'/g" {} +
-```
-
 !!!
-Note that this command won't convert combined imports of the form
+Note that the script won't convert combined imports of the form
 `import { view, redirect } from "primate";`.
 !!!
 
@@ -312,3 +299,4 @@ Otherwise, have a blast with the new version!
 [Voby]: https://github.com/vobyjs/voby
 [discord]: https://discord.gg/RSg4NNwM4f
 [HTML frontend]: /modules/html
+[route migration script]: https://github.com/primatejs/primate/tree/master/docs/migrations/0.32/routes.sh

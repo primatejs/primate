@@ -30,9 +30,8 @@
   "type": "module",
   "types": "./types/index.d.ts",
   "exports": {
-    "./handler/*": "./src/handlers/*.js"
-  },
-  "scripts": {
-    "prepublishOnly": "dts-buddy"
+    "./handler/*": {
+      "default": "./src/handlers/*.js"
+    }
   }
 }
