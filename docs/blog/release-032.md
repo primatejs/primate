@@ -264,6 +264,38 @@ frontend package.
 <div><a on:click={() => locale.set("de-DE")}>{$t("German")}</a></div>
 ```
 
+### Removed modules
+
+Remove any `@primate/types` imports and uses in your configuration file.
+
+### Removed imports
+
+Don't import `Response` anymore, it is available in the global context of all
+runtimes.
+
+If you previously imported `Status`, import instead the individual statuses
+from `@rcompat/http/status`.
+
+
+```js
+import { OK } from "@rcompat/http/status";
+
+export default {
+  get() {
+    return new Response("Hello, world!", { status: OK });
+  },
+};
+```
+
+### Removed Logger
+
+Remove any `Logger` imports. You can now set the log level when running
+Primate:
+
+`npx primate --loglevel=info`
+
+The log levels stayed the same: `info`, `warn` and `error`.
+
 ## Other changes
 
 Consult the [full changelog][changelog] for a list of all relevant changes.
