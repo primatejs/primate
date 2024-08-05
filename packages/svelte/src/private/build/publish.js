@@ -30,7 +30,7 @@ export default (app, extension) => ({
       const { js, css } = client(source);
       let contents = js;
       if (css !== null && css !== "") {
-        const path = File.webpath(`${args.path}css`);
+        const path = webpath(`${args.path}css`);
         app.build.save(path, css);
         contents += `\nimport "${path}";`;
       }
