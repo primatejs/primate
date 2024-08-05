@@ -8,6 +8,7 @@ import join from "@rcompat/fs/join";
 import exclude from "@rcompat/object/exclude";
 import stringify from "@rcompat/object/stringify";
 import manifest from "@rcompat/package/manifest";
+import root from "@rcompat/package/root";
 import copy_includes from "./copy_includes.js";
 import $router from "./router.js";
 
@@ -163,7 +164,12 @@ const post = async (app, mode, target) => {
   await write_bootstrap(build_number, app, mode);
 
   // copy config file
-  await app.root.join(config_filename).copy(app.path.build.join(config_filename));
+  const local_config = app.root.join(config_filename);
+  const build_config = app.path.build.join(config_filename);
+  const root_base = await root(import.meta.url);
+  const default_config = root_base.join("/src/private/config.js");
+  (await local_config.exists() ? local_config : default_config)
+    .copy(build_config);
 
   const manifest_data = await manifest();
   // create package.json

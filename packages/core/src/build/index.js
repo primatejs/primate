@@ -12,18 +12,27 @@ import platform from "@rcompat/platform";
 import app from "./app.js";
 import { build, init } from "./hook/exports.js";
 
+const empty_config = config => config === undefined || empty(config);
+
 const get_config = async project_root => {
   const local_config = project_root.join(config_filename);
-  return await local_config.exists()
-    ? tryreturn(async _ => {
+  const exists = await local_config.exists()
+  if (exists) {
+    try {
       const imported = await local_config.import("default");
 
-      empty(imported) && empty_config_file(local_config);
+      empty_config(imported) && empty_config_file(local_config);
 
       return imported;
-    }).orelse(({ message }) =>
-      error_in_config_file(message, `${platform} ${local_config}`))
-    : config;
+    } catch (error) {
+      if (error.level === undefined) {
+        error_in_config_file(error.message, `${platform} ${local_config}`);
+      } else {
+        throw error;
+      }
+    }
+  }
+  return config;
 };
 
 export default async (mode, target) => tryreturn(async _ => {
