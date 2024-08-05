@@ -1,6 +1,6 @@
 {
   "name": "@primate/i18n",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "Primate internalization",
   "homepage": "https://primatejs.com/modules/i18n",
   "bugs": "https://github.com/primatejs/primate/issues",

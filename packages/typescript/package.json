@@ -1,6 +1,6 @@
 {
   "name": "@primate/typescript",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Primate TypeScript backend",
   "homepage": "https://primatejs.com/modules/typescript",
   "bugs": "https://github.com/primatejs/primate/issues",

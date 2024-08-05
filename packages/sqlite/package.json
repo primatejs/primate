@@ -1,6 +1,6 @@
 {
   "name": "@primate/sqlite",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Primate SQLite database",
   "homepage": "https://primatejs.com/modules/sqlite",
   "bugs": "https://github.com/primatejs/primate/issues",

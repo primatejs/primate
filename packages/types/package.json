@@ -1,6 +1,6 @@
 {
   "name": "@primate/types",
-  "version": "0.16.0",
+  "version": "0.16.1",
   "description": "Primate schema validation",
   "homepage": "https://primatejs.com/modules/types",
   "bugs": "https://github.com/primatejs/primate/issues",
