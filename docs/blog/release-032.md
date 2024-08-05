@@ -296,6 +296,32 @@ Primate:
 
 The log levels stayed the same: `info`, `warn` and `error`.
 
+### Use build.define instead of build.transform
+
+Previously, you could define a `build.transform` and `build.mapper` to specify
+textual replacements during build-time. We now use esbuild's identifier
+replacement.
+
+```js caption=primate.config.js
+export default {
+  build: {
+    define: {
+      DEBUG: "true",
+      APP_NAME: "'Primate'",
+    },
+  },
+};
+```
+
+Note that this is an identifier replacement, so if you want the identifier
+`DEBUG` to be replaced with boolean `true`, you'd write `DEBUG: "true"`, but if
+you want the replacement to be a string, be sure to quote it properly:
+`APP_NAME: "'Primate'"`.
+
+[According to esbuild](https://esbuild.github.io/api/#define), the expression
+which the identifier is mapped to can "either be a JSON object (null, boolean,
+number, string, array, or object) or a single identifier".
+
 ## Other changes
 
 Consult the [full changelog][changelog] for a list of all relevant changes.
