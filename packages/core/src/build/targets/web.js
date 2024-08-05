@@ -22,7 +22,7 @@ export default async app => {
   const pages = await Promise.all((await collect(d, html, { recursive: true }))
     .map(async file => `${file}`.replace(`${d}/`, _ => "")));
   const pages_str = pages.map(page =>
-    `"${page}": await file("./${location.pages}/${page}").text(),`).join("\n");
+    `"${page}": await join(import.meta.url, "../${location.pages}/${page}").text(),`).join("\n");
 
   const assets_scripts = `
   import file from "@rcompat/fs/file";
