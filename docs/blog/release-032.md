@@ -244,7 +244,7 @@ Note that the script won't convert combined imports of the form
 The translation and locale imports of I18N are now imported directly from the
 frontend package.
 
-```js caption=components/index.svelte`
+```js caption=components/index.svelte
 <script>
   // previously `import t from "@primate/i18n/svelte";`
   import t from "@primate/svelte/i18n";
