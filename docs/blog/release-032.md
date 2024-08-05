@@ -73,7 +73,7 @@ Currently available targets are `linux-x64`, `windows-x64`, `darwin-x64` and
 This release is only the first step towards bringing everything Primate has to
 offer to desktop applications. In the next releases, we plan to add support for
 additional targets such as mobile devices, as well as provide means to package
-apps (`msi`, `dmg`, `deb`, `rpm` and so on). We're also planning on addding
+apps (`msi`, `dmg`, `deb`, `rpm` and so on). We're also planning on adding
 helper functions to detect a user's home as well as config directory. Feedback
 and feature requests are welcome.
 
