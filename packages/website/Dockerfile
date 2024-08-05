@@ -1,8 +1,10 @@
-FROM denoland/deno:alpine
+FROM oven/bun:1-alpine
 
-COPY ./packages/website /app/website
-COPY ./docs /app/website/components/content
+WORKDIR /app
 
-WORKDIR /app/website
+COPY ./packages/website .
+COPY ./docs ./components/content
 
-CMD ["deno", "run", "--allow-all", "npm:primate", "serve"]
+RUN bun i
+
+CMD ["bun", "--bun", "x", "primate", "serve"]
