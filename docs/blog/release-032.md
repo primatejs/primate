@@ -222,7 +222,7 @@ Primate handlers now use paths instead of named exports.
 
 ```js caption=routes/index.js
 // previously `import { view } from "primate";`
-import view from "@primate/handler/view";
+import view from "primate/handler/view";
 
 export default {
   get() {
