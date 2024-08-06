@@ -81,7 +81,7 @@ export default async app => {
     async asset(pathname) {
       const root_asset = buildroot.join(\`client/\${pathname}\`);
       if (await await root_asset.isFile) {
-        return serve_asset(asset);
+        return serve_asset(root_asset);
       }
       const static_asset = buildroot.join(\`client/static/\${pathname}\`);
       if (await static_asset.isFile) {
