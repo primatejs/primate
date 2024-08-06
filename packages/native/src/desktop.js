@@ -6,6 +6,12 @@ export default async app => {
   const http = app.get("http");
   const client = app.runpath(location.client);
   const re = /app..*(?:js|css)$/u;
+
+  const import_statics = (await client.collect()).map((path, i) => `
+    import static${i} from "./client${path.debase(client)}" with { type: "file" };
+    statics["${path.debase(client)}"] = await file(static${i});`)
+    .join("\n");
+
   const $imports = (await Promise.all((await client.collect(re, { recursive: false }))
     .map(async (file, i) => {
       const type = file.extension === ".css" ? "style" : "js";
@@ -30,6 +36,8 @@ export default async app => {
   import file from "@rcompat/fs/file";
   import stringify from "@rcompat/object/stringify";
   import crypto from "@rcompat/crypto";
+  import { OK } from "@rcompat/http/status";
+  import { resolve } from "@rcompat/http/mime";
 
   const encoder = new TextEncoder();
   const hash = async (data, algorithm = "sha-384") => {
@@ -37,6 +45,9 @@ export default async app => {
     const prefix = algorithm.replace("-", _ => "");
     return \`\${prefix}-\${btoa(String.fromCharCode(...new Uint8Array(bytes)))}\`;
   };
+
+  const statics = {};
+  ${import_statics}
 
   ${$imports.map(({ path }, i) =>
     `import asset${i} from "${path}" with { type: "file" };
@@ -69,13 +80,26 @@ export default async app => {
   const pages = {
   ${pages.map((page, i) => `"${page}": page${i},`).join("\n  ")}
   };
+  const serve_asset = asset => new Response(asset.stream(), {
+    status: OK,
+    headers: {
+      "Content-Type": resolve(asset.name),
+    },
+  });
 
   const loader = {
     page(name) {
       return pages[name] ?? pages["${app.get("pages.app")}"];
     },
     asset(pathname) {
-      return assets.find(asset => asset.src === pathname);
+      const root_asset = statics[pathname];
+      if (root_asset !== undefined) {
+        return serve_asset(root_asset);
+      }
+      const static_asset = statics[\`/static\${pathname}\`];
+      if (static_asset !== undefined) {
+        return serve_asset(static_asset);
+      }
     },
     webview() {
       return Webview;

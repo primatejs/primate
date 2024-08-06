@@ -29,6 +29,8 @@ export default async app => {
   import join from "@rcompat/fs/join";
   import stringify from "@rcompat/object/stringify";
   import crypto from "@rcompat/crypto";
+  import { OK } from "@rcompat/http/status";
+  import { resolve } from "@rcompat/http/mime";
 
   const encoder = new TextEncoder();
   const hash = async (data, algorithm = "sha-384") => {
@@ -63,13 +65,28 @@ export default async app => {
   const pages = {
     ${pages_str}
   };
+  const buildroot = file(import.meta.url).join("..");
+
+  const serve_asset = asset => new Response(asset.stream(), {
+    status: OK,
+    headers: {
+      "Content-Type": resolve(asset.name),
+    },
+  });
 
   const loader = {
     page(name) {
       return pages[name] ?? pages["${app.get("pages.app")}"];
     },
-    asset(pathname) {
-      return assets.find(asset => asset.src === pathname);
+    async asset(pathname) {
+      const root_asset = buildroot.join(\`client/\${pathname}\`);
+      if (await await root_asset.isFile) {
+        return serve_asset(asset);
+      }
+      const static_asset = buildroot.join(\`client/static/\${pathname}\`);
+      if (await static_asset.isFile) {
+        return serve_asset(static_asset);
+      }
     },
   };
   const target = "web";

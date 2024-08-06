@@ -1,4 +1,3 @@
-import log from "#log";
 import client_error from "@primate/core/handler/error";
 import cascade from "@rcompat/async/cascade";
 import tryreturn from "@rcompat/async/tryreturn";
@@ -71,21 +70,8 @@ export default app => {
     });
   };
 
-  const as_asset = async (pathname, code) => new Response(code, {
-    status: OK,
-    headers: {
-      "Content-Type": resolve(pathname),
-//      Etag: await path.modified(),
-    },
-  });
-
-  const handle = async request => {
-    const { pathname } = request.url;
-
-    const asset = app.loader.asset(pathname)?.code;
-
-    return asset === undefined ? as_route(request) : as_asset(pathname, asset);
-  };
+  const handle = async request =>
+    (await app.loader.asset(request.url.pathname)) ?? as_route(request);
   // first hook
   const pass = (request, next) => next({
     ...request,
