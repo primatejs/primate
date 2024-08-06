@@ -64,3 +64,24 @@ Currently available targets are `linux-x64`, `windows-x64`, `darwin-x64` and
 `darwin-arm64`.
 
 [bun-running-issues]: https://github.com/oven-sh/bun/issues/11959
+
+## Configuration options
+
+### start
+
+Default `"/"`
+
+The start URL of the application.
+
+### debug
+
+Default `false`
+
+Whether the webview should be started in debug mode (with inspection tools
+active) or not.
+
+## Resources
+
+* [Repository][repo]
+
+[repo]: https://github.com/primatejs/primate/tree/master/packages/native

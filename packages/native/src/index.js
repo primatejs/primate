@@ -8,6 +8,7 @@ const command = "bun build build/serve.js --conditions=runtime --compile --minif
 
 export default ({
   start = "/",
+  debug = false,
 } = {}) => {
   return {
     name: "primate:native",
@@ -29,7 +30,7 @@ export default ({
     async serve(app, next) {
       if (target_keys.includes(app.build_target)) {
         const Webview = app.loader.webview();
-        const webview = new Webview();
+        const webview = new Webview(debug);
         const { host, port } = app.get("http");
         webview.navigate(`http://${host}:${port}${start}`);
         webview.run();
