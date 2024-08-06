@@ -313,6 +313,9 @@ Default `[]`
 A list of directories to be included in the server and client build. Must not
 be any known Primate location.
 
+The directories are specified relative to project root. A `services` directory
+would be denoted with `["services"]`.
+
 ### build.excludes
 
 Default `[]`
