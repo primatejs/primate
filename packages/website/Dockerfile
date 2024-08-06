@@ -1,8 +1,10 @@
-FROM denoland/deno:alpine
+FROM node-alpine
 
-COPY ./packages/website /app/website
-COPY ./docs /app/website/components/content
+WORKDIR /app
 
-WORKDIR /app/website
+COPY ./packages/website .
+COPY ./docs ./components/content
 
-CMD ["deno", "run", "--allow-all", "npm:primate", "serve"]
+RUN npm i
+
+CMD ["npx", "primate", "serve"]
