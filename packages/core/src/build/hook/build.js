@@ -12,8 +12,6 @@ import root from "@rcompat/package/root";
 import copy_includes from "./copy_includes.js";
 import $router from "./router.js";
 
-const html = /^.*.html$/u;
-
 const pre = async (app, mode, target) => {
   let target$ = target;
   if (app.targets[target$] === undefined) {
@@ -114,8 +112,14 @@ const post = async (app, mode, target) => {
   const location = app.get("location");
   const defaults = join(import.meta.dirname, "../defaults");
 
-  await Promise.all(["routes", "types", "components"].map(directory =>
-    app.stage(app.path[directory], location[directory])));
+  // stage routes
+  await app.stage(app.path.routes, location.routes);
+
+  // stage types
+  await app.stage(app.path.types, location.types);
+
+  // stage components, transforming defines
+  await app.stage(app.path.components, location.components, true);
 
   const directory = app.runpath(location.routes);
   for (const path of await directory.collect()) {
@@ -123,9 +127,9 @@ const post = async (app, mode, target) => {
       ?.(directory, path.debase(`${directory}/`));
   }
   // copy framework pages
-  await app.stage(defaults, location.pages, html);
+  await app.stage(defaults, location.pages);
   // overwrite transformed pages to build
-  await app.stage(app.path.pages, location.pages, html);
+  await app.stage(app.path.pages, location.pages);
 
   // copy static files to build/server/static
   await app.stage(app.path.static, join(location.server, location.static));

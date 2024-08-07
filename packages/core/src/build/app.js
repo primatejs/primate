@@ -29,38 +29,32 @@ export default async (root, config) => {
     modules: await module_loader(root, config.modules ?? []),
     fonts: [],
     // copy files to build folder, potentially transforming them
-    async stage(source, directory, filter) {
+    async stage(source, directory, apply_defines = false) {
       const { define = {} } = this.get("build", {});
+      const defines = Object.entries(define);
 
       if (!await source.exists()) {
         return;
       }
 
       const target_base = this.runpath(directory);
-      const defines = Object.entries(define);
 
-      // first, copy everything
-      await source.copy(target_base);
+      if (!apply_defines || defines.length === 0) {
+        // copy everything
+        await source.copy(target_base);
+      } else {
+        // copy files individually, transform them using a defines mapper
+        const mapper = text =>
+          defines.reduce((replaced, [key, substitution]) =>
+            replaced.replaceAll(key, substitution), text);
 
-      const location = this.get("location");
-      const client_location = join(location.client, location.static).path;
-      const mapper = text =>
-        defines.reduce((replaced, [key, substitution]) =>
-          replaced.replaceAll(key, substitution), text);
-
-      // then, copy and transform whitelisted paths using mapper
-      await Promise.all((await source.collect(filter)).map(async abs_path => {
-        const rel_path = join(directory, abs_path.debase(source));
-        if (directory.path === client_location && rel_path.path.endsWith(".css")) {
-          const contents = await abs_path.text();
-          const font_regex = /@font-face\s*\{.+?url\("(.+?\.woff2)"\).+?\}/gus;
-          this.fonts.push(...[...contents.matchAll(font_regex)].map(match => match[1]));
-        }
-        const target = await target_base.join(rel_path.debase(directory));
-        await target.directory.create();
-
-        defines.length > 0 && await target.write(mapper(await abs_path.text()));
-      }));
+        await Promise.all((await source.collect()).map(async abs_path => {
+          const rel_path = join(directory, abs_path.debase(source));
+          const target = await target_base.join(rel_path.debase(directory));
+          await target.directory.create();
+          await target.write(mapper(await abs_path.text()));
+        }));
+      }
     },
     async compile(component) {
       const { server, client, components } = this.get("location");
