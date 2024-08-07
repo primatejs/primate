@@ -1,6 +1,6 @@
 {
   "name": "@primate/vue",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "description": "Primate Vue frontend",
   "homepage": "https://primatejs.com/modules/vue",
   "bugs": "https://github.com/primatejs/primate/issues",
