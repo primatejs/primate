@@ -16,11 +16,11 @@
   },
   "dependencies": {
     "@primate/core": "workspace:^",
-    "@rcompat/fs": "^0.4.1"
+    "@rcompat/fs": "^0.4.1",
+    "pyodide": "^0.26.2"
   },
   "peerDependencies": {
-    "primate": "workspace:^",
-    "pyodide": "0.26"
+    "primate": "workspace:^"
   },
   "type": "module",
   "imports": {

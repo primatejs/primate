@@ -16,11 +16,11 @@
     "directory": "packages/ruby"
   },
   "dependencies": {
-    "@primate/core": "workspace:^"
+    "@primate/core": "workspace:^",
+    "@ruby/head-wasm-wasi": "^2.6.2",
+    "@ruby/wasm-wasi": "^2.6.2"
   },
   "peerDependencies": {
-    "@ruby/head-wasm-wasi": "2",
-    "@ruby/wasm-wasi": "2",
     "primate": "workspace:^"
   },
   "type": "module",

@@ -18,10 +18,10 @@
     "@primate/frontend": "workspace:^",
     "@primate/html": "workspace:^",
     "@rcompat/object": "^0.5.0",
-    "@rcompat/string": "^0.3.0"
+    "@rcompat/string": "^0.3.0",
+    "htmx-esm": "^0.2.0"
   },
   "peerDependencies": {
-    "htmx-esm": "0.2",
     "primate": "workspace:^"
   },
   "type": "module",

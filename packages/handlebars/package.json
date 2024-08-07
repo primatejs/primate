@@ -15,10 +15,10 @@
     "directory": "packages/handlebars"
   },
   "dependencies": {
-    "@primate/frontend": "workspace:^"
+    "@primate/frontend": "workspace:^",
+    "handlebars": "^4.7.8"
   },
   "peerDependencies": {
-    "handlebars": "4",
     "primate": "workspace:^"
   },
   "type": "module",

@@ -15,10 +15,10 @@
     "directory": "packages/markdown"
   },
   "dependencies": {
-    "@primate/frontend": "workspace:^"
+    "@primate/frontend": "workspace:^",
+    "marked": "^13.0.3"
   },
   "peerDependencies": {
-    "marked": "13",
     "primate": "workspace:^"
   },
   "type": "module",

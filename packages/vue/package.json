@@ -15,10 +15,10 @@
     "directory": "packages/vue"
   },
   "dependencies": {
-    "@primate/frontend": "workspace:^"
+    "@primate/frontend": "workspace:^",
+    "vue": "^3.4.36"
   },
   "peerDependencies": {
-    "vue": "3",
     "primate": "workspace:^"
   },
   "type": "module",

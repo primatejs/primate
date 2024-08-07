@@ -20,7 +20,6 @@
     "@rcompat/cli": "^0.5.1"
   },
   "peerDependencies": {
-    "@ruby/head-wasm-wasi": "2",
     "primate": "workspace:^"
   },
   "type": "module",

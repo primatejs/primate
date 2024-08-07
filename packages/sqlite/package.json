@@ -18,13 +18,8 @@
     "@primate/core": "workspace:^",
     "@primate/store": "workspace:^",
     "@rcompat/invariant": "^0.5.0",
-    "@rcompat/object": "^0.5.0"
-  },
-  "devDependencies": {
+    "@rcompat/object": "^0.5.0",
     "better-sqlite3": "^11.1.2"
-  },
-  "peerDependencies": {
-    "better-sqlite3": "11"
   },
   "type": "module",
   "imports": {

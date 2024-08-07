@@ -15,10 +15,10 @@
     "directory": "packages/eta"
   },
   "dependencies": {
-    "@primate/frontend": "workspace:^"
+    "@primate/frontend": "workspace:^",
+    "eta": "^3.4.0"
   },
   "peerDependencies": {
-    "eta": "3",
     "primate": "workspace:^"
   },
   "type": "module",

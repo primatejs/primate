@@ -15,19 +15,18 @@
     "directory": "packages/angular"
   },
   "dependencies": {
+    "@primate/frontend": "workspace:^",
+    "@rcompat/build": "^0.4.0",
+    "@rcompat/object": "^0.5.0"
+  },
+  "peerDependencies": {
     "@angular/compiler": "18",
     "@angular/core": "18",
     "@angular/platform-browser": "18",
     "@angular/platform-server": "18",
     "@angular/ssr": "18",
-    "@primate/frontend": "workspace:^",
-    "@rcompat/build": "^0.4.0",
-    "@rcompat/object": "^0.5.0",
-    "zone.js": "~0.14.10"
-  },
-  "peerDependencies": {
     "primate": "workspace:^",
-    "vue": "3"
+    "zone.js": "0.14"
   },
   "type": "module",
   "imports": {

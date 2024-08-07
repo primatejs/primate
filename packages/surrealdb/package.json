@@ -21,13 +21,8 @@
     "@primate/core": "workspace:^",
     "@primate/store": "workspace:^",
     "@rcompat/invariant": "^0.5.0",
-    "@rcompat/object": "^0.5.0"
-  },
-  "devDependencies": {
+    "@rcompat/object": "^0.5.0",
     "surrealdb.js": "^0.11.1"
-  },
-  "peerDependencies": {
-    "surrealdb.js": "0.11"
   },
   "type": "module",
   "imports": {
