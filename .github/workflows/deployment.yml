@@ -23,6 +23,7 @@ jobs:
           service-regions: "fra"
           service-ports: "6161:http"
           service-routes: "/:6161"
+          service-checks: "6161:http:/"
           skip-cache: true
           git-workdir: "./"
           git-branch: "master"
