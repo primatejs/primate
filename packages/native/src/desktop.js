@@ -1,4 +1,6 @@
 import collect from "@rcompat/fs/collect";
+import webpath from "@rcompat/fs/webpath";
+
 const html = /^.*.html$/u;
 
 export default async app => {
@@ -8,8 +10,8 @@ export default async app => {
   const re = /app..*(?:js|css)$/u;
 
   const import_statics = (await client.collect()).map((path, i) => `
-    import static${i} from "./client${path.debase(client)}" with { type: "file" };
-    statics["${path.debase(client)}"] = await file(static${i});`)
+    import static${i} from "${webpath(`./client${path.debase(client)}`)}" with { type: "file" };
+    statics["${webpath(path.debase(client))}"] = await file(static${i});`)
     .join("\n");
 
   const $imports = (await Promise.all((await client.collect(re, { recursive: false }))
@@ -74,7 +76,7 @@ export default async app => {
     });`}
 
   ${pages.map((page, i) =>
-    `import i_page${i} from "./${location.pages}/${page}" with { type: "file" };
+    `import i_page${i} from "${webpath(`./${location.pages}/${page}`)}" with { type: "file" };
     const page${i} = await file(i_page${i}).text();`).join("\n  ")}
 
   const pages = {

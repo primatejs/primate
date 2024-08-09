@@ -1,4 +1,5 @@
 import collect from "@rcompat/fs/collect";
+import webpath from "@rcompat/fs/webpath";
 
 const html = /^.*.html$/u;
 
@@ -20,9 +21,9 @@ export default async app => {
   });
   const d = app.runpath(location.pages);
   const pages = await Promise.all((await collect(d, html, { recursive: true }))
-    .map(async file => `${file}`.replace(`${d}/`, _ => "")));
+    .map(async file => `${file.debase(d)}`.slice(1)));
   const pages_str = pages.map(page =>
-    `"${page}": await join(import.meta.url, "../${location.pages}/${page}").text(),`).join("\n");
+    `"${page}": await join(import.meta.url, "${webpath(`../${location.pages}/${page}`)}").text(),`).join("\n");
 
   const assets_scripts = `
   import file from "@rcompat/fs/file";
@@ -80,11 +81,11 @@ export default async app => {
     },
     async asset(pathname) {
       const root_asset = buildroot.join(\`client/\${pathname}\`);
-      if (await await root_asset.isFile) {
+      if (await await root_asset.isFile()) {
         return serve_asset(root_asset);
       }
       const static_asset = buildroot.join(\`client/static/\${pathname}\`);
-      if (await static_asset.isFile) {
+      if (await static_asset.isFile()) {
         return serve_asset(static_asset);
       }
     },

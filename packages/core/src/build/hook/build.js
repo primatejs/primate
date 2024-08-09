@@ -11,6 +11,7 @@ import manifest from "@rcompat/package/manifest";
 import root from "@rcompat/package/root";
 import copy_includes from "./copy_includes.js";
 import $router from "./router.js";
+import webpath from "@rcompat/fs/webpath";
 
 const pre = async (app, mode, target) => {
   let target$ = target;
@@ -52,12 +53,12 @@ const write_directories = async (build_directory, app) => {
   for (const name of app.server_build) {
     const d = app.runpath(name);
     const e = await Promise.all((await collect(d, js_re, { recursive: true }))
-      .map(async file => `${file}`.replace(d, _ => "")));
+      .map(async path => `${path}`.replace(d, _ => "")));
     const files_js = `
     const ${name} = [];
-    ${e.map((file , i) =>
-    `import * as ${name}${i} from "../${name}${file}";
-    ${name}.push(["${file.slice(1, -".js".length)}", ${name}${i}]);`,
+    ${e.map((path, i) =>
+    `import * as ${name}${i} from "${webpath(`../${name}${path}`)}";
+    ${name}.push(["${webpath(path.slice(1, -".js".length))}", ${name}${i}]);`,
   ).join("\n")}
     export default ${name};`;
     await build_directory.join(`${name}.js`).write(files_js);
@@ -68,16 +69,16 @@ const write_components = async (build_directory, app) => {
   const location = app.get("location");
   const d2 = app.runpath(location.server, location.components);
   const e = await Promise.all((await collect(d2, js_re, { recursive: true }))
-    .map(async file => `${file}`.replace(d2, _ => "")));
+    .map(async path => `${path}`.replace(d2, _ => "")));
   const components_js = `
 const components = [];
 ${e.map((component, i) =>
-    `import * as component${i} from "../server/components${component}";
-components.push(["${component.slice(1, -".js".length)}", component${i}]);`,
+    `import * as component${i} from "${webpath(`../server/components${component}`)}";
+components.push(["${webpath(component.slice(1, -".js".length))}", component${i}]);`,
   ).join("\n")}
 
 ${app.roots.map((root, i) => `
-import * as root${i} from "${root}";
+import * as root${i} from "${webpath(`../server/${root.name}`)}";
 components.push(["${root.name}", root${i}]);
 `).join("\n")}
 
