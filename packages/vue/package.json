@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@primate/frontend": "workspace:^",
-    "vue": "^3.4.36"
+    "vue": "^3.4.37"
   },
   "peerDependencies": {
     "primate": "workspace:^"
