@@ -168,6 +168,7 @@ export default {
             { heading: "Modules" },
             "Official",
             "Third-party",
+            "Runtime support",
             { heading: "Frontends" },
             "Frontend",
             "Angular",

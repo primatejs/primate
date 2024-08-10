@@ -31,6 +31,7 @@
   "types": "./types/index.d.ts",
   "exports": {
     "./handler/*": "./src/handlers/*.js",
-    "./*": "./src/public/*.js"
+    "./*": "./src/public/*.js",
+    "./runtime/*": "./src/runtime/*.js"
   }
 }

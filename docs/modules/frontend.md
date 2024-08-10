@@ -57,19 +57,21 @@ Every frontend framework registers its own file extension with the
 [`view`][view] handler and needs to be loaded in `primate.config.js`. You can
 use different frontend frameworks alongside each other, in different routes.
 
-|Framework   |Extension      |Props|Layouts|SSR|Hydration|SPA|Head|I18N|
-|------------|---------------|-----|-------|---|---------|---|----|----|
-|[Svelte]    |`.svelte`      |✓    |✓      |✓  |✓        |✓  |✓   |✓   |
-|[React]     |`.jsx`         |✓    |✓      |✓  |✓        |✓  |✓   |✓   |
-|[Solid]     |`.jsx`         |✓    |✓      |✓  |✓        |✓  |✓   |✓   |
-|[Vue]       |`.vue`         |✓    |✗      |✓  |✗        |✗  |✗   |✗   |
-|[Angular]   |`.component.ts`|✓    |✗      |✓  |✗        |✗  |✗   |✗   |
-|[HTML]      |`.html`        |✗    |✗      |✗  |✗        |✗  |✗   |✗   |
-|[HTMX]      |`.htmx`        |✓    |✗      |✗  |✗        |✗  |✗   |✗   |
-|[Handlebars]|`.hbs`         |✓    |✗      |✓  |✓        |✗  |✗   |✗   |
-|[Marko]     |`.marko`       |✓    |✗      |✓  |✗        |✗  |✗   |✗   |
-|[Eta]       |`.eta`         |✓    |✗      |✓  |✗        |✗  |✗   |✗   |
-|[webc]      |`.webc`        |✓    |✗      |✗  |✗        |✗  |✗   |✗   |
+|Framework       |Extension      |Props|Layouts|SSR|Hydration|SPA|Head|I18N|
+|----------------|---------------|-----|-------|---|---------|---|----|----|
+|[Angular]       |`.component.ts`|✓    |✗      |✓  |✗        |✗  |✗   |✗   |
+|[Eta]           |`.eta`         |✓    |✗      |✓  |✗        |✗  |✗   |✗   |
+|[Handlebars]    |`.hbs`         |✓    |✗      |✓  |✓        |✗  |✗   |✗   |
+|[HTML]          |`.html`        |✗    |✗      |✓  |✗        |✗  |✗   |✗   |
+|[HTMX]          |`.htmx`        |✓    |✗      |✓  |✗        |✗  |✗   |✗   |
+|[Markdown]      |`.md`          |✗    |✗      |✓  |✗        |✗  |✗   |✗   |
+|[Marko]         |`.marko`       |✓    |✗      |✓  |✗        |✗  |✗   |✗   |
+|[React]         |`.jsx`         |✓    |✓      |✓  |✓        |✓  |✓   |✓   |
+|[Solid]         |`.jsx`         |✓    |✓      |✓  |✓        |✓  |✓   |✓   |
+|[Svelte]        |`.svelte`      |✓    |✓      |✓  |✓        |✓  |✓   |✓   |
+|[Voby]          |`.voby`        |✓    |✗      |✓  |✗        |✗  |✗   |✗   |
+|[Vue]           |`.vue`         |✓    |✗      |✓  |✗        |✗  |✗   |✗   |
+|[Web Components]|`.webc`        |✓    |✗      |✗  |✗        |✗  |✗   |✗   |
 
 ## Error list
 
@@ -87,18 +89,20 @@ package needs to be installed by the user. Primate will inform you which
 dependency is missing and what command you need to issue to install it.
 
 [view]: /guide/responses#view
-[Svelte]: /modules/svelte
-[React]: /modules/react
-[Solid]: /modules/solid
-[Vue]: /modules/vue
-[Angular]: /modules/angular
-[HTML]: /modules/html
-[HTMX]: /modules/htmx
-[Handlebars]: /modules/handlebars
-[Marko]: /modules/marko
-[Eta]: /modules/eta
-[webc]: /modules/webc
 [Layouts]: /guide/layouts
 [I18N]: /modules/i18n
 [bailout]: /guide/logging#bailout
 [error]: /guide/logging#error
+[Angular]: /modules/angular
+[Eta]: /modules/eta
+[Handlebars]: /modules/handlebars
+[HTML]: /modules/html
+[HTMX]: /modules/htmx
+[Markdown]: /modules/markdown
+[Marko]: /modules/marko
+[React]: /modules/react
+[Solid]: /modules/solid
+[Svelte]: /modules/svelte
+[Voby]: /modules/voby
+[Vue]: /modules/vue
+[Web Components]: /modules/web-components
