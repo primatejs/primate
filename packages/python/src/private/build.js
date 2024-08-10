@@ -12,7 +12,7 @@ const make_package = pkg => `await pyodide.loadPackage("${pkg}", {
 });\n`;
 
 const js_wrapper = async (path, routes, packages) => `
-  import file from "@rcompat/fs/file";
+  import file from "primate/runtime/file";
   import to_request from "@primate/python/to-request";
   import to_response from "@primate/python/to-response";
   import wrap from "@primate/python/wrap";
