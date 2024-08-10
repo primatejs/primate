@@ -1,6 +1,6 @@
 {
   "name": "@primate/angular",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Primate Angular frontend",
   "homepage": "https://primatejs.com/modules/angular",
   "bugs": "https://github.com/primatejs/primate/issues",
@@ -15,18 +15,18 @@
     "directory": "packages/angular"
   },
   "dependencies": {
+    "@angular/compiler": "^18.1.14",
+    "@angular/platform-browser": "^18.1.14",
+    "@angular/platform-server": "^18.1.14",
+    "@angular/ssr": "^18.1.14",
     "@primate/frontend": "workspace:^",
     "@rcompat/build": "^0.4.0",
-    "@rcompat/object": "^0.5.0"
+    "@rcompat/object": "^0.5.0",
+    "zone.js": "^0.14.10"
   },
   "peerDependencies": {
-    "@angular/compiler": "18",
     "@angular/core": "18",
-    "@angular/platform-browser": "18",
-    "@angular/platform-server": "18",
-    "@angular/ssr": "18",
-    "primate": "workspace:^",
-    "zone.js": "0.14"
+    "primate": "workspace:^"
   },
   "type": "module",
   "imports": {
