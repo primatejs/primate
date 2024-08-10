@@ -1,6 +1,6 @@
-export default text => `import HTML from "@rcompat/string/HTML";
+export default text => `import HTML from "@primate/html/escape";
   export default (props = {}, options) => {
-  const encoded = JSON.parse(HTML.escape(JSON.stringify(props)));
+  const encoded = JSON.parse(escape(JSON.stringify(props)));
   const keys = Object.keys(encoded);
   const values = Object.values(encoded);
   const text = ${JSON.stringify(text)};

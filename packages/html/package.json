@@ -41,6 +41,6 @@
       "runtime": "./src/public/runtime.js",
       "default": "./src/public/default.js"
     },
-    "./handler": "./src/public/handler.js"
+    "./*": "./src/public/*.js"
   }
 }
