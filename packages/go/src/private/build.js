@@ -38,7 +38,7 @@ ${
     import route_path from "${path}" with { type: "file" };
     const route = await Bun.file(route_path).arrayBuffer();
   ` : `
-    import file from "@rcompat/fs/file";
+    import file from "primate/runtime/file";
     const route = new Uint8Array(await file(import.meta.dirname+"/${path}")
       .arrayBuffer());
   `
