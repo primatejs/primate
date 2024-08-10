@@ -46,13 +46,13 @@ support for Primate across runtime and build targets.
 
 |Frontend        |Node|Deno|Bun (web)|Bun (desktop)|
 |----------------|----|----|---------|-------------|
-|[MongoDB]       |✓   |✓   |✓        |✗*           |
-|[MySQL]         |✓   |✓   |✓        |✗*           |
-|[PostgreSQL]    |✓   |✓   |✓        |✗*           |
+|[MongoDB]       |✓   |✓   |✓        |✗†           |
+|[MySQL]         |✓   |✓   |✓        |✗†           |
+|[PostgreSQL]    |✓   |✓   |✓        |✗†           |
 |[SQLite]        |✓   |✗   |✓        |✓            |
-|[SurrealDB]     |✓   |✓   |✓        |✗*           |
+|[SurrealDB]     |✓   |✓   |✓        |✗†           |
 
-* A server is required
+† A server is required
 
 [Angular]: /modules/angular
 [Eta]: /modules/eta
@@ -66,6 +66,7 @@ support for Primate across runtime and build targets.
 [Svelte]: /modules/svelte
 [Voby]: /modules/voby
 [Vue]: /modules/vue
+[Web Components]: /modules/web-components
 [Go]: /modules/go
 [Python]: /modules/python
 [Ruby]: /modules/ruby
