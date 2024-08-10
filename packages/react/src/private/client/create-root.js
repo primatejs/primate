@@ -10,7 +10,7 @@ export default length => {
     import { createElement, useState } from "react";
     import AppContext from "@primate/react/context/app";
     import HeadContext from "@primate/react/context/head";
-    import platform from "@rcompat/platform";
+    import platform from "@primate/react/platform";
 
     export default ({
       components,
