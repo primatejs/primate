@@ -19,38 +19,40 @@ support for Primate across runtime and build targets.
 
 |Frontend        |Node|Deno|Bun (web)|Bun (desktop)|
 |----------------|----|----|---------|-------------|
-|[Angular]       |✓   |✗   |✓        |✗            |
-|[Eta]           |✓   |✗   |✓        |✗            |
-|[Handlebars]    |✓   |✗   |✓        |✓            |
-|[HTML]          |✓   |✗   |✗        |✗            |
-|[HTMX]          |✓   |✗   |✗        |✗            |
-|[Markdown]      |✓   |✗   |✓        |✗            |
-|[Marko]         |✓   |✗   |✓        |✗            |
+|[Angular]       |✓   |✗   |✓        |✓            |
+|[Eta]           |✓   |✓   |✓        |✓            |
+|[Handlebars]    |✓   |✓   |✓        |✓            |
+|[HTML]          |✓   |✓   |✓        |✓            |
+|[HTMX]          |✓   |✓   |✓        |✓            |
+|[Markdown]      |✓   |✓   |✓        |✓            |
+|[Marko]         |✓   |✓   |✓        |✓            |
 |[React]         |✓   |✓   |✓        |✓            |
 |[Solid]         |✓   |✓   |✓        |✓            |
 |[Svelte]        |✓   |✓   |✓        |✓            |
-|[Voby]          |✓   |✗   |✓        |✗            |
-|[Vue]           |✓   |✗   |✓        |✗            |
-|[Web Components]|✓   |✗   |✗        |✗            |
+|[Voby]          |✓   |✗   |✓        |✓            |
+|[Vue]           |✓   |✓   |✓        |✓            |
+|[Web Components]|✓   |✓   |✓        |✓            |
 
 ## Backends
 
-|Frontend        |Node|Deno|Bun (web)|Bun (desktop)|
+|Backend         |Node|Deno|Bun (web)|Bun (desktop)|
 |----------------|----|----|---------|-------------|
-|[Go]            |✓   |✗   |✓        |✗            |
-|[Python]        |✓   |✗   |✓        |✗            |
-|[Ruby]          |✓   |✗   |✓        |✓            |
-|[TypeScript]    |✓   |✗   |✗        |✗            |
+|[Go]            |✓   |✓   |✗        |✗            |
+|[Python]        |✓   |✓   |✗        |✗            |
+|[Ruby]          |✓   |✗   |✗        |✗            |
+|[TypeScript]    |✓   |✓   |✓        |✓            |
 
 ## Stores
 
 |Frontend        |Node|Deno|Bun (web)|Bun (desktop)|
 |----------------|----|----|---------|-------------|
-|[MongoDB]       |✓   |✗   |✓        |✗            |
-|[MySQL]         |✓   |✗   |✓        |✗            |
-|[PostgreSQL]    |✓   |✗   |✓        |✓            |
-|[SQLite]        |✓   |✗   |✗        |✗            |
-|[SurrealDB]     |✓   |✗   |✗        |✗            |
+|[MongoDB]       |✓   |✓   |✓        |✗*           |
+|[MySQL]         |✓   |✓   |✓        |✗*           |
+|[PostgreSQL]    |✓   |✓   |✓        |✗*           |
+|[SQLite]        |✓   |✗   |✓        |✓            |
+|[SurrealDB]     |✓   |✓   |✓        |✗*           |
+
+* A server is required
 
 [Angular]: /modules/angular
 [Eta]: /modules/eta
