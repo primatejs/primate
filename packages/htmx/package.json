@@ -1,6 +1,6 @@
 {
   "name": "@primate/htmx",
-  "version": "0.19.2",
+  "version": "0.19.3",
   "description": "Primate HTMX frontend",
   "homepage": "https://primatejs.com/modules/htmx",
   "bugs": "https://github.com/primatejs/primate/issues",
@@ -47,6 +47,7 @@
     ".": {
       "runtime": "./src/public/runtime.js",
       "default": "./src/public/default.js"
-    }
+    },
+    "./*": "./src/public/*.js"
   }
 }
