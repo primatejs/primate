@@ -1,6 +1,6 @@
 {
   "name": "@primate/vue",
-  "version": "0.10.2",
+  "version": "0.10.3",
   "description": "Primate Vue frontend",
   "homepage": "https://primatejs.com/modules/vue",
   "bugs": "https://github.com/primatejs/primate/issues",
@@ -15,11 +15,11 @@
     "directory": "packages/vue"
   },
   "dependencies": {
-    "@primate/frontend": "workspace:^",
-    "vue": "^3.4.37"
+    "@primate/frontend": "workspace:^"
   },
   "peerDependencies": {
-    "primate": "workspace:^"
+    "primate": "workspace:^",
+    "vue": "3"
   },
   "type": "module",
   "imports": {
