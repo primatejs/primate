@@ -13,7 +13,7 @@ support for Primate across runtime and build targets.
 |Desktop (linux-x64)    |✗   |✗   |✓  |
 |Desktop (darwin-x64)   |✗   |✗   |✗  |
 |Desktop (darwin-arm64) |✗   |✗   |✗  |
-|Desktop (windows-arm64)|✗   |✗   |✓  |
+|Desktop (windows-x64)  |✗   |✗   |✓  |
 
 ## Frontends
 
