@@ -3,7 +3,6 @@ import config from "#config";
 import config_filename from "#config-filename";
 import empty_config_file from "#error/empty-config-file";
 import error_in_config_file from "#error/error-in-config-file";
-import log from "@primate/core/log";
 import tryreturn from "@rcompat/async/tryreturn";
 import empty from "@rcompat/object/empty";
 import override from "@rcompat/object/override";
@@ -16,7 +15,7 @@ const empty_config = config => config === undefined || empty(config);
 
 const get_config = async project_root => {
   const local_config = project_root.join(config_filename);
-  const exists = await local_config.exists()
+  const exists = await local_config.exists();
   if (exists) {
     try {
       const imported = await local_config.import("default");

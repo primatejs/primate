@@ -23,7 +23,8 @@
   },
   "type": "module",
   "exports": {
-    "./worker": "./src/worker.js",
-    ".": "./src/index.js"
+    ".": "./src/index.js",
+    "./*": "./src/public/*.js",
+    "./platform/*": "./src/platform/*.js"
   }
 }

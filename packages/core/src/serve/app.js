@@ -1,11 +1,13 @@
 import double_extension from "#error/double-extension";
 import crypto from "@rcompat/crypto";
+import file from "@rcompat/fs/file";
 import join from "@rcompat/fs/join";
 import { html } from "@rcompat/http/mime";
 import { OK } from "@rcompat/http/status";
 import is from "@rcompat/invariant/is";
 import empty from "@rcompat/object/empty";
 import get from "@rcompat/object/get";
+import stringify from "@rcompat/object/stringify";
 import valmap from "@rcompat/object/valmap";
 import module_loader from "./module_loader.js";
 import to_sorted from "./to_sorted.js";
@@ -20,8 +22,6 @@ const to_csp = (config_csp, assets, csp) => config_csp
     [key, csp[key] ? directives.concat(...csp[key]) : directives])
   .map(([key, directives]) => `${key} ${directives.join(" ")}`)
   .join(";");
-
-const encoder = new TextEncoder();
 
 const attribute = attributes => empty(attributes)
   ? ""
@@ -61,8 +61,26 @@ const render_head = (assets, fonts, head) =>
       tags.font({ href, type: "font/woff2" }),
     ).join("\n"));
 
-export default async (root, { config, assets, files, components, loader, target, mode }) => {
-  const { http } = config;
+const encoder = new TextEncoder();
+const hash = async (data, algorithm = "sha-384") => {
+  const bytes = await crypto.subtle.digest(algorithm, encoder.encode(data));
+  const prefix = algorithm.replace("-", _ => "");
+  return`${prefix}-${btoa(String.fromCharCode(...new Uint8Array(bytes)))}`;
+};
+
+export default async (rootfile, build) => {
+  const root = file(rootfile).directory;
+  const { config, files, components, loader, target, mode } = build;
+  const assets = await Promise.all(build.assets.map(async asset => {
+    const code = asset.type === "importmap" ? stringify(asset.code) : asset.code;
+    return {
+      ...asset,
+      code,
+      integrity: await hash(code),
+    };
+  }));
+
+  const { http } = build.config;
   const secure = http?.ssl !== undefined;
   const path = valmap(config.location, value => root.join(value));
 
@@ -174,11 +192,7 @@ export default async (root, { config, assets, files, components, loader, target,
       this.handlers[extension] !== undefined && double_extension(extension);
       this.handlers[extension] = handle;
     },
-    async hash(data, algorithm = "sha-384") {
-      const bytes = await crypto.subtle.digest(algorithm, encoder.encode(data));
-      const prefix = algorithm.replace("-", _ => "");
-      return `${prefix}-${btoa(String.fromCharCode(...new Uint8Array(bytes)))}`;
-    },
+    hash,
     // noop
     target(name, handler) {},
     build_target: target,

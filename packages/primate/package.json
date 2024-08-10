@@ -30,8 +30,7 @@
   "type": "module",
   "types": "./types/index.d.ts",
   "exports": {
-    "./handler/*": {
-      "default": "./src/handlers/*.js"
-    }
+    "./handler/*": "./src/handlers/*.js",
+    "./*": "./src/public/*.js"
   }
 }

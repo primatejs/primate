@@ -88,8 +88,7 @@ export default components;`;
 
 const write_bootstrap = async (build_number, app, mode) => {
   const build_start_script = `
-import file from "@rcompat/fs/file";
-import serve from "@primate/core/serve";
+import serve from "primate/serve";
 import config from "./${config_filename}";
 const files = {};
 ${app.server_build.map(name =>
@@ -97,9 +96,9 @@ ${app.server_build.map(name =>
      files.${name} = ${name};`,
   ).join("\n")}
 import components from "./${build_number}/components.js";
-import * as target from "./target.js";
+import target from "./target.js";
 
-await serve(file(import.meta.url).directory, {
+await serve(import.meta.url, {
   ...target,
   config,
   files,

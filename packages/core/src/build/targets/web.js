@@ -1,4 +1,5 @@
 import collect from "@rcompat/fs/collect";
+import join from "@rcompat/fs/join";
 import webpath from "@rcompat/fs/webpath";
 
 const html = /^.*.html$/u;
@@ -15,7 +16,7 @@ export default async app => {
     return {
       src,
       path,
-      code: `await file(asset${i}).text()`,
+      code: `await load_text(asset${i})`,
       type,
     };
   });
@@ -23,76 +24,47 @@ export default async app => {
   const pages = await Promise.all((await collect(d, html, { recursive: true }))
     .map(async file => `${file.debase(d)}`.slice(1)));
   const pages_str = pages.map(page =>
-    `"${page}": await join(import.meta.url, "${webpath(`../${location.pages}/${page}`)}").text(),`).join("\n");
+    `"${page}": await load_text(import.meta.url,
+    "${webpath(`../${location.pages}/${page}`)}"),`).join("\n");
 
   const assets_scripts = `
-  import file from "@rcompat/fs/file";
-  import join from "@rcompat/fs/join";
-  import stringify from "@rcompat/object/stringify";
-  import crypto from "@rcompat/crypto";
-  import { OK } from "@rcompat/http/status";
-  import { resolve } from "@rcompat/http/mime";
-
-  const encoder = new TextEncoder();
-  const hash = async (data, algorithm = "sha-384") => {
-    const bytes = await crypto.subtle.digest(algorithm, encoder.encode(data));
-    const prefix = algorithm.replace("-", _ => "");
-    return \`\${prefix}-\${btoa(String.fromCharCode(...new Uint8Array(bytes)))}\`;
-  };
+  import loader from "primate/loader";
+  import load_text from "primate/load-text";
 
   ${$imports.map(({ path }, i) =>
-    `const asset${i} = await join(import.meta.dirname, "${path}").text();`)
+    `const asset${i} = await load_text(import.meta.dirname, "${path}");`)
     .join("\n  ")}
   const assets = [${$imports.map(($import, i) => `{
   src: "${$import.src}",
   code: asset${i},
   type: "${$import.type}",
   inline: false,
-  integrity: await hash(asset${i}),
   }`).join(",\n  ")}];
 
   const imports = {
-   app: join("${http.static.root}", "${$imports.find($import =>
-  $import.src.includes("app") && $import.src.endsWith(".js")).src}").webpath(),
+     app: "${join(http.static.root, $imports.find($import =>
+    $import.src.includes("app") && $import.src.endsWith(".js")).src).webpath()}"
   };
   // importmap
   assets.push({
     inline: true,
-    code: stringify({ imports }),
+    code: { imports },
     type: "importmap",
-    integrity: await hash(stringify({ imports })),
   });
 
   const pages = {
     ${pages_str}
   };
-  const buildroot = file(import.meta.url).join("..");
 
-  const serve_asset = asset => new Response(asset.stream(), {
-    status: OK,
-    headers: {
-      "Content-Type": resolve(asset.name),
-    },
-  });
-
-  const loader = {
-    page(name) {
-      return pages[name] ?? pages["${app.get("pages.app")}"];
-    },
-    async asset(pathname) {
-      const root_asset = buildroot.join(\`client/\${pathname}\`);
-      if (await await root_asset.isFile()) {
-        return serve_asset(root_asset);
-      }
-      const static_asset = buildroot.join(\`client/static/\${pathname}\`);
-      if (await static_asset.isFile()) {
-        return serve_asset(static_asset);
-      }
-    },
+  export default {
+    assets,
+    loader: loader({
+      pages,
+      rootfile: import.meta.url,
+      pages_app: "${app.get("pages.app")}"
+    }),
+    target: "web",
   };
-  const target = "web";
-
-  export { assets, loader, target };
 `;
   await app.path.build.join("target.js").write(assets_scripts);
 
