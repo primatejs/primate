@@ -16,7 +16,7 @@ const js_wrapper = async (path, routes, packages) => `
   import to_request from "@primate/python/to-request";
   import to_response from "@primate/python/to-response";
   import wrap from "@primate/python/wrap";
-  import { loadPyodide as load } from "pyodide";
+  import load from "@primate/python/load";
 
   const pyodide = await load({ indexURL: "./node_modules/pyodide" });
   const python_route = await file(${JSON.stringify(path)}).text();
