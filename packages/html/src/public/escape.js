@@ -1,1 +1,1 @@
-export { default } from "@rcompat/string/HTML";
+export { default } from "@rcompat/html/escape";

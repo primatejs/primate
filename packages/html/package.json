@@ -1,6 +1,6 @@
 {
   "name": "@primate/html",
-  "version": "0.10.2",
+  "version": "0.10.3",
   "description": "Primate HTML frontend",
   "homepage": "https://primatejs.com/modules/html",
   "bugs": "https://github.com/primatejs/primate/issues",
@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@primate/frontend": "workspace:^",
-    "@rcompat/string": "^0.4.0"
+    "@rcompat/html": "^0.1.0"
   },
   "peerDependencies": {
     "primate": "workspace:^"

@@ -1,4 +1,4 @@
-export default text => `import HTML from "@primate/html/escape";
+export default text => `import escape from "@primate/html/escape";
   export default (props = {}, options) => {
   const encoded = JSON.parse(escape(JSON.stringify(props)));
   const keys = Object.keys(encoded);
