@@ -50,11 +50,11 @@ end`);
   return `
   import to_response from "@primate/ruby/to-response";
   import helpers from "@primate/ruby/helpers";
-  import { DefaultRubyVM } from "@ruby/wasm-wasi/dist/node";
+  import default_ruby_vm from "@primate/ruby/default-ruby-vm";
   import ruby from "@primate/ruby/ruby";
-  import file from "@rcompat/fs/file";
+  import file from "primate/runtime/file";
 
-const { vm } = await DefaultRubyVM(ruby);
+const { vm } = await default_ruby_vm(ruby);
 const code = await file(${JSON.stringify(path)}).text();
 const wrappers = ${JSON.stringify(create_ruby_wrappers(routes))};
 const request = ${JSON.stringify(request
