@@ -47,7 +47,8 @@ const goto = async ({ pathname, hash }, updater, state = false) => {
     await handle(response, updater);
     if (state) {
       storage.new({ scrollTop, pathname: currentPathname, hash: currentHash });
-      history.pushState({}, "", `${pathname}${hash}`);
+      const url = response.redirected ? response.url : `${pathname}${hash}`;
+      history.pushState({}, "", url);
     }
   } catch(error) {
     console.warn(error);
