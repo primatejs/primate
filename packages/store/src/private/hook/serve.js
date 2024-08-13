@@ -27,7 +27,7 @@ export default (directory, mode, driver_serve, env) => async (app, next) => {
   const loaded = [];
 
   const stores = app.files.stores.map(([name, definition]) => {
-    const schema = transform(definition.default, entry => entry
+    const schema = transform(definition.default ?? {}, entry => entry
       .filter(([property, type]) => valid(type, property, name)));
 
     definition.ambiguous !== true && schema.id === undefined
