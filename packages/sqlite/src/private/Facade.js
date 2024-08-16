@@ -3,9 +3,9 @@ import make_sort from "@primate/store/sql/make-sort";
 import filter from "@rcompat/object/filter";
 import keymap from "@rcompat/object/keymap";
 import valmap from "@rcompat/object/valmap";
-import platform from "@rcompat/platform";
+import runtime from "@rcompat/runtime";
 
-const is_bun = platform === "bun";
+const is_bun = runtime === "bun";
 
 const filter_null = results =>
   results.map(result => filter(result, ([, value]) => value !== null));

@@ -1,1 +1,1 @@
-export { default } from "@rcompat/platform";
+export { default } from "@rcompat/runtime";

@@ -7,7 +7,7 @@ import tryreturn from "@rcompat/async/tryreturn";
 import empty from "@rcompat/object/empty";
 import override from "@rcompat/object/override";
 import root from "@rcompat/package/root";
-import platform from "@rcompat/platform";
+import runtime from "@rcompat/runtime";
 import app from "./app.js";
 import { build, init } from "./hook/exports.js";
 
@@ -25,7 +25,7 @@ const get_config = async project_root => {
       return imported;
     } catch (error) {
       if (error.level === undefined) {
-        error_in_config_file(error.message, `${platform} ${local_config}`);
+        error_in_config_file(error.message, `${runtime} ${local_config}`);
       } else {
         throw error;
       }

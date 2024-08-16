@@ -1,8 +1,8 @@
 import HeadContext from "#context/head";
-import platform from "@rcompat/platform";
+import runtime from "@rcompat/runtime";
 import { Component } from "react";
 
-const is_client = platform === "browser";
+const is_client = runtime === "browser";
 
 const to_array = maybe => Array.isArray(maybe) ? maybe : [maybe];
 

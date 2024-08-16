@@ -4,54 +4,7 @@ Hooks are executed throughout various stages in the lifecycle of a Primate app.
 Some will execute only once on startup, others on given events. Hook
 subscribers accept different types of parameters, depending on the hook.
 
-## Lifecycle
-
-```sh caption=Primate app lifecycle
-┌─ # read configuration and merge with defaults
-│
-├─ `load`
-│   └─ # modules load other modules
-│
-├─ `init`
-│   └─ # modules initialize
-│
-├─ # *begin* start-up phase, all hooks in this phase are called once
-│
-├─ `register`
-│   └─ # modules register component file extensions for the view handler
-│
-├─ # create `build/{server,components}` directory
-├─ # copy all files from `components` to `build/components`
-├─ # copy .js files from `components` to `build/server`
-│
-├─ `publish`
-│   └─ # modules publish client-side code and announce entry points
-│
-├─ # *end* start-up phase
-│
-├─ # *begin* client request phase, hooks here are called per request
-│
-├─ `handle` # on client request
-│   └─ # modules handle client request themselves or yield to `next`
-│
-├─ # if yielded through, match request against static assets in `public`
-│
-├─ # if unmatched, match request against in-memory assets
-│
-| # if yielded through, match route
-│
-├─ `route` # if previously unmatched
-│   └─ # modules handle routing request themselves or yield to `next`
-│
-├─ `context` #
-│   └─ # modules provide context information to the frontend framework
-│
-| # if yielded through, execute route function
-│
-└─ # *end* client request phase due to program shutdown
-```
-
-## load
+## load (() => Module[])
 
 **Executed** once
 
@@ -82,7 +35,7 @@ by `load` hook themselves. Also, unlike most other hooks, the `load` hook does
 not accept a final `next` parameter.
 !!!
 
-## init
+## init (App => void)
 
 **Executed** once
 
@@ -115,17 +68,24 @@ Unlike most other hooks, the `init` hook does not accept a final `next`
 parameter.
 !!!
 
-## register
+## build (app: BuildtimeApp, next: Function) => BuildtimeApp
 
-**Executed** once
+**Executed** once, at buildtime
 
 **Precondition** none
 
-This hook allows modules to register a component file extension to be handled
-by `view`.
+This hook allows modules to execute buildtime logic.
+
+## serve (app: RuntimeApp, next: Function) => RuntimeApp)
+
+**Executed** once, at runtime
+
+**Precondition** none
+
+This hook allows modules to execute runtime logic.
 
 ```js caption=primate.config.js
-const mustacheHandler = (name, props, options) => {
+const mustache_handler = (name, props, options) => {
   // load the component file using its name and render it into HTML with props
 };
 
@@ -133,8 +93,8 @@ export default {
   modules: [{
     name: "register-hook-example-module",
     // accepts the app object augmented with a `register` function
-    register(app, next) {
-      app.register("mustache", mustacheHandler);
+    build(app, next) {
+      app.register("mustache", mustache_handler);
       return next(app);
     },
   }],
@@ -142,7 +102,7 @@ export default {
 ```
 
 By that definition, any `mustache` file in `components` will be handled by the
-specified `mustacheHandler` handler function.
+specified `mustache_handler` handler function.
 
 ```js caption=routes/clock.js
 import view from "primate/handler/view";
@@ -160,22 +120,6 @@ Assuming a clock component which takes a time value and shows a clock has been
 defined in `components/clock.mustache`, a client requesting
 `GET /clock?time=11:45am` will have the `view` handler show a mustache
 component rendered into HTML.
-
-## publish
-
-***Executed** once
-
-**Precondition** none
-
-This hook allows modules to publish client-side code and entry points. It is
-particularly useful for [frontend frameworks], which may need to register their
-own core scripts.
-
-Publishing entry points allow bundler modules to effectively consolidate code
-during the `bundle` hook.
-
-This hook accepts the app as its first and the next subscriber as its second
-parameter.
 
 ## handle
 

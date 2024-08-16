@@ -26,7 +26,7 @@ Primate's [filesystem-based routes][routes] are excellent for creating an API,
 making the body and path, query, cookie and header parameters easily accessible
 to the route function.
 
-```js caption=routes/comment/[commentId].js
+```js caption=routes/comment/[comment_id].js
 export default {
   post(request) {
     const { path, query, cookies, headers, body } = request;
@@ -35,7 +35,7 @@ export default {
     You've sent a POST request with the following data:
 
     Path:
-      /comment/${path.get("commentId")}
+      /comment/${path.get("comment_id")}
     Query:
       timestamps: ${query.get("timestamps")}
     Cookies:

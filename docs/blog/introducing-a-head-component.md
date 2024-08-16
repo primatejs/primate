@@ -114,17 +114,17 @@ It is assumed that `body` here contains your component hierarchy.
 
 ```js caption=root-component-react.jsx
 import HeadContext from "@primate/react/context/head";
-import platform from "@rcompat/platform";
+import runtime from "@rcompat/runtime";
 
 const Provider = HeadContext.Provider;
 
 export default ({ components, data, push_heads: value }) =>
-  platform === "browser" ? body : <Provider value={value}>{body}</Provider>;
+  runtime === "browser" ? body : <Provider value={value}>{body}</Provider>;
 ```
 
 For Solid, use `@primate/solid` instead for the import.
 
-We use check, using `@rcompat/platform` if we're on the client or the server.
+We use check, using `@rcompat/runtime` if we're on the client or the server.
 You don't have to do this, but using the provider on the client doesn't make a
 lot of sense.
 

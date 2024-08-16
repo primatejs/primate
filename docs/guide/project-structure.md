@@ -63,7 +63,7 @@ were creating a blog, this is how a typical layout could look like.
 ├─ index.js # view homepage -> /
 └─ post/
    ├─ add.js # add post -> /post/add
-   └─ [postId]/
+   └─ [post_id]/
       ├─ comment/
       │  └─ add.js # add comment on post -> /post/1/comment/add
       ├─ comments.js # show comments on posts -> /post/1/comments
@@ -73,7 +73,7 @@ were creating a blog, this is how a typical layout could look like.
 
 !!!
 Some of the above route examples use `1`, where in fact any value could be used
-for `[postId]`. We'll later come back to path parameters in depth.
+for `[post_id]`. We'll later come back to path parameters in depth.
 !!!
 
 Here we chose our paths to represent CRUD actions. This is appropriate for a
@@ -85,10 +85,10 @@ verbs. In that case, your layout might look a little different.
 .
 ├─ post.js # create post, read posts -> /post
 └─ post/
-   ├─ [postId].js # read, update, delete post -> post/1
-   └─ [postId]/
+   ├─ [post_id].js # read, update, delete post -> post/1
+   └─ [post_id]/
       ├─ comment.js # create comment, read comments -> /post/1/comment
-      └─ [commentId].js # read, update, delete comment -> post/1/comment/2
+      └─ [comment_id].js # read, update, delete comment -> post/1/comment/2
 ```
 
 ## components

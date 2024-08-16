@@ -4,7 +4,7 @@ import log from "@primate/core/log";
 import dim from "@rcompat/cli/color/dim";
 import { user } from "@rcompat/env";
 import file from "@rcompat/fs/file";
-import platform from "@rcompat/platform";
+import runtime from "@rcompat/runtime";
 import execute from "@rcompat/stdio/execute";
 
 const command = "go";
@@ -34,7 +34,7 @@ import env from "@primate/go/env";
 import to_request from "@primate/go/to-request";
 import to_response from "@primate/go/to-response";
 ${
-  platform === "bun" ? `
+  runtime === "bun" ? `
     import route_path from "${path}" with { type: "file" };
     const route = await Bun.file(route_path).arrayBuffer();
   ` : `

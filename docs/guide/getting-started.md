@@ -244,8 +244,8 @@ three goals.
 
 ### Extensible
 
-* Different hooks available (`load`, `init`, `register`, `publish`, `bundle`,
-`serve`, `handle`, `route`)
+* Different hooks available (`load`, `init`, `build`, `serve`, `handle`,
+`route`, `context`)
 * Officially supported modules that are updated alongside Primate itself
 
 ## Resources
