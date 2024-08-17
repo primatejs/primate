@@ -1,6 +1,6 @@
 {
   "name": "@primate/native",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Primate native applications",
   "homepage": "https://primatejs.com/modules/native",
   "bugs": "https://github.com/primatejs/primate/issues",
