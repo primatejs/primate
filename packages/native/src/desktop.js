@@ -28,7 +28,7 @@ export default async app => {
         empty: (await file.text()).length === 0,
       };
     }))).filter(file => !file.empty);
-  const d = app.runpath(location.pages);
+  const d = app.runpath(location.server, location.pages);
   const pages = await Promise.all((await collect(d, html, { recursive: true }))
     .map(async file => `${file}`.replace(`${d}/`, _ => "")));
   const app_js = $imports.find($import => $import.src.endsWith(".js"));
@@ -66,7 +66,7 @@ export default async app => {
 
   const page_imports = {};
   ${pages.map((page, i) =>
-    `import page${i} from "${webpath(`./${location.pages}/${page}`)}" with { type: "file" };
+    `import page${i} from "${webpath(`./${location.server}/${location.pages}/${page}`)}" with { type: "file" };
     page_imports["${page}"] = page${i};`).join("\n  ")}
 
   export default {

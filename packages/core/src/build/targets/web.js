@@ -20,12 +20,12 @@ export default async app => {
       type,
     };
   });
-  const d = app.runpath(location.pages);
+  const d = app.runpath(location.server, location.pages);
   const pages = await Promise.all((await collect(d, html, { recursive: true }))
     .map(async file => `${file.debase(d)}`.slice(1)));
   const pages_str = pages.map(page =>
     `"${page}": await load_text(import.meta.url,
-    "${webpath(`../${location.pages}/${page}`)}"),`).join("\n");
+    "${webpath(`../${location.server}/${location.pages}/${page}`)}"),`).join("\n");
 
   const assets_scripts = `
   import loader from "primate/loader";

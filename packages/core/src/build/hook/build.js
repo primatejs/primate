@@ -38,7 +38,7 @@ const pre = async (app, mode, target) => {
   await app.path.build.remove();
   await app.path.build.create();
 
-  await Promise.all(["server", "client", "pages", "components"]
+  await Promise.all(["server", "client", "components"]
     .map(directory => app.runpath(directory).create()));
 
   const router = await $router(app.path.routes);
@@ -50,14 +50,15 @@ const pre = async (app, mode, target) => {
 
 const js_re = /^.*.js$/u;
 const write_directories = async (build_directory, app) => {
+  const location = app.get("location");
   for (const name of app.server_build) {
-    const d = app.runpath(name);
+    const d = app.runpath(location.server, name);
     const e = await Promise.all((await collect(d, js_re, { recursive: true }))
       .map(async path => `${path}`.replace(d, _ => "")));
     const files_js = `
     const ${name} = [];
     ${e.map((path, i) =>
-    `import * as ${name}${i} from "${webpath(`../${name}${path}`)}";
+    `import * as ${name}${i} from "${webpath(`../server/${name}${path}`)}";
     ${name}.push(["${webpath(path.slice(1, -".js".length))}", ${name}${i}]);`,
   ).join("\n")}
     export default ${name};`;
@@ -113,10 +114,10 @@ const post = async (app, mode, target) => {
   const defaults = join(import.meta.dirname, "../defaults");
 
   // stage routes
-  await app.stage(app.path.routes, location.routes);
+  await app.stage(app.path.routes, join(location.server, location.routes));
 
   // stage types
-  await app.stage(app.path.types, location.types);
+  await app.stage(app.path.types, join(location.server, location.types));
 
   // stage components, transforming defines
   await app.stage(app.path.components, location.components, true);
@@ -127,9 +128,9 @@ const post = async (app, mode, target) => {
       ?.(directory, path.debase(`${directory}/`));
   }
   // copy framework pages
-  await app.stage(defaults, location.pages);
+  await app.stage(defaults, join(location.server, location.pages));
   // overwrite transformed pages to build
-  await app.stage(app.path.pages, location.pages);
+  await app.stage(app.path.pages, join(location.server, location.pages));
 
   // copy static files to build/server/static
   await app.stage(app.path.static, join(location.server, location.static));
