@@ -5,6 +5,7 @@ export default ({
   pages_app,
   pages,
   rootfile,
+  static_root,
 }) => {
   const buildroot = file(rootfile).join("..");
 
@@ -13,13 +14,16 @@ export default ({
       return pages[name] ?? pages[pages_app];
     },
     async asset(pathname) {
-      const root_asset = buildroot.join(`client/${pathname}`);
-      if (await root_asset.isFile()) {
-        return serve_asset(root_asset);
+      const client_file = buildroot.join(`client/${pathname}`);
+      if (await client_file.isFile()) {
+        return serve_asset(client_file);
       }
-      const static_asset = buildroot.join(`client/static/${pathname}`);
-      if (await static_asset.isFile()) {
-        return serve_asset(static_asset);
+      if (pathname.startsWith(static_root)) {
+        const assetname = pathname.slice(static_root.length);
+        const static_file = buildroot.join(`server/static/${assetname}`);
+        if (await static_file.isFile()) {
+          return serve_asset(static_file);
+        }
       }
     },
   };

@@ -135,9 +135,6 @@ const post = async (app, mode, target) => {
   // copy static files to build/server/static
   await app.stage(app.path.static, join(location.server, location.static));
 
-  // copy static files to build/client/static
-  await app.stage(app.path.static, join(location.client, location.static));
-
   // publish JavaScript and CSS files
   const imports = await collect(app.path.static, /\.(?:css)$/u);
   await Promise.all(imports.map(async file => {

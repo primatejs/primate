@@ -6,19 +6,19 @@ const html = /^.*.html$/u;
 
 export default async app => {
   const location = app.get("location");
-  const http = app.get("http");
   const client = app.runpath(location.client);
+  const server_static = app.runpath(location.server, location.static);
   const re = /app..*(?:js|css)$/u;
 
-  const static_imports = (await client.collect()).map((path, i) => `
-    import static${i} from "${webpath(`./client${path.debase(client)}`)}" with { type: "file" };
-    static_imports["${webpath(path.debase(client))}"] = static${i};`)
+  const static_imports = (await server_static.collect()).map((path, i) => `
+    import static${i} from "${webpath(`./server/static${path.debase(server_static)}`)}" with { type: "file" };
+    static_imports["${webpath(path.debase(server_static))}"] = static${i};`)
     .join("\n");
 
-  const $imports = (await Promise.all((await client.collect(re, { recursive: false }))
+  const client_imports = (await Promise.all((await client.collect())
     .map(async (file, i) => {
       const type = file.extension === ".css" ? "style" : "js";
-      const src = `${http.static.root}${file.debase(client).name}`;
+      const src = `/${file.debase(client).name}`;
       const path = `./${file.debase(`${app.path.build}/`)}`;
       return {
         src,
@@ -31,7 +31,7 @@ export default async app => {
   const d = app.runpath(location.server, location.pages);
   const pages = await Promise.all((await collect(d, html, { recursive: true }))
     .map(async file => `${file}`.replace(`${d}/`, _ => "")));
-  const app_js = $imports.find($import => $import.src.endsWith(".js"));
+  const app_js = client_imports.find($import => $import.src.endsWith(".js"));
 
   const assets_scripts = `
   import Webview from "@primate/native/platform/${app.build_target}";
@@ -41,10 +41,12 @@ export default async app => {
   const static_imports = {};
   ${static_imports}
 
-  ${$imports.map(({ path }, i) =>
-    `import asset${i} from "${path}" with { type: "file" };
-    const file${i} = await load_text(asset${i});`).join("\n  ")}
-  const assets = [${$imports.map(($import, i) => `{
+  const client_imports = {};
+  ${client_imports.map(({ path, src }, i) =>
+    `import client${i} from "${path}" with { type: "file" };
+    client_imports["${webpath(src)}"] = client${i};
+    const file${i} = await load_text(client${i});`).join("\n  ")}
+  const assets = [${client_imports.map(($import, i) => `{
   src: "${$import.src}",
   code: file${i},
   type: "${$import.type}",
@@ -54,7 +56,7 @@ export default async app => {
   ${app_js === undefined ? "" :
     `
     const imports = {
-     app: "${join(http.static.root, $imports.find($import =>
+     app: "${join("/", client_imports.find($import =>
     $import.src.includes("app") && $import.src.endsWith(".js")).src).webpath()}"
     };
     // importmap
@@ -73,8 +75,10 @@ export default async app => {
     assets,
     loader: await loader({
       page_imports,
+      client_imports,
       static_imports,
       pages_app: "${app.get("pages.app")}",
+      static_root: "${app.get("http.static.root")}",
       Webview,
     }),
     target: "${app.build_target}",
