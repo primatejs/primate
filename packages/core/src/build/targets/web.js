@@ -4,6 +4,7 @@ import webpath from "@rcompat/fs/webpath";
 const html = /^.*.html$/u;
 
 export default async app => {
+  const target = "web";
   const location = app.get("location");
   const client = app.runpath(location.client);
   const client_imports = (await client.collect())
@@ -62,9 +63,11 @@ export default async app => {
       pages_app: "${app.get("pages.app")}",
       static_root: "${app.get("http.static.root")}",
     }),
-    target: "web",
+    target: "${target}",
   };
 `;
   await app.path.build.join("target.js").write(assets_scripts);
-
+  await app.path.build.join("meta").create();
+  await app.path.build.join("meta/target.js")
+    .write(`export default "${target}";\n`);
 };

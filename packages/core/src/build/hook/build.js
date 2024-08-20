@@ -176,6 +176,10 @@ const post = async (app, mode, target) => {
   const manifest_data = await manifest();
   // create package.json
   const package_json = "package.json";
+  manifest_data.name = "app";
+  manifest_data.exports = {
+    "./target": "./meta/target.js",
+  };
   await app.path.build.join(package_json).write(stringify(manifest_data));
 
   log.system(`build written to ${dim(app.path.build)}`);
