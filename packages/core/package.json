@@ -48,6 +48,7 @@
     "./error": "./src/error/index.js",
     "./log": "./src/log/index.js",
     "./dispatch": "./src/dispatch/index.js",
+    "./http/verbs": "./src/http/verbs.js",
     "./handler/*": "./src/serve/handler/*.js"
   }
 }

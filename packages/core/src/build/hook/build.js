@@ -122,7 +122,7 @@ const post = async (app, mode, target) => {
   // stage components, transforming defines
   await app.stage(app.path.components, location.components, true);
 
-  const directory = app.runpath(location.routes);
+  const directory = app.runpath(location.server, location.routes);
   for (const path of await directory.collect()) {
     await app.bindings[path.extension]
       ?.(directory, path.debase(`${directory}/`));

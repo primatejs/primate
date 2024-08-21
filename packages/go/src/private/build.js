@@ -6,11 +6,14 @@ import { user } from "@rcompat/env";
 import file from "@rcompat/fs/file";
 import runtime from "@rcompat/runtime";
 import execute from "@rcompat/stdio/execute";
+import upperfirst from "@rcompat/string/upperfirst";
+import verbs from "@primate/core/http/verbs";
 
 const command = "go";
 const run = (wasm, go, includes = "request.go") =>
   `${command} build -o ${wasm} ${go} ${includes}`;
-const routes_re = /func (?<route>Get|Post|Put|Delete)/gu;
+const verbs_string = verbs.map(upperfirst).join("|");
+const routes_re = new RegExp(`func (?<route>${verbs_string})`, "gu");
 const add_setter = route => `
   var cb${route} js.Func;
   cb${route} = js.FuncOf(func(this js.Value, args[]js.Value) any {

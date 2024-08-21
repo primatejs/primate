@@ -1,6 +1,7 @@
+import verbs from "@primate/core/http/verbs";
 import file from "@rcompat/fs/file";
 
-const routes_re = /def (?<route>get|post|put|delete)/gu;
+const routes_re = new RegExp(`def (?<route>${verbs.join("|")})`, "gu");
 const get_routes = code => [...code.matchAll(routes_re)]
   .map(({ groups: { route } }) => route);
 
