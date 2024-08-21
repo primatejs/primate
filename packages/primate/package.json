@@ -21,8 +21,8 @@
     "@rcompat/args": "^0.3.0",
     "@rcompat/async": "^0.3.0",
     "@rcompat/cli": "^0.5.1",
-    "@rcompat/fs": "^0.5.1",
-    "@rcompat/package": "^0.7.0"
+    "@rcompat/fs": "^0.6.0",
+    "@rcompat/package": "^0.8.0"
   },
   "engines": {
     "node": ">=18"

@@ -20,7 +20,7 @@
     "@angular/platform-server": "^18.2.0",
     "@angular/ssr": "^18.2.0",
     "@primate/frontend": "workspace:^",
-    "@rcompat/build": "^0.4.0",
+    "@rcompat/build": "^0.5.0",
     "@rcompat/object": "^0.5.0",
     "zone.js": "^0.14.10"
   },
