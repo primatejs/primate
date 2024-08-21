@@ -224,7 +224,7 @@ export default {
 ```
 
 This will render and serve the `hello.html` component without embedding it into
-the default page HTML.
+the default HTML page.
 
 #### placeholders
 

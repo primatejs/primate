@@ -15,10 +15,10 @@
     "directory": "packages/angular"
   },
   "dependencies": {
-    "@angular/compiler": "^18.1.4",
-    "@angular/platform-browser": "^18.1.4",
-    "@angular/platform-server": "^18.1.4",
-    "@angular/ssr": "^18.1.4",
+    "@angular/compiler": "^18.2.0",
+    "@angular/platform-browser": "^18.2.0",
+    "@angular/platform-server": "^18.2.0",
+    "@angular/ssr": "^18.2.0",
     "@primate/frontend": "workspace:^",
     "@rcompat/build": "^0.4.0",
     "@rcompat/object": "^0.5.0",
