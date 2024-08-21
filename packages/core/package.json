@@ -34,11 +34,11 @@
   "type": "module",
   "imports": {
     "#*": {
-      "@primate/lt": "./src/private/*.js",
+      "livetypes": "./src/private/*.js",
       "default": "./src/private/*.js"
     },
     "#error/*": {
-      "@primate/lt": "./src/private/error/*.js",
+      "livetypes": "./src/private/error/*.js",
       "default": "./src/private/error/*.js"
     }
   },

@@ -23,21 +23,21 @@
   "type": "module",
   "imports": {
     "#*": {
-      "@primate/lt": "./src/private/*.js",
+      "livetypes": "./src/private/*.js",
       "default": "./src/private/*.js"
     },
     "#hook/*": {
-      "@primate/lt": "./src/private/hook/*.js",
+      "livetypes": "./src/private/hook/*.js",
       "default": "./src/private/hook/*.js"
     },
     "#error/*": {
-      "@primate/lt": "./src/private/error/*.js",
+      "livetypes": "./src/private/error/*.js",
       "default": "./src/private/error/*.js"
     }
   },
   "exports": {
     "./core/*": {
-      "@primate/lt": "./src/public/*.js",
+      "livetypes": "./src/public/*.js",
       "default": "./src/public/*.js"
     },
     ".": {

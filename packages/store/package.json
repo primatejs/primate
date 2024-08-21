@@ -49,27 +49,27 @@
   "type": "module",
   "imports": {
     "#*": {
-      "@primate/lt": "./src/private/*.js",
+      "livetypes": "./src/private/*.js",
       "default": "./src/private/*.js"
     },
     "#hook/*": {
-      "@primate/lt": "./src/private/hook/*.js",
+      "livetypes": "./src/private/hook/*.js",
       "default": "./src/private/hook/*.js"
     },
     "#error/*": {
-      "@primate/lt": "./src/private/error/*.js",
+      "livetypes": "./src/private/error/*.js",
       "default": "./src/private/error/*.js"
     },
     "#driver/*": {
-      "@primate/lt": "./src/private/driver/*/index.js",
+      "livetypes": "./src/private/driver/*/index.js",
       "default": "./src/private/driver/*/index.js"
     },
     "#driver/memory/*": {
-      "@primate/lt": "./src/private/driver/memory/*.js",
+      "livetypes": "./src/private/driver/memory/*.js",
       "default": "./src/private/driver/memory/*.js"
     },
     "#driver/json/*": {
-      "@primate/lt": "./src/private/driver/json/*.js",
+      "livetypes": "./src/private/driver/json/*.js",
       "default": "./src/private/driver/json/*.js"
     }
   },

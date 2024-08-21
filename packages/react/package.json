@@ -34,31 +34,31 @@
   "type": "module",
   "imports": {
     "#*": {
-      "@primate/lt": "./src/private/*.js",
+      "livetypes": "./src/private/*.js",
       "default": "./src/private/*.js"
     },
     "#build": {
-      "@primate/lt": "./src/private/build/index.js",
+      "livetypes": "./src/private/build/index.js",
       "default": "./src/private/build/index.js"
     },
     "#serve": {
-      "@primate/lt": "./src/private/serve/index.js",
+      "livetypes": "./src/private/serve/index.js",
       "default": "./src/private/serve/index.js"
     },
     "#context/*": {
-      "@primate/lt": "./src/private/context/*.js",
+      "livetypes": "./src/private/context/*.js",
       "default": "./src/private/context/*.js"
     },
     "#client": {
-      "@primate/lt": "./src/private/client/index.js",
+      "livetypes": "./src/private/client/index.js",
       "default": "./src/private/client/index.js"
     },
     "#client/*": {
-      "@primate/lt": "./src/private/client/*.js",
+      "livetypes": "./src/private/client/*.js",
       "default": "./src/private/client/*.js"
     },
     "#i18n/*": {
-      "@primate/lt": "./src/private/i18n/*.js",
+      "livetypes": "./src/private/i18n/*.js",
       "default": "./src/private/i18n/*.js"
     }
   },

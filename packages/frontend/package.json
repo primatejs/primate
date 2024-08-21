@@ -29,31 +29,31 @@
   "type": "module",
   "imports": {
     "#*": {
-      "@primate/lt": "./src/private/*.js",
+      "livetypes": "./src/private/*.js",
       "default": "./src/private/*.js"
     },
     "#error/*": {
-      "@primate/lt": "./src/private/error/*.js",
+      "livetypes": "./src/private/error/*.js",
       "default": "./src/private/error/*.js"
     },
     "#*/name": {
-      "@primate/lt": "./src/server/*/name.js",
+      "livetypes": "./src/server/*/name.js",
       "default": "./src/server/*/name.js"
     },
     "#*/extension": {
-      "@primate/lt": "./src/server/*/extension.js",
+      "livetypes": "./src/server/*/extension.js",
       "default": "./src/server/*/extension.js"
     },
     "#*/handler": {
-      "@primate/lt": "./src/server/*/handler.js",
+      "livetypes": "./src/server/*/handler.js",
       "default": "./src/server/*/handler.js"
     },
     "#*/build": {
-      "@primate/lt": "./src/server/*/build/index.js",
+      "livetypes": "./src/server/*/build/index.js",
       "default": "./src/server/*/build/index.js"
     },
     "#*/serve": {
-      "@primate/lt": "./src/server/*/serve/index.js",
+      "livetypes": "./src/server/*/serve/index.js",
       "default": "./src/server/*/serve/index.js"
     }
   },
@@ -65,7 +65,7 @@
     },
     "./spa": "./src/spa/exports.js",
     "./core/*": {
-      "@primate/lt": "./src/public/*.js",
+      "livetypes": "./src/public/*.js",
       "default": "./src/public/*.js"
     },
     "./*": {

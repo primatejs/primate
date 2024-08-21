@@ -24,15 +24,15 @@
   "type": "module",
   "imports": {
     "#*": {
-      "@primate/lt": "./src/private/*.js",
+      "livetypes": "./src/private/*.js",
       "default": "./src/private/*.js"
     },
     "#build": {
-      "@primate/lt": "./src/private/build/index.js",
+      "livetypes": "./src/private/build/index.js",
       "default": "./src/private/build/index.js"
     },
     "#serve": {
-      "@primate/lt": "./src/private/serve/index.js",
+      "livetypes": "./src/private/serve/index.js",
       "default": "./src/private/serve/index.js"
     }
   },
