@@ -1,6 +1,6 @@
 {
   "name": "@primate/store",
-  "version": "0.25.3",
+  "version": "0.25.4",
   "description": "Primate databases",
   "homepage": "https://primatejs.com/modules/store",
   "bugs": "https://github.com/primatejs/primate/issues",
