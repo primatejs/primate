@@ -1,6 +1,6 @@
 {
   "name": "primate",
-  "version": "0.32.5",
+  "version": "0.32.6",
   "description": "Polymorphic development platform",
   "homepage": "https://primatejs.com",
   "bugs": "https://github.com/primatejs/primate/issues",
@@ -28,9 +28,12 @@
     "node": ">=18"
   },
   "type": "module",
-  "types": "./types/index.d.ts",
+  "types": "types/index.d.ts",
   "exports": {
-    "./handler/*": "./src/handlers/*.js",
+    "./handler/*": {
+      "types": "./types/index.d.ts",
+      "default": "./src/handlers/*.js"
+    },
     "./*": "./src/public/*.js",
     "./runtime/*": "./src/runtime/*.js"
   }
