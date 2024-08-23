@@ -19,8 +19,8 @@
     "@rcompat/async": "^0.3.0",
     "@rcompat/build": "^0.5.0",
     "@rcompat/crypto": "^0.5.0",
-    "@rcompat/fs": "^0.6.0",
-    "@rcompat/http": "^0.6.0",
+    "@rcompat/fs": "^0.7.0",
+    "@rcompat/http": "^0.6.1",
     "@rcompat/object": "^0.5.0"
   },
   "peerDependencies": {
