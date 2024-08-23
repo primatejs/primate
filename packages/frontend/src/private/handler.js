@@ -63,11 +63,16 @@ export default config => {
       }
 
       return tryreturn(async () => {
-        const { body, head } = render(root, {
+        const { body, head } = config.ssr === false ? {
+          body: "", head: "",
+        } : render(root, {
           components: components.map(({ component }) => component),
           ...shared,
         });
-        const code = client({ names, ...shared }, { spa: config.spa });
+        const code = client({ names, ...shared }, {
+          spa: config.spa,
+          ssr: config.ssr,
+        });
         const inlined = await app.inline(code, "module");
         const script_src = [inlined.integrity];
 

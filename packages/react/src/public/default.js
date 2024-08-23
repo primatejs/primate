@@ -7,8 +7,10 @@ export default ({
   extension = default_extension,
   // activate fetch-based browsing
   spa = true,
+  // activate ssr
+  ssr = true,
 } = {}) => ({
   name: pkgname,
-  build: build(extension),
-  serve: serve(extension, spa),
+  build: build(extension, ssr),
+  serve: serve(extension, spa, ssr),
 });

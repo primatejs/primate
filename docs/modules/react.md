@@ -81,7 +81,13 @@ The file extension associated with React JSX components.
 
 Default `true`
 
-Whether SPA browsing using `fetch` should be active.
+Whether single-page app browsing using `fetch` should be active.
+
+### ssr
+
+Default `true`
+
+Whether server-side rendering should be active.
 
 ## Resources
 
