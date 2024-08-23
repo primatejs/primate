@@ -7,6 +7,6 @@ export default ({ extension = default_extension } = {}) => ({
   build: build({ extension }),
   init(app, next) {
     app.bind(extension, () => null);
-    next(app);
+    return next(app);
   },
 });
