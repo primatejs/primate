@@ -1,6 +1,6 @@
 {
   "name": "create-primate",
-  "version": "0.15.1",
+  "version": "0.15.2",
   "description": "CLI for creating Primate projects",
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
