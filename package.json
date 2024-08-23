@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "debris": "^0.14.0",
-    "dts-buddy": "^0.5.1",
+    "dts-buddy": "^0.5.3",
     "livetypes": "^0.2.0",
     "maximin": "^0.4.0"
   },
