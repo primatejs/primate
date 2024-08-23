@@ -193,8 +193,9 @@ export default async (rootfile, build) => {
       this.handlers[extension] = handle;
     },
     hash,
-    // noop
+    // noops
     target(name, handler) {},
+    bind(extension, handler) {},
     build_target: target,
     loader,
     stop() {

@@ -9,10 +9,11 @@ const error_entries = Object.entries({
   RestRoute: rest_route,
 });
 
-export default async directory => {
-
+export default async (directory, extensions) => {
   try {
     return await Router.load({
+        import: false,
+        extensions,
         directory,
         specials: {
           guard: { recursive: true },

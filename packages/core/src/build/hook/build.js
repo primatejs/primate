@@ -41,7 +41,8 @@ const pre = async (app, mode, target) => {
   await Promise.all(["server", "client", "components"]
     .map(directory => app.runpath(directory).create()));
 
-  const router = await $router(app.path.routes);
+  const router = await $router(app.path.routes,
+    [".js"].concat(Object.keys(app.bindings)));
   const layout = { depth: router.depth("layout") };
   app.set("layout", layout);
 
