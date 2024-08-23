@@ -4,7 +4,7 @@ Hooks are executed throughout various stages in the lifecycle of a Primate app.
 Some will execute only once on startup, others on given events. Hook
 subscribers accept different types of parameters, depending on the hook.
 
-## load (() => Module[])
+## load
 
 **Executed** once
 
@@ -35,7 +35,7 @@ by `load` hook themselves. Also, unlike most other hooks, the `load` hook does
 not accept a final `next` parameter.
 !!!
 
-## init (App => void)
+## init
 
 **Executed** once
 
@@ -68,7 +68,7 @@ Unlike most other hooks, the `init` hook does not accept a final `next`
 parameter.
 !!!
 
-## build (app: BuildtimeApp, next: Function) => BuildtimeApp
+## build
 
 **Executed** once, at buildtime
 
@@ -76,7 +76,7 @@ parameter.
 
 This hook allows modules to execute buildtime logic.
 
-## serve (app: RuntimeApp, next: Function) => RuntimeApp)
+## serve
 
 **Executed** once, at runtime
 
