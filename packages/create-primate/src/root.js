@@ -1,4 +1,4 @@
-import resolve from "@rcopmat/fs/resolve";
+import resolve from "@rcompat/fs/resolve";
 import * as prompts from "./prompts.js";
 
 const confirm = async root => {
