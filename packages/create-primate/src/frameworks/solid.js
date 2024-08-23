@@ -2,12 +2,12 @@ import dependencies from "../dependencies.js";
 
 export default () => ({
   dependencies: {
-    "@primate/frontend": dependencies["@primate/frontend"],
+    "@primate/solid": dependencies["@primate/solid"],
     "solid-js": dependencies["solid-js"],
     "babel-preset-solid": dependencies["babel-preset-solid"],
   },
   imports: {
-    "{ solid }": "@primate/frontend",
+    solid: "@primate/solid",
   },
   modules: {
     solid: "",

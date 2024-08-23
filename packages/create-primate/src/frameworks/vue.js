@@ -2,11 +2,11 @@ import dependencies from "../dependencies.js";
 
 export default () => ({
   dependencies: {
-    "@primate/frontend": dependencies["@primate/frontend"],
+    "@primate/vue": dependencies["@primate/vue"],
     vue: dependencies.vue,
   },
   imports: {
-    "{ vue }": "@primate/frontend",
+    vue: "@primate/vue",
   },
   modules: {
     vue: "",

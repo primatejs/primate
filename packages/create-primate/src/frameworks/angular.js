@@ -2,7 +2,7 @@ import dependencies from "../dependencies.js";
 
 export default () => ({
   dependencies: {
-    "@primate/frontend": dependencies["@primate/frontend"],
+    "@primate/angular": dependencies["@primate/angular"],
     "@angular/compiler": dependencies["@angular/compiler"],
     "@angular/core": dependencies["@angular/core"],
     "@angular/platform-server": dependencies["@angular/platform-server"],
@@ -11,7 +11,7 @@ export default () => ({
     "zone.js": dependencies["zone.js"],
   },
   imports: {
-    "{ angular }": "@primate/frontend",
+    angular: "@primate/angular",
   },
   modules: {
     angular: "",

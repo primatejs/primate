@@ -2,11 +2,11 @@ import dependencies from "../dependencies.js";
 
 export default () => ({
   dependencies: {
-    "@primate/frontend": dependencies["@primate/frontend"],
+    "@primate/handlebars": dependencies["@primate/handlebars"],
     handlebars: dependencies.handlebars,
   },
   imports: {
-    "{ handlebars }": "@primate/frontend",
+    handlebars: "@primate/handlebars",
   },
   modules: {
     handlebars: "",
