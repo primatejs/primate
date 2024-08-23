@@ -111,7 +111,7 @@ await serve(import.meta.url, {
 
 const post = async (app, mode, target) => {
   const location = app.get("location");
-  const defaults = join(import.meta.dirname, "../defaults");
+  const defaults = join(import.meta.url, "../../defaults");
 
   // stage routes
   await app.stage(app.path.routes, join(location.server, location.routes));

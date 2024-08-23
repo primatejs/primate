@@ -30,7 +30,7 @@ export default async app => {
   import load_text from "primate/load-text";
 
   ${client_imports.map(({ path }, i) =>
-    `const asset${i} = await load_text(import.meta.dirname, "${path}");`)
+    `const asset${i} = await load_text(import.meta.url, "../${path}");`)
     .join("\n  ")}
   const assets = [${client_imports.map(($import, i) => `{
   src: "${$import.src}",

@@ -42,7 +42,7 @@ ${
     const route = await Bun.file(route_path).arrayBuffer();
   ` : `
     import file from "primate/runtime/file";
-    const route = new Uint8Array(await file(import.meta.dirname+"/${path}")
+    const route = new Uint8Array(await file(import.meta.url+"/../${path}")
       .arrayBuffer());
   `
 }
