@@ -1,7 +1,7 @@
 import { text } from "../prompts.js";
 
 export default async () => {
-  const filename = await text({
+  const database = await text({
     message: "Enter database file path",
     validate: value => value.length === 0 ? "Path required" : undefined,
   });
@@ -12,7 +12,7 @@ export default async () => {
     },
     driver: {
       name: "json",
-      options: { filename },
+      options: { database },
     },
   };
 };
