@@ -81,9 +81,9 @@ same codebase.
 |[@primate/mongodb](packages/mongodb)         | MongoDB database              |
 |[@primate/mysql](packages/mysql)             | MySQL database                |
 |[@primate/postgresql](packages/postgresql)   | PostgreSQL database           |
+|[@primate/schema](packages/schema)           | Schema validation             |
 |[@primate/sqlite](packages/sqlite)           | SQLite database               |
 |[@primate/surrealdb](packages/surrealdb)     | SurrealDB database            |
-|[@primate/types](packages/types)             | Schema validation             |
 |[@primate/session](packages/session)         | User sessions                 |
 |[@primate/i18n](packages/i18n)               | Internationalization          |
 |[@primate/native](packages/native)           | Compile native apps           |

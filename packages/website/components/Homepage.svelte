@@ -110,7 +110,7 @@
       </div>
       <p>
         Seamlessly switch between <a href="/modules/frontend">frontend
-          frameworks</a>, with support for SSR, hydration and layouts across 
+          frameworks</a>, with support for SSR, hydration and layouts across
         the board. You can even combine more than one framework in your
         application.
       </p>
@@ -141,12 +141,12 @@
         <img src="/logos/mongodb.svg" title="MongoDB" />
         <img src="/logos/surrealdb.svg" title="SurrealDB" />
       </div>
-      <p>Validate input using Primate's <a href="/modules/types">runtime types</a>. 
-        Persist information with <a href="/modules/store">stores</a>, 
+      <p>Validate input using Primate <a href="/modules/schema">schemas</a>.
+        Persist information with <a href="/modules/store">stores</a>,
         using any of the supported <a href="/modules/drivers">database drivers</a>
-        with a unified ORM interface, or write your own optimized, low-level 
+        with a unified ORM interface, or write your own optimized, low-level
         store actions. Primate's ORM comes with automated transaction management and
-        rollback on error, saving you writing boilerplate code in your 
+        rollback on error, saving you writing boilerplate code in your
         application routes.
       </p>
     </div>
@@ -157,7 +157,7 @@
         <img src="/logos/svelte.svg" title="Svelte" />
         <img src="/logos/solid.svg" title="Solid" />
       </div>
-      <p>Easily make your application international, using a unified API across 
+      <p>Easily make your application international, using a unified API across
       different frontends with placeholder support and a built-in language
       switcher.</p>
       {@html examples.i18n}

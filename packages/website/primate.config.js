@@ -185,7 +185,7 @@ export default {
             "Vue",
             "Web Components",
             { heading: "Data" },
-            "Types",
+            "Schema",
             "Store",
             "Drivers",
             { heading: "Backends" },

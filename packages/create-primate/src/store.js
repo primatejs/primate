@@ -14,7 +14,7 @@ const labels = map({
 }, ([key, label]) => [key,
   `${label} ${link(`drivers#${label.toLowerCase().replaceAll(" ", "-")}`)}`]);
 
-const example_store = `import { primary } from "@primate/types";
+const example_store = `import primary from "@primate/schema/primary";
 
 export default {
   id: primary,
@@ -36,30 +36,26 @@ export default async root => {
     initialValue: true,
   });
 
-  const types = await confirm({
-    message: `Install additional runtime types? ${link("types")}`,
+  const schema = await confirm({
+    message: `Add Primate Schema for runtime validation? ${link("schema")}`,
   }) ? {
     dependencies: {
-      "@primate/types": dependencies["@primate/types"],
+      "@primate/schema": dependencies["@primate/schema"],
     },
-    imports: {
-      types: "@primate/types",
-    },
-    modules: {
-      types: "",
-    },
+    imports: {},
+    modules: {},
   } : {};
 
   return {
     dependencies: {
       "@primate/store": dependencies["@primate/store"],
       ...driver.dependencies,
-      ...types.dependencies,
+      ...schema.dependencies,
     },
     imports: {
       store: "@primate/store",
       ...driver.imports,
-      ...types.imports,
+      ...schema.imports,
     },
     modules: {
       store: `{\n      strict: ${strict},\n    ${
@@ -69,7 +65,7 @@ export default async root => {
               ? option : `"${option}"`}`).join(",")},\n      }),\n    `
           : ""
       }}`,
-      ...types.modules,
+      ...schema.modules,
     },
   };
 };

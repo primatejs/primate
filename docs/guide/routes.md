@@ -45,8 +45,7 @@ supports rest parameters that match slashes too.
 
 Parameters can be also runtime-typed, in which case their value can be
 restricted. `[age=number]` indicates that this path parameter must satisfy the
-runtime type defined in `types/number.js` (or imported from `@primate/types`)
-for the route to be matched.
+runtime type defined in `types/number.js` for the route to be matched.
 
 ### Optional parameters
 

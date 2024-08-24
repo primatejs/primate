@@ -1,10 +1,10 @@
-import boolean from "@primate/types/boolean";
-import date from "@primate/types/date";
-import i64 from "@primate/types/i64";
-import object from "@primate/types/object";
-import primary from "@primate/types/primary";
-import string from "@primate/types/string";
-import u8 from "@primate/types/u8";
+import boolean from "@primate/schema/boolean";
+import date from "@primate/schema/date";
+import i64 from "@primate/schema/i64";
+import object from "@primate/schema/object";
+import primary from "@primate/schema/primary";
+import string from "@primate/schema/string";
+import u8 from "@primate/schema/u8";
 
 const w = (document, id) => ({ ...document, id });
 const defaults = {
@@ -419,7 +419,7 @@ export default async (test, driver, lifecycle) => {
   // assert(() => commit()).throws();
   // });
 
-  test.case("types", async ({ assert, t }) => {
+  test.case("schema", async ({ assert, t }) => {
     await t(async ({ User }) => {
       const user1 = {
         name: "Donald",

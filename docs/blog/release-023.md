@@ -68,11 +68,11 @@ rolled back and no changes will be committed to the data store.
 Consider the following store.
 
 ```js caption=stores/User.js
-import primary from "@primate/types/primary";
-import string from "@primate/types/string";
-import u8 from "@primate/types/u8";
-import email from "@primate/types/email";
-import date from "@primate/types/date";
+import primary from "@primate/schema/primary";
+import string from "@primate/schema/string";
+import u8 from "@primate/schema/u8";
+import email from "@primate/schema/email";
+import date from "@primate/schema/date";
 
 export default {
   id: primary,

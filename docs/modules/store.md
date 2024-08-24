@@ -69,11 +69,11 @@ range of values this field may hold. We here define a `User` store representing
 a user of our application.
 
 ```js caption=stores/User.js
-import primary from "@primate/types/primary";
-import email from "@primate/types/email";
-import date from "@primate/types/date";
-import string from "@primate/types/string";
-import u8 from "@primate/types/u8";
+import primary from "@primate/schema/primary";
+import email from "@primate/schema/email";
+import date from "@primate/schema/date";
+import string from "@primate/schema/string";
+import u8 from "@primate/schema/u8";
 
 export default {
   id: primary,
@@ -110,8 +110,8 @@ Directories must start with a lowercase letter and will be otherwise ignored.
 
 ```js caption=stores/Comment.js
 // this store will be available as `request.store.Comment` in routes
-import primary from "@primate/types/primary";
-import string from "@primate/types/string";
+import primary from "@primate/schema/primary";
+import string from "@primate/schema/string";
 
 export default {
   id: primary,
@@ -121,8 +121,8 @@ export default {
 
 ```js caption=stores/post/Comment.js
 // this store will be available as `request.store.post.Comment` in routes
-import primary from "@primate/types/primary";
-import string from "@primate/types/string";
+import primary from "@primate/schema/primary";
+import string from "@primate/schema/string";
 
 export default {
   id: primary,
@@ -137,10 +137,10 @@ The objects you use for types will be automatically mapped by the driver into
 the appropriate database types.
 
 ```js caption=store/User.js
-import array from "@primate/types/array";
-import primary from "@primate/types/primary";
-import string from "@primate/types/string";
-import u8 from "@primate/types/u8";
+import array from "@primate/schema/array";
+import primary from "@primate/schema/primary";
+import string from "@primate/schema/string";
+import u8 from "@primate/schema/u8";
 
 export default {
   id: primary,
@@ -204,9 +204,9 @@ In addition to using type functions, Primate supports using an object with a
 `validate` function property for validation.
 
 ```js caption=stores/User.js
-import array from "@primate/types/array";
-import primary from "@primate/types/primary";
-import u8 from "@primate/types/u8";
+import array from "@primate/schema/array";
+import primary from "@primate/schema/primary";
+import u8 from "@primate/schema/u8";
 
 const between = ({ length }, min, max) => length >= min && length <= max;
 
@@ -239,8 +239,8 @@ to save a new record into the store. If you wish to strictly enforce all
 fields to be non-empty, export `mode = "strict"`.
 
 ```js caption=stores/Comment.js
-import primary from "@primate/types/primary";
-import string from "@primate/types/string";
+import primary from "@primate/schema/primary";
+import string from "@primate/schema/string";
 
 export const mode = "strict";
 
@@ -268,8 +268,8 @@ In that case, you can opt-out on individual store level by exporting
 `mode = "loose"`.
 
 ```js caption=stores/Comment.js
-import primary from "@primate/types/primary";
-import string from "@primate/types/string";
+import primary from "@primate/schema/primary";
+import string from "@primate/schema/string";
 
 export const mode = "loose";
 
@@ -294,8 +294,8 @@ this behavior by exporting a `name`, allowing you to map several store files to
 the same database store.
 
 ```js caption=stores/Post/Comment.js
-import primary from "@primate/types/primary";
-import string from "@primate/types/string";
+import primary from "@primate/schema/primary";
+import string from "@primate/schema/string";
 
 // would use `post_comment` if not overriden
 export const name = "comment";
@@ -314,8 +314,8 @@ default by exporting a `driver`.
 
 ```js caption=stores/Comment.js
 import mongodb from "@primate/mongodb";
-import primary from "@primate/types/primary";
-import string from "@primate/types/string";
+import primary from "@primate/schema/primary";
+import string from "@primate/schema/string";
 
 export const driver = mongodb();
 
@@ -338,8 +338,8 @@ export default mongodb();
 You can then import and reexport the driver as needed across files.
 
 ```js caption=stores/Post.js
-import primary from "@primate/types/primary";
-import string from "@primate/types/string";
+import primary from "@primate/schema/primary";
+import string from "@primate/schema/string";
 
 export { default as driver } from "./mongodb.js";
 
@@ -351,8 +351,8 @@ export default {
 ```
 
 ```js caption=stores/Comment.js
-import primary from "@primate/types/primary";
-import string from "@primate/types/string";
+import primary from "@primate/schema/primary";
+import string from "@primate/schema/string";
 
 export { default as driver } from "./mongodb.js";
 
@@ -370,7 +370,7 @@ indexing. This module, too, uses the primary field automatically for a store's
 complain.
 
 ```js caption=stores/Comment.js
-import string from "@primate/types/string";
+import string from "@primate/schema/string";
 
 export default {
   text: string,
@@ -384,7 +384,7 @@ warning.
 If this ambiguity is intentional, export `ambiguous = true` in your store.
 
 ```js caption=stores/Comment.js
-import string from "@primate/types/string";
+import string from "@primate/schema/string";
 
 export const ambiguous = true;
 
@@ -406,10 +406,10 @@ underlying driver and the store itself to create your own actions. To do so,
 export `actions` as an object containing individual, additional actions.
 
 ```js caption=store/User.js
-import array from "@primate/types/array";
-import primary from "@primate/types/primary";
-import string from "@primate/types/string";
-import u8 from "@primate/types/u8";
+import array from "@primate/schema/array";
+import primary from "@primate/schema/primary";
+import string from "@primate/schema/string";
+import u8 from "@primate/schema/u8";
 
 export const actions = store => {
   return {
@@ -478,8 +478,8 @@ by using `export const mode = "strict";`.
 
 In addition, `loose` allows you to save to fields that haven't been explicitly
 declared in your store definition. This is particulary useful for NoSQL
-databases that do not have a rigid schema, where you want to enforce types on some
-fields and accept anything in others.
+databases that do not have a rigid schema, where you want to enforce types on
+some fields and accept anything in others.
 
 !!!
 For SQL databases, we will add the ability in the future to declare a catchall

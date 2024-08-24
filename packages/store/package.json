@@ -27,7 +27,7 @@
     "@rcompat/sync": "^0.3.0"
   },
   "devDependencies": {
-    "@primate/types": "workspace:^"
+    "@primate/schema": "workspace:^"
   },
   "peerDependencies": {
     "primate": "workspace:^"

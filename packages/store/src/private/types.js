@@ -1,6 +1,6 @@
 import ident from "#ident";
 
-// we can't depend on @primate/types here
+// we can't depend on @primate/schema here
 const valid = /^[^\W_]{8}-[^\W_]{4}-[^\W_]{4}-[^\W_]{4}-[^\W_]{12}$/u;
 const test = value => typeof value === "string" && valid.test(value);
 
