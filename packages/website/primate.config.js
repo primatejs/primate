@@ -158,11 +158,15 @@ export default {
             { heading: "Extras" },
             "Logging",
           ],
-          reference: [
+          errors: [
             { heading: "Errors" },
-            {
-              errors: ["primate", "primate/store"],
-            },
+            "Core",
+            "Frontend",
+            "Go",
+            "HTMX",
+            "I18N",
+            "Store",
+            "WebC",
           ],
           modules: [
             { heading: "Modules" },

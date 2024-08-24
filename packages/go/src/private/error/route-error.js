@@ -6,5 +6,6 @@ export default (...params) => log.error({
   params,
   name: file(import.meta.url).base,
   module: pkgname,
-  message: "the Go route {0} contains the following error\n {1}",
+  message: "error in Go route {0}",
+  fix: "fix route error:\n{1}",
 });

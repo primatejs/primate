@@ -7,5 +7,5 @@ export default (...params) => log.error({
   name: file(import.meta.url).base,
   module: pkgname,
   message: "the extension {0} is required for {1} client side support",
-  fix: "add \"{0}\" to the `extensions` array for the HTMX module",
+  fix: "add \"{0}\" to the HTMX `extensions` array in module configuration",
 });

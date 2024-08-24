@@ -286,6 +286,7 @@ The file extension associated with Go routes.
 ## Resources
 
 * [Repository][repo]
+* [Error list](/errors/go)
 
 [plain text]: /guide/responses#plain-text
 [json]: /guide/responses#json

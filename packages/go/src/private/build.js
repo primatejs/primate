@@ -1,4 +1,4 @@
-import faulty_route from "#error/faulty-route";
+import route_error from "#error/route-error";
 import pkgname from "#pkgname";
 import log from "@primate/core/log";
 import dim from "@rcompat/cli/color/dim";
@@ -167,7 +167,7 @@ export default ({ extension }) => (app, next) => {
       await execute(run(wasm, go, includes.join(" ")),
         { cwd, env: { HOME: user.HOME, ...env } });
     } catch (error) {
-      faulty_route(file, error);
+      route_error(file, error);
     }
   });
 
