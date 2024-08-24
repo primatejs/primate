@@ -2,21 +2,21 @@ import { text } from "../prompts.js";
 import dependencies from "../dependencies.js";
 
 export default async () => {
-  const filename = await text({
+  const database = await text({
     message: "Enter database file path",
     validate: value => value.length === 0 ? "Path required" : undefined,
   });
 
   return {
     dependencies: {
-      "better-sqlite3": dependencies["better-sqlite3"],
+      "@primate/sqlite": dependencies["@primate/sqlite"],
     },
     imports: {
-     "{sqlite}" : "@primate/store",
+     sqlite: "@primate/sqlite",
     },
     driver: {
       name: "sqlite",
-      options: { filename },
+      options: { database },
     },
   };
 };

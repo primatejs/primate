@@ -2,12 +2,13 @@ import dependencies from "../dependencies.js";
 
 export default () => ({
   dependencies: {
-    "@primate/markdown": dependencies["@primate/markdown"],
+    "@primate/eta": dependencies["@primate/eta"],
+    eta: dependencies.eta,
   },
   imports: {
-    markdown: "@primate/markdown",
+    eta: "@primate/eta",
   },
   modules: {
-    markdown: "",
+    eta: "",
   },
 });

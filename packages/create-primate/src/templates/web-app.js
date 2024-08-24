@@ -5,15 +5,20 @@ import dependencies from "../dependencies.js";
 import * as framework from "../frameworks/exports.js";
 
 const labels = new Map([
-  [framework.none, "None (HTML only)"],
-  [framework.svelte, "Svelte"],
-  [framework.react, "React"],
-  [framework.solid, "Solid"],
+  [framework.none, "None"],
   [framework.angular, "Angular"],
-  [framework.vue, "Vue"],
+  [framework.eta, "Eta"],
+  [framework.handlebars, "Handlebars"],
+  [framework.html, "HTML"],
   [framework.htmx, "HTMX"],
   [framework.markdown, "Markdown"],
   [framework.marko, "Marko"],
+  [framework.react, "React"],
+  [framework.solid, "Solid"],
+  [framework.svelte, "Svelte"],
+  [framework.voby, "Voby"],
+  [framework.vue, "Vue"],
+  [framework.webc, "Web Components"],
 ]);
 
 const options = [...labels.entries()].map(([value, label]) => ({ value, label }));

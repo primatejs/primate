@@ -19,21 +19,21 @@ export default async () => {
     defaultValue: defaults.port,
   });
 
-  const db = await text({
+  const database = await text({
     message: "Enter database name",
     validate: value => value.length === 0 ? "Name required" : undefined,
   });
 
   return {
     dependencies: {
-      mongodb: dependencies.mongodb,
+      "@primate/mongodb": dependencies["@primate/mongodb"],
     },
     imports: {
-     "{mongodb}" : "@primate/store",
+     mongodb: "@primate/mongodb",
     },
     driver: {
       name: "mongodb",
-      options: { host, port, db },
+      options: { host, port, database },
     },
   };
 };

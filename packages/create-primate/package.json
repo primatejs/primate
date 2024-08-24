@@ -29,7 +29,6 @@
   },
   "devDependencies": {
     "@angular/core": "^18.2.1",
-    "@babel/core": "^7.25.2",
     "@primate/angular": "workspace:^",
     "@primate/eta": "workspace:^",
     "@primate/go": "workspace:^",
@@ -50,9 +49,9 @@
     "@primate/store": "workspace:^",
     "@primate/svelte": "workspace:^",
     "@primate/schema": "workspace:^",
+    "@primate/voby": "workspace:^",
     "@primate/vue": "workspace:^",
     "@primate/webc": "workspace:^",
-    "babel-preset-solid": "^1.8.19",
     "eta": "^3.5.0",
     "marko": "^5.35.10",
     "primate": "workspace:^",
@@ -60,6 +59,7 @@
     "react-dom": "^18.3.1",
     "solid-js": "^1.8.21",
     "svelte": "^4.2.17",
+    "voby": "^0.58.1",
     "vue": "^3.4.38"
   }
 }

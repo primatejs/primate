@@ -19,26 +19,26 @@ export default async () => {
     defaultValue: defaults.port,
   });
 
-  const ns = await text({
+  const namespace = await text({
     message: "Enter namespace",
     validate: value => value.length === 0 ? "Name required" : undefined,
   });
 
-  const db = await text({
+  const database = await text({
     message: "Enter database name",
     validate: value => value.length === 0 ? "Name required" : undefined,
   });
 
   return {
     dependencies: {
-      "surrealdb.js": dependencies["surrealdb.js"],
+      "@primate/surrealdb": dependencies["@primate/surrealdb"],
     },
     imports: {
-     "{surrealdb}" : "@primate/store",
+      surrealdb: "@primate/surrealdb",
     },
     driver: {
       name: "surrealdb",
-      options: { host, port, ns, db },
+      options: { host, port, namespace, database },
     },
   };
 };

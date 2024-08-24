@@ -3,7 +3,7 @@ import dependencies from "../dependencies.js";
 
 const defaults = {
   host: "localhost",
-  port: 5432,
+  port: 3306,
 };
 
 export default async () => {
@@ -26,13 +26,13 @@ export default async () => {
 
   return {
     dependencies: {
-      "@primate/postgresql": dependencies["@primate/postgresql"],
+      "@primate/mysql": dependencies["@primate/mysql"],
     },
     imports: {
-     postgresql: "@primate/postgresql",
+     mysql: "@primate/mysql",
     },
     driver: {
-      name: "postgresql",
+      name: "mysql",
       options: { host, port, database },
     },
   };

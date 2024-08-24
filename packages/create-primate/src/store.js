@@ -8,6 +8,7 @@ const labels = map({
   memory: "In Memory",
   json: "JSON file",
   sqlite: "SQLite",
+  mysql: "MySQL",
   mongodb: "MongoDB",
   postgresql: "PostgreSQL",
   surrealdb: "SurrealDB",

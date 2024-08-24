@@ -2,12 +2,12 @@ import dependencies from "../dependencies.js";
 
 export default () => ({
   dependencies: {
-    "@primate/markdown": dependencies["@primate/markdown"],
+    "@primate/webc": dependencies["@primate/webc"],
   },
   imports: {
-    markdown: "@primate/markdown",
+    webc: "@primate/webc",
   },
   modules: {
-    markdown: "",
+    webc: "",
   },
 });

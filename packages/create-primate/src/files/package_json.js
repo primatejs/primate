@@ -10,9 +10,11 @@ export default async (root, config) => {
       ...config.dependencies,
     },
     scripts: {
-      start: "primate",
-      dev: "primate dev",
+      start: "npm run dev",
+      build: "primate build",
       serve: "primate serve",
+      dev: "primate",
+      prod: "npm run build && npm run serve",
     },
     type: "module",
   };
