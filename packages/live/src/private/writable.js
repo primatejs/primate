@@ -5,7 +5,9 @@ export default initial_value => {
   const subscribers = [];
   return {
     id: crypto.randomUUID(),
-    value,
+    get() {
+      return value;
+    },
     set(setter) {
       value = setter(value);
       subscribers.map(subscriber => subscriber(value));

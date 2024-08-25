@@ -67,7 +67,7 @@ export default config => {
       });
       shared.data = shared.data.map(component_props =>
         valmap(component_props, value =>
-          value?.live === live ? value.value : value),
+          value?.live === live ? value.get() : value),
       );
 
       if (config.spa && request.headers.get("Accept") === json) {
