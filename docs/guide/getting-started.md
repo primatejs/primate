@@ -1,5 +1,12 @@
 # Getting started
 
+## What is Primate?
+
+Primate is a technology-agnostic framework for building web applications,
+allowing you to seamlessly integrate and start coding within any major frontend
+framework and several backend languages, eliminating the constraints of being
+vendor-locked to specific tools.
+
 ## First steps
 
 To create a simple app that responds with a `200 OK` saying "Hello, world!"

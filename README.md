@@ -5,11 +5,11 @@
 &nbsp;<a href="https://npmjs.com/primate"><img src="https://img.shields.io/badge/npm%20create%20primate@latest-a16836?style=for-the-badge"></a>
 &nbsp;<a href="https://discord.gg/RSg4NNwM4f"><img src="https://img.shields.io/discord/1256590312177012806?style=for-the-badge&label=chat&logoColor=fff&color=5865f2"></a>
 </div>
-<br><br>
+<br>
 Primate is a technology-agnostic framework for building web applications,
 allowing you to seamlessly integrate and start coding within any major frontend
 framework and several backend languages, eliminating the constraints of being
-vendor-locked to specific tools. 
+vendor-locked to specific tools.
 
 ### Supported backends
 
