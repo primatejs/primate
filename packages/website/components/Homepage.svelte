@@ -309,6 +309,16 @@
           </td>
         </tr>
         <tr>
+          <td>HTML</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>
+            <a href="/modules/html">✓</a>
+          </td>
+        </tr>
+        <tr>
           <td>HTMX</td>
           <td>✗</td>
           <td>✗</td>
@@ -346,6 +356,26 @@
           <td>✗</td>
           <td>
             <a href="/modules/marko">✓</a>
+          </td>
+        </tr>
+        <tr>
+          <td>Eta</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>
+            <a href="/modules/eta">✓</a>
+          </td>
+        </tr>
+        <tr>
+          <td>Voby</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>✗</td>
+          <td>
+            <a href="/modules/voby">✓</a>
           </td>
         </tr>
         <tr>
