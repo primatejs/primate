@@ -4,7 +4,7 @@ export default ({ names, data, context, request }, options) => `
   import * as components from "app";
   let root = new components.root_svelte({
     target: document.body,
-    hydrate: true,
+    hydrate: ${options.ssr ? "true" : "false"},
     props: {
       components: [${names.map(name => `components.${name}`).join(", ")}],
       data: ${JSON.stringify(data)},
