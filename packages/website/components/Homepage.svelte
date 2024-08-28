@@ -138,6 +138,7 @@
       <div class="logos">
         <img src="/logos/sqlite.svg" title="SQLite" />
         <img src="/logos/postgresql.svg" title="PostgreSQL" />
+        <img src="/logos/mysql.svg" title="MySQL" />
         <img src="/logos/mongodb.svg" title="MongoDB" />
         <img src="/logos/surrealdb.svg" title="SurrealDB" />
       </div>
