@@ -539,7 +539,6 @@ main.hero {
 
 .hero .buttons a, .hero .buttons button {
   padding: .5rem 1rem;
-  border-radius: .3rem;
   font-size: 1.4rem;
   margin: 0 1rem;
   z-index: 1;
