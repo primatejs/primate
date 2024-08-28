@@ -11,89 +11,39 @@ allowing you to seamlessly integrate and start coding within any major frontend
 framework and several backend languages, eliminating the constraints of being
 vendor-locked to specific tools.
 
-### Supported backends
+### Backends
+[![Go](https://img.shields.io/badge/Go-02add6?logo=go&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/backend)
+[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=000&style=for-the-badge)](https://primatejs.com/modules/go)
+[![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/python)
+[![Ruby](https://img.shields.io/badge/Ruby-CC342D?logo=ruby&style=for-the-badge)](https://primatejs.com/modules/ruby)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/typescript)
 
-- Go
-- JavaScript
-- Python
-- Ruby
-- TypeScript
+### Frontends
+[![Angular](https://img.shields.io/badge/Angular-DD0031.svg?logo=angular&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/angular)
+[![Eta](https://img.shields.io/badge/Eta-25c2a0.svg?logo=eta&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/eta)
+[![Handlebars](https://img.shields.io/badge/Handlebars-f0772b.svg?logo=handlebars.js&logoColor=fff&textColor=000&style=for-the-badge)](https://primatejs.com/modules/handlebars)
+[![HTML](https://img.shields.io/badge/HTML-E34F26.svg?logo=html5&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/html)
+[![HTMX](https://img.shields.io/badge/HTMX-36C?logo=htmx&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/htmx)
+[![Markdown](https://img.shields.io/badge/Markdown-000000.svg?logo=markdown&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/markdown)
+[![Marko](https://img.shields.io/badge/Marko-2596BE.svg?logo=marko&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/marko)
+[![React](https://img.shields.io/badge/React-20232a.svg?logo=react&logoColor=%2361DAFB&style=for-the-badge)](https://primatejs.com/modules/react)
+[![Solid](https://img.shields.io/badge/Solid-2C4F7C?logo=solid&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/solid)
+[![Svelte](https://img.shields.io/badge/Svelte-f1413d.svg?logo=svelte&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/svelte)
+[![Voby](https://img.shields.io/badge/Voby-fff5db.svg?logo=eta&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/voby)
+[![Vue](https://img.shields.io/badge/Vue-4FC08D?logo=vuedotjs&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/vue)
+[![web Components](https://img.shields.io/badge/Web%20Components-29ABE2?logo=webcomponentsdotorg&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/web-components)
 
-### Supported frontends
+### Runtimes
+[![NodeJS](https://img.shields.io/badge/Node-6DA55F?logo=node.js&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/runtime-support)
+[![Deno](https://img.shields.io/badge/Deno-000?logo=deno&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/runtime-support)
+[![Bun](https://img.shields.io/badge/Bun-000?logo=bun&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/runtime-support)
 
-- Angular
-- Eta
-- Handlebars
-- HTML
-- HTMX
-- Markdown
-- Marko
-- React
-- Solid
-- Svelte
-- Voby
-- Vue
-- Web Components
-
-### Supported databases
-
-- MongoDB
-- MySQL
-- Postgresql
-- SQLite
-- SurrealDB
-
-## Packages
-
-| Package                                     | Description                   |
-|---------------------------------------------|-------------------------------|
-|[primate](packages/primate)                  | Primate framework             |
-|[@primate/core](packages/core)               | Core framework                |
-|[@primate/go](packages/go)                   | Go backend                    |
-|[@primate/python](packages/python)           | Python backend                |
-|[@primate/ruby](packages/ruby)               | Ruby backend                  |
-|[@primate/typescript](packages/typescript)   | TypeScript backend            |
-|[@primate/angular](packages/angular)         | Angular frontend              |
-|[@primate/eta](packages/eta)                 | Eta frontend                  |
-|[@primate/handlebars](packages/handlebars)   | Handlebars frontend           |
-|[@primate/html](packages/html)               | HTML frontend                 |
-|[@primate/htmx](packages/htmx)               | HTMX frontend                 |
-|[@primate/markdown](packages/markdown)       | Markdown frontend             |
-|[@primate/marko](packages/marko)             | Marko frontend                |
-|[@primate/react](packages/react)             | React frontend                |
-|[@primate/solid](packages/solid)             | Solid frontend                |
-|[@primate/svelte](packages/svelte)           | Svelte frontend               |
-|[@primate/voby](packages/voby)               | Voby frontend                 |
-|[@primate/vue](packages/vue)                 | Vue frontend                  |
-|[@primate/webc](packages/webc)               | Web Components frontend       |
-|[@primate/store](packages/store)             | Databases                     |
-|[@primate/mongodb](packages/mongodb)         | MongoDB database              |
-|[@primate/mysql](packages/mysql)             | MySQL database                |
-|[@primate/postgresql](packages/postgresql)   | PostgreSQL database           |
-|[@primate/schema](packages/schema)           | Schema validation             |
-|[@primate/sqlite](packages/sqlite)           | SQLite database               |
-|[@primate/surrealdb](packages/surrealdb)     | SurrealDB database            |
-|[@primate/session](packages/session)         | User sessions                 |
-|[@primate/i18n](packages/i18n)               | Internationalization          |
-|[@primate/native](packages/native)           | Compile native apps           |
-|[website](packages/website)                  | Primate website               |
-|[create-primate](packages/create-primate)    | GUI for creating Primate apps |
-
-## Comparison with other frameworks
-
-|Feature           |Next  |Nuxt  |SvelteKit|Primate                                                 |
-|------------------|------|------|---------|--------------------------------------------------------|
-|Backend           |JS, TS|JS, TS|JS, TS   |JS, TS, Go, Python, Ruby                                |
-|Frontend          |React |Vue   |Svelte   |React, Vue, Svelte, Solid, Angular, HTMX, Handlebars, WC|
-|Runtime           |Node  |Node  |Node     |Node, Deno, Bun                                         |
-|I18N              |✓     |✓     |✗        |@primate/i18n                                           |
-|Head Component    |✓     |✓     |✗        |React, Svelte, Solid                                    |
-|Route guards      |✗     |✗     |✗        |✓                                                       |
-|Recursive layouts |✓     |✓     |✓        |✓                                                       |
-|Data stores/ORM   |✗     |✗     |✗        |MongoDB, MySQL, PostgreSQL, SQLite, SurrealDb           |
-|WebSockets        |✗     |✗     |✗        |✓                                                       |
-|Server-sent events|✗     |✗     |✗        |✓                                                       |
-|User sessions     |✗     |✓     |✗        |@primate/session                                        |
+### Databases
+[![MongoDB](https://img.shields.io/badge/MongoDB-4ea94b.svg?logo=mongodb&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/drivers#mongodb)
+[![MySQL](https://img.shields.io/badge/MySQL-4479A1?logo=mysql&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/drivers#mysql)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192.svg?logo=postgresql&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/drivers#postgresql)
+[![SQLite](https://img.shields.io/badge/SQLite-07405e.svg?logo=sqlite&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/drivers#postgresql)
+[![SurrealDB](https://img.shields.io/badge/SurrealDB-FF00A0.svg?logo=surrealdb&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/drivers#surrealdb)
 
 ## Resources
 
