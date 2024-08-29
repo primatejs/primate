@@ -80,7 +80,7 @@ The file extension associated with Angular components.
 
 Default `"production"`
 
-Angular's mode of operation. Any value other than `"production"` will test
+Angular's mode of operation. Any value other than `"production"` will set
 Angular to development mode.
 
 ## Resources

@@ -262,6 +262,7 @@ The file extension associated with Ruby routes.
 [view]: /guide/responses#view
 [body]: /guide/routes#body
 [path]: /guide/routes#path
+[session]: /modules/session#use
 [default-index]:
 https://github.com/primatejs/primate/blob/master/packages/core/src/build/defaults/app.html
 [repo]: https://github.com/primatejs/primate/tree/master/packages/ruby

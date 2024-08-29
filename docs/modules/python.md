@@ -286,12 +286,12 @@ library.
 [plain text]: /guide/responses#plain-text
 [json]: /guide/responses#json
 [redirect]: /guide/responses#redirect
-[redirect]: /guide/responses#error
+[error]: /guide/responses#error
 [view]: /guide/responses#view
 [body]: /guide/routes#body
 [path]: /guide/routes#path
 [session]: /modules/session#use
-[session]: /modules/store
+[store]: /modules/store
 [default-index]:
 https://github.com/primatejs/primate/blob/master/packages/core/src/build/defaults/app.html
 [repo]: https://github.com/primatejs/primate/tree/master/packages/python

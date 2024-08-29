@@ -12,8 +12,8 @@ framework and several backend languages, eliminating the constraints of being
 vendor-locked to specific tools.
 
 ### Backends
-[![Go](https://img.shields.io/badge/Go-02add6?logo=go&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/backend)
-[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=000&style=for-the-badge)](https://primatejs.com/modules/go)
+[![Go](https://img.shields.io/badge/Go-02add6?logo=go&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/go)
+[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=000&style=for-the-badge)](https://primatejs.com/modules/backend)
 [![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/python)
 [![Ruby](https://img.shields.io/badge/Ruby-CC342D?logo=ruby&style=for-the-badge)](https://primatejs.com/modules/ruby)
 [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/typescript)
