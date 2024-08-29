@@ -6,10 +6,17 @@
 &nbsp;<a href="https://discord.gg/RSg4NNwM4f"><img src="https://img.shields.io/discord/1256590312177012806?style=for-the-badge&label=chat&logoColor=fff&color=5865f2"></a>
 </div>
 <br>
-Primate is a technology-agnostic framework for building web applications,
-allowing you to seamlessly integrate and start coding within any major frontend
-framework and several backend languages, eliminating the constraints of being
-vendor-locked to specific tools.
+Primate is a framework for building web applications primarily focused on
+flexibility and developer freedom.<br><br>
+Other frameworks lock you in. Primate sets you free, offering you unlimited
+choice in mixing and matching different tools that work best for you, rather
+than forcing to you accept the limitations and design decisions made by others.
+
+## What is supported?
+
+Click on the tool badge for more info. If you're missing anything, feel free to
+open an issue detailing your use case and what tool you would like to see
+supported.
 
 ### Backends
 [![Go](https://img.shields.io/badge/Go-02add6?logo=go&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/go)
