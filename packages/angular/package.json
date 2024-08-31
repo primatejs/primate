@@ -41,6 +41,14 @@
     "#serve": {
       "livetypes": "./src/private/serve/index.js",
       "default": "./src/private/serve/index.js"
+    },
+    "#client": {
+      "livetypes": "./src/private/client/index.js",
+      "default": "./src/private/client/index.js"
+    },
+    "#client/*": {
+      "livetypes": "./src/private/client/*.js",
+      "default": "./src/private/client/*.js"
     }
   },
   "exports": {
