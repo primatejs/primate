@@ -32,8 +32,8 @@ Once a complete prerendered page has been sent to client, it is often necessary
 to kick off the frontend framework on the client so it can register events and
 manage the page. This is known as hydration.
 
-Currently the Svelte, React and Solid modules support hydration, while work on
-Vue hydration is planned for future versions.
+Currently the Angular, Svelte, React and Solid modules support hydration, while
+work on Vue hydration is planned for future versions.
 
 HTMX, having no SSR support, also has no support for hydration. The HTMX client
 is *always* sent along the page and activates on page load.
@@ -59,7 +59,7 @@ use different frontend frameworks alongside each other, in different routes.
 
 |Framework       |Extension      |Props|Layouts|SSR|Hydration|SPA|Head|I18N|
 |----------------|---------------|-----|-------|---|---------|---|----|----|
-|[Angular]       |`.component.ts`|✓    |✗      |✓  |✗        |✗  |✗   |✗   |
+|[Angular]       |`.component.ts`|✓    |✗      |✓  |✓        |✗  |✗   |✗   |
 |[Eta]           |`.eta`         |✓    |✗      |✓  |✗        |✗  |✗   |✗   |
 |[Handlebars]    |`.hbs`         |✓    |✗      |✓  |✓        |✗  |✗   |✗   |
 |[HTML]          |`.html`        |✗    |✗      |✓  |✗        |✗  |✗   |✗   |

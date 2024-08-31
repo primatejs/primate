@@ -1,7 +1,7 @@
 # Angular
 
-This handler module supports SSR and serves Angular components with the
-`.component.ts` extension.
+This handler module supports SSR and hydration and serves Angular components
+with the `.component.ts` extension.
 
 ## Install
 
