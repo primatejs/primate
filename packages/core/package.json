@@ -18,7 +18,7 @@
   "dependencies": {
     "@rcompat/array": "^0.3.0",
     "@rcompat/async": "^0.3.0",
-    "@rcompat/build": "^0.5.0",
+    "@rcompat/build": "^0.6.0",
     "@rcompat/cli": "^0.5.1",
     "@rcompat/crypto": "^0.5.0",
     "@rcompat/fs": "^0.7.0",

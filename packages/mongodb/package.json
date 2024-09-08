@@ -19,7 +19,7 @@
     "@primate/store": "workspace:^",
     "@rcompat/invariant": "^0.5.0",
     "@rcompat/object": "^0.5.0",
-    "mongodb": "^6.8.0"
+    "mongodb": "^6.8.1"
   },
   "type": "module",
   "imports": {

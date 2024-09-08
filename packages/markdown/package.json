@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@primate/frontend": "workspace:^",
-    "marked": "^13.0.3"
+    "marked": "^14.1.2"
   },
   "peerDependencies": {
     "primate": "workspace:^"
