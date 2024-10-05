@@ -28,7 +28,7 @@
     "deps": "scripts/peerdeps.js"
   },
   "devDependencies": {
-    "@angular/core": "^18.2.3",
+    "@angular/core": "^18.2.7",
     "@primate/angular": "workspace:^",
     "@primate/eta": "workspace:^",
     "@primate/go": "workspace:^",
@@ -53,13 +53,13 @@
     "@primate/vue": "workspace:^",
     "@primate/webc": "workspace:^",
     "eta": "^3.5.0",
-    "marko": "^5.35.14",
+    "marko": "^5.35.20",
     "primate": "workspace:^",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "solid-js": "^1.8.22",
+    "solid-js": "^1.9.1",
     "svelte": "^4.2.19",
     "voby": "^0.58.1",
-    "vue": "^3.5.3"
+    "vue": "^3.5.11"
   }
 }
