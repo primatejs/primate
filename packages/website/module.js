@@ -1,5 +1,5 @@
-import { Status } from "rcompat/http";
-import o from "rcompat/object";
+import { OK } from "@rcompat/http/status";
+import stringify from "@rcompat/record/stringify";
 import { view } from "primate";
 
 const encode_title = title => title.toLowerCase().replaceAll(" ", "-");
@@ -114,7 +114,7 @@ export default config => {
         .map(({ title, link, description }) => ({ title, link, description }))
       ;
       await app.runpath("blog").create();
-      await app.runpath("blog", "entries.json").write(o.stringify(jsons));
+      await app.runpath("blog", "entries.json").write(stringify(jsons));
 
       return next(app);
     },
@@ -128,7 +128,7 @@ export default config => {
 
       if (color_scheme !== undefined) {
         return new Response(null, {
-          status: Status.OK,
+          status: OK,
           headers: {
             "Set-Cookie": cookie(cookie_name, color_scheme, options),
           },

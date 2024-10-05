@@ -3,16 +3,17 @@
   "private": true,
   "dependencies": {
     "@primate/frontend": "^0.15.0",
+    "@rcompat/fs": "^0.7.0",
+    "@rcompat/http": "^0.6.1",
+    "@rcompat/record": "^0.1.0",
     "handlebars": "^4.7.8",
-    "marked": "^14.1.2",
+    "marked": "^12.0.2",
     "primate": "^0.31.1",
-    "rcompat": "^0.11.2",
-    "shiki": "^1.12.1",
+    "shiki": "^1.17.7",
     "svelte": "^4.2.19"
   },
   "scripts": {
-    "local": "scripts/local.sh",
-    "start": "deno run --allow-all npm:primate serve"
+    "start": "scripts/start.sh"
   },
   "type": "module"
 }

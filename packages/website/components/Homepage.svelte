@@ -5,6 +5,7 @@
 
   export let content, app, examples;
 
+  const title = "Web framework focused on flexibility and developer freedom";
   const { theme } = app;
   const filenames = {
     react: ["PostIndex", "jsx"],
@@ -57,7 +58,7 @@
     });
   });
 </script>
-<Header {app} title="Polymorphic development platform" />
+<Header {app} {title} />
 <main class="hero">
   <div class="header">
     <div class="flank"></div>
@@ -67,11 +68,11 @@
       </div>
       <div>
         <h1>primate</h1>
-        <h2 class="heading">polymorphic development platform</h2>
+        <h2 class="heading">{title}</h2>
         <div class="buttons">
           <a href="/guide/getting-started" class="primary">read guide</a>
-          <span class="clip" on:click={() => clipboard("npm create primate@latest")}>
-            <button>$ npm create primate@latest</button>
+          <span class="clip" on:click={() => clipboard("npm create primate")}>
+            <button>$ npm create primate</button>
             <Icon name="clipboard" />
           </span>
         </div>

@@ -1,16 +1,18 @@
-import { File } from "rcompat/fs";
-import { MediaType } from "rcompat/http";
+import file from "@rcompat/fs/file";
+import { xml } from "@rcompat/http/mime";
 import { view } from "primate";
 
+const description = "Web framework focused on flexibility and developer freedom";
+
 const entries_path = ["blog", "entries.json"];
-const entries = new File(import.meta.url).up(2).join(...entries_path);
+const entries = file(import.meta.url).up(2).join(...entries_path);
 
 export default {
   async get() {
-    const props = { entries: await entries.json() };
+    const props = { entries: await entries.json(), description };
     const options = {
       partial: true,
-      headers: { "Content-Type": MediaType.APPLICATION_XML },
+      headers: { "Content-Type": xml },
     };
 
     return view("blog.rss.hbs", props, options);
