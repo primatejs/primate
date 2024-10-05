@@ -2,10 +2,12 @@
 
 ## What is Primate?
 
-Primate is a technology-agnostic framework for building web applications,
-allowing you to seamlessly integrate and start coding within any major frontend
-framework and several backend languages, eliminating the constraints of being
-vendor-locked to specific tools.
+Primate is a framework for building web applications primarily focused on
+flexibility and developer freedom.
+
+Other frameworks lock you in. Primate sets you free, offering you unlimited
+choice in mixing and matching different tools that work best for you, rather
+than forcing to you accept the limitations and design decisions made by others.
 
 ## First steps
 
