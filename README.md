@@ -52,16 +52,6 @@ supported.
 [![SQLite](https://img.shields.io/badge/SQLite-07405e.svg?logo=sqlite&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/drivers#postgresql)
 [![SurrealDB](https://img.shields.io/badge/SurrealDB-FF00A0.svg?logo=surrealdb&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/drivers#surrealdb)
 
-## Resources
-
-* Website: https://primatejs.com
-* Discord: https://discord.gg/RSg4NNwM4f
-* Reddit: [r/primatejs](https://reddit.com/r/primatejs)
-* Twitter (X): [@primatejs](https://x.com/primatejs)
-* Blog: https://primatejs.com/blog
-* StackOverflow: https://stackoverflow.com/questions/tagged/primate
-* Demo app: https://github.com/primatejs/app
-
 ## License
 
 MIT
