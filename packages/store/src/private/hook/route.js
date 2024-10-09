@@ -31,7 +31,6 @@ export default env => async (request, next) => {
     },
     );
   } catch (error) {
-    log.auto(error);
     transaction_rollback(id, error);
 
     // let core handle error
