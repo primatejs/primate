@@ -1,6 +1,6 @@
 {
   "name": "@primate/core",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "Primate core",
   "homepage": "https://primatejs.com",
   "bugs": "https://github.com/primatejs/primate/issues",
@@ -16,6 +16,7 @@
     "directory": "packages/core"
   },
   "dependencies": {
+    "@rcompat/args": "^0.3.0",
     "@rcompat/array": "^0.3.0",
     "@rcompat/async": "^0.3.0",
     "@rcompat/build": "^0.6.0",
