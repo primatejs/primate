@@ -1,5 +1,5 @@
-import base from "@primate/store/core/test";
 import serve from "#serve";
+import base from "@primate/store/core/test";
 
 export default async test =>
   base(test, () => serve({

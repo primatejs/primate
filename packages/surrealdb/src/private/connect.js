@@ -1,4 +1,4 @@
-import { Surreal } from "surrealdb.js";
+import Surreal from "surrealdb";
 
 export default async ({
   host,

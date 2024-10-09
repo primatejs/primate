@@ -2,8 +2,19 @@ import Facade from "#Facade";
 import connect from "#connect";
 import ident from "@primate/store/core/ident";
 import wrap from "@primate/store/core/wrap";
+import { RecordId } from "surrealdb";
+import defaults from "#defaults";
 
-export default options => async () => {
+export default ({
+  host = defaults.host,
+  port = defaults.port,
+  path = defaults.path,
+  namespace,
+  database,
+  username,
+  password,
+} = {}) => async () => {
+  const options = { host, port, path, namespace, database, username, password };
   const client = await connect(options);
 
   const types = {
@@ -33,7 +44,7 @@ export default options => async () => {
     boolean: ident,
     date: {
       in(value) {
-        return value.toJSON();
+        return value;
       },
       out(value) {
         return new Date(value);

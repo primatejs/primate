@@ -1,10 +1,12 @@
 import typemap from "#typemap";
 import make_sort from "@primate/store/sql/make-sort";
-import keymap from "@rcompat/object/keymap";
-import valmap from "@rcompat/object/valmap";
+import is from "@rcompat/invariant/is";
+import entries from "@rcompat/record/entries";
+import { RecordId } from "surrealdb";
 
 const null_to_undefined = delta =>
-  valmap(delta, value => value === null ? undefined : value);
+  entries(delta).mapValue(([, value]) => value === null ? undefined : value)
+    .get();
 
 const predicate = criteria => {
   const keys = Object.keys(criteria);
@@ -12,7 +14,9 @@ const predicate = criteria => {
     return { where: "", bindings: {} };
   }
 
-  const where = `where ${keys.map(key => `${key}=$${key}`).join(" and ")}`;
+  const where = `where ${keys.map(key =>
+    `${key}=${criteria[key] instanceof RecordId ? "<record>" : ""}$${key}`,
+  ).join(" and ")}`;
 
   return { where, bindings: criteria };
 };
@@ -22,7 +26,7 @@ const change = delta => {
   const set = keys.map(field => `${field}=$s_${field}`).join(",");
   return {
     set: `set ${set}`,
-    bindings: keymap(delta, key => `s_${key}`),
+    bindings: entries(delta).mapKey(([key]) => `s_${key}`).get(),
   };
 };
 
@@ -30,7 +34,7 @@ export default class Connection {
   schema = {
     create: async (name, description) => {
       const body =
-        Object.entries(valmap(description, value => typemap(value.base)))
+        Object.entries(entries(description).mapValue(([, value]) => typemap(value.base)).get())
           .filter(([column]) => column !== "id")
           .map(([column, dataType]) =>
             `define field ${column} on ${name} type option<${dataType}>;`)
@@ -72,8 +76,11 @@ export default class Connection {
   }
 
   async get(name, primary, value) {
-    const query = `select * from ${name} where ${primary}=$primary`;
+    is(value).instance(RecordId);
+
+    const query = `select * from ${value}`;
     const [{ result }] = await this.#query(query, { primary: value });
+
     return result.length === 0
       ? undefined
       : result[0];
