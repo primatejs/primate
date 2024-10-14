@@ -1,13 +1,88 @@
-# Getting started
+# Why Primate?
 
-## What is Primate?
+Primate is a framework for building web applications focused on flexibility and
+developer freedom.
 
-Primate is a framework for building web applications primarily focused on
-flexibility and developer freedom.
+Other software locks you in. Primate offers you unlimited choice in mixing and
+matching different tools that work best for you rather than forcing to you
+accept the limitations and design decisions made by others.
 
-Other frameworks lock you in. Primate sets you free, offering you unlimited
-choice in mixing and matching different tools that work best for you, rather
-than forcing to you accept the limitations and design decisions made by others.
+Specifically, Primate has a few design goals that make it unique.
+
+## Native runtime support
+
+Primate has full support for all major runtimes – Node, Deno and Bun. Wherever
+relevant, it will leverage the runtime's specific APIs to make sure your
+application benefits from native performance gains.
+
+```sh
+$ npx -y primate@latest
+```
+
+## Any frontend
+
+Primate has built-in support for all major frontends – React, Vue, Svelte and
+Angular -- and many other lesser known frontends, which you can all freely
+combine. It also supports Web Components and using props in HTML and HTMX
+views.
+
+```jsx
+export default ({ posts }) => {
+  return (<>
+    <h1>All posts</h1>
+    {posts.map(post => (
+      <h2 key={post.id}>
+        <a href={`/post/${post.id}`}>
+          {post.title}
+        </a>
+      </h2>
+    ))}
+  </>);
+};
+```
+
+## Different backends
+
+Primate is the only web framework to support more than a single backend. Aside
+from its native JavaScript/TypeScript, Primate also allows you to combine
+backend code in Go, Ruby and Python. Other backends are in the pipeline.
+
+```js caption=JavaScript
+import view from "primate/handler/view";
+
+const posts = [{
+  id: 1,
+  title: "First post",
+}];
+
+export default {
+  get() {
+    return view("PostIndex.jsx", { posts });
+  },
+};
+```
+
+## Several environments
+
+Primate applications are normally built for the web, but can also be compiled
+into distributable executables. Static pages and cloud deployment targets are
+in the pipeline.
+
+## Extensive ecosystem
+
+Rather than looking elsewhere for solutions to common requirements, Primate
+offers an extensive ecosystem, including input validation, databases with ORM
+support, authenticating/sessions, payment, i18n and others. All packages under
+the `@primate` namespace is officially supported and guaranteed to work with
+the latest version of Primate.
+
+## Installation
+
+Primate supports all major runtimes and package managers. Use your package
+manager of choice to install it.
+
+
+Primate is a zero configuration framework. TIt prTo run your app, 
 
 ## First steps
 

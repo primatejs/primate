@@ -15,7 +15,9 @@ Bun currently has issues compiling binaries that run properly on MacOS x64
 
 ## Install
 
-`npm install @primate/native`
+```sh
+npm install @primate/native
+```
 
 ## Configure
 
@@ -51,14 +53,18 @@ export default {
 
 To compile your project, make sure you have Bun installed, and then run
 
-`bun --bun x primate build desktop`
+```sh
+bun --bun x primate build desktop
+```
 
 ## Cross-compile
 
 Choosing the `desktop` target will detect your current operating system and use
 it as the compilation target. To cross-compile, specify the exact target.
 
-`bun --bun x primate build linux-x64`
+```sh
+bun --bun x primate build linux-x64
+```
 
 Currently available targets are `linux-x64`, `windows-x64`, `darwin-x64` and
 `darwin-arm64`.

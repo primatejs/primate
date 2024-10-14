@@ -4,7 +4,7 @@ import { getHighlighter } from "shiki";
 import priss from "./module.js";
 
 const highlighter = await getHighlighter({
-  themes: ["vitesse-light", "vitesse-dark"],
+  themes: ["catppuccin-latte", "catppuccin-frappe"],
   langs: [
     // backend
     "javascript",
@@ -77,8 +77,8 @@ export default {
             const value = highlighter.codeToHtml(code, {
               lang,
               themes: {
-                light: "vitesse-light",
-                dark: "vitesse-dark",
+                light: "catppuccin-latte",
+                dark: "catppuccin-frappe",
               },
             });
             const clipboard = `
@@ -133,13 +133,14 @@ export default {
       root: join("components", "content"),
       theme: master({
         navbar: [
-          { label: "Guide", link: "/guide/getting-started" },
-          { label: "Modules", link: "/modules/official" },
+          { label: "Docs", link: "/docs/why-primate" },
+          { label: "Guides", link: "/guides/official" },
           { label: "Blog", link: "/blog" },
         ],
         sidebar: {
-          guide: [
-            { heading: "Introduction" },
+          docs: [
+            { heading: "Intro" },
+            "Why Primate?",
             "Getting started",
             "Project structure",
             "Configuration",
@@ -152,24 +153,10 @@ export default {
             "Components",
             "Layouts",
             "Errors",
+            "Targets",
             { heading: "Modules" },
             "Extending Primate",
             "Hooks",
-            { heading: "Extras" },
-            "Logging",
-          ],
-          errors: [
-            { heading: "Errors" },
-            "Core",
-            "Frontend",
-            "Go",
-            "HTMX",
-            "I18N",
-            "Store",
-            "WebC",
-          ],
-          modules: [
-            { heading: "Modules" },
             "Official",
             "Third-party",
             "Runtime support",
@@ -202,6 +189,18 @@ export default {
             "Native",
             "Session",
             "I18N",
+            { heading: "Extras" },
+            "Logging",
+          ],
+          errors: [
+            { heading: "Errors" },
+            "Core",
+            "Frontend",
+            "Go",
+            "HTMX",
+            "I18N",
+            "Store",
+            "WebC",
           ],
         },
         github: "primatejs/primate",

@@ -2,8 +2,8 @@
 
 Primate aims for 100% interoperability between runtimes and build targets.
 However, due to runtime implementation limitations, some features may currently
-not be available in certain configurations. In the following is a list of
-support for Primate across runtime and build targets.
+not be available in certain configurations. Here is a list of support for
+Primate across runtime and build targets.
 
 ## Build targets
 

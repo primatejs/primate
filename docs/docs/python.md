@@ -1,21 +1,38 @@
-# Ruby
+# Python
 
-This backend introduces support for routes written in Ruby.
+This backend introduces support for routes written in Python, using Pyodide.
 
 ## Install
 
-`npm install @primate/ruby`
+`npm install @primate/python`
 
 ## Configure
 
 Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
-import ruby from "@primate/ruby";
+import python from "@primate/python";
 
 export default {
   modules: [
-    ruby(),
+    python(),
+  ],
+};
+```
+
+`pyodide` supports loading packages from PyPI. Add any packages (except the
+standard library) you'd like to use to the `packages` configuration array of
+this module.
+
+```js caption=primate.config.js
+import python from "@primate/python";
+
+export default {
+  modules: [
+    python({
+      // then later in your Python route, using `import numpy`
+      packages: ["numpy"],
+    }),
   ],
 };
 ```
@@ -28,10 +45,9 @@ export default {
 
 Strings are served with the content type `text/plain`.
 
-```rb caption=routes/plain-text.rb
-def get(request)
-  "Donald"
-end
+```py caption=routes/plain-text.py
+def get(request):
+    return "Donald"
 ```
 
 This route function handles GET requests to the path `/plain-text` by serving
@@ -41,15 +57,14 @@ them the string "Donald" in plain text.
 
 [JavaScript documentation][JSON]
 
-Hashes and arrays are served with the content type `application/json`.
+Dictionaries and lists are served with the content type `application/json`.
 
-```rb caption=routes/json.rb
-def get(request)
-  [
-    { name: "Donald" },
-    { name: "Ryan" },
-  ]
-end
+```py caption=routes/json.py
+def get(request):
+    return [
+        {"name": "Donald"},
+        {"name": "Ryan"},
+    ]
 ```
 
 This route function handles GET requests to the path `/json` by serving them a
@@ -61,19 +76,17 @@ JSON array.
 
 The `Primate.redirect` handler allows you to redirect responses.
 
-```rb caption=routes/redirect.rb
-def get(request)
-  Primate.redirect("https://primatejs.com")
-end
+```py caption=routes/redirect.py
+def get(request):
+    return Primate.redirect("https://primatejs.com");
 ```
 
 To use a different redirect status, use the second parameter as a dictionary
 with a `status` field.
 
-```rb caption=routes/redirect.rb
-def get(request)
-  Primate.redirect("https://primatejs.com", { status: 301 })
-end
+```py caption=routes/redirect-301.py
+def get(request):
+    return Primate.redirect("https://primatejs.com", { "status": 301 });
 ```
 
 ### View
@@ -83,10 +96,9 @@ end
 The `Primate.view` handler allows you to serve responses with content type
 `text/html` from the `components` directory.
 
-```rb caption=routes/view.rb
-def get(request)
-  Primate.view("hello.html")
-end
+```py caption=routes/view.py
+def get(request):
+    return Primate.view("hello.html")
 ```
 
 In this case, Primate will load the HTML component at `components/hello.html`,
@@ -124,17 +136,16 @@ First, create the frontend component, in this case Svelte.
 
 Then create the route, and pass props to the component.
 
-```rb caption=routes/svelte.rb
-def get(request)
-  posts = [{
-    id: 1,
-    title: "First post",
-  }]
-  Primate.view("PostIndex.svelte", { posts: posts })
-end
+```py caption=routes/svelte.py
+def get(request):
+    posts = [{
+        "id": 1,
+        "title": "First post",
+    }]
+    return Primate.view("PostIndex.svelte", { "posts": posts })
 ```
 
-The rendered route with a Svelte component will be accessible at
+Your rendered route with a Svelte component will be accessible at
 http://localhost:6161/svelte.
 
 ### Error
@@ -145,20 +156,18 @@ The `Primate.error` handler allows you to generate an error (typically with a
 4xx or 5xx status code). The most common error and the default of this handler
 is `404 Not Found` using the content type `text/html`.
 
-```rb caption=routes/error.rn
-def get(request)
-  Primate.error()
-end
+```py caption=routes/error.py
+def get(request):
+    return Primate.error();
 ```
 
 A request to `/error` will result in a `404 Not Found` response.
 
 You can customize the body and the status of this handler.
 
-```rb caption=routes/server-error.rb
-def get(request)
-  Primate.error("Internal Server Error", { status: 500 })
-end
+```py caption=routes/server-error.py
+def get(request):
+    return Primate.error("Internal Server Error", { "status": 500 });
 ```
 
 A request to `/server-error` will result in a `500` response with the HTML body
@@ -177,10 +186,9 @@ as well as other `headers`.
 
 The request body.
 
-```rb caption=routes/your-name.rb
-def post(request)
-  "Hello, " + request.body["name"]
-end
+```py caption=routes/your-name.py
+def post(request):
+  return "Hello, " + request.body.name;
 ```
 
 If a client sends a POST request to `/your-name` using the content type
@@ -195,7 +203,7 @@ As in JavaScript, these properties work as dispatchers, providing a `get`
 function to access individual properties. In addition, any types defined in
 `types` will be available to the dispatcher.
 
-Suppose you have defined the following type.
+Suppose you have defined this type.
 
 ```js caption=types/uuid.js
 import is from "@rcompat/invariant/is";
@@ -224,32 +232,52 @@ You can then use `request.body.getUuid` in any of your routes.
 
 If the `@primate/session` module is active, the `request` object passed to a
 route will contain an additional `session` property, allowing you to retrieve
-and set session data from within Ruby.
+and set session data from within Python.
 
 Here is a route that, in case a session does not exist, creates it with a
 `count` equaling 0 and otherwise increments `count` by 1. In both cases, the
 session data is served to the client as JSON.
 
-```rb caption=routes/session.rb
-def get(request)
-  if !request.session.exists
+```py caption=routes/session.py
+def get(request):
+  if not request.session.exists():
     request.session.create({"count": 0})
-  else
+  else:
     count = request.session.get("count")
-    request.session.set("count", count + 1)
-  end
+    request.session.set("count", count + 1);
 
-  { count: request.session.get("count")}
-end
+  return { "count": request.session.get("count")}
+```
+
+### Store
+
+[JavaScript documentation][store]
+
+You can use stores exactly the same as you would in JavaScript. As store
+methods are all async, you need to declare your Python route as async too.
+
+```py caption=routes/store.py
+async def get(request):
+  # assumes the Post collection has been created
+  await request.store.Post.insert({"title": "New Post"})
+
+  return { "count": await request.store.Post.count()}
 ```
 
 ## Configuration options
 
 ### extension
 
-Default `".rb"`
+Default `".py"`
 
-The file extension associated with Ruby routes.
+The file extension associated with Python routes.
+
+### packages
+
+Default `[]`
+
+A list of package names to be loaded, in addition to the Python standard
+library.
 
 ## Resources
 
@@ -263,6 +291,7 @@ The file extension associated with Ruby routes.
 [body]: /guide/routes#body
 [path]: /guide/routes#path
 [session]: /modules/session#use
+[store]: /modules/store
 [default-index]:
 https://github.com/primatejs/primate/blob/master/packages/core/src/build/defaults/app.html
-[repo]: https://github.com/primatejs/primate/tree/master/packages/ruby
+[repo]: https://github.com/primatejs/primate/tree/master/packages/python

@@ -42,6 +42,7 @@
 <header>
   <a class="home" href="/">
     <img src="/logo.svg" />
+    Primate
   </a>
 
   <div class="search"></div>

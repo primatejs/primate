@@ -1,29 +1,33 @@
 # Angular
 
-This handler module supports SSR and hydration and serves Angular components
-with the `.component.ts` extension.
+The modern web developer's platform.
+
+## Support matrix
+
+|[Extension]|[Props]|[SSR]|[Hydration]|[SPA]|[Layouts]|[Head]|[I18N]|
+|-|-|-|-|-|-|-|-|
+|`.component.ts`|✓|✓|✓|[✗]|[✗]|[✗]|[✗]|
+
 
 ## Install
 
-`npm install @primate/angular`
+```sh
+npm install @primate/angular
+```
 
-## Configure
-
-Import and initialize the module in your configuration.
+## Init
 
 ```js caption=primate.config.js
 import angular from "@primate/angular";
 
 export default {
   modules: [
-    angular(),
+    angular(/* configuration */),
   ],
 };
 ```
 
 ## Use
-
-Create an Angular component in `components`.
 
 ```angular-ts caption=components/post-index.component.ts
 import { Component, Input } from "@angular/core";
@@ -49,8 +53,6 @@ export default class PostIndex {
 }
 ```
 
-Serve it from a route.
-
 ```js caption=routes/angular.js
 import view from "primate/handler/view";
 
@@ -66,9 +68,7 @@ export default {
 };
 ```
 
-The rendered component will be accessible at http://localhost:6161/angular.
-
-## Configuration options
+## Configuration
 
 ### extension
 
@@ -85,6 +85,15 @@ Angular to development mode.
 
 ## Resources
 
-* [Repository][repo]
+* [Code]
 
-[repo]: https://github.com/primatejs/primate/tree/master/packages/angular
+[Code]: https://github.com/primatejs/primate/tree/master/packages/angular
+[Extension]: /docs/frontend#extension
+[Props]: /docs/frontend#props
+[SSR]: /docs/frontend#ssr
+[Hydration]: /docs/frontend#hydration
+[SPA]: /docs/frontend#spa
+[Layouts]: /docs/frontend#layouts
+[Head]: /docs/frontend#head
+[I18N]: /docs/frontend#i18n
+[✗]: https://github.com/primatejs/primate/issues/164

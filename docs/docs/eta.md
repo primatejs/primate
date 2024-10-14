@@ -1,28 +1,32 @@
-# Eta 
+# Eta
 
-This handler module serves Eta components with the `.eta` extension.
+Embedded JS template engine.
+
+## Support matrix
+
+|Extension|Props|Server-side rendering|Hydration|Layouts|Head component|I18N|
+|-|-|-|-|-|-|-|
+|`.eta`|✓|✓|-|[✗]|-|-|
 
 ## Install
 
-`npm install @primate/eta`
+```sh
+npm install @primate/eta
+```
 
-## Configure
-
-Import and initialize the module in your configuration.
+## Init
 
 ```js caption=primate.config.js
 import eta from "@primate/eta";
 
 export default {
   modules: [
-    eta(),
+    eta(/* configuration */),
   ],
 };
 ```
 
 ## Use
-
-Create an Eta component in `components`.
 
 ```html caption=components/post-index.eta
 <h1>All posts</h1>
@@ -32,8 +36,6 @@ Create an Eta component in `components`.
 <% }) %>
 </div>
 ```
-
-Serve it from a route.
 
 ```js caption=routes/eta.js
 import view from "primate/handler/view";
@@ -50,9 +52,7 @@ export default {
 };
 ```
 
-The rendered component will be accessible at http://localhost:6161/eta.
-
-## Configuration options
+## Configuration
 
 ### extension
 
@@ -65,3 +65,4 @@ The file extension associated with Eta components.
 * [Repository][repo]
 
 [repo]: https://github.com/primatejs/primate/tree/master/packages/eta
+[✗]: https://github.com/primatejs/primate/issues/164

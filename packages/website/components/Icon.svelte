@@ -1,6 +1,6 @@
 <script>
   export let name;
-  export let size = 16;
+  export let size = 20;
 </script>
 <svg class="icon" width={size} height={size}>
   <use href="#{name}" />

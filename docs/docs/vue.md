@@ -1,29 +1,34 @@
 # Vue
 
-This handler module supports SSR and serves Vue SFC components with the `.vue`
-extension.
+A progressive, incrementally-adoptable JavaScript framework for building UI on
+the web.
+
+## Support matrix
+
+|Extension|Props|Server-side rendering|Hydration|Layouts|Head component|I18N|
+|-|-|-|-|-|-|-|
+|`.vue`|✓|✓|[✗]|[✗]|[✗]|[✗]|
+
 
 ## Install
 
-`npm install @primate/vue`
+```sh
+npm install @primate/vue
+```
 
-## Configure
-
-Import and initialize the module in your configuration.
+## Init
 
 ```js caption=primate.config.js
 import vue from "@primate/vue";
 
 export default {
   modules: [
-    vue(),
+    vue(/* configuration */),
   ],
 };
 ```
 
 ## Use
-
-Create a SFC component in `components`.
 
 ```vue caption=components/PostIndex.vue
 <template>
@@ -33,8 +38,6 @@ Create a SFC component in `components`.
   </div>
 </template>
 ```
-
-Serve it from a route.
 
 ```js caption=routes/vue.js
 import view from "primate/handler/view";
@@ -51,9 +54,7 @@ export default {
 };
 ```
 
-The rendered component will be accessible at http://localhost:6161/react.
-
-## Configuration options
+## Configuration
 
 ### extension
 
@@ -66,3 +67,4 @@ The file extension associated with Vue SFC components.
 * [Repository][repo]
 
 [repo]: https://github.com/primatejs/primate/tree/master/packages/vue
+[✗]: https://github.com/primatejs/primate/issues/164

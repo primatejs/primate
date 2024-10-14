@@ -2,7 +2,10 @@ import { OK } from "@rcompat/http/status";
 import stringify from "@rcompat/record/stringify";
 import { view } from "primate";
 
-const encode_title = title => title.toLowerCase().replaceAll(" ", "-");
+const encode_title = title => title.toLowerCase()
+  .replaceAll(" ", "-")
+  .replaceAll("?", "")
+;
 
 const parse_title_object = (section, entry) => entry.heading
   ? entry

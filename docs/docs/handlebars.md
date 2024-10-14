@@ -1,28 +1,32 @@
 # Handlebars
 
-This handler module serves Handlebars components with the `.hbs` extension.
+Minimal templating on steroids.
+
+## Support matrix
+
+|Extension|Server-side rendering|Hydration|Layouts|Head component|I18N|
+|-|-|-|-|-|-|
+|`.hbs`|✓|-|[✗]|-|-|
 
 ## Install
 
-`npm install @primate/handlebars`
+```sh
+npm install @primate/handlebars
+```
 
-## Configure
-
-Import and initialize the module in your configuration.
+## Init
 
 ```js caption=primate.config.js
 import handlebars from "@primate/handlebars";
 
 export default {
   modules: [
-    handlebars(),
+    handlebars(/* configuration */),
   ],
 };
 ```
 
 ## Use
-
-Create a Handlebars component in `components`.
 
 ```hbs caption=components/post-index.hbs
 <h1>All posts</h1>
@@ -32,8 +36,6 @@ Create a Handlebars component in `components`.
 {{/each}}
 </div>
 ```
-
-Serve it from a route.
 
 ```js caption=routes/hbs.js
 import view from "primate/handler/view";
@@ -50,9 +52,7 @@ export default {
 };
 ```
 
-The rendered component will be accessible at http://localhost:6161/hbs.
-
-## Configuration options
+## Configuration
 
 ### extension
 
@@ -65,3 +65,4 @@ The file extension associated with Handlebars components.
 * [Repository][repo]
 
 [repo]: https://github.com/primatejs/primate/tree/master/packages/handlebars
+[✗]: https://github.com/primatejs/primate/issues/164

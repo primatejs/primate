@@ -204,7 +204,7 @@ type Dispatcher struct {
 
 In addition, any types defined in `types` will be available to a `Dispatcher`.
 
-Suppose you have defined the following type.
+Suppose you have defined this type.
 
 ```js caption=types/uuid.js
 import is from "@rcompat/invariant/is";

@@ -428,7 +428,7 @@ export default {
 The first argument of the function that `actions` returns, `client`, represents
 a client of the underlying driver package itself. For example, if you're using
 the SQLite driver, which uses the `better-sqlite3` package, you'd be getting a
-client that's been initialized using the following code:
+client that's been initialized using this code.
 
 ```js
 import Database from "better-sqlite3";

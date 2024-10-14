@@ -41,10 +41,10 @@ exist, Primate will use its default fallback file.
 </html>
 ```
 
-The combination of the route's output and the page will result in the following
-HTML page served to a client requesting `GET /hello`.
+The combination of the route's output and the page will result in this HTML
+page served to a client requesting `GET /hello`.
 
-```html caption=response body at GET /hello
+```html
 <html>
   <head>
     <title>Primate app</title>
@@ -73,8 +73,8 @@ export default {
 ```
 
 Using the same `hello.html` component specified as above, a client requesting
-`GET /partial-hello` will see the following response.
+`GET /partial-hello` will see this response.
 
-```html caption=response body at GET /partial-hello
+```html
 <p>Hello, world!</p>
 ```

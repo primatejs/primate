@@ -77,9 +77,9 @@ the route and the available handlers (`view`, `redirect`).
 ### Type conversions
 
 Whenever you define and use [runtime types], the request object will be
-augmented with dispatchers to coerce the input string into a given type. In the
-following is a table with the supported base types and what types they are
-converted to in every supported language.
+augmented with dispatchers to coerce the input string into a given type. Here
+is a table with the supported base types and what types they are converted to
+in every supported language.
 
 |Type   |JS     |GO     |Ruby   |
 |-------|-------|-------|-------|

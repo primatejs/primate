@@ -1,29 +1,32 @@
 # Marko
 
-This handler module supports SSR and serves Marko components with the `.marko`
-extension.
+A declarative, HTML-based language.
+
+## Support matrix
+
+|Extension|Props|Server-side rendering|Hydration|Layouts|Head component|I18N|
+|-|-|-|-|-|-|-|
+|`.marko`|✓|✓|-|[✗]|-|-|
 
 ## Install
 
-`npm install @primate/marko`
+```sh
+npm install @primate/marko
+```
 
-## Configure
-
-Import and initialize the module in your configuration.
+## Init
 
 ```js caption=primate.config.js
 import marko from "@primate/marko";
 
 export default {
   modules: [
-    marko(),
+    marko(/* configuration */),
   ],
 };
 ```
 
 ## Use
-
-Create a Marko component in `components`.
 
 ```marko caption=components/post-index.marko
 <h1>All posts</h1>
@@ -35,8 +38,6 @@ Create a Marko component in `components`.
   </h2>
 </for>
 ```
-
-Serve it from a route.
 
 ```js caption=routes/marko.js
 import view from "primate/handler/view";
@@ -53,9 +54,7 @@ export default {
 };
 ```
 
-The rendered component will be accessible at http://localhost:6161/marko.
-
-## Configuration options
+## Configuration
 
 ### extension
 
@@ -68,3 +67,4 @@ The file extension associated with Marko components.
 * [Repository][repo]
 
 [repo]: https://github.com/primatejs/primate/tree/master/packages/marko
+[✗]: https://github.com/primatejs/primate/issues/164

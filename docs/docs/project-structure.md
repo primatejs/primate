@@ -58,7 +58,7 @@ doesn't exist. Make sure you commit this file into your version control system.
 This directory contains all your [app routes][routes] hierarchically. If you
 were creating a blog, this is how a typical layout could look like.
 
-```sh caption=web app routes
+```sh
 .
 ├─ index.js # view homepage -> /
 └─ post/
@@ -81,7 +81,7 @@ web app that uses the same route for showing and submitting a form. However, if
 you were developing an API, you might opt for using a wider variety of HTTP
 verbs. In that case, your layout might look a little different.
 
-```sh caption=API routes
+```sh
 .
 ├─ post.js # create post, read posts -> /post
 └─ post/

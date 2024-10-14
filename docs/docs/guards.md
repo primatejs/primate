@@ -55,7 +55,7 @@ the same route.
 
 ## Cascading guards
 
-Consider the following route layout inside `routes`.
+Consider this route layout inside `routes`.
 
 ```sh
 .

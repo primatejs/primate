@@ -58,7 +58,7 @@ default configuration.
 
 To illustrate this, if you wanted to change the default logging level to
 `Info` instead of `Warn` and the HTTP port to `6262` you would create a
-`primate.config.js` in your project root with the following overrides.
+`primate.config.js` in your project root with these overrides.
 
 ```js
 export default {
@@ -71,8 +71,8 @@ export default {
 };
 ```
 
-Primate will merge your custom configuration with its default, resulting in
-effectively the following configuration.
+Primate will merge your custom configuration with its default into this
+configuration.
 
 ```js
 export default {

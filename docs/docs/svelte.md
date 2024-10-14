@@ -1,29 +1,32 @@
 # Svelte
 
-This handler module supports SSR and hydration and serves Svelte components
-with the `.svelte` extension.
+Cybernetically enhanced web apps.
+
+## Support matrix
+
+|Extension|Props|Server-side rendering|Hydration|Layouts|Head component|I18N|
+|-|-|-|-|-|-|-|
+|`.svelte`|✓|✓|✓|✓|`<svelte:head>`|`@primate/i18n/svelte`|
 
 ## Install
 
-`npm install @primate/svelte`
+```sh
+npm install @primate/svelte
+```
 
-## Configure
-
-Import and initialize the module in your configuration.
+## Init
 
 ```js caption=primate.config.js
 import svelte from "@primate/svelte";
 
 export default {
   modules: [
-    svelte(),
+    svelte(/* configuration */),
   ],
 };
 ```
 
 ## Use
-
-Create a Svelte component in `components`.
 
 ```svelte caption=components/PostIndex.svelte
 <script>
@@ -31,7 +34,7 @@ Create a Svelte component in `components`.
 </script>
 <h1>All posts</h1>
 {#each posts as { id, title }}
-<h2><a href="/post/{id}">{title}</a></h2>
+  <h2><a href="/post/{id}">{title}</a></h2>
 {/each}
 <style>
   button {
@@ -43,8 +46,6 @@ Create a Svelte component in `components`.
   }
 </style>
 ```
-
-Serve it from a route.
 
 ```js caption=routes/svelte.js
 import view from "primate/handler/view";
@@ -61,9 +62,7 @@ export default {
 };
 ```
 
-The rendered component will be accessible at http://localhost:6161/svelte.
-
-## Configuration options
+## Configuration
 
 ### extension
 
@@ -73,9 +72,10 @@ The file extension associated with Svelte components.
 
 ### spa
 
-Default `true`
+Whether single-page app browsing using `fetch` should be active.
 
-Whether SPA browsing using `fetch` should be active.
+Disabling this property will trigger a complete page load on every link click
+and form submission, the standard browser behavior.
 
 ## Resources
 

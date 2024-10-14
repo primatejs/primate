@@ -1,28 +1,34 @@
 # Web Components
 
-This handler module serves web components with the `.webc` extension.
+Custom HTML elements.
+
+## Support matrix
+
+|Extension|Props|Server-side rendering|Hydration|Layouts|Head component|I18N|
+|-|-|-|-|-|-|-|
+|`.webc`|✓|[✗]|[✗]|[✗]|[✗]|[✗]|
 
 ## Install
 
-`npm install @primate/webc`
+```sh
+npm install @primate/webc
+```
 
 ## Configure
-
-Import and initialize the module in your configuration.
 
 ```js caption=primate.config.js
 import webc from "@primate/webc";
 
 export default {
   modules: [
-    webc(),
+    webc(/* configuration */),
   ],
 };
 ```
 
 ## Use
 
-Create an web component in `components`.
+Create a web component in `components`.
 
 ```html caption=components/post-index.webc
 <script>
@@ -61,8 +67,6 @@ And another component for displaying post links.
 </script>
 ```
 
-Create a route and serve the `post-index` component.
-
 ```js caption=routes/webc.js
 import view from "primate/handler/view";
 
@@ -78,9 +82,7 @@ export default {
 };
 ```
 
-Your rendered web component will be accessible at http://localhost:6161/webc.
-
-## Configuration options
+## Configuration
 
 ### extension
 
@@ -94,3 +96,4 @@ The file extension associated with web components.
 * [Error list](/errors/webc)
 
 [repo]: https://github.com/primatejs/primate/tree/master/packages/webc
+[✗]: https://github.com/primatejs/primate/issues/164

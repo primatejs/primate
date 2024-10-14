@@ -1,28 +1,32 @@
 # HTMX
 
-This handler module serves HTMX components with the `.htmx` extension.
+High power tools for HTML.
+
+## Support matrix
+
+|Extension|Props|Server-side rendering|Hydration|Layouts|Head component|I18N|
+|-|-|-|-|-|-|-|
+|`.htmx`|✓|✓|-|[✗]|-|-|
 
 ## Install
 
-`npm install @primate/htmx`
+```sh
+npm install @primate/htmx
+```
 
-## Configure
-
-Import and initialize the module in your configuration.
+## Init
 
 ```js caption=primate.config.js
 import htmx from "@primate/htmx";
 
 export default {
   modules: [
-    htmx(),
+    htmx(/* configuration */),
   ],
 };
 ```
 
 ## Use
-
-Create an HTMX component in `components`.
 
 ```html caption=components/post-index.htmx
 <h1>All posts</h1>
@@ -34,8 +38,6 @@ ${posts.map(post => `
   </h2>
 `).join("")}
 ```
-
-Serve it from a route.
 
 ```js caption=routes/htmx.js
 import view from "primate/handler/view";
@@ -52,8 +54,6 @@ export default {
 };
 ```
 
-The rendered component will be accessible at http://localhost:6161/htmx.
-
 !!!
 When you use HTMX to fetch content, it sends its request with the `hx-request`
 header set. This header is used to return the component HTML in
@@ -61,7 +61,7 @@ header set. This header is used to return the component HTML in
 JavaScript.
 !!!
 
-## Configuration options
+## Configuration
 
 ### extension
 
@@ -89,6 +89,7 @@ add `"client-side-templates"` to the `extensions` array option.
 * [Error list](/errors/htmx)
 
 [repo]: https://github.com/primatejs/primate/tree/master/packages/htmx
+[✗]: https://github.com/primatejs/primate/issues/164
 [extensions]: https://htmx.org/extensions
 [client-side-templates]: https://htmx.org/extensions/client-side-templates
 [partial]: /guide/responses#partial

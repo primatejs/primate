@@ -1,27 +1,31 @@
 # Markdown
 
-This handler module serves Markdown components with the `.md` extension.
+Text-to-HTML conversion tool for web writers.
+
+## Support matrix
+
+|Extension|Props|Server-side rendering|Hydration|Layouts|Head component|I18N|
+|-|-|-|-|-|-|-|
+|`.md`|[✗]|✓|-|-|-|-|
 
 ## Install
 
-`npm install @primate/markdown`
+```sh
+npm install @primate/markdown
+```
 
-## Configure
-
-Import and initialize the module in your configuration.
+## Init
 
 ```js caption=primate.config.js
 import markdown from "@primate/markdown";
 
 export default {
   modules: [
-    markdown(),
+    markdown(/* configuration */),
   ],
 };
 ```
 ## Use
-
-Create a Markdown file in `components`.
 
 ```md caption=components/PostIndex.md
 # Posts
@@ -43,9 +47,7 @@ export default {
 };
 ```
 
-The rendered component will be accessible at http://localhost:6161/markdown.
-
-## Configuration options
+## Configuration
 
 ### extension
 
@@ -71,3 +73,4 @@ HTML.
 * [Repository][repo]
 
 [repo]: https://github.com/primatejs/primate/tree/master/packages/markdown
+[✗]: https://github.com/primatejs/primate/issues/164

@@ -1,8 +1,7 @@
 # Layouts
 
 !!!
-Layouts are currently only supported by the Primate [Svelte], [Solid] and [React]
-handler.
+Layouts are currently supported by the [Svelte], [Solid] and [React] handlers.
 !!!
 
 While you can change the default HTML page in `pages/app.html` or even create

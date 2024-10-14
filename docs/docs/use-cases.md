@@ -32,7 +32,7 @@ export default {
     const { path, query, cookies, headers, body } = request;
 
     return `
-    You've sent a POST request with the following data:
+    You've sent a POST request with this data:
 
     Path:
       /comment/${path.get("comment_id")}
@@ -50,7 +50,7 @@ export default {
 };
 ```
 
-If we assume a client sent the following HTTP request.
+If we assume a client sent this HTTP request.
 
 ```http
 POST /comment/1?timestamps=UTC HTTP/1.1
@@ -65,7 +65,7 @@ Then, given the above route definition, Primate will respond in plain text as
 follows.
 
 ```text
-You've sent a POST request with the following data:
+You've sent a POST request with this data:
 
 Path:
   /comment/1
