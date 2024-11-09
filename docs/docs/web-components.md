@@ -16,7 +16,7 @@ npm install @primate/webc
 
 ## Configure
 
-```js caption=primate.config.js
+```js#primate.config.js
 import webc from "@primate/webc";
 
 export default {
@@ -30,7 +30,7 @@ export default {
 
 Create a web component in `components`.
 
-```html caption=components/post-index.webc
+```html#components/post-index.webc
 <script>
   import Component from "@primate/webc/Component";
   import PostLink from "./post-link.webc";
@@ -54,7 +54,7 @@ Create a web component in `components`.
 
 And another component for displaying post links.
 
-```html caption=components/post-link.webc
+```html#components/post-link.webc
 <script>
   import Component from "@primate/webc/Component";
 
@@ -67,7 +67,7 @@ And another component for displaying post links.
 </script>
 ```
 
-```js caption=routes/webc.js
+```js#routes/webc.js
 import view from "primate/handler/view";
 
 const posts = [{

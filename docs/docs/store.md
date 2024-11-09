@@ -14,7 +14,7 @@ described by a `schema`. A single row or entity in a database is a `record`,
 and a single property of such a record is a `field`. The underlying database
 system of a given store is referred to as `driver`.
 
-```sh caption=Primate data terminology
+```sh
 `store` # aggregation of similar entities
 ├─ described by `schema` # entity structure
 ├─ contains `record` # single entity
@@ -26,13 +26,13 @@ system of a given store is referred to as `driver`.
 
 ### Install
 
-`npm install @primate/store`
+```sh
+npm install @primate/store
+```
 
-### Load
+### Init
 
-Import and initialize the module in your configuration.
-
-```js caption=primate.config.js
+```js#primate.config.js
 import store from "@primate/store";
 
 export default {
@@ -46,7 +46,7 @@ By default the module uses an [in-memory][in-memory] driver which keeps the
 data only as long as the application runs. Alternatively you can use the
 [JSON file][json-file] driver which persists onto a file.
 
-```js caption=primate.config.js
+```js
 import store from "@primate/store";
 import json from "@primate/store/json";
 
@@ -65,10 +65,10 @@ export default {
 
 Create the different stores for your application and their fields in the
 `stores` directory. A field consists of a name and a type, denoting the
-range of values this field may hold. We here define a `User` store representing
-a user of our application.
+range of values this field may hold. We here define a `User` store at
+`stores/User.js` representing a user of our application.
 
-```js caption=stores/User.js
+```js
 import primary from "@primate/schema/primary";
 import email from "@primate/schema/email";
 import date from "@primate/schema/date";
@@ -84,32 +84,30 @@ export default {
 };
 ```
 
-Adding that store definition to `stores` makes the `User` store available to
-every route.
+You can then import the store and use it in your routes.
 
-```js caption=routes/user/all.js
+```js
+import User from "#db/store/User";
+
 export default {
-  get(request) {
-    const { User } = request.store;
+  get() {
     return User.find();
   },
 };
 ```
 
-Assuming we have data in the `user` store, requesting the route `/user/all`
-will return a JSON array of users.
+Assuming we have data in the `user` table, this route will return a
+`application/json` response containing an array of users.
 
 ## Defining stores
 
-Unless you [configure this module](#configuration-options) elsewise, all store
-definitions are loaded from the `stores` directory. Store files must start with
-a capital letter; any other JavaScript files will be ignored. You may
-arbitrarily nest store files using directories, creating namespaces:
-`stores/Comment.js` and `stores/post/Comment.js` describe different stores.
-Directories must start with a lowercase letter and will be otherwise ignored.
+Store files are loaded from the `stores` directory. They must begin with a
+capital letter; any other files will be ignored. You may arbitrarily nest store
+files using directories, creating namespaces: `stores/Comment.js` and 
+`stores/post/Comment.js` describe different stores.
 
-```js caption=stores/Comment.js
-// this store will be available as `request.store.Comment` in routes
+```js#stores/Comment.js
+// this store can be imported from `#db/store/Comment` in routes
 import primary from "@primate/schema/primary";
 import string from "@primate/schema/string";
 
@@ -119,8 +117,8 @@ export default {
 };
 ```
 
-```js caption=stores/post/Comment.js
-// this store will be available as `request.store.post.Comment` in routes
+```js#stores/post/Comment.js
+// this store can be imported from `#db/store/post/Comment` in routes
 import primary from "@primate/schema/primary";
 import string from "@primate/schema/string";
 
@@ -136,7 +134,7 @@ A store's default export is its schema, containing its field names and types.
 The objects you use for types will be automatically mapped by the driver into
 the appropriate database types.
 
-```js caption=store/User.js
+```js
 import array from "@primate/schema/array";
 import primary from "@primate/schema/primary";
 import string from "@primate/schema/string";
@@ -165,23 +163,21 @@ data before saving it. One of the store actions you can use in routes is
 saving it. Normally though, you wouldn't call `validate` directly but have
 `insert` or `update` call it for you.
 
-```js caption=routes/create-user.js
+```js
 import redirect from "primate/handler/redirect";
+import User from "#db/store/User";
 
 export default {
-  post(request) {
-    // prepare a user, normally this data would come from a form
-    const user = {
-      name: "Donald",
-      age: 32,
-      hobbies: ["Fishing"],
-    };
-
-    // get the User store
-    const { User } = request.store;
-
-    // save if valid
+  post() {
     try {
+      // prepare a user, normally this data would come from a form
+      const user = {
+        name: "Donald",
+        age: 32,
+        hobbies: ["Fishing"],
+      };
+
+      // save if valid
       const { id } = await User.insert(user);
       return redirect(`/user/${id}`);
     } catch (error) {
@@ -202,7 +198,7 @@ automatically generated on an insert.
 In addition to using type functions, Primate supports using an object with a
 `validate` function property for validation.
 
-```js caption=stores/User.js
+```js
 import array from "@primate/schema/array";
 import primary from "@primate/schema/primary";
 import u8 from "@primate/schema/u8";
@@ -237,7 +233,7 @@ By default, fields aren't required to be non-empty (`undefined` or `null`)
 to save a new record into the store. If you wish to strictly enforce all
 fields to be non-empty, export `mode = "strict"`.
 
-```js caption=stores/Comment.js
+```js
 import primary from "@primate/schema/primary";
 import string from "@primate/schema/string";
 
@@ -250,9 +246,9 @@ export default {
 ```
 
 You can also globally enforce strictness for all stores by configuring this
-module with `mode: "strict"`.
+module with `mode: "strict"` in your `primate.config.js`.
 
-```js caption=primate.config.js
+```js
 import store from "@primate/store";
 
 export default {
@@ -266,7 +262,7 @@ export default {
 In that case, you can opt-out on individual store level by exporting
 `mode = "loose"`.
 
-```js caption=stores/Comment.js
+```js
 import primary from "@primate/schema/primary";
 import string from "@primate/schema/string";
 
@@ -292,7 +288,7 @@ mapped. `stores/Comment.js` will be mapped to `comment`, while
 this behavior by exporting a `name`, allowing you to map several store files to
 the same database store.
 
-```js caption=stores/Post/Comment.js
+```js#stores/Post/Comment.js
 import primary from "@primate/schema/primary";
 import string from "@primate/schema/string";
 
@@ -311,7 +307,7 @@ Unless specified elsewise, stores use the driver specified when loading the
 module (which defaults to the in-memory driver). A store can override this
 default by exporting a `driver`.
 
-```js caption=stores/Comment.js
+```js#stores/Comment.js
 import mongodb from "@primate/mongodb";
 import primary from "@primate/schema/primary";
 import string from "@primate/schema/string";
@@ -328,7 +324,7 @@ If you need to share the same alternative driver across several stores, we
 recommend initializing it in a separate file (lowercase-first files in the
 `stores` directory are ignored by Primate).
 
-```js caption=stores/mongodb.js
+```js#stores/mongodb.js
 import mongodb from "@primate/mongodb";
 
 export default mongodb();
@@ -336,7 +332,7 @@ export default mongodb();
 
 You can then import and reexport the driver as needed across files.
 
-```js caption=stores/Post.js
+```js#stores/Post.js
 import primary from "@primate/schema/primary";
 import string from "@primate/schema/string";
 
@@ -349,7 +345,7 @@ export default {
 };
 ```
 
-```js caption=stores/Comment.js
+```js#stores/Comment.js
 import primary from "@primate/schema/primary";
 import string from "@primate/schema/string";
 
@@ -368,7 +364,7 @@ indexing. This module, too, uses the primary field automatically for a store's
 `get` operation. If you create a store without a primary key, Primate will
 complain.
 
-```js caption=stores/Comment.js
+```js#stores/Comment.js
 import string from "@primate/schema/string";
 
 export default {
@@ -381,7 +377,7 @@ If you run your app with a store thus configured, Primate will show a
 
 If this ambiguity is intentional, export `ambiguous = true` in your store.
 
-```js caption=stores/Comment.js
+```js#stores/Comment.js
 import string from "@primate/schema/string";
 
 export const ambiguous = true;
@@ -403,7 +399,7 @@ If the default store actions `get`, `count`, `find`, `exists`, `insert`,
 underlying driver and the store itself to create your own actions. To do so,
 export `actions` as an object containing individual, additional actions.
 
-```js caption=store/User.js
+```js#store/User.js
 import array from "@primate/schema/array";
 import primary from "@primate/schema/primary";
 import string from "@primate/schema/string";
@@ -445,7 +441,7 @@ access to all base actions of the Primate store that you can otherwise use
 in your routes, allowing you to create tailored actions.
 
 Thus defined, the `findByHobbies` action will be available at
-`request.store.user.findByHobbies`, in all routes.
+`#db/store/User.findByHobbies`, in all routes.
 
 ## Configuration options
 

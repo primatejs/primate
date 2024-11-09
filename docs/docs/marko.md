@@ -1,22 +1,22 @@
 # Marko
 
-A declarative, HTML-based language.
+[Marko] is a declarative HTML-based language for building web apps.
 
-## Support matrix
+## Features
 
-|Extension|Props|Server-side rendering|Hydration|Layouts|Head component|I18N|
-|-|-|-|-|-|-|-|
-|`.marko`|✓|✓|-|[✗]|-|-|
+|File Extension|Props|SSR|Hydration|SPA|Layouts|Head|I18N|
+|-|-|-|-|-|-|-|-|
+|`.marko`|✓|✓|-|✗|-|-|-|
 
 ## Install
 
-```sh
-npm install @primate/marko
-```
+{% install=@primate/marko %}
 
-## Init
+## Use
 
-```js caption=primate.config.js
+{% tabs %}
+
+```js#primate.config.js
 import marko from "@primate/marko";
 
 export default {
@@ -26,20 +26,7 @@ export default {
 };
 ```
 
-## Use
-
-```marko caption=components/post-index.marko
-<h1>All posts</h1>
-<for|post| of=input.posts>
-  <h2>
-    <a href="/post/view/${post.id}">
-      ${post.title}
-    </a>
-  </h2>
-</for>
-```
-
-```js caption=routes/marko.js
+```js#Route
 import view from "primate/handler/view";
 
 const posts = [{
@@ -54,17 +41,30 @@ export default {
 };
 ```
 
-## Configuration
+```marko#Component
+<h1>All posts</h1>
+<for|post| of=input.posts>
+  <h2>
+    <a href="/post/view/${post.id}">
+      ${post.title}
+    </a>
+  </h2>
+</for>
+```
 
-### extension
+{% /tabs %}
 
-Default `".marko"`
+## Options
 
-The file extension associated with Marko components.
+```ts
+interface MarkoOptions {
+  fileExtension?: string,
+}
+```
 
 ## Resources
 
 * [Repository][repo]
 
 [repo]: https://github.com/primatejs/primate/tree/master/packages/marko
-[✗]: https://github.com/primatejs/primate/issues/164
+[Marko]: https://markojs.com

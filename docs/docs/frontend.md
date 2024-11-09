@@ -46,6 +46,10 @@ Whether the frontend supports [recursive layouting][Layouts].
 The ability to manipulate the `<head>` part from within an individual
 component.
 
+## I18N
+
+A component for internationalizing strings and switching locales.
+
 ## Support matrix
 
 |Frontend        |Extension      |Props|Layouts|SSR|Hydration|SPA|Head|I18N|

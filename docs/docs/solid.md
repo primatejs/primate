@@ -17,7 +17,7 @@ npm install @primate/solid
 
 ## Init
 
-```js caption=primate.config.js
+```js#primate.config.js
 import solid from "@primate/solid";
 
 export default {
@@ -29,7 +29,7 @@ export default {
 
 ## Use
 
-```jsx caption=components/PostIndex.jsx
+```jsx#components/PostIndex.jsx
 import { For } from "solid-js/web";
 
 export default props => <>
@@ -40,7 +40,7 @@ export default props => <>
 </>;
 ```
 
-```js caption=routes/solid.js
+```js#routes/solid.js
 import view from "primate/handler/view";
 
 const posts = [{

@@ -10,7 +10,7 @@ This backend introduces support for routes written in TypeScript.
 
 Import and initialize the module in your configuration.
 
-```js caption=primate.config.js
+```js#primate.config.js
 import typescript from "@primate/typescript";
 
 export default {
@@ -26,7 +26,7 @@ Using TypeScript is identical to using JavaScript, with the exception that to
 get proper editor completions for your route function parameters and return
 code, your route needs to use `satisfies Route` with the Primate `Route` export.
 
-```ts caption=routes/plain-text.ts
+```ts#routes/plain-text.ts
 import type { Route } from "primate";
 
 export default {

@@ -10,7 +10,7 @@ This module adds cookie-based sessions to your application.
 
 Import and initialize the module in your configuration.
 
-```js caption=primate.config.js
+```js#primate.config.js
 import session from "@primate/session";
 
 export default {
@@ -29,7 +29,7 @@ identifies an existing session id, no new cookie is created or sent.
 The session's data (which consists only of `id` unless you change the
 default manager) is made available to the route function as `request.session`.
 
-```js caption=routes/index.js
+```js#routes/index.js
 export default {
   get(request) {
     // send a 200 OK, plain text with the cookie's id as body

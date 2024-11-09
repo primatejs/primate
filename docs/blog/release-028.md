@@ -23,7 +23,7 @@ To add support for TypeScript, install the `@primate/typescript` module.
 
 Import and initialize the module in your configuration.
 
-```js caption=primate.config.js
+```js#primate.config.js
 import typescript from "@primate/typescript";
 
 export default {
@@ -40,7 +40,7 @@ TypeScript. To have your editor properly type your route functions, simply
 import `Route` from Primate and add `satisfies Route` to your exported route
 object.
 
-```ts caption=routes/plain-text.ts
+```ts#routes/plain-text.ts
 import { Route } from "primate";
 
 export default {
@@ -72,7 +72,7 @@ To add support for Ruby, install the `@primate/ruby` package.
 
 Import and initialize the module in your configuration.
 
-```js caption=primate.config.js
+```js#primate.config.js
 import ruby from "@primate/ruby";
 
 export default {
@@ -89,7 +89,7 @@ routes, in Ruby. For example, if you return strings or hashes from your Ruby
 route, Primate will serve them as content type `text/plain` and
 `application/json`, respectively.
 
-```rb caption=routes/index.rb
+```rb#routes/index.rb
 def get(request)
   "Donald"
 end
@@ -109,7 +109,7 @@ For example, if a GET request is sent to `/?name=Donald`, it could be served by
 the following route, returning the value of the query string parameter `name`
 as plain text.
 
-```rb caption=routes/index.rb
+```rb#routes/index.rb
 def get(request)
   # on GET /?name=Donald -> responds with text/plain "Donald"
   request.query.get("name")
@@ -145,7 +145,7 @@ in your application, and in particular to pass props into them.
 
 Import and initialize the module in your configuration.
 
-```js caption=primate.config.js
+```js#primate.config.js
 import webc from "@primate/webc";
 
 export default {
@@ -172,7 +172,7 @@ event handlers after the component has been added to the DOM.
 
 Create an web component in `components`.
 
-```html caption=components/post-index.webc
+```html#components/post-index.webc
 <script>
 import Component from "@primate/webc/Compontent";
 import PostLink from "./post-link.webc";
@@ -201,7 +201,7 @@ export default class extends Component {
 
 And another component for displaying post links.
 
-```html caption=components/post-link.webc
+```html#components/post-link.webc
 <script>
   import Component from "@primate/webc/Component";
 
@@ -220,7 +220,7 @@ And another component for displaying post links.
 
 Create a route and serve the `post-index` component.
 
-```js caption=routes/webc.js
+```js#routes/webc.js
 import view from "primate/handler/view";
 
 const posts = [{
@@ -251,7 +251,7 @@ This release introduces support for uploading files in HTML forms using
 `enctype="multipart/form-data"`. Files uploaded this way will be available as
 `Blob` properties of the route function's `request.body`.
 
-```html caption=components/file-upload.html
+```html#components/file-upload.html
 <form enctype="multipart/form-data" action="post">
   <p>
     <div><label>Title</label></div>
@@ -272,7 +272,7 @@ This release introduces support for uploading files in HTML forms using
 Given the above form and the following route, `request.body` will contain three
 fields: `title` and `text`, both strings, and `attachment`, a blob.
 
-```js caption=routes/file-upload.js
+```js#routes/file-upload.js
 import view from "primate/handler/view";
 
 export default {

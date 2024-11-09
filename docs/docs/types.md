@@ -27,7 +27,7 @@ Type files are described using an object containing a `base` (string) and a
 Here is an example for a `number` type, a type that makes sure a string is
 numeric and outputs its as a number.
 
-```js caption=types/number.js
+```js#types/number.js
 // `is` asserts invariants, `numeric` returns true if a string is numeric
 import is from "@rcompat/invariant/is";
 import numeric from "@rcompat/invariant/numeric";
@@ -63,7 +63,7 @@ JavaScript (like Go).
 
 You can also create more elaborate types, like `uuid`.
 
-```js caption=types/uuid.js
+```js#types/uuid.js
 import is from "@rcompat/invariant/is";
 
 const valid = /^[^\W_]{8}-[^\W_]{4}-[^\W_]{4}-[^\W_]{4}-[^\W_]{12}$/u;
@@ -101,7 +101,7 @@ certain code invariants are met.
 In Primate's [filesystem-based routes](/guide/routes), path parameters may be
 specified with types to ensure the path adheres to a certain format.
 
-```js caption=routes/user/[user_id=uuid].js
+```js#routes/user/[user_id=uuid].js
 export default {
   /*
     GET /user/b8c5b7b2-4f4c-4939-81d8-d1bdadd888c5

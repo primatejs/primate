@@ -23,7 +23,7 @@ npm install @primate/native
 
 Import and initialize the module in your configuration.
 
-```js caption=primate.config.js
+```js#primate.config.js
 import native from "@primate/native";
 
 export default {
@@ -37,7 +37,7 @@ By default, when the application is launched, it will access `/` (the route
 under `routes/index.js`. Change that by setting the `start` property during
 configuration.
 
-```js caption=primate.config.js
+```js#primate.config.js
 import native from "@primate/native";
 
 export default {

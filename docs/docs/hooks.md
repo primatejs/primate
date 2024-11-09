@@ -13,7 +13,7 @@ subscribers accept different types of parameters, depending on the hook.
 The first hook to be called, directly after app start-up and loading the
 configuration file. This hook is for modules to load other modules.
 
-```js caption=primate.config.js
+```js#primate.config.js
 export default {
   modules: [{
     name: "load-hook-example-module",
@@ -43,7 +43,7 @@ not accept a final `next` parameter.
 
 The hook allows modules to initialize state before any other hooks are called.
 
-```js caption=primate.config.js
+```js#primate.config.js
 const module = () => {
   let app;
 
@@ -84,7 +84,7 @@ This hook allows modules to execute buildtime logic.
 
 This hook allows modules to execute runtime logic.
 
-```js caption=primate.config.js
+```js#primate.config.js
 const mustache_handler = (name, props, options) => {
   // load the component file using its name and render it into HTML with props
 };
@@ -104,7 +104,7 @@ export default {
 By that definition, any `mustache` file in `components` will be handled by the
 specified `mustache_handler` handler function.
 
-```js caption=routes/clock.js
+```js#routes/clock.js
 import view from "primate/handler/view";
 
 export default {
@@ -141,7 +141,7 @@ that exposes further functionality for all subsequent handlers, such as the
 If you need to manipulate the request object for *just for* the route function,
 use the `route` hook instead.
 
-```js caption=primate.config.js
+```js#primate.config.js
 const augment = request => {
   return { ...request, /*
     augment request with additional properties such as client ip, by reading
@@ -177,7 +177,7 @@ exposes further functionality specifically for the route function such as the
 If you need to manipulate the request object for *all* requests (including
 assets), use the `handle` hook instead.
 
-```js caption=primate.config.js
+```js#primate.config.js
 const delegate = request => {
   // pass the request to admin app
 };

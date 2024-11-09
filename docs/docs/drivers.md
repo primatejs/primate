@@ -13,7 +13,7 @@ field type used by the driver.
 The in-memory store driver is the default driver, used by `store` unless you
 specify an alternate one using the `driver` property.
 
-```js caption=primate.config.js
+```js#primate.config.js
 import store from "@primate/store";
 
 export default {
@@ -36,7 +36,7 @@ a configuration object with the `database` property to indicate in which file
 the data will be managed. This file doesn't have to exist and will be created
 for you if it doesn't, but you must have permissions to write to it.
 
-```js caption=primate.config.js
+```js#primate.config.js
 import store from "@primate/store";
 import json from "@primate/store/json";
 
@@ -60,7 +60,7 @@ Similarly to the JSON file driver, the SQLite driver uses the `database`
 property to indicate in what file to manage the data. If unset, it will default
 to `":memory:"`, using SQLite in-memory, volatile database.
 
-```js caption=primate.config.js
+```js#primate.config.js
 import store from "@primate/store";
 import sqlite from "@primate/sqlite";
 
@@ -87,7 +87,7 @@ on how to install and run a server.
 This driver uses the `host` (default `"localhost"`), `port` (default `27017`)
 and `database` configuration properties.
 
-```js caption=primate.config.js
+```js#primate.config.js
 import store from "@primate/store";
 import mongodb from "@primate/mongodb";
 
@@ -119,7 +119,7 @@ manuals on how to install and run a server.
 This driver uses the `host` (default `"localhost"`), `port` (default `5432`)
 `database`, `username`, and `password` configuration properties.
 
-```js caption=primate.config.js
+```js#primate.config.js
 import store from "@primate/store";
 import postgresql from "@primate/postgresql";
 
@@ -156,7 +156,7 @@ This driver uses the `host` (default `"localhost"`), `port` (default `3306`)
 
 ### Configure
 
-```js caption=primate.config.js
+```js#primate.config.js
 import store from "@primate/store";
 import mysql from "@primate/mysql";
 
@@ -196,7 +196,7 @@ This driver uses the `host` (default `"http://localhost"`), `port` (default
 `8000`), `path`  (default: "`"rpc"`"), `namespace`, `database`, `username`, and
 `password` configuration properties.
 
-```js caption=primate.config.js
+```js#primate.config.js
 import store from "@primate/store";
 import surrealdb from "@primate/surrealdb";
 

@@ -17,7 +17,7 @@ get an idea of the framework.
 To install the Solid module, run `npm install @primate/solid`. Then add it to
 your Primate configuration.
 
-```js caption=primate.config.js
+```js#primate.config.js
 import solid from "@primate/solid";
 
 export default {
@@ -35,7 +35,7 @@ the `jsx` file extension. To nonetheless allow users to work with both
 frameworks side by side, we have added an `extension` option you can pass the
 Solid handler, to override its `jsx` default.
 
-```js caption=primate.config.js
+```js#primate.config.js
 import solid from "@primate/solid";
 
 export default {
@@ -55,7 +55,7 @@ place them alongside React (`jsx`) components.
 To use a Solid component, create a route under `routes`. This example assumes
 you have changed the Solid component file extension to `solid`.
 
-```js caption=routes/posts.js
+```js#routes/posts.js
 import view from "primate/handler/view";
 
 const posts = [{
@@ -72,7 +72,7 @@ export default {
 
 Next, create a component in `components`.
 
-```jsx caption=components/PostIndex.solid
+```jsx#components/PostIndex.solid
 import { For } from "solid-js/web";
 
 export default function (props) {
@@ -91,7 +91,7 @@ export default function (props) {
 Create a `+layout.js` file alongside your routes (layouts apply to all routes
 in their directory and its subdirectories, hierarchically).
 
-```js caption=routes/+layout.js
+```js#routes/+layout.js
 import view from "primate/handler/view";
 
 export default () => {
@@ -101,7 +101,7 @@ export default () => {
 
 Then add a component for the layout in `components`.
 
-```jsx caption=components/layout.solid
+```jsx#components/layout.solid
 export default function layout(props) {
   return <>
     <div>Hi, {props.data.user}.</div>
@@ -115,7 +115,7 @@ export default function layout(props) {
 To activate liveview for Solid, turning your app into an SPA and avoiding full
 page reloads, install and load `@primate/liveview`.
 
-```js caption=primate.config.js
+```js#primate.config.js
 import solid from "@primate/solid";
 import liveview from "@primate/liveview";
 

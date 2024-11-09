@@ -10,7 +10,7 @@ This backend introduces support for routes written in Python, using Pyodide.
 
 Import and initialize the module in your configuration.
 
-```js caption=primate.config.js
+```js#primate.config.js
 import python from "@primate/python";
 
 export default {
@@ -24,7 +24,7 @@ export default {
 standard library) you'd like to use to the `packages` configuration array of
 this module.
 
-```js caption=primate.config.js
+```js#primate.config.js
 import python from "@primate/python";
 
 export default {
@@ -45,7 +45,7 @@ export default {
 
 Strings are served with the content type `text/plain`.
 
-```py caption=routes/plain-text.py
+```py#routes/plain-text.py
 def get(request):
     return "Donald"
 ```
@@ -59,7 +59,7 @@ them the string "Donald" in plain text.
 
 Dictionaries and lists are served with the content type `application/json`.
 
-```py caption=routes/json.py
+```py#routes/json.py
 def get(request):
     return [
         {"name": "Donald"},
@@ -76,7 +76,7 @@ JSON array.
 
 The `Primate.redirect` handler allows you to redirect responses.
 
-```py caption=routes/redirect.py
+```py#routes/redirect.py
 def get(request):
     return Primate.redirect("https://primatejs.com");
 ```
@@ -84,7 +84,7 @@ def get(request):
 To use a different redirect status, use the second parameter as a dictionary
 with a `status` field.
 
-```py caption=routes/redirect-301.py
+```py#routes/redirect-301.py
 def get(request):
     return Primate.redirect("https://primatejs.com", { "status": 301 });
 ```
@@ -96,7 +96,7 @@ def get(request):
 The `Primate.view` handler allows you to serve responses with content type
 `text/html` from the `components` directory.
 
-```py caption=routes/view.py
+```py#routes/view.py
 def get(request):
     return Primate.view("hello.html")
 ```
@@ -106,7 +106,7 @@ inject the HTML component code into the index file located at `pages/app.html`
 and serve the resulting file at the path GET `/html`. In case no such file
 exists, Primate will fall back to its [default app.html][default-index].
 
-```html caption=components/hello.html
+```html#components/hello.html
 <p>Hello, world!</p>
 ```
 
@@ -115,7 +115,7 @@ directly to the frontend component.
 
 First, create the frontend component, in this case Svelte.
 
-```svelte caption=components/PostIndex.svelte
+```svelte#components/PostIndex.svelte
 <script>
   export let posts;
 </script>
@@ -136,7 +136,7 @@ First, create the frontend component, in this case Svelte.
 
 Then create the route, and pass props to the component.
 
-```py caption=routes/svelte.py
+```py#routes/svelte.py
 def get(request):
     posts = [{
         "id": 1,
@@ -156,7 +156,7 @@ The `Primate.error` handler allows you to generate an error (typically with a
 4xx or 5xx status code). The most common error and the default of this handler
 is `404 Not Found` using the content type `text/html`.
 
-```py caption=routes/error.py
+```py#routes/error.py
 def get(request):
     return Primate.error();
 ```
@@ -165,7 +165,7 @@ A request to `/error` will result in a `404 Not Found` response.
 
 You can customize the body and the status of this handler.
 
-```py caption=routes/server-error.py
+```py#routes/server-error.py
 def get(request):
     return Primate.error("Internal Server Error", { "status": 500 });
 ```
@@ -186,7 +186,7 @@ as well as other `headers`.
 
 The request body.
 
-```py caption=routes/your-name.py
+```py#routes/your-name.py
 def post(request):
   return "Hello, " + request.body.name;
 ```
@@ -205,7 +205,7 @@ function to access individual properties. In addition, any types defined in
 
 Suppose you have defined this type.
 
-```js caption=types/uuid.js
+```js#types/uuid.js
 import is from "@rcompat/invariant/is";
 
 const valid = /^[^\W_]{8}-[^\W_]{4}-[^\W_]{4}-[^\W_]{4}-[^\W_]{12}$/u;
@@ -238,7 +238,7 @@ Here is a route that, in case a session does not exist, creates it with a
 `count` equaling 0 and otherwise increments `count` by 1. In both cases, the
 session data is served to the client as JSON.
 
-```py caption=routes/session.py
+```py#routes/session.py
 def get(request):
   if not request.session.exists():
     request.session.create({"count": 0})
@@ -256,7 +256,7 @@ def get(request):
 You can use stores exactly the same as you would in JavaScript. As store
 methods are all async, you need to declare your Python route as async too.
 
-```py caption=routes/store.py
+```py#routes/store.py
 async def get(request):
   # assumes the Post collection has been created
   await request.store.Post.insert({"title": "New Post"})

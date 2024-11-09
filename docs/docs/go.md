@@ -13,7 +13,7 @@ is used to compile the Go routes into Wasm.
 
 Import and initialize the module in your configuration.
 
-```js caption=primate.config.js
+```js#primate.config.js
 import go from "@primate/go";
 
 export default {
@@ -31,7 +31,7 @@ export default {
 
 Strings are served with the content type `text/plain`.
 
-```go caption=routes/plain-text.go
+```go#routes/plain-text.go
 func Get(request Request) any {
   return "Donald";
 }
@@ -46,7 +46,7 @@ them the string "Donald" in plain text.
 
 Maps (including arrays) are served with the content type `application/json`.
 
-```go caption=routes/json.go
+```go#routes/json.go
 func Get(request Request) any {
   return []any{
     map[string]any{ "name": "Donald" },
@@ -62,7 +62,7 @@ For your convenience, Primate furnishes you with two types, `Object` which is
 `map[string]any` and `Array` which is `[]any`, allowing you to write the route
 more elegantly.
 
-```go caption=routes/json.go
+```go#routes/json.go
 func Get(request Request) any {
   return Array{
     Object{ "name": "Donald" },
@@ -77,7 +77,7 @@ func Get(request Request) any {
 
 The `Redirect` handler allows you to redirect responses.
 
-```go caption=routes/redirect.go
+```go#routes/redirect.go
 import "github.com/primatejs/go/primate"
 
 func Get(request Request) any {
@@ -88,7 +88,7 @@ func Get(request Request) any {
 To use a different redirect status, use the second parameter as a map with a
 `status` field.
 
-```go caption=routes/redirect-301.go
+```go#routes/redirect-301.go
 import "github.com/primatejs/go/primate"
 
 func Get(request Request) any {
@@ -104,7 +104,7 @@ func Get(request Request) any {
 The `View` handler allows you to serve responses with content type `text/html`
 from the `components` directory.
 
-```go caption=routes/view.go
+```go#routes/view.go
 import "github.com/primatejs/go/primate"
 
 func Get(request Request) any {
@@ -117,7 +117,7 @@ inject the HTML component code into the index file located at `pages/app.html`
 and serve the resulting file at the path GET `/html`. In case no such file
 exists, Primate will fall back to its [default app.html][default-index].
 
-```html caption=components/hello.html
+```html#components/hello.html
 <p>Hello, world!</p>
 ```
 
@@ -126,7 +126,7 @@ directly to the frontend component.
 
 First, create the frontend component, in this case Svelte.
 
-```svelte caption=components/PostIndex.svelte
+```svelte#components/PostIndex.svelte
 <script>
   export let posts;
 </script>
@@ -147,7 +147,7 @@ First, create the frontend component, in this case Svelte.
 
 Then create the route, and pass props to the component.
 
-```go caption=routes/svelte.go
+```go#routes/svelte.go
 import "github.com/primatejs/go/primate"
 
 func Get(request Request) any {
@@ -176,7 +176,7 @@ as well as other `Headers`.
 
 The request body.
 
-```go caption=routes/your-name.go
+```go#routes/your-name.go
 func Post(request Request) any {
   return "Hello, " + request.Body["name"].(string);
 }
@@ -195,7 +195,7 @@ function to access individual properties. In addition, any types defined in
 `types` will be available to the dispatcher. The `Dispatcher` struct is defined
 as follows.
 
-```go caption=Dispatcher struct
+```go#Dispatcher struct
 type Dispatcher struct {
   Get func(string) any
   // dynamic runtime type getters
@@ -206,7 +206,7 @@ In addition, any types defined in `types` will be available to a `Dispatcher`.
 
 Suppose you have defined this type.
 
-```js caption=types/uuid.js
+```js#types/uuid.js
 import is from "@rcompat/invariant/is";
 
 const valid = /^[^\W_]{8}-[^\W_]{4}-[^\W_]{4}-[^\W_]{4}-[^\W_]{12}$/u;
@@ -227,7 +227,7 @@ export default {
 
 The `Dispatcher` struct would now look a little different.
 
-```go caption=Dispatcher struct
+```go#Dispatcher struct
 type Dispatcher struct {
   Get func(string) any
   GetUuid func(string) (string, error)
@@ -248,7 +248,7 @@ and set session data from within Go.
 
 A `Session` struct is as defined as follows.
 
-```go caption=Session struct
+```go#Session struct
 type Session struct {
   Exists func() bool
   Get func(string) any
@@ -262,7 +262,7 @@ Here is a Go route that, in case a session does not exist, creates it with a
 `count` equaling 0 and otherwise increments `count` by 1. In both cases, the
 session data is served to the client as JSON.
 
-```go caption=routes/session.go
+```go#routes/session.go
 func Get(request Request) any {
   if (!request.Session.Exists()) {
     request.Session.Create(Object{"count": 0});

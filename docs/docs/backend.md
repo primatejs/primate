@@ -10,10 +10,10 @@ the route and the available handlers (`view`, `redirect`).
 
 ## Supported backends
 
-* [Go](/modules/go)
-* [Python](/modules/python)
-* [Ruby](/modules/ruby)
-* [TypeScript](/modules/typescript)
+[Go]: /docs/backend/go
+[Python]: /docs/backend/python
+[Ruby]: /docs/backend/ruby
+[TypeScript]: /docs/backend/typescript
 
 ## Support matrix
 

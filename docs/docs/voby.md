@@ -17,7 +17,7 @@ npm install @primate/voby
 
 ## Configure
 
-```js caption=primate.config.js
+```js#primate.config.js
 import voby from "@primate/voby";
 
 export default {
@@ -29,7 +29,7 @@ export default {
 
 ## Use
 
-```jsx caption=components/PostIndex.voby
+```jsx#components/PostIndex.voby
 export default props => <>
   <h1>All posts</h1>
   {props.posts.map(({ id, title}) =>
@@ -37,7 +37,7 @@ export default props => <>
 </>;
 ```
 
-```js caption=routes/voby.js
+```js#routes/voby.js
 import view from "primate/handler/view";
 
 const posts = [{

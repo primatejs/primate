@@ -28,7 +28,7 @@ To add support for Python, install the `@primate/python` package.
 
 Import and initialize the module in your configuration.
 
-```js caption=primate.config.js
+```js#primate.config.js
 import python from "@primate/python";
 
 export default {
@@ -42,7 +42,7 @@ export default {
 standard library) you'd like to use to the `packages` configuration array of
 the module.
 
-```js caption=primate.config.js
+```js#primate.config.js
 import python from "@primate/python";
 
 export default {
@@ -61,7 +61,7 @@ routes, in Python. For example, if you return strings or dictionaries from your
 Python route, Primate will serve them as content type `text/plain` and
 `application/json`, respectively.
 
-```py caption=routes/index.py
+```py#routes/index.py
 def get(request):
     return "Donald"
 
@@ -79,7 +79,7 @@ For example, if a GET request is sent to `/?name=Donald`, it could be served by
 the following route, returning the value of the query string parameter `name`
 as plain text.
 
-```py caption=routes/index.py
+```py#routes/index.py
 def get(request):
   # on GET /?name=Donald -> responds with text/plain "Donald"
   return request.query.get("name")
@@ -108,7 +108,7 @@ It was previously impossible to use dots in the names of routes. This
 restriction is now removed, allowing you to fake dynamic routes as static
 resources by creating route files for them.
 
-```js caption=routes/sitemap.xml.js
+```js#routes/sitemap.xml.js
 export default {
   // serve on GET /sitemap.xml
   get() {
@@ -124,7 +124,7 @@ the default content type (`text/html`) or any other header when using the `view`
 handler. This is particularly useful case you're using a template engine such
 as Handlebars to generate an XML file.
 
-```js caption=routes/sitemap.xml.js
+```js#routes/sitemap.xml.js
 import view from "primate/handler/view";
 import { xml } from "@rcompat/http/mime";
 
@@ -154,7 +154,7 @@ You may sometimes wish for this upwards recursion to halt at a particular
 layout, and this is now achievable by using `export const recursive = false;`
 within the `+layout.js` file.
 
-```js caption=routes/inner/+layout.js
+```js#routes/inner/+layout.js
 import view from "primate/handler/view" ;
 
 export default () => {

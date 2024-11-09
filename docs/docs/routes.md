@@ -1,21 +1,37 @@
 # Routes
 
-Primate uses filesystem-based routes. Route files are files in the `routes`
-directory which requests map to. For example, the file at
-`routes/user/profile.js` is used to handle a request to `/user/profile`. The
-path may include parameters in brackets.
+Primate uses filesystem-based routes. Route files are placed the `routes`
+directory used during runtime to resolve requests. For example, the file at
+`routes/user/profile.js` resolves HTTP requests to `/user/profile`.
+
+Here are a few examples of requests and what route files will handle them.
+
+```http
+/ -> index.js
+```
+
+* `/` -> `index.js`
+* `/user` -> `user.js`
+* `/user/USER_ID` -> `user/[user_id].js`, where `USER_ID` is any value 
+* `/user` or `/user/1`
 
 To illustrate this, consider that inside `routes`
 
-|route                 |handles requests to                                   |
+|Route                 |Handles                                               |
 |----------------------|------------------------------------------------------|
 |index.js              |`/`                                                   |
 |user.js               |`/user`                                               |
 |user/[user_id].js     |`/user/U_ID` with U_ID being a route parameter        |
 |user/[[user_id]].js   |`/user` and `/user/U_ID`                              |
 |user/[user_id=uuid].js|`/user/UUID` with UUID having the runtime type `uuid` |
-|blog/[...subpath]     |`/blog/SUBPATH`, where SUBPATH may contain slashes    |
-|blog/[[...subpath]]   |`/blog` and `/blog/SUBPATH`                           |
+|blog/[...subpath].js  |`/blog/SUBPATH`, where SUBPATH may contain slashes    |
+|blog/[[...subpath]].js|`/blog` and `/blog/SUBPATH`                           |
+
+!!!
+If you use other backends, the file extension of your route files will be
+different. It is possible to combine different backends, but not for the same
+route.
+!!!
 
 ## Static routes
 
@@ -84,21 +100,63 @@ Optional rest parameters may only appear at the end of a route.
 
 ## HTTP verbs
 
-Every route file exports an object containing one or many HTTP verb functions.
+Every route file can handle several HTTP verbs.
 
-```js caption=routes/user/profile.js
+{% tabs %}
+
+```js#JavaScript
 export default {
   get() {
-    return "this is a GET request";
+    return "This is a GET request";
   },
   post() {
-    return "this is a POST request";
+    return "This is a POST request";
   },
 };
 ```
 
-In this example, accessing the path `/user/profile` using any of the specified
-verbs will return a plain-text response with the given string.
+```ts#TypeScript
+import type { Route } from "primate";
+
+export default {
+  get() {
+    return "This is a GET request";
+  },
+  post() {
+    return "This is a POST request";
+  },
+} satisfies Route;
+```
+
+```go#Go
+func Get(request Request) any {
+  return "This is a GET request";
+}
+
+func Post(request Request) any {
+  return "This is a POST request";
+}
+```
+
+```py#Python
+def get(request):
+    return "This is a GET request"
+
+def post(request):
+    return "This is a Post request"
+```
+
+```rb#Ruby
+def get(request)
+  "This is a GET request"
+end
+
+def post(request)
+  "This is a POST request"
+end
+```
+
+{% /tabs %}
 
 ## The request object
 
@@ -113,7 +171,7 @@ you need using object destructuring.
 
 The request body.
 
-```js caption=routes/your-name.js
+```js
 export default {
   post(request) {
     return `Hello, ${request.body.name}`;
@@ -134,7 +192,7 @@ decodes the form fields into object properties
 * `multipart/form-data` decodes the given form using `FormData`, making files
 available as `Blob` objects and other fields as normal object properties
 
-```js caption=routes/your-full-name.js
+```js
 export default {
   post(request) {
     const { name } = request.body;
@@ -157,7 +215,7 @@ saying Hello and the provided name.
 
 The request's path, an object containing path parameters.
 
-```js caption=routes/users/[user].js
+```js#routes/users/[user].js
 import error from "primate/handler/error";
 
 const users = ["Donald", "Ryan"];
@@ -185,7 +243,7 @@ We will later handle [routes with parameters](#parameters) in depth.
 
 The request's query string, broken down into its constituent parts.
 
-```js caption=routes/users.js
+```js#routes/users.js
 import error from "primate/handler/error";
 
 const users = ["Donald", "Ryan"];
@@ -210,7 +268,7 @@ will respond with `200`, otherwise with `404`.
 
 The request's `Cookie` header, broken down into individual cookies.
 
-```js caption=routes/current-user.js
+```js#routes/current-user.js
 import error from "primate/handler/error";
 
 const users = ["Donald", "Ryan"];
@@ -236,7 +294,7 @@ If a user requests POST `/current-user` with the `Cookie` header set to
 
 The request's individual headers.
 
-```js caption=routes/current-x-user.js
+```js#routes/current-x-user.js
 import error from "primate/handler/error";
 
 const users = ["Donald", "Ryan"];

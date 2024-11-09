@@ -1,45 +1,32 @@
 # HTMX
 
-High power tools for HTML.
+[HTMX] is a library that extends HTML with additional attributes.
 
-## Support matrix
+## Features
 
-|Extension|Props|Server-side rendering|Hydration|Layouts|Head component|I18N|
-|-|-|-|-|-|-|-|
-|`.htmx`|✓|✓|-|[✗]|-|-|
+|File Extension|Props|SSR|Hydration|SPA|Layouts|Head|I18N|
+|-|-|-|-|-|-|-|-|
+|`.htmx`|✓|✓|-|-|-|-|-|
 
 ## Install
 
-```sh
-npm install @primate/htmx
-```
+{% install=@primate/htmx %}
 
-## Init
+## Use
 
-```js caption=primate.config.js
+{% tabs %}
+
+```js#primate.config.js
 import htmx from "@primate/htmx";
 
 export default {
   modules: [
-    htmx(/* configuration */),
+    htmx(/* HTMXOptions */),
   ],
 };
 ```
 
-## Use
-
-```html caption=components/post-index.htmx
-<h1>All posts</h1>
-${posts.map(post => `
-  <h2>
-    <a hx-get="/post/${post.id}" href="/post/${post.id}">
-      ${post.title}
-    </a>
-  </h2>
-`).join("")}
-```
-
-```js caption=routes/htmx.js
+```js#Route
 import view from "primate/handler/view";
 
 const posts = [{
@@ -54,6 +41,17 @@ export default {
 };
 ```
 
+```html#Component
+<h1>All posts</h1>
+${posts.map(post => `
+  <h2>
+    <a hx-get="/post/${post.id}" href="/post/${post.id}">
+      ${post.title}
+    </a>
+  </h2>
+`).join("")}
+```
+
 !!!
 When you use HTMX to fetch content, it sends its request with the `hx-request`
 header set. This header is used to return the component HTML in
@@ -61,27 +59,21 @@ header set. This header is used to return the component HTML in
 JavaScript.
 !!!
 
-## Configuration
+{% /tabs %}
 
-### extension
+## Options
 
-Default `".htmx"`
+```ts
+type ClientSideTemplate = "handlebars" | "mustache" | "nunjucks";
+type NonEmptyArray<T> = [T, ...T[]];
 
-The file extension associated with HTMX components.
-
-### extensions
-
-Default `[]`
-
-HTMX [extensions] to load, as an array of strings denoting the extension name.
-
-### client_side_templates
-
-Default `[]`
-
-Client side templates to be used by the [client-side-templates] extension.
-Possible values: `"handlebars"`, `"mustache"` and `"nunjucks"`. Make sure you
-add `"client-side-templates"` to the `extensions` array option.
+interface HTMXOptions {
+  fileExtension?: string,
+  extensions?: {
+    clientSideTemplates?: NonEmptyArray<ClientSideTemplate>,
+  },
+}
+```
 
 ## Resources
 
@@ -89,7 +81,7 @@ add `"client-side-templates"` to the `extensions` array option.
 * [Error list](/errors/htmx)
 
 [repo]: https://github.com/primatejs/primate/tree/master/packages/htmx
-[✗]: https://github.com/primatejs/primate/issues/164
 [extensions]: https://htmx.org/extensions
 [client-side-templates]: https://htmx.org/extensions/client-side-templates
 [partial]: /guide/responses#partial
+[HTMX]: https://htmx.org

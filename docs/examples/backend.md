@@ -1,6 +1,6 @@
 %%% JS, TS, Go, Python, Ruby
 
-```js caption=routes/index.js
+```js#routes/index.js
 import view from "primate/handler/view";
 
 const posts = [{
@@ -15,7 +15,7 @@ export default {
 };
 ```
 
-```ts caption=routes/index.ts
+```ts#routes/index.ts
 import type { Route } from "primate";
 import view from "primate/handler/view";
 
@@ -31,7 +31,7 @@ export default {
 } satisfies Route;
 ```
 
-```go caption=routes/index.go
+```go#routes/index.go
 import "github.com/primatejs/go/primate"
 
 func Get(request Request) any {
@@ -44,7 +44,7 @@ func Get(request Request) any {
 }
 ```
 
-```py caption=routes/index.py
+```py#routes/index.py
 def get(request):
   posts = [{
    "id": 1,
@@ -54,7 +54,7 @@ def get(request):
   return Primate.view("PostIndex.jsx", { "posts": posts })
 ```
 
-```rb caption=routes/index.rb
+```rb#routes/index.rb
 def get(request)
   posts = [{
     id: 1,

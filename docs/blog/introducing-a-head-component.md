@@ -18,7 +18,7 @@ get an idea of the framework.
 In a component of your choice, import `Head` from `@primate/react` and
 use it anywhere within the component.
 
-```js caption=components/PostIndex.jsx
+```js#components/PostIndex.jsx
 import Head from "@primate/react/head";
 
 export default function (props) {
@@ -76,7 +76,7 @@ follows.
 
 This function mimics the signature of a Svelte component's `render` function.
 
-```js caption=server-render-react.js
+```js#server-render-react.js
 import { renderToString } from "react-dom/server";
 import { createElement } from "react";
 
@@ -94,7 +94,7 @@ const render = (component, props) => {
 
 And the same for Solid.
 
-```js caption=server-render-solid.js
+```js#server-render-solid.js
 import { renderToString } from "solid-js/web";
 
 export const render = (component, props) => {
@@ -112,7 +112,7 @@ export const render = (component, props) => {
 The only thing left to do is wrap your root component with a context provider.
 It is assumed that `body` here contains your component hierarchy.
 
-```js caption=root-component-react.jsx
+```js#root-component-react.jsx
 import HeadContext from "@primate/react/context/head";
 import runtime from "@rcompat/runtime";
 

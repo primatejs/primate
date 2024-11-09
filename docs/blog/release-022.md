@@ -21,7 +21,7 @@ extended syntax, potentially via an extension system.
 The Markdown handler works like all other frontend handlers. To activate it,
 load the module in your configuration.
 
-```js caption=primate.config.js
+```js#primate.config.js
 import markdown from "@primate/markdown";
 
 export default {
@@ -33,7 +33,7 @@ export default {
 
 Then place a Markdown file in your `components` directory.
 
-```md caption=components/about-us.md
+```md#components/about-us.md
 # About us
 
 Our company was formed in 2023 with the vision of supplying **unlimited**
@@ -42,7 +42,7 @@ energy to mankind.
 
 Lastly, serve your Markdown component from a route of your choice.
 
-```js caption=routes/about-us.js
+```js#routes/about-us.js
 import view from "primate/handler/view";
 
 export default {
@@ -59,7 +59,7 @@ Unlike other frontend handlers, the Markdown handler is not dynamic. Passing
 props to it is meaningless. However, you can still use a different page with it
 by modifying the `page` property of the third (options) parameter.
 
-```js caption=routes/about-us.js
+```js#routes/about-us.js
 import view from "primate/handler/view";
 
 export default {
@@ -76,7 +76,7 @@ Like other frontend handlers, you can change the directory from which Markdown
 components are loaded and the file extension associated with them by changing
 the module configuration.
 
-```js caption=primate.config.js
+```js#primate.config.js
 import markdown from "@primate/markdown";
 
 export default {
@@ -96,7 +96,7 @@ export default {
 In addition, you can pass options to the underlying `marked` package used to
 convert the Markdown files into HTML.
 
-```js caption=primate.config.js
+```js#primate.config.js
 import markdown from "@primate/markdown";
 
 export default {
@@ -117,7 +117,7 @@ The Markdown handler, when converting the component into HTML, also generates a
 table of contents using the six Markdown heading types (which correspond to the
 h1-h6 HTML tags).
 
-```md caption=components/about-us.md
+```md#components/about-us.md
 # Heading 1
 
 ## Heading 2
@@ -158,7 +158,7 @@ At runtime, this JSON file will be written to `build/server/${directory}`
 alongside the compiled HTML file. To use this, you can override the default
 Markdown handler function.
 
-```js caption=primate.config.js
+```js#primate.config.js
 import markdown from "@primate/markdown";
 
 export default {
@@ -179,7 +179,7 @@ In addition to all of the above, you can also access the Markdown compilation
 function directly as an export of `@primate/markdown`. This allows you to
 compile and serve Markdown content from a dynamic source (like a database).
 
-```js caption=routes/markdown/{page}.js
+```js#routes/markdown/{page}.js
 import view from "primate/handler/view";
 import { compile } from "@primate/markdown";
 

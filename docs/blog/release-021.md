@@ -26,7 +26,7 @@ correct package should it be missing.
 Using the new store drivers is similar to how all drivers work. You import and
 pass them to the `driver` property of the `store` module.
 
-```js caption=primate.config.js
+```js#primate.config.js
 import { sqlite, default as store } from "@primate/store";
 
 export default {
@@ -61,7 +61,7 @@ Similarly to guards and layouts, the error route accepts a `request` parameter
 and responds with a proper handler. Here is an example with an error route
 file rendering a Svelte component.
 
-```js caption=routes/+error.js
+```js#routes/+error.js
 import view from "primate/handler/view";
 
 export default request => view("ErrorPage.svelte");
@@ -91,7 +91,7 @@ All error routes use the error page in `pages/error.html`. This file, like
 `app.html`, can have placeholders for embedding head scripts and the body. In
 case it does not exist, Primate will fall back to its default `error.html`.
 
-```html caption=pages/error.html
+```html#pages/error.html
 <!doctype html>
 <html>
   <head>
@@ -112,7 +112,7 @@ Like normal routes, error routes can use a different error page if desired, by
 passing a `page` property to the third handler parameter. The page file itself
 must be located under `pages`.
 
-```js caption=routes/+error.js
+```js#routes/+error.js
 import view from "primate/handler/view";
 
 export default request => view("ErrorPage.svelte", {}, {
@@ -144,7 +144,7 @@ currently the Svelte handler is the only one that does.
 
 To activate liveview, import and load the module.
 
-```js caption=primate.config.js
+```js#primate.config.js
 import svelte from "@primate/svelte";
 import liveview from "@primate/liveview";
 

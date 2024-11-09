@@ -26,7 +26,7 @@ dependencies.
 
 Import and initialize the module in your configuration.
 
-```js caption=primate.config.js
+```js#primate.config.js
 import { angular } from "@primate/frontend";
 
 export default {
@@ -40,7 +40,7 @@ export default {
 
 Create an Angular component in `components`.
 
-```angular-ts caption=components/post-index.component.ts
+```angular-ts#components/post-index.component.ts
 import { Component, Input } from "@angular/core";
 import { CommonModule } from "@angular/common";
 
@@ -66,7 +66,7 @@ export default class PostIndex {
 
 Serve it from a route.
 
-```js caption=routes/angular.js
+```js#routes/angular.js
 import view from "primate/handler/view";
 
 const posts = [{
@@ -96,7 +96,7 @@ handler supports SSR and serves Marko components with the `.marko` extension.
 
 Import and initialize the module in your configuration.
 
-```js caption=primate.config.js
+```js#primate.config.js
 import { marko } from "@primate/frontend";
 
 export default {
@@ -110,7 +110,7 @@ export default {
 
 Create a Marko component in `components`.
 
-```marko caption=components/post-index.marko
+```marko#components/post-index.marko
 <h1>All posts</h1>
 <for|post| of=input.posts>
   <h2>
@@ -123,7 +123,7 @@ Create a Marko component in `components`.
 
 Serve it from a route.
 
-```js caption=routes/marko.js
+```js#routes/marko.js
 import view from "primate/handler/view";
 
 const posts = [{
@@ -157,7 +157,7 @@ on how to install and run a server.
 The MySQL driver uses the `host` (default `"localhost"`), `port` (default
 `3306`) `database`, `username`, and `password` configuration properties.
 
-```js caption=primate.config.js
+```js#primate.config.js
 import store from "@primate/store";
 import mysql from "@primate/mysql";
 
@@ -192,7 +192,7 @@ addition, we added a new handler for Server-sent events, `sse`.
 
 You can now upgrade any `GET` route to a WebSocket route with the `ws` handler.
 
-```js caption=routes/ws.js
+```js#routes/ws.js
 import ws from "primate/handler/ws";
 
 export default {
@@ -220,7 +220,7 @@ export default {
 In this example, we have a small chat which reflects back anything to the user
 up to a given number of messages, the default being 20.
 
-```html caption=components/chat.html
+```html#components/chat.html
 <script>
   window.addEventListener("load", () => {
     // number of messages to reflect
@@ -260,7 +260,7 @@ up to a given number of messages, the default being 20.
 Similarly to `ws`, you can use the `sse` handler to upgrade a `GET` request to
 stream out server-sent events to the client.
 
-```js caption=routes/sse.js
+```js#routes/sse.js
 import sse from "primate/handler/sse";
 
 const passed = start_time => Math.floor((Date.now() - start_time) / 1000);
@@ -290,7 +290,7 @@ In this example, we send a `passed` event to the client every 5 seconds,
 indicating how many seconds have passed since the connection was established.
 The client subscribes to this event and prints it to the console.
 
-```html caption=components/sse-client.html
+```html#components/sse-client.html
 <script>
   new EventSource("/sse").addEventListener("passed", event => {
     console.log(`${JSON.parse(event.data)} seconds since connection opened`);
@@ -300,7 +300,7 @@ The client subscribes to this event and prints it to the console.
 
 This client is then served using another route.
 
-```js caption=routes/sse-client.js
+```js#routes/sse-client.js
 import view from "primate/handler/view";
 
 export default {

@@ -16,7 +16,7 @@ npm install @primate/react
 
 ## Init
 
-```js caption=primate.config.js
+```js#primate.config.js
 import react from "@primate/react";
 
 export default {
@@ -28,7 +28,7 @@ export default {
 
 ## Use
 
-```jsx caption=components/PostIndex.jsx
+```jsx#components/PostIndex.jsx
 export default props => <>
   <h1>All posts</h1>
   { props.posts.map(({ id, title }) => (
@@ -37,7 +37,7 @@ export default props => <>
 </>;
 ```
 
-```js caption=routes/react.js
+```js#routes/react.js
 import view from "primate/handler/view";
 
 const posts = [{

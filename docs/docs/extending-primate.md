@@ -23,7 +23,7 @@ A common pattern when writing modules is to design them as a function that
 accepts configuration options and returns a subscription object. Here is an
 excerpt from the Primate session module, adding cookie-based sessions.
 
-```js caption=Session module
+```js
 // module configuration options, `name` is the session cookie name
 export default ({ name = "session_id" } = {}) => {
   return {
@@ -57,7 +57,7 @@ function with that session. The `next` function could be another module using
 the `handle` hook or, at the end of the line, the route function itself, which
 will have the session available as a property of its request object.
 
-```js caption=routes/session.js
+```js#routes/session.js
 export default {
   get(request) {
     return request.session.id;
@@ -81,10 +81,10 @@ the same name for a module more than once.
 
 ## Using modules
 
-To use a Primate module, add it into the `modules` array of your app
-configuration.
+To use a Primate module, add it into the `modules` array of your
+`primate.config.js`.
 
-```js caption=primate.config.js
+```js
 import session from "@primate/session";
 
 export default {
@@ -98,7 +98,7 @@ export default {
 If the module accepts configuration options, you can pass them when
 initializing the module.
 
-```js caption=primate.config.js
+```js
 import session from "@primate/session";
 
 export default {
@@ -120,7 +120,7 @@ which the hooks will call them.
 All modules are just subscription objects. You can therefore easily create and
 pass modules directly in your configuration file.
 
-```js caption=primate.config.js
+```js
 export default {
   modules: [{
     name: "ad-hoc module",

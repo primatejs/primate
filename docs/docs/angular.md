@@ -1,35 +1,48 @@
 # Angular
 
-The modern web developer's platform.
+[Angular](https://angular.dev) is a frontend framework developed by Google.
+Components are authored in TypeScript with annotated dependency injection.
 
-## Support matrix
+## Features
 
-|[Extension]|[Props]|[SSR]|[Hydration]|[SPA]|[Layouts]|[Head]|[I18N]|
+|File Extension|Props|SSR|Hydration|SPA|Layouts|Head|I18N|
 |-|-|-|-|-|-|-|-|
-|`.component.ts`|✓|✓|✓|[✗]|[✗]|[✗]|[✗]|
-
+|`.component.ts`|✓|✓|✓|✗|✗|✗|✗|
 
 ## Install
 
-```sh
-npm install @primate/angular
-```
+{% install=@primate/angular %}
 
-## Init
+## Use
 
-```js caption=primate.config.js
+{% tabs %}
+
+```js#primate.config.js
 import angular from "@primate/angular";
 
 export default {
   modules: [
-    angular(/* configuration */),
+    angular(/* AngularOptions */),
   ],
 };
 ```
 
-## Use
+```js#Route
+import view from "primate/handler/view";
 
-```angular-ts caption=components/post-index.component.ts
+const posts = [{
+  id: 1,
+  title: "First post",
+}];
+
+export default {
+  get() {
+    return view("post-index.component.ts", { posts });
+  },
+};
+```
+
+```angular-ts#Component
 import { Component, Input } from "@angular/core";
 import { CommonModule } from "@angular/common";
 
@@ -53,47 +66,21 @@ export default class PostIndex {
 }
 ```
 
-```js caption=routes/angular.js
-import view from "primate/handler/view";
+{% /tabs %}
 
-const posts = [{
-  id: 1,
-  title: "First post",
-}];
+## Options
 
-export default {
-  get() {
-    return view("post-index.component.ts", { posts });
-  },
-};
+```ts
+interface AngularOptions {
+  // The file extension associated with Angular components.
+  extension?: string, // default: ".component.ts"
+  // Mode of operation
+  mode?: "production" | "development",
+}
 ```
-
-## Configuration
-
-### extension
-
-Default `".component.ts"`
-
-The file extension associated with Angular components.
-
-### mode
-
-Default `"production"`
-
-Angular's mode of operation. Any value other than `"production"` will set
-Angular to development mode.
 
 ## Resources
 
 * [Code]
 
 [Code]: https://github.com/primatejs/primate/tree/master/packages/angular
-[Extension]: /docs/frontend#extension
-[Props]: /docs/frontend#props
-[SSR]: /docs/frontend#ssr
-[Hydration]: /docs/frontend#hydration
-[SPA]: /docs/frontend#spa
-[Layouts]: /docs/frontend#layouts
-[Head]: /docs/frontend#head
-[I18N]: /docs/frontend#i18n
-[✗]: https://github.com/primatejs/primate/issues/164

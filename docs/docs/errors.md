@@ -15,7 +15,7 @@ Similarly to the special guard and layout files, the error route gets a
 with an error route file rendering a Svelte component (`@primate/svelte` must
 be installed and loaded in the project).
 
-```js caption=routes/+error.js
+```js#routes/+error.js
 import view from "primate/handler/view";
 
 export default request => view("ErrorPage.svelte");
@@ -36,7 +36,7 @@ All error routes use the error page in `pages/error.html`. This file, like
 `app.html`, can have placeholders for embedding head scripts and the body. In
 case it does not exist, Primate will fall back to its default `error.html`.
 
-```html caption=pages/error.html
+```html#pages/error.html
 <!doctype html>
 <html>
   <head>
@@ -57,7 +57,7 @@ Like normal routes, error routes can use a different error page if desired, by
 passing a `page` property to the third handler parameter. The page itself must
 be located under `pages`.
 
-```js caption=routes/+error.js
+```js#routes/+error.js
 import view from "primate/handler/view";
 
 export default request => view("ErrorPage.svelte", {}, {

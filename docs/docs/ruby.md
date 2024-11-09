@@ -10,7 +10,7 @@ This backend introduces support for routes written in Ruby.
 
 Import and initialize the module in your configuration.
 
-```js caption=primate.config.js
+```js#primate.config.js
 import ruby from "@primate/ruby";
 
 export default {
@@ -28,7 +28,7 @@ export default {
 
 Strings are served with the content type `text/plain`.
 
-```rb caption=routes/plain-text.rb
+```rb#routes/plain-text.rb
 def get(request)
   "Donald"
 end
@@ -43,7 +43,7 @@ them the string "Donald" in plain text.
 
 Hashes and arrays are served with the content type `application/json`.
 
-```rb caption=routes/json.rb
+```rb#routes/json.rb
 def get(request)
   [
     { name: "Donald" },
@@ -61,7 +61,7 @@ JSON array.
 
 The `Primate.redirect` handler allows you to redirect responses.
 
-```rb caption=routes/redirect.rb
+```rb#routes/redirect.rb
 def get(request)
   Primate.redirect("https://primatejs.com")
 end
@@ -70,7 +70,7 @@ end
 To use a different redirect status, use the second parameter as a dictionary
 with a `status` field.
 
-```rb caption=routes/redirect.rb
+```rb#routes/redirect.rb
 def get(request)
   Primate.redirect("https://primatejs.com", { status: 301 })
 end
@@ -83,7 +83,7 @@ end
 The `Primate.view` handler allows you to serve responses with content type
 `text/html` from the `components` directory.
 
-```rb caption=routes/view.rb
+```rb#routes/view.rb
 def get(request)
   Primate.view("hello.html")
 end
@@ -94,7 +94,7 @@ inject the HTML component code into the index file located at `pages/app.html`
 and serve the resulting file at the path GET `/html`. In case no such file
 exists, Primate will fall back to its [default app.html][default-index].
 
-```html caption=components/hello.html
+```html#components/hello.html
 <p>Hello, world!</p>
 ```
 
@@ -103,7 +103,7 @@ directly to the frontend component.
 
 First, create the frontend component, in this case Svelte.
 
-```svelte caption=components/PostIndex.svelte
+```svelte#components/PostIndex.svelte
 <script>
   export let posts;
 </script>
@@ -124,7 +124,7 @@ First, create the frontend component, in this case Svelte.
 
 Then create the route, and pass props to the component.
 
-```rb caption=routes/svelte.rb
+```rb#routes/svelte.rb
 def get(request)
   posts = [{
     id: 1,
@@ -145,7 +145,7 @@ The `Primate.error` handler allows you to generate an error (typically with a
 4xx or 5xx status code). The most common error and the default of this handler
 is `404 Not Found` using the content type `text/html`.
 
-```rb caption=routes/error.rn
+```rb#routes/error.rn
 def get(request)
   Primate.error()
 end
@@ -155,7 +155,7 @@ A request to `/error` will result in a `404 Not Found` response.
 
 You can customize the body and the status of this handler.
 
-```rb caption=routes/server-error.rb
+```rb#routes/server-error.rb
 def get(request)
   Primate.error("Internal Server Error", { status: 500 })
 end
@@ -177,7 +177,7 @@ as well as other `headers`.
 
 The request body.
 
-```rb caption=routes/your-name.rb
+```rb#routes/your-name.rb
 def post(request)
   "Hello, " + request.body["name"]
 end
@@ -197,7 +197,7 @@ function to access individual properties. In addition, any types defined in
 
 Suppose you have defined this type.
 
-```js caption=types/uuid.js
+```js#types/uuid.js
 import is from "@rcompat/invariant/is";
 
 const valid = /^[^\W_]{8}-[^\W_]{4}-[^\W_]{4}-[^\W_]{4}-[^\W_]{12}$/u;
@@ -230,7 +230,7 @@ Here is a route that, in case a session does not exist, creates it with a
 `count` equaling 0 and otherwise increments `count` by 1. In both cases, the
 session data is served to the client as JSON.
 
-```rb caption=routes/session.rb
+```rb#routes/session.rb
 def get(request)
   if !request.session.exists
     request.session.create({"count": 0})

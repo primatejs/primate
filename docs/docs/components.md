@@ -8,14 +8,14 @@ modules](/modules/frontend) extend this support to other formats.
 
 To serve views, start by creating an HTML component in `components`.
 
-```html caption=components/hello.html
+```html#components/hello.html
 <p>Hello, world!</p>
 ```
 
 Serve it using the `view` handler, passing in the name of the HTML file you
 just created.
 
-```js caption=routes/hello.js
+```js#routes/hello.js
 import view from "primate/handler/view";
 
 export default {
@@ -29,7 +29,7 @@ The `view` handler will use the `pages/app.html` to render a full HTML page,
 replacing `%body%` with the component's contents. If `pages/app.html` doesn't
 exist, Primate will use its default fallback file.
 
-```html caption=pages/app.html
+```html#pages/app.html
 <!doctype html>
 <html>
   <head>
@@ -62,7 +62,7 @@ It is sometimes necessary to serve a bare component without the `app.html`
 page, especially if you're replacing some parts of the page. To this end, you
 can use the `partial` option of the `view` handler.
 
-```js caption=routes/partial-hello.js
+```js#routes/partial-hello.js
 import view from "primate/handler/view";
 
 export default {

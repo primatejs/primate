@@ -23,7 +23,7 @@ of a layout rendering a Svelte component with its own data, distinct from that
 of the route itself (`@primate/svelte` must be installed and loaded in the
 project).
 
-```js caption=+layout.js
+```js#+layout.js
 import view from "primate/handler/view";
 
 export default () => {
@@ -36,7 +36,7 @@ export default () => {
 The `view` handler loads the `layout.svelte` file from the `components`
 directory, as it does with normal routes.
 
-```svelte caption=components/layout.svelte
+```svelte#components/layout.svelte
 <script>
   export let data;
 </script>

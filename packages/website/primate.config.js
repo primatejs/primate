@@ -1,10 +1,11 @@
+import { handlebars, markdown, svelte } from "@primate/frontend";
 import join from "@rcompat/fs/join";
-import { svelte, markdown, handlebars } from "@primate/frontend";
 import { getHighlighter } from "shiki";
 import priss from "./module.js";
 
+const theme = "nord";
 const highlighter = await getHighlighter({
-  themes: ["catppuccin-latte", "catppuccin-frappe"],
+  themes: [theme],
   langs: [
     // backend
     "javascript",
@@ -30,6 +31,30 @@ const highlighter = await getHighlighter({
 
 const master = i => i;
 
+const install = module => `{% tabs %}
+
+\`\`\`sh#npm
+npm install ${module}
+\`\`\`
+
+\`\`\`sh#pnpm
+pnpm install ${module}
+\`\`\`
+
+\`\`\`sh#Yarn
+yarn add ${module}
+\`\`\`
+
+\`\`\`sh#Deno
+deno install ${module}
+\`\`\`
+
+\`\`\`sh#Bun
+bun install ${module}
+\`\`\`
+
+{% /tabs %}`;
+
 export default {
   http: {
     host: "0.0.0.0",
@@ -47,38 +72,43 @@ export default {
       options: {
         hooks: {
           preprocess(html) {
-            return html.replaceAll(/%%%(.*?)\n(.*?)%%%/gus, (_, p1, p2) => {
-              const t =
-              p2
-                .split("\n```")
-                .filter(p => p !== "" && !p.startsWith("\n"))
-                .map((p, i) => `<div${i === 0 ? "" : " class='hidden'"}>
+            return html
+              .replaceAll(/\{% install=(.*?) %\}/gus, (_, p1) => install(p1))
+              .replaceAll(/\{% tabs %\}(.*?)\{% \/tabs %\}/gus, (_, p1) => {
+                const captions = [];
+                const t = p1
+                  .split("\n```")
+                  .filter(p => p !== "" && !p.startsWith("\n"))
+                  .map((p, i) => {
+                    const [first, ...rest] = p.split("\n");
+                    const [lang, caption] = first.split("#");
+                    captions.push(caption);
+                    return `<div${i === 0 ? "" : " class='hidden'"}>
 
-\`\`\`${p}
+\`\`\`${[lang, ...rest].join("\n")}
 \`\`\`
 
-</div>`).join("");
-              return `<div class="tabbed"><span class="captions">${
-                p1.split(",").map((caption, i) => `<span${i === 0 ? " class='active'" : ""}>${caption}</span>`).join("")
-              }</span><span class="tabs">${t}</span></div>`;
-            });
+</div>`;
+                  }).join("");
+                return `<div class="tabbed"><span class="captions">${
+                  captions.map((caption, i) => `<span${i === 0 ? " class='active'" : ""}>${caption}</span>`).join("")
+                }</span><span class="tabs">${t}</span></div>`;
+              });
           },
           postprocess(html) {
             return html.replaceAll(/!!!\n(.*?)\n!!!/gus, (_, p1) =>
-              `<div class="box">${p1}</div>`);
+              `<div class="info">${p1}</div>`);
           },
         },
         renderer: {
           code(code, infostring) {
-            const [lang] = infostring.split(" ");
-            const caption = [...infostring
-              .matchAll(/caption=(?<caption>.*)/ug)][0]?.groups.caption;
+            const [lang, caption] = infostring.split("#");
             const top = caption ? `<div class="caption">${caption}</div>` : "";
             const value = highlighter.codeToHtml(code, {
               lang,
               themes: {
-                light: "catppuccin-latte",
-                dark: "catppuccin-frappe",
+                light: theme,
+                dark: theme,
               },
             });
             const clipboard = `
@@ -146,10 +176,12 @@ export default {
             "Configuration",
             "Use cases",
             { heading: "Concepts" },
+            "Backends",
             "Routes",
             "Responses",
             "Types",
             "Guards",
+            "Frontends",
             "Components",
             "Layouts",
             "Errors",

@@ -32,7 +32,7 @@ is used to compile Go routes into WebAssembly.
 
 Import and initialize the module in your configuration.
 
-```js caption=primate.config.js
+```js#primate.config.js
 import go from "@primate/go";
 
 export default {
@@ -49,7 +49,7 @@ routes, in Go. For example, if you return strings or maps from your Go route,
 Primate will serve them as content type `text/plain` and `application/json`,
 respectively.
 
-```go caption=routes/index.go
+```go#routes/index.go
 func Get(request Request) any {
   return "Donald";
 }
@@ -68,7 +68,7 @@ For your convenience, Primate furnishes you with two types, `Object` which is
 `map[string]any` and `Array` which is `[]any`. If you're returning a JSON
 containing an array, you would write the following route.
 
-```go caption=routes/json-array.go
+```go#routes/json-array.go
 func Get(request Request) any {
   return Array{
     Object{ "name": "Donald" },
@@ -89,7 +89,7 @@ Accessing GET at `/json-array` will return a JSON array with this data.
 In addition, much like with JavaScript routes, you have access to a `Request`
 object that exposes several properties.
 
-```go caption=Request struct
+```go#Request struct
 type Request struct {
   Url URL
   Body Dispatcher
@@ -104,7 +104,7 @@ type Request struct {
 A `Dispatcher`, much like in JavaScript, allows you to query for subproperties
 of the field.
 
-```go caption=Dispatcher struct
+```go#Dispatcher struct
 type Dispatcher struct {
   Get func(string) any
   All func() map[string]any
@@ -116,7 +116,7 @@ For example, if a GET request is sent to `/?name=Donald`, it could be served by
 the following route, returning the value of the query string parameter `name`
 as plain text.
 
-```go caption=routes/index.go
+```go#routes/index.go
 func Get(request Request) any {
   // on GET /?name=Donald -> responds with text/plain "Donald"
   return request.Query.Get("name").(string);
@@ -154,7 +154,7 @@ package) instead of the `htmx.org` package.
 To use an HTMX extension, pass it to the HTMX module's `extensions` array
 property in your Primate configuration.
 
-```js primate.config.js
+```js#primate.config.js
 import htmx from "@primate/htmx";
 
 export default {
@@ -169,7 +169,7 @@ export default {
 If you're using the `client-side-templates` extension, include the individual
 client side templates in the `client_side_templates` array property.
 
-```js primate.config.js
+```js#primate.config.js
 import htmx from "@primate/frontend/htmx";
 
 export default {
@@ -216,7 +216,7 @@ previously  used `@primate/esbuild` with its default export, install
 `@primate/build` and  change your configuration to use the `esbuild` export of
 `@primate/build`. Remove the old `@primate/esbuild` package.
 
-```js primate.config.js
+```js#primate.config.js
 // old: import esbuild from "@primate/esbuild";
 import { esbuild } from "@primate/build";
 
@@ -237,7 +237,7 @@ In 0.26, it is no longer possible to export a runtime type as a function. All
 runtime types must instead export an object with `base` string and a  `validate`
 function property. Change any runtime type functions to the new object format.
 
-```js types/uuid.js
+```js#types/uuid.js
 const uuid = /^[^\W_]{8}-[^\W_]{4}-[^\W_]{4}-[^\W_]{4}-[^\W_]{12}$/u;
 
 // before

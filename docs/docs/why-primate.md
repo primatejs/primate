@@ -47,7 +47,7 @@ Primate is the only web framework to support more than a single backend. Aside
 from its native JavaScript/TypeScript, Primate also allows you to combine
 backend code in Go, Ruby and Python. Other backends are in the pipeline.
 
-```js caption=JavaScript
+```js#JavaScript
 import view from "primate/handler/view";
 
 const posts = [{
@@ -87,9 +87,10 @@ Primate is a zero configuration framework. TIt prTo run your app,
 ## First steps
 
 To create a simple app that responds with a `200 OK` saying "Hello, world!"
-at its index route (`/`), create a project directory and a file in `routes`.
+at its index route (`/`), create a project directory and a file at
+`routes/index.js`.
 
-```js caption=routes/index.js
+```js
 export default {
   get() {
     return "Hello, world!";
@@ -116,7 +117,7 @@ If you're using Node, make sure you add `{ "type": "module" }` to your
 Primate isn't limited to JavaScript for your backend code. If you're a Go
 developer, you can easily do the same with a Go route.
 
-```go caption=routes/index.go
+```go#routes/index.go
 func Get(request Request) any {
   return "Hello, world!";
 }
@@ -124,7 +125,7 @@ func Get(request Request) any {
 
 Or with a Python route if you're a Python developer.
 
-```py caption=routes/index.py
+```py#routes/index.py
 def get(request):
     return "Hello, world!"
 ```
@@ -148,7 +149,7 @@ Building on the last example, imagine you wanted to add a form to your page
 and redirect users who have submitted the form to a success page. This requires
 first changing the previous route to show a form.
 
-```js caption=routes/index.js
+```js#routes/index.js
 import view from "primate/handler/view";
 
 export default {
@@ -160,7 +161,7 @@ export default {
 
 We also need to create an HTML component for the form.
 
-```html caption=components/form.html
+```html#components/form.html
 <form>
   <label for="name">Enter name</label>
   <input type="text" id="name" required />
@@ -182,7 +183,7 @@ If you now go to http://localhost:6161, you will see an HTML form.
 Next we need to handle the form submission. We'll do that by adding a `post`
 function to our route.
 
-```js caption=routes/index.js
+```js#routes/index.js
 import view from "primate/handler/view";
 import redirect from "primate/handler/redirect";
 
@@ -218,7 +219,7 @@ form.
 All that's left is the success page, which we will handle by creating an
 additional route file.
 
-```js caption=routes/success.js
+```js#routes/success.js
 export default {
   get() {
     return "Thank you for submitting your data, we will get back to you.";
@@ -234,7 +235,7 @@ the same code as before, in Svelte.
 First add Svelte support by issuing `npm install @primate/svelte` and
 loading it your configuration file.
 
-```js caption=primate.config.js
+```js#primate.config.js
 import svelte from "@primate/svelte";
 
 export default {
@@ -249,7 +250,7 @@ svelte@4`.
 
 Now change your route to serve a Svelte component.
 
-```js caption=routes/index.js
+```js#routes/index.js
 import view from "primate/handler/view";
 
 export default {
@@ -270,7 +271,7 @@ export default {
 
 Create the Svelte component.
 
-```svelte caption=components/Form.svelte
+```svelte#components/Form.svelte
 <script>
   export let name;
 </script>

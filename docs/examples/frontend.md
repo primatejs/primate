@@ -1,6 +1,6 @@
 %%% React, Svelte, Vue, Solid, Angular, HTMX, WebC
 
-```jsx caption=components/PostIndex.jsx
+```jsx#components/PostIndex.jsx
 export default ({ posts }) => {
   return (<>
     <h1>All posts</h1>
@@ -15,7 +15,7 @@ export default ({ posts }) => {
 };
 ```
 
-```svelte caption=components/PostIndex.svelte
+```svelte#components/PostIndex.svelte
 <script>
   export let posts;
 </script>
@@ -29,7 +29,7 @@ export default ({ posts }) => {
 {/each}
 ```
 
-```vue caption=components/PostIndex.vue
+```vue#components/PostIndex.vue
 <template>
   <h1>All posts</h1>
   <div v-for="post in posts">
@@ -42,7 +42,7 @@ export default ({ posts }) => {
 </template>
 ```
 
-```jsx caption=components/PostIndex.jsx
+```jsx#components/PostIndex.jsx
 import { For } from "solid-js/web";
 
 export default ({ posts }) => {
@@ -59,7 +59,7 @@ export default ({ posts }) => {
 };
 ```
 
-```angular-ts caption=components/post-index.component.ts
+```angular-ts#components/post-index.component.ts
 import { Component, Input } from "@angular/core";
 import { CommonModule } from "@angular/common";
 
@@ -83,7 +83,7 @@ export default class PostIndex {
 }
 ```
 
-```html caption=components/post-index.htmx
+```html#components/post-index.htmx
 <h1>All posts</h1>
 ${posts.map(post => `
   <h2>
@@ -94,7 +94,7 @@ ${posts.map(post => `
 `).join("")}
 ```
 
-```html caption=components/post-index.webc
+```html#components/post-index.webc
 <script>
 import Component from "@primate/webc/Component";
 

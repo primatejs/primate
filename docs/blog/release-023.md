@@ -16,7 +16,7 @@ precompiling.
 The Handlebars handler works like all other frontend handlers. To activate it,
 install and load the module in your configuration.
 
-```js caption=primate.config.js
+```js#primate.config.js
 import handlebars from "@primate/handlebars";
 
 export default {
@@ -28,7 +28,7 @@ export default {
 
 Then place a Handlebars file in your `components` directory.
 
-```hbs caption=components/post-index.hbs
+```hbs#components/post-index.hbs
 <h1>All posts</h1>
 <div>
 {{#each posts}}
@@ -39,7 +39,7 @@ Then place a Handlebars file in your `components` directory.
 
 Lastly, serve your Handlebars component from a route of your choice.
 
-```js caption=routes/index.js
+```js#routes/index.js
 import view from "primate/handler/view";
 
 const posts = [{
@@ -67,7 +67,7 @@ rolled back and no changes will be committed to the data store.
 
 Consider the following store.
 
-```js caption=stores/User.js
+```js#stores/User.js
 import primary from "@primate/schema/primary";
 import string from "@primate/schema/string";
 import u8 from "@primate/schema/u8";
@@ -87,7 +87,7 @@ The following route will try to insert a new User record into the database, but
 with an `age` value that is larger than 2^8-1. Validation will fail, and the
 record won't be inserted.
 
-```js caption=routes/index.js
+```js#routes/index.js
 import view from "primate/handler/view";
 
 export default {
@@ -142,7 +142,7 @@ props are made available directly to the frontend component.
 
 Consider this Svelte route.
 
-```js caption=routes/svelte.js
+```js#routes/svelte.js
 import view from "primate/handler/view";
 
 const posts = [{
@@ -159,7 +159,7 @@ export default {
 
 Previously `posts` was a subproperty of the `data` prop.
 
-```svelte caption=components/PostIndex.svelte
+```svelte#components/PostIndex.svelte
 <script>
   export let data;
 </script>
@@ -171,7 +171,7 @@ Previously `posts` was a subproperty of the `data` prop.
 
 Now, `posts` is directly exportable in the Svelte component.
 
-```svelte caption=components/PostIndex.svelte
+```svelte#components/PostIndex.svelte
 <script>
   export let posts;
 </script>

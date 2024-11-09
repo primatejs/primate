@@ -4,17 +4,17 @@ Many web applications have some form of privilege separation, for instance
 between guest and authenticated users. In Primate, excluding certain clients
 from accessing routes is achieved with guards.
 
-A guard is a function that, like all route functions, accepts a `request`
+A guard is a function that, like all route functions, accepts a `Request`
 object as its sole parameter. Guards are tasked with deciding whether to let
 clients pass through, and they do so by returning exactly `true`. If the guard
 returns anything else, including `undefined`, the route function won't execute.
 
-## Defining
+## Use
 
-Guards are defined hierarchically alongside routes in the `routes` directory.
-To define a guard, create a `+guard.js` file inside `routes`.
+Guards are placed hierarchically alongside routes in the `routes` directory.
+To create a guard, create a `+guard.js` file inside `routes`.
 
-```js caption=routes/+guard.js
+```js
 import redirect from "primate/handler/redirect";
 
 export default request => {
@@ -25,13 +25,15 @@ export default request => {
     return true;
   }
 
+  const { pathname } = request.url;
+
   // make an exception for the /login pathname
-  if (request.url.pathname === "/login") {
+  if (pathname === "/login") {
     return true;
   }
 
   // redirect to login page
-  return redirect(`/login?next=${request.url.pathname}`);
+  return redirect(`/login?next=${pathname}`);
 };
 ```
 

@@ -22,7 +22,7 @@ Primate stores have gained additional capabilities in this release.
 
 It is now possible to add a projection to `Store#find` using a second parameter.
 
-```js caption=routes/user-names.js
+```js#routes/user-names.js
 export default {
   get({ store: { User } }) {
     return User.find({}, ["name"]);
@@ -38,7 +38,7 @@ This will show a JSON array of objects from the `user` collection with only the
 It is now possible to influence the sorting order used in `Store#find` using a
 third parameter.
 
-```js caption=routes/user-names-sorted.js
+```js#routes/user-names-sorted.js
 export default {
   get({ store: { User } }) {
     return User.find({}, ["name"], { sort: { name: "asc" } });
@@ -88,7 +88,7 @@ brackets.
 The HTMX handler now supports passing in props, in JavaScript template string
 style. Consider the following route.
 
-```js caption=routes/htmx.js
+```js#routes/htmx.js
 import view from "primate/handler/view";
 
 const posts = [{
@@ -105,7 +105,7 @@ export default {
 
 And the following HTMX component.
 
-```html caption=components/post-index.htmx
+```html#components/post-index.htmx
 <h1>All posts</h1>
 ${posts.map(post => `
   <h2>
@@ -142,7 +142,7 @@ on the request facade to pass a request wholesale to another backend.
 
 You can do this generally in the `handle` hook.
 
-```js caption=primate.config.js
+```js#primate.config.js
 export default {
   modules: {
     name: "proxy",
@@ -162,7 +162,7 @@ export default {
 
 Or specifically within a given route.
 
-```js caption=routes/pass.js
+```js#routes/pass.js
 export default {
   get(request) {
     return request.pass("http://localhost:6363");
@@ -180,7 +180,7 @@ body parsing, which is now possible per route.
 In 0.30, we added the option to [disable body parsing][disable-body-parsing]
 for the entire application. This release adds the option to do so per route.
 
-```js caption=routes/pass.js
+```js#routes/pass.js
 export const body = {
   parse: false,
 };

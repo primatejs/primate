@@ -12,7 +12,7 @@ checked, and 'info' logs **may** be ignored.
 By default, the error level is to set to `warn`, which logs all errors and
 warnings. You can change this in your configuration.
 
-```js primate.config.js
+```js#primate.config.js
 export default {
   log: {
     // show all logs

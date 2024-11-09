@@ -1,45 +1,32 @@
 # HTML
 
-Hypertext Markup Language.
+[HTML](https://html.spec.whatwg.org) components with props support.
 
-## Support matrix
+## Features
 
-|Extension|Props|Server-side rendering|Hydration|Layouts|Head component|I18N|
-|-|-|-|-|-|-|-|
-|`.html`|✓|✓|-|[✗]|-|-|
+|File Extension|Props|SSR|Hydration|SPA|Layouts|Head|I18N|
+|-|-|-|-|-|-|-|-|
+|`.html`|✓|✓|-|-|-|-|-|
 
 ## Install
 
-```sh
-npm install @primate/html
-```
+{% install=@primate/html %}
 
-## Init
+## Use
 
-```js caption=primate.config.js
+{% tabs %}
+
+```js#primate.config.js
 import html from "@primate/html";
 
 export default {
   modules: [
-    html(/* configuration */),
+    html(/* HTMLOptions */),
   ],
 };
 ```
 
-## Use
-
-```html caption=components/post-index.html
-<h1>All posts</h1>
-${posts.map(post => `
-  <h2>
-    <a href="/post/${post.id}">
-      ${post.title}
-    </a>
-  </h2>
-`).join("")}
-```
-
-```js caption=routes/html.js
+```js#Route
 import view from "primate/handler/view";
 
 const posts = [{
@@ -54,17 +41,29 @@ export default {
 };
 ```
 
-## Configuration
+```html#Component
+<h1>All posts</h1>
+${posts.map(post => `
+  <h2>
+    <a href="/post/${post.id}">
+      ${post.title}
+    </a>
+  </h2>
+`).join("")}
+```
 
-### extension
+{% /tabs %}
 
-Default `".html"`
+## Options
 
-The file extension associated with HTML components.
+```ts
+interface HTMLOptions {
+  extension?: string,
+}
+```
 
 ## Resources
 
 * [Repository][repo]
 
 [repo]: https://github.com/primatejs/primate/tree/master/packages/html
-[✗]: https://github.com/primatejs/primate/issues/164

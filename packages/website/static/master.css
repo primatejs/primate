@@ -48,6 +48,8 @@
   --caption-bg: #eff1f5;
   --caption-fg: rgb(76, 79, 105);
   --caption-hr: #ebedf2;
+  --border: #e2e2e2;
+  --tabbed: var(--heading);
 }
 
 :root.dark {
@@ -56,9 +58,11 @@
   --fg2: #bababa;
   --primary: #A65B60;
   --heading: #989886;
-  --caption-bg: #303446;
+  --caption-bg: #2e3440;
   --caption-fg: rgb(198, 208, 245);
   --caption-hr: #36394b;
+  --border: #5a5a5a;
+  --tabbed: var(--bg);
 }
 
 * {
@@ -98,6 +102,10 @@ h1 {
 
 h1, h2 {
   margin-top: 0;
+}
+
+article h2 {
+  border-bottom: 1px solid var(--border);
 }
 
 h2 {
@@ -143,6 +151,7 @@ header {
   padding: 0 var(--prs-page-padding-side);
   box-sizing: border-box;
   background-color: var(--bg);
+  border-bottom: 1px solid var(--border);
 }
 
 main {
@@ -157,6 +166,7 @@ main {
   position: fixed;
   height: 100%;
   overflow-y: auto;
+  border-right: 1px solid var(--border);
 }
 
 .heading {
@@ -180,6 +190,7 @@ main {
 }
 
 .sidebar .current {
+  color: var(--primary);
   font-weight: bold;
 }
 
@@ -221,7 +232,10 @@ main {
   align-items: center;
   display: flex;
   font-size: 12px;
-  padding-bottom: 0.5rem;
+  padding-top: 0.5rem;
+  color: var(--fg2);
+  text-decoration: none;
+  margin-bottom: 20px;
 }
 
 .edit-this-page .icon, .blog-metadata .icon {
@@ -241,10 +255,7 @@ header a, header button, nav a {
   color: var(--fg2);
 }
 
-a:hover,
-button:hover {
-  color: var(--primary);
-  transition: color 0.25s, border-color 0.25s;
+a:hover, button:hover {
   cursor: pointer;
 }
 
@@ -300,7 +311,7 @@ button {
 
 article {
   flex-grow: 1;
-  padding-top: var(--prs-page-padding-side);
+  padding-top: 30px;
   padding-bottom: var(--prs-page-padding-side);
   padding-left: calc(var(--sidebar-width) + 2 * var(--prs-page-padding-side));
   padding-right: calc(var(--sidebar-width) + var(--prs-page-padding-side));
@@ -313,10 +324,6 @@ article ul {
 }
 
 article a {
-  color: var(--primary);
-}
-
-article a:hover {
   text-decoration: underline;
 }
 
@@ -350,9 +357,15 @@ pre code {
 pre {
   color: #5f5c53;
   box-shadow: inset 1px 1px 6px #1d56800f;
-  padding: 1rem;
+  padding: 10px 15px;
   margin-top: 0;
   overflow-x: auto;
+  border-radius: 5px;
+}
+
+.tabs pre {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 
 table {
@@ -360,18 +373,14 @@ table {
 }
 
 th, td {
-  padding: 10px 5px;
-  border: 1px solid var(--caption-hr);
+  padding: 10px 15px;
+  border: 1px solid var(--border);
   text-align: center;
-  font-size: 1.5rem;
 }
 
 th {
-  background-color: var(--caption-bg);
-  color: var(--caption-fg);
-  text-transform: uppercase;
+  color: var(--fg2);
   font-size: 12px;
-  font-weight: normal;
 }
 
 .caption {
@@ -403,15 +412,24 @@ article a.deeplink {
   color: #fff;
 }
 
-.box {
+.info {
   padding: 1rem;
-  border: 1px solid var(--primary);
-  border-radius: 2px;
+  background-color: var(--caption-hr);
+  border-radius: 5px;
+}
+
+.info code {
+  background-color: var(--caption-fg);
+  color: var(--caption-bg);
 }
 
 .hero img {
   width: 60px;
   margin-bottom: 10px;
+}
+
+header a:hover, nav a:hover {
+  color: var(--primary);
 }
 
 .hero .header {
@@ -498,7 +516,7 @@ main.hero {
 }
 
 .hero .buttons button {
-  border: 1px solid var(--heading);
+  background-color: var(--caption-bg);
   height: 33px;
   box-sizing: border-box;
   font-family: droid-sans-mono, sans-serif;
@@ -511,26 +529,23 @@ main.hero {
 
 .tabbed .captions {
   display: flex;
-  border-bottom: 0;
-  border-top-left-radius: .3rem;
-  border-top-right-radius: .3rem;
-  font-size: 10px;
-  padding: 10px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  font-size: 12px;
   background-color: #2e3440ff;
   color: #fff;
-}
-
-.dark .tabbed .captions {
-  border: 1px solid #3d3229;
+  border-bottom: 1px solid var(--tabbed);
 }
 
 .tabbed .captions span {
-  padding: 0 10px;
+  padding: 10px 15px;
   cursor: pointer;
+  border-right: 1px solid var(--tabbed);
+  color: #bababa;
 }
 
-.tabbed .captions .active {
-  font-weight: bold;
+.tabbed .captions .active, .tabbed .captions span:hover {
+  color: #fff;
 }
 
 .hero .table {
@@ -639,6 +654,20 @@ main.hero {
 
 .to-clipboard.copied .check {
   display: initial;
+}
+
+.toc {
+  padding-left: 10px;
+  border-left: 1px solid var(--border);
+}
+
+.toc a {
+  margin: 10px 0;
+  color: var(--heading);
+}
+
+.toc .level-3 {
+  padding-left: 10px;
 }
 
 @media (max-width: 428px) {

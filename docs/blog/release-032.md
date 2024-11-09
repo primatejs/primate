@@ -26,7 +26,7 @@ mature their compilation capabilities, we will add support for Node and Deno.
 
 Import and initialize the module in your configuration.
 
-```js caption=primate.config.js
+```js#primate.config.js
 import native from "@primate/native";
 
 export default {
@@ -40,7 +40,7 @@ By default, when the application is launched, it will access `/` (the route
 at `routes/index.js`. Change that by setting the `start` property during
 configuration.
 
-```js caption=primate.config.js
+```js#primate.config.js
 import native from "@primate/native";
 
 export default {
@@ -90,7 +90,7 @@ reactivity for building rich applications.
 
 Import and initialize the module in your configuration.
 
-```js caption=primate.config.js
+```js#primate.config.js
 import voby from "@primate/voby";
 
 export default {
@@ -104,7 +104,7 @@ export default {
 
 Create a Voby component in `components`.
 
-```html caption=components/PostIndex.voby
+```html#components/PostIndex.voby
 export default ({ posts, title }) => {
   return <>
     <h1>All posts</h1>
@@ -115,7 +115,7 @@ export default ({ posts, title }) => {
 
 Serve it from a route.
 
-```js caption=routes/voby.js
+```js#routes/voby.js
 import view from "primate/handler/view";
 
 const posts = [{
@@ -144,7 +144,7 @@ The rendered component will be accessible at http://localhost:6161/voby.
 
 Import and initialize the module in your configuration.
 
-```js caption=primate.config.js
+```js#primate.config.js
 import eta from "@primate/eta";
 
 export default {
@@ -156,7 +156,7 @@ export default {
 
 Create an Eta component in `components`.
 
-```html caption=components/post-index.eta
+```html#components/post-index.eta
 <h1>All posts</h1>
 <div>
 <% it.posts.forEach(function(post){ %>
@@ -167,7 +167,7 @@ Create an Eta component in `components`.
 
 Serve it from a route.
 
-```js caption=routes/eta.js
+```js#routes/eta.js
 import view from "primate/handler/view";
 
 const posts = [{
@@ -205,7 +205,7 @@ This is now `database` across the board.
 
 All backend, frontend and store modules now reside within their own packages.
 
-```js caption=primate.config.js
+```js#primate.config.js
 // previously `import { typescript } from "@primate/binding";`
 import typescript from "@primate/typescript";
 
@@ -220,7 +220,7 @@ import sqlite from "@primate/sqlite";
 
 Primate handlers now use paths instead of named exports.
 
-```js caption=routes/index.js
+```js#routes/index.js
 // previously `import { view } from "primate";`
 import view from "primate/handler/view";
 
@@ -244,7 +244,7 @@ Note that the script won't convert combined imports of the form
 The translation and locale imports of I18N are now imported directly from the
 frontend package.
 
-```js caption=components/index.svelte
+```js#components/index.svelte
 <script>
   // previously `import t from "@primate/i18n/svelte";`
   import t from "@primate/svelte/i18n";
@@ -302,7 +302,7 @@ Previously, you could define a `build.transform` and `build.mapper` to specify
 textual replacements during build-time. We now use esbuild's identifier
 replacement.
 
-```js caption=primate.config.js
+```js#primate.config.js
 export default {
   build: {
     define: {

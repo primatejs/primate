@@ -34,7 +34,7 @@ To add support for multiple languages in your application, first install this
 module by issuing `npm install @primate/i18n`. Then, import and initialize it
 in your Primate configuration file.
 
-```js caption=primate.config.js
+```js#primate.config.js
 import i18n from "@primate/i18n";
 
 export default {
@@ -48,7 +48,7 @@ To add languages, create a locales directory `locales`. In this directory,
 create a JSON file for every locale you would like to support and add keys and
 translations.
 
-```json caption=locales/en-US.js
+```json#locales/en-US.js
 {
   "welcome": "Hi and welcome, {username}",
   "message": "This is my website, feel at home here.",
@@ -61,7 +61,7 @@ translations.
 
 Add another locale.
 
-```json caption=locales/de-DE.js
+```json#locales/de-DE.js
 {
   "welcome": "Hallo und willkommen, {username}",
   "message": "Das ist meine Website. Mache dich hier gemütlich.",
@@ -76,7 +76,7 @@ Next, import `@primate/svelte/i18n`, if you're a Svelte user.
 
 ### Svelte
 
-```js caption=components/Home.svelte
+```js#components/Home.svelte
 <script>
   import t from "@primate/svelte/18n";
 
@@ -95,7 +95,7 @@ subscribe to it by prefixing it with `$` wherever you use it.
 To switch between locales, import `@primate/svelte/locale` and call
 `locale.set` with the new locale.
 
-```js caption=components/Home.svelte
+```js#components/Home.svelte
 <script>
   import t from "@primate/svelte/i18n";
   import locale from "@primate/svelte/locale";
@@ -117,7 +117,7 @@ To switch between locales, import `@primate/svelte/locale` and call
 
 You can use an almost identical API for React and Solid to achieve the same.
 
-```jsx caption=components/Home.jsx
+```jsx#components/Home.jsx
 import t from "@primate/react/i18n";
 // import t from "@primate/solid/i18n"; // for solid
 

@@ -78,7 +78,7 @@ You can now tell Primate to not parse the body stream of the request, leaving
 it pristine, by setting `request.body.parse` to `false` in your configuration
 file.
 
-```js caption=primate.config.js
+```js#primate.config.js
 export default {
   request: {
     body: {
@@ -92,7 +92,7 @@ This is particularly useful if you're using Primate as a programmable reverse
 proxy with the `handle` hook and you want to pass the untouched request to
 another application.
 
-```js caption=primate.config.js
+```js#primate.config.js
 const upstream = "http://localhost:7171";
 
 export default {
@@ -138,7 +138,7 @@ from `primate.config.js`.
 If you do need a CSP policy, note that you now have to denote individual
 properties as arrays.
 
-```js caption=primate.config.js
+```js#primate.config.js
 export default {
   http: {
     csp: {

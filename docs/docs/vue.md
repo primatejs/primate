@@ -18,7 +18,7 @@ npm install @primate/vue
 
 ## Init
 
-```js caption=primate.config.js
+```js#primate.config.js
 import vue from "@primate/vue";
 
 export default {
@@ -30,7 +30,7 @@ export default {
 
 ## Use
 
-```vue caption=components/PostIndex.vue
+```vue#components/PostIndex.vue
 <template>
   <h1>All posts</h1>
   <div v-for="post in posts">
@@ -39,7 +39,7 @@ export default {
 </template>
 ```
 
-```js caption=routes/vue.js
+```js#routes/vue.js
 import view from "primate/handler/view";
 
 const posts = [{

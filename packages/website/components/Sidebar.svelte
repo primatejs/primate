@@ -1,5 +1,5 @@
 <script>
-  export let sidebar;
+  export let sidebar, toc;
 </script>
 
 <nav class="sidebar">
@@ -10,6 +10,13 @@
     {line.heading}
   {:else}
     <a href={line.link} class={line.current ? "current": ""}>{line.title}</a>
+    {#if line.current}
+      <div class="toc">
+      {#each toc as entry}
+        <a href="#{entry.name}" class="level-{entry.level}">{entry.text}</a>
+      {/each}
+      </div>
+    {/if}
   {/if}
 </li>
 {/each}

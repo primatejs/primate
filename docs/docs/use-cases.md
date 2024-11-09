@@ -26,7 +26,7 @@ Primate's [filesystem-based routes][routes] are excellent for creating an API,
 making the body and path, query, cookie and header parameters easily accessible
 to the route function.
 
-```js caption=routes/comment/[comment_id].js
+```js#routes/comment/[comment_id].js
 export default {
   post(request) {
     const { path, query, cookies, headers, body } = request;
@@ -64,7 +64,7 @@ Content-Type: application/json
 Then, given the above route definition, Primate will respond in plain text as
 follows.
 
-```text
+```http
 You've sent a POST request with this data:
 
 Path:
@@ -96,7 +96,6 @@ are updated alongside the core framework.
 
 ## Example Applications
 
-- [hynt.us](https://github.com/profullstack/hynt-web) - a link shortener app using SurrealDB and Svelte
 - [starter app](https://github.com/primatejs/app) - demos most of the features of Primate
 
 [http-static-root]: /guide/configuration#http-static-root

@@ -16,7 +16,7 @@ npm install @primate/svelte
 
 ## Init
 
-```js caption=primate.config.js
+```js#primate.config.js
 import svelte from "@primate/svelte";
 
 export default {
@@ -28,7 +28,7 @@ export default {
 
 ## Use
 
-```svelte caption=components/PostIndex.svelte
+```svelte#components/PostIndex.svelte
 <script>
   export let posts;
 </script>
@@ -47,7 +47,7 @@ export default {
 </style>
 ```
 
-```js caption=routes/svelte.js
+```js#routes/svelte.js
 import view from "primate/handler/view";
 
 const posts = [{

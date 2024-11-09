@@ -1,43 +1,32 @@
 # Eta
 
-Embedded JS template engine.
+[Eta](https://eta.js.org) is a template engine and modern alternative to EJS.
 
-## Support matrix
+## Features
 
-|Extension|Props|Server-side rendering|Hydration|Layouts|Head component|I18N|
-|-|-|-|-|-|-|-|
-|`.eta`|✓|✓|-|[✗]|-|-|
+|File Extension|Props|SSR|Hydration|SPA|Layouts|Head|I18N|
+|-|-|-|-|-|-|-|-|
+|`.eta`|✓|✓|-|-|✗|-|-|
 
 ## Install
 
-```sh
-npm install @primate/eta
-```
+{% install=@primate/eta %}
 
-## Init
+## Use
 
-```js caption=primate.config.js
+{% tabs %}
+
+```js#primate.config.js
 import eta from "@primate/eta";
 
 export default {
   modules: [
-    eta(/* configuration */),
+    eta(/* EtaOptions */),
   ],
 };
 ```
 
-## Use
-
-```html caption=components/post-index.eta
-<h1>All posts</h1>
-<div>
-<% it.posts.forEach(function(post){ %>
-<h2><a href="/post/view/<%= post.id %>"><%= post.title %></a></h2>
-<% }) %>
-</div>
-```
-
-```js caption=routes/eta.js
+```js#Route
 import view from "primate/handler/view";
 
 const posts = [{
@@ -52,17 +41,27 @@ export default {
 };
 ```
 
-## Configuration
+```html#Component
+<h1>All posts</h1>
+<div>
+<% it.posts.forEach(function(post){ %>
+<h2><a href="/post/view/<%= post.id %>"><%= post.title %></a></h2>
+<% }) %>
+</div>
+```
 
-### extension
+{% /tabs %}
 
-Default `".eta"`
+## Options
 
-The file extension associated with Eta components.
+```ts
+interface EtaOptions {
+  extension?: string,
+}
+```
 
 ## Resources
 
 * [Repository][repo]
 
 [repo]: https://github.com/primatejs/primate/tree/master/packages/eta
-[✗]: https://github.com/primatejs/primate/issues/164

@@ -1,43 +1,32 @@
 # Markdown
 
-Text-to-HTML conversion tool for web writers.
+Markdown is a markup language for documentation.
 
-## Support matrix
+## Features
 
-|Extension|Props|Server-side rendering|Hydration|Layouts|Head component|I18N|
-|-|-|-|-|-|-|-|
-|`.md`|[✗]|✓|-|-|-|-|
+|File Extension|Props|SSR|Hydration|SPA|Layouts|Head|I18N|
+|-|-|-|-|-|-|-|-|
+|`.md`|✗|✓|-|-|-|-|-|
 
 ## Install
 
-```sh
-npm install @primate/markdown
-```
+{% install=@primate/markdown %}
 
-## Init
+## Use
 
-```js caption=primate.config.js
+{% tabs %}
+
+```js#primate.config.js
 import markdown from "@primate/markdown";
 
 export default {
   modules: [
-    markdown(/* configuration */),
+    markdown(/* MarkdownOptions */),
   ],
 };
 ```
-## Use
 
-```md caption=components/PostIndex.md
-# Posts
-
-## Post1
-
-This is the **first** post
-```
-
-Serve it from a route.
-
-```js caption=routes/markdown.js
+```js#Route
 import view from "primate/handler/view";
 
 export default {
@@ -47,30 +36,31 @@ export default {
 };
 ```
 
-## Configuration
+```md#Component
+# Posts
 
-### extension
+## Post1
 
-Default `".md"`
+This is the **first** post
+```
 
-The file extension associated with Markdown components.
+{% /tabs %}
 
-### options
+## Options
 
-Default `{}`
-
-Options to be passed to the underlying `marked` package.
-
-### renderer
-
-Default `(...) => Response`
-
-An alternative renderer. The default renderer renders the compiled Markdown as
-HTML.
+```ts
+interface MarkdownOptions {
+  fileExtension?: string,
+  // Options to be passed to the underlying `marked` package
+  options?: {},
+  // An alternative renderer. The default renderer renders the compiled
+  // Markdown as HTML
+  renderer?: (...rest: unknown[]) => Response,
+}
+```
 
 ## Resources
 
 * [Repository][repo]
 
 [repo]: https://github.com/primatejs/primate/tree/master/packages/markdown
-[✗]: https://github.com/primatejs/primate/issues/164
