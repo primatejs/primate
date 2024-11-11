@@ -1,6 +1,7 @@
 import every from "@rcompat/invariant/every";
 import is from "@rcompat/invariant/is";
 import make_session from "./make_session.js";
+import local_storage from "./storage.js";
 
 const cookie = (name, value, { path, secure, httpOnly, sameSite }) =>
   `${name}=${value};${httpOnly};Path=${path};${secure};SameSite=${sameSite}`;
@@ -41,7 +42,11 @@ export default ({
 
       every(session.create, session.destroy).function();
 
-      const response = await next({ ...request, session });
+      const response = await new Promise(resolve => {
+        local_storage.run(session, async () => {
+          resolve(await next({ ...request, session }));
+        });
+      });
 
       implicit && session.create();
 
