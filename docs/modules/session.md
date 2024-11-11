@@ -58,7 +58,7 @@ export const actions = driver => {
     },
   };
 };
-
+```
 
 ## Configuration options
 
