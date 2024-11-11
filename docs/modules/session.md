@@ -40,6 +40,26 @@ export default {
 
 By that example, a client requesting `GET /` will see its own session id.
 
+## Using the current session in stores
+
+To get and use the current session in store, import `@primate/session/current`
+and call it.
+
+```js
+import current from "@primate/session/current";
+
+export const actions = driver => {
+  return {
+    custom_action() {
+      // assumes you have initialized your session with { user_id: USER_ID }
+      const user_id = current().get("user_id");
+
+      // use current user_id in query
+    },
+  };
+};
+
+
 ## Configuration options
 
 ### name
