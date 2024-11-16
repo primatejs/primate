@@ -15,7 +15,8 @@
     "directory": "packages/vue"
   },
   "dependencies": {
-    "@primate/frontend": "workspace:^"
+    "@primate/frontend": "workspace:^",
+    "@rcompat/build": "^0.6.0"
   },
   "peerDependencies": {
     "primate": "workspace:^",
