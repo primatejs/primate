@@ -9,7 +9,7 @@ import execute from "@rcompat/stdio/execute";
 import upperfirst from "@rcompat/string/upperfirst";
 import verbs from "@primate/core/http/verbs";
 
-const command = "go";
+const command = (await execute("which go")).replaceAll("\n", "");
 const run = (wasm, go, includes = "request.go") =>
   `${command} build -o ${wasm} ${go} ${includes}`;
 const verbs_string = verbs.map(upperfirst).join("|");
