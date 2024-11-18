@@ -1,15 +1,22 @@
 import route_error from "#error/route-error";
 import pkgname from "#pkgname";
+import verbs from "@primate/core/http/verbs";
 import log from "@primate/core/log";
 import dim from "@rcompat/cli/color/dim";
 import { user } from "@rcompat/env";
 import file from "@rcompat/fs/file";
 import runtime from "@rcompat/runtime";
 import execute from "@rcompat/stdio/execute";
+import which from "@rcompat/stdio/which";
 import upperfirst from "@rcompat/string/upperfirst";
-import verbs from "@primate/core/http/verbs";
 
-const command = (await execute("which go")).replaceAll("\n", "");
+const command = await which("go");
+const env = {
+  GOOS: "js",
+  GOARCH: "wasm",
+  GOCACHE: (await execute(`${command} env GOCACHE`)).replaceAll("\n", ""),
+};
+
 const run = (wasm, go, includes = "request.go") =>
   `${command} build -o ${wasm} ${go} ${includes}`;
 const verbs_string = verbs.map(upperfirst).join("|");
@@ -138,8 +145,6 @@ const create_meta_files = async (directory, app) => {
     .concat(has_session ? ["session.go"] : [])
   ;
 };
-
-const env = { GOOS: "js", GOARCH: "wasm" };
 
 export default ({ extension }) => (app, next) => {
   app.bind(extension, async (directory, file) => {
