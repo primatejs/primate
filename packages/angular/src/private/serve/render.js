@@ -7,7 +7,8 @@ import {
   provideServerRendering,
   ɵSERVER_CONTEXT,
 } from "@angular/platform-server";
-import { CommonEngine } from "@angular/ssr";
+import * as t from "@angular/ssr";
+import { CommonEngine } from "@angular/ssr/node";
 import "zone.js";
 import create_root from "#client/create-root";
 import root_selector from "#client/root-selector";
