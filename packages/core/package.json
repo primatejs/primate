@@ -18,7 +18,7 @@
   "dependencies": {
     "@rcompat/args": "^0.3.0",
     "@rcompat/array": "^0.3.0",
-    "@rcompat/async": "^0.3.0",
+    "@rcompat/async": "^0.4.0",
     "@rcompat/build": "^0.6.0",
     "@rcompat/cli": "^0.5.1",
     "@rcompat/crypto": "^0.5.0",
@@ -29,7 +29,7 @@
     "@rcompat/object": "^0.5.0",
     "@rcompat/package": "^0.8.0",
     "@rcompat/runtime": "^0.1.0",
-    "@rcompat/stdio": "^0.5.0",
+    "@rcompat/stdio": "^0.6.0",
     "@rcompat/sync": "^0.3.0"
   },
   "type": "module",
