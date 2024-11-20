@@ -21,7 +21,7 @@
   "peerDependencies": {
     "@primate/i18n": "workspace:^",
     "primate": "workspace:^",
-    "svelte": "4"
+    "svelte": "5"
   },
   "peerDependenciesMeta": {
     "@primate/i18n": {

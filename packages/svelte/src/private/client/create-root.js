@@ -2,29 +2,25 @@ export default length => {
   const n = length - 1;
   const body = Array.from({ length: n }, (_, i) => i - 1)
     .reduceRight((child, _, i) => `
-      {#if components[${i + 1}]}
-        <svelte:component this={components[${i}]} {request} {...data[${i}]}>
+      {#if p.components[${i + 1}]}
+        <svelte:component this={p.components[${i}]} request={p.request} {...p.data[${i}]}>
           ${child}
         </svelte:component>
       {:else}
-        <svelte:component this={components[${i}]} {request} {...data[${i}]}/>
+        <svelte:component this={p.components[${i}]} request={p.request} {...p.data[${i}]}/>
       {/if}
-    `, `<svelte:component this={components[${n}]} {request} {...data[${n}]}/>`);
+    `, `<svelte:component this={p.components[${n}]} request={p.request} {...p.data[${n}]}/>`);
 
   return `
     <script>
       import { afterUpdate, setContext } from "svelte";
       import context_name from "@primate/svelte/context-name";
 
-      export let components;
-      export let data;
-      export let request;
-      export let context;
-      export let update = () => undefined;
+      export let p;
 
-      setContext(context_name, context);
+      setContext(context_name, p.context);
 
-      afterUpdate(update);
+      afterUpdate(p.update);
     </script>
     ${body}
   `;
