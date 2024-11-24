@@ -15,7 +15,7 @@
     "directory": "packages/create-primate"
   },
   "dependencies": {
-    "@clack/prompts": "^0.8.1",
+    "@clack/prompts": "^0.8.2",
     "@rcompat/args": "^0.3.0",
     "@rcompat/cli": "^0.5.1",
     "@rcompat/fs": "^0.7.0",
