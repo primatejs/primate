@@ -32,24 +32,27 @@
     "@rcompat/stdio": "^0.6.0",
     "@rcompat/sync": "^0.3.0"
   },
+  "devDependencies": {
+    "@types/node": "^22.9.3"
+  },
   "type": "module",
   "imports": {
     "#*": {
-      "livetypes": "./src/private/*.js",
-      "default": "./src/private/*.js"
+      "livetypes": "./src/private/*.ts",
+      "default": "./lib/private/*.js"
     },
     "#error/*": {
-      "livetypes": "./src/private/error/*.js",
-      "default": "./src/private/error/*.js"
+      "livetypes": "./src/private/error/*.ts",
+      "default": "./lib/private/error/*.js"
     }
   },
   "exports": {
-    "./serve": "./src/serve/index.js",
-    "./build": "./src/build/index.js",
-    "./error": "./src/error/index.js",
-    "./log": "./src/log/index.js",
-    "./dispatch": "./src/dispatch/index.js",
-    "./http/verbs": "./src/http/verbs.js",
-    "./handler/*": "./src/serve/handler/*.js"
+    "./serve": "./lib/serve/index.js",
+    "./build": "./lib/build/index.js",
+    "./error": "./lib/error/index.js",
+    "./log": "./lib/log/index.js",
+    "./dispatch": "./lib/dispatch/index.js",
+    "./http/verbs": "./lib/http/verbs.js",
+    "./handler/*": "./lib/serve/handler/*.js"
   }
 }
