@@ -7,20 +7,20 @@ import Body from "@rcompat/http/body";
 import map from "@rcompat/object/map";
 import tryreturn from "@rcompat/sync/tryreturn";
 
-const deroot = pathname => pathname.endsWith("/") && pathname !== "/"
+const deroot = (pathname: string) => pathname.endsWith("/") && pathname !== "/"
   ? pathname.slice(0, -1) : pathname;
 
-const parse_body = (request, url) =>
-  tryreturn(async _ => await Body.parse(request) ?? {})
-    .orelse(error => mismatched_body(url.pathname, error.message));
+const parse_body = (request: Request, url: URL) =>
+  tryreturn(async () => await Body.parse(request) ?? {})
+    .orelse(error => mismatched_body(url.pathname, (error as any).message));
 
 export default app => {
   const $request_body_parse = app.get("request.body.parse");
   const $location = app.get("location");
 
-  const index = path => `${$location.routes}${path === "/" ? "/index" : path}`;
+  const index = (path: string) => `${$location.routes}${path === "/" ? "/index" : path}`;
   // remove excess slashes
-  const deslash = url => url.replaceAll(/\/{2,}/gu, _ => "/");
+  const deslash = (url: string) => url.replaceAll(/\/{2,}/gu, _ => "/");
 
   return async ({ original, url }) => {
     const pathname = deroot(deslash(url.pathname));

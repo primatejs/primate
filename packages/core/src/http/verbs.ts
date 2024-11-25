@@ -8,4 +8,4 @@ export default [
   "options",
   "trace",
   "patch",
-];
+] as const;

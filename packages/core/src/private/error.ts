@@ -1,11 +1,13 @@
-import log from "@primate/core/log";
+import { PrimateError } from "#log";
+import log, { type LogLevel } from "@primate/core/log";
 import file from "@rcompat/fs/file";
 
-const base = level => (url, args) => (...params) => log[level]({
+const base = (level: LogLevel) => (url: string, args: Omit<PrimateError, 'level'>) => (...params: string[]) => log[level]({
   params,
   name: file(url).base,
   module: "@primate/core",
   ...args,
+  level,
 });
 
 const info = base("info");
