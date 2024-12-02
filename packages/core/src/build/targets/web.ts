@@ -1,10 +1,11 @@
 import collect from "@rcompat/fs/collect";
 import webpath from "@rcompat/fs/webpath";
+import type BaseApp from "#BaseApp";
 
 const html = /^.*.html$/u;
 
-export default async app => {
-  const location = app.get("location");
+export default async (app: BaseApp): Promise<undefined> => {
+  const location = app.config("location");
   const client = app.runpath(location.client);
   const client_imports = (await client.collect())
     .map((file, i) => {
@@ -41,7 +42,7 @@ export default async app => {
 
   const imports = {
     app: "${client_imports.find(({ src }) =>
-    src.includes("app") && src.endsWith(".js")).src}"
+    src.includes("app") && src.endsWith(".js"))!.src}"
   };
   // importmap
   assets.push({
@@ -59,12 +60,11 @@ export default async app => {
     loader: loader({
       pages,
       rootfile: import.meta.url,
-      pages_app: "${app.get("pages.app")}",
-      static_root: "${app.get("http.static.root")}",
+      pages_app: "${app.config("pages.app")}",
+      static_root: "${app.config("http.static.root")}",
     }),
     target: "web",
   };
 `;
   await app.path.build.join("target.js").write(assets_scripts);
-
 };

@@ -15,7 +15,7 @@
     "directory": "packages/schema"
   },
   "dependencies": {
-    "@rcompat/invariant": "^0.5.0",
+    "@rcompat/invariant": "^0.6.0",
     "@rcompat/object": "^0.5.0"
   },
   "peerDependencies": {

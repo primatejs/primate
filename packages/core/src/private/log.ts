@@ -9,7 +9,8 @@ import print from "@rcompat/cli/print";
 
 const url = "https://primatejs.com/errors";
 const slice_length = "@primate/".length;
-const helpat = (name: string, error: unknown) => `${url}/${name.slice(slice_length)}#${error}`;
+const helpat = (name: string, error: unknown) =>
+  `${url}/${name.slice(slice_length)}#${error}`;
 
 const level = levels[loglevel];
 
@@ -17,14 +18,19 @@ export interface PrimateError {
   level: LogLevel,
   message: string
   fix?: string;
-  name?: string;
+  name?: string | undefined;
   params?: string[];
-  module?: string;
+  module?: string | undefined;
 }
 
 export interface PrimateErrorOverrides extends Partial<PrimateError> {}
 
-const make_error = (level: LogLevel , { message, fix = '', name, params = [], module }: Omit<PrimateError, 'level'>): PrimateError => ({
+const make_error = (level: LogLevel , {
+  message,
+  fix = "",
+  name,
+  params = [],
+  module }: Omit<PrimateError, "level">): PrimateError => ({
   level,
   fix: mark(fix, ...params),
   message: mark(message, ...params),

@@ -4,45 +4,46 @@ import tryreturn from "@rcompat/async/tryreturn";
 import dim from "@rcompat/cli/color/dim";
 import Router from "@rcompat/fs/router";
 import serve from "@rcompat/http/serve";
-import { INTERNAL_SERVER_ERROR } from "@rcompat/http/status";
-import * as hook from "./exports.js";
+import Status from "@rcompat/http/Status";
+import handle from "./handle.js";
+import { s_server } from "#symbols";
+import { type RuntimeApp } from "../app.js";
+import parse from "./parse.js";
 
-const post = async app => {
+const post = async (app: RuntimeApp) => {
   const types = Object.fromEntries(app.files.types.map(([key, value]) =>
     [key, value.default]));
-  let router;
 
   try {
-    router = await Router.init({
+    app.router = Router.init({
         specials: {
           guard: { recursive: true },
           error: { recursive: false },
           layout: { recursive: true },
         },
         predicate(route, request) {
-          return route.default[request.method.toLowerCase()] !== undefined;
+          return (route as { default: Record<string, unknown> })
+            .default[request.method.toLowerCase()] !== undefined;
         },
       }, app.files.routes);
   } catch {}
 
   app.create_csp();
 
-  const $app = { ...app, types, router };
-  $app.route = hook.route($app);
-  $app.parse = hook.parse($app);
-  const $handle = await hook.handle($app);
+  app.types = types;
+  const $handle = handle(app);
 
-  $app.server = await serve(async request =>
-    tryreturn(async _ => $handle(await $app.parse(request)))
+  const server = await serve(async request =>
+    tryreturn(async _ => $handle(parse(request)))
       .orelse(error => {
         log.auto(error);
-        return new Response(null, { status: INTERNAL_SERVER_ERROR });
-      }), $app.get("http"));
-  const { host, port } = $app.get("http");
-  const address = `http${$app.secure ? "s" : ""}://${host}:${port}`;
+        return new Response(null, { status: Status.INTERNAL_SERVER_ERROR });
+      }), app.get("http"));
+  const { host, port } = app.get("http");
+  const address = `http${app.secure ? "s" : ""}://${host}:${port}`;
   log.system(`started ${dim("->")} ${dim(address)}`);
 
-  app.set("server", $app.server);
+  app.set(s_server, server);
 
   return $app;
 };

@@ -7,6 +7,11 @@ import { resolve } from "@rcompat/http/mime";
 import { OK } from "@rcompat/http/status";
 import respond from "./respond.js";
 
+type GuardError = {
+   result?: Function,
+   type?: symbol
+};
+
 const guard_error = Symbol("guard_error");
 const guard = (app, guards) => async (request, next) => {
   // handle guards
@@ -14,17 +19,17 @@ const guard = (app, guards) => async (request, next) => {
     for (const guard of guards) {
       const result = await guard(request);
       if (result !== true) {
-        const error = new Error();
-        error.result = result;
-        error.type = guard_error;
-        throw error;
+        throw {
+          result,
+          type: guard_error
+        } as GuardError;
       }
     }
 
     return next(request);
   } catch (error) {
-    if (error.type === guard_error) {
-      return { request, response: respond(error.result)(app) };
+    if ((error as GuardError).type === guard_error) {
+      return { request, response: respond((error as GuardError).result)(app) };
     }
     // rethrow if not guard error
     throw error;
