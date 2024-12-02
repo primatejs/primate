@@ -19,14 +19,14 @@
   },
   "dependencies": {
     "@primate/core": "workspace:^",
-    "@rcompat/cli": "^0.5.1",
-    "@rcompat/env": "^0.4.0",
-    "@rcompat/fs": "^0.7.0",
-    "@rcompat/invariant": "^0.5.0",
+    "@rcompat/cli": "^0.6.0",
+    "@rcompat/env": "^0.5.0",
+    "@rcompat/fs": "^0.9.7",
+    "@rcompat/invariant": "^0.6.0",
     "@rcompat/object": "^0.5.0",
-    "@rcompat/runtime": "^0.1.0",
-    "@rcompat/stdio": "^0.6.0",
-    "@rcompat/string": "^0.4.0"
+    "@rcompat/runtime": "^0.2.0",
+    "@rcompat/stdio": "^0.7.0",
+    "@rcompat/string": "^0.5.0"
   },
   "peerDependencies": {
     "primate": "workspace:^"

@@ -13,7 +13,7 @@ const valid = (type, name, store) =>
   valid_type(type) ? type : invalid_type(name, store);
 
 export default directory => async (app, next) => {
-  const location = app.get("location");
+  const location = app.config("location");
   const root = app.root.join(directory);
   if (!await root.exists()) {
     no_store_directory(root);

@@ -17,7 +17,7 @@
   "dependencies": {
     "@primate/frontend": "workspace:^",
     "@primate/html": "workspace:^",
-    "@rcompat/html": "^0.1.0",
+    "@rcompat/html": "^0.2.0",
     "@rcompat/object": "^0.5.0",
     "htmx-esm": "^0.2.0"
   },

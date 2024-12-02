@@ -17,9 +17,9 @@
   "dependencies": {
     "@babel/core": "^7.26.9",
     "@primate/frontend": "workspace:^",
-    "@rcompat/build": "^0.6.0",
-    "@rcompat/fs": "^0.7.0",
-    "@rcompat/runtime": "^0.1.0",
+    "@rcompat/build": "^0.7.0",
+    "@rcompat/fs": "^0.9.7",
+    "@rcompat/runtime": "^0.2.0",
     "babel-preset-solid": "^1.9.3"
   },
   "peerDependencies": {

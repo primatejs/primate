@@ -32,7 +32,7 @@ export default ({ name = "session_id" } = {}) => {
     // `handle` hook subscriber, executed before `Primate` handles the request
     async handle(request, next) {
       // extract session cookie value
-      const id = request.cookies.get(name);
+      const { name: id } = request.cookies;
       // generate new session or return existing (implementation omitted)
       const session = generateOrReturnSession(id);
 

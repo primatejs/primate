@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@primate/core": "workspace:^",
-    "@rcompat/fs": "^0.7.0",
+    "@rcompat/fs": "^0.9.7",
     "pyodide": "^0.26.4"
   },
   "peerDependencies": {

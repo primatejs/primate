@@ -1,7 +1,7 @@
 import compile from "./compile.js";
 
 export default async (app, component, extensions) => {
-  const location = app.get("location");
+  const location = app.config("location");
   const source = app.runpath(location.components);
   const code = await compile(await component.text());
   const target_base = app.runpath(location.server, location.components);

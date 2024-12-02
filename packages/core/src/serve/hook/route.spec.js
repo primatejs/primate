@@ -1,6 +1,6 @@
 import mark from "#mark";
 import Router from "@rcompat/fs/router";
-import get from "@rcompat/object/get";
+import get from "@rcompat/record/get";
 import route from "./route.js";
 
 const numeric = (id, property) => {
@@ -38,19 +38,19 @@ const app = {
     "index",
     "user",
     "users/[userId]a",
-    "comments/[commentId=comment]",
+    "comments/[commentId]",
     "users/[userId]/comments/[commentId]",
     // "users/[userId=user]/comments/[commentId]/a",
-    // "users/[userId=user]/comments/[commentId=comment]/b",
+    // "users/[userId=user]/comments/[commentId]/b",
     // "users/[_userId]/comments/[commentId]/d",
     // "users/[_userId]/comments/[_commentId]/e",
     // "comments2/[_commentId]",
     // "users2/[_userId]/[_commentId]",
-    // "users3/[_userId]/[_commentId=_commentId]",
+    // "users3/[_userId]/[_commentId]",
     // "users4/[_userId]/[_commentId]",
     // "users5/[n=n]",
     // "users6/[nv=nv]",
-    // "[id=id]/[Id=Id]/[ID=ID]",
+    // "[id]/[Id]/[ID]",
   ].map(r)),
   types: {
     user: numeric,
@@ -104,10 +104,6 @@ export default test => {
       const reason = mark("no {0} route to {1}", "get", result ?? url);
       assert(() => r(url)).throws(reason);
     },
-    typefail: (url, failure) => {
-      const reason = mark("mismatched path {0}: {1}", url, failure);
-      assert(() => r(url)).throws(reason);
-    },
     path: (url, result) => {
       assert(r(url).path.json()).equals(result);
     },
@@ -141,32 +137,22 @@ export default test => {
   test.case("single param", ({ path }) => {
     path("/users/1a", { userId: "1" });
   });
-  test.case("params", ({ path, typefail }) => {
+  test.case("params", ({ path }) => {
     path("/users/1/comments/2", { userId: "1", commentId: "2" });
     path("/users/1/comments/2/b", { userId: 1, commentId: 2 });
-    typefail("/users/d/comments/2/b", "`userId` not numeric");
-    typefail("/users/1/comments/d/b", "`commentId` not numeric");
-    typefail("/users/d/comments/d/b", "`userId` not numeric");
   });
-  test.case("single typed param", ({ path, fail, typefail }) => {
+  test.case("single typed param", ({ path, fail }) => {
     path("/comments/1", { commentId: 1 });
     fail("/comments/ ", "/comments");
-    typefail("/comments/1d", "`commentId` not numeric");
   });
-  test.case("mix untyped and typed params", ({ path, typefail }) => {
+  test.case("mix untyped and typed params", ({ path }) => {
     path("/users/1/comments/2/a", { userId: 1, commentId: "2" });
-    typefail("/users/d/comments/2/a", "`userId` not numeric");
   });
-  test.case("fail not strictly true params", ({ path, typefail }) => {
-    typefail("/users5/any", "`n` not numeric");
+  test.case("fail not strictly true params", ({ path }) => {
     path("/users5/1", { n: 1 });
-    typefail("/users6/any", "`nv` not numeric");
     path("/users6/1", { nv: 1 });
   });
-  test.case("different case params", ({ path, typefail }) => {
+  test.case("different case params", ({ path }) => {
     path("/id/Id/ID", { id: "id", Id: "Id", ID: "ID" });
-    typefail("/id/id/id", "`Id` not equal `Id` (given `id`)");
-    typefail("/Id/ID/id", "`id` not equal `id` (given `Id`)");
-    typefail("/id/Id/id", "`ID` not equal `ID` (given `id`)");
   });
 };

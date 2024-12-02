@@ -217,7 +217,7 @@ const users = ["Donald", "Ryan"];
 
 export default {
   post(request) {
-    const user = request.cookies.get("user");
+    const { user } = request.cookies;
 
     if (users.includes(user)) {
       return `Hello, ${user}`;

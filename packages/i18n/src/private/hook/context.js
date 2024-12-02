@@ -11,7 +11,7 @@ export default ({ locale, env }) => async (request, next) => {
   const client_locales = request.headers.get("accept-language")
     ?.split(";")[0]?.split(",") ?? [];
 
-  const $locale = request.cookies.get(name)
+  const $locale = request.cookies[name]
     ?? client_locales.find(c_locale => server_locales.includes(c_locale))
     ?? locale;
 

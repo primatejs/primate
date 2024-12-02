@@ -20,9 +20,9 @@
     "@angular/platform-server": "^19.1.6",
     "@angular/ssr": "^19.1.7",
     "@primate/frontend": "workspace:^",
-    "@rcompat/build": "^0.6.0",
-    "@rcompat/crypto": "^0.5.0",
-    "@rcompat/fs": "^0.7.0",
+    "@rcompat/build": "^0.7.0",
+    "@rcompat/crypto": "^0.6.0",
+    "@rcompat/fs": "^0.9.7",
     "@rcompat/object": "^0.5.0",
     "zone.js": "^0.15.0"
   },

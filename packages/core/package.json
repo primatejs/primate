@@ -6,43 +6,50 @@
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
   "files": [
-    "src/**/*.js",
-    "!src/**/*.spec.js",
-    "src/build/defaults/*.html"
+    "/lib/**/*.js",
+    "/lib/**/*.d.ts",
+    "/src/build/defaults/*.html",
+    "!/**/*.spec.*"
   ],
   "repository": {
     "type": "git",
     "url": "https://github.com/primatejs/primate",
     "directory": "packages/core"
   },
-  "dependencies": {
-    "@rcompat/args": "^0.3.0",
-    "@rcompat/array": "^0.3.0",
-    "@rcompat/async": "^0.4.0",
-    "@rcompat/build": "^0.6.0",
-    "@rcompat/cli": "^0.5.1",
-    "@rcompat/crypto": "^0.5.0",
-    "@rcompat/fs": "^0.7.0",
-    "@rcompat/function": "^0.4.0",
-    "@rcompat/http": "^0.6.1",
-    "@rcompat/invariant": "^0.5.0",
-    "@rcompat/object": "^0.5.0",
-    "@rcompat/package": "^0.8.0",
-    "@rcompat/runtime": "^0.1.0",
-    "@rcompat/stdio": "^0.6.0",
-    "@rcompat/sync": "^0.3.0"
+  "scripts": {
+    "build": "npm run clean && tsc",
+    "clean": "rm -rf ./lib",
+    "prepublishOnly": "npm run build"
   },
-  "devDependencies": {
-    "@types/node": "^22.9.3"
+  "dependencies": {
+    "@rcompat/args": "^0.4.0",
+    "@rcompat/array": "^0.4.0",
+    "@rcompat/async": "^0.5.1",
+    "@rcompat/build": "^0.9.0",
+    "@rcompat/cli": "^0.6.0",
+    "@rcompat/crypto": "^0.6.0",
+    "@rcompat/fs": "^0.9.7",
+    "@rcompat/function": "^0.5.0",
+    "@rcompat/http": "^0.9.1",
+    "@rcompat/invariant": "^0.6.0",
+    "@rcompat/package": "^0.9.1",
+    "@rcompat/record": "^0.5.1",
+    "@rcompat/runtime": "^0.2.0",
+    "@rcompat/stdio": "^0.7.0",
+    "@rcompat/sync": "^0.4.0"
   },
   "type": "module",
   "imports": {
     "#*": {
-      "livetypes": "./src/private/*.ts",
+      "apekit": "./src/private/*.ts",
       "default": "./lib/private/*.js"
     },
+    "#build/*": {
+      "apekit": "./src/build/*.ts",
+      "default": "./lib/build/*.js"
+    },
     "#error/*": {
-      "livetypes": "./src/private/error/*.ts",
+      "apekit": "./src/private/error/*.ts",
       "default": "./lib/private/error/*.js"
     }
   },
@@ -54,5 +61,10 @@
     "./dispatch": "./lib/dispatch/index.js",
     "./http/verbs": "./lib/http/verbs.js",
     "./handler/*": "./lib/serve/handler/*.js"
+  },
+  "devDependencies": {
+    "@rcompat/module": "^0.6.1",
+    "esbuild": "^0.25.0",
+    "pema": "workspace:^"
   }
 }

@@ -1,6 +1,6 @@
 import header from "#header";
 import name from "#name";
-import { OK } from "@rcompat/http/status";
+import Status from "@rcompat/http/Status";
 
 const cookie = (key, value, { path, secure, httpOnly, sameSite }) =>
   `${key}=${value};${httpOnly};Path=${path};${secure};SameSite=${sameSite}`;
@@ -17,12 +17,12 @@ export default ({ env }) => (request, next) => {
 
   const set_locale = request.headers.get(header);
 
-  if (set_locale === undefined) {
+  if (set_locale === null) {
     return next(request);
   }
 
   return new Response("", {
-    status: OK,
+    status: Status.OK,
     headers: {
       "Set-Cookie": cookie(name, set_locale, options),
     },

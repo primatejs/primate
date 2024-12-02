@@ -31,7 +31,7 @@ export default ({
       if (target_keys.includes(app.build_target)) {
         const Webview = app.loader.webview();
         const webview = new Webview(debug);
-        const { host, port } = app.get("http");
+        const { host, port } = app.config("http");
         webview.navigate(`http://${host}:${port}${start}`);
         webview.run();
         webview.closed(() => {

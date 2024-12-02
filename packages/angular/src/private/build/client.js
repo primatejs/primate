@@ -1,7 +1,7 @@
 import normalize from "#normalize";
 
 export default async (app, component) => {
-  const location = app.get("location");
+  const location = app.config("location");
   const source = app.runpath(location.components);
   const { path } = component.debase(source, "/");
 

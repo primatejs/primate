@@ -2,7 +2,7 @@ import no_default_locale from "#error/no-default-locale";
 import no_local_directory from "#error/no-locale-directory";
 
 export default ({ directory, locale }) => async (app, next) => {
-  const location = app.get("location");
+  const location = app.config("location");
   const root = app.root.join(directory);
   if (!await root.exists()) {
     no_local_directory(root);

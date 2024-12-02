@@ -4,7 +4,7 @@ const create = {
   async client_root(app, name, create_root, compile) {
     // vue does not yet support layouting
     if (create_root !== undefined) {
-      const root = create_root(app.get("layout").depth);
+      const root = create_root(app.depth());
       const code = `export { default as root_${name} } from "root:${name}";`;
       app.build.save(`root:${name}`, (await compile.client(root)).js);
       app.build.export(code);
@@ -26,7 +26,7 @@ export default async ({
 
   return {
     async server(component, app) {
-      const location = app.get("location");
+      const location = app.config("location");
       const source = app.runpath(location.components);
       const target_base = app.runpath(location.server, location.components);
       const code = await compile.server(await component.text(), component, app);
@@ -35,7 +35,7 @@ export default async ({
       await path.write(code.replaceAll(extensions.from, extensions.to));
     },
     async client(component, app) {
-      const location = app.get("location");
+      const location = app.config("location");
       const source = app.runpath(location.components);
       await create.client_root(app, name, create_root, compile);
       const { path } = component.debase(source, "/");

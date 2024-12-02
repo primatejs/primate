@@ -4,7 +4,7 @@ import normalize from "#normalize";
 import cascade from "@rcompat/async/cascade";
 import map from "@rcompat/async/map";
 import { json } from "@rcompat/http/mime";
-import { OK } from "@rcompat/http/status";
+import Status from "@rcompat/http/Status";
 import filter from "@rcompat/object/filter";
 import valmap from "@rcompat/object/valmap";
 import tryreturn from "@rcompat/async/tryreturn";
@@ -14,7 +14,7 @@ const register = ({ app, name: rootname, ...rest }) => ({
   async load(name, props) {
     const component = await app.get_component(name);
     return component === undefined
-      ? no_component(name, `${app.get("location.components")}/${name}`)
+      ? no_component(name, `${app.config("location.components")}/${name}`)
       : { name, props, component };
   },
   ...rest,
@@ -46,15 +46,17 @@ export default config => {
         data: components.map(component => component.props),
         context: await (await cascade(app.modules.context, noop))(request),
         request: {
-          ...valmap(filter(request, ([, { get }]) => get !== undefined),
-            dispatcher => JSON.parse(dispatcher.toString() ?? "{}")),
+          path: request.path,
+          query: request.query,
+          headers: request.headers,
+          cookies: request.cookies,
           url: request.url,
         },
       };
 
       if (config.spa && request.headers.get("Accept") === json) {
         return new Response(JSON.stringify({ names, ...shared }), {
-          status: options.status ?? OK,
+          status: options.status ?? Status.OK,
           headers: {
             ...await app.headers(),
             "Content-Type": json,
@@ -83,7 +85,7 @@ export default config => {
           ...options,
         });
       }).orelse(error => {
-        component_error(`${app.get("location.components")}/${name}`, error);
+        component_error(`${app.config("location.components")}/${name}`, error);
       });
     };
 };

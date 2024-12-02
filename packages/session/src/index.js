@@ -37,7 +37,7 @@ export default ({
       return next(app);
     },
     async handle(request, next) {
-      const id = request.cookies.get(name);
+      const id = request.cookies[name];
       const session = manager(id);
 
       every(session.create, session.destroy).function();

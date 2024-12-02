@@ -1,8 +1,17 @@
 import { LogLevel } from "#loglevel";
+import type { Module } from "#module-loader";
+import type { Path } from "@rcompat/fs/file";
+import type { BuildOptions } from "esbuild";
+
+type CSPProperties = "script-src" | "style-src";
+
+export type CSP = {
+  [K in CSPProperties]?: string[];
+}
 
 export type PrimateConfiguration = {
   base: string,
-  modules: string[],
+  modules?: Module[],
   pages: {
     app: string,
     error: string,
@@ -14,10 +23,15 @@ export type PrimateConfiguration = {
   http: {
     host: string,
     port: number,
-    csp: {},
+    csp?: CSP,
+    headers?: Record<string, unknown>
     static: {
       root: string,
     },
+    ssl?: {
+      key: Path,
+      cert: Path,
+    }
   },
   request: {
     body: {
@@ -33,8 +47,6 @@ export type PrimateConfiguration = {
     routes: string,
     // static assets
     static: string,
-    // runtime types
-    types: string,
     // build environment
     build: string,
     // client build
@@ -42,7 +54,7 @@ export type PrimateConfiguration = {
     // server build
     server: string,
   },
-  build: {
+  build: BuildOptions & {
     name: string,
     includes: string[],
     excludes: string[],
@@ -82,8 +94,6 @@ export default {
     routes: "routes",
     // static assets
     static: "static",
-    // runtime types
-    types: "types",
     // build environment
     build: "build",
     // client build
@@ -95,5 +105,6 @@ export default {
     name: "app",
     includes: [],
     excludes: [],
+    define: {},
   },
 } as const satisfies PrimateConfiguration;
