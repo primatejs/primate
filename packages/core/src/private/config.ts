@@ -1,8 +1,9 @@
 import { LogLevel } from "#loglevel";
+import type { PrimateModule } from "#module-loader";
 
 export type PrimateConfiguration = {
   base: string,
-  modules: string[],
+  modules?: PrimateModule[],
   pages: {
     app: string,
     error: string,
@@ -14,7 +15,7 @@ export type PrimateConfiguration = {
   http: {
     host: string,
     port: number,
-    csp: {},
+    csp: Record<string, unknown>,
     static: {
       root: string,
     },
@@ -46,6 +47,7 @@ export type PrimateConfiguration = {
     name: string,
     includes: string[],
     excludes: string[],
+    define: Record<string, unknown>,
   },
 }
 
@@ -95,5 +97,6 @@ export default {
     name: "app",
     includes: [],
     excludes: [],
+    define: {},
   },
 } as const satisfies PrimateConfiguration;

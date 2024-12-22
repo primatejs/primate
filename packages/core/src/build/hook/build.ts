@@ -5,13 +5,13 @@ import Build from "@rcompat/build";
 import dim from "@rcompat/cli/color/dim";
 import collect from "@rcompat/fs/collect";
 import join from "@rcompat/fs/join";
+import webpath from "@rcompat/fs/webpath";
 import exclude from "@rcompat/object/exclude";
 import stringify from "@rcompat/object/stringify";
 import manifest from "@rcompat/package/manifest";
 import root from "@rcompat/package/root";
-import copy_includes from "./copy_includes.js";
+import copy_includes from "./copy-includes.js";
 import $router from "./router.js";
-import webpath from "@rcompat/fs/webpath";
 
 const pre = async (app, mode, target) => {
   let target$ = target;

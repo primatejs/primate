@@ -1,9 +1,10 @@
 import collect from "@rcompat/fs/collect";
 import webpath from "@rcompat/fs/webpath";
+import type { PrimateBuildApp } from "../app.js";
 
 const html = /^.*.html$/u;
 
-export default async app => {
+export default async (app: PrimateBuildApp) => {
   const location = app.get("location");
   const client = app.runpath(location.client);
   const client_imports = (await client.collect())
@@ -41,7 +42,7 @@ export default async app => {
 
   const imports = {
     app: "${client_imports.find(({ src }) =>
-    src.includes("app") && src.endsWith(".js")).src}"
+    src.includes("app") && src.endsWith(".js"))!.src}"
   };
   // importmap
   assets.push({
