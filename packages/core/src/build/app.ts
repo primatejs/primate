@@ -25,7 +25,7 @@ export type PrimateBuildApp = {
   assets: unknown[],
   path: Record<string, FileRef>,
   root: FileRef,
-  get: (key: string) => ReturnType<typeof get<PrimateConfiguration, typeof key>>,
+  get: <P extends string>(key: P) => ReturnType<typeof get<PrimateConfiguration, P>>,
   set: (key: keyof PrimateConfiguration, value: any) => undefined,
   error: R,
   extensions: Record<string, ExtensionCompile | undefined>,
@@ -53,7 +53,7 @@ export default async (root: FileRef, config: PrimateConfiguration): Promise<Prim
     assets: [],
     path,
     root,
-    get: (key: string) => get(config, key),
+    get: <P extends string>(key: P) => get(config, key),
     set: (key, value) => {
       config[key] = value;
     },
@@ -91,7 +91,7 @@ export default async (root: FileRef, config: PrimateConfiguration): Promise<Prim
       }
     },
     async compile(component) {
-      const { server, client, components } = this.get("location") as PrimateConfiguration["location"];
+      const { server, client, components } = this.get("location");
 
       const compile = this.extensions[component.fullExtension]
         ?? this.extensions[component.extension];

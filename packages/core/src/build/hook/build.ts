@@ -12,8 +12,9 @@ import manifest from "@rcompat/package/manifest";
 import root from "@rcompat/package/root";
 import copy_includes from "./copy-includes.js";
 import $router from "./router.js";
+import type { PrimateBuildApp } from "../app.js";
 
-const pre = async (app, mode, target) => {
+const pre = async (app: PrimateBuildApp, mode: string, target: string) => {
   let target$ = target;
   if (app.targets[target$] === undefined) {
     throw new Error(`target ${dim(target)} does not exist`);
@@ -184,5 +185,5 @@ const post = async (app, mode, target) => {
   app.postbuild.forEach(fn => fn());
 };
 
-export default async (app, mode = "development", target = "web") =>
+export default async (app: PrimateBuildApp, mode = "development", target = "web") =>
   post(await (await cascade(app.modules.build))(await pre(app, mode, target)), mode, target);
