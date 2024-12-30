@@ -1,5 +1,6 @@
 import { LogLevel } from "#loglevel";
 import type { PrimateModule } from "#module-loader";
+import type { BuildOptions } from "esbuild";
 
 export type PrimateConfiguration = {
   base: string,
@@ -43,11 +44,10 @@ export type PrimateConfiguration = {
     // server build
     server: string,
   },
-  build: {
+  build: BuildOptions & {
     name: string,
     includes: string[],
     excludes: string[],
-    define: Record<string, unknown>,
   },
 }
 

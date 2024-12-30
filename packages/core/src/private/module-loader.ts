@@ -3,16 +3,20 @@ import error_double_module from "#error/double-module";
 //import error_module_no_name from "#error/module-no-name";
 //import error_modules_array from "#error/modules-array";
 import type { FileRef } from "@rcompat/fs/file";
-import * as hooks from "./hook/index.js";
-import { PrimateBuildApp } from "./app.js";
+import * as hooks from "../build/hook/index.js";
+import { PrimateBuildApp } from "../build/app.js";
 
-type Next = (app: PrimateBuildApp, next: Next) => PrimateBuildApp;
+type Next = (app: PrimateBuildApp, next?: Next) => PrimateBuildApp;
 
-export type PrimateModule = {
-  name: string;
-  init: Next,
-  load?: () => [],
-};
+type Hook = "init" | "build" | "context";
+
+export type PrimateModule = 
+  { name: string, load?: () => [] } &
+  { [Property in Hook]?: Next; };
+
+type LoadedModules = 
+  { names: string[] } & 
+  { [Property in Hook]?: Next[]; };
 
 const doubled = set => set.find((part, i, array) =>
   array.filter((_, j) => i !== j).includes(part));
@@ -21,7 +25,7 @@ const filter = (key: keyof PrimateModule, array?: PrimateModule[]) =>
 const load = (modules: PrimateModule[] = []): PrimateModule[] => modules.map(module =>
   [module, ...load(module.load?.() ?? [])]).flat();
 
-export default async (root: FileRef, modules: PrimateModule[]) => {
+export default async (root: FileRef, modules: PrimateModule[]): Promise<LoadedModules> => {
   // remove errors for the benefit of a general config file schema validation
   /*if (!Array.isArray(modules)) {
     error_modules_array("modules");

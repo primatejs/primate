@@ -6,14 +6,20 @@
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
   "files": [
-    "src/**/*.js",
-    "!src/**/*.spec.js",
-    "src/build/defaults/*.html"
+    "/lib/**/*.js",
+    "/lib/**/*.d.ts",
+    "/src/build/defaults/*.html",
+    "!/**/*.spec.*"
   ],
   "repository": {
     "type": "git",
     "url": "https://github.com/primatejs/primate",
     "directory": "packages/core"
+  },
+  "scripts": {
+    "build": "npm run clean && tsc",
+    "clean": "rm -rf ./lib",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "@rcompat/args": "^0.3.0",
@@ -38,6 +44,10 @@
       "livetypes": "./src/private/*.ts",
       "default": "./lib/private/*.js"
     },
+    "#build/*": {
+      "livetypes": "./src/build/*.ts",
+      "default": "./lib/build/*.js"
+    },
     "#error/*": {
       "livetypes": "./src/private/error/*.ts",
       "default": "./lib/private/error/*.js"
@@ -51,5 +61,9 @@
     "./dispatch": "./lib/dispatch/index.js",
     "./http/verbs": "./lib/http/verbs.js",
     "./handler/*": "./lib/serve/handler/*.js"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.2",
+    "pema": "workspace:^"
   }
 }

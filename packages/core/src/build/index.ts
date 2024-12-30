@@ -1,8 +1,10 @@
 import bye from "#bye";
+import type { PrimateConfiguration } from "#config";
 import config from "#config";
 import config_filename from "#config-filename";
 import empty_config_file from "#error/empty-config-file";
 import error_in_config_file from "#error/error-in-config-file";
+import { PrimateError } from "#log";
 import type { FileRef } from "@rcompat/fs/file";
 import empty from "@rcompat/object/empty";
 import override from "@rcompat/object/override";
@@ -10,8 +12,6 @@ import root from "@rcompat/package/root";
 import runtime from "@rcompat/runtime";
 import app from "./app.js";
 import { build, init } from "./hook/index.js";
-import { PrimateError } from "#log";
-import type { PrimateConfiguration } from "#config";
 
 const empty_config = (config?: PrimateConfiguration) => 
   config === undefined || empty(config);

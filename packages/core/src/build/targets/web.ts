@@ -1,11 +1,11 @@
 import collect from "@rcompat/fs/collect";
 import webpath from "@rcompat/fs/webpath";
-import type { PrimateBuildApp } from "../app.js";
+import type { PrimateBuildApp } from "#build/app";
 
 const html = /^.*.html$/u;
 
-export default async (app: PrimateBuildApp) => {
-  const location = app.get("location");
+export default async (app: PrimateBuildApp): Promise<undefined> => {
+  const location = app.config("location");
   const client = app.runpath(location.client);
   const client_imports = (await client.collect())
     .map((file, i) => {
@@ -60,12 +60,11 @@ export default async (app: PrimateBuildApp) => {
     loader: loader({
       pages,
       rootfile: import.meta.url,
-      pages_app: "${app.get("pages.app")}",
-      static_root: "${app.get("http.static.root")}",
+      pages_app: "${app.config("pages.app")}",
+      static_root: "${app.config("http.static.root")}",
     }),
     target: "web",
   };
 `;
   await app.path.build.join("target.js").write(assets_scripts);
-
 };
