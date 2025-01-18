@@ -1,6 +1,6 @@
 {
   "name": "primate",
-  "version": "0.32.6",
+  "version": "0.32.7",
   "description": "Polymorphic development platform",
   "homepage": "https://primatejs.com",
   "bugs": "https://github.com/primatejs/primate/issues",
@@ -22,6 +22,7 @@
     "@rcompat/async": "^0.3.0",
     "@rcompat/cli": "^0.5.1",
     "@rcompat/fs": "^0.7.0",
+    "@rcompat/http": "0.6",
     "@rcompat/package": "^0.8.0"
   },
   "engines": {
