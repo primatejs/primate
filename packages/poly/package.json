@@ -1,0 +1,65 @@
+{
+  "name": "@primate/poly",
+  "version": "0.1.0",
+  "description": "Primate Poly frontend",
+  "homepage": "https://primatejs.com/modules/poly",
+  "bugs": "https://github.com/primatejs/primate/issues",
+  "license": "MIT",
+  "files": [
+    "src/**/*.js",
+    "!src/**/*.spec.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/primatejs/primate",
+    "directory": "packages/poly"
+  },
+  "dependencies": {
+    "@primate/frontend": "workspace:^",
+    "@rcompat/fs": "^0.7.0"
+  },
+  "peerDependencies": {
+    "@primate/i18n": "workspace:^",
+    "primate": "workspace:^",
+    "poly": "0.7"
+  },
+  "peerDependenciesMeta": {
+    "@primate/i18n": {
+      "optional": true
+    }
+  },
+  "type": "module",
+  "imports": {
+    "#*": {
+      "livetypes": "./src/private/*.js",
+      "default": "./src/private/*.js"
+    },
+    "#build": {
+      "livetypes": "./src/private/build/index.js",
+      "default": "./src/private/build/index.js"
+    },
+    "#serve": {
+      "livetypes": "./src/private/serve/index.js",
+      "default": "./src/private/serve/index.js"
+    },
+    "#client": {
+      "livetypes": "./src/private/client/index.js",
+      "default": "./src/private/client/index.js"
+    },
+    "#client/*": {
+      "livetypes": "./src/private/client/*.js",
+      "default": "./src/private/client/*.js"
+    },
+    "#i18n/*": {
+      "livetypes": "./src/private/i18n/*.js",
+      "default": "./src/private/i18n/*.js"
+    }
+  },
+  "exports": {
+    ".": {
+      "runtime": "./src/public/runtime.js",
+      "default": "./src/public/default.js"
+    },
+    "./*": "./src/public/*.js"
+  }
+}

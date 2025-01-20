@@ -26,6 +26,7 @@ support for Primate across runtime and build targets.
 |[HTMX]          |✓   |✓   |✓        |✓            |
 |[Markdown]      |✓   |✓   |✓        |✓            |
 |[Marko]         |✓   |✓   |✓        |✓            |
+|[Poly]          |✓   |✓   |✓        |✓            |
 |[React]         |✓   |✓   |✓        |✓            |
 |[Solid]         |✓   |✓   |✓        |✓            |
 |[Svelte]        |✓   |✓   |✓        |✓            |
@@ -61,6 +62,7 @@ support for Primate across runtime and build targets.
 [HTMX]: /modules/htmx
 [Markdown]: /modules/markdown
 [Marko]: /modules/marko
+[Poly]: /modules/poly
 [React]: /modules/react
 [Solid]: /modules/solid
 [Svelte]: /modules/svelte
