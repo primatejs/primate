@@ -2,7 +2,6 @@ import spa from "./spa.js";
 
 export default ({ names, data, context, request }, options) => `
   import * as components from "app";
-  import { hydrate, mount } from "app";
 
   let root = new components.root_poly({
     target: document.body,
