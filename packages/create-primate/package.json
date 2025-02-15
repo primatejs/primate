@@ -28,7 +28,7 @@
     "deps": "scripts/peerdeps.js"
   },
   "devDependencies": {
-    "@angular/core": "^19.0.5",
+    "@angular/core": "^19.1.6",
     "@primate/angular": "workspace:^",
     "@primate/eta": "workspace:^",
     "@primate/go": "workspace:^",
@@ -53,7 +53,7 @@
     "@primate/vue": "workspace:^",
     "@primate/webc": "workspace:^",
     "eta": "^3.5.0",
-    "marko": "^5.37.7",
+    "marko": "^5.37.14",
     "primate": "workspace:^",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

@@ -15,7 +15,7 @@
     "directory": "packages/marko"
   },
   "dependencies": {
-    "@marko/compiler": "^5.39.6",
+    "@marko/compiler": "^5.39.12",
     "@marko/translator-default": "^6.1.3",
     "@primate/frontend": "workspace:^"
   },
