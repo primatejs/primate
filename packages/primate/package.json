@@ -1,7 +1,7 @@
 {
   "name": "primate",
-  "version": "0.32.6",
-  "description": "Polymorphic development platform",
+  "version": "0.33.0-pre",
+  "description": "The Universal Web Framework",
   "homepage": "https://primatejs.com",
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
