@@ -1,10 +1,10 @@
 import collect from "@rcompat/fs/collect";
 import FileRef from "@rcompat/fs/FileRef";
-import type BaseApp from "#BaseApp";
+import type App from "#App";
 
 const html = /^.*.html$/u;
 
-export default async (app: BaseApp): Promise<undefined> => {
+export default async (app: App): Promise<void> => {
   const location = app.config("location");
   const client = app.runpath(location.client);
   const client_imports = (await client.collect())

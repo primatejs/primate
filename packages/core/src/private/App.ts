@@ -1,4 +1,4 @@
-import type { PrimateConfiguration } from "#config";
+import type { Config } from "#config";
 import module_loader from "#module-loader";
 import { RouteFunction } from "#serve";
 import FileRef from "@rcompat/fs/FileRef";
@@ -6,15 +6,15 @@ import type Dictionary from "@rcompat/record/Dictionary";
 import get from "@rcompat/record/get";
 import type { MaybePromise } from "pema/MaybePromise";
 
-export type TargetHandler = (app: BaseApp) => MaybePromise<undefined>;
+export type TargetHandler = (app: App) => MaybePromise<void>;
 export type BindFn = (directory: FileRef, file: FileRef) => MaybePromise<undefined>;
 
-type BaseApp = Dictionary & {
+type App = Dictionary & {
   path: Record<string, FileRef>;
   root: FileRef;
   get: <T>(key: symbol) => T;
   set: (key: symbol, value: unknown) => void;
-  config: <P extends string>(path: P) => ReturnType<typeof get<PrimateConfiguration, P>>;
+  config: <P extends string>(path: P) => ReturnType<typeof get<Config, P>>;
   importmaps: Dictionary;
   error: {
     default?: RouteFunction,
@@ -26,4 +26,4 @@ type BaseApp = Dictionary & {
   target: (name: string, target: TargetHandler) => undefined;
 };
 
-export { BaseApp as default };
+export { App as default };

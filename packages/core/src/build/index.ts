@@ -1,5 +1,5 @@
 import bye from "#bye";
-import type { PrimateConfiguration } from "#config";
+import type { Config } from "#config";
 import config from "#config";
 import config_filename from "#config-filename";
 import empty_config_file from "#error/empty-config-file";
@@ -15,8 +15,7 @@ import init from "../shared/hook/init.js";
 import app from "./app.js";
 import build from "./hook/build.js";
 
-const empty_config = (config?: PrimateConfiguration) => 
-  config === undefined || empty(config);
+const empty_config = (config?: Config) => config === undefined || empty(config);
 
 const get_config = async (project_root: FileRef) => {
   const local_config = project_root.join(config_filename);

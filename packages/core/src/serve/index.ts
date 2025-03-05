@@ -1,5 +1,5 @@
 import type Asset from "#asset";
-import type { PrimateConfiguration } from "#config";
+import type { Config } from "#config";
 import defaults from "#config";
 import type Mode from "#Mode";
 import type { Route, RouteSpecial } from "#serve";
@@ -19,7 +19,7 @@ export type BuildFiles = {
 }
 
 export type Options = {
-  config: PrimateConfiguration,
+  config: Config,
   files: BuildFiles,
   components?: [string, Import][],
   mode: Mode,

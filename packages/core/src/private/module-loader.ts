@@ -4,7 +4,7 @@ import error_double_module from "#error/double-module";
 //import error_modules_array from "#error/modules-array";
 import type FileRef from "@rcompat/fs/FileRef";
 import * as hooks from "./hooks.js";
-import App from "#BaseApp";
+import App from "#App";
 import { BuildApp } from "#build/app";
 import { ServeApp } from "#serve/app";
 import type { RequestFacade } from "#serve";

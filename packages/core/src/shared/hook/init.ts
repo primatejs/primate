@@ -1,4 +1,4 @@
-import type App from "#BaseApp";
+import type App from "#App";
 import cascade from "@rcompat/async/cascade";
 
 export default async (app: App) => app.modules.init === undefined

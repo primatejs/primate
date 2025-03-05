@@ -1,5 +1,5 @@
-import type { default as BaseApp, BindFn, TargetHandler } from "#BaseApp";
-import type { PrimateConfiguration } from "#config";
+import type { default as App, BindFn, TargetHandler } from "#App";
+import type { Config } from "#config";
 import type Mode from "#Mode";
 import module_loader from "#module-loader";
 import Build from "@rcompat/build";
@@ -22,7 +22,7 @@ type ExtensionCompile = {
   server: ExtensionCompileFunction,
 };
 
-export interface BuildApp extends BaseApp {
+export interface BuildApp extends App {
   postbuild: (() => undefined)[];
   bindings: Record<string, undefined | BindFn>;
   roots: FileRef[];
@@ -40,7 +40,7 @@ export interface BuildApp extends BaseApp {
   get mode(): Mode;
 };
 
-export default async (root: FileRef, config: PrimateConfiguration, mode: Mode = "development"): Promise<BuildApp> => {
+export default async (root: FileRef, config: Config, mode: Mode = "development"): Promise<BuildApp> => {
   const path = entries(config.location).valmap(([, value]) => root.join(value))
     .get();
   const error = path.routes.join("+error.js");

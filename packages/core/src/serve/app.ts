@@ -1,5 +1,5 @@
 import type * as Asset from "#asset";
-import type BaseApp from "#BaseApp";
+import type App from "#App";
 import type { CSP } from "#config";
 import double_extension from "#error/double-extension";
 import type Frontend from "#Frontend";
@@ -108,7 +108,7 @@ interface PublishOptions {
 
 type RecordMaybe<T> = Record<string, T | undefined>;
 
-export interface ServeApp extends BaseApp {
+export interface ServeApp extends App {
   hash: typeof hash,
   secure: boolean,
   assets: Options["assets"],

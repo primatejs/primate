@@ -9,7 +9,7 @@ export type CSP = {
   [K in CSPProperties]?: string[];
 }
 
-export type PrimateConfiguration = {
+export type Config = {
   base: string,
   modules?: Module[],
   pages: {
@@ -107,4 +107,4 @@ export default {
     excludes: [],
     define: {},
   },
-} as const satisfies PrimateConfiguration;
+} as const satisfies Config;
