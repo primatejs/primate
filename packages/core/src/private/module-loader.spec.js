@@ -1,8 +1,8 @@
 import mark from "#mark";
-import file from "@rcompat/fs/file";
+import FileRef from "@rcompat/fs/FileRef";
 import loader from "./modules.js";
 
-const modules = defs => loader(file("/"), defs);
+const modules = defs => loader(new FileRef("/"), defs);
 
 export default test => {
   test.case("errors.ModulesMustBeArray", assert => {

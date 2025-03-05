@@ -1,4 +1,4 @@
-import file from "@rcompat/fs/file";
+import FileRef from "@rcompat/fs/FileRef";
 import webpath from "@rcompat/fs/webpath";
 import client from "./client.js";
 
@@ -24,7 +24,7 @@ export default (app, extension) => ({
     });
     build.onLoad({ filter: new RegExp(`${extension}$`, "u") }, async args => {
       // Load the file from the file system
-      const source = await file(args.path).text();
+      const source = await new FileRef(args.path).text();
 
       // Convert Poly syntax to JavaScript
       const { js, css } = client(source);

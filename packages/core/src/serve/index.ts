@@ -1,12 +1,12 @@
 import type Asset from "#asset";
 import type { PrimateConfiguration } from "#config";
 import defaults from "#config";
-import type { Mode } from "#mode";
+import type Mode from "#Mode";
 import type { Route, RouteSpecial } from "#serve";
 import Dictionary from "@rcompat/record/Dictionary";
 import override from "@rcompat/record/override";
-import app from "./app.js";
 import init from "../shared/hook/init.js";
+import app from "./app.js";
 import serve from "./hook/serve.js";
 import loader from "./loader.js";
 

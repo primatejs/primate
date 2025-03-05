@@ -2,26 +2,35 @@ import config_filename from "#config-filename";
 import error_double_module from "#error/double-module";
 //import error_module_no_name from "#error/module-no-name";
 //import error_modules_array from "#error/modules-array";
-import type { FileRef } from "@rcompat/fs/file";
+import type FileRef from "@rcompat/fs/FileRef";
 import * as hooks from "./hooks.js";
 import App from "#BaseApp";
+import { BuildApp } from "#build/app";
+import { ServeApp } from "#serve/app";
 import type { RequestFacade } from "#serve";
 import type { MaybePromise } from "pema/MaybePromise";
 
-type Hook<I, O = I> = (t: I, next?: Hook<I, O>) => MaybePromise<O | void>;
+export type Hook<I, O = I> = (t: I, next?: Hook<I, O>) => MaybePromise<O | void>;
 type NextHook<I, O = I> = (t: I, next: Hook<I, O>) => MaybePromise<O | void>;
-type AppHook = Hook<App>;
 
-export type RequestHook = Hook<RequestFacade, Response>;
-export type NextRequestHook = NextHook<RequestFacade, Response>;
+export type AppHook<Next extends boolean = true> =
+  Next extends true ? NextHook<App> : Hook<App>;
+export type BuildAppHook<Next extends boolean = true> =
+  Next extends true ? NextHook<BuildApp> : Hook<BuildApp>;
+export type ServeAppHook<Next extends boolean = true> =
+  Next extends true ? NextHook<ServeApp> : Hook<ServeApp>;
+export type RequestHook<Next extends boolean = true> =
+  Next extends true
+    ? NextHook<RequestFacade, Response>
+    : Hook<RequestFacade, Response>;
 
 type Hooks = {
-  init: AppHook,
-  build: AppHook,
-  context: AppHook,
-  serve: AppHook,
-  route: RequestHook,
-  handle: RequestHook,
+  init: AppHook<false>,
+  build: BuildAppHook<false>,
+  serve: ServeAppHook<false>,
+  context: RequestHook<false>,
+  route: RequestHook<false>,
+  handle: RequestHook<false>,
 };
 
 export type Module = { name: string, load?: () => [] } &

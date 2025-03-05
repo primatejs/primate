@@ -4,7 +4,7 @@ import json from "@primate/core/handler/json";
 import redirect from "@primate/core/handler/redirect";
 import stream from "@primate/core/handler/stream";
 import text from "@primate/core/handler/text";
-import streamable from "@rcompat/fs/streamable";
+import s_streamable from "@rcompat/fs/symbols/streamable";
 import proper from "@rcompat/record/proper";
 
 type Constructor<T> = { new (...args: never): T };
@@ -13,7 +13,7 @@ type Streamable<T> = { stream: () => ReadableStream<T> };
 const is_instance = <T>(of: Constructor<T>) => ((value: unknown): value is T => value instanceof of);
 const is_response = is_instance(Response);
 const is_streamable =
-  (value: unknown): value is Streamable<unknown> => value instanceof Blob || (value as Record<PropertyKey, unknown>)?.streamable === streamable;
+  (value: unknown): value is Streamable<unknown> => value instanceof Blob || (value as Record<PropertyKey, unknown>)?.streamable === s_streamable;
 const is_url = is_instance(URL);
 const is_readablestream = is_instance(ReadableStream);
 

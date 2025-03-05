@@ -4,7 +4,7 @@ import verbs from "@primate/core/http/verbs";
 import log from "@primate/core/log";
 import dim from "@rcompat/cli/color/dim";
 import { user } from "@rcompat/env";
-import file from "@rcompat/fs/file";
+import FileRef from "@rcompat/fs/FileRef";
 import runtime from "@rcompat/runtime";
 import execute from "@rcompat/stdio/execute";
 import which from "@rcompat/stdio/which";
@@ -96,7 +96,7 @@ const error_default = {
   Float: 0,
   String: "\"\"",
 };
-const root = file(import.meta.url).up(1);
+const root = new FileRef(import.meta.url).up(1);
 
 const create_meta_files = async (directory, app) => {
   const meta = {

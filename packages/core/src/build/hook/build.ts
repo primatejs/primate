@@ -1,23 +1,20 @@
-import { symbols, type PrimateBuildApp } from "#build/app";
+import { symbols, type BuildApp } from "#build/app";
 import config_filename from "#config-filename";
-import type { Mode } from "#mode";
 import log from "@primate/core/log";
 import cascade from "@rcompat/async/cascade";
-import Build from "@rcompat/build";
 import dim from "@rcompat/cli/color/dim";
 import collect from "@rcompat/fs/collect";
-import type { FileRef } from "@rcompat/fs/file";
+import type FileRef from "@rcompat/fs/FileRef";
 import join from "@rcompat/fs/join";
 import webpath from "@rcompat/fs/webpath";
 import manifest from "@rcompat/package/manifest";
 import root from "@rcompat/package/root";
 import type Dictionary from "@rcompat/record/Dictionary";
-import exclude from "@rcompat/record/exclude";
 import stringify from "@rcompat/record/stringify";
 import copy_includes from "./copy-includes.js";
 import $router from "./router.js";
 
-const pre = async (app: PrimateBuildApp, mode: Mode, target: string) => {
+const pre = async (app: BuildApp, target: string) => {
   let target$ = target;
   if (app.targets[target] === undefined) {
     throw new Error(`target ${dim(target)} does not exist`);
@@ -26,16 +23,7 @@ const pre = async (app: PrimateBuildApp, mode: Mode, target: string) => {
     target$ = app.targets[target].forward;
   }
   app.build_target = target$;
-  log.system(`starting ${dim(target$)} build in ${dim(mode)} mode`);
-
-  app.build = new Build({
-    ...exclude(app.config("build"), ["includes"]),
-    outdir: app.runpath(app.config("location.client")).path,
-    stdin: {
-      contents: "",
-      resolveDir: app.root.path,
-    },
-  }, mode);
+  log.system(`starting ${dim(target$)} build in ${dim(app.mode)} mode`);
 
   // remove build directory in case exists
   await app.path.build.remove();
@@ -52,7 +40,7 @@ const pre = async (app: PrimateBuildApp, mode: Mode, target: string) => {
 };
 
 const js_re = /^.*.js$/u;
-const write_directories = async (build_directory: FileRef, app: PrimateBuildApp) => {
+const write_directories = async (build_directory: FileRef, app: BuildApp) => {
   const location = app.config("location");
   for (const name of app.server_build) {
     const d = app.runpath(location.server, name);
@@ -69,7 +57,7 @@ const write_directories = async (build_directory: FileRef, app: PrimateBuildApp)
   }
 };
 
-const write_components = async (build_directory: FileRef, app: PrimateBuildApp) => {
+const write_components = async (build_directory: FileRef, app: BuildApp) => {
   const location = app.config("location");
   const d2 = app.runpath(location.server, location.components);
   const e = await Promise.all((await collect(d2, js_re, { recursive: true }))
@@ -90,7 +78,7 @@ export default components;`;
   await build_directory.join("components.js").write(components_js);
 };
 
-const write_bootstrap = async (build_number: string, app: PrimateBuildApp, mode: string) => {
+const write_bootstrap = async (build_number: string, app: BuildApp, mode: string) => {
   const build_start_script = `
 import serve from "primate/serve";
 import config from "./${config_filename}";
@@ -112,7 +100,7 @@ await serve(import.meta.url, {
   await app.path.build.join("serve.js").write(build_start_script);
 };
 
-const post = async (app: PrimateBuildApp, mode: string) => {
+const post = async (app: BuildApp) => {
   const location = app.config("location");
   const defaults = join(import.meta.url, "../../defaults");
 
@@ -139,7 +127,7 @@ const post = async (app: PrimateBuildApp, mode: string) => {
   const imports = await collect(app.path.static, /\.(?:css)$/u, {});
   await Promise.all(imports.map(async file => {
     const src = file.debase(app.path.static);
-    app.build?.export(`import "./${location.static}${src}";`);
+    app.build.export(`import "./${location.static}${src}";`);
   }));
 
   // copy additional subdirectories to build/server
@@ -151,7 +139,7 @@ const post = async (app: PrimateBuildApp, mode: string) => {
   await Promise.all(components.map(component => app.compile(component)));
 
   // start the build
-  await app.build?.start();
+  await app.build.start();
 
   // a target needs to create an `assets.js` that exports assets
   await app.targets[app.build_target]?.target(app);
@@ -163,7 +151,7 @@ const post = async (app: PrimateBuildApp, mode: string) => {
 
   await write_components(build_directory, app);
   await write_directories(build_directory, app);
-  await write_bootstrap(build_number, app, mode);
+  await write_bootstrap(build_number, app, app.mode);
 
   // copy config file
   const local_config = app.root.join(config_filename);
@@ -183,8 +171,7 @@ const post = async (app: PrimateBuildApp, mode: string) => {
   app.postbuild.forEach(fn => fn());
 };
 
-export default async (app: PrimateBuildApp, mode: Mode = "development", target = "web") =>
+export default async (app: BuildApp, target = "web") =>
   post(await (app.modules.build === undefined 
     ? app
-    : await cascade(app.modules.build)(await pre(app, mode, target))),
-  mode);
+    : await cascade(app.modules.build)(await pre(app, target))));

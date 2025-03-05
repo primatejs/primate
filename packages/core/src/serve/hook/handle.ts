@@ -1,6 +1,7 @@
-import type { NextRequestHook, RequestHook } from "#module-loader";
+import type { RequestHook } from "#module-loader";
 import type RequestInit from "#RequestInit";
-import type { App, RequestFacade, ResponseLike, RouteFunction, RouteSpecial } from "#serve";
+import type { RequestFacade, ResponseLike, RouteFunction, RouteSpecial } from "#serve";
+import type { ServeApp } from "#serve/app";
 import client_error from "@primate/core/handler/error";
 import cascade from "@rcompat/async/cascade";
 import reload_defaults from "@rcompat/build/reload/defaults";
@@ -15,7 +16,7 @@ type GuardError = {
 
 const guard_error = Symbol("guard_error");
 
-const guard = (app: App, guards: RouteSpecial[]): NextRequestHook => async (request, next) => {
+const guard = (app: ServeApp, guards: RouteSpecial[]): RequestHook => async (request, next) => {
   // handle guards
   try {
     for (const guard of guards) {
@@ -51,7 +52,7 @@ const last = (handler: RouteFunction) => async (request: RequestFacade) => {
   return { request, response };
 };
 
-const as_route = async (app: App, request: RequestFacade) => {
+const as_route = async (app: ServeApp, request: RequestFacade) => {
   // if tryreturn throws, this will default
   let error_handler = app.error.default;
 
@@ -65,7 +66,7 @@ const as_route = async (app: App, request: RequestFacade) => {
     const hooks = [...route_hooks, guard(app, guards), last(handler)];
 
     // handle request
-    const routed = await (cascade(hooks as RequestHook[]))({ ...request, body, path });
+    const routed = await (cascade(hooks as RequestHook<false>[]))({ ...request, body, path });
 
     const $layouts = { layouts: await get_layouts(layouts, routed.request) };
     return respond(routed.response)(app, $layouts, routed.request);
@@ -79,7 +80,7 @@ const as_route = async (app: App, request: RequestFacade) => {
   }
 };
 
-export default (app: App) => {
+export default (app: ServeApp) => {
   const handle = async (request: RequestFacade) =>
     (await app.loader.asset(request.url.pathname)) ?? as_route(app, request);
 
@@ -97,14 +98,14 @@ export default (app: App) => {
     return paths.includes(pathname as "/esbuild")
       ? fetch(`${url}${pathname}`, { headers, method, body, duplex: "half" } as RequestInit)
       : next(facade);
-  }) satisfies NextRequestHook;
+  }) satisfies RequestHook;
 
   // first hook
   const hotreload = ((facade, next) => app.mode === "development"
     ? proxy(facade, next)
-    : next(facade)) satisfies NextRequestHook;
+    : next(facade)) satisfies RequestHook;
 
   const modules = [hotreload].concat(app.modules.handle !== undefined ? app.modules.handle : [])
 
-  return cascade(modules as RequestHook[], handle);
+  return cascade(modules as RequestHook<false>[], handle);
 };

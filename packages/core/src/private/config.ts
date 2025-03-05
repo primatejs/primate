@@ -1,6 +1,6 @@
 import { LogLevel } from "#loglevel";
 import type { Module } from "#module-loader";
-import type { Path } from "@rcompat/fs/file";
+import type { Path } from "@rcompat/fs/FileRef";
 import type { BuildOptions } from "esbuild";
 
 type CSPProperties = "script-src" | "style-src";

@@ -1,8 +1,8 @@
 import serve from "#driver/json/serve";
 import base from "#test";
-import file from "@rcompat/fs/file";
+import FileRef from "@rcompat/fs/FileRef";
 
-const database = file(import.meta.url).up(1).join("db.json");
+const database = new FileRef(import.meta.url).up(1).join("db.json");
 
 const client = () => serve({ database: `${database}` })();
 

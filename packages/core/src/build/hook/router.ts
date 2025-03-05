@@ -1,7 +1,7 @@
 import double_route from "#error/double-route";
 import optional_route from "#error/optional-route";
 import rest_route from "#error/rest-route";
-import type { FileRef } from "@rcompat/fs/file";
+import type FileRef from "@rcompat/fs/FileRef";
 import Router from "@rcompat/fs/router";
 
 const error_entries = Object.entries({

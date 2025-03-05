@@ -1,10 +1,12 @@
-import file from "@rcompat/fs/file";
-import compile from "./compile.js";
 import name from "#name";
+import type { BuildApp } from "@primate/core/build/app";
+import FileRef from "@rcompat/fs/FileRef";
+import type { Plugin } from "esbuild";
+import compile from "./compile.js";
 
 const root_filter = /^root:angular/u;
 
-export default (app, extension) => ({
+export default (app: BuildApp, extension: string): Plugin => ({
   name,
   setup(build) {
     const resolveDir = app.path.build.path;
@@ -18,7 +20,7 @@ export default (app, extension) => ({
     });
     build.onLoad({ filter: new RegExp(`${extension}$`, "u") }, async args => {
       // Load the file from the file system
-      const source = await file(args.path).text();
+      const source = await new FileRef(args.path).text();
 
       // Compile component.ts file to JavaScript
       return { contents: await compile(source) };

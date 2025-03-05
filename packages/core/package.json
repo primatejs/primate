@@ -21,22 +21,26 @@
     "clean": "rm -rf ./lib",
     "prepublishOnly": "npm run build"
   },
+  "devDependencies": {
+    "@rcompat/module": "^0.7.0",
+    "pema": "workspace:^"
+  },
   "dependencies": {
-    "@rcompat/args": "^0.4.0",
-    "@rcompat/array": "^0.4.0",
-    "@rcompat/async": "^0.5.1",
-    "@rcompat/build": "^0.9.0",
-    "@rcompat/cli": "^0.6.0",
-    "@rcompat/crypto": "^0.6.0",
-    "@rcompat/fs": "^0.9.7",
-    "@rcompat/function": "^0.5.0",
-    "@rcompat/http": "^0.9.1",
-    "@rcompat/invariant": "^0.6.0",
-    "@rcompat/package": "^0.9.1",
-    "@rcompat/record": "^0.5.1",
-    "@rcompat/runtime": "^0.2.0",
-    "@rcompat/stdio": "^0.7.0",
-    "@rcompat/sync": "^0.4.0"
+    "@rcompat/args": "^0.5.0",
+    "@rcompat/array": "^0.5.0",
+    "@rcompat/async": "^0.6.0",
+    "@rcompat/build": "^0.10.0",
+    "@rcompat/cli": "^0.7.0",
+    "@rcompat/crypto": "^0.7.0",
+    "@rcompat/fs": "^0.11.0",
+    "@rcompat/function": "^0.6.0",
+    "@rcompat/http": "^0.10.0",
+    "@rcompat/invariant": "^0.7.0",
+    "@rcompat/package": "^0.10.0",
+    "@rcompat/record": "^0.6.0",
+    "@rcompat/runtime": "^0.3.0",
+    "@rcompat/stdio": "^0.8.0",
+    "@rcompat/sync": "^0.5.0"
   },
   "type": "module",
   "imports": {
@@ -48,23 +52,47 @@
       "apekit": "./src/build/*.ts",
       "default": "./lib/build/*.js"
     },
+    "#serve/*": {
+      "apekit": "./src/serve/*.ts",
+      "default": "./lib/serve/*.js"
+    },
     "#error/*": {
       "apekit": "./src/private/error/*.ts",
       "default": "./lib/private/error/*.js"
+    },
+    "#frontend": {
+      "apekit": "./src/private/Frontend.ts"
+    },
+    "#frontend/*": {
+      "apekit": "./src/private/frontend/*.ts",
+      "default": "./lib/private/frontend/*.js"
     }
   },
   "exports": {
+    "./hook": {
+      "apekit": "./src/private/module-loader.ts"
+    },
     "./serve": "./lib/serve/index.js",
+    "./serve/app": {
+      "apekit": "./src/serve/app.ts"
+    },
     "./build": "./lib/build/index.js",
+    "./build/app": {
+      "apekit": "./src/build/app.ts"
+    },
     "./error": "./lib/error/index.js",
     "./log": "./lib/log/index.js",
     "./dispatch": "./lib/dispatch/index.js",
     "./http/verbs": "./lib/http/verbs.js",
-    "./handler/*": "./lib/serve/handler/*.js"
-  },
-  "devDependencies": {
-    "@rcompat/module": "^0.6.1",
-    "esbuild": "^0.25.0",
-    "pema": "workspace:^"
+    "./handler/*": "./lib/serve/handler/*.js",
+    "./frontend": {
+      "apekit": "./src/public/Frontend.ts"
+    },
+    "./frontend/*": {
+      "apekit": "./src/public/frontend/*.ts"
+    },
+    "./*": {
+      "apekit": "./src/public/*.ts"
+    }
   }
 }

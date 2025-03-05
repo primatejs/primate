@@ -1,10 +1,10 @@
 import { PrimateError } from "#log";
 import log, { type LogLevel } from "@primate/core/log";
-import file from "@rcompat/fs/file";
+import FileRef from "@rcompat/fs/FileRef";
 
 const base = (level: LogLevel) => (url: string, args: Omit<PrimateError, 'level'>) => (...params: string[]) => log[level]({
   params,
-  name: file(url).base,
+  name: new FileRef(url).base,
   module: "@primate/core",
   ...args,
   level,

@@ -1,11 +1,11 @@
 import is from "@rcompat/invariant/is";
 import stringify from "@rcompat/object/stringify";
-import file from "@rcompat/fs/file";
+import FileRef from "@rcompat/fs/FileRef";
 
 export default async ({ database }) => {
   is(database).string();
 
-  const dbfile = file(database);
+  const dbfile = new FileRef(database);
   const db = {
     collections: await dbfile.exists() ? await dbfile.json() : {},
   };

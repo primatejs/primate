@@ -1,7 +1,7 @@
-import type { PrimateBuildApp } from "#build/app";
+import type { BuildApp } from "#build/app";
 import join from "@rcompat/fs/join";
 
-export default async (app: PrimateBuildApp, type: string) => {
+export default async (app: BuildApp, type: string) => {
   const includes = app.config("build.includes");
   const reserved = Object.values(app.config("location"));
 

@@ -1,11 +1,11 @@
 import verbs from "@primate/core/http/verbs";
-import file from "@rcompat/fs/file";
+import FileRef from "@rcompat/fs/FileRef";
 
 const routes_re = new RegExp(`def (?<route>${verbs.join("|")})`, "gu");
 const get_routes = code => [...code.matchAll(routes_re)]
   .map(({ groups: { route } }) => route);
 
-const this_directory = file(import.meta.url).up(1);
+const this_directory = new FileRef(import.meta.url).up(1);
 const session_rb = await this_directory.join("session.rb").text();
 const request = await this_directory.join("./request.rb").text();
 const make_route = route => `async ${route.toLowerCase()}(request) {

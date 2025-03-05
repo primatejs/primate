@@ -1,7 +1,7 @@
+import BodyInit from "#BodyInit";
+import type { ServeApp } from "#serve/app";
 import Dictionary from "@rcompat/record/Dictionary";
 import type { MaybePromise } from "pema/MaybePromise";
-import type { App } from "../serve/app.js";
-import BodyInit from "#BodyInit";
 
 export interface RequestFacade {
   request: Request;
@@ -13,28 +13,22 @@ export interface RequestFacade {
   pass(to: string): Promise<Response>,
 }
 
-export type ResponseFunction = (app: App, transfer: Dictionary, request: RequestFacade)
+export type ResponseFunction = (app: ServeApp, transfer: Dictionary, request: RequestFacade)
   => Response | Promise<Response> | undefined;
 
-export type ResponseLike = 
+export type ResponseLike = MaybePromise<
   string |
   URL |
   ReadableStream |
   Blob |
   Response |
   ResponseFunction |
-  /*throws*/void;
+  /*throws*/void>;
 
 type RouteResponse = MaybePromise<ResponseLike> | void;
 
-export type Frontend = (name: string, Props: Dictionary, Options: ResponseInit)
-  => (app: App, transfer: Dictionary, request: RequestFacade)
-    => ResponseLike;
-
-export type { App };
-
 const handler = <T>(mime: string, mapper: (input: T) => BodyInit[0]) =>
-  (body: T, options?: ResponseInit): (app: App) => MaybePromise<Response> =>
+  (body: T, options?: ResponseInit): (app: ServeApp) => MaybePromise<Response> =>
     (app => app.respond(mapper(body), app.media(mime, options)));
 
 export { handler };

@@ -6,24 +6,32 @@
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
   "files": [
-    "src/**/*.js",
-    "!src/**/*.spec.js"
+    "/lib/**/*.js",
+    "/lib/**/*.d.ts",
+    "!/**/*.spec.*"
   ],
   "repository": {
     "type": "git",
     "url": "https://github.com/primatejs/primate",
     "directory": "packages/angular"
   },
+  "scripts": {
+    "build": "npm run clean && tsc",
+    "clean": "rm -rf ./lib",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "@primate/core": "workspace:^"
+  },
   "dependencies": {
     "@angular/compiler": "^19.1.6",
     "@angular/platform-browser": "^19.1.6",
     "@angular/platform-server": "^19.1.6",
-    "@angular/ssr": "^19.1.7",
-    "@primate/frontend": "workspace:^",
-    "@rcompat/build": "^0.7.0",
-    "@rcompat/crypto": "^0.6.0",
-    "@rcompat/fs": "^0.9.7",
-    "@rcompat/object": "^0.5.0",
+    "@angular/ssr": "^19.2.1",
+    "@rcompat/build": "^0.10.0",
+    "@rcompat/crypto": "^0.7.0",
+    "@rcompat/fs": "^0.11.0",
+    "@rcompat/record": "^0.6.0",
     "zone.js": "^0.15.0"
   },
   "peerDependencies": {
@@ -33,30 +41,30 @@
   "type": "module",
   "imports": {
     "#*": {
-      "livetypes": "./src/private/*.js",
-      "default": "./src/private/*.js"
+      "apekit": "./src/private/*.ts",
+      "default": "./lib/private/*.js"
     },
     "#build": {
-      "livetypes": "./src/private/build/index.js",
-      "default": "./src/private/build/index.js"
+      "apekit": "./src/private/build/index.js",
+      "default": "./lib/private/build/index.js"
     },
     "#serve": {
-      "livetypes": "./src/private/serve/index.js",
-      "default": "./src/private/serve/index.js"
+      "apekit": "./src/private/serve/index.js",
+      "default": "./lib/private/serve/index.js"
     },
     "#client": {
-      "livetypes": "./src/private/client/index.js",
-      "default": "./src/private/client/index.js"
+      "apekit": "./src/private/client/index.js",
+      "default": "./lib/private/client/index.js"
     },
     "#client/*": {
-      "livetypes": "./src/private/client/*.js",
-      "default": "./src/private/client/*.js"
+      "apekit": "./src/private/client/*.js",
+      "default": "./lib/private/client/*.js"
     }
   },
   "exports": {
     ".": {
-      "runtime": "./src/public/runtime.js",
-      "default": "./src/public/default.js"
+      "runtime": "./lib/public/runtime.js",
+      "default": "./lib/public/default.js"
     }
   }
 }

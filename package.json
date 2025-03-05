@@ -19,7 +19,8 @@
   "private": true,
   "homepage": "https://primatejs.com",
   "devDependencies": {
-    "apekit": "^0.0.3",
-    "typescript": "^5.7.3"
+    "apekit": "^0.0.6",
+    "esbuild": "^0.25.0",
+    "typescript": "^5.8.2"
   }
 }

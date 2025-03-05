@@ -1,5 +1,5 @@
 import serve_asset from "primate/serve-asset";
-import file from "@rcompat/fs/file";
+import FileRef from "@rcompat/fs/FileRef";
 
 export default ({
   pages_app,
@@ -7,7 +7,7 @@ export default ({
   rootfile,
   static_root,
 }) => {
-  const buildroot = file(rootfile).join("..");
+  const buildroot = new FileRef(rootfile).join("..");
 
   return {
     page(name) {

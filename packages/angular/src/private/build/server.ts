@@ -1,6 +1,13 @@
+import type { BuildApp } from "@primate/core/build/app";
+import type FileRef from "@rcompat/fs/FileRef";
 import compile from "./compile.js";
 
-export default async (app, component, extensions) => {
+export interface ExtensionMap {
+  from: string;
+  to: string;
+};
+
+export default async (app: BuildApp, component: FileRef, extensions: ExtensionMap) => {
   const location = app.config("location");
   const source = app.runpath(location.components);
   const code = await compile(await component.text());

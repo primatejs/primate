@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@primate/frontend": "workspace:^",
-    "@rcompat/html": "^0.2.0"
+    "@rcompat/html": "^0.3.0"
   },
   "peerDependencies": {
     "primate": "workspace:^"

@@ -1,7 +1,7 @@
 import type { PrimateConfiguration } from "#config";
 import module_loader from "#module-loader";
 import { RouteFunction } from "#serve";
-import { FileRef } from "@rcompat/fs/file";
+import FileRef from "@rcompat/fs/FileRef";
 import type Dictionary from "@rcompat/record/Dictionary";
 import get from "@rcompat/record/get";
 import type { MaybePromise } from "pema/MaybePromise";

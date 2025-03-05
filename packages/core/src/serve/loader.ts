@@ -1,4 +1,4 @@
-import file from "@rcompat/fs/file";
+import FileRef from "@rcompat/fs/FileRef";
 import serve_asset from "./serve-asset.js";
 import type Dictionary from "@rcompat/record/Dictionary";
 
@@ -15,7 +15,7 @@ export default ({
   rootfile,
   static_root,
 }: Options) => {
-  const buildroot = file(rootfile).join("..");
+  const buildroot = new FileRef(rootfile).join("..");
 
   return {
     page(name?: string) {

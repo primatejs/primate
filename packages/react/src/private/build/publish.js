@@ -1,4 +1,4 @@
-import file from "@rcompat/fs/file";
+import FileRef from "@rcompat/fs/FileRef";
 import client from "./client.js";
 
 const root_filter = /^root:react/u;
@@ -17,7 +17,7 @@ export default (app, extension) => ({
     });
     build.onLoad({ filter: new RegExp(`${extension}$`, "u") }, async args => {
       // Load the file from the file system
-      const source = await file(args.path).text();
+      const source = await new FileRef(args.path).text();
 
       // Convert JSX syntax to JavaScript
       return { contents: (await client(source)).js };

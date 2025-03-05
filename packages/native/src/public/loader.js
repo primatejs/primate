@@ -1,10 +1,10 @@
 import serve_asset from "primate/serve-asset";
-import file from "@rcompat/fs/file";
+import FileRef from "@rcompat/fs/FileRef";
 import map from "@rcompat/object/map";
 
 const load = async resource_map =>
   Object.fromEntries(await Promise.all(Object.entries(resource_map).map(
-    async ([key, url]) => [key, await file(url).text()])));
+    async ([key, url]) => [key, await new FileRef(url).text()])));
 
 export default async ({
   pages_app,
@@ -14,8 +14,8 @@ export default async ({
   static_root,
   Webview,
 }) => {
-  const clients = map(client_imports, ([key, url]) => [key, file(url)]);
-  const statics = map(static_imports, ([key, url]) => [key, file(url)]);
+  const clients = map(client_imports, ([key, url]) => [key, new FileRef(url)]);
+  const statics = map(static_imports, ([key, url]) => [key, new FileRef(url)]);
   const pages = await load(page_imports);
 
   return {

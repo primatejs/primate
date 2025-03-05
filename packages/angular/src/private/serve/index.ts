@@ -1,9 +1,12 @@
-import render from "./render.js";
-import set_mode from "./set-mode.js";
 import client from "#client";
 import normalize from "#normalize";
+import type { ComponentDecorator } from "@angular/core";
+import type Frontend from "@primate/core/frontend";
+import render from "./render.js";
+import set_mode from "./set-mode.js";
+import type { ServeAppHook } from "@primate/core/hook";
 
-const serve = (name, props = {}, options = {}) => async app => {
+const serve = ((name, props = {}, options = {}) => async app => {
   const component = await app.get_component(name);
 
   const normalized = await normalize(name);
@@ -12,14 +15,14 @@ const serve = (name, props = {}, options = {}) => async app => {
   const script_src = [inlined.integrity];
 
   return app.view({
-    body: await render(component, props),
+    body: await render(component as ComponentDecorator, props),
     head: inlined.head,
     headers: app.headers({ "script-src": script_src }),
     ...options,
   });
-};
+}) satisfies Frontend;
 
-export default extension => (app, next) => {
+export default (extension: string): ServeAppHook => (app, next) => {
   // todo: base on app mode
   set_mode("production");
 

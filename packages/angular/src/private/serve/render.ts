@@ -7,22 +7,23 @@ import {
   provideServerRendering,
   ɵSERVER_CONTEXT,
 } from "@angular/platform-server";
-import * as t from "@angular/ssr";
 import { CommonEngine } from "@angular/ssr/node";
 import "zone.js";
 import create_root from "#client/create-root";
 import root_selector from "#client/root-selector";
+import type Props from "@primate/core/frontend/Props";
+import { Component } from "@angular/core";
 
 const common_engine = new CommonEngine();
 
-export default async (given_component, props) => {
-  const component = create_root(given_component, props);
+export default async (component: typeof Component, props: Props) => {
+  const root_component = create_root(component, props);
   const document = `<${root_selector}></${root_selector}>`;
-  const bootstrap = () => bootstrapApplication(component, {
+  const bootstrap = () => bootstrapApplication(root_component, {
     providers: [
       provideServerRendering(),
      { provide: ɵSERVER_CONTEXT, useValue: "analog" },
-     ...component.renderProviders || [],
+     ...(root_component as any).renderProviders || [],
      provideClientHydration(),
     ],
   });

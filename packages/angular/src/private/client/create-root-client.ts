@@ -1,7 +1,6 @@
-
 export default () => `
   import { Component, reflectComponentType } from "@angular/core";
-  import stringify from "@rcompat/object/stringify";
+  import stringify from "@rcompat/record/stringify";
 
   const root_component = ({ template, imports }) => Component({
     selector: "app-root",

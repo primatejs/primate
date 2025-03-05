@@ -2,13 +2,14 @@ import type * as Asset from "#asset";
 import type BaseApp from "#BaseApp";
 import type { CSP } from "#config";
 import double_extension from "#error/double-extension";
+import type Frontend from "#Frontend";
 import log from "#log";
-import type { Mode } from "#mode";
+import type Mode from "#Mode";
 import module_loader from "#module-loader";
-import type { Frontend, Route, RouteSpecial } from "#serve";
+import type { Route, RouteSpecial } from "#serve";
 import dim from "@rcompat/cli/color/dim";
 import crypto from "@rcompat/crypto";
-import file from "@rcompat/fs/file";
+import FileRef from "@rcompat/fs/FileRef";
 import join from "@rcompat/fs/join";
 import Router from "@rcompat/fs/router";
 import type Conf from "@rcompat/http/Conf";
@@ -107,21 +108,21 @@ interface PublishOptions {
 
 type RecordMaybe<T> = Record<string, T | undefined>;
 
-export interface App extends BaseApp {
+export interface ServeApp extends BaseApp {
   hash: typeof hash,
   secure: boolean,
   assets: Options["assets"],
   files: BuildFiles,
   get_component(name: string): unknown,
   frontends: RecordMaybe<Frontend>,
-  headers(csp?: object): object,
+  headers(csp?: Dictionary): Dictionary<string>,
   asset_csp: CSP,
   render(content: RenderOptions): string,
   loader: ReturnType<typeof loader>,
   respond(...args: ConstructorParameters<typeof Response>): Response,
   view(options: ResponseInit & RenderOptions): Response,
   media(type: string, options?: ResponseInit): ResponseInit,
-  inline(code: string, type: "style" | "script"): Promise<{
+  inline(code: string, type: "style" | "script" | "module"): Promise<{
     head: string,
     integrity: string,
   }>,
@@ -136,8 +137,8 @@ export interface App extends BaseApp {
   router: ReturnType<typeof Router.init<Route, RouteSpecial>>;
 }
 
-export default async (rootfile: string, build: Options): Promise<App> => {
-  const root = file(rootfile).directory;
+export default async (rootfile: string, build: Options): Promise<ServeApp> => {
+  const root = new FileRef(rootfile).directory;
   const { config, files, components, loader, target, mode } = build;
   const assets = await Promise.all(build.assets.map(async asset => {
     const code = asset.type === "importmap" 
@@ -322,7 +323,7 @@ export default async (rootfile: string, build: Options): Promise<App> => {
             .default[request.method.toLowerCase()] !== undefined;
         },
       }, files.routes),
-  } as const satisfies App;
+  } as const satisfies ServeApp;
 
   return app;
 };

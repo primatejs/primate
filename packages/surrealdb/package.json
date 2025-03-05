@@ -20,8 +20,8 @@
   "dependencies": {
     "@primate/core": "workspace:^",
     "@primate/store": "workspace:^",
-    "@rcompat/invariant": "^0.6.0",
-    "@rcompat/record": "^0.2.0",
+    "@rcompat/invariant": "^0.7.0",
+    "@rcompat/record": "^0.6.0",
     "surrealdb": "^1.2.1"
   },
   "type": "module",

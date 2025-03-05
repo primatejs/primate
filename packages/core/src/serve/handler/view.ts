@@ -1,6 +1,6 @@
 import no_handler from "#error/no-handler";
-import type { Frontend } from "#serve";
-import file from "@rcompat/fs/file";
+import Frontend from "#frontend";
+import FileRef from "@rcompat/fs/FileRef";
 
 const extensions = ["extension", "fullExtension"];
 type Extension = "extension" | "fullExtension";
@@ -14,7 +14,7 @@ type Extension = "extension" | "fullExtension";
  */
 export default ((name, props, options) =>
   (app, transfer, request) => extensions
-    .map(extension => app.frontends[file(name)[extension as Extension]])
+    .map(extension => app.frontends[new FileRef(name)[extension as Extension]])
     .find(extension => extension !== undefined)
     ?.(name, props, options)(app, transfer, request) ?? no_handler(name)
   ) satisfies Frontend;
