@@ -4,7 +4,7 @@ import map from "@rcompat/object/map";
 
 const load = async resource_map =>
   Object.fromEntries(await Promise.all(Object.entries(resource_map).map(
-    async ([key, url]) => [key, await new FileRef(url).text()])));
+    async ([key, url]) => [key, await FileRef.text(url)])));
 
 export default async ({
   pages_app,

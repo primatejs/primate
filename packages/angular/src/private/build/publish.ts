@@ -20,7 +20,7 @@ export default (app: BuildApp, extension: string): Plugin => ({
     });
     build.onLoad({ filter: new RegExp(`${extension}$`, "u") }, async args => {
       // Load the file from the file system
-      const source = await new FileRef(args.path).text();
+      const source = await FileRef.text(args.path);
 
       // Compile component.ts file to JavaScript
       return { contents: await compile(source) };

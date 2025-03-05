@@ -17,7 +17,7 @@ export default (app, extension) => ({
     });
     build.onLoad({ filter: new RegExp(`${extension}$`, "u") }, async args => {
       // Load the file from the file system
-      const source = await new FileRef(args.path).text();
+      const source = await FileRef.text(args.path);
 
       // Convert JSX syntax to JavaScript
       return { contents: (await client(source)).js };

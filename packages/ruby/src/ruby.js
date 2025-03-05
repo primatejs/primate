@@ -3,6 +3,6 @@ import root from "@rcompat/package/root";
 
 const ruby_path = (await root())
   .join("node_modules/@ruby/head-wasm-wasi/dist/ruby+stdlib.wasm");
-const ruby_wasm = await new FileRef(ruby_path).arrayBuffer();
+const ruby_wasm = await FileRef.arrayBuffer(ruby_path);
 
 export default await WebAssembly.compile(ruby_wasm);

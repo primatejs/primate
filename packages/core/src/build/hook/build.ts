@@ -4,9 +4,8 @@ import log from "@primate/core/log";
 import cascade from "@rcompat/async/cascade";
 import dim from "@rcompat/cli/color/dim";
 import collect from "@rcompat/fs/collect";
-import type FileRef from "@rcompat/fs/FileRef";
+import FileRef from "@rcompat/fs/FileRef";
 import join from "@rcompat/fs/join";
-import webpath from "@rcompat/fs/webpath";
 import manifest from "@rcompat/package/manifest";
 import root from "@rcompat/package/root";
 import type Dictionary from "@rcompat/record/Dictionary";
@@ -49,8 +48,8 @@ const write_directories = async (build_directory: FileRef, app: BuildApp) => {
     const files_js = `
     const ${name} = [];
     ${e.map((path, i) =>
-    `import * as ${name}${i} from "${webpath(`../server/${name}${path}`)}";
-    ${name}.push(["${webpath(path.slice(1, -".js".length))}", ${name}${i}]);`,
+    `import * as ${name}${i} from "${FileRef.webpath(`../server/${name}${path}`)}";
+    ${name}.push(["${FileRef.webpath(path.slice(1, -".js".length))}", ${name}${i}]);`,
   ).join("\n")}
     export default ${name};`;
     await build_directory.join(`${name}.js`).write(files_js);
@@ -65,12 +64,12 @@ const write_components = async (build_directory: FileRef, app: BuildApp) => {
   const components_js = `
 const components = [];
 ${e.map((component, i) =>
-    `import * as component${i} from "${webpath(`../server/components${component}`)}";
-components.push(["${webpath(component.slice(1, -".js".length))}", component${i}]);`,
+    `import * as component${i} from "${FileRef.webpath(`../server/components${component}`)}";
+components.push(["${FileRef.webpath(component.slice(1, -".js".length))}", component${i}]);`,
   ).join("\n")}
 
 ${app.roots.map((root, i) => `
-import * as root${i} from "${webpath(`../server/${root.name}`)}";
+import * as root${i} from "${FileRef.webpath(`../server/${root.name}`)}";
 components.push(["${root.name}", root${i}]);
 `).join("\n")}
 

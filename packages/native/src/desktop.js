@@ -1,6 +1,6 @@
 import collect from "@rcompat/fs/collect";
 import join from "@rcompat/fs/join";
-import webpath from "@rcompat/fs/webpath";
+import FileRef from "@rcompat/fs/FileRef";
 
 const html = /^.*.html$/u;
 
@@ -11,8 +11,8 @@ export default async app => {
   const re = /app..*(?:js|css)$/u;
 
   const static_imports = (await server_static.collect()).map((path, i) => `
-    import static${i} from "${webpath(`./server/static${path.debase(server_static)}`)}" with { type: "file" };
-    static_imports["${webpath(path.debase(server_static))}"] = static${i};`)
+    import static${i} from "${FileRef.webpath(`./server/static${path.debase(server_static)}`)}" with { type: "file" };
+    static_imports["${FileRef.webpath(path.debase(server_static))}"] = static${i};`)
     .join("\n");
 
   const client_imports = (await Promise.all((await client.collect())
@@ -44,7 +44,7 @@ export default async app => {
   const client_imports = {};
   ${client_imports.map(({ path, src }, i) =>
     `import client${i} from "${path}" with { type: "file" };
-    client_imports["${webpath(src)}"] = client${i};
+    client_imports["${FileRef.webpath(src)}"] = client${i};
     const file${i} = await load_text(client${i});`).join("\n  ")}
   const assets = [${client_imports.map(($import, i) => `{
   src: "${$import.src}",
@@ -68,7 +68,7 @@ export default async app => {
 
   const page_imports = {};
   ${pages.map((page, i) =>
-    `import page${i} from "${webpath(`./${location.server}/${location.pages}/${page}`)}" with { type: "file" };
+    `import page${i} from "${FileRef.webpath(`./${location.server}/${location.pages}/${page}`)}" with { type: "file" };
     page_imports["${page}"] = page${i};`).join("\n  ")}
 
   export default {

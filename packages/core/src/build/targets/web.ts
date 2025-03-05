@@ -1,5 +1,5 @@
 import collect from "@rcompat/fs/collect";
-import webpath from "@rcompat/fs/webpath";
+import FileRef from "@rcompat/fs/FileRef";
 import type BaseApp from "#BaseApp";
 
 const html = /^.*.html$/u;
@@ -24,7 +24,7 @@ export default async (app: BaseApp): Promise<undefined> => {
     .map(async file => `${file.debase(d)}`.slice(1)));
   const pages_str = pages.map(page =>
     `"${page}": await load_text(import.meta.url,
-    "${webpath(`../${location.server}/${location.pages}/${page}`)}"),`).join("\n");
+    "${FileRef.webpath(`../${location.server}/${location.pages}/${page}`)}"),`).join("\n");
 
   const assets_scripts = `
   import loader from "primate/loader";
