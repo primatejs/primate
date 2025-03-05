@@ -16,12 +16,13 @@
   },
   "dependencies": {
     "@primate/core": "workspace:^",
-    "@rcompat/async": "^0.5.1",
-    "@rcompat/build": "^0.7.0",
-    "@rcompat/crypto": "^0.6.0",
-    "@rcompat/fs": "^0.9.7",
-    "@rcompat/http": "^0.9.1",
-    "@rcompat/object": "^0.5.0"
+    "@rcompat/async": "^0.6.0",
+    "@rcompat/build": "^0.10.0",
+    "@rcompat/crypto": "^0.7.0",
+    "@rcompat/fs": "^0.11.0",
+    "@rcompat/http": "^0.10.0",
+    "@rcompat/object": "^0.5.0",
+    "@rcompat/record": "^0.6.0"
   },
   "peerDependencies": {
     "primate": "workspace:^"
@@ -64,6 +65,9 @@
       }
     },
     "./spa": "./src/spa/exports.js",
+    "./Props": {
+      "apekit": "./src/public/Props.ts"
+    },
     "./core/*": {
       "livetypes": "./src/public/*.js",
       "default": "./src/public/*.js"
