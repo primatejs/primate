@@ -3,7 +3,7 @@ import type { Config } from "#config";
 import defaults from "#config";
 import type Mode from "#Mode";
 import type { Route, RouteSpecial } from "#serve";
-import Dictionary from "@rcompat/record/Dictionary";
+import type Dictionary from "@rcompat/record/Dictionary";
 import override from "@rcompat/record/override";
 import init from "../shared/hook/init.js";
 import app from "./app.js";

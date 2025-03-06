@@ -3,6 +3,7 @@ import optional_route from "#error/optional-route";
 import rest_route from "#error/rest-route";
 import type FileRef from "@rcompat/fs/FileRef";
 import Router from "@rcompat/fs/router";
+import type Dictionary from "@rcompat/record/Dictionary";
 
 const error_entries = Object.entries({
   DoubleRoute: double_route,
@@ -22,7 +23,7 @@ export default async (directory: FileRef, extensions: string[]): ReturnType<type
           layout: { recursive: true },
         },
         predicate(route, request) {
-          return (route.default as Record<string, unknown>)[request.method.toLowerCase()] !== undefined;
+          return (route.default as Dictionary)[request.method.toLowerCase()] !== undefined;
         },
       });
   } catch (error) {

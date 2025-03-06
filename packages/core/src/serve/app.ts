@@ -1,5 +1,5 @@
-import type * as Asset from "#asset";
 import type App from "#App";
+import type * as Asset from "#asset";
 import type { CSP } from "#config";
 import double_extension from "#error/double-extension";
 import type Frontend from "#Frontend";
@@ -28,8 +28,6 @@ import type { BuildFiles, Options } from "./index.js";
 import loader from "./loader.js";
 import parse from "./parse.js";
 
-type RSS = Record<string, string>;
-
 type Entry<T> = [keyof T, Required<T>[keyof T]]
 
 const to_csp = (config_csp: Entry<CSP>[], assets: CSP, override: CSP) => config_csp
@@ -45,7 +43,7 @@ const to_csp = (config_csp: Entry<CSP>[], assets: CSP, override: CSP) => config_
   .map(([key, directives]) => `${key} ${directives.join(" ")}`)
   .join(";");
 
-const attribute = (attributes: RSS) => empty(attributes)
+const attribute = (attributes: Dictionary<string>) => empty(attributes)
   ? ""
   : " ".concat(Object.entries(attributes)
     .map(([key, value]) => `${key}="${value}"`).join(" "))
@@ -90,6 +88,8 @@ const hash = async (data: string, algorithm = "sha-384") => {
   const prefix = algorithm.replace("-", _ => "");
   return`${prefix}-${btoa(String.fromCharCode(...new Uint8Array(bytes)))}`;
 };
+  
+const s_http = Symbol("s_http");
 
 interface RenderOptions {
   body: string,
@@ -106,7 +106,7 @@ interface PublishOptions {
   inline: boolean
 };
 
-type RecordMaybe<T> = Record<string, T | undefined>;
+type PartialDictionary<T> = Dictionary<T | undefined>;
 
 export interface ServeApp extends App {
   hash: typeof hash,
@@ -114,7 +114,7 @@ export interface ServeApp extends App {
   assets: Options["assets"],
   files: BuildFiles,
   get_component(name: string): unknown,
-  frontends: RecordMaybe<Frontend>,
+  frontends: PartialDictionary<Frontend>,
   headers(csp?: Dictionary): Dictionary<string>,
   asset_csp: CSP,
   render(content: RenderOptions): string,
@@ -135,6 +135,7 @@ export interface ServeApp extends App {
   server(): Server,
   mode: Mode,
   router: ReturnType<typeof Router.init<Route, RouteSpecial>>;
+  fonts: unknown[];
 }
 
 export default async (rootfile: string, build: Options): Promise<ServeApp> => {
@@ -142,7 +143,7 @@ export default async (rootfile: string, build: Options): Promise<ServeApp> => {
   const { config, files, components, loader, target, mode } = build;
   const assets = await Promise.all(build.assets.map(async asset => {
     const code = asset.type === "importmap" 
-      ? stringify(asset.code as Record<string, unknown>)
+      ? stringify(asset.code as Dictionary)
       : asset.code as string;
     return {
       ...asset,
@@ -160,7 +161,6 @@ export default async (rootfile: string, build: Options): Promise<ServeApp> => {
   const $components = Object.fromEntries(components ?? []);
   const error = path.routes.join("+error.js");
   const kv_storage = new Map<symbol, unknown>();
-  const s_http = Symbol("s_http");
 
   kv_storage.set(s_http, {
     host: http.host,
@@ -176,7 +176,6 @@ export default async (rootfile: string, build: Options): Promise<ServeApp> => {
   const app = {
     // empty
     asset_csp: {},
-    importmaps: {},
     frontends: {},
     fonts: [],
 
@@ -307,9 +306,6 @@ export default async (rootfile: string, build: Options): Promise<ServeApp> => {
     server() {
       return server;
     },
-    // noops
-    target(_, _1) {},
-    bind(_, _1) {},
     router: Router.init<Route, RouteSpecial>({
         import: true,
         extensions: [".js"],
@@ -319,7 +315,7 @@ export default async (rootfile: string, build: Options): Promise<ServeApp> => {
           layout: { recursive: true },
         },
         predicate(route, request) {
-          return (route as { default: Record<string, unknown> })
+          return (route as { default: Dictionary })
             .default[request.method.toLowerCase()] !== undefined;
         },
       }, files.routes),

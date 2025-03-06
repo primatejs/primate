@@ -5,6 +5,7 @@ import module_loader from "#module-loader";
 import Build from "@rcompat/build";
 import type { default as FileRef, Path } from "@rcompat/fs/FileRef";
 import join from "@rcompat/fs/join";
+import type Dictionary from "@rcompat/record/Dictionary";
 import entries from "@rcompat/record/entries";
 import exclude from "@rcompat/record/exclude";
 import get from "@rcompat/record/get";
@@ -13,6 +14,8 @@ import { web } from "./targets/index.js";
 export const symbols = {
   layout_depth: Symbol("layout.depth"),
 };
+
+type PartialDictionary<T> = Dictionary<T | undefined>;
 
 type ExtensionCompileFunction = (component: FileRef, app: BuildApp) =>
   Promise<void>;
@@ -23,12 +26,14 @@ type ExtensionCompile = {
 };
 
 export interface BuildApp extends App {
+  bind: (extension: string, handler: BindFn) => undefined;
+  target: (name: string, target: TargetHandler) => undefined;
   postbuild: (() => undefined)[];
-  bindings: Record<string, undefined | BindFn>;
+  bindings: PartialDictionary<BindFn>;
   roots: FileRef[];
-  targets: Record<string, undefined | { forward?: string, target: TargetHandler }>;
+  targets: PartialDictionary<{ forward?: string, target: TargetHandler }>;
   assets: unknown[];
-  extensions: Record<string, ExtensionCompile | undefined>;
+  extensions: PartialDictionary<ExtensionCompile>;
   stage: (source: FileRef, directory: Path, apply_defines?: boolean) => Promise<undefined>;
   compile: (component: FileRef) => Promise<undefined>;
   register: (extension: string, compile: ExtensionCompile) => void;
@@ -52,7 +57,6 @@ export default async (root: FileRef, config: Config, mode: Mode = "development")
     bindings: {},
     roots: [],
     targets: { web: { target: web } },
-    importmaps: {},
     assets: [],
     path,
     root,
@@ -74,7 +78,6 @@ export default async (root: FileRef, config: Config, mode: Mode = "development")
     },
     extensions: {},
     modules: await module_loader(root, config.modules ?? []),
-    fonts: [],
     async stage(source, directory, apply_defines = false) {
       const { define = {} } = this.config("build");
       const defines = Object.entries(define);
@@ -132,11 +135,11 @@ export default async (root: FileRef, config: Config, mode: Mode = "development")
     runpath(...directories) {
       return this.path.build.join(...directories);
     },
-    target(name, target) {
-      this.targets[name] = { target };
-    },
     bind(extension, handler) {
       this.bindings[extension] = handler;
+    },
+    target(name, target) {
+      this.targets[name] = { target };
     },
     done(fn) {
       this.postbuild.push(fn);

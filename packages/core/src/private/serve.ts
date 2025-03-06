@@ -1,7 +1,7 @@
-import BodyInit from "#BodyInit";
+import type BodyInit from "#BodyInit";
 import type { ServeApp } from "#serve/app";
-import Dictionary from "@rcompat/record/Dictionary";
-import type { MaybePromise } from "pema/MaybePromise";
+import type Dictionary from "@rcompat/record/Dictionary";
+import type MaybePromise from "pema/MaybePromise";
 
 export interface RequestFacade {
   request: Request;

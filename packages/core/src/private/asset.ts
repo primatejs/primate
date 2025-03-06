@@ -1,8 +1,10 @@
+import type Dictionary from "@rcompat/record/Dictionary";
+
 export default interface Asset {
   src?: string,
   inline: boolean,
   integrity: string,
-  code: string | { imports: Record<string, unknown> },
+  code: string | { imports: Dictionary },
   type: string,
 }
 

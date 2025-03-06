@@ -1,1 +1,1 @@
-export type { MaybePromise } from "#MaybePromise";
+export { default } from "#MaybePromise";

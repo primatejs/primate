@@ -8,7 +8,7 @@ import App from "#App";
 import { BuildApp } from "#build/app";
 import { ServeApp } from "#serve/app";
 import type { RequestFacade } from "#serve";
-import type { MaybePromise } from "pema/MaybePromise";
+import type MaybePromise from "pema/MaybePromise";
 
 export type Hook<I, O = I> = (t: I, next?: Hook<I, O>) => MaybePromise<O | void>;
 type NextHook<I, O = I> = (t: I, next: Hook<I, O>) => MaybePromise<O | void>;

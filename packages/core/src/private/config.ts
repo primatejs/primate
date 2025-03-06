@@ -1,6 +1,7 @@
 import { LogLevel } from "#loglevel";
 import type { Module } from "#module-loader";
 import type { Path } from "@rcompat/fs/FileRef";
+import type Dictionary from "@rcompat/record/Dictionary";
 import type { BuildOptions } from "esbuild";
 
 type CSPProperties = "script-src" | "style-src";
@@ -24,7 +25,7 @@ export type Config = {
     host: string,
     port: number,
     csp?: CSP,
-    headers?: Record<string, unknown>
+    headers?: Dictionary,
     static: {
       root: string,
     },
