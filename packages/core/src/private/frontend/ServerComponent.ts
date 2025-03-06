@@ -1,5 +1,5 @@
 import type Props from "#frontend/Props";
-import MaybePromise from "pema/MaybePromise";
+import type MaybePromise from "pema/MaybePromise";
 
 type ServerComponent = (props: Props) => MaybePromise<string>;
 

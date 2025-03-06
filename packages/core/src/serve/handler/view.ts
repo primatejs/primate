@@ -1,5 +1,5 @@
 import no_handler from "#error/no-handler";
-import Frontend from "#frontend";
+import type Frontend from "#frontend";
 import FileRef from "@rcompat/fs/FileRef";
 
 const extensions = ["extension", "fullExtension"];

@@ -9,7 +9,7 @@ import override from "@rcompat/record/override";
 import init from "../shared/hook/init.js";
 import app from "./app.js";
 import serve from "./hook/serve.js";
-import loader from "./loader.js";
+import type loader from "./loader.js";
 
 type Import = Dictionary & {
     default: unknown;

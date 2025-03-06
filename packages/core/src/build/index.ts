@@ -4,7 +4,7 @@ import config from "#config";
 import config_filename from "#config-filename";
 import empty_config_file from "#error/empty-config-file";
 import error_in_config_file from "#error/error-in-config-file";
-import { PrimateError } from "#log";
+import type { PrimateError } from "#log";
 import type Mode from "#Mode";
 import type FileRef from "@rcompat/fs/FileRef";
 import root from "@rcompat/package/root";

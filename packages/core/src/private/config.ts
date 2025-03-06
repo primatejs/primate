@@ -1,4 +1,4 @@
-import { LogLevel } from "#loglevel";
+import type { LogLevel } from "#loglevel";
 import type { Module } from "#module-loader";
 import type { Path } from "@rcompat/fs/FileRef";
 import type Dictionary from "@rcompat/record/Dictionary";

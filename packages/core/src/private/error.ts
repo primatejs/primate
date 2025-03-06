@@ -1,4 +1,4 @@
-import { PrimateError } from "#log";
+import type { PrimateError } from "#log";
 import log, { type LogLevel } from "@primate/core/log";
 import FileRef from "@rcompat/fs/FileRef";
 

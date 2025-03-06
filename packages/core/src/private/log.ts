@@ -23,7 +23,7 @@ export interface PrimateError {
   module?: string | undefined;
 }
 
-export interface PrimateErrorOverrides extends Partial<PrimateError> {}
+export type PrimateErrorOverrides = Partial<PrimateError>;
 
 const make_error = (level: LogLevel , {
   message,

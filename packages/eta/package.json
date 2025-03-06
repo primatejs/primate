@@ -21,10 +21,10 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@primate/core": "workspace:^"
+    "@primate/core": "workspace:^",
+    "eta": "^3.5.0"
   },
   "peerDependencies": {
-    "eta": "3",
     "primate": "workspace:^"
   },
   "type": "module",
@@ -44,7 +44,7 @@
   },
   "exports": {
     ".": {
-      "runtime": "./src/public/runtime.ts",
+      "runtime": "./lib/public/runtime.js",
       "default": "./lib/public/default.js"
     }
   }

@@ -3,6 +3,7 @@ import type * as Asset from "#asset";
 import type { CSP } from "#config";
 import double_extension from "#error/double-extension";
 import type Frontend from "#Frontend";
+import type FrontendOptions from "#frontend/Options";
 import type ServerComponent from "#frontend/ServerComponent";
 import log from "#log";
 import type Mode from "#Mode";
@@ -27,8 +28,13 @@ import get from "@rcompat/record/get";
 import stringify from "@rcompat/record/stringify";
 import handle from "./hook/handle.js";
 import type { BuildFiles, Options } from "./index.js";
-import loader from "./loader.js";
+import type loader from "./loader.js";
 import parse from "./parse.js";
+
+interface ViewOptions extends FrontendOptions {
+
+  body: string
+}
 
 type Entry<T> = [keyof T, Required<T>[keyof T]]
 
@@ -93,14 +99,6 @@ const hash = async (data: string, algorithm = "sha-384") => {
   
 const s_http = Symbol("s_http");
 
-interface RenderOptions {
-  body: string,
-  head?: string,
-  partial?: boolean,
-  placeholders?: Omit<Dictionary, "body" | "head">,
-  page?: string,
-};
-
 interface PublishOptions {
   src?: string,
   code: string,
@@ -119,10 +117,10 @@ export interface ServeApp extends App {
   frontends: PartialDictionary<Frontend>,
   headers(csp?: Dictionary): Dictionary<string>,
   asset_csp: CSP,
-  render(content: RenderOptions): string,
+  render(content: Omit<ViewOptions, keyof ResponseInit>): string,
   loader: ReturnType<typeof loader>,
   respond(...args: ConstructorParameters<typeof Response>): Response,
-  view(options: ResponseInit & RenderOptions): Response,
+  view(options: ViewOptions): Response,
   media(type: string, options?: ResponseInit): ResponseInit,
   inline(code: string, type: "style" | "script" | "module"): Promise<{
     head: string,
