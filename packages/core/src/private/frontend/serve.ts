@@ -1,17 +1,13 @@
-import type Frontend from "#Frontend";
-import default_render from "#frontend/render";
+import default_render, { type Render } from "#frontend/render";
 import type { ServeAppHook } from "#module-loader";
 
-const serve = (render: typeof default_render): Frontend =>
-  (name, props = {}, options = {}) => async app => {
-    const component = app.get_component(name);
-
-    return app.view({ body: await render(component, props), ...options });
-};
-
-export default ({ render = default_render } = {}) =>
+export default (render?: Render) =>
   (extension: string): ServeAppHook => (app, next) => {
-    app.register(extension, serve(render));
+    app.register(extension, (name, props = {}, options = {}) => async _app => {
+      const component = _app.get_component(name);
+
+      return app.view({ body: await (render ?? default_render)(component, props), ...options });
+    });
 
     return next(app);
 };
