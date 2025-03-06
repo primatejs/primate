@@ -6,16 +6,24 @@
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
   "files": [
-    "src/**/*.js",
-    "!src/**/*.spec.js"
+    "/lib/**/*.js",
+    "/lib/**/*.d.ts",
+    "!/**/*.spec.*"
   ],
   "repository": {
     "type": "git",
     "url": "https://github.com/primatejs/primate",
     "directory": "packages/markdown"
   },
+  "scripts": {
+    "build": "npm run clean && tsc",
+    "clean": "rm -rf ./lib",
+    "lint": "eslint .",
+    "prepublishOnly": "npm run build"
+  },
   "dependencies": {
-    "@primate/frontend": "workspace:^",
+    "@primate/core": "workspace:^",
+    "@rcompat/invariant": "^0.7.0",
     "marked": "^14.1.2"
   },
   "peerDependencies": {
@@ -24,22 +32,22 @@
   "type": "module",
   "imports": {
     "#*": {
-      "livetypes": "./src/private/*.js",
-      "default": "./src/private/*.js"
+      "apekit": "./src/private/*.ts",
+      "default": "./lib/private/*.js"
     },
     "#build": {
-      "livetypes": "./src/private/build/index.js",
-      "default": "./src/private/build/index.js"
+      "apekit": "./src/private/build/index.ts",
+      "default": "./lib/private/build/index.js"
     },
     "#serve": {
-      "livetypes": "./src/private/serve/index.js",
-      "default": "./src/private/serve/index.js"
+      "apekit": "./src/private/serve/index.ts",
+      "default": "./lib/private/serve/index.js"
     }
   },
   "exports": {
     ".": {
-      "runtime": "./src/public/runtime.js",
-      "default": "./src/public/default.js"
+      "runtime": "./lib/public/runtime.js",
+      "default": "./lib/public/default.js"
     }
   }
 }
