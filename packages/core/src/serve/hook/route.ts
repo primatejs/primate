@@ -1,12 +1,12 @@
+import type Body from "#Body";
 import mismatched_body from "#error/mismatched-body";
 import no_route_to_path from "#error/no-route-to-path";
 import type RequestFacade from "#RequestFacade";
 import type Route from "#Route";
 import type RouteSpecial from "#RouteSpecial";
 import type { ServeApp } from "#serve/app";
-import Body from "@rcompat/http/body";
+import BodyParser from "@rcompat/http/body";
 import entries from "@rcompat/record/entries";
-import tryreturn from "@rcompat/sync/tryreturn";
 
 const deroot = (pathname: string) => pathname.endsWith("/") && pathname !== "/"
   ? pathname.slice(0, -1) 
@@ -16,9 +16,13 @@ const deslash = (url: string) => url.replaceAll(/\/{2,}/gu, _ => "/");
 
 const normalize = (pathname: string) => deroot(deslash(pathname));
 
-const parse_body = (request: Request, url: URL) =>
-  tryreturn(async () => await Body.parse(request) ?? {})
-    .orelse(error => mismatched_body(url.pathname, (error as any).message));
+const parse_body = async (request: Request, url: URL) => {
+  try {
+    return await BodyParser.parse(request) ?? {};
+  } catch(error) {
+    mismatched_body(url.pathname, (error as any).message);
+  }
+}
 
 export default async (app: ServeApp, facade: RequestFacade) => {
   const { request, url } = facade;
@@ -42,7 +46,7 @@ export default async (app: ServeApp, facade: RequestFacade) => {
   const handler = matched.file.default[request.method.toLowerCase() as keyof Route["default"]];
 
   return {
-    body,
+    body: body as Body,
     path,
     guards: guards as RouteSpecial[],
     errors: errors as RouteSpecial[],

@@ -1,3 +1,4 @@
+import type Body from "#Body";
 import type Dictionary from "@rcompat/record/Dictionary";
 
 export default interface RequestFacade {
@@ -8,4 +9,6 @@ export default interface RequestFacade {
   cookies: Dictionary;
   path: Dictionary;
   pass(to: string): Promise<Response>,
+  body?: Body;
+  session?: Dictionary;
 }
