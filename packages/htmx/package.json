@@ -6,7 +6,8 @@
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
   "files": [
-    "src/**/*.js",
+    "/lib/**/*.js",
+    "/lib/**/*.d.ts",
     "!src/**/*.spec.js"
   ],
   "repository": {
@@ -14,11 +15,18 @@
     "url": "https://github.com/primatejs/primate",
     "directory": "packages/htmx"
   },
+  "scripts": {
+    "build": "npm run clean && tsc",
+    "clean": "rm -rf ./lib",
+    "lint": "eslint .",
+    "prepublishOnly": "npm run build"
+  },
   "dependencies": {
-    "@primate/frontend": "workspace:^",
+    "@primate/core": "workspace:^",
     "@primate/html": "workspace:^",
+    "@rcompat/fs": "^0.11.2",
     "@rcompat/html": "^0.3.0",
-    "@rcompat/object": "^0.5.0",
+    "@rcompat/record": "^0.6.0",
     "htmx-esm": "^0.2.0"
   },
   "peerDependencies": {
@@ -27,27 +35,27 @@
   "type": "module",
   "imports": {
     "#*": {
-      "livetypes": "./src/private/*.js",
-      "default": "./src/private/*.js"
+      "apekit": "./src/private/*.ts",
+      "default": "./lib/private/*.js"
     },
     "#build": {
-      "livetypes": "./src/private/build/index.js",
-      "default": "./src/private/build/index.js"
+      "apekit": "./src/private/build/index.ts",
+      "default": "./lib/private/build/index.js"
     },
     "#serve": {
-      "livetypes": "./src/private/serve/index.js",
-      "default": "./src/private/serve/index.js"
+      "apekit": "./src/private/serve/index.ts",
+      "default": "./lib/private/serve/index.js"
     },
     "#error/*": {
-      "livetypes": "./src/private/error/*.js",
-      "default": "./src/private/error/*.js"
+      "apekit": "./src/private/error/*.ts",
+      "default": "./lib/private/error/*.js"
     }
   },
   "exports": {
     ".": {
-      "runtime": "./src/public/runtime.js",
-      "default": "./src/public/default.js"
+      "runtime": "./lib/public/runtime.js",
+      "default": "./lib/public/default.js"
     },
-    "./*": "./src/public/*.js"
+    "./*": "./lib/public/*.js"
   }
 }

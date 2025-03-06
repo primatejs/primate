@@ -1,4 +1,6 @@
-export default text => `import escape from "@primate/htmx/escape";
+import FileRef from "@rcompat/fs/FileRef";
+
+export default (text: string) => `import escape from "@primate/htmx/escape";
   export default (props = {}, options) => {
   const encoded = JSON.parse(escape(JSON.stringify(props)));
   const keys = Object.keys(encoded);

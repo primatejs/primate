@@ -32,7 +32,6 @@ import type loader from "./loader.js";
 import parse from "./parse.js";
 
 interface ViewOptions extends FrontendOptions {
-
   body: string
 }
 

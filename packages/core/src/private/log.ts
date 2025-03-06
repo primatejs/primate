@@ -15,7 +15,7 @@ const helpat = (name: string, error: unknown) =>
 const level = levels[loglevel];
 
 export interface PrimateError {
-  level: LogLevel,
+  level?: LogLevel,
   message: string
   fix?: string;
   name?: string | undefined;
@@ -87,6 +87,7 @@ export default {
   },
 
   auto(error) {
-    Object.keys(levels).includes(error.level) && this[error.level](error, {}, false);
+    const level = error.level ?? "error";
+    Object.keys(levels).includes(level) && this[level](error, {}, false);
   },
-} satisfies PrimateLogger as PrimateLogger;
+} as PrimateLogger;

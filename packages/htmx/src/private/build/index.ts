@@ -1,27 +1,35 @@
 import no_client_extension from "#error/no-client-extension";
 import name from "#name";
-import compile from "@primate/frontend/core/compile";
-import empty from "@rcompat/object/empty";
+import type { BuildApp } from "@primate/core/build/app";
+import compile from "@primate/core/frontend/compile";
+import type { BuildAppHook } from "@primate/core/hook";
+import empty from "@rcompat/record/empty";
 import server from "./server.js";
 
 const templates = "client-side-templates";
 const htmx_esm = "htmx-esm";
-const base_import_template = (subpath, app) =>
+const base_import_template = (subpath: string, app: BuildApp) =>
   app.build.export(`export * from "${htmx_esm}/${templates}/${subpath}";`);
 
 const import_template = {
-  handlebars: app => base_import_template("handlebars", app),
-  mustache: app => base_import_template("mustache", app),
-  nunjucks: app => base_import_template("nunjucks", app),
+  handlebars: (app: BuildApp) => base_import_template("handlebars", app),
+  mustache: (app: BuildApp) => base_import_template("mustache", app),
+  nunjucks: (app: BuildApp) => base_import_template("nunjucks", app),
   // noop
-  xslt: _ => _,
+  xslt: () => undefined,
 };
+
+type Options = {
+  extension: string;
+  extensions: string[];
+  client_side_templates: (keyof typeof import_template)[];
+}
 
 export default ({
   extension,
   extensions,
   client_side_templates,
-}) => async (app, next) => {
+}: Options): BuildAppHook => async (app, next) => {
   app.build.export(`export { default as htmx } from "${htmx_esm}";`);
 
   extensions.forEach(extension_name =>
@@ -37,14 +45,7 @@ export default ({
   }
 
   app.register(extension, {
-    ...await compile({
-      app,
-      extension,
-      name,
-      compile: { server },
-    }),
-    // no support for hydration
-    client: _ => _,
+    ...compile({ extension, name, compile: { server }, }),
   });
 
   return next(app);
