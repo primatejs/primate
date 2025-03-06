@@ -1,4 +1,4 @@
-import type { ResponseFunction } from "#serve";
+import type ResponseFunction from "#ResponseFunction";
 import Status from "@rcompat/http/Status";
 
 type Spread<N extends number, Ns extends number[] = []> = 

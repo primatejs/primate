@@ -1,4 +1,4 @@
-import { handler } from "#serve";
+import handler from "#handler";
 import { sse } from "@rcompat/http/mime";
 
 type Body = {

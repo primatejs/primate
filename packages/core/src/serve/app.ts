@@ -6,7 +6,9 @@ import type Frontend from "#Frontend";
 import log from "#log";
 import type Mode from "#Mode";
 import module_loader from "#module-loader";
-import type { Route, RouteSpecial } from "#serve";
+import type Route from "#Route";
+import type RouteSpecial from "#RouteSpecial";
+import type ServerComponent from "#ServerComponent";
 import dim from "@rcompat/cli/color/dim";
 import crypto from "@rcompat/crypto";
 import FileRef from "@rcompat/fs/FileRef";
@@ -113,7 +115,7 @@ export interface ServeApp extends App {
   secure: boolean,
   assets: Options["assets"],
   files: BuildFiles,
-  get_component(name: string): unknown,
+  get_component<T = ServerComponent>(name: string): T,
   frontends: PartialDictionary<Frontend>,
   headers(csp?: Dictionary): Dictionary<string>,
   asset_csp: CSP,
@@ -136,6 +138,7 @@ export interface ServeApp extends App {
   mode: Mode,
   router: ReturnType<typeof Router.init<Route, RouteSpecial>>;
   fonts: unknown[];
+  target(_: any): void;
 }
 
 export default async (rootfile: string, build: Options): Promise<ServeApp> => {
@@ -194,9 +197,9 @@ export default async (rootfile: string, build: Options): Promise<ServeApp> => {
     modules: await module_loader(root, config.modules ?? []),
 
     // functions
-    get_component(name: string) {
+    get_component<T = ServerComponent>(name: string) {
       const component = $components[name];
-      return component.default ?? component;
+      return (component.default ?? component) as T;
     },
     config: <P extends string>(path: P) => get(config, path),
     get<T>(key: symbol) {
@@ -306,6 +309,7 @@ export default async (rootfile: string, build: Options): Promise<ServeApp> => {
     server() {
       return server;
     },
+    target(_: any) {},
     router: Router.init<Route, RouteSpecial>({
         import: true,
         extensions: [".js"],

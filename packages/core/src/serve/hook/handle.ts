@@ -1,6 +1,9 @@
 import type { RequestHook } from "#module-loader";
+import type RequestFacade from "#RequestFacade";
 import type RequestInit from "#RequestInit";
-import type { RequestFacade, ResponseLike, RouteFunction, RouteSpecial } from "#serve";
+import type ResponseLike from "#ResponseLike";
+import type RouteFunction from "#RouteFunction";
+import type RouteSpecial from "#RouteSpecial";
 import type { ServeApp } from "#serve/app";
 import client_error from "@primate/core/handler/error";
 import cascade from "@rcompat/async/cascade";

@@ -2,7 +2,7 @@ import { Eta } from "eta";
 
 const eta = new Eta();
 
-export default text => `
+export default (text: string) => `
   import { Eta } from "eta";
   const eta = new Eta();
 

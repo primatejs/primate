@@ -1,5 +1,6 @@
 import type Props from "#frontend/Props";
-import type { RequestFacade, ResponseLike } from "#serve";
+import type RequestFacade from "#RequestFacade";
+import type ResponseLike from "#ResponseLike";
 import type { ServeApp } from "#serve/app";
 import type Dictionary from "@rcompat/record/Dictionary";
 

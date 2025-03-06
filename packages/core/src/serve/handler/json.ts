@@ -1,5 +1,5 @@
+import handler from "#handler";
 import { json } from "@rcompat/http/mime";
-import { handler } from "#serve";
 
 /**
  * Issue a JSON response

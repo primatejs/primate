@@ -1,4 +1,4 @@
-import { handler } from "#serve";
+import handler from "#handler";
 import stream, { type Streamable } from "@rcompat/fs/stream";
 import { bin } from "@rcompat/http/mime";
 

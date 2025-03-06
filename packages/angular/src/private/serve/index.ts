@@ -7,7 +7,7 @@ import set_mode from "./set-mode.js";
 import type { ServeAppHook } from "@primate/core/hook";
 
 const serve = ((name, props = {}, options = {}) => async app => {
-  const component = await app.get_component(name);
+  const component = app.get_component<ComponentDecorator>(name);
 
   const normalized = await normalize(name);
   const code = client({ component: normalized, props });
@@ -15,7 +15,7 @@ const serve = ((name, props = {}, options = {}) => async app => {
   const script_src = [inlined.integrity];
 
   return app.view({
-    body: await render(component as ComponentDecorator, props),
+    body: await render(component, props),
     head: inlined.head,
     headers: app.headers({ "script-src": script_src }),
     ...options,

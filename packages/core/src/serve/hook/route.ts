@@ -1,11 +1,12 @@
 import mismatched_body from "#error/mismatched-body";
 import no_route_to_path from "#error/no-route-to-path";
+import type RequestFacade from "#RequestFacade";
+import type Route from "#Route";
+import type RouteSpecial from "#RouteSpecial";
+import type { ServeApp } from "#serve/app";
 import Body from "@rcompat/http/body";
 import entries from "@rcompat/record/entries";
 import tryreturn from "@rcompat/sync/tryreturn";
-import type { RequestFacade, Route, RouteSpecial } from "#serve";
-import type { ServeApp } from "#serve/app";
-
 
 const deroot = (pathname: string) => pathname.endsWith("/") && pathname !== "/"
   ? pathname.slice(0, -1) 

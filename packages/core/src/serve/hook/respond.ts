@@ -1,5 +1,6 @@
 import bad_body from "#error/bad-body";
-import type { ResponseFunction, ResponseLike } from "#serve";
+import type ResponseFunction from "#ResponseFunction";
+import type ResponseLike from "#ResponseLike";
 import json from "@primate/core/handler/json";
 import redirect from "@primate/core/handler/redirect";
 import stream from "@primate/core/handler/stream";

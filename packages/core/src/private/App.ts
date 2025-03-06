@@ -1,6 +1,6 @@
 import type { Config } from "#config";
 import module_loader from "#module-loader";
-import { RouteFunction } from "#serve";
+import type RouteFunction from "#RouteFunction";
 import FileRef from "@rcompat/fs/FileRef";
 import type Dictionary from "@rcompat/record/Dictionary";
 import get from "@rcompat/record/get";

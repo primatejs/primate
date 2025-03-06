@@ -1,4 +1,4 @@
-import { handler } from "#serve";
+import handler from "#handler";
 import identity from "@rcompat/function/identity";
 import { txt } from "@rcompat/http/mime";
 

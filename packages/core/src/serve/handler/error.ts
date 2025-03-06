@@ -1,4 +1,4 @@
-import type { ResponseFunction } from "#serve";
+import ResponseFunction from "#ResponseFunction";
 import type { Known } from "@rcompat/http/Status";
 import Status from "@rcompat/http/Status";
 

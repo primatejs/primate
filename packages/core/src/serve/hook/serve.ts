@@ -1,6 +1,6 @@
 import log from "#log";
 import cascade from "@rcompat/async/cascade";
-import { type ServeApp } from "#serve/app";
+import type { ServeApp } from "#serve/app";
 
 export default async (app: ServeApp) => {
   log.system("in startup");

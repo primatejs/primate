@@ -1,17 +1,15 @@
 import name from "#name";
-import compile from "@primate/frontend/core/compile";
+import type { BuildAppHook } from "@primate/core/hook";
+import compile from "@primate/core/frontend/compile";
 import server from "./server.js";
 
-export default extension => async (app, next) => {
+export default (extension: string): BuildAppHook => async (app, next) => {
   app.register(extension, {
     ...await compile({
-      app,
       extension,
       name,
       compile: { server },
     }),
-    // no support for hydration
-    client: _ => _,
   });
 
   return next(app);

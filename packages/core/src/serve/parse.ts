@@ -1,4 +1,4 @@
-import type { RequestFacade } from "#serve";
+import type RequestFacade from "#RequestFacade";
 import type RequestInit from "#RequestInit";
 
 export default (request: Request): RequestFacade => {

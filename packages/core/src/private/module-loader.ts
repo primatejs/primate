@@ -2,13 +2,13 @@ import config_filename from "#config-filename";
 import error_double_module from "#error/double-module";
 //import error_module_no_name from "#error/module-no-name";
 //import error_modules_array from "#error/modules-array";
+import type App from "#App";
+import type { BuildApp } from "#build/app";
+import type RequestFacade from "#RequestFacade";
+import type { ServeApp } from "#serve/app";
 import type FileRef from "@rcompat/fs/FileRef";
-import * as hooks from "./hooks.js";
-import App from "#App";
-import { BuildApp } from "#build/app";
-import { ServeApp } from "#serve/app";
-import type { RequestFacade } from "#serve";
 import type MaybePromise from "pema/MaybePromise";
+import * as hooks from "./hooks.js";
 
 export type Hook<I, O = I> = (t: I, next?: Hook<I, O>) => MaybePromise<O | void>;
 type NextHook<I, O = I> = (t: I, next: Hook<I, O>) => MaybePromise<O | void>;

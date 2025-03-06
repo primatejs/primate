@@ -14,7 +14,7 @@ const client_root = async (app: BuildApp) => {
   app.build.export(code);
 };
 
-export default (extension: string): BuildAppHook<true> => async (app, next) => {
+export default (extension: string): BuildAppHook => async (app, next) => {
   const extensions = {
     from: extension,
     to: ".js",

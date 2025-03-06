@@ -89,7 +89,8 @@
       "apekit": "./src/public/Frontend.ts"
     },
     "./frontend/*": {
-      "apekit": "./src/public/frontend/*.ts"
+      "apekit": "./src/public/frontend/*.ts",
+      "default": "./lib/public/frontend/*.js"
     },
     "./*": {
       "apekit": "./src/public/*.ts"
