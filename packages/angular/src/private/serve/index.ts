@@ -2,12 +2,12 @@ import client from "#client";
 import normalize from "#normalize";
 import type { ComponentDecorator } from "@angular/core";
 import type Frontend from "@primate/core/frontend";
+import type { ServeAppHook } from "@primate/core/hook";
 import render from "./render.js";
 import set_mode from "./set-mode.js";
-import type { ServeAppHook } from "@primate/core/hook";
 
 const serve = ((name, props = {}, options = {}) => async app => {
-  const component = app.get_component<ComponentDecorator>(name);
+  const component = app.component<ComponentDecorator>(name)!;
 
   const normalized = await normalize(name);
   const code = client({ component: normalized, props });

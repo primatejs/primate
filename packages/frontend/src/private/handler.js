@@ -3,16 +3,14 @@ import no_component from "#error/no-component";
 import normalize from "#normalize";
 import cascade from "@rcompat/async/cascade";
 import map from "@rcompat/async/map";
+import tryreturn from "@rcompat/async/tryreturn";
 import { json } from "@rcompat/http/mime";
 import Status from "@rcompat/http/Status";
-import filter from "@rcompat/object/filter";
-import valmap from "@rcompat/object/valmap";
-import tryreturn from "@rcompat/async/tryreturn";
 
 const register = ({ app, name: rootname, ...rest }) => ({
-  root: app.get_component(`root_${rootname}.js`),
+  root: app.component(`root_${rootname}.js`),
   async load(name, props) {
-    const component = await app.get_component(name);
+    const component = await app.gomponent(name);
     return component === undefined
       ? no_component(name, `${app.config("location.components")}/${name}`)
       : { name, props, component };

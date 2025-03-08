@@ -47,7 +47,7 @@ const get_layouts = async (layouts: RouteSpecial[], request: RequestFacade) => {
   const stop_at = layouts.findIndex(({ recursive }) => recursive === false);
   return Promise.all(layouts
     .slice(stop_at === -1 ? 0 : stop_at)
-    .map(layout => layout.default(request)));
+    .map(layout => (layout.default as RouteFunction)(request)));
 };
 // last handler, preserve final request form
 const last = (handler: RouteFunction) => async (request: RequestFacade) => {

@@ -2,6 +2,7 @@ import type App from "#App";
 import type * as Asset from "#asset";
 import type { CSP } from "#config";
 import double_extension from "#error/double-extension";
+import no_component from "#error/no-component";
 import type Frontend from "#Frontend";
 import type FrontendOptions from "#frontend/Options";
 import type ServerComponent from "#frontend/ServerComponent";
@@ -112,7 +113,7 @@ export interface ServeApp extends App {
   secure: boolean,
   assets: Options["assets"],
   files: BuildFiles,
-  get_component<T = ServerComponent>(name: string): T,
+  component<T = ServerComponent>(name: string): T | void,
   frontends: PartialDictionary<Frontend>,
   headers(csp?: Dictionary): Dictionary<string>,
   asset_csp: CSP,
@@ -138,6 +139,10 @@ export interface ServeApp extends App {
   target(_: any): void;
 }
 
+type Import = Dictionary & {
+    default: unknown;
+};
+
 export default async (rootfile: string, build: Options): Promise<ServeApp> => {
   const root = new FileRef(rootfile).directory;
   const { config, files, components, loader, target, mode } = build;
@@ -158,7 +163,7 @@ export default async (rootfile: string, build: Options): Promise<ServeApp> => {
 
   const secure = http.ssl !== undefined;
 
-  const $components = Object.fromEntries(components ?? []);
+  const $components: PartialDictionary<Import> = Object.fromEntries(components ?? []);
   const error = path.routes.join("+error.js");
   const kv_storage = new Map<symbol, unknown>();
 
@@ -194,8 +199,12 @@ export default async (rootfile: string, build: Options): Promise<ServeApp> => {
     modules: await module_loader(root, config.modules ?? []),
 
     // functions
-    get_component<T = ServerComponent>(name: string) {
+    component<T = ServerComponent>(name: string) {
       const component = $components[name];
+      if (component === undefined) {
+        no_component(name, `${this.config("location.components")}/${name}`);
+        return;
+      }
       return (component.default ?? component) as T;
     },
     config: <P extends string>(path: P) => get(config, path),

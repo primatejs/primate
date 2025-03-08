@@ -12,7 +12,7 @@ import "zone.js";
 import create_root from "#client/create-root";
 import root_selector from "#client/root-selector";
 import type Props from "@primate/core/frontend/Props";
-import { Component } from "@angular/core";
+import type { Component } from "@angular/core";
 
 const common_engine = new CommonEngine();
 

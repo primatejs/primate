@@ -1,8 +1,10 @@
-import type MaybePromise from "pema/MaybePromise";
 import type ResponseFunction from "#ResponseFunction";
+import type Dictionary from "@rcompat/record/Dictionary";
+import type MaybePromise from "pema/MaybePromise";
 
 type ResponseLike = MaybePromise<
   string |
+  Dictionary |
   URL |
   ReadableStream |
   Blob |

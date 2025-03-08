@@ -1,20 +1,7 @@
 import type { BuildApp } from "#build/app";
+import type CompileOptions from "#frontend/CompileOptions";
 import normalize from "#frontend/normalize";
 import type FileRef from "@rcompat/fs/FileRef";
-import type MaybePromise from "pema/MaybePromise";
-
-interface InitOptions {
-  extension: string;
-  name: string;
-  compile: {
-    server: (text: string, component?: FileRef, app?: BuildApp) => MaybePromise<string>,
-    client?: (text: string) => Promise<{
-      js: string,
-      css: string | null,
-    }>,
-  }
-  create_root?: (depth: string) => string;
-}
 
 interface Return {
   server(component: FileRef, app: BuildApp): Promise<void>;
@@ -26,7 +13,7 @@ export default ({
   name,
   create_root,
   compile,
-}: InitOptions): Return => {
+}: CompileOptions): Return => {
   const extensions = {
     from: extension,
     to: `${extension}.js`,
