@@ -29,7 +29,7 @@
     "@angular/platform-browser": "^19.2.1",
     "@angular/platform-server": "^19.2.1",
     "@angular/ssr": "^19.2.1",
-    "@rcompat/build": "^0.10.0",
+    "@rcompat/build": "^0.10.1",
     "@rcompat/crypto": "^0.7.0",
     "@rcompat/fs": "^0.11.3",
     "@rcompat/record": "^0.6.0",

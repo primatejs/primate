@@ -6,25 +6,33 @@
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
   "files": [
-    "src/**/*.js",
-    "!src/**/*.spec.js"
+    "/lib/**/*.js",
+    "/lib/**/*.d.ts",
+    "!/**/*.spec.*"
   ],
   "repository": {
     "type": "git",
     "url": "https://github.com/primatejs/primate",
     "directory": "packages/react"
   },
+  "scripts": {
+    "build": "npm run clean && tsc",
+    "clean": "rm -rf ./lib",
+    "lint": "eslint .",
+    "prepublishOnly": "npm run build"
+  },
   "dependencies": {
-    "@primate/frontend": "workspace:^",
-    "@rcompat/build": "^0.10.0",
+    "@primate/core": "workspace:^",
+    "@rcompat/build": "^0.10.1",
     "@rcompat/fs": "^0.11.3",
-    "@rcompat/runtime": "^0.3.0"
+    "@rcompat/runtime": "^0.3.0",
+    "@types/react": "^19.0.10"
   },
   "peerDependencies": {
     "@primate/i18n": "workspace:^",
     "primate": "workspace:^",
-    "react": "18",
-    "react-dom": "18"
+    "react": "19",
+    "react-dom": "19"
   },
   "peerDependenciesMeta": {
     "@primate/i18n": {
@@ -34,40 +42,40 @@
   "type": "module",
   "imports": {
     "#*": {
-      "livetypes": "./src/private/*.js",
-      "default": "./src/private/*.js"
+      "apekit": "./src/private/*.ts",
+      "default": "./lib/private/*.js"
     },
     "#build": {
-      "livetypes": "./src/private/build/index.js",
-      "default": "./src/private/build/index.js"
+      "apekit": "./src/private/build/index.ts",
+      "default": "./lib/private/build/index.js"
     },
     "#serve": {
-      "livetypes": "./src/private/serve/index.js",
-      "default": "./src/private/serve/index.js"
+      "apekit": "./src/private/serve/index.ts",
+      "default": "./lib/private/serve/index.js"
     },
     "#context/*": {
-      "livetypes": "./src/private/context/*.js",
-      "default": "./src/private/context/*.js"
+      "apekit": "./src/private/context/*.ts",
+      "default": "./lib/private/context/*.js"
     },
     "#client": {
-      "livetypes": "./src/private/client/index.js",
-      "default": "./src/private/client/index.js"
+      "apekit": "./src/private/client/index.ts",
+      "default": "./lib/private/client/index.js"
     },
     "#client/*": {
-      "livetypes": "./src/private/client/*.js",
-      "default": "./src/private/client/*.js"
+      "apekit": "./src/private/client/*.ts",
+      "default": "./lib/private/client/*.js"
     },
     "#i18n/*": {
-      "livetypes": "./src/private/i18n/*.js",
-      "default": "./src/private/i18n/*.js"
+      "apekit": "./src/private/i18n/*.ts",
+      "default": "./lib/private/i18n/*.js"
     }
   },
   "exports": {
     ".": {
-      "runtime": "./src/public/runtime.js",
-      "default": "./src/public/default.js"
+      "runtime": "./lib/public/runtime.js",
+      "default": "./lib/public/default.js"
     },
-    "./*": "./src/public/*.js",
-    "./context/*": "./src/public/context/*.js"
+    "./*": "./lib/public/*.js",
+    "./context/*": "./lib/public/context/*.js"
   }
 }
