@@ -9,8 +9,8 @@ export default interface CompileOptions {
     server: (text: string, component?: FileRef, app?: BuildApp) => MaybePromise<string>,
     client?: (text: string) => MaybePromise<{
       js: string,
-      css: string | null,
+      css?: string | null,
     }>,
   }
-  create_root?: (depth: string) => string;
+  create_root?: (depth: number) => string;
 };

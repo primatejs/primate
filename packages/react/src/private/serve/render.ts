@@ -1,9 +1,10 @@
+import type Props from "@primate/core/frontend/Props";
 import { createElement } from "react";
-import { renderToString } from "react-dom/server.browser";
+import { renderToString } from "react-dom/server";
 
-export default (component, props) => {
-  const heads = [];
-  const push_heads = sub_heads => {
+export default (component: any, props: Props) => {
+  const heads: string[] = [];
+  const push_heads = (sub_heads: string[]) => {
     heads.push(...sub_heads);
   };
   const body = renderToString(createElement(component, { ...props, push_heads }));

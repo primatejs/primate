@@ -1,9 +1,10 @@
 import FileRef from "@rcompat/fs/FileRef";
 import client from "./client.js";
+import type Publish from "@primate/core/frontend/Publish";
 
 const root_filter = /^root:react/u;
 
-export default (app, extension) => ({
+export default ((app, extension) => ({
   name: "react",
   setup(build) {
     const resolveDir = app.path.build.path;
@@ -23,4 +24,4 @@ export default (app, extension) => ({
       return { contents: (await client(source)).js };
     });
   },
-});
+})) satisfies Publish;

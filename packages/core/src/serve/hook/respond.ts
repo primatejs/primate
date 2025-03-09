@@ -1,10 +1,10 @@
 import bad_body from "#error/bad-body";
+import json from "#handler/json";
+import redirect from "#handler/redirect";
+import stream from "#handler/stream";
+import text from "#handler/text";
 import type ResponseFunction from "#ResponseFunction";
 import type ResponseLike from "#ResponseLike";
-import json from "@primate/core/handler/json";
-import redirect from "@primate/core/handler/redirect";
-import stream from "@primate/core/handler/stream";
-import text from "@primate/core/handler/text";
 import s_streamable from "@rcompat/fs/symbols/streamable";
 import proper from "@rcompat/record/proper";
 

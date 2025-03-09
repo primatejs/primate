@@ -41,7 +41,7 @@ export interface BuildApp extends App {
   server_build: string[];
   build_target: string;
   get build(): Build;
-  depth(): string;
+  depth(): number;
   get mode(): Mode;
 };
 
@@ -160,7 +160,7 @@ export default async (root: FileRef, config: Config, mode: Mode = "development")
       return _build;
     },
     depth() {
-      return this.get(symbols.layout_depth);
+      return this.get<number>(symbols.layout_depth);
     }
   } as const satisfies BuildApp;
 };

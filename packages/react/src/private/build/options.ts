@@ -1,1 +1,4 @@
-export default { loader: "tsx", jsx: "automatic" };
+export default {
+  loader: "tsx",
+  jsx: "automatic",
+} as const;

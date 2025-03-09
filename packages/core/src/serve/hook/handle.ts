@@ -5,7 +5,7 @@ import type ResponseLike from "#ResponseLike";
 import type RouteFunction from "#RouteFunction";
 import type RouteSpecial from "#RouteSpecial";
 import type { ServeApp } from "#serve/app";
-import client_error from "@primate/core/handler/error";
+import client_error from "#handler/error";
 import cascade from "@rcompat/async/cascade";
 import reload_defaults from "@rcompat/build/reload/defaults";
 import reload_path from "@rcompat/build/reload/path";

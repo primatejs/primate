@@ -39,4 +39,4 @@ export default ((app, extension) => ({
       return { contents };
     });
   },
-})) as Publish;
+})) satisfies Publish;

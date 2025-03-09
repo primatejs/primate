@@ -5,5 +5,5 @@ export default interface BuildOptions extends CompileOptions {
   expose: string;
   publish: Publish;
   ssr: boolean;
-  create_root: (depth: string) => string;
+  create_root: (depth: number) => string;
 }

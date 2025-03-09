@@ -19,7 +19,7 @@
     "@rcompat/async": "^0.6.0",
     "@rcompat/build": "^0.10.1",
     "@rcompat/crypto": "^0.7.0",
-    "@rcompat/fs": "^0.11.3",
+    "@rcompat/fs": "^0.11.4",
     "@rcompat/http": "^0.10.0",
     "@rcompat/object": "^0.5.0",
     "@rcompat/record": "^0.6.0"

@@ -21,12 +21,16 @@
     "lint": "eslint .",
     "prepublishOnly": "npm run build"
   },
+  "devDependencies": {
+    "@rcompat/record": "^0.6.0",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4"
+  },
   "dependencies": {
     "@primate/core": "workspace:^",
     "@rcompat/build": "^0.10.1",
-    "@rcompat/fs": "^0.11.3",
-    "@rcompat/runtime": "^0.3.0",
-    "@types/react": "^19.0.10"
+    "@rcompat/fs": "^0.11.4",
+    "@rcompat/runtime": "^0.3.0"
   },
   "peerDependencies": {
     "@primate/i18n": "workspace:^",

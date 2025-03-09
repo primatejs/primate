@@ -33,7 +33,7 @@
     "@rcompat/build": "^0.10.1",
     "@rcompat/cli": "^0.7.0",
     "@rcompat/crypto": "^0.7.0",
-    "@rcompat/fs": "^0.11.3",
+    "@rcompat/fs": "^0.11.4",
     "@rcompat/function": "^0.6.0",
     "@rcompat/http": "^0.10.0",
     "@rcompat/invariant": "^0.7.0",
@@ -67,6 +67,10 @@
     "#frontend/*": {
       "apekit": "./src/private/frontend/*.ts",
       "default": "./lib/private/frontend/*.js"
+    },
+    "#handler/*": {
+      "apekit": "./src/private/handler/*.ts",
+      "default": "./lib/private/handler/*.js"
     }
   },
   "exports": {
@@ -85,7 +89,7 @@
     "./log": "./lib/log/index.js",
     "./dispatch": "./lib/dispatch/index.js",
     "./http/verbs": "./lib/http/verbs.js",
-    "./handler/*": "./lib/serve/handler/*.js",
+    "./handler/*": "./lib/public/handler/*.js",
     "./frontend": {
       "apekit": "./src/public/Frontend.ts"
     },

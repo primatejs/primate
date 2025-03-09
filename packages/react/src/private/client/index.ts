@@ -1,6 +1,19 @@
+import type Dictionary from "@rcompat/record/Dictionary";
 import spa from "./spa.js";
 
-export default ({ names, data, context, request }, options) => `
+type Init = {
+  names: string[],
+  data: Dictionary[],
+  context: Dictionary,
+  request: Dictionary,
+};
+
+type Options = {
+  spa: boolean,
+  ssr: boolean,
+};
+
+export default ({ names, data, context, request }: Init, options: Options) => `
   import * as components from "app";
   import { make_root, createElement, ReactHead } from "app";
 
