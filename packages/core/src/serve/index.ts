@@ -12,7 +12,7 @@ import serve from "./hook/serve.js";
 import type loader from "./loader.js";
 
 type Import = Dictionary & {
-    default: unknown;
+  default: unknown;
 };
 
 export type BuildFiles = {

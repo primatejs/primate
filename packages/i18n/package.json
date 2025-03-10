@@ -6,43 +6,51 @@
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
   "files": [
-    "src/**/*.js",
-    "!src/**/*.spec.js"
+    "/lib/**/*.js",
+    "/lib/**/*.d.ts",
+    "!/**/*.spec.*"
   ],
   "repository": {
     "type": "git",
     "url": "https://github.com/primatejs/primate",
     "directory": "packages/i18n"
   },
+  "scripts": {
+    "build": "npm run clean && tsc",
+    "clean": "rm -rf ./lib",
+    "lint": "eslint .",
+    "prepublishOnly": "npm run build"
+  },
   "dependencies": {
     "@primate/core": "workspace:^",
     "@rcompat/cli": "^0.7.0",
-    "@rcompat/fs": "^0.11.4",
-    "@rcompat/http": "^0.10.0"
+    "@rcompat/fs": "^0.11.5",
+    "@rcompat/http": "^0.10.0",
+    "@rcompat/record": "^0.6.0"
   },
   "type": "module",
   "imports": {
     "#*": {
-      "livetypes": "./src/private/*.js",
-      "default": "./src/private/*.js"
+      "apekit": "./src/private/*.ts",
+      "default": "./lib/private/*.js"
     },
     "#hook/*": {
-      "livetypes": "./src/private/hook/*.js",
-      "default": "./src/private/hook/*.js"
+      "apekit": "./src/private/hook/*.ts",
+      "default": "./lib/private/hook/*.js"
     },
     "#error/*": {
-      "livetypes": "./src/private/error/*.js",
-      "default": "./src/private/error/*.js"
+      "apekit": "./src/private/error/*.ts",
+      "default": "./lib/private/error/*.js"
     }
   },
   "exports": {
     "./core/*": {
-      "livetypes": "./src/public/*.js",
-      "default": "./src/public/*.js"
+      "apekit": "./src/public/*.ts",
+      "default": "./lib/public/*.js"
     },
     ".": {
-      "runtime": "./src/public/runtime.js",
-      "default": "./src/public/default.js"
+      "runtime": "./lib/public/runtime.js",
+      "default": "./lib/public/default.js"
     }
   }
 }

@@ -21,12 +21,12 @@
     "@primate/core": "workspace:^",
     "@rcompat/cli": "^0.7.0",
     "@rcompat/env": "^0.6.1",
-    "@rcompat/fs": "^0.11.4",
+    "@rcompat/fs": "^0.11.5",
     "@rcompat/invariant": "^0.7.0",
     "@rcompat/object": "^0.5.0",
     "@rcompat/runtime": "^0.3.0",
     "@rcompat/stdio": "^0.8.0",
-    "@rcompat/string": "^0.6.0"
+    "@rcompat/string": "^0.6.1"
   },
   "peerDependencies": {
     "primate": "workspace:^"

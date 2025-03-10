@@ -1,16 +1,31 @@
 import header from "#header";
-import name from "#name";
+import modulename from "#name";
+//import type { RequestHook } from "@primate/core/hook";
 import Status from "@rcompat/http/Status";
+//import type Dictionary from "@rcompat/record/Dictionary";
 
-const cookie = (key, value, { path, secure, httpOnly, sameSite }) =>
-  `${key}=${value};${httpOnly};Path=${path};${secure};SameSite=${sameSite}`;
+/*type Cookie = {
+  [key in "path" | "secure" | "httpOnly" | "sameSite"]: string
+};*/
+
+const cookie = (name/*: string*/, value/*: string*/, { path, secure, httpOnly, sameSite }/*: Cookie*/) =>
+  `${name}=${value};${httpOnly};Path=${path};${secure};SameSite=${sameSite}`;
+
 const options = {
   sameSite: "Strict" ,
   path: "/",
   httpOnly: "HttpOnly",
+  secure: "Secure",
 };
 
-export default ({ env }) => (request, next) => {
+/*type Init = {
+  env: {
+    active: boolean;
+    locales: Dictionary,
+  };
+};*/
+
+export default ({ env }/*: Init*/)/*: RequestHook*/ => (request, next) => {
   if (!env.active) {
     return next(request);
   }
@@ -24,7 +39,7 @@ export default ({ env }) => (request, next) => {
   return new Response("", {
     status: Status.OK,
     headers: {
-      "Set-Cookie": cookie(name, set_locale, options),
+      "Set-Cookie": cookie(modulename, set_locale, options),
     },
   });
 };

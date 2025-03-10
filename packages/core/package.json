@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@rcompat/module": "^0.7.0",
+    "@rcompat/string": "^0.6.1",
     "pema": "workspace:^"
   },
   "dependencies": {
@@ -33,7 +34,7 @@
     "@rcompat/build": "^0.10.1",
     "@rcompat/cli": "^0.7.0",
     "@rcompat/crypto": "^0.7.0",
-    "@rcompat/fs": "^0.11.4",
+    "@rcompat/fs": "^0.11.5",
     "@rcompat/function": "^0.6.0",
     "@rcompat/http": "^0.10.0",
     "@rcompat/invariant": "^0.7.0",
@@ -71,6 +72,10 @@
     "#handler/*": {
       "apekit": "./src/private/handler/*.ts",
       "default": "./lib/private/handler/*.js"
+    },
+    "#log/*": {
+      "apekit": "./src/private/log/*.ts",
+      "default": "./lib/private/log/*.js"
     }
   },
   "exports": {
@@ -86,7 +91,14 @@
       "apekit": "./src/build/app.ts"
     },
     "./error": "./lib/error/index.js",
-    "./log": "./lib/log/index.js",
+    "./log": {
+      "apekit": "./src/log/index.ts",
+      "default": "./lib/log/index.js"
+    },
+    "./log/*": {
+      "apekit": "./src/public/log/*.ts",
+      "default": "./lib/public/log/*.js"
+    },
     "./dispatch": "./lib/dispatch/index.js",
     "./http/verbs": "./lib/http/verbs.js",
     "./handler/*": "./lib/public/handler/*.js",

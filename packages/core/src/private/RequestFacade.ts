@@ -1,14 +1,15 @@
 import type Body from "#Body";
 import type Dictionary from "@rcompat/record/Dictionary";
 
-export default interface RequestFacade {
+type RequestFacade = Dictionary<Dictionary | unknown> & {
   request: Request;
   url: URL;
-  query: Dictionary;
+  pass(to: string): Promise<Response>,
   headers: Headers;
+  query: Dictionary;
   cookies: Dictionary;
   path: Dictionary;
-  pass(to: string): Promise<Response>,
   body?: Body;
-  session?: Dictionary;
-}
+};
+
+export { RequestFacade as default };

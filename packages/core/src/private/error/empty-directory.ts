@@ -1,6 +1,7 @@
-import { warn } from "#error";
+import error from "#log/error";
+import name from "#name";
 
-export default warn(import.meta.url, {
+export default error(name)(import.meta.url, {
   message: "empty {0} directory",
   fix: "populate {1} or remove it",
 });

@@ -1,7 +1,13 @@
 import no_default_locale from "#error/no-default-locale";
 import no_local_directory from "#error/no-locale-directory";
+//import type { BuildAppHook } from "@primate/core/hook";
 
-export default ({ directory, locale }) => async (app, next) => {
+/*type Init = {
+  directory: string;
+  locale: string;
+};*/
+
+export default ({ directory, locale }/*: Init*/)/*: BuildAppHook*/ => async (app, next) => {
   const location = app.config("location");
   const root = app.root.join(directory);
   if (!await root.exists()) {
@@ -22,7 +28,7 @@ export default ({ directory, locale }) => async (app, next) => {
     await base.join(`${path.base}.js`).write(code);
   }));
 
-  if (!has_default_locale) {
+  if (!(has_default_locale/* as boolean*/)) {
     no_default_locale(locale, root);
     return next(app);
   }

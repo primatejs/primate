@@ -1,6 +1,16 @@
 import name from "#name";
+//import type { RequestHook } from "@primate/core/hook";
+//import type Dictionary from "@rcompat/record/Dictionary";
 
-export default ({ locale, env }) => async (request, next) => {
+/*type Init = {
+  locale: string;
+  env: {
+    active: boolean;
+    locales: Dictionary,
+  };
+};*/
+
+export default ({ locale, env }/*: Init*/)/*: RequestHook */=> async (request, next) => {
   if (!env.active) {
     return next(request);
   }

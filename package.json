@@ -20,7 +20,7 @@
   "homepage": "https://primatejs.com",
   "devDependencies": {
     "apekit": "^0.0.7",
-    "esbuild": "^0.25.0",
+    "esbuild": "^0.25.1",
     "typescript": "^5.8.2"
   }
 }

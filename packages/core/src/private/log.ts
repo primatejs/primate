@@ -6,20 +6,21 @@ import green from "@rcompat/cli/color/green";
 import red from "@rcompat/cli/color/red";
 import yellow from "@rcompat/cli/color/yellow";
 import print from "@rcompat/cli/print";
+import type StringLike from "@rcompat/string/StringLike";
 
 const url = "https://primatejs.com/errors";
 const slice_length = "@primate/".length;
 const helpat = (name: string, error: unknown) =>
   `${url}/${name.slice(slice_length)}#${error}`;
 
-const level = levels[loglevel];
+const applevel = levels[loglevel];
 
 export interface PrimateError {
   level?: LogLevel,
   message: string
   fix?: string;
   name?: string | undefined;
-  params?: string[];
+  params?: StringLike[];
   module?: string | undefined;
 }
 
@@ -32,8 +33,8 @@ const make_error = (level: LogLevel , {
   params = [],
   module }: Omit<PrimateError, "level">): PrimateError => ({
   level,
-  fix: mark(fix, ...params),
-  message: mark(message, ...params),
+  fix: mark(fix, ...params.map(param => param.toString())),
+  message: mark(message, ...params.map(param => param.toString())),
   name,
   module,
 });
@@ -68,12 +69,12 @@ export default {
 
   info(error, override) {
     // info prints only on info level
-    level === levels.info && log("--", green, normalize("info", error), override);
+    applevel === levels.info && log("--", green, normalize("info", error), override);
   },
 
   warn(error, override) {
     // warn prints on info and warn levels
-    level >= levels.warn && log("??", yellow, normalize("warn", error), override);
+    applevel >= levels.warn && log("??", yellow, normalize("warn", error), override);
   },
 
   error(error, _override, toss = true) {
