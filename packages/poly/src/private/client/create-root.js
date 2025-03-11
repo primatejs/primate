@@ -19,10 +19,9 @@ export default length => {
       export let components;
       export let data;
       export let request;
-      export let context;
       export let update = () => undefined;
 
-      setContext(context_name, context);
+      setContext(context_name, request.context);
 
       afterUpdate(update);
     </script>

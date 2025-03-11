@@ -16,10 +16,9 @@ export default (length: number) => {
       components,
       data,
       request,
-      context: c,
       push_heads: value,
     }) => {
-      const [context, setContext] = useState(c);
+      const [context, setContext] = useState(request.context);
       const $value = { context, setContext };
       return platform === "browser"
         ? createElement(AppContext.Provider, { value: $value }, ${body})

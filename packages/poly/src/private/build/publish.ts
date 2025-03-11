@@ -16,7 +16,6 @@ export default ((app, extension) => ({
     });
     build.onLoad({ filter: css_filter }, ({ path }) => {
       const contents = app.build.load(FileRef.webpath(path));
-      console.log("load", path, contents);
       return contents ? { contents, loader: "css", resolveDir: app.root.path } : null;
     });
     build.onLoad({ filter: root_filter }, ({ path }) => {
@@ -33,7 +32,6 @@ export default ((app, extension) => ({
       if (css !== "" && css !== null) {
         const path = FileRef.webpath(`${args.path}css`);
         app.build.save(path, css);
-        console.log("save", path, css);
         contents += `\nimport "${path}";`;
       }
       return { contents };

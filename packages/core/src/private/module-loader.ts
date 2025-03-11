@@ -28,7 +28,6 @@ type Hooks = {
   init: AppHook<false>,
   build: BuildAppHook<false>,
   serve: ServeAppHook<false>,
-  context: RequestHook<false>,
   route: RequestHook<false>,
   handle: RequestHook<false>,
 };

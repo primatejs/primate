@@ -28,7 +28,7 @@ type Options = {
   spa: boolean,
   ssr: boolean,
   client(
-    { names, data, context, request }: { names: string[], data: Dictionary[], context: Dictionary, request: Dictionary },
+    { names, data, request }: { names: string[], data: Dictionary[], request: Dictionary },
     { ssr, spa }: { ssr: boolean, spa: boolean },
   ): string,
   render: Func,
@@ -78,13 +78,12 @@ export default (config: Options): Frontend => {
 
       const shared = {
         data: components.map(component => component.props),
-        context: app.modules.context === undefined ? request :
-           await (cascade(app.modules.context))(request),
         request: {
           path: request.path,
           query: request.query,
           headers: request.headers,
           cookies: request.cookies,
+          context: request.context,
           url: request.url,
         },
       };
