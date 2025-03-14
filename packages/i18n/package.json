@@ -26,7 +26,8 @@
     "@rcompat/cli": "^0.7.0",
     "@rcompat/fs": "^0.11.5",
     "@rcompat/http": "^0.10.0",
-    "@rcompat/record": "^0.6.0"
+    "@rcompat/invariant": "^0.7.0",
+    "@rcompat/record": "^0.6.1"
   },
   "type": "module",
   "imports": {
@@ -44,13 +45,13 @@
     }
   },
   "exports": {
-    "./core/*": {
-      "apekit": "./src/public/*.ts",
-      "default": "./lib/public/*.js"
-    },
     ".": {
       "runtime": "./lib/public/runtime.js",
       "default": "./lib/public/default.js"
+    },
+    "./*": {
+      "apekit": "./src/public/*.ts",
+      "default": "./lib/public/*.js"
     }
   }
 }

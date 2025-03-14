@@ -1,6 +1,18 @@
+import type Dictionary from "@rcompat/record/Dictionary";
 import spa from "./spa.js";
 
-export default ({ names, data, request }, options) => `
+type Init = {
+  names: string[],
+  data: Dictionary[],
+  request: Dictionary,
+};
+
+type Options = {
+  spa: boolean,
+  ssr: boolean,
+};
+
+export default ({ names, data, request }: Init, options: Options) => `
   import * as components from "app";
 
   let root = new components.root_poly({

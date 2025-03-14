@@ -1,9 +1,9 @@
 import { createContext } from "react";
 import type Dictionary from "@rcompat/record/Dictionary";
-import type { LocaleContextData } from "#i18n/locale";
+import type ContextData from "@primate/i18n/ContextData";
 
 type Context = {
-  i18n: LocaleContextData;  
+  i18n: ContextData;  
 }
 
 type AppContext = {

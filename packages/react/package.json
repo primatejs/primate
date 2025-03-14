@@ -22,7 +22,7 @@
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
-    "@rcompat/record": "^0.6.0",
+    "@rcompat/record": "^0.6.1",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4"
   },

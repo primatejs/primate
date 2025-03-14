@@ -1,4 +1,4 @@
-export default length => {
+export default (length: number) => {
   const n = length - 1;
   const body = Array.from({ length: n }, (_, i) => i - 1)
     .reduceRight((child, _, i) => `

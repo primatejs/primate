@@ -1,10 +1,15 @@
 import context_name from "#context-name";
-import save from "@primate/i18n/core/save";
+import save from "@primate/i18n/save";
 import { getContext } from "poly";
 import { writable } from "poly/store";
+import type ContextData from "@primate/i18n/ContextData";
+
+type Context = {
+  i18n: ContextData;  
+}
 
 const store = writable("", set => {
-  const { locale } = getContext(context_name).i18n;
+  const { locale } = getContext<Context>(context_name).i18n;
   set(locale);
 
   return () => undefined;
@@ -12,7 +17,7 @@ const store = writable("", set => {
 
 export default {
   subscribe: store.subscribe,
-  set: locale => {
+  set: (locale: string) => {
     store.set(locale);
     save(locale);
   },

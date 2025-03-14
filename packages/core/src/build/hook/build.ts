@@ -160,7 +160,12 @@ const post = async (app: BuildApp) => {
   (await local_config.exists() ? local_config : default_config)
     .copy(build_config);
 
-  const manifest_data = await manifest() as Dictionary;
+  const manifest_data = {
+    ...await manifest() as Dictionary,
+    imports: {
+      "#components/*": "./components/*.js",
+    },
+  };
   // create package.json
   const package_json = "package.json";
   await app.path.build.join(package_json).write(stringify(manifest_data));

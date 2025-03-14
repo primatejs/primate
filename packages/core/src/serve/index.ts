@@ -15,19 +15,22 @@ type Import = Dictionary & {
   default: unknown;
 };
 
-export type BuildFiles = {
-  routes: [string, Route | RouteSpecial][],
-}
+export type BuildFiles = Dictionary & {
+  routes: [string, Route | RouteSpecial][];
+  locales?: [string, {
+    default: Dictionary<string>;
+  }][];
+};
 
 export type Options = {
-  config: Config,
-  files: BuildFiles,
-  components?: [string, Import][],
-  mode: Mode,
-  target: string,
-  loader: ReturnType<typeof loader>,
-  assets: Asset[],
-}
+  config: Config;
+  files: BuildFiles;
+  components?: [string, Import][];
+  mode: Mode;
+  target: string;
+  loader: ReturnType<typeof loader>;
+  assets: Asset[];
+};
 
 export default async (root: string, { config, ...options }: Options) => 
   serve(

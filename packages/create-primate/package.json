@@ -20,15 +20,15 @@
     "@rcompat/cli": "^0.7.0",
     "@rcompat/fs": "^0.11.5",
     "@rcompat/object": "^0.5.0",
-    "@rcompat/package": "^0.10.0",
-    "@rcompat/record": "^0.6.0"
+    "@rcompat/package": "^0.10.1",
+    "@rcompat/record": "^0.6.1"
   },
   "type": "module",
   "scripts": {
     "deps": "scripts/peerdeps.js"
   },
   "devDependencies": {
-    "@angular/core": "^19.2.1",
+    "@angular/core": "^19.2.2",
     "@primate/angular": "workspace:^",
     "@primate/eta": "workspace:^",
     "@primate/go": "workspace:^",
@@ -58,7 +58,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "solid-js": "^1.9.1",
-    "svelte": "^5.22.5",
+    "svelte": "^5.23.0",
     "voby": "^0.58.1",
     "vue": "^3.5.11"
   }

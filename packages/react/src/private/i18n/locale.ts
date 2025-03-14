@@ -1,12 +1,6 @@
 import AppContext from "#context/app";
-import save from "@primate/i18n/core/save";
-import type Dictionary from "@rcompat/record/Dictionary";
+import save from "@primate/i18n/save";
 import { useContext } from "react";
-
-export type LocaleContextData = {
-  locales: Dictionary<string>,
-  locale: string,
-}
 
 class Locale {
   #context;

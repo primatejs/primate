@@ -68,5 +68,8 @@
       "default": "./lib/public/default.js"
     },
     "./*": "./lib/public/*.js"
+  },
+  "devDependencies": {
+    "@rcompat/record": "^0.6.1"
   }
 }

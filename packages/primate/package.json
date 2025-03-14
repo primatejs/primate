@@ -23,7 +23,7 @@
     "@rcompat/cli": "^0.7.0",
     "@rcompat/fs": "^0.11.5",
     "@rcompat/http": "~0.10.0",
-    "@rcompat/package": "^0.10.0"
+    "@rcompat/package": "^0.10.1"
   },
   "engines": {
     "node": ">=18"
