@@ -72,6 +72,14 @@
     "#i18n/*": {
       "apekit": "./src/private/i18n/*.ts",
       "default": "./lib/private/i18n/*.js"
+    },
+    "#Head/browser": {
+      "apekit": "./src/private/head/browser.ts",
+      "default": "./lib/private/head/browser.js"
+    },
+    "#Head/default": {
+      "apekit": "./src/private/head/default.ts",
+      "default": "./lib/private/head/default.js"
     }
   },
   "exports": {
@@ -80,6 +88,10 @@
       "default": "./lib/public/default.js"
     },
     "./*": "./lib/public/*.js",
-    "./context/*": "./lib/public/context/*.js"
+    "./context/*": "./lib/public/context/*.js",
+    "./Head": {
+      "browser": "./lib/public/Head/browser.js",
+      "default": "./lib/public/Head/default.js"
+    }
   }
 }

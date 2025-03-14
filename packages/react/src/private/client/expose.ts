@@ -3,7 +3,7 @@ export default `
   import { hydrateRoot, createRoot } from "react-dom/client";
   const { createElement } = React;
   export { createElement };
-  export { default as ReactHead } from "@primate/react/head";
+  export { default as ReactHead } from "@primate/react/Head";
 
   const make_root = {
     ssr: (dom_node, react_node) => hydrateRoot(dom_node, react_node),

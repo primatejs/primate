@@ -1,9 +1,6 @@
 import HeadContext from "#context/head";
 import type Props from "@primate/core/frontend/Props";
-import runtime from "@rcompat/runtime";
 import React from "react";
-
-const is_client = (runtime === "browser" as any);
 
 type Child = {
   type: string,
@@ -17,20 +14,12 @@ const data_ssr = "ssr";
 const allowed = ["title", "meta", "style", "meta", "link", "script", "base"];
 
 const make_tag = ({ type, props }: Child, id: string) => {
-  if (is_client) {
-    const element = globalThis.document.createElement(type);
-    Object.entries(props).forEach(([name, value]) => {
-      element.setAttribute(name, value as string);
-    });
-    element.dataset.rh = id;
-    return element;
-  }
-  const attributes = Object.entries(props)
-    .map(([key, value]) => `${key}="${value}"`)
-    .concat(`${data_attribute}="${id}"`)
-    .join(" ");
-
-  return `<${type} ${attributes}/>`;
+  const element = globalThis.document.createElement(type);
+  Object.entries(props).forEach(([name, value]) => {
+    element.setAttribute(name, value as string);
+  });
+  element.dataset.rh = id;
+  return element;
 };
 
 const render = (maybe_children: Child[], id: string) => {
@@ -46,19 +35,12 @@ const render = (maybe_children: Child[], id: string) => {
   const titles = children.filter(({ type }) => type === "title");
   const others = children.filter(({ type }) => type !== "title");
 
-  if (is_client) {
-    titles.forEach(title => {
-      globalThis.document.title = title.props.children as string;
-    });
-    others.forEach(other => {
-      globalThis.document.head.prepend(make_tag(other, id));
-    });
-  } else {
-    return [
-      ...titles.map(title => `<title>${title.props.children}</title>`),
-      ...others.map(other => make_tag(other, id)),
-    ];
-  }
+  titles.forEach(title => {
+    globalThis.document.title = title.props.children as string;
+  });
+  others.forEach(other => {
+    globalThis.document.head.prepend(make_tag(other, id));
+  });
 };
 
 const clear = (data_value: string) => {
@@ -78,34 +60,24 @@ const Head = class Head extends React.Component<{ children: Child[] }> {
   }
 
   componentDidMount() {
-    if (is_client) {
-      this.id = crypto.randomUUID();
-      this.props.children
-      render(this.props.children, this.id);
-    }
+    this.id = crypto.randomUUID();
+    this.props.children
+    render(this.props.children, this.id);
   }
 
   componentDidUpdate() {
-    if (is_client) {
-      clear(this.id!);
-      render(this.props.children, this.id!);
-    }
+    clear(this.id!);
+    render(this.props.children, this.id!);
   }
 
   componentWillUnmount() {
-    if (is_client) {
-      // remove managed tags
-      clear(this.id!);
-    }
+    // remove managed tags
+    clear(this.id!);
   }
 
   render() {
-    if (!is_client) {
-      this.context(render(this.props.children, data_ssr));
-    }
-
-    return undefined as React.ReactNode;
     // no return, nothing rendered
+    return undefined as React.ReactNode;
   }
 };
 
