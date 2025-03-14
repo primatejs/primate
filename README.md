@@ -33,6 +33,7 @@ supported.
 [![HTMX](https://img.shields.io/badge/HTMX-36C?logo=htmx&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/htmx)
 [![Markdown](https://img.shields.io/badge/Markdown-000000.svg?logo=markdown&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/markdown)
 [![Marko](https://img.shields.io/badge/Marko-2596BE.svg?logo=marko&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/marko)
+[![Poly](https://img.shields.io/badge/Poly-a13eff.svg?&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/poly)
 [![React](https://img.shields.io/badge/React-20232a.svg?logo=react&logoColor=%2361DAFB&style=for-the-badge)](https://primatejs.com/modules/react)
 [![Solid](https://img.shields.io/badge/Solid-2C4F7C?logo=solid&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/solid)
 [![Svelte](https://img.shields.io/badge/Svelte-f1413d.svg?logo=svelte&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/svelte)
