@@ -1,6 +1,6 @@
 # Poly
 
-This handler module supports SSR and hydration and serves Poly (Svelte 4)poly
+This handler module supports SSR and hydration and serves Poly (Svelte 4) 
 components with the `.poly` extension.
 
 ## Install
