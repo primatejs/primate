@@ -182,6 +182,7 @@ export default {
             "HTMX",
             "Markdown",
             "Marko",
+            "Poly",
             "React",
             "Solid",
             "Svelte",
