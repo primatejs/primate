@@ -15,6 +15,12 @@
     "url": "https://github.com/primatejs/primate",
     "directory": "packages/solid"
   },
+  "scripts": {
+    "build": "npm run clean && tsc",
+    "clean": "rm -rf ./lib",
+    "lint": "eslint .",
+    "prepublishOnly": "npm run build"
+  },
   "dependencies": {
     "@babel/core": "^7.26.10",
     "@primate/core": "workspace:^",
