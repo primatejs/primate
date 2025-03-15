@@ -2,6 +2,7 @@ import boolean from "#type/boolean";
 import number from "#type/number";
 import object from "#type/object";
 import string from "#type/string";
+import symbol from "#type/symbol";
 
 const s = object({ foo: string });
 const s_n = object({ foo: string, bar: number });
@@ -35,5 +36,44 @@ export default test => {
     const rci = object({ foo: { bar: string }});;
     assert(rci.validate({ foo: { bar: "baz" }})).equals({ foo: { bar: "baz" }});
     assert(() => rci.validate({ foo: { bar: 1 }})).throws();
+
+    const x = {
+      boolean: false,
+      number: 0,
+      string: "",
+      symbol: Symbol(),
+      next: {
+        boolean: false,
+        number: 0,
+        string: "",
+        next: {
+          boolean: false,
+          number: 0,
+          next: {
+            boolean: false,
+          }
+        }
+      },
+    };
+
+    const full = object({ 
+      boolean,
+      number,
+      string,
+      symbol,
+      next: {
+        boolean,
+        number,
+        string,
+        next: {
+          boolean,
+          number,
+          next: {
+            boolean,
+          }
+        }
+      }
+    });
+    assert(full.validate(x)).equals(x);
   });
 }

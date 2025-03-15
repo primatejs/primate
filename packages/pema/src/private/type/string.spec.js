@@ -6,6 +6,6 @@ export default test => {
   });
 
   test.case("pass", assert => {
-    assert((string.validate("test"))).equals("test");
+    assert(string.validate("test")).equals("test");
   });
 }

@@ -6,7 +6,7 @@ export default test => {
   });
 
   test.case("pass", assert => {
-    assert((boolean.validate(true))).equals(true);
-    assert((boolean.validate(false))).equals(false);
+    assert(boolean.validate(true)).equals(true);
+    assert(boolean.validate(false)).equals(false);
   });
 }
