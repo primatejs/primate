@@ -10,8 +10,10 @@ type InferObject<Properties extends ObjectProperties, Result = {
   [K in keyof Properties]:
     Properties[K] extends Validated<unknown>
       ? Infer<Properties[K]>
-      : Properties[K] extends Record<string, Validated<unknown>>
-        ? Infer<ObjectType<Properties[K]>> : never }> = Result;
+      : Properties[K] extends ObjectProperties
+        ? Infer<ObjectType<Properties[K]>>
+        : never
+}> = Result;
 
 function is_validated_type(x: unknown): x is Validated<unknown> {
   return !!x && typeof x === "object" && ValidatedKey in x;
