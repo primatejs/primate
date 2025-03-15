@@ -1,4 +1,5 @@
 import type Predicate from "#predicate/Predicate";
+import type Dictionary from "@rcompat/record/Dictionary";
 
 function validate<T>(x: Predicate<T>, t: T): T {
   const keys = Object.keys(x);
@@ -7,13 +8,12 @@ function validate<T>(x: Predicate<T>, t: T): T {
     return {} as T;
   }
 
-  const result: T = {} as T;
+  const result: Dictionary = {};
 
   for (const key of keys) {
     const subpredicate = x[key as keyof T];
     try {
-      // @ts-expect-error test
-      result[key as keyof T] = subpredicate.validate(t[key as keyof T])
+      result[key] = subpredicate.validate(t[key as keyof T]);
     } catch (error) {
        throw new Error(`.${key}: ${(error as any).message}`);
     }
@@ -30,7 +30,8 @@ export default class ObjectPredicate<T> {
   }
 
   get type() {
-    return {};
+    const _ = this.#o;
+    return {} as typeof _;
   }
 
   validate(o: T) {

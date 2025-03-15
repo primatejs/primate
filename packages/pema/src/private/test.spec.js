@@ -2,6 +2,7 @@ import boolean from "#predicate/boolean";
 import number from "#predicate/number";
 import string from "#predicate/string";
 import object from "#predicate/object";
+import ObjectPredicate from "#predicate/ObjectPredicate";
 
 export default test => {
   test.case("boolean", assert => {
@@ -39,8 +40,13 @@ export default test => {
     assert(() => s_n.validate(f)).throws(".bar: expected number, got `undefined` (undefined)");
 
     // recursive
-    const rc = object({ foo: object({ bar: string() })});;
+    const rc = object({ foo: object({ bar: string() }) });
     assert(rc.validate({ foo: { bar: "baz" }})).equals({ foo: { bar: "baz" }});
     assert(() => rc.validate({ foo: { bar: 1 }})).throws();
+
+    // recursive implicit
+    /*const rci = object({ foo: { bar: string() }});;
+    assert(rci.validate({ foo: { bar: "baz" }})).equals({ foo: { bar: "baz" }});
+    assert(() => rci.validate({ foo: { bar: 1 }})).throws();*/
   });
 }

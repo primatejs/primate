@@ -1,6 +1,6 @@
 type Predicate<T> = {
   [K in keyof T]: {
-    type: T[K]
+    type: T[K] | Predicate<T[K]>
     validate(o: T[K]): T,
   }
 };
