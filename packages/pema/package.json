@@ -18,14 +18,21 @@
   "scripts": {
     "build": "npm run clean && tsc",
     "clean": "rm -rf ./lib",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "test": "tsx --conditions=apekit ../../node_modules/debris/src/bin.js"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@rcompat/record": "^0.6.1"
+  },
   "type": "module",
   "imports": {
     "#*": {
       "apekit": "./src/private/*.ts",
       "default": "./lib/private/*.js"
+    },
+    "#predicate/*": {
+      "apekit": "./src/private/predicate/*.ts",
+      "default": "./lib/private/predicate/*.js"
     }
   },
   "exports": {
