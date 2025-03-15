@@ -21,7 +21,26 @@ export default test => {
   });
 
   test.case("object", assert => {
-//    assert(object({}).validate({})).equals({});
-    assert(() => object({ foo: string() }).validate({})).throws(".foo: expected string, got `undefined` (undefined)");
+    assert(object({}).validate({})).equals({});
+
+    const s = object({ foo: string() });
+    const s_n = object({ foo: string(), bar: number() });
+    const s_n_b = object({ foo: string(), bar: number(), baz: boolean() });
+
+    const f = { foo: "bar" };
+    const fb = { foo: "bar", bar: 0 };
+    const fbb = { foo: "bar", bar: 0, baz: false };
+
+    assert(s.validate(f)).equals(f);
+    assert(s_n.validate(fb)).equals(fb);
+    assert(s_n_b.validate(fbb)).equals(fbb);
+
+    assert(() => s.validate({})).throws(".foo: expected string, got `undefined` (undefined)");
+    assert(() => s_n.validate(f)).throws(".bar: expected number, got `undefined` (undefined)");
+
+    // recursive
+    const rc = object({ foo: object({ bar: string() })});;
+    assert(rc.validate({ foo: { bar: "baz" }})).equals({ foo: { bar: "baz" }});
+    assert(() => rc.validate({ foo: { bar: 1 }})).throws();
   });
 }

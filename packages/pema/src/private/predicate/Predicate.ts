@@ -1,12 +1,8 @@
-import type BooleanPredicate from "#predicate/BooleanPredicate";
-import type NumberPredicate from "#predicate/NumberPredicate";
-import type ObjectPredicate from "#predicate/ObjectPredicate";
-import type StringPredicate from "#predicate/StringPredicate";
-
-type Predicate =
-  | BooleanPredicate
-  | NumberPredicate
-  | StringPredicate
-  | ObjectPredicate;
+type Predicate<T> = {
+  [K in keyof T]: {
+    type: T[K]
+    validate(o: T[K]): T,
+  }
+};
 
 export { Predicate as default };

@@ -1,5 +1,4 @@
 import ObjectPredicate from "#predicate/ObjectPredicate";
 import type Predicate from "#predicate/Predicate";
-import type Dictionary from "@rcompat/record/Dictionary";
 
-export default (o: Dictionary<Predicate>) => new ObjectPredicate(o);
+export default <T>(o: Predicate<T>) => new ObjectPredicate(o);
