@@ -3,6 +3,7 @@ import number from "#type/number";
 import object from "#type/object";
 import string from "#type/string";
 import symbol from "#type/symbol";
+import bigint from "#type/bigint";
 
 const s = object({ foo: string });
 const s_n = object({ foo: string, bar: number });
@@ -38,41 +39,55 @@ export default test => {
     assert(() => rci.validate({ foo: { bar: 1 }})).throws();
 
     const x = {
+      bigint: 0n,
       boolean: false,
       number: 0,
       string: "",
       symbol: Symbol(),
       next: {
+        bigint: 0n,
         boolean: false,
         number: 0,
         string: "",
         next: {
+          bigint: 0n,
           boolean: false,
           number: 0,
           next: {
+            bigint: 0n,
             boolean: false,
-          }
-        }
+            next: {
+              bigint: 0n,
+            },
+          },
+        },
       },
     };
 
     const full = object({ 
+      bigint,
       boolean,
       number,
       string,
       symbol,
       next: {
+        bigint,
         boolean,
         number,
         string,
         next: {
+          bigint,
           boolean,
           number,
           next: {
+            bigint,
             boolean,
-          }
-        }
-      }
+            next: {
+              bigint,
+            },
+          },
+        },
+      },
     });
     assert(full.validate(x)).equals(x);
   });
