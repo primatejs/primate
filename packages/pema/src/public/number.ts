@@ -1,1 +1,1 @@
-export { default } from "#predicate/number";
+export { default } from "#type/number";

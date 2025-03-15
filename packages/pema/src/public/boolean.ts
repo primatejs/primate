@@ -1,1 +1,1 @@
-export { default } from "#predicate/boolean";
+export { default } from "#type/boolean";

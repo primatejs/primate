@@ -1,1 +1,1 @@
-export { default } from "#predicate/object";
+export { default } from "#type/object";

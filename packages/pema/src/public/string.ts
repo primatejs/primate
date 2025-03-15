@@ -1,1 +1,1 @@
-export { default } from "#predicate/string";
+export { default } from "#type/string";
