@@ -1,9 +1,10 @@
+import bigint from "#type/bigint";
 import boolean from "#type/boolean";
 import number from "#type/number";
 import object from "#type/object";
 import string from "#type/string";
 import symbol from "#type/symbol";
-import bigint from "#type/bigint";
+import date from "#type/date";
 
 const s = object({ foo: string });
 const s_n = object({ foo: string, bar: number });
@@ -41,23 +42,31 @@ export default test => {
     const x = {
       bigint: 0n,
       boolean: false,
+      date: new Date(),
       number: 0,
       string: "",
       symbol: Symbol(),
       next: {
         bigint: 0n,
         boolean: false,
+        date: new Date(),
         number: 0,
         string: "",
         next: {
           bigint: 0n,
           boolean: false,
+          date: new Date(),
           number: 0,
           next: {
             bigint: 0n,
             boolean: false,
+            date: new Date(),
             next: {
               bigint: 0n,
+              boolean: false,
+              next: {
+                bigint: 0n,
+              },
             },
           },
         },
@@ -67,23 +76,31 @@ export default test => {
     const full = object({ 
       bigint,
       boolean,
+      date,
       number,
       string,
       symbol,
       next: {
         bigint,
         boolean,
+        date,
         number,
         string,
         next: {
           bigint,
           boolean,
+          date,
           number,
           next: {
             bigint,
             boolean,
+            date,
             next: {
               bigint,
+              boolean,
+              next: {
+                bigint,
+              },
             },
           },
         },
