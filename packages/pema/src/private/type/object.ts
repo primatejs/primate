@@ -33,12 +33,13 @@ class ObjectType<Properties extends ObjectProperties>
       throw new Error("NOT AN OBJECT");
     }
 
-    return Object.fromEntries(Object.entries(this.#properties).map(([k, v]) => {
+    Object.fromEntries(Object.entries(this.#properties).map(([k, v]) => {
       const validator = is_validated_type(v) ? v : new ObjectType(v);
         return [k, validator.validate((x as Record<PropertyKey, unknown>)[k], k)]
-    })) as never;
+    }));
+
+    return x as never;
   }
 }
 
-export default <Properties extends ObjectProperties>(properties: Properties):
-  ObjectType<Properties> => new ObjectType(properties);
+export default <Properties extends ObjectProperties>(properties: Properties) => new ObjectType(properties);
