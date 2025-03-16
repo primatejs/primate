@@ -5,6 +5,7 @@ import object from "#type/object";
 import string from "#type/string";
 import symbol from "#type/symbol";
 import date from "#type/date";
+import blob from "#type/blob";
 
 const s = object({ foo: string });
 const s_n = object({ foo: string, bar: number });
@@ -39,67 +40,55 @@ export default test => {
     assert(rci.validate({ foo: { bar: "baz" }})).equals({ foo: { bar: "baz" }});
     assert(() => rci.validate({ foo: { bar: 1 }})).throws();
 
+    const x0 = { bigint: 0n };
+    const x1 = { ...x0, blob: new Blob() };
+    const x2 = { ...x1, boolean: false };
+    const x3 = { ...x2, date: new Date() };
+    const x4 = { ...x3, number: 0 };
+    const x5 = { ...x4, string: "" };
+    const x6 = { ...x5, symbol: Symbol() };
+
     const x = {
-      bigint: 0n,
-      boolean: false,
-      date: new Date(),
-      number: 0,
-      string: "",
-      symbol: Symbol(),
+      ...x6,
       next: {
-        bigint: 0n,
-        boolean: false,
-        date: new Date(),
-        number: 0,
-        string: "",
+        ...x5,
         next: {
-          bigint: 0n,
-          boolean: false,
-          date: new Date(),
-          number: 0,
+          ...x4,
           next: {
-            bigint: 0n,
-            boolean: false,
-            date: new Date(),
+            ...x3,
             next: {
-              bigint: 0n,
-              boolean: false,
+              ...x2,
               next: {
-                bigint: 0n,
+                ...x1,
+                next: x0,
               },
             },
           },
         },
       },
-    };
+    }; 
 
-    const full = object({ 
-      bigint,
-      boolean,
-      date,
-      number,
-      string,
-      symbol,
+    const f0 = { bigint };
+    const f1 = { ...f0, blob };
+    const f2 = { ...f1, boolean };
+    const f3 = { ...f2, date };
+    const f4 = { ...f3, number};
+    const f5 = { ...f4, string };
+    const f6 = { ...f5, symbol };
+
+    const full = object({
+      ...f6,
       next: {
-        bigint,
-        boolean,
-        date,
-        number,
-        string,
+        ...f5,
         next: {
-          bigint,
-          boolean,
-          date,
-          number,
+          ...f4,
           next: {
-            bigint,
-            boolean,
-            date,
+            ...f3,
             next: {
-              bigint,
-              boolean,
+              ...f2,
               next: {
-                bigint,
+                ...f1,
+                next: f0,
               },
             },
           },
