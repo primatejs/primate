@@ -1,11 +1,12 @@
 import bigint from "#type/bigint";
+import blob from "#type/blob";
 import boolean from "#type/boolean";
+import date from "#type/date";
 import number from "#type/number";
 import object from "#type/object";
 import string from "#type/string";
 import symbol from "#type/symbol";
-import date from "#type/date";
-import blob from "#type/blob";
+import file from "#type/file";
 
 const s = object({ foo: string });
 const s_n = object({ foo: string, bar: number });
@@ -47,20 +48,24 @@ export default test => {
     const x4 = { ...x3, number: 0 };
     const x5 = { ...x4, string: "" };
     const x6 = { ...x5, symbol: Symbol() };
+    const x7 = { ...x6, file: new File([""], "") }
 
     const x = {
-      ...x6,
+      ...x7,
       next: {
-        ...x5,
+        ...x6,
         next: {
-          ...x4,
+          ...x5,
           next: {
-            ...x3,
+            ...x4,
             next: {
-              ...x2,
+              ...x3,
               next: {
-                ...x1,
-                next: x0,
+                ...x2,
+                next: {
+                  ...x1,
+                  next: x0,
+                },
               },
             },
           },
@@ -75,20 +80,24 @@ export default test => {
     const f4 = { ...f3, number};
     const f5 = { ...f4, string };
     const f6 = { ...f5, symbol };
+    const f7 = { ...f6, file };
 
     const full = object({
-      ...f6,
+      ...f7,
       next: {
-        ...f5,
+        ...f6,
         next: {
-          ...f4,
+          ...f5,
           next: {
-            ...f3,
+            ...f4,
             next: {
-              ...f2,
+              ...f3,
               next: {
-                ...f1,
-                next: f0,
+                ...f2,
+                next: {
+                  ...f1,
+                  next: f0,
+                },
               },
             },
           },
