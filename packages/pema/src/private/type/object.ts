@@ -19,6 +19,12 @@ function is_validated_type(x: unknown): x is Validated<unknown> {
   return !!x && typeof x === "object" && ValidatedKey in x;
 }
 
+const error_key = (name: number, key?: string) => {
+  return key === undefined
+    ? `.${name}`
+    : `${key}.${name}]`;
+}
+
 class ObjectType<Properties extends ObjectProperties>
   extends Validated<InferObject<Properties>> {
   #properties: Properties;
@@ -28,14 +34,14 @@ class ObjectType<Properties extends ObjectProperties>
     this.#properties = properties;
   }
 
-  validate(x: unknown): Infer<this> {
+  validate(x: unknown, key?: string): Infer<this> {
     if (!(!!x && typeof x === "object")) {
       throw new Error("NOT AN OBJECT");
     }
 
     Object.fromEntries(Object.entries(this.#properties).map(([k, v]) => {
       const validator = is_validated_type(v) ? v : new ObjectType(v);
-        return [k, validator.validate((x as Record<PropertyKey, unknown>)[k], k)]
+        return [k, validator.validate((x as Record<PropertyKey, unknown>)[k], error_key(k, key))]
     }));
 
     return x as never;
