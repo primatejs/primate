@@ -7,7 +7,7 @@ const error_message = (name: string, x: unknown, key?: string) => {
   return key === undefined
     ? base
     : `${key}: ${base}`;
-}
+};
 
 export default class ValidatedPrimitive<StaticType> extends Validated<StaticType> {
   #name: string;

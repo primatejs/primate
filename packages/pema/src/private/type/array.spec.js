@@ -1,46 +1,58 @@
 import array from "#type/array";
 import boolean from "#type/boolean";
+import date from "#type/date";
+import expect from "#type/expect";
 import number from "#type/number";
 import string from "#type/string";
 
 const s = array(string);
-const s_n = array(string, number);
-const s_n_b = array(string, number, boolean);
+const n = array(number);
+const b = array(boolean);
+const d = array(date);
 
-const f = ["bar"];
-const fb = ["bar", 0];
-const fbb = ["bar", 0, false];
+const as = ["0"];
+const an = [0];
+const ab = [false];
+const ad = [new Date()];
+
+const x = (y, length = 2) => Array.from({ length }, _ => y).flat();
 
 export default test => {
   test.case("empty", assert => {
-    assert(array().validate([])).equals([]);
+    assert(s.validate([])).equals([]);
+    assert(n.validate([])).equals([]);
+    assert(b.validate([])).equals([]);
+    assert(d.validate([])).equals([]);
   });
 
   test.case("flat", assert => {
-    assert(s.validate(f)).equals(f);
-    assert(s_n.validate(fb)).equals(fb);
-    assert(s_n_b.validate(fbb)).equals(fbb);
+    assert(s.validate(as)).equals(as);
+    assert(n.validate(an)).equals(an);
+    assert(b.validate(ab)).equals(ab);
+    assert(d.validate(ad)).equals(ad);
 
-    assert(() => s.validate([])).throws("[0]: expected string, got `undefined` (undefined)");
-    assert(() => s_n.validate(f)).throws("[1]: expected number, got `undefined` (undefined)");
+    assert(s.validate(x(as))).equals(x(as));
+    assert(n.validate(x(an, 3))).equals(x(an, 3));
+    assert(b.validate(x(ab, 4))).equals(x(ab, 4));
+    assert(d.validate(x(ad, 5))).equals(x(ad, 5))
+
+    assert(() => s.validate(an)).throws(expect("s", 0, "[0]"));
+    assert(() => n.validate(ab)).throws(expect("n", false, "[0]"));
+    assert(() => b.validate(ad)).throws(expect("b", new Date(), "[0]"));
+    assert(() => d.validate(as)).throws(expect("d", "0", "[0]"));
+
+    assert(() => s.validate([...as, ...an])).throws(expect("s", 0, "[1]"));
+    assert(() => n.validate([...as, ...an])).throws(expect("n", "0", "[0]"));
+    assert(() => b.validate([...ab, ...ad])).throws(expect("b", new Date(), "[1]"));
+    assert(() => d.validate([...ab, ...ad])).throws(expect("d", false, "[0]"));
   });
 
   test.case("deep", assert => {
     // recursive
     const rc = array(array(string));
-    assert(rc.validate([["foo"]])).equals([["foo"]]);
-    assert(() => rc.validate([])).throws();
+    assert(rc.validate([as])).equals([as]);
 
-    // recursive implicit
-    const rci = array([string]);
-    assert(rci.validate([["foo"]])).equals([["foo"]]);
-    assert(() => rci.validate()).throws("expected array, got `undefined` (undefined)");
-    assert(() => rci.validate("foo")).throws("expected array, got `foo` (string)");
-
-    assert(() => rci.validate([])).throws("[0]: expected array, got `undefined` (undefined)");
-    assert(() => rci.validate(["foo"])).throws("[0]: expected array, got `foo` (string)");
-
-    assert(() => rci.validate([[]])).throws("[0][0]: expected string, got `undefined` (undefined)");
-    assert(() => rci.validate([[false]])).throws("[0][0]: expected string, got `false` (boolean)");
+    assert(() => rc.validate(as)).throws(expect("a", "0", "[0]"));
+    assert(() => rc.validate([[0]])).throws();
   });
 }

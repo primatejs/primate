@@ -108,15 +108,9 @@ export default test => {
   });
 
   test.case("with arrays", assert => {
-    const o = { foo: ["bar"] };
+    const o = { foo: ["bar", "baz"] };
 
     const oa = object({ foo: array(string)} );
     assert(oa.validate(o)).equals(o);
-    //oa.validate().foo[0]
-
-    const oai = object({ foo: [string] });
-    //oai.validate(
-    //assert(oai.validate(o)).equals(o);
-
   });
 }

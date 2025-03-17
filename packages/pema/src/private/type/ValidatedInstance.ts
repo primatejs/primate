@@ -5,7 +5,7 @@ const error_message = (name: string, x: unknown, key?: string) => {
   const base = `expected ${name}, got \`${x}\` (${(typeof x)})`;
   return key === undefined
     ? base
-    : `.${key}: ${base}`;
+    : `${key}: ${base}`;
 }
 
 export default class ValidatedInstance<StaticType> extends Validated<StaticType> {
