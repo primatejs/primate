@@ -3,7 +3,6 @@ import Validated from "#type/Validated";
 import ValidatedKey from "#type/ValidatedKey";
 import expected from "#type/expected";
 import notdefined from "#type/undefined";
-import to_array from "@rcompat/array/to";
 
 type TupleMembers = Validated<unknown>[];
 
@@ -46,7 +45,7 @@ class TupleType<Members extends TupleMembers>
       throw new Error(error(expected("array", x), key));
     }
 
-    to_array(this.#members).forEach((v, i) => {
+    this.#members.forEach((v, i) => {
       const validator = is_validated_type(v) ? v : new TupleType(v);
       validator.validate(x[i], `${member_error(i, key)}` as string);
     });
