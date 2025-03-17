@@ -7,6 +7,7 @@ import object from "#type/object";
 import string from "#type/string";
 import symbol from "#type/symbol";
 import file from "#type/file";
+import array from "#type/array";
 
 const s = object({ foo: string });
 const s_n = object({ foo: string, bar: number });
@@ -104,5 +105,18 @@ export default test => {
       },
     });
     assert(full.validate(x)).equals(x);
+  });
+
+  test.case("with arrays", assert => {
+    const o = { foo: ["bar"] };
+
+    const oa = object({ foo: array(string)} );
+    assert(oa.validate(o)).equals(o);
+    //oa.validate().foo[0]
+
+    const oai = object({ foo: [string] });
+    //oai.validate(
+    //assert(oai.validate(o)).equals(o);
+
   });
 }
