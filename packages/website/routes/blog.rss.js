@@ -1,11 +1,11 @@
-import file from "@rcompat/fs/file";
+import FileRef from "@rcompat/fs/FileRef";
 import { xml } from "@rcompat/http/mime";
 import { view } from "primate";
 
 const description = "Web framework focused on flexibility and developer freedom";
 
 const entries_path = ["blog", "entries.json"];
-const entries = file(import.meta.url).up(2).join(...entries_path);
+const entries = new FileRef(import.meta.url).up(2).join(...entries_path);
 
 export default {
   async get() {
