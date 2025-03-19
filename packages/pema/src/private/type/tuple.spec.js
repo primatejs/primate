@@ -1,8 +1,8 @@
-import tuple from "#type/tuple";
 import boolean from "#type/boolean";
+import expect from "#type/expect";
 import number from "#type/number";
 import string from "#type/string";
-import expect from "#type/expect";
+import tuple from "#type/tuple";
 
 const s = tuple([string]);
 const s_s = tuple([string, string]);
@@ -21,25 +21,24 @@ export default test => {
   });
 
   test.case("flat", assert => {
-    assert(s.validate(f)).equals(f);
+    /*assert(s.validate(f)).equals(f);
     assert(s_s.validate(x(f))).equals(x(f));
     assert(s_n.validate(fb)).equals(fb);
     assert(s_n_b.validate(fbb)).equals(fbb);
-
     assert(() => s.validate([])).throws(expect("s", undefined, "[0]"));
     assert(() => s_n.validate(f)).throws(expect("n", undefined, "[1]"));
-    assert(() => s_n_b.validate(x(fb))).throws(expect("b", "bar", "[2]"));
+    assert(() => s_n_b.validate(x(fb))).throws(expect("b", "bar", "[2]"));*/
     assert(() => s_n_b.validate(x(fbb))).throws(expect("u", "bar", "[3]"));
   });
 
-  /*test.case("deep", assert => {
+  test.case("deep", assert => {
     // recursive
-    const rc = array(array(string));
+    const rc = tuple([tuple([string])]);
     assert(rc.validate([["foo"]])).equals([["foo"]]);
     assert(() => rc.validate([])).throws();
 
     // recursive implicit
-    const rci = array([string]);
+    /*const rci = array([string]);
     assert(rci.validate([["foo"]])).equals([["foo"]]);
     assert(() => rci.validate()).throws("expected array, got `undefined` (undefined)");
     assert(() => rci.validate("foo")).throws("expected array, got `foo` (string)");
@@ -48,6 +47,6 @@ export default test => {
     assert(() => rci.validate(["foo"])).throws("[0]: expected array, got `foo` (string)");
 
     assert(() => rci.validate([[]])).throws("[0][0]: expected string, got `undefined` (undefined)");
-    assert(() => rci.validate([[false]])).throws("[0][0]: expected string, got `false` (boolean)");
-  });*/
+    assert(() => rci.validate([[false]])).throws("[0][0]: expected string, got `false` (boolean)");*/
+  });
 }

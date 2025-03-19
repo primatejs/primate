@@ -1,5 +1,5 @@
+import asset from "#serve/asset";
 import FileRef from "@rcompat/fs/FileRef";
-import serve_asset from "./serve-asset.js";
 import type Dictionary from "@rcompat/record/Dictionary";
 
 type Options = {
@@ -27,13 +27,13 @@ export default ({
     async asset(pathname: string) {
       const client_file = buildroot.join(`client/${pathname}`);
       if (await client_file.isFile()) {
-        return serve_asset(client_file);
+        return asset(client_file);
       }
       if (pathname.startsWith(static_root)) {
         const assetname = pathname.slice(static_root.length);
         const static_file = buildroot.join(`server/static/${assetname}`);
         if (await static_file.isFile()) {
-          return serve_asset(static_file);
+          return asset(static_file);
         }
       }
     },

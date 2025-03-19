@@ -9,5 +9,7 @@ export default abstract class ValidatedType<StaticType> {
     return undefined as StaticType;
   }
 
+  abstract get name(): string;
+
   abstract validate(x: unknown, key?: string): StaticType;
 }

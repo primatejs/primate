@@ -1,1 +1,1 @@
-export { default } from "#type/object";
+export { default } from "#type/schema";

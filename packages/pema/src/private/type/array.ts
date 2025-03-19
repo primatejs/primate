@@ -14,6 +14,8 @@ const error = (message: string, key?: string) => {
     : `${key}: ${message}`;
 }
 
+const is = <T>(x: unknown, validator: (t: unknown) => boolean): x is T => validator(x);
+
 class ArrayType<Subtype extends Validated<unknown>>
   extends Validated<Infer<Subtype>[]> {
   #subtype: Subtype;
@@ -23,15 +25,30 @@ class ArrayType<Subtype extends Validated<unknown>>
     this.#subtype = subtype;
   }
 
+  get name() {
+    return "array";
+  }
+
   validate(x: unknown, key?: string): Infer<this> {
-    if (!(!!x && Array.isArray(x))) {
+    if (!is<Subtype[]>(x, _ => !!x && Array.isArray(x))) {
       throw new Error(error(expected("array", x), key));
     }
 
-    (x as Subtype[]).forEach((v, i) => {
+    let last = 0;
+    x.forEach((v, i) => {
+      // sparse array check
+      if (i > last) {
+        throw new Error(error(expected(this.#subtype.name, undefined), `[${last}]`));
+      }
       const validator = this.#subtype;
       validator.validate(v, `${member_error(i, key)}` as string);
+      last++;
     });
+
+    // sparse array with end slots
+    if (x.length > last) {
+        throw new Error(error(expected(this.#subtype.name, undefined), `[${last}]`));
+    }
 
     return x as never;
   }

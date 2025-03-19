@@ -1,20 +1,26 @@
 {
   "name": "primate",
   "version": "0.33.0-pre",
-  "description": "The Universal Web Framework",
+  "description": "The universal web framework",
   "homepage": "https://primatejs.com",
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
   "files": [
-    "src/**/*.js",
-    "!src/**/*.spec.js",
-    "types/*.ts"
+    "/lib/**/*.js",
+    "/lib/**/*.d.ts",
+    "!/**/*.spec.*"
   ],
-  "bin": "src/bin.js",
+  "bin": "lib/bin.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/primatejs/primate",
     "directory": "packages/primate"
+  },
+  "scripts": {
+    "build": "npm run clean && tsc",
+    "clean": "rm -rf ./lib",
+    "lint": "eslint .",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "@primate/core": "workspace:^",
@@ -26,16 +32,28 @@
     "@rcompat/package": "^0.10.1"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "type": "module",
-  "types": "types/index.d.ts",
+  "imports": {
+    "#loader": "@primate/core/serve/loader"
+  },
   "exports": {
-    "./handler/*": {
-      "types": "./types/index.d.ts",
-      "default": "./src/handlers/*.js"
+    "./route": {
+      "apekit": "./src/public/route.ts",
+      "default": "./lib/public/route.js"
     },
-    "./*": "./src/public/*.js",
-    "./runtime/*": "./src/runtime/*.js"
+    "./handler/*": {
+      "apekit": "./src/handlers/*.ts",
+      "default": "./lib/handlers/*.js"
+    },
+    "./*": {
+      "apekit": "./src/public/*.ts",
+      "default": "./lib/public/*.js"
+    },
+    "./runtime/*": {
+      "apekit": "./lib/runtime/*.ts",
+      "default": "./lib/runtime/*.js"
+    }
   }
 }

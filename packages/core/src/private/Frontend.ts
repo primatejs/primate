@@ -5,7 +5,7 @@ import type ResponseLike from "#ResponseLike";
 import type { ServeApp } from "#serve/app";
 import type Dictionary from "@rcompat/record/Dictionary";
 
-type Frontend = (name: string, props: Props, options: Options)
+type Frontend = (name: string, props?: Props, options?: Options)
   => (app: ServeApp, transfer: Dictionary, request: RequestFacade)
     => ResponseLike;
 

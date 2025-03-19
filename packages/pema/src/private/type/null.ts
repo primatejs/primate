@@ -1,6 +1,6 @@
-import type Infer from "#type/Infer";
-import Validated from "#type/Validated";
 import expected from "#type/expected";
+import type Infer from "#type/Infer";
+import ValidatedPrimitive from "#type/ValidatedPrimitive";
 
 const error_message = (name: string, x: unknown, key?: string) => {
   const base = expected(name, x);
@@ -9,23 +9,18 @@ const error_message = (name: string, x: unknown, key?: string) => {
     : `${key}: ${base}`;
 };
 
-export default class ValidatedPrimitive<StaticType> extends Validated<StaticType> {
-  #name: string;
-
-  constructor(name: string) {
-    super();
-    this.#name = name;
+class NullType extends ValidatedPrimitive<undefined> {
+  constructor() {
+    super("null");
   }
-
-  get name() {
-    return this.#name;
-  }
-
+  
   validate(x: unknown, key?: string): Infer<this> {
-    if (typeof x !== this.name) {
+    if (x !== null) {
       throw new Error(error_message(this.name, x, key));
     }
 
     return x as never;
   }
 }
+
+export default new NullType();

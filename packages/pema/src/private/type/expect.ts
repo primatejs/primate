@@ -5,6 +5,12 @@ const types = {
   n: "number",
   s: "string",
   u: "undefined",
+  bt: "bigint",
+  f: "file",
+  bb: "blob",
+  o: "object",
+  nl: "null",
+  sy: "symbol",
 };
 
 const prefix = (at: string) => at ? `${at}: `: "";

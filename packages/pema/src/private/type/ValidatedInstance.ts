@@ -18,6 +18,10 @@ export default class ValidatedInstance<StaticType> extends Validated<StaticType>
     this.#instance = instance;
   }
 
+  get name() {
+    return this.#name;
+  }
+
   validate(x: unknown, key: string): Infer<this> {
     if (!(x instanceof this.#instance)) {
       throw new Error(error_message(this.#name, x, key));

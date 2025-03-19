@@ -47,6 +47,18 @@ export default test => {
     assert(() => d.validate([...ab, ...ad])).throws(expect("d", false, "[0]"));
   });
 
+  test.case("sparse", assert => {
+    const b0 = ["f", undefined, "f"];
+    const b1 = ["f", , "f"];
+    const b2 = [, "f"];
+    const b3 = ["f", "f", ,];
+
+    assert(() => s.validate(b0)).throws(expect("s", undefined, "[1]"));
+    assert(() => s.validate(b1)).throws(expect("s", undefined, "[1]"));
+    assert(() => s.validate(b2)).throws(expect("s", undefined, "[0]"));
+    assert(() => s.validate(b3)).throws(expect("s", undefined, "[2]"));
+  });
+
   test.case("deep", assert => {
     // recursive
     const rc = array(array(string));

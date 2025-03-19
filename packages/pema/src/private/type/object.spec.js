@@ -8,6 +8,8 @@ import string from "#type/string";
 import symbol from "#type/symbol";
 import file from "#type/file";
 import array from "#type/array";
+import tuple from "#type/tuple";
+import expect from "#type/expect";
 
 const s = object({ foo: string });
 const s_n = object({ foo: string, bar: number });
@@ -26,8 +28,10 @@ export default test => {
     assert(s.validate(f)).equals(f);
     assert(s_n.validate(fb)).equals(fb);
 
-    assert(() => s.validate({})).throws(".foo: expected string, got `undefined` (undefined)");
-    assert(() => s_n.validate(f)).throws(".bar: expected number, got `undefined` (undefined)");
+    assert(() => s.validate()).throws(expect("o", undefined));
+    assert(() => s.validate(fb)).throws(expect("u", 0, ".bar"));
+    assert(() => s.validate({})).throws(expect("s", undefined, ".foo"));
+    assert(() => s_n.validate(f)).throws(expect("n", undefined, ".bar"));
   });
 
   test.case("deep", assert => {
@@ -107,10 +111,44 @@ export default test => {
     assert(full.validate(x)).equals(x);
   });
 
-  test.case("with arrays", assert => {
+  test.case("arrays", assert => {
     const o = { foo: ["bar", "baz"] };
 
     const oa = object({ foo: array(string)} );
     assert(oa.validate(o)).equals(o);
   });
+
+  test.case("tuples", assert => {
+    const o = { foo: ["bar", 0] };
+
+    const ot = object({ foo: tuple([string, number])} );
+    assert(ot.validate(o)).equals(o);
+
+    const oti = object({ foo: [string, number] } );
+    assert(oti.validate(o)).equals(o);
+  });
+
+  test.case("complex", assert => {
+    const schema = object({
+      foo: string,
+      bar: {
+        baz: [string, {
+          x: array(boolean),
+          y: [date, symbol],
+        }],
+      },
+    });
+
+    const og = {
+      foo: "foo",
+      bar: {
+        baz: ["baz", {
+          x: [true, false, true],
+          y: [new Date, Symbol("sy")],
+        }],
+      },
+    };
+
+    assert(schema.validate(og)).equals(og);
+  })
 }

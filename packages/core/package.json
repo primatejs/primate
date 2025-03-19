@@ -82,9 +82,13 @@
     "./hook": {
       "apekit": "./src/private/module-loader.ts"
     },
-    "./serve": "./lib/serve/index.js",
-    "./serve/app": {
-      "apekit": "./src/serve/app.ts"
+    "./serve": {
+      "apekit": "./src/public/serve/index.ts",
+      "default": "./lib/public/serve/index.js"
+    },
+    "./serve/*": {
+      "apekit": "./src/public/serve/*.ts",
+      "default": "./lib/public/serve/*.js"
     },
     "./build": "./lib/build/index.js",
     "./build/app": {

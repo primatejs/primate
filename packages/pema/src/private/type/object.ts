@@ -1,8 +1,11 @@
 import type Infer from "#type/Infer";
 import Validated from "#type/Validated";
-import ValidatedKey from "#type/ValidatedKey";
+import is_validated_type from "#type/is_validated_type";
+import notdefined from "#type/undefined";
+import type Dictionary from "@rcompat/record/Dictionary";
+import schema, { type Schema } from "#type/schema";
 
-interface ObjectProperties {
+export interface ObjectProperties {
   readonly [k: string]: Validated<unknown> | ObjectProperties;
 };
 
@@ -15,15 +18,13 @@ type InferObject<Properties extends ObjectProperties, Result = {
         : never
 }> = Result;
 
-function is_validated_type(x: unknown): x is Validated<unknown> {
-  return !!x && typeof x === "object" && ValidatedKey in x;
-}
-
 const error_key = (name: unknown, key?: string) => {
   return key === undefined
     ? `.${name}`
     : `${key}.${name}]`;
 }
+
+const is = <T>(x: unknown, validator: (t: unknown) => boolean): x is T => validator(x);
 
 class ObjectType<Properties extends ObjectProperties>
   extends Validated<InferObject<Properties>> {
@@ -34,15 +35,25 @@ class ObjectType<Properties extends ObjectProperties>
     this.#properties = properties;
   }
 
+  get name() {
+    return "object";
+  }
+
   validate(x: unknown, key?: string): Infer<this> {
-    if (!(!!x && typeof x === "object")) {
-      throw new Error("NOT AN OBJECT");
+    if (!is<Dictionary>(x, _ => !!x && typeof _ === "object")) {
+      throw new Error(`expected object, got \`${x}\` (${typeof x})`);
     }
 
-    Object.fromEntries(Object.entries(this.#properties).map(([k, v]) => {
-      const validator = is_validated_type(v) ? v : new ObjectType(v);
-      return [k, validator.validate((x as Record<PropertyKey, unknown>)[k], error_key(k, key))]
-    }));
+    Object.entries(this.#properties).forEach(([k, v]) => {
+      const validator = is_validated_type(v) ? v : schema(v as Schema);
+      validator.validate(x[k], error_key(k, key));
+    });
+
+    const length = Object.keys(this.#properties).length;
+    
+    Object.entries(x).slice(length).forEach(([k, v]) => {
+      notdefined.validate(v, `${error_key(k)}`);
+    });
 
     return x as never;
   }

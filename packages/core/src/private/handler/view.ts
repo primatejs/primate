@@ -17,4 +17,4 @@ export default ((name, props, options) =>
     .map(extension => app.frontends[new FileRef(name)[extension as Extension]])
     .find(extension => extension !== undefined)
     ?.(name, props, options)(app, transfer, request) ?? no_handler(name)
-  ) satisfies Frontend;
+  ) as Frontend;

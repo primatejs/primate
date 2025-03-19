@@ -24,20 +24,20 @@ export type RequestHook<Next extends boolean = true> =
     ? NextHook<RequestFacade, Response>
     : Hook<RequestFacade, Response>;
 
-type Hooks = {
-  init: AppHook<false>,
-  build: BuildAppHook<false>,
-  serve: ServeAppHook<false>,
-  route: RequestHook<false>,
-  handle: RequestHook<false>,
+type Hooks<Next extends boolean> = {
+  init: AppHook<Next>,
+  build: BuildAppHook<Next>,
+  serve: ServeAppHook<Next>,
+  route: RequestHook<Next>,
+  handle: RequestHook<Next>,
 };
 
-export type Module = { name: string, load?: () => [] } &
-  { [Property in keyof Hooks]?: Hooks[Property]; };
+export type Module<Next extends boolean = true> = { name: string, load?: () => [] } &
+  { [Property in keyof Hooks<Next>]?: Hooks<Next>[Property]; };
 
-type LoadedHooks = 
+type LoadedHooks<Next extends boolean = false> =
   { names: string[] } &
-  { [Property in keyof Hooks]?: Hooks[Property][]; };
+  { [Property in keyof Hooks<Next>]?: Hooks<Next>[Property][]; };
 
 const doubled = (set: string[]) =>
   set.find((part: string, i: number, array: string[]) =>
