@@ -19,7 +19,7 @@
   "private": true,
   "homepage": "https://primatejs.com",
   "devDependencies": {
-    "apekit": "^0.0.7",
+    "apekit": "^0.0.8",
     "debris": "^0.14.0",
     "esbuild": "^0.25.1",
     "tsx": "^4.19.3",
