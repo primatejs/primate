@@ -11,7 +11,7 @@ export default (extension: string, ssr: boolean) => build({
   extension,
   name,
   compile: { client, server },
-  expose, 
+  expose,
   publish,
   ssr,
 });

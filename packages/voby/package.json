@@ -17,7 +17,7 @@
   "dependencies": {
     "@primate/frontend": "workspace:^",
     "@rcompat/build": "^0.10.1",
-    "linkedom-global": "^1.0.0"
+    "linkedom-global": "^1.0.1"
   },
   "peerDependencies": {
     "primate": "workspace:^",

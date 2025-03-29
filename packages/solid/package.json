@@ -21,13 +21,16 @@
     "lint": "eslint .",
     "prepublishOnly": "npm run build"
   },
+  "devDependencies": {
+    "@types/babel__core": "^7.20.5"
+  },
   "dependencies": {
     "@babel/core": "^7.26.10",
     "@primate/core": "workspace:^",
     "@rcompat/build": "^0.10.1",
     "@rcompat/fs": "^0.11.5",
     "@rcompat/runtime": "^0.3.0",
-    "babel-preset-solid": "^1.9.3"
+    "babel-preset-solid": "^1.9.5"
   },
   "peerDependencies": {
     "@primate/i18n": "workspace:^",

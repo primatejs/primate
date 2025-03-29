@@ -17,8 +17,8 @@
   },
   "dependencies": {
     "@primate/core": "workspace:^",
-    "@ruby/head-wasm-wasi": "^2.7.0",
-    "@ruby/wasm-wasi": "^2.7.0"
+    "@ruby/head-wasm-wasi": "^2.7.1",
+    "@ruby/wasm-wasi": "^2.7.1"
   },
   "peerDependencies": {
     "primate": "workspace:^"

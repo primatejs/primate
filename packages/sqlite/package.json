@@ -20,7 +20,7 @@
     "@rcompat/invariant": "^0.7.0",
     "@rcompat/object": "^0.5.0",
     "@rcompat/runtime": "^0.3.0",
-    "better-sqlite3": "^11.7.0"
+    "better-sqlite3": "^11.9.1"
   },
   "type": "module",
   "imports": {
