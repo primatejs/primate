@@ -6,7 +6,7 @@ itself.
 ## Run locally
 
 ```sh
-npm run local
+npm start
 ```
 
 ## Edit content
