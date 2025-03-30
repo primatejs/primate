@@ -1,8 +1,8 @@
 import type Props from "@primate/core/frontend/Props";
-import { createElement } from "react";
+import { createElement, type FunctionComponent } from "react";
 import { renderToString } from "react-dom/server";
 
-export default (component: any, props: Props) => {
+export default (component: FunctionComponent<Props>, props: Props) => {
   const heads: string[] = [];
   const push_heads = (sub_heads: string[]) => {
     heads.push(...sub_heads);

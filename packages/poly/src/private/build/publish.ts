@@ -2,8 +2,8 @@ import FileRef from "@rcompat/fs/FileRef";
 import client from "./client.js";
 import type Publish from "@primate/core/frontend/Publish";
 
-const css_filter = /\.polycss$/u;
-const root_filter = /^root:poly$/u;
+const css_filter = /\.polycss$/;
+const root_filter = /^root:poly$/;
 
 export default ((app, extension) => ({
   name: "poly",
@@ -16,13 +16,17 @@ export default ((app, extension) => ({
     });
     build.onLoad({ filter: css_filter }, ({ path }) => {
       const contents = app.build.load(FileRef.webpath(path));
-      return contents ? { contents, loader: "css", resolveDir: app.root.path } : null;
+      return contents
+        ? { contents, loader: "css", resolveDir: app.root.path }
+        : null;
     });
     build.onLoad({ filter: root_filter }, ({ path }) => {
       const contents = app.build.load(path);
-      return contents ? { contents, loader: "js", resolveDir: app.root.path } : null;
+      return contents
+        ? { contents, loader: "js", resolveDir: app.root.path }
+        : null;
     });
-    build.onLoad({ filter: new RegExp(`${extension}$`, "u") }, async args => {
+    build.onLoad({ filter: new RegExp(`${extension}$`) }, async args => {
       // Load the file from the file system
       const source = await FileRef.text(args.path);
 

@@ -1,8 +1,8 @@
 import FileRef from "@rcompat/fs/FileRef";
 import client from "./client.js";
 
-const css_filter = /\.sveltecss$/u;
-const root_filter = /^root:svelte$/u;
+const css_filter = /\.sveltecss$/;
+const root_filter = /^root:svelte$/;
 
 export default (app, extension) => ({
   name: "svelte",
@@ -21,7 +21,7 @@ export default (app, extension) => ({
       const contents = app.build.load(path);
       return contents ? { contents, loader: "js", resolveDir: app.root.path } : null;
     });
-    build.onLoad({ filter: new RegExp(`${extension}$`, "u") }, async args => {
+    build.onLoad({ filter: new RegExp(`${extension}$`) }, async args => {
       // Load the file from the file system
       const source = await FileRef.text(args.path);
 

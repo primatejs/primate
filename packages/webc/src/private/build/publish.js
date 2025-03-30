@@ -4,7 +4,7 @@ import client from "./client.js";
 export default (app, extension) => ({
   name: "webc",
   setup(build) {
-    build.onLoad({ filter: new RegExp(`${extension}$`, "u") }, async args => {
+    build.onLoad({ filter: new RegExp(`${extension}$`) }, async args => {
       // Load the file from the file system
       const source = await FileRef.text(args.path);
 

@@ -3,26 +3,13 @@ import type Frontend from "#Frontend";
 import normalize from "#frontend/normalize";
 import type Props from "#frontend/Props";
 import type RequestFacade from "#RequestFacade";
-import type ResponseLike from "#ResponseLike";
 import type { ServeApp } from "#serve/app";
-import cascade from "@rcompat/async/cascade";
 import map from "@rcompat/async/map";
 import { json } from "@rcompat/http/mime";
 import Status from "@rcompat/http/Status";
 import type Dictionary from "@rcompat/record/Dictionary";
-import type ServerComponent from "./ServerComponent.js";
 
-type Func = (component: {
-  render(...args: any[]): {
-    html: string,
-    head: string,
-  }
-}, ...args: any[]) => {
-  body: string,
-  head: string,
-};
-
-type Options = {
+type Options<Comp> = {
   app: ServeApp,
   name: string,
   spa: boolean,
@@ -31,36 +18,37 @@ type Options = {
     { names, data, request }: { names: string[], data: Dictionary[], request: Dictionary },
     { ssr, spa }: { ssr: boolean, spa: boolean },
   ): string,
-  render: Func,
+  render: (component: Comp, props: Props) => { body: string, head: string },
 };
 
-type Component = {
+type Component<C> = {
   name: string,
   props: Props,
-  component: ServerComponent,
+  component: C,
 };
 
-const register = ({ app, name: rootname, ...rest }: Options): Omit<Options, "app" | "name"> & {
-  root: ServerComponent
-  load(name: string, props: Props): Component
+const register = <C>({ app, name: rootname, ...rest }: Options<C>): Omit<Options<C>, "app" | "name"> & {
+  root: C
+  load(name: string, props: Props): Component<C>
 } => ({
-  root: app.component<ServerComponent>(`root_${rootname}.js`)!,
+  root: app.component<C>(`root_${rootname}.js`)!,
   load(name: string, props: Props) {
-    const component = app.component<ServerComponent>(name)!;
+    const component = app.component<C>(name)!;
     return { name, props, component };
   },
   ...rest,
 });
 
-type Layout = (app: ServeApp, transfer: Dictionary, request: RequestFacade)
-  => ResponseLike;
+type Layout<C> = (app: ServeApp, transfer: Dictionary, request: RequestFacade)
+  => Component<C>;
 
-export default (config: Options): Frontend => {
-  const { load, root, render, client } = register(config);
+export default <C>(config: Options<C>): Frontend => {
+  const { load, root, render, client } = register<C>(config);
   const normalized = normalize(config.name);
 
-  const get_names = (components: Component[]) => map(components, ({ name }) =>
-    normalized(name));
+  const get_names = (components: Component<C>[]) =>
+    map(components, ({ name }) =>
+      normalized(name));
 
   return (name, props = {}, options = {}) =>
     async (app, { layouts = [], as_layout } = {}, request) => {
@@ -68,11 +56,11 @@ export default (config: Options): Frontend => {
         return load(name, props);
 
       }
-      const components = (await Promise.all((layouts as Layout[]).map(layout =>
+      const components = (await Promise.all((layouts as Layout<C>[]).map(layout =>
         layout(app, { as_layout: true }, request),
       )))
         /* set the actual page as the last component */
-        .concat(load(name, props)) as Component[];
+        .concat(load(name, props));
 
       const names = await get_names(components);
 
@@ -98,7 +86,7 @@ export default (config: Options): Frontend => {
       try {
         const { body, head } = config.ssr === false ? {
           body: "", head: "",
-        } : render(root as any, {
+        } : render(root, {
           components: components.map(({ component }) => component),
           ...shared,
         });

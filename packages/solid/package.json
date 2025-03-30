@@ -22,6 +22,7 @@
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
+    "@rcompat/record": "^0.6.1",
     "@types/babel__core": "^7.20.5"
   },
   "dependencies": {
@@ -71,6 +72,14 @@
     "#i18n/*": {
       "apekit": "./src/private/i18n/*.ts",
       "default": "./lib/private/i18n/*.js"
+    },
+    "#Head/browser": {
+      "apekit": "./src/private/Head/browser.ts",
+      "default": "./lib/private/Head/browser.js"
+    },
+    "#Head/default": {
+      "apekit": "./src/private/Head/default.ts",
+      "default": "./lib/private/Head/default.js"
     }
   },
   "exports": {
@@ -79,6 +88,10 @@
       "default": "./lib/public/default.js"
     },
     "./*": "./lib/public/*.js",
-    "./context/*": "./lib/public/context/*.js"
+    "./context/*": "./lib/public/context/*.js",
+    "./Head": {
+      "browser": "./lib/public/Head/browser.js",
+      "default": "./lib/public/Head/default.js"
+    }
   }
 }

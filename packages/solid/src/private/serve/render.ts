@@ -1,8 +1,10 @@
+import type Props from "@primate/core/frontend/Props";
+import type { Component } from "solid-js";
 import { renderToString } from "solid-js/web";
 
-export default (component, props) => {
-  const heads = [];
-  const push_heads = sub_heads => {
+export default (component: Component<Props>, props: Props) => {
+  const heads: string[] = [];
+  const push_heads = (sub_heads: string[]) => {
     heads.push(...sub_heads);
   };
   const body = renderToString(() => component({ ...props, push_heads }));

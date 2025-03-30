@@ -1,32 +1,32 @@
 import AppContext from "#context/app";
 import save from "@primate/i18n/save";
-import { useContext } from "react";
+import { useContext } from "solid-js";
 
 class Locale {
   #context;
   #setContext;
 
   constructor() {
-    const { context, setContext } = useContext(AppContext);
+    const { context, setContext } = useContext(AppContext)!;
     this.#context = context;
     this.#setContext = setContext;
   }
 
   get() {
-    return this.#context.i18n.locale;
+    return this.#context().i18n.locale;
   }
 
   set(locale: string) {
     this.#setContext({
-        ...this.#context,
+        ...this.#context(),
         i18n: {
           locale,
-          locales: this.#context.i18n.locales,
+          locales: this.#context().i18n.locales,
         },
       });
     save(locale);
   }
-};
+}
 
 const $locale = Symbol("locale");
 

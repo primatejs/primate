@@ -1,6 +1,6 @@
 import type ResponseFunction from "#ResponseFunction";
 import type Dictionary from "@rcompat/record/Dictionary";
-import type MaybePromist from "pema/MaybePromise";
+import type MaybePromise from "pema/MaybePromise";
 
 type ResponseLike = MaybePromise<
   string |

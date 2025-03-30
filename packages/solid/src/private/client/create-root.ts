@@ -1,4 +1,4 @@
-export default length => {
+export default (length: number) => {
   const n = length - 1;
   const body = Array.from({ length: n }, (_, i) => i - 1)
     .reduceRight((child, _, i) => `components[${i + 1}] !== undefined
@@ -17,10 +17,9 @@ export default length => {
       components,
       data,
       request,
-      context: c,
       push_heads: value,
     }) => {
-      const [context, setContext] = createSignal(c);
+      const [context, setContext] = createSignal(request.context);
       const $value = { context, setContext };
 
       return <AppContext.Provider value={$value}>

@@ -4,7 +4,7 @@ import FileRef from "@rcompat/fs/FileRef";
 import type { Plugin } from "esbuild";
 import compile from "./compile.js";
 
-const root_filter = /^root:angular/u;
+const root_filter = /^root:angular/;
 
 export default (app: BuildApp, extension: string): Plugin => ({
   name,
@@ -18,7 +18,7 @@ export default (app: BuildApp, extension: string): Plugin => ({
       const contents = app.build.load(path);
       return contents ? { contents, loader: "js", resolveDir } : null;
     });
-    build.onLoad({ filter: new RegExp(`${extension}$`, "u") }, async args => {
+    build.onLoad({ filter: new RegExp(`${extension}$`) }, async args => {
       // Load the file from the file system
       const source = await FileRef.text(args.path);
 

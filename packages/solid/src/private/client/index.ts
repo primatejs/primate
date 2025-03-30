@@ -1,10 +1,22 @@
+import type Dictionary from "@rcompat/record/Dictionary";
 import { generateHydrationScript } from "solid-js/web";
 import spa from "./spa.js";
 
-const { groups: { code: hydration_script } } = generateHydrationScript()
-  .match(/^<script>(?<code>.*?)<\/script>/u);
+type Init = {
+  names: string[],
+  data: Dictionary[],
+  request: Dictionary,
+};
 
-export default ({ names, data, context, request }, options) => `
+type Options = {
+  spa: boolean,
+  ssr: boolean,
+};
+
+const hydration_script = generateHydrationScript()
+  .match(/^<script>(?<code>.*?)<\/script>/u)?.groups?.code ?? "";
+
+export default ({ names, data, request }: Init, options: Options) => `
   import * as components from "app";
   import { hydrate_solid, render_solid, SolidHead } from "app";
 
@@ -16,7 +28,6 @@ export default ({ names, data, context, request }, options) => `
   let dispose = hydrate_solid(() => components.root_solid({
       components: [${names.map(name => `components.${name}`).join(", ")}],
       data: ${JSON.stringify(data)},
-      context: ${JSON.stringify(context)},
       request: {
         ...${JSON.stringify(request)},
         url: new URL(location.href),

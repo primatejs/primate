@@ -1,8 +1,8 @@
+import type Publish from "@primate/core/frontend/Publish";
 import FileRef from "@rcompat/fs/FileRef";
 import client from "./client.js";
-import type Publish from "@primate/core/frontend/Publish";
 
-const root_filter = /^root:react/u;
+const root_filter = /^root:react/;
 
 export default ((app, extension) => ({
   name: "react",
@@ -16,7 +16,7 @@ export default ((app, extension) => ({
       const contents = app.build.load(path);
       return contents ? { contents, loader: "js", resolveDir } : null;
     });
-    build.onLoad({ filter: new RegExp(`${extension}$`, "u") }, async args => {
+    build.onLoad({ filter: new RegExp(`${extension}$`) }, async args => {
       // Load the file from the file system
       const source = await FileRef.text(args.path);
 

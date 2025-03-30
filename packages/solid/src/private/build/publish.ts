@@ -1,9 +1,10 @@
+import type Publish from "@primate/core/frontend/Publish";
 import FileRef from "@rcompat/fs/FileRef";
 import client from "./client.js";
 
-const root_filter = /^root:solid/u;
+const root_filter = /^root:solid/;
 
-export default (app, extension) => ({
+export default ((app, extension) => ({
   name: "solid",
   setup(build) {
     build.onResolve({ filter: root_filter }, ({ path }) => {
@@ -15,7 +16,7 @@ export default (app, extension) => ({
         ? { contents, loader: "js", resolveDir: app.root.path }
         : null;
     });
-    build.onLoad({ filter: new RegExp(`${extension}$`, "u") }, async args => {
+    build.onLoad({ filter: new RegExp(`${extension}$`) }, async args => {
       // Load the file from the file system
       const source = await FileRef.text(args.path);
 
@@ -23,4 +24,4 @@ export default (app, extension) => ({
       return { contents: (await client(source)).js };
     });
   },
-});
+})) satisfies Publish;

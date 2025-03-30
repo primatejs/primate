@@ -5,7 +5,6 @@ import double_extension from "#error/double-extension";
 import no_component from "#error/no-component";
 import type Frontend from "#Frontend";
 import type FrontendOptions from "#frontend/Options";
-import type ServerComponent from "#frontend/ServerComponent";
 import log from "#log";
 import type Mode from "#Mode";
 import module_loader from "#module-loader";
@@ -113,7 +112,7 @@ export interface ServeApp extends App {
   secure: boolean,
   assets: Options["assets"],
   files: BuildFiles,
-  component<T = ServerComponent>(name: string): T | void,
+  component<T>(name: string): T | void,
   frontends: PartialDictionary<Frontend>,
   headers(csp?: Dictionary): Dictionary<string>,
   asset_csp: CSP,
@@ -147,7 +146,7 @@ export default async (rootfile: string, build: Options): Promise<ServeApp> => {
   const root = new FileRef(rootfile).directory;
   const { config, files, components, loader, target, mode } = build;
   const assets = await Promise.all(build.assets.map(async asset => {
-    const code = asset.type === "importmap" 
+    const code = asset.type === "importmap"
       ? stringify(asset.code as Dictionary)
       : asset.code as string;
     return {
@@ -199,7 +198,7 @@ export default async (rootfile: string, build: Options): Promise<ServeApp> => {
     modules: await module_loader(root, config.modules ?? []),
 
     // functions
-    component<T = ServerComponent>(name: string) {
+    component<T>(name: string) {
       const component = $components[name];
       if (component === undefined) {
         no_component(name, `${this.config("location.components")}/${name}`);
