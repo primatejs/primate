@@ -21,7 +21,7 @@
   "devDependencies": {
     "apekit": "^0.0.8",
     "debris": "^0.14.0",
-    "esbuild": "^0.25.1",
+    "esbuild": "^0.25.2",
     "tsx": "^4.19.3",
     "typescript": "^5.8.2"
   }
