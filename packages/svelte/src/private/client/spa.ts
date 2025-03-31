@@ -4,7 +4,6 @@ window.addEventListener("DOMContentLoaded", _ => spa((props, update) => {
   root.p = {
     components: props.names.map(name => components[name]),
     data: props.data,
-    context: props.context,
     request: {
       ...props.request,
       url: new URL(location.href),

@@ -1,10 +1,11 @@
 import context_name from "#context-name";
-import save from "@primate/i18n/core/save";
+import type Context from "#i18n/Context";
+import save from "@primate/i18n/save";
 import { getContext } from "svelte";
 import { writable } from "svelte/store";
 
 const store = writable("", set => {
-  const { locale } = getContext(context_name).i18n;
+  const { locale } = getContext<Context>(context_name).i18n;
   set(locale);
 
   return () => undefined;
@@ -12,7 +13,7 @@ const store = writable("", set => {
 
 export default {
   subscribe: store.subscribe,
-  set: locale => {
+  set: (locale: string) => {
     store.set(locale);
     save(locale);
   },
