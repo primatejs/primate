@@ -10,6 +10,6 @@ const options = {
       jsxImportSource: "voby",
     },
   },
-};
+} as const;
 
-export default async text => (await transform(text, options)).code;
+export default async (text: string) => (await transform(text, options)).code;
