@@ -1,7 +1,7 @@
 {
   "name": "@primate/solid",
   "version": "0.4.4",
-  "description": "Primate Solid frontend",
+  "description": "Solid frontend",
   "homepage": "https://primatejs.com/modules/solid",
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",

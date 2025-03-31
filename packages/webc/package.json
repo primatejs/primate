@@ -1,7 +1,7 @@
 {
   "name": "@primate/webc",
   "version": "0.1.2",
-  "description": "Primate Web Components frontend",
+  "description": "Web components frontend",
   "homepage": "https://primatejs.com/modules/webc",
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
