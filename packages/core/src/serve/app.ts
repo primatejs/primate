@@ -112,7 +112,7 @@ export interface ServeApp extends App {
   secure: boolean,
   assets: Options["assets"],
   files: BuildFiles,
-  component<T>(name: string): T | void,
+  component<T>(name: string): T,
   frontends: PartialDictionary<Frontend>,
   headers(csp?: Dictionary): Dictionary<string>,
   asset_csp: CSP,
@@ -202,9 +202,8 @@ export default async (rootfile: string, build: Options): Promise<ServeApp> => {
       const component = $components[name];
       if (component === undefined) {
         no_component(name, `${this.config("location.components")}/${name}`);
-        return;
       }
-      return (component.default ?? component) as T;
+      return (component!.default ?? component) as T;
     },
     config: <P extends string>(path: P) => get(config, path),
     get<T>(key: symbol) {

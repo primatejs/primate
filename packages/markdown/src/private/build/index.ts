@@ -5,7 +5,7 @@ import type { MarkedExtension } from "marked";
 import server from "./server.js";
 
 export default (extension: string, options?: MarkedExtension): BuildAppHook =>
-  async (app, next) => {
+  (app, next) => {
     app.register(extension, {
       ...compile({
         extension,

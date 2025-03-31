@@ -16,7 +16,6 @@ export default ({
   static_root,
 }: Options) => {
   const buildroot = new FileRef(rootfile).join("..");
-
   return {
     page(name?: string) {
       if (name === undefined) {

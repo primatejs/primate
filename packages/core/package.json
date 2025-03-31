@@ -8,7 +8,7 @@
   "files": [
     "/lib/**/*.js",
     "/lib/**/*.d.ts",
-    "/src/build/defaults/*.html",
+    "/lib/build/defaults/*.html",
     "!/**/*.spec.*"
   ],
   "repository": {
@@ -17,7 +17,7 @@
     "directory": "packages/core"
   },
   "scripts": {
-    "build": "npm run clean && tsc",
+    "build": "npm run clean && tsc && cp -a src/build/defaults lib/build",
     "clean": "rm -rf ./lib",
     "lint": "eslint .",
     "prepublishOnly": "npm run build"

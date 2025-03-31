@@ -29,7 +29,7 @@ export default ({
   extension,
   extensions,
   client_side_templates,
-}: Options): BuildAppHook => async (app, next) => {
+}: Options): BuildAppHook => (app, next) => {
   app.build.export(`export { default as htmx } from "${htmx_esm}";`);
 
   extensions.forEach(extension_name =>
