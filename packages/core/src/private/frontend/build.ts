@@ -12,11 +12,13 @@ export default ({
   expose,
 }: BuildOptions): BuildAppHook => async (app, next) => {
   // compile server
-  const filename = `root_${name}.js`;
-  const root = await server(create_root(app.depth()));
-  const path = app.runpath(app.config("location.server"), filename);
-  await path.write(root);
-  app.roots.push(path);
+  if (server !== undefined) {
+    const filename = `root_${name}.js`;
+    const root = await server(create_root(app.depth()));
+    const path = app.runpath(app.config("location.server"), filename);
+    await path.write(root);
+    app.roots.push(path);
+  }
 
   app.register(extension, compile({
     extension,

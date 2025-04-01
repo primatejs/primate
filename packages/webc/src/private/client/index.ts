@@ -1,4 +1,6 @@
-export default (name, props) => `
+import type Props from "@primate/core/frontend/Props";
+
+export default (name: string, props: Props) => `
   import * as components from "app";
 
   globalThis.customElements.define("p-wrap-with", class extends HTMLElement {

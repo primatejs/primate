@@ -1,18 +1,16 @@
 import name from "#name";
-import compile from "@primate/frontend/core/compile";
+import compile from "@primate/core/frontend/compile";
+import type { BuildAppHook } from "@primate/core/hook";
 import client from "./client.js";
 import publish from "./publish.js";
 
-export default extension => async (app, next) => {
+export default (extension: string): BuildAppHook => async (app, next) => {
   app.register(extension, {
-    ...await compile({
-      app,
+    ...compile({
       extension,
       name,
       compile: { client: client(app, extension) },
     }),
-    // noop
-    server: _ => _,
   });
 
   app.build.plugin(publish(app, extension));

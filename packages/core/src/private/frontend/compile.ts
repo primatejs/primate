@@ -22,6 +22,9 @@ export default ({
 
   return {
     async server(component, app) {
+      if (compile.server === undefined) {
+        return;
+      }
       const location = app.config("location");
       const source = app.runpath(location.components);
       const target_base = app.runpath(location.server, location.components);
@@ -31,7 +34,6 @@ export default ({
       await path.write(code.replaceAll(extensions.from, extensions.to));
     },
     async client(component, app) {
-      // client
       if (compile.client === undefined) {
         return;
       }
@@ -42,7 +44,8 @@ export default ({
       if (create_root !== undefined) {
         const root = create_root(app.depth());
         const code = `export { default as root_${name} } from "root:${name}";`;
-        app.build.save(`root:${name}`, (await compile.client(root)).js);
+        app.build.save(`root:${name}`,
+          (await compile.client(root, component)).js);
         app.build.export(code);
       }
 

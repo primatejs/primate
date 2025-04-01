@@ -6,8 +6,9 @@ export default interface CompileOptions {
   extension: string;
   name: string;
   compile: {
-    server: (text: string, component?: FileRef, app?: BuildApp) => MaybePromise<string>,
-    client?: (text: string) => MaybePromise<{
+    server?: (text: string, component?: FileRef, app?: BuildApp) =>
+      MaybePromise<string>,
+    client?: (text: string, component: FileRef) => MaybePromise<{
       js: string,
       css?: string | null,
     }>,
