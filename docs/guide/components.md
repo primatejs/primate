@@ -1,19 +1,34 @@
 # Components
 
-Any views that your app has are placed in `components`. Primate natively
-supports serving HTML files from this directory, and its official [framework
-modules](/modules/frontend) extend this support to other formats.
+App frontend views are placed in `components`. To use components, install and
+activate one or many of Primate's [frontend modules](/modules/frontend).
 
 ## Serving views
 
-To serve views, start by creating an HTML component in `components`.
+To serve views, install a frontend module, for example `@primate/html`.
+
+```sh
+npm install @primate/html
+```
+
+Active the module in your configuration.
+
+```js
+import html from "@primate/html";
+
+export default {
+  modules: [html()],
+};
+```
+
+Create an HTML component in `components`.
 
 ```html caption=components/hello.html
 <p>Hello, world!</p>
 ```
 
-Serve it using the `view` handler, passing in the name of the HTML file you
-just created.
+Serve it with the `view` handler, passing in the name of the file you just
+created.
 
 ```js caption=routes/hello.js
 import view from "primate/handler/view";
@@ -44,7 +59,7 @@ exist, Primate will use its default fallback file.
 The combination of the route's output and the page will result in the following
 HTML page served to a client requesting `GET /hello`.
 
-```html caption=response body at GET /hello
+```html
 <html>
   <head>
     <title>Primate app</title>
@@ -58,9 +73,10 @@ HTML page served to a client requesting `GET /hello`.
 
 ## Partials
 
-It is sometimes necessary to serve a bare component without the `app.html`
-page, especially if you're replacing some parts of the page. To this end, you
-can use the `partial` option of the `view` handler.
+It is sometimes necessary to serve a bare component without a fully-fledged
+page, especially if you're replacing some parts of the page on the frontend
+(say, using HTMX). To this end, you can use the `partial` option of the `view`
+handler.
 
 ```js caption=routes/partial-hello.js
 import view from "primate/handler/view";

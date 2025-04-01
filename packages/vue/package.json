@@ -23,7 +23,6 @@
   },
   "dependencies": {
     "@primate/core": "workspace:^",
-    "@primate/frontend": "workspace:^",
     "@rcompat/build": "^0.10.1"
   },
   "peerDependencies": {

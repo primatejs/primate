@@ -31,7 +31,7 @@ To use this handler explicitly, import and use the `text` function.
 
 ```js caption=routes/plain-text.js
 import text from "primate/handler/text";
-import { UNPROCESSABLE_ENTITY, STATUS } from "@rcompat/http/status";
+import Status from "@rcompat/http/Status";
 
 export default {
   post(request) {
@@ -123,7 +123,7 @@ same app.
 
 ```js caption=routes/redirect.js
 import redirect from "primate/handler/redirect";
-import { MOVED_PERMANENTLY } from "@rcompat/http/status";
+import Status from "@rcompat/http/Status";
 
 export default {
   get() {
@@ -138,7 +138,30 @@ fine-grained control.
 ## View
 
 The `view` handler allows you to serve responses with content type `text/html`
-from the `components` directory.
+from the `components` directory. To do so, you'll need to install and activate
+a frontend handler, like `@primate/html`.
+
+```sh
+npm install @primate/html
+```
+
+Load the handler in your Primate configuration.
+
+```js
+import html from "@primate/html";
+
+export default {
+  modules: [html()],
+};
+```
+
+Create an HTML component in `components/hello.html`.
+
+```html caption=components/hello.html
+<p>Hello, world!</p>
+```
+
+And a route to serve it.
 
 ```js caption=routes/view.js
 import view from "primate/handler/view";
@@ -150,22 +173,17 @@ export default {
 };
 ```
 
-In this case, Primate will load the HTML component at `components/hello.html`,
-inject the HTML component code into the index file located at `pages/app.html`
-and serve the resulting file at the path GET `/html`. In case no such file
-exists, Primate will fall back to its [default index page][default-page].
+Primate will load the component at `components/hello.html`, embed it into the
+index file located at `pages/app.html` and serve the resulting file for GET
+requests to `/html`. In case no index file exists, Primate will fall back to
+its [default index page][default-page].
 
-```html caption=components/hello.html
-<p>Hello, world!</p>
-```
-
-In addition to the built-in support for HTML components, Primate features many
-[frontend frameworks][frontend] you can add by installing the
-`@primate/frontend` package.
+In addition to the HTML frontend, Primate features many known
+[frontend frameworks][frontend].
 
 ### Props
 
-You can pass props to your view handler.
+You can pass props (data) to your view handler.
 
 ```js caption=routes/view-props.js
 import view from "primate/handler/view";
@@ -262,24 +280,23 @@ export default {
 };
 ```
 
-A request to `/error` will result in a `404 Not Found` response.
+A GET request to `/error` will return a `404 Not Found` response.
 
 You can customize the body and the status of this handler.
 
 ```js caption=routes/server-error.js
 import error from "primate/handler/error";
-import { INTERNAL_SERVER_ERROR } from "@rcompat/http/status";
+import Status from "@rcompat/http/Status";
 
 export default {
   get() {
-    const status = Status.INTERNAL_SERVER_ERROR;
-    return error("Internal Server Error", { status });
+    return error("Server Error", { status: Status.INTERNAL_SERVER_ERROR });
   },
 };
 ```
 
-A request to `/server-error` will result in a `500` response with the HTML body
-`Internal Server Error`.
+A GET request to `/server-error` will return a `500` response with the HTML
+body `Internal Server Error`.
 
 ## WebSocket
 
@@ -290,7 +307,7 @@ import ws from "primate/handler/ws";
 
 export default {
   get(request) {
-    const limit = request.query.get("limit") ?? 20;
+    const limit = request.query.limit ?? 20;
     let n = 1;
     return ws({
       open(socket) {
@@ -331,7 +348,7 @@ up to a given number of messages, the default being 20.
 
     ws.addEventListener("message", message => {
       const div = document.createElement("div");
-      div.innerText = message.data
+      div.innerText = message.data;
       document.querySelector("#box").appendChild(div);
     });
   });
@@ -366,20 +383,20 @@ export default {
     return sse({
       open(source) {
         // connection opens
-        interval = globalThis.setInterval(() => {
+        interval = setInterval(() => {
           source.send("passed", passed(start_time));
         }, 5000);
       },
       close() {
         // connection closes
-        globalThis.clearInterval(interval);
+        clearInterval(interval);
       },
     });
   },
 };
 ```
 
-In this example, we send a `passed` event to the client every 5 seconds,
+In this example we send a `passed` event to the client every 5 seconds,
 indicating how many seconds have passed since the connection was established.
 The client subscribes to this event and prints it to the console.
 
@@ -409,7 +426,7 @@ Lastly, for a custom response status, you can return a `Response` object from a
 route.
 
 ```js caption=routes/response.js
-import { CREATED } from "@rcompat/http/status";
+import Status from "@rcompat/http/Status";
 
 export default {
   get() {

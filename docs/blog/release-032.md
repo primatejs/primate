@@ -274,15 +274,15 @@ Don't import `Response` anymore, it is available in the global context of all
 runtimes.
 
 If you previously imported `Status`, import instead the individual statuses
-from `@rcompat/http/status`.
+from `@rcompat/http/Status`.
 
 
 ```js
-import { OK } from "@rcompat/http/status";
+import Status from "@rcompat/http/Status";
 
 export default {
   get() {
-    return new Response("Hello, world!", { status: OK });
+    return new Response("Hello, world!", { status: Status.OK });
   },
 };
 ```
