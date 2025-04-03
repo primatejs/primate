@@ -1,17 +1,10 @@
-import { unwrap, unwrap_async } from "./unwrap.js";
+//import { unwrap, unwrap_async } from "./unwrap.js";
+import type { PyodideInterface } from "pyodide";
+import type RequestFacade from "@primate/core/RequestFacade";
 
-const dispatchers = ["path", "query", "headers", "cookies"];
+type ToPY = PyodideInterface["toPy"];
 
-const wrap_dispatchers = (toPy, request) =>
-  Object.fromEntries(dispatchers.map(dispatcher =>
-    [dispatcher, {
-    ...request[dispatcher],
-    json() {
-      return toPy(request[dispatcher].json());
-    },
-  }]));
-
-const wrap_store = (toPy, store) => {
+/*const wrap_store = (toPy: ToPY, store) => {
   return {
     ...store,
     async validate(input) {
@@ -54,13 +47,13 @@ const wrap_store = (toPy, store) => {
 };
 
 const is_store = value => value.connection !== undefined;
-const wrap_stores = (toPy, object) => Object.entries(object)
+const wrap_stores = (toPy: ToPY, object) => Object.entries(object)
   .reduce((reduced, [key, value]) => ({
     ...reduced,
     [key]: is_store(value) ? wrap_store(toPy, value) : wrap_stores(toPy, value),
   }), {});
-
-const wrap_session = (toPy, { session }) => ({
+*/
+/*const wrap_session = (toPy: ToPY, { session }: RequestFacade) => ({
   ...session,
   create(data) {
     session.create(unwrap(data));
@@ -68,11 +61,9 @@ const wrap_session = (toPy, { session }) => ({
   json() {
     return toPy(session.json());
   },
-});
+});*/
 
-export default (toPy, request) => ({
-  ...request,
-  ...wrap_dispatchers(toPy, request),
-  session: wrap_session(toPy, request),
-  store: wrap_stores(toPy, request.store),
-});
+export default (_: ToPY, request: RequestFacade) => request;
+//  session: wrap_session(toPy, request),
+//  store: wrap_stores(toPy, request.store),
+//);

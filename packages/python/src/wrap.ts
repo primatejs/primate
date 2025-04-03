@@ -1,4 +1,4 @@
-export default code => `
+export default (code: string) => `
 class Primate():
     @staticmethod
     def view(name, props = None, options = None):

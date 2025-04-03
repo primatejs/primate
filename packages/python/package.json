@@ -1,18 +1,25 @@
 {
   "name": "@primate/python",
   "version": "0.1.5",
-  "description": "Primate Python backend",
+  "description": "Python backend",
   "homepage": "https://primatejs.com/modules/python",
   "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
   "files": [
-    "src/**/*.js",
-    "!src/**/*.spec.js"
+    "/lib/**/*.js",
+    "/lib/**/*.d.ts",
+    "!/**/*.spec.*"
   ],
   "repository": {
     "type": "git",
     "url": "https://github.com/primatejs/primate",
     "directory": "packages/python"
+  },
+  "scripts": {
+    "build": "npm run clean && tsc",
+    "clean": "rm -rf ./lib",
+    "lint": "eslint .",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "@primate/core": "workspace:^",
@@ -25,15 +32,18 @@
   "type": "module",
   "imports": {
     "#*": {
-      "livetypes": "./src/private/*.js",
-      "default": "./src/private/*.js"
+      "apekit": "./src/private/*.ts",
+      "default": "./lib/private/*.js"
     }
   },
   "exports": {
     ".": {
-      "runtime": "./src/runtime.js",
-      "default": "./src/default.js"
+      "runtime": "./lib/runtime.js",
+      "default": "./lib/default.js"
     },
-    "./*": "./src/*.js"
+    "./*": "./lib/*.js"
+  },
+  "devDependencies": {
+    "@rcompat/record": "^0.6.1"
   }
 }

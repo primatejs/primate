@@ -104,7 +104,10 @@
       "default": "./lib/public/log/*.js"
     },
     "./dispatch": "./lib/dispatch/index.js",
-    "./http/verbs": "./lib/http/verbs.js",
+    "./http/verbs": {
+      "apekit": "./src/http/verbs.ts",
+      "default": "./lib/http/verbs.js"
+    },
     "./handler/*": "./lib/public/handler/*.js",
     "./frontend": {
       "apekit": "./src/public/Frontend.ts"
