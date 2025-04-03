@@ -17,7 +17,7 @@
     "directory": "packages/primate"
   },
   "scripts": {
-    "build": "npm run clean && tsc",
+    "build": "npm run clean && tsc && cp src/app.tsconfig.json lib",
     "clean": "rm -rf ./lib",
     "lint": "eslint .",
     "prepublishOnly": "npm run build"
@@ -54,6 +54,7 @@
     "./runtime/*": {
       "apekit": "./lib/runtime/*.ts",
       "default": "./lib/runtime/*.js"
-    }
+    },
+    "./tsconfig": "./lib/app.tsconfig.json"
   }
 }
