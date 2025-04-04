@@ -2,6 +2,7 @@
   "name": "@primate/app/python",
   "version": "0.0.1",
   "dependencies": {
+    "@primate/html": "workspace:^",
     "@primate/python": "workspace:^",
     "primate": "workspace:^",
     "pyodide": "0.26.4"
