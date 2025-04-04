@@ -1,7 +1,7 @@
 import type ResponseFunction from "#ResponseFunction";
 import Status from "@rcompat/http/Status";
 
-type Spread<N extends number, Ns extends number[] = []> = 
+type Spread<N extends number, Ns extends number[] = []> =
   Ns["length"] extends N
     ? Ns[number]
     : Spread<N, [...Ns, Ns["length"]]>;
@@ -18,7 +18,7 @@ type Redirection = Range<300, 308>;
  */
 export default (location: string, status?: Redirection): ResponseFunction =>
   // no body
-  app => app.respond(null, { 
+  app => app.respond(null, {
     status: status ?? Status.FOUND,
     headers: { Location: location },
   });

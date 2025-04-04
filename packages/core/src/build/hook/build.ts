@@ -89,13 +89,16 @@ ${app.server_build.map(name =>
 import components from "./${build_number}/components.js";
 import target from "./target.js";
 
-await serve(import.meta.url, {
+const app = await serve(import.meta.url, {
   ...target,
   config,
   files,
   components,
   mode: "${mode}",
-});`;
+});
+
+export default app;
+`;
   await app.path.build.join("serve.js").write(build_start_script);
 };
 

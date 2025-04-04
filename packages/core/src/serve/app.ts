@@ -125,17 +125,18 @@ export interface ServeApp extends App {
     head: string,
     integrity: string,
   }>,
-  publish(options: PublishOptions): Promise<undefined>,
-  create_csp(): undefined,
-  register(extension: string, frontend: Frontend): undefined;
+  publish(options: PublishOptions): Promise<void>,
+  create_csp(): void,
+  register(extension: string, frontend: Frontend): void;
   build_target: string,
-  start(): Promise<undefined>,
-  stop(): undefined,
+  start(): Promise<void>,
+  stop(): void,
   server(): Server,
   mode: Mode,
   router: ReturnType<typeof Router.init<Route, RouteSpecial>>;
   fonts: unknown[];
   target(_: any): void;
+  get url(): string;
 }
 
 type Import = Dictionary & {
@@ -303,12 +304,11 @@ export default async (rootfile: string, build: Options): Promise<ServeApp> => {
           return new Response(null, { status: Status.INTERNAL_SERVER_ERROR });
         }
       }, this.get<Conf>(s_http));
-      const { host, port } = this.config("http");
-      const address = `http${this.secure ? "s" : ""}://${host}:${port}`;
-      log.system(`started ${dim("->")} ${dim(address)}`);
+      log.system(`started ${dim("->")} ${dim(this.url)}`);
     },
     stop() {
       server.stop();
+      log.system(`stopped ${dim(this.url)}`);
     },
     server() {
       return server;
@@ -327,6 +327,10 @@ export default async (rootfile: string, build: Options): Promise<ServeApp> => {
             .default[request.method.toLowerCase()] !== undefined;
         },
       }, files.routes),
+    get url() {
+      const { host, port } = this.config("http");
+      return `http${this.secure ? "s" : ""}://${host}:${port}`;
+    }
   } as const satisfies ServeApp;
 
   return app;

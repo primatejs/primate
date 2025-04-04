@@ -8,4 +8,5 @@ export default async (app: ServeApp) => {
    ? app
    : await cascade(app.modules.serve)(app);
   await $app.start();
+  return $app;
 };
