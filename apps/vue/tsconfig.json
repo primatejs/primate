@@ -1,17 +1,3 @@
 {
-  "compilerOptions": {
-    "allowJs": true,
-    "target": "esnext",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "strict": true,
-    "skipLibCheck": true,
-    "customConditions": ["apekit"],
-    "erasableSyntaxOnly": true,
-    "paths": {
-      "#components/*": ["components/*"]
-    }
-  },
-  "include": ["${configDir}/routes"],
-  "exclude": ["node_modules"]
+  "extends": "primate/tsconfig"
 }
