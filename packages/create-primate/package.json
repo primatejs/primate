@@ -28,7 +28,7 @@
     "deps": "scripts/peerdeps.js"
   },
   "devDependencies": {
-    "@angular/core": "^19.2.4",
+    "@angular/core": "^19.2.5",
     "@primate/angular": "workspace:^",
     "@primate/eta": "workspace:^",
     "@primate/go": "workspace:^",

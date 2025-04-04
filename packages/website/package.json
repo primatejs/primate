@@ -4,7 +4,7 @@
   "dependencies": {
     "@primate/frontend": "^0.15.0",
     "@rcompat/fs": "^0.11.5",
-    "@rcompat/http": "^0.10.0",
+    "@rcompat/http": "^0.10.1",
     "@rcompat/record": "^0.6.1",
     "handlebars": "^4.7.8",
     "marked": "^12.0.2",
