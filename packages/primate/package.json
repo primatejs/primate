@@ -22,39 +22,47 @@
     "lint": "eslint .",
     "prepublishOnly": "npm run build"
   },
+  "devDependencies": {
+    "@rcompat/record": "^0.6.1",
+    "pema": "workspace:^"
+  },
   "dependencies": {
     "@primate/core": "workspace:^",
     "@rcompat/args": "^0.5.0",
-    "@rcompat/async": "^0.6.0",
     "@rcompat/cli": "^0.7.0",
     "@rcompat/fs": "^0.11.5",
-    "@rcompat/http": "~0.10.0",
-    "@rcompat/package": "^0.10.1"
+    "@rcompat/http": "~0.10.1",
+    "@rcompat/package": "^0.10.1",
+    "@rcompat/test": "^0.0.1"
   },
   "engines": {
     "node": ">=20"
   },
   "type": "module",
   "imports": {
+    "#*": {
+      "apekit": "./src/private/*.ts",
+      "default": "./lib/private/*.js"
+    },
     "#loader": "@primate/core/serve/loader"
   },
   "exports": {
-    "./route": {
-      "apekit": "./src/public/route.ts",
-      "default": "./lib/public/route.js"
-    },
+    "./tsconfig": "./lib/app.tsconfig.json",
     "./handler/*": {
       "apekit": "./src/handlers/*.ts",
       "default": "./lib/handlers/*.js"
     },
+    "./runtime/*": {
+      "apekit": "./src/runtime/*.ts",
+      "default": "./lib/runtime/*.js"
+    },
+    "./http/*": {
+      "apekit": "./src/public/http/*.ts",
+      "default": "./lib/public/http/*.js"
+    },
     "./*": {
       "apekit": "./src/public/*.ts",
       "default": "./lib/public/*.js"
-    },
-    "./runtime/*": {
-      "apekit": "./lib/runtime/*.ts",
-      "default": "./lib/runtime/*.js"
-    },
-    "./tsconfig": "./lib/app.tsconfig.json"
+    }
   }
 }

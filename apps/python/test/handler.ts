@@ -3,16 +3,16 @@ import test from "primate/test";
 
 test.get("/handler/error", response => {
   response.status.equals(Status.NOT_FOUND);
-  response.body.has("Python error");
+  response.body.includes("Python error");
 });
 
-test.get({ path: "/handler/redirect", redirect: "manual" }, response => {
+test.get("/handler/redirect", response => {
   response.status.equals(Status.FOUND);
-  response.headers.has({ Location: "/redirected" });
+  response.headers.includes({ location: "/redirected" });
 });
 
 test.get("/handler/view", response => {
-  response.body.has(`<h1>View</h1>
+  response.body.includes(`<h1>View</h1>
 
 Hello, world.`);
 });

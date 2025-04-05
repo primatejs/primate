@@ -15,7 +15,9 @@
   },
   "include": [
     "${configDir}/routes",
-    "${configDir}/primate.config.js"
+    "${configDir}/test",
+    "${configDir}/primate.config.js",
+    "${configDir}/primate.config.ts"
   ],
   "exclude": ["node_modules"]
 }
