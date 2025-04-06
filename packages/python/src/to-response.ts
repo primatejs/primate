@@ -1,52 +1,39 @@
 import error from "@primate/core/handler/error";
 import redirect from "@primate/core/handler/redirect";
 import view from "@primate/core/handler/view";
+import type ResponseFunction from "@primate/core/ResponseFunction";
+import type ResponseLike from "@primate/core/ResponseLike";
+import type Dictionary from "@rcompat/record/Dictionary";
 import type { PyProxy } from "pyodide/ffi";
 import { unwrap } from "./unwrap.js";
-//import ResponseLike from "../../core/src/private/ResponseLike.js";
 
-type ViewParams = {
-  name: Parameters<typeof view>[0];
-  props: Parameters<typeof view>[1];
-  options: Parameters<typeof view>[2];
-};
+const handlers = { view, redirect, error };
 
-type RedirectParams = {
-  location: Parameters<typeof redirect>[0],
-  options: Parameters<typeof redirect>[1],
-}
-
-type ErrorParams = {
-  body: Parameters<typeof error>[0];
-  options: Parameters<typeof error>[1];
-}
-
-const handlers = {
-  view({ name, props = {}, options = {} }: ViewParams) {
-    return view(name, props, options);
-  },
-  redirect({ location, options }: RedirectParams) {
-    return redirect(location, options);
-  },
-  error({ body, options }: ErrorParams) {
-    return error(body, options);
-  },
-};
-
+type Handlers = typeof handlers;
 type Handler = keyof typeof handlers;
 
-const handle_handler = (handler: Handler, args: unknown) =>
-  handlers[handler](args as any);
+type Handle = {
+  [H in Handler]: {
+    handler: H;
+    params: Parameters<Handlers[H]>;
+  }
+}[Handler];
 
-const is_handler = (handler: unknown): handler is Handler =>
-  Object.keys(handlers).includes(handler as string);
+const is_handle = (input: Dictionary): input is Handle =>
+  typeof input.handler === "string"
+  && input.handler in handlers
+  && Array.isArray(input.params);
 
-export default (raw_response: PyProxy): any => {
+export default (raw_response: PyProxy): ResponseLike => {
   const response = unwrap(raw_response);
-  const handler = response.__handler__;
 
-  return is_handler(handler)
-    ? handle_handler(handler, response) as any
-    : response
-  ;
+  if (is_handle(response)) {
+    const { handler, params } = response;
+
+    const h = handlers[handler] as (...args: typeof params) => ResponseFunction;
+
+    return h(...params);
+  }
+
+  return response;
 };

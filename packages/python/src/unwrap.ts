@@ -1,4 +1,5 @@
 import type { PyProxy } from "pyodide/ffi";
+import type Dictionary from "@rcompat/record/Dictionary";
 
 type DictConverter = Iterable<[
   key: string,
@@ -7,7 +8,7 @@ type DictConverter = Iterable<[
 
 const dict_converter = (value: DictConverter) => Object.fromEntries(value);
 
-const normalize = (response: Map<string, string> | Record<string, string>) =>
+const normalize = (response: Map<string, unknown> | Dictionary) =>
   response instanceof Map ? Object.fromEntries(response.entries()) : response;
 
 const qualify = (response: PyProxy, destroy = true) => {
