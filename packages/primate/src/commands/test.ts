@@ -1,13 +1,14 @@
-import { tests, type Tester, type Body, type MockedResponse } from "#test";
+import { tests, type Body, type MockedResponse } from "#test";
 import build from "@primate/core/build";
 import green from "@rcompat/cli/color/green";
 import red from "@rcompat/cli/color/red";
 import root from "@rcompat/package/root";
 import type Dictionary from "@rcompat/record/Dictionary";
-import type MaybePromise from "pema/MaybePromise";
-import serve from "./serve.js";
 import equals from "@rcompat/test/equals";
 import includes from "@rcompat/test/includes";
+import type MaybePromise from "pema/MaybePromise";
+import serve from "./serve.js";
+import entries from "@rcompat/record/entries";
 
 const directory  = "test";
 
@@ -60,7 +61,9 @@ export default async () => {
         includes(expected: Dictionary<string>) {
           checks.push(() => {
             const actual = Object.fromEntries(response.headers.entries());
-            return [includes(actual, expected), expected, actual];
+            const lowercased = entries(expected)
+              .keymap(([key]) => key.toLowerCase()).get();
+            return [includes(actual, lowercased), lowercased, actual];
           });
         }
       },

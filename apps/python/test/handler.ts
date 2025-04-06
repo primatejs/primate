@@ -8,7 +8,7 @@ test.get("/handler/error", response => {
 
 test.get("/handler/redirect", response => {
   response.status.equals(Status.FOUND);
-  response.headers.includes({ location: "/redirected" });
+  response.headers.includes({ Location: "/redirected" });
 });
 
 test.get("/handler/view", response => {
