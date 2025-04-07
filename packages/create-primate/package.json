@@ -44,7 +44,6 @@
     "@primate/python": "workspace:^",
     "@primate/react": "workspace:^",
     "@primate/schema": "workspace:^",
-    "@primate/session": "workspace:^",
     "@primate/solid": "workspace:^",
     "@primate/sqlite": "workspace:^",
     "@primate/store": "workspace:^",

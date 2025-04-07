@@ -24,8 +24,7 @@
   },
   "devDependencies": {
     "@rcompat/module": "^0.7.0",
-    "@rcompat/string": "^0.6.1",
-    "pema": "workspace:^"
+    "@rcompat/string": "^0.6.1"
   },
   "dependencies": {
     "@rcompat/args": "^0.5.0",
@@ -39,10 +38,11 @@
     "@rcompat/http": "^0.10.1",
     "@rcompat/invariant": "^0.7.0",
     "@rcompat/package": "^0.10.1",
-    "@rcompat/record": "^0.6.1",
+    "@rcompat/record": "^0.6.2",
     "@rcompat/runtime": "^0.3.0",
     "@rcompat/stdio": "^0.8.0",
-    "@rcompat/sync": "^0.5.0"
+    "@rcompat/sync": "^0.5.0",
+    "pema": "workspace:^"
   },
   "type": "module",
   "imports": {
@@ -72,6 +72,10 @@
     "#handler/*": {
       "apekit": "./src/private/handler/*.ts",
       "default": "./lib/private/handler/*.js"
+    },
+    "#session/*": {
+      "apekit": "./src/private/session/*.ts",
+      "default": "./lib/private/session/*.js"
     },
     "#log/*": {
       "apekit": "./src/private/log/*.ts",
@@ -115,6 +119,10 @@
     "./frontend/*": {
       "apekit": "./src/public/frontend/*.ts",
       "default": "./lib/public/frontend/*.js"
+    },
+    "./session": {
+      "apekit": "./src/public/session.ts",
+      "default": "./lib/public/session.js"
     },
     "./*": {
       "apekit": "./src/public/*.ts"

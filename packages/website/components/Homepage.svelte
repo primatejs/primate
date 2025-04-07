@@ -171,7 +171,7 @@
       </div>
       <p>Use <a href="/modules/build">esbuild</a> for hot reload during
         development and bundling in production, add
-        <a href="/modules/session">user sessions</a> or
+        <a href="/guide/sessions">user sessions</a> or
         <a href="/guide/extending-primate">write your own modules</a> using the
         available hooks.
       </p>
@@ -511,7 +511,7 @@
           <td>✓</td>
           <td>✗</td>
           <td>✗</td>
-          <td><a href="/modules/session">✓</a></td>
+          <td><a href="/guide/sessions">✓</a></td>
         </tr>
       </tbody>
     </table>

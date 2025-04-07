@@ -13,6 +13,10 @@ export type MockedResponse = {
   };
   headers: {
     includes(headers: Dictionary<string>): void;
+    get(header: string): {
+      equals(value: string): void;
+      includes(value: string): void;
+    }
   }
 };
 

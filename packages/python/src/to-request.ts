@@ -1,6 +1,5 @@
-//import { unwrap, unwrap_async } from "./unwrap.js";
-import type { PyodideInterface } from "pyodide";
 import type RequestFacade from "@primate/core/RequestFacade";
+import type { PyodideInterface } from "pyodide";
 
 type ToPY = PyodideInterface["toPy"];
 
@@ -53,17 +52,8 @@ const wrap_stores = (toPy: ToPY, object) => Object.entries(object)
     [key]: is_store(value) ? wrap_store(toPy, value) : wrap_stores(toPy, value),
   }), {});
 */
-/*const wrap_session = (toPy: ToPY, { session }: RequestFacade) => ({
-  ...session,
-  create(data) {
-    session.create(unwrap(data));
-  },
-  json() {
-    return toPy(session.json());
-  },
-});*/
 
-export default (_: ToPY, request: RequestFacade) => request;
-//  session: wrap_session(toPy, request),
+export default (to_py: ToPY, request: RequestFacade) =>
+  request;
 //  store: wrap_stores(toPy, request.store),
 //);

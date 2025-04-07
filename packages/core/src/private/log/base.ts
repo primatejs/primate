@@ -4,7 +4,7 @@ import FileRef from "@rcompat/fs/FileRef";
 import type StringLike from "@rcompat/string/StringLike";
 
 export default (level: LogLevel) =>
-  (module: string) => 
+  (module: string) =>
     (url: string, { message, fix }: { message: string, fix: string }) =>
       (...params: StringLike[]) =>
         log[level]({
@@ -14,4 +14,3 @@ export default (level: LogLevel) =>
           message,
           fix,
         });
-

@@ -19,15 +19,18 @@ const js_wrapper = (path: FileRef, routes: string[], packages: string[]) => `
   import file from "primate/runtime/file";
   import to_request from "@primate/python/to-request";
   import to_response from "@primate/python/to-response";
-  import wrap from "@primate/python/wrap";
   import load from "@primate/python/load";
+  import namespace from "@primate/python/namespace";
 
   const pyodide = await load({ indexURL: "./node_modules/pyodide" });
-  const python_route = await file(${JSON.stringify(path.toString())}).text();
+  const route = await file(${JSON.stringify(path.toString())}).text();
   ${packages.map(make_package)}
-  pyodide.runPython(wrap(python_route));
+  pyodide.registerJsModule("primate", namespace);
+
+  pyodide.runPython(route);
+
   export default {
-  ${routes.map(route => make_route(route)).join(",\n")}
+    ${routes.map(route => make_route(route)).join(",\n")}
   };
 `;
 

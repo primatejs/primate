@@ -10,6 +10,7 @@ type RequestFacade = Dictionary<Dictionary | unknown> & {
   cookies: Dictionary;
   path: Dictionary;
   body?: Body;
+  session?: Dictionary;
 };
 
 export { RequestFacade as default };

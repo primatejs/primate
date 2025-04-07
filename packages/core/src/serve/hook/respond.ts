@@ -44,8 +44,7 @@ const guesses = match([
 ]);
 
 const guess = (value: unknown): ResponseFunction | void =>
-  guesses.find(([_if]) => _if(value))?.[1](value as never) ?? bad_body();
-
+  guesses.find(([_if]) => _if(value))?.[1](value as never) ?? bad_body(`${value}`);
 
 export default (result: ResponseLike): ResponseFunction =>
   typeof result === "function" ? result : guess(result) as ResponseFunction;

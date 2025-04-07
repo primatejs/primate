@@ -1,2 +1,4 @@
+from primate import redirect
+
 def get(request):
-    return Primate.redirect("/redirected");
+    return redirect("/redirected")

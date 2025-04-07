@@ -9,19 +9,5 @@ export default async root => {
     configs.push({ ...await store(root), modules: ["store"] });
   }
 
-  if (await confirm({ message: `Add user sessions? ${link("session")}` })) {
-    configs.push({
-      dependencies: {
-        session: "@primate/session",
-      },
-      imports: {
-        session: "@primate/session",
-      },
-      modules: {
-        session: "",
-      },
-    });
-  }
-
   return configs;
 };

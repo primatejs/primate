@@ -11,6 +11,7 @@ import reload_defaults from "@rcompat/build/reload/defaults";
 import reload_path from "@rcompat/build/reload/path";
 import respond from "./respond.js";
 import route from "./route.js";
+import session_hook from "#session/hook";
 
 type GuardError = {
    response: Exclude<ResponseLike, void>,
@@ -108,7 +109,8 @@ export default (app: ServeApp) => {
     ? proxy(facade, next)
     : next(facade)) satisfies RequestHook;
 
-  const modules = [hotreload].concat(app.modules.handle !== undefined ? app.modules.handle : [])
+  const modules = [hotreload, session_hook(app)]
+    .concat(app.modules.handle !== undefined ? app.modules.handle : [])
 
   return cascade(modules as RequestHook<false>[], handle);
 };

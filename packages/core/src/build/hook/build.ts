@@ -167,6 +167,7 @@ const post = async (app: BuildApp) => {
     ...await manifest() as Dictionary,
     imports: {
       "#components/*": "./components/*.js",
+      "#session": "primate/session",
     },
   };
   // create package.json
@@ -179,6 +180,6 @@ const post = async (app: BuildApp) => {
 };
 
 export default async (app: BuildApp, target = "web") =>
-  post(await (app.modules.build === undefined 
+  post(await (app.modules.build === undefined
     ? app
     : await cascade(app.modules.build)(await pre(app, target))));

@@ -330,7 +330,7 @@ export default async (rootfile: string, build: Options): Promise<ServeApp> => {
     get url() {
       const { host, port } = this.config("http");
       return `http${this.secure ? "s" : ""}://${host}:${port}`;
-    }
+    },
   } as const satisfies ServeApp;
 
   return app;

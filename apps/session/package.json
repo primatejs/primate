@@ -1,0 +1,10 @@
+{
+  "name": "@primate/app/session",
+  "version": "0.0.1",
+  "dependencies": {
+    "@primate/html": "workspace:^",
+    "@primate/typescript": "workspace:^",
+    "primate": "workspace:^"
+  },
+  "type": "module"
+}

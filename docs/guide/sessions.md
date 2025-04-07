@@ -1,58 +1,39 @@
-# Session
+# Sessions
 
-This module adds cookie-based sessions to your application.
+Primate has built-in session support via cookies.
 
-## Install
-
-`npm install @primate/session`
-
-## Configure
-
-Import and initialize the module in your configuration.
-
-```js caption=primate.config.js
-import session from "@primate/session";
-
-export default {
-  modules: [
-    session(),
-  ],
-};
-```
-
-## Use
-
-This module creates and sends a session cookie with the response using the
+Primate creates and sends a session cookie with the response using the
 `Set-Cookie` header. If the client issues a request with a cookie that
 identifies an existing session id, no new cookie is created or sent.
 
-The session's data (which consists only of `id` unless you change the
-default manager) is made available to the route function as `request.session`.
+The session is available using the `primate/session` import.
 
 ```js caption=routes/index.js
+import session from "primate/session";
+
 export default {
-  get(request) {
+  get() {
     // send a 200 OK, plain text with the cookie's id as body
-    return request.session.id;
+    return session.id;
   },
 };
 ```
 
-By that example, a client requesting `GET /` will see its own session id.
+Here, a client requesting `GET /` will see its own session id.
 
-## Using the current session in stores
+## Use in stores
 
-To get and use the current session in stores, import `@primate/session/current`
-and call it.
+Like, to use the current session in a store file, import it from
+`primate/session`.
 
 ```js
-import current from "@primate/session/current";
+import session from "@primate/session";
 
 export const actions = driver => {
   return {
     custom_action() {
       // assumes you have initialized your session with { user_id: USER_ID }
-      const user_id = current().get("user_id");
+      const { user_id } = session.data;
 
       // use current user_id in query
     },
@@ -64,7 +45,7 @@ export const actions = driver => {
 
 ### name
 
-Default `"sessionId"`
+Default `"session_id"`
 
 The session cookie's name.
 
@@ -92,13 +73,6 @@ return object must contain a `id` property. If the given id and the returned
 Unless set, a default in-memory manager will be used, such that sessions do not
 survive an app restart.
 
-### implicit
-
-Default `false`
-
-Whether sessions should be automatically created, without explicitly calling
-`request.session.create()`.
-
 ## Security
 
 **Protocol downgrade attacks** cookies are sent with the `Secure` attribute if
@@ -106,10 +80,3 @@ Primate [is running on https](/guide/configuration#http-ssl-key-cert)
 
 **Cross-site scripting attacks** cookies are always sent with the `HttpOnly`
 attribute
-
-## Resources
-
-* [Repository][repo]
-
-[repo]: https://github.com/primatejs/primate/tree/master/packages/session
-[inMemorySessionManager]: https://github.com/primatejs/primate/blob/master/packages/session/src/module.js#L7-L37

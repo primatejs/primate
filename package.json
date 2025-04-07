@@ -1,12 +1,7 @@
 {
   "name": "@primate/monorepo",
-  "version": "0.1.0",
-  "description": "Polymorphic development platform",
   "type": "module",
-  "bugs": "https://github.com/primatejs/primate/issues",
   "license": "MIT",
-  "files": [],
-  "repository": "https://github.com/primatejs/primate",
   "scripts": {
     "build": "pnpm -r build",
     "clean": "pnpm -r clean",
@@ -17,12 +12,11 @@
     "test": "tsx --conditions=apekit ./node_modules/debris/src/bin.js"
   },
   "private": true,
-  "homepage": "https://primatejs.com",
   "devDependencies": {
     "apekit": "^0.0.9",
     "debris": "^0.14.0",
     "esbuild": "^0.25.2",
     "tsx": "^4.19.3",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.3"
   }
 }

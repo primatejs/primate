@@ -4,15 +4,15 @@ import green from "@rcompat/cli/color/green";
 import red from "@rcompat/cli/color/red";
 import root from "@rcompat/package/root";
 import type Dictionary from "@rcompat/record/Dictionary";
+import entries from "@rcompat/record/entries";
 import equals from "@rcompat/test/equals";
 import includes from "@rcompat/test/includes";
 import type MaybePromise from "pema/MaybePromise";
 import serve from "./serve.js";
-import entries from "@rcompat/record/entries";
 
 const directory  = "test";
 
-type Check<T> = () => MaybePromise<[boolean, T, T]>;
+type Check<T> = () => MaybePromise<[boolean, T, T | null]>;
 
 const fetch_options = { redirect: "manual" } as const;
 
@@ -65,6 +65,22 @@ export default async () => {
               .keymap(([key]) => key.toLowerCase()).get();
             return [includes(actual, lowercased), lowercased, actual];
           });
+        },
+        get(name: string) {
+          const actual = response.headers.get(name);
+
+          return {
+            equals(expected: string) {
+              checks.push(() => {
+                return [equals(actual, expected), expected, actual];
+              });
+            },
+            includes(expected: string) {
+              checks.push(() => {
+                return [includes(actual, expected), expected, actual];
+              });
+            },
+          }
         }
       },
     };
