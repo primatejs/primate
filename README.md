@@ -1,29 +1,12 @@
 <div align="center">
 <img src="https://raw.githubusercontent.com/primatejs/primate/master/assets/logo.svg" alt="Primate" width="60"/>
-<h1>Primate</h1>    	
+<h1>Primate</h1>
 <a href="https://primatejs.com/guide/getting-started"><img src="https://img.shields.io/badge/read%20guide-555555?style=for-the-badge"></a>
 &nbsp;<a href="https://npmjs.com/primate"><img src="https://img.shields.io/badge/npm%20create%20primate@latest-a16836?style=for-the-badge"></a>
 &nbsp;<a href="https://discord.gg/RSg4NNwM4f"><img src="https://img.shields.io/discord/1256590312177012806?style=for-the-badge&label=chat&logoColor=fff&color=5865f2"></a>
 </div>
 <br>
-Primate is a framework for building web applications primarily focused on
-flexibility and developer freedom.<br><br>
-Other frameworks lock you in. Primate sets you free, offering you unlimited
-choice in mixing and matching different tools that work best for you, rather
-than forcing to you accept the limitations and design decisions made by others.
-
-## What is supported?
-
-Click on the tool badge for more info. If you're missing anything, feel free to
-open an issue detailing your use case and what tool you would like to see
-supported.
-
-### Backends
-[![Go](https://img.shields.io/badge/Go-02add6?logo=go&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/go)
-[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=000&style=for-the-badge)](https://primatejs.com/modules/backend)
-[![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/python)
-[![Ruby](https://img.shields.io/badge/Ruby-CC342D?logo=ruby&style=for-the-badge)](https://primatejs.com/modules/ruby)
-[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/typescript)
+A universal web framework that leaves you the choice of frontend, backend and runtime, in one stack.
 
 ### Frontends
 [![Angular](https://img.shields.io/badge/Angular-DD0031.svg?logo=angular&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/angular)
@@ -40,6 +23,13 @@ supported.
 [![Voby](https://img.shields.io/badge/Voby-fff5db.svg?logo=eta&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/voby)
 [![Vue](https://img.shields.io/badge/Vue-4FC08D?logo=vuedotjs&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/vue)
 [![web Components](https://img.shields.io/badge/Web%20Components-29ABE2?logo=webcomponentsdotorg&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/web-components)
+
+### Backends
+[![Go](https://img.shields.io/badge/Go-02add6?logo=go&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/go)
+[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=000&style=for-the-badge)](https://primatejs.com/modules/backend)
+[![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/python)
+[![Ruby](https://img.shields.io/badge/Ruby-CC342D?logo=ruby&style=for-the-badge)](https://primatejs.com/modules/ruby)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/typescript)
 
 ### Runtimes
 [![NodeJS](https://img.shields.io/badge/Node-6DA55F?logo=node.js&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/runtime-support)
