@@ -28,6 +28,9 @@ class InMemorySessionManager<Data extends SessionData>
   delete(id: Id) {
     this.#sessions.delete(id);
   }
+
+  // noop
+  commit() {}
 }
 
 export default InMemorySessionManager;

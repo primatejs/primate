@@ -37,5 +37,9 @@ export default (app: ServeApp): RequestHook => async (request, next) => {
     http_only: cookie_options.http_only ? "; HttpOnly" : "",
     secure: app.secure,
   };
+
+  // commit any session changes if necessary
+  await manager.commit();
+
   response.headers.set("Set-Cookie", cookie(`${name}=${session.id}`, options));
 };
