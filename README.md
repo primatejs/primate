@@ -1,5 +1,5 @@
 <div align="center">
-<img src="https://raw.githubusercontent.com/primatejs/primate/master/assets/logo.svg" alt="Primate" width="60"/>
+<img src="https://raw.githubusercontent.com/prmtrun/primate/master/assets/logo.svg" alt="Primate" width="60"/>
 <h1>Primate</h1>
 <a href="https://primatejs.com/guide/getting-started"><img src="https://img.shields.io/badge/read%20guide-555555?style=for-the-badge"></a>
 &nbsp;<a href="https://npmjs.com/primate"><img src="https://img.shields.io/badge/npm%20create%20primate@latest-a16836?style=for-the-badge"></a>
@@ -52,7 +52,7 @@ MIT
 By contributing to Primate, you agree that your contributions will be licensed
 under its MIT license.
 
-Clone this repo and https://github.com/primatejs/app in the same location,
+Clone this repo and https://github.com/prmtrun/app in the same location,
 and switch to the `dev` branch in the app repo. Then, in the app repo, run
 
 * `npm run node` for Node in development mode

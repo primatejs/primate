@@ -21,21 +21,21 @@ export default (app: ServeApp): RequestHook => async (request, next) => {
   const id = request.cookies[name];
   const session = manager.get(id as string);
 
-  const response = await new Promise(resolve => {
+  const response = await new Promise<Response>(resolve => {
     local_storage.run(session, async () => {
       resolve(await next(request) as Response);
     });
-  }) as Response;
+  });
+
+  if (session.new || session.id === id) {
+    return response;
+  }
 
   // if the session is in the pool and has a different id from the cookie, set
-  if (!session.new && session.id !== id) {
-    const options: CookieOptions = {
-      ...cookie_options,
-      http_only: cookie_options.http_only ? "; HttpOnly" : "",
-      secure: app.secure,
-    };
-    const base = `${name}=${session.id}`;
-    response.headers.set("Set-Cookie", cookie(base, options));
-  }
-  return response;
+  const options: CookieOptions = {
+    ...cookie_options,
+    http_only: cookie_options.http_only ? "; HttpOnly" : "",
+    secure: app.secure,
+  };
+  response.headers.set("Set-Cookie", cookie(`${name}=${session.id}`, options));
 };
