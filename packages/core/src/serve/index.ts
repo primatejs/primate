@@ -32,7 +32,7 @@ export type Options = {
   assets: Asset[];
 };
 
-export default async (root: string, { config, ...options }: Options) => 
+export default async (root: string, { config, ...options }: Options) =>
   serve(
     await init(
       await app(root, { config: override(defaults, config), ...options }),

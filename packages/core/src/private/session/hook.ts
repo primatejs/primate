@@ -42,4 +42,6 @@ export default (app: ServeApp): RequestHook => async (request, next) => {
   await manager.commit();
 
   response.headers.set("Set-Cookie", cookie(`${name}=${session.id}`, options));
+
+  return response;
 };

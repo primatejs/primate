@@ -37,7 +37,6 @@ export default class Session<
   create(data?: Data) {
     this.#data = data;
     this.#new = false;
-
     this.#manager.create(this.#id, this);
   }
 

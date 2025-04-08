@@ -1,6 +1,6 @@
-require 'json'
+require "json"
 
-def wrap(helpers, value)
+def wrap(value, helpers)
   resolved = helpers.call("wrap", value).to_s
 
   if resolved == "integer"
@@ -25,22 +25,49 @@ def wrap(helpers, value)
 
   if resolved == "array"
     as_array = JS.global[:Array].from(value)
-    return Array.new(as_array[:length].to_i) { 
+    return Array.new(as_array[:length].to_i) {
       # recurse
-      wrap(helpers, as_array[_1]) 
+      wrap(as_array[_1], helpers)
     }
   end
 
   if resolved == "object"
     as_entries = JS.global[:Object].entries(value)
-    return Hash[Array.new(as_entries[:length].to_i) {[ 
+    return Hash[Array.new(as_entries[:length].to_i) {[
       as_entries[_1][0].to_s,
       # recurse
-      wrap(helpers, as_entries[_1][1])
+      wrap(as_entries[_1][1], helpers)
     ]}]
   end
 
   value
+end
+
+class Session
+  def initialize(session, helpers)
+    @session = session
+    @helpers = helpers
+  end
+
+  def id
+    @session["id"]
+  end
+
+  def new
+    @session["new"]
+  end
+
+  def data
+    wrap(@session["data"], @helpers)
+  end
+
+  def create(data)
+    @session.call("create", data)
+  end
+
+  def destroy(foo)
+    @session.call("delete", foo)
+  end 
 end
 
 class Primate
@@ -55,20 +82,13 @@ class Primate
   def self.error(body, options = {})
     {:__PRMT__ => "error", :body => body, :options => options}
   end
-end
 
-class Dispatcher
-  def initialize(dispatcher)
-    @dispatcher = dispatcher
-    @json = JSON.parse(dispatcher.call("toString").to_s)
+  def self.set_session(session, helpers)
+    @session = Session.new(session, helpers)
   end
 
-  def get(name)
-    @dispatcher.call("get", name).to_s
-  end
-
-  def json()
-    @json
+  def self.session
+    @session
   end
 end
 
@@ -137,11 +157,11 @@ end
 class Request
   def initialize(request, helpers)
     @url = URL.new(request["url"])
-    @body = wrap(helpers, request["body"])
-    @path = Dispatcher.new(request["path"])
-    @query = Dispatcher.new(request["query"])
-    @headers = Dispatcher.new(request["headers"])
-    @cookies = Dispatcher.new(request["cookies"])
+    @body = wrap(request["body"], helpers)
+    @path = request["path"]
+    @query = request["query"]
+    @headers = request["headers"]
+    @cookies = request["cookies"]
     %%REQUEST_INITIALIZE%%
   end
 

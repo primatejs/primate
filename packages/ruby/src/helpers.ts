@@ -1,5 +1,5 @@
 export default {
-  wrap(value) {
+  wrap(value: unknown) {
     if (typeof value === "number") {
       if (Number.isInteger(value)) {
         return "integer";
@@ -18,7 +18,7 @@ export default {
         return "array";
       }
 
-      if (value === "null") {
+      if (value === null) {
         return "nil";
       }
 

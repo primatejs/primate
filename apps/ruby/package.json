@@ -1,0 +1,11 @@
+{
+  "name": "@primate/app/ruby",
+  "version": "0.0.1",
+  "dependencies": {
+    "@primate/html": "workspace:^",
+    "@primate/ruby": "workspace:^",
+    "@ruby/head-wasm-wasi": "^2.7.1",
+    "primate": "workspace:^"
+  },
+  "type": "module"
+}

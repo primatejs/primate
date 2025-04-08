@@ -1,0 +1,18 @@
+import Status from "primate/http/Status";
+import test from "primate/test";
+
+test.get("/handler/error", response => {
+  response.status.equals(Status.NOT_FOUND);
+  response.body.includes("Python error");
+});
+
+test.get("/handler/redirect", response => {
+  response.status.equals(Status.FOUND);
+  response.headers.includes({ Location: "/redirected" });
+});
+
+test.get("/handler/view", response => {
+  response.body.includes(`<h1>View</h1>
+
+Hello, world.`);
+});
