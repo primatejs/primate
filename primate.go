@@ -32,7 +32,7 @@ func serialize(data map[string]any) string {
 
 type Object[T any] map[string]T;
 type Array[T any] []T;
-type Props[T any] = Object[T];
+type Props = Object[any];
 type Options = Object[any];
 type SessionData = Object[any];
 
@@ -64,7 +64,7 @@ func Session() SessionType {
   };
 }
 
-func View[P map[string]any](component string, props P, options ...Options) any {
+func View(component string, props Props, options ...Options) any {
   var serde_props = serialize(props);
 
   var serde_options = serialize(try_map(options, 0, Object[any]{}));
