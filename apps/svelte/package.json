@@ -6,7 +6,7 @@
     "@primate/i18n": "workspace:^",
     "@primate/svelte": "workspace:^",
     "primate": "workspace:^",
-    "svelte": "^5.25.3"
+    "svelte": "^5.25.8"
   },
   "type": "module"
 }

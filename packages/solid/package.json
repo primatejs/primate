@@ -22,7 +22,7 @@
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
-    "@rcompat/record": "^0.6.1",
+    "@rcompat/record": "^0.6.2",
     "@types/babel__core": "^7.20.5"
   },
   "dependencies": {

@@ -70,6 +70,6 @@
     "./*": "./lib/public/*.js"
   },
   "devDependencies": {
-    "@rcompat/record": "^0.6.1"
+    "@rcompat/record": "^0.6.2"
   }
 }
