@@ -91,7 +91,7 @@ func Redirect(location string, ints ...int) any {
   });
 }
 
-func Error(options ...Options) {
+func Error(options ...Options) any {
   var serde_options = serialize(try_map(options, 0, Object[any]{}));
 
   return js.FuncOf(func(this js.Value, args[] js.Value) any {
