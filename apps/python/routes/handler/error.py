@@ -1,4 +1,4 @@
 from primate import error
 
 def get(request):
-    return error("Python error")
+    return error({ "body": "Python error" })

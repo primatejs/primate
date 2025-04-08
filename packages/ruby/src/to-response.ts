@@ -30,16 +30,14 @@ const handle_handler = (handler: Handler, response: Dictionary) => {
     return redirect(location, status);
   }
 
-  const { body, options } = response as {
-    body: ErrorParameters[0],
-    options: ErrorParameters[1],
+  const { options } = response as {
+    options: ErrorParameters[0],
   }
-  return error(body, options);
+  return error(options);
 };
 
 const is_handler = (handler: unknown): handler is Handler =>
-    typeof handler === "string" && Object.keys(handlers).includes(handler);
-
+  typeof handler === "string" && Object.keys(handlers).includes(handler);
 
 export default (response: Dictionary): ResponseLike => {
   const handler = response[HANDLER_PROPERTY];

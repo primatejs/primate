@@ -3,19 +3,22 @@ import type { Known } from "@rcompat/http/Status";
 import Status from "@rcompat/http/Status";
 
 type Options = {
-  status?: Known,
-  page?: string,
-}
+  body?: string;
+  status?: Known;
+  page?: string;
+};
 
 /**
  * Render an error page
- * @param body replacement for %body%
  * @param options rendering options
- * @return Response rendering function
+ * @param options.body HTML %body% replacement (default: "Not Found")
+ * @param options.status Request status (default: 404 Not Found)
+ * @param options.page HTML page to use (default: config.pages.error)
+ * @return ResponseFunction response function
  */
-export default (body?: string, options?: Options): ResponseFunction =>
+export default (options?: Options): ResponseFunction =>
   app => app.view({
-    body: body ?? "Not Found",
+    body: options?.body ?? "Not Found",
     status: options?.status ?? Status.NOT_FOUND,
     page: options?.page ?? app.config("pages.error"),
   });

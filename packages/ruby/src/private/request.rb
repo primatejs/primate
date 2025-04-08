@@ -79,8 +79,8 @@ class Primate
     {:__PRMT__ => "redirect", :location => location, :options => options}
   end
 
-  def self.error(body, options = {})
-    {:__PRMT__ => "error", :body => body, :options => options}
+  def self.error(options = {})
+    {:__PRMT__ => "error", :options => options}
   end
 
   def self.set_session(session, helpers)

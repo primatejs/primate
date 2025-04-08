@@ -26,18 +26,18 @@ type ExtensionCompile = {
 };
 
 export interface BuildApp extends App {
-  bind: (extension: string, handler: BindFn) => undefined;
-  target: (name: string, target: TargetHandler) => undefined;
-  postbuild: (() => undefined)[];
+  bind: (extension: string, handler: BindFn) => void;
+  target: (name: string, target: TargetHandler) => void;
+  postbuild: (() => void)[];
   bindings: PartialDictionary<BindFn>;
   roots: FileRef[];
   targets: PartialDictionary<{ forward?: string, target: TargetHandler }>;
   assets: unknown[];
   extensions: PartialDictionary<ExtensionCompile>;
-  stage: (source: FileRef, directory: Path, apply_defines?: boolean) => Promise<undefined>;
-  compile: (component: FileRef) => Promise<undefined>;
+  stage: (source: FileRef, directory: Path, apply_defines?: boolean) => Promise<void>;
+  compile: (component: FileRef) => Promise<void>;
   register: (extension: string, compile: ExtensionCompile) => void;
-  done: (fn: () => undefined) => undefined;
+  done: (fn: () => void) => void;
   server_build: string[];
   build_target: string;
   get build(): Build;

@@ -1,3 +1,3 @@
 def get(request)
-  Primate.error("Python error")
+  Primate.error({ :body => "Ruby error" })
 end

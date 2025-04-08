@@ -3,7 +3,7 @@ import test from "primate/test";
 
 test.get("/handler/error", response => {
   response.status.equals(Status.NOT_FOUND);
-  response.body.includes("Python error");
+  response.body.includes("Ruby error");
 });
 
 test.get("/handler/redirect", response => {
