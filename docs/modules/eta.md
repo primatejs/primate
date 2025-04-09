@@ -64,4 +64,4 @@ The file extension associated with Eta components.
 
 * [Repository][repo]
 
-[repo]: https://github.com/primatejs/primate/tree/master/packages/eta
+[repo]: https://github.com/primate-run/primate/tree/master/packages/eta

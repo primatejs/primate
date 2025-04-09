@@ -32,7 +32,7 @@ export default {
 ```
 
 ```go caption=routes/index.go
-import "github.com/primatejs/go/primate"
+import "github.com/primate-run/primate"
 
 func Get(request Request) any {
   posts := Array{Object{

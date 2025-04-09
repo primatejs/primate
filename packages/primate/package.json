@@ -2,8 +2,8 @@
   "name": "primate",
   "version": "0.33.0-pre",
   "description": "The universal web framework",
-  "homepage": "https://primatejs.com",
-  "bugs": "https://github.com/primatejs/primate/issues",
+  "homepage": "https://primate.run",
+  "bugs": "https://github.com/primate-run/primate/issues",
   "license": "MIT",
   "files": [
     "/lib/**/*.js",
@@ -13,7 +13,7 @@
   "bin": "lib/bin.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/primatejs/primate",
+    "url": "https://github.com/primate-run/primate",
     "directory": "packages/primate"
   },
   "scripts": {

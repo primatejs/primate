@@ -1,6 +1,6 @@
 # Primate website
 
-This package contains the code for https://primatejs.com, which uses Primate
+This package contains the code for https://primate.run, which uses Primate
 itself.
 
 ## Run locally
@@ -13,7 +13,7 @@ npm start
 
 The website's static content is located at [root docs][docs].
 
-[docs]: https://github.com/primatejs/primate/tree/master/docs
+[docs]: https://github.com/primate-run/primate/tree/master/docs
 
 ## Build and Run deployment using Docker locally
 

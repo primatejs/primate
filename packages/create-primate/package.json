@@ -1,8 +1,8 @@
 {
   "name": "create-primate",
   "version": "0.16.1",
-  "description": "CLI for creating Primate projects",
-  "bugs": "https://github.com/primatejs/primate/issues",
+  "description": "Create Primate apps",
+  "bugs": "https://github.com/primate-run/primate/issues",
   "license": "MIT",
   "files": [
     "src/**/*.js",
@@ -11,7 +11,7 @@
   "bin": "src/bin.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/primatejs/primate",
+    "url": "https://github.com/primate-run/primate",
     "directory": "packages/create-primate"
   },
   "dependencies": {

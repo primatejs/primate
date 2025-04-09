@@ -62,7 +62,7 @@ You can combine optional and typed parameters.
 Brackets starting with three dots, as in `user/[...action_tree].js`, indicate a
 rest parameter. Unlike normal parameters, rest parameters match `/` as well and
 can be thus be used to construct subpaths. For example, in
-`https://github.com/primatejs/primate/tree/master/docs/guide`, `docs/guide`
+`https://github.com/primate-run/primate/tree/master/docs/guide`, `docs/guide`
 may be considered a subpath.
 
 Rest parameters may only appear at the end of a route path. They may also be

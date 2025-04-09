@@ -352,9 +352,9 @@ Otherwise, have a blast with the new version!
 [rcompat]: /blog/introducing-rcompat
 [Getting started]: /guide/getting-started
 [irc]: https://web.libera.chat#primate
-[changelog]: https://github.com/primatejs/primate/releases/tag/0.32.0
+[changelog]: https://github.com/primate-run/primate/releases/tag/0.32.0
 [Eta]: https://eta.js.org
 [Voby]: https://github.com/vobyjs/voby
 [discord]: https://discord.gg/RSg4NNwM4f
 [HTML frontend]: /modules/html
-[route migration script]: https://github.com/primatejs/primate/tree/master/docs/migrations/0.32/routes.sh
+[route migration script]: https://github.com/primate-run/primate/tree/master/docs/migrations/0.32/routes.sh

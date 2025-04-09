@@ -217,5 +217,5 @@ Otherwise, have a blast with the new version!
 [Getting started]: /guide/getting-started
 [frontend modules]: /modules/frontend
 [irc]: https://web.libera.chat#primate
-[last release]: https://primatejs.com/blog/release-024
-[changelog]: https://github.com/primatejs/primate/releases/tag/0.25.0
+[last release]: https://primate.run/blog/release-024
+[changelog]: https://github.com/primate-run/primate/releases/tag/0.25.0

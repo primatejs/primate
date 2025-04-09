@@ -93,4 +93,4 @@ Whether server-side rendering should be active.
 
 * [Repository][repo]
 
-[repo]: https://github.com/primatejs/primate/tree/master/packages/react
+[repo]: https://github.com/primate-run/primate/tree/master/packages/react

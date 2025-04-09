@@ -65,4 +65,4 @@ The file extension associated with Vue SFC components.
 
 * [Repository][repo]
 
-[repo]: https://github.com/primatejs/primate/tree/master/packages/vue
+[repo]: https://github.com/primate-run/primate/tree/master/packages/vue

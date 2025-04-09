@@ -379,6 +379,6 @@ This placeholder is replaced by whatever HTML code the `view` or `html`
 handler generates.
 
 [hooks-load]: /guide/hooks#load
-[default-app-html]: https://github.com/primatejs/primate/blob/master/packages/primate/src/defaults/app.html
-[default-error-html]: https://github.com/primatejs/primate/blob/master/packages/primate/src/defaults/error.html
+[default-app-html]: https://github.com/primate-run/primate/blob/master/packages/primate/src/defaults/app.html
+[default-error-html]: https://github.com/primate-run/primate/blob/master/packages/primate/src/defaults/error.html
 [rcompat]: https://github.com/rcompat/rcompat

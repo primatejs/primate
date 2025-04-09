@@ -54,7 +54,7 @@ If we assume a client sent the following HTTP request.
 
 ```http
 POST /comment/1?timestamps=UTC HTTP/1.1
-Host: primatejs.com
+Host: primate.run
 Cookie: jar=full;
 Content-Type: application/json
 
@@ -97,7 +97,7 @@ are updated alongside the core framework.
 ## Example Applications
 
 - [hynt.us](https://github.com/profullstack/hynt-web) - a link shortener app using SurrealDB and Svelte
-- [starter app](https://github.com/primatejs/app) - demos most of the features of Primate
+- [starter app](https://github.com/primate-run/app) - demos most of the features of Primate
 
 [http-static-root]: /guide/configuration#http-static-root
 [location-static]: /guide/configuration#location-static
@@ -110,4 +110,4 @@ are updated alongside the core framework.
 [sessions]: /modules/session
 [extending-primate]: /guide/extending-primate
 [official-modules]: /modules/official
-[priss]: https://github.com/primatejs/priss
+[priss]: https://github.com/primate-run/priss

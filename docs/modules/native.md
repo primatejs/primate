@@ -84,5 +84,5 @@ active) or not.
 
 * [Repository][repo]
 
-[repo]: https://github.com/primatejs/primate/tree/master/packages/native
+[repo]: https://github.com/primate-run/primate/tree/master/packages/native
 [bun-compilation-issues]: https://github.com/oven-sh/bun/issues/11959

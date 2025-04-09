@@ -89,7 +89,7 @@ const handle_blog = async (env, config, pathname) => {
 const cookie = (name, value, { secure }) =>
   `${name}=${value};HttpOnly;Path=/;${secure};SameSite=Strict`;
 const cookie_name = "color-scheme";
-const blog_base = "https://primatejs.com/blog";
+const blog_base = "https://primate.run/blog";
 
 export default config => {
   const { blog } = config;

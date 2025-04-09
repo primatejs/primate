@@ -63,7 +63,7 @@ The `Primate.redirect` handler allows you to redirect responses.
 
 ```rb caption=routes/redirect.rb
 def get(request)
-  Primate.redirect("https://primatejs.com")
+  Primate.redirect("https://primate.run")
 end
 ```
 
@@ -72,7 +72,7 @@ with a `status` field.
 
 ```rb caption=routes/redirect.rb
 def get(request)
-  Primate.redirect("https://primatejs.com", { status: 301 })
+  Primate.redirect("https://primate.run", { status: 301 })
 end
 ```
 
@@ -264,5 +264,5 @@ The file extension associated with Ruby routes.
 [path]: /guide/routes#path
 [session]: /modules/session#use
 [default-index]:
-https://github.com/primatejs/primate/blob/master/packages/core/src/build/defaults/app.html
-[repo]: https://github.com/primatejs/primate/tree/master/packages/ruby
+https://github.com/primate-run/primate/blob/master/packages/core/src/build/defaults/app.html
+[repo]: https://github.com/primate-run/primate/tree/master/packages/ruby

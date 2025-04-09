@@ -64,4 +64,4 @@ The file extension associated with Handlebars components.
 
 * [Repository][repo]
 
-[repo]: https://github.com/primatejs/primate/tree/master/packages/handlebars
+[repo]: https://github.com/primate-run/primate/tree/master/packages/handlebars

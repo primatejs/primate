@@ -120,5 +120,5 @@ Otherwise, have a blast with the new version!
 
 [Getting started]: /guide/getting-started
 [irc]: https://web.libera.chat#primate
-[changelog]: https://github.com/primatejs/primate/releases/tag/0.24.0
-[template-app]: https://github.com/primatejs/app
+[changelog]: https://github.com/primate-run/primate/releases/tag/0.24.0
+[template-app]: https://github.com/primate-run/app

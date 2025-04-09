@@ -489,8 +489,8 @@ JSON column that would serve the same purpose.
 * [Repository][repo]
 * [Error list](/errors/store)
 
-[repo]: https://github.com/primatejs/primate/tree/master/packages/store
-[memory]: https://github.com/primatejs/primate/blob/master/packages/store/src/drivers/memory.js
+[repo]: https://github.com/primate-run/primate/tree/master/packages/store
+[memory]: https://github.com/primate-run/primate/blob/master/packages/store/src/drivers/memory.js
 [in-memory]: /modules/drivers#in-memory
 [json-file]: /modules/drivers#json-file
 [MongoDB]: /modules/drivers#mongodb

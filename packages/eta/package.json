@@ -1,9 +1,9 @@
 {
   "name": "@primate/eta",
   "version": "0.1.4",
-  "description": "Eta frontend",
-  "homepage": "https://primatejs.com/modules/eta",
-  "bugs": "https://github.com/primatejs/primate/issues",
+  "description": "Eta frontend for Primate",
+  "homepage": "https://primate.run/frontend/eta",
+  "bugs": "https://github.com/primate-run/primate/issues",
   "license": "MIT",
   "files": [
     "/lib/**/*.js",
@@ -12,7 +12,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/primatejs/primate",
+    "url": "https://github.com/primate-run/primate",
     "directory": "packages/eta"
   },
   "scripts": {

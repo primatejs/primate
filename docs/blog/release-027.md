@@ -232,7 +232,7 @@ Otherwise, have a blast with the new version!
 
 [Getting started]: /guide/getting-started
 [irc]: https://web.libera.chat#primate
-[last release]: https://primatejs.com/blog/release-026
-[changelog]: https://github.com/primatejs/primate/releases/tag/0.27.0
+[last release]: https://primate.run/blog/release-026
+[changelog]: https://github.com/primate-run/primate/releases/tag/0.27.0
 [Python module documentation]: /modules/python
 [build]: /modules/build

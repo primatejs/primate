@@ -78,7 +78,7 @@ The `Primate.redirect` handler allows you to redirect responses.
 
 ```py caption=routes/redirect.py
 def get(request):
-    return Primate.redirect("https://primatejs.com");
+    return Primate.redirect("https://primate.run");
 ```
 
 To use a different redirect status, use the second parameter as a dictionary
@@ -86,7 +86,7 @@ with a `status` field.
 
 ```py caption=routes/redirect-301.py
 def get(request):
-    return Primate.redirect("https://primatejs.com", { "status": 301 });
+    return Primate.redirect("https://primate.run", { "status": 301 });
 ```
 
 ### View
@@ -293,5 +293,5 @@ library.
 [session]: /modules/session#use
 [store]: /modules/store
 [default-index]:
-https://github.com/primatejs/primate/blob/master/packages/core/src/build/defaults/app.html
-[repo]: https://github.com/primatejs/primate/tree/master/packages/python
+https://github.com/primate-run/primate/blob/master/packages/core/src/build/defaults/app.html
+[repo]: https://github.com/primate-run/primate/tree/master/packages/python

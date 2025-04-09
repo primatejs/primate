@@ -1,9 +1,9 @@
 {
   "name": "@primate/vue",
   "version": "0.11.0",
-  "description": "Vue frontend",
-  "homepage": "https://primatejs.com/modules/vue",
-  "bugs": "https://github.com/primatejs/primate/issues",
+  "description": "Vue frontend for Primate",
+  "homepage": "https://primate.run/frontend/vue",
+  "bugs": "https://github.com/primate-run/primate/issues",
   "license": "MIT",
   "files": [
     "/lib/**/*.js",
@@ -12,7 +12,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/primatejs/primate",
+    "url": "https://github.com/primate-run/primate",
     "directory": "packages/vue"
   },
   "scripts": {

@@ -108,6 +108,6 @@ such as React, Vue, Svelte, Solid or HTMX.
 [frontend frameworks]: /modules/frontend
 [components]: /guide/components
 [default-config]:
-https://github.com/primatejs/primate/blob/master/packages/primate/src/defaults/primate.config.js
+https://github.com/primate-run/primate/blob/master/packages/primate/src/defaults/primate.config.js
 [default-page]:
-https://github.com/primatejs/primate/blob/master/packages/primate/src/defaults/app.html
+https://github.com/primate-run/primate/blob/master/packages/primate/src/defaults/app.html

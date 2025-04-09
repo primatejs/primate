@@ -87,4 +87,4 @@ Angular to development mode.
 
 * [Repository][repo]
 
-[repo]: https://github.com/primatejs/primate/tree/master/packages/angular
+[repo]: https://github.com/primate-run/primate/tree/master/packages/angular

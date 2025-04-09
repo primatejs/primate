@@ -1,18 +1,18 @@
 {
   "name": "@primate/htmx",
   "version": "0.19.5",
-  "description": "Primate HTMX frontend",
-  "homepage": "https://primatejs.com/modules/htmx",
-  "bugs": "https://github.com/primatejs/primate/issues",
+  "description": "HTMX frontend for Primate",
+  "homepage": "https://primate.run/frontend/htmx",
+  "bugs": "https://github.com/primate-run/primate/issues",
   "license": "MIT",
   "files": [
     "/lib/**/*.js",
     "/lib/**/*.d.ts",
-    "!src/**/*.spec.js"
+    "!/**/*.spec.*"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/primatejs/primate",
+    "url": "https://github.com/primate-run/primate",
     "directory": "packages/htmx"
   },
   "scripts": {

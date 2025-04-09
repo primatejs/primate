@@ -1,1 +1,1 @@
-export default module => `(https://primatejs.com/modules/${module})`;
+export default module => `(https://primate.run/module/${module})`;

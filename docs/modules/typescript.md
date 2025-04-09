@@ -58,4 +58,4 @@ The file extension associated with TypeScript routes.
 
 [routes]: /guide/routes
 [responses]: /guide/responses
-[repo]: https://github.com/primatejs/primate/tree/master/packages/typescript
+[repo]: https://github.com/primate-run/primate/tree/master/packages/typescript

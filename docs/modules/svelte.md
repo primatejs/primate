@@ -81,4 +81,4 @@ Whether SPA browsing using `fetch` should be active.
 
 * [Repository][repo]
 
-[repo]: https://github.com/primatejs/primate/tree/master/packages/svelte
+[repo]: https://github.com/primate-run/primate/tree/master/packages/svelte

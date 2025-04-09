@@ -78,10 +78,10 @@ func Get(request Request) any {
 The `Redirect` handler allows you to redirect responses.
 
 ```go caption=routes/redirect.go
-import "github.com/primatejs/go/primate"
+import "github.com/primate-run/go/primate"
 
 func Get(request Request) any {
-  return primate.Redirect("https://primatejs.com");
+  return primate.Redirect("https://primate.run");
 }
 ```
 
@@ -89,11 +89,11 @@ To use a different redirect status, use the second parameter as a map with a
 `status` field.
 
 ```go caption=routes/redirect-301.go
-import "github.com/primatejs/go/primate"
+import "github.com/primate-run/go/primate"
 
 func Get(request Request) any {
   // moved permanently
-  return primate.Redirect("https://primatejs.com", Object{ "status": 301 });
+  return primate.Redirect("https://primate.run", Object{ "status": 301 });
 }
 ```
 
@@ -105,7 +105,7 @@ The `View` handler allows you to serve responses with content type `text/html`
 from the `components` directory.
 
 ```go caption=routes/view.go
-import "github.com/primatejs/go/primate"
+import "github.com/primate-run/go/primate"
 
 func Get(request Request) any {
   return primate.View("hello.html");
@@ -148,7 +148,7 @@ First, create the frontend component, in this case Svelte.
 Then create the route, and pass props to the component.
 
 ```go caption=routes/svelte.go
-import "github.com/primatejs/go/primate"
+import "github.com/primate-run/go/primate"
 
 func Get(request Request) any {
   posts := Array{Object{
@@ -296,5 +296,5 @@ The file extension associated with Go routes.
 [path]: /guide/routes#path
 [session]: /modules/session#use
 [default-index]:
-https://github.com/primatejs/primate/blob/master/packages/core/src/build/defaults/app.html
-[repo]: https://github.com/primatejs/primate/tree/master/packages/go
+https://github.com/primate-run/primate/blob/master/packages/core/src/build/defaults/app.html
+[repo]: https://github.com/primate-run/primate/tree/master/packages/go

@@ -354,5 +354,5 @@ Otherwise, have a blast with the new version!
 
 [Getting started]: /guide/getting-started
 [irc]: https://web.libera.chat#primate
-[changelog]: https://github.com/primatejs/primate/releases/tag/0.29.0
+[changelog]: https://github.com/primate-run/primate/releases/tag/0.29.0
 [rcompat]: https://github.com/rcompat/rcompat

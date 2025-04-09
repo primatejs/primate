@@ -104,7 +104,7 @@ status code `302 Found`.
 ```js caption=routes/redirect.js
 export default {
   get() {
-    return new URL("https://primatejs.com");
+    return new URL("https://primate.run");
   },
 };
 ```

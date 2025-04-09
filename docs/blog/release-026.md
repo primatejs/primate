@@ -298,7 +298,7 @@ Otherwise, have a blast with the new version!
 
 [Getting started]: /guide/getting-started
 [irc]: https://web.libera.chat#primate
-[last release]: https://primatejs.com/blog/release-025
-[changelog]: https://github.com/primatejs/primate/releases/tag/0.26.0
+[last release]: https://primate.run/blog/release-025
+[changelog]: https://github.com/primate-run/primate/releases/tag/0.26.0
 [Go module documentation]: /modules/go
 [build]: /modules/build

@@ -1,9 +1,9 @@
 {
   "name": "@primate/handlebars",
   "version": "0.1.3",
-  "description": "Handlebars frontend",
-  "homepage": "https://primatejs.com/modules/handlebars",
-  "bugs": "https://github.com/primatejs/primate/issues",
+  "description": "Handlebars frontend for Primate",
+  "homepage": "https://primate.run/frontend/handlebars",
+  "bugs": "https://github.com/primate-run/primate/issues",
   "license": "MIT",
   "files": [
     "/lib/**/*.js",
@@ -12,7 +12,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/primatejs/primate",
+    "url": "https://github.com/primate-run/primate",
     "directory": "packages/handlebars"
   },
   "scripts": {

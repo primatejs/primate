@@ -15,4 +15,4 @@ You normally import this module's types in your stores for use.
 
 * [Repository][repo]
 
-[repo]: https://github.com/primatejs/primate/tree/master/packages/schema
+[repo]: https://github.com/primate-run/primate/tree/master/packages/schema

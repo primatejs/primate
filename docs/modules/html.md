@@ -66,4 +66,4 @@ The file extension associated with HTML components.
 
 * [Repository][repo]
 
-[repo]: https://github.com/primatejs/primate/tree/master/packages/html
+[repo]: https://github.com/primate-run/primate/tree/master/packages/html

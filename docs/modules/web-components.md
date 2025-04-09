@@ -93,4 +93,4 @@ The file extension associated with web components.
 * [Repository][repo]
 * [Error list](/errors/webc)
 
-[repo]: https://github.com/primatejs/primate/tree/master/packages/webc
+[repo]: https://github.com/primate-run/primate/tree/master/packages/webc

@@ -69,7 +69,7 @@ from your route or the body you return is invalid.
 ```sh
 !! primate invalid body returned from route, got `undefined`
 ++ return a proper body from route
-   -> https://primatejs.com/guide/logging#invalid-body-returned
+   -> https://primate.run/guide/logging#invalid-body-returned
 ```
 
 ### Disabling body parsing
@@ -181,4 +181,4 @@ Otherwise, have a blast with the new version!
 
 [Getting started]: /guide/getting-started
 [irc]: https://web.libera.chat#primate
-[changelog]: https://github.com/primatejs/primate/releases/tag/0.30.0
+[changelog]: https://github.com/primate-run/primate/releases/tag/0.30.0

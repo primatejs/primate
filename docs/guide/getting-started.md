@@ -59,7 +59,7 @@ http://localhost:6161 to run your route.
 
 !!!
 Additional backend languages require loading
-[additional backend packages](https://primatejs.com/modules/backend) in your
+[additional backend packages](https://primate.run/backend) in your
 config.
 !!!
 
@@ -279,9 +279,9 @@ Feel free to open an issue on [Primate's issue tracker][issues] if you find a
 bug or have a feature request.
 
 [r24]: /blog/release-024
-[repo]: https://github.com/primatejs/primate
-[issues]: https://github.com/primatejs/primate/issues
-[primate-app]: https://github.com/primatejs/app
+[repo]: https://github.com/primate-run/primate
+[issues]: https://github.com/primate-run/primate/issues
+[primate-app]: https://github.com/primate-run/app
 [chat]: https://web.libera.chat#primate
 [rcompat]: https://github.com/rcompat/rcompat
 [frontend]: /modules/frontend

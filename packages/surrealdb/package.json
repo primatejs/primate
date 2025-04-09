@@ -1,9 +1,9 @@
 {
   "name": "@primate/surrealdb",
   "version": "0.4.0",
-  "description": "Primate SurrealDB database",
-  "homepage": "https://primatejs.com/modules/surrealdb",
-  "bugs": "https://github.com/primatejs/primate/issues",
+  "description": "SurrealDB driver for Primate",
+  "homepage": "https://primate.run/db/surrealdb",
+  "bugs": "https://github.com/primate-run/primate/issues",
   "license": "MIT",
   "files": [
     "src/**/*.js",
@@ -11,7 +11,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/primatejs/primate",
+    "url": "https://github.com/primate-run/primate",
     "directory": "packages/surrealdb"
   },
   "scripts": {

@@ -16,7 +16,7 @@ const app = {
 
 export default test => {
   test.case("guess URL", async assert => {
-    const url = "https://primatejs.com/";
+    const url = "https://primate.run";
     const status = FOUND;
     const response = respond(new URL(url))(app);
     // assert(await response.text()).null();
