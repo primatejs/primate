@@ -1,0 +1,9 @@
+{
+  "name": "@primate/app/htmx",
+  "dependencies": {
+    "@primate/htmx": "workspace:^",
+    "htmx-esm": "^0.2.1910",
+    "primate": "workspace:^"
+  },
+  "type": "module"
+}

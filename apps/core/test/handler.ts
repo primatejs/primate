@@ -12,12 +12,12 @@ test.get("/handler/error-options", response => {
 
 test.get("/handler/redirect", response => {
   response.status.equals(Status.FOUND);
-  response.headers.includes({ Location: "/redirected" });
+  response.headers.includes({ location: "/redirected" });
 });
 
 test.get("/handler/redirect-status", response => {
   response.status.equals(Status.MOVED_PERMANENTLY);
-  response.headers.includes({ Location: "/redirected" });
+  response.headers.includes({ location: "/redirected" });
 });
 
 test.get("/handler/view", response => {
