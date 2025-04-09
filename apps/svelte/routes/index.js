@@ -9,4 +9,4 @@ export default {
   get() {
     return view("index.svelte", { posts });
   }
-}
+};

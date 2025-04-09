@@ -5,6 +5,7 @@
     "@primate/core": "workspace:^",
     "@primate/i18n": "workspace:^",
     "@primate/svelte": "workspace:^",
+    "@rcompat/invariant": "^0.7.0",
     "primate": "workspace:^",
     "svelte": "^5.25.9"
   },
