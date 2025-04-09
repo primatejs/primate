@@ -6,7 +6,8 @@
 &nbsp;<a href="https://discord.gg/RSg4NNwM4f"><img src="https://img.shields.io/discord/1256590312177012806?style=for-the-badge&label=chat&logoColor=fff&color=5865f2"></a>
 </div>
 <br>
-A universal web framework that leaves you the choice of frontend, backend and runtime, in one stack.
+The universal web framework that leaves you the choice of frontend, backend and
+runtime, in one stack.
 
 ### Frontends
 [![Angular](https://img.shields.io/badge/Angular-DD0031.svg?logo=angular&logoColor=fff&style=for-the-badge)](https://primatejs.com/modules/angular)
@@ -52,7 +53,7 @@ MIT
 By contributing to Primate, you agree that your contributions will be licensed
 under its MIT license.
 
-Clone this repo and https://github.com/prmtrun/app in the same location,
+Clone this repo and https://github.com/primate-run/app in the same location,
 and switch to the `dev` branch in the app repo. Then, in the app repo, run
 
 * `npm run node` for Node in development mode
