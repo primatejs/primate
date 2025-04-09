@@ -536,7 +536,6 @@
         <ul>
           <li><a href="{theme.chat}">discord</a></li>
           <li><a href="https://x.com/{theme.x}">x</a></li>
-          <li><a href="https://reddit.com/{theme.reddit}">reddit</a></li>
           <li><a href="https://github.com/{theme.github}">github</a></li>
         </ul>
       </div>
