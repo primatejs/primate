@@ -1,15 +1,14 @@
 import type Manager from "#Manager";
 import name from "#name";
 import type { RequestHook } from "@primate/core/hook";
-import type RequestFacade from "@primate/core/RequestFacade";
 
-export default (manager: Manager): RequestHook => (request: RequestFacade, next) => {
+export default (manager: Manager): RequestHook => (request, next) => {
   if (!manager.active) {
     return next(request);
   }
 
   const server_locales = Object.keys(manager.locales);
-  const client_locales = request.headers.get("accept-language")
+  const client_locales = request.headers["accept-language"]
     ?.split(";")[0]?.split(",") ?? [];
 
   const locale = request.cookies[name]

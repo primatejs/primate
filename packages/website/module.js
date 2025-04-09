@@ -121,7 +121,7 @@ export default config => {
     async handle(request, next) {
       const { url: { pathname }, headers, cookies } = request;
 
-      const color_scheme = headers.get("Color-Scheme");
+      const color_scheme = headers["color-scheme"];
       const options = {
         secure: env.secure,
       };
@@ -130,7 +130,7 @@ export default config => {
         return new Response(null, {
           status: Status.OK,
           headers: {
-            "Set-Cookie": cookie(cookie_name, color_scheme, options),
+            "set-cookie": cookie(cookie_name, color_scheme, options),
           },
         });
       }

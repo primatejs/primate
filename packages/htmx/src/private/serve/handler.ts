@@ -8,7 +8,7 @@ export default ((name, props, options = {}) => async (app, _, request) => {
 
   return handler(name, props, { head,
     csp: { script_src },
-    partial: Boolean(request!.headers.get("hx-request")),
+    partial: Boolean(request.headers["hx-request"]),
     ...options,
   })(app, _, request);
 }) as Frontend;

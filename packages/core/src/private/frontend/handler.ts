@@ -76,7 +76,7 @@ export default <C>(config: Options<C>): Frontend => {
         },
       };
 
-      if (config.spa && request.headers.get("Accept") === json) {
+      if (config.spa && request.headers.accept === json) {
         return new Response(JSON.stringify({ names, ...shared }), {
           status: options.status ?? Status.OK,
           headers: { ...app.headers(), "Content-Type": json },

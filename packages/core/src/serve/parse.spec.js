@@ -25,11 +25,11 @@ export default test => {
 
   test.case("body is json", async assert => {
     const body = JSON.stringify({ foo: "bar" });
-    const headers = { "Content-Type": json };
-    const response = await r.post("/", { body, headers });
-    assert(response.body).equals({ foo: "bar" });
-    assert(response.body.foo).equals("bar");
-    assert(response.body.bar).undefined();
+    const headers = { "content-type": json };
+    const request = await r.post("/", { body, headers });
+    assert(request.body).equals({ foo: "bar" });
+    assert(request.body.foo).equals("bar");
+    assert(request.body.bar).undefined();
 
     const faulty = `${body}%`;
     const error = `cannot parse body with content type ${json}`;
@@ -41,7 +41,7 @@ export default test => {
     const { body } = await r.post("/", {
        body: encodeURI("foo=bar &bar=baz"),
        headers: {
-         "Content-Type": form,
+         "content-type": form,
        },
     });
 
@@ -78,83 +78,73 @@ export default test => {
 
   test.case("query", async assert => {
     assert((await r.get("/")).query.json()).equals({});
-    const response1 = await r.get("/?foo=bar");
-    assert(response1.query.json()).equals({ foo: "bar" });
-    assert(response1.query.get("foo")).equals("bar");
-    assert(response1.query.get("bar")).undefined();
-    const response2 = await r.get("/?foo=bar&bar=baz");
-    assert(response2.query.json()).equals({ foo: "bar", bar: "baz" });
-    assert(response2.query.get("foo")).equals("bar");
-    assert(response2.query.get("bar")).equals("baz");
-    assert(response2.query.get("baz")).undefined();
-    const response3 = await r.get("/?url=https://primate.run");
-    assert(response3.query.json()).equals({ url: "https://primate.run" });
-    assert(response3.query.get("url")).equals("https://primate.run");
+
+    const r0 = await r.get("/?foo=bar");
+    assert(r0.query).equals({ foo: "bar" });
+    assert(r0.query.foo).equals("bar");
+    assert(r0.query.bar).undefined();
+
+    const r1 = await r.get("/?foo=bar&bar=baz");
+    assert(r1.query).equals({ foo: "bar", bar: "baz" });
+    assert(r1.query.foo).equals("bar");
+    assert(r1.query.bar).equals("baz");
+    assert(r1.query.baz).undefined();
+
+    const r2 = await r.get("/?url=https://primate.run");
+    assert(r2).equals({ url: "https://primate.run" });
+    assert(r2.query.url).equals("https://primate.run");
   });
 
   test.case("cookies", async assert => {
     assert((await r.get("/")).cookies.json()).equals({});
 
-    const response0 = await r.get("/?key=value", { headers: { Cookie: "" } });
-    assert(response0.cookies.json()).equals({});
+    const r0 = await r.get("/?key=value", { headers: { cookie: "" } });
+    assert(r0.cookies).equals({});
 
-    const response1 = await r.get("/?key=value", { headers: {
-      Cookie: "key=value",
-    } });
-    assert(response1.cookies.json()).equals({ key: "value" });
-    assert(response1.cookies.get("key")).equals("value");
-    assert(response1.cookies.get("key2")).undefined();
+    const r1 = await r.get("/?key=value", { headers: { cookie: "key=value" } });
+    assert(r1.cookies).equals({ key: "value" });
+    assert(r1.cookies.key).equals("value");
+    assert(r1.cookies.key2).undefined();
 
-    const response1a = await r.get("/?key=value", { headers: {
-      Cookie: "key=value;",
+    const r1a = await r.get("/?key=value", { headers: {
+      cookie: "key=value;",
     } });
-    assert(response1a.cookies.json()).equals({ key: "value" });
-    assert(response1a.cookies.get("key")).equals("value");
-    assert(response1a.cookies.get("key2")).undefined();
+    assert(r1a.cookies).equals({ key: "value" });
+    assert(r1a.cookies.key).equals("value");
+    assert(r1a.cookies.key2).undefined();
 
-    const response2 = await r.get("/?key=value", { headers: {
-     Cookie: "key=value;key2=value2",
+    const r2 = await r.get("/?key=value", { headers: {
+     cookie: "key=value;key2=value2",
     } });
-    assert(response2.cookies.json()).equals({ key: "value", key2: "value2" });
-    assert(response2.cookies.get("key")).equals("value");
-    assert(response2.cookies.get("key2")).equals("value2");
-    assert(response2.cookies.get("key3")).undefined();
+    assert(r2.cookies).equals({ key: "value", key2: "value2" });
+    assert(r2.cookies.key).equals("value");
+    assert(r2.cookies.key2).equals("value2");
+    assert(r2.cookies.key3).undefined();
   });
 
   test.case("headers", async assert => {
     assert((await r.get("/")).headers.json()).equals({});
 
-    const response1 = await r.get("/?key=value", { headers: {
-       "X-User": "Donald",
+    const r0 = await r.get("/?key=value", { headers: {
+       "x-user": "Donald",
     } });
 
-    assert(response1.headers.json()).equals({ "x-user": "Donald" });
-    assert(response1.headers.get("x-user")).equals("Donald");
-    assert(response1.headers.get("X-User")).equals("Donald");
-    assert(response1.headers.get("X-USER")).equals("Donald");
-    assert(response1.headers.get("x-user2")).undefined();
-    assert(response1.headers.get("X-User2")).undefined();
-    assert(response1.headers.get("X-USER2")).undefined();
+    assert(r0.headers).equals({ "x-user": "Donald" });
+    assert(r0.headers["x-user"]).equals("Donald");
+    assert(r0.headers["X-User"]).undefined();
+    assert(r0.headers["X-USER"]).undefined();
+    assert(r0.headers["x-user2"]).undefined();
   });
 
   test.case("cookies double as headers", async assert => {
-    const response = await r.get("/?key=value", {
+    const r0 = await r.get("/?key=value", {
        headers: {
-         Cookie: "key=value",
+         cookie: "key=value",
        },
-   });
-    assert(response.headers.json()).equals({ cookie: "key=value" });
-    assert(response.headers.get("cookie")).equals("key=value");
-    assert(response.cookies.json()).equals({ key: "value" });
-    assert(response.cookies.get("key")).equals("value");
+    });
+    assert(r0.headers).equals({ cookie: "key=value" });
+    assert(r0.headers.cookie).equals("key=value");
+    assert(r0.cookies).equals({ key: "value" });
+    assert(r0.cookies.key).equals("value");
   });
-
-  test.case("raw", async assert => {
-    const headers = { "Content-Type": json, Cookie: "key=value" };
-    const response = await r.post("/?foo=bar", { body: null, headers });
-    assert(response.query.raw).equals("?foo=bar");
-    assert(response.headers.raw.get("content-type")).equals(json);
-    assert(response.cookies.raw).equals("key=value");
-  });
-
 };

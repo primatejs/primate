@@ -23,16 +23,16 @@ export default (manager: Manager): RequestHook => (request, next) => {
     return next(request);
   }
 
-  const set_locale = request.headers.get(header);
+  const set_locale = request.headers[header.toLowerCase()];
 
-  if (set_locale === null) {
+  if (set_locale === undefined) {
     return next(request);
   }
 
-  return new Response("", {
+  return new Response(null, {
     status: Status.OK,
     headers: {
-      "Set-Cookie": cookie(modulename, set_locale, options),
+      "set-cookie": cookie(modulename, set_locale, options),
     },
   });
 };
