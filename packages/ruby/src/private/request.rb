@@ -66,7 +66,7 @@ class Session
   end
 
   def destroy(foo)
-    @session.call("delete", foo)
+    @session.call("destroy", foo)
   end 
 end
 

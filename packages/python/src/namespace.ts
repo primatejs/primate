@@ -1,5 +1,5 @@
 import borrow from "#borrow";
-import ResponseFunction from "@primate/core/ResponseFunction";
+import type ResponseFunction from "@primate/core/ResponseFunction";
 import error from "primate/handler/error";
 import redirect from "primate/handler/redirect";
 import view from "primate/handler/view";
@@ -9,7 +9,6 @@ import type { PyProxy } from "pyodide/ffi";
 type View = typeof view;
 type ViewParams = Parameters<View>;
 type RedirectParams = Parameters<typeof redirect>;
-type ErrorParams = Parameters<typeof error>;
 type ViewReturn = ReturnType<View>;
 
 export default {
@@ -26,8 +25,8 @@ export default {
     create(data: PyProxy) {
       return session.create(borrow(data));
     },
-    delete() {
-      return session.delete();
+    destroy() {
+      return session.destroy();
     }
   },
   view(name: ViewParams[0], props?: PyProxy, options?: PyProxy): ViewReturn {

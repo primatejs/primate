@@ -16,7 +16,7 @@ export default {
   create(data?: SessionData): void {
     return session().create(data);
   },
-  delete(): void {
-    return session().delete();
+  destroy(): void {
+    return session().destroy();
   }
 };

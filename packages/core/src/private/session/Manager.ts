@@ -13,9 +13,9 @@ export default abstract class SessionManager<
 
   abstract get(id: Id): Session<Id, Data>;
 
-  abstract create(id: Id, session: Session<Id, Data>): void;
+  abstract create(session: Session<Id, Data>): void;
 
-  abstract delete(id: Id): void;
+  abstract destroy(session: Session<Id, Data>): void;
 
   abstract commit(): MaybePromise<void>;
 };

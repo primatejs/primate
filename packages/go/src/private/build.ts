@@ -60,8 +60,8 @@ globalThis.PRMT_SESSION = {
   create(data) {
     session.create(JSON.parse(data));
   },
-  delete() {
-    session.delete();
+  destroy() {
+    session.destroy();
   },
 };
 

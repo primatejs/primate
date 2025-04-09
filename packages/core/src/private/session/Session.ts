@@ -23,26 +23,22 @@ export default class Session<
     return this.#id;
   }
 
-  // read the data of an existing session
   get data(): Data | undefined {
     return this.#data;
   }
 
-  // set data to a session
   set data(data: Data) {
     this.#data = data;
   }
 
-  // commit session
   create(data?: Data) {
     this.#data = data;
     this.#new = false;
-    this.#manager.create(this.#id, this);
+    this.#manager.create(this);
   }
 
-  // delete an existing session
-  delete() {
-    this.#manager.delete(this.#id);
+  destroy() {
+    this.#manager.destroy(this);
     this.#new = true;
   }
 }

@@ -53,7 +53,7 @@ const wrap_stores = (toPy: ToPY, object) => Object.entries(object)
   }), {});
 */
 
-export default (to_py: ToPY, request: RequestFacade) =>
+export default (_: ToPY, request: RequestFacade) =>
   request;
 //  store: wrap_stores(toPy, request.store),
 //);

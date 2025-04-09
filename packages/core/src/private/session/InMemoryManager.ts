@@ -21,12 +21,12 @@ class InMemorySessionManager<Data extends SessionData>
     return session;
   }
 
-  create(id: Id, session: Session<Id, Data>) {
-    this.#sessions.set(id, session);
+  create(session: Session<Id, Data>) {
+    this.#sessions.set(session.id, session);
   }
 
-  delete(id: Id) {
-    this.#sessions.delete(id);
+  destroy(session: Session<Id, Data>) {
+    this.#sessions.delete(session.id);
   }
 
   // noop
