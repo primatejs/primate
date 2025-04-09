@@ -1,0 +1,10 @@
+{
+  "name": "@primate/app/go",
+  "version": "0.0.1",
+  "dependencies": {
+    "@primate/html": "workspace:^",
+    "@primate/go": "workspace:^",
+    "primate": "workspace:^"
+  },
+  "type": "module"
+}

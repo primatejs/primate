@@ -9,19 +9,21 @@ import runtime from "@rcompat/runtime";
 import execute from "@rcompat/stdio/execute";
 import which from "@rcompat/stdio/which";
 import upperfirst from "@rcompat/string/upperfirst";
+import type { BuildAppHook } from "@primate/core/hook";
 
 const command = await which("go");
 const env = {
   GOOS: "js",
   GOARCH: "wasm",
-  GOCACHE: (await execute(`${command} env GOCACHE`)).replaceAll("\n", ""),
+  GOCACHE: (await execute(`${command} env GOCACHE`, {})).replaceAll("\n", ""),
 };
 
-const run = (wasm, go, includes = "request.go") =>
-  `${command} build -o ${wasm} ${go} ${includes}`;
+const run = (wasm: string, go: string) =>
+  `${command} build -o ${wasm} ${go} request.go`;
+
 const verbs_string = verbs.map(upperfirst).join("|");
 const routes_re = new RegExp(`func (?<route>${verbs_string})`, "gu");
-const add_setter = route => `
+const add_setter = (route: string) => `
   var cb${route} js.Func;
   cb${route} = js.FuncOf(func(this js.Value, args[]js.Value) any {
     cb${route}.Release();
@@ -30,7 +32,7 @@ const add_setter = route => `
   js.Global().Set("${route}", cb${route});
 `;
 
-const make_route = route =>
+const make_route = (route: string) =>
   `  ${route.toLowerCase()}(request) {
     const go = new globalThis.Go();
     return WebAssembly.instantiate(route, {...go.importObject}).then(result => {
@@ -39,19 +41,38 @@ const make_route = route =>
     });
   }`;
 
-const js_wrapper = (path, routes) => `
+const js_wrapper = (path: string, routes: string[]) => `
 import env from "@primate/go/env";
 import to_request from "@primate/go/to-request";
 import to_response from "@primate/go/to-response";
+import session from "primate/session";
+
+globalThis.PRMT_SESSION = {
+  get new() {
+    return session.new
+  },
+  get id() {
+    return session.id;
+  },
+  get data() {
+    return JSON.stringify(session.data);
+  },
+  create(data) {
+    session.create(JSON.parse(data));
+  },
+  delete() {
+    session.delete();
+  },
+};
+
 ${
-  runtime === "bun" ? `
-    import route_path from "${path}" with { type: "file" };
-    const route = await Bun.file(route_path).arrayBuffer();
-  ` : `
-    import file from "primate/runtime/file";
-    const route = new Uint8Array(await file(import.meta.url+"/../${path}")
-      .arrayBuffer());
-  `
+  (runtime as "node" | "bun" | "deno") === "bun"
+? `import route_path from "${path}" with { type: "file" };
+const route = await Bun.file(route_path).arrayBuffer();`
+:
+`import file from "primate/runtime/file";
+const route = new Uint8Array(await file(import.meta.url+"/../${path}")
+  .arrayBuffer());`
 }
 env();
 
@@ -59,21 +80,21 @@ export default {
 ${routes.map(route => make_route(route)).join(",\n")}
 };`;
 
-const go_wrapper = (code, routes) =>
-  `// {{{ wrapper prefix
-package main
+const go_wrapper = (code: string, routes: string[]) =>
+  `${code.replace("package main",
+`package main
+
 import "syscall/js"
-// }}} end
-${code}
+`)}
 // {{{ wrapper postfix
 func main() {
-  ${routes.map(route => add_setter(route)).join("\n  ")}
+  ${routes.map((route: string) => add_setter(route)).join("\n  ")}
   select{};
 }
 // }}} end`;
 
-const get_routes = code => [...code.matchAll(routes_re)]
-  .map(({ groups: { route } }) => route);
+const get_routes = (code: string) => [...code.matchAll(routes_re)]
+  .map(({ groups }) => groups!.route);
 
 const type_map = {
   boolean: { transfer: "Bool", type: "bool" },
@@ -98,55 +119,24 @@ const error_default = {
 };
 const root = new FileRef(import.meta.url).up(1);
 
-const create_meta_files = async (directory, app) => {
+const create_meta_files = async (directory: FileRef) => {
   const meta = {
-    mod: "go.mod",
-    sum: "go.sum",
     request: "request.go",
-    session: "session.go",
+    sum: "go.sum",
+    mod: "go.mod",
   };
-  const has_session = app.modules.names.includes("@primate/session");
 
-  if (!await directory.join(meta.mod).exists()) {
-    const request_struct_items = [];
-    const request_make_items = [];
-
-    if (has_session) {
-      request_struct_items.push(
-        "Session Session",
-      );
-      request_make_items.push(
-        "make_session(request),",
-      );
-    }
-
-    const request_struct = request_struct_items.join("\n");
-    const request_make = request_make_items.join("\n");
-
-    // copy go.mod file
-    await directory.join(meta.mod).write(await root.join(meta.mod).text());
-    // copy go.sum file
-    await directory.join(meta.sum).write(await root.join(meta.sum).text());
-
-    // copy transformed request.go file
+  if (!await directory.join(meta.request).exists()) {
+    // copy request.go file
     await directory.join(meta.request).write((await root.join(meta.request)
       .text())
-      .replace("%%REQUEST_STRUCT%%", _ => request_struct)
-      .replace("%%REQUEST_MAKE%%", _ => request_make),
     );
-
-    if (has_session) {
-      // copy session.go file
-      directory.join(meta.session).write(await root.join(meta.session).text());
-    }
+    await directory.join(meta.sum).write((await root.join(meta.sum).text()));
+    await directory.join(meta.mod).write((await root.join(meta.mod).text()));
   }
-
-  return ["request.go"]
-    .concat(has_session ? ["session.go"] : [])
-  ;
 };
 
-export default ({ extension }) => (app, next) => {
+export default (extension: string): BuildAppHook => (app, next) => {
   app.bind(extension, async (directory, file) => {
     const path = directory.join(file);
     const base = path.directory;
@@ -155,7 +145,7 @@ export default ({ extension }) => (app, next) => {
     const js = path.base.concat(".js");
 
     // create meta files
-    const includes = await create_meta_files(base, app);
+    await create_meta_files(base);
 
     const code = await path.text();
     const routes = get_routes(code);
@@ -166,13 +156,13 @@ export default ({ extension }) => (app, next) => {
     await base.join(js).write(js_wrapper(wasm_route_path, routes));
 
     try {
-      log.info(`compiling ${dim(file)} to WebAssembly`, { module: pkgname });
+      log.info(`compiling ${dim(file.toString())} to WebAssembly`, { module: pkgname });
       const cwd = `${base}`;
       // compile .go to .wasm
-      await execute(run(wasm, go, includes.join(" ")),
-        { cwd, env: { HOME: user.HOME, ...env } });
+      await execute(run(wasm, go), { cwd, env: { HOME: user.HOME, ...env } });
     } catch (error) {
-      route_error(file, error);
+      console.log(error);
+      route_error(file.toString(), `${error}`);
     }
   });
 

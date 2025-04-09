@@ -2,7 +2,7 @@ import pkgname from "#pkgname";
 import log from "@primate/core/log";
 import FileRef from "@rcompat/fs/FileRef";
 
-export default (...params) => log.error({
+export default (...params: string[]) => log.error({
   params,
   name: new FileRef(import.meta.url).base,
   module: pkgname,

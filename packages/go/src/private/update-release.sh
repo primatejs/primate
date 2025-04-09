@@ -1,1 +1,1 @@
-go get github.com/primatejs/go/primate@latest
+go get github.com/primate-run/primate

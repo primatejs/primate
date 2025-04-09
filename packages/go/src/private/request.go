@@ -5,13 +5,6 @@ import "encoding/json"
 
 type t_request func(Request) any
 type t_response func(js.Value, []js.Value) any
-type Object map[string]any
-type Array []any
-
-type Dispatcher struct {
-  Get func(string) any
-  Json func() map[string]any
-}
 
 type URL struct {
   Href string
@@ -31,11 +24,10 @@ type URL struct {
 type Request struct {
   Url URL
   Body map[string]any
-  Path Dispatcher
-  Query Dispatcher
-  Cookies Dispatcher
-  Headers Dispatcher
-  %%REQUEST_STRUCT%%
+  Path map[string]any
+  Query map[string]any
+  Headers map[string]any
+  Cookies map[string]any
 }
 
 func make_url(request js.Value) URL {
@@ -59,40 +51,21 @@ func make_url(request js.Value) URL {
   };
 }
 
-func make_dispatcher(key string, request js.Value) Dispatcher {
+func deserde(request js.Value, key string) map[string]any {
   properties := make(map[string]any);
-  value := request.Get(key)
-  json.Unmarshal([]byte(value.Get("stringified").String()), &properties);
+  json.Unmarshal([]byte(request.Get(key).String()), &properties);
 
-  return Dispatcher{
-    // Get
-    func(property string) any {
-      switch properties[property].(type) {
-        case string:
-          return properties[property].(string);
-        default:
-          return nil;
-        }
-    },
-    // Json
-    func() map[string]any {
-      return properties;
-    },
-  };
+  return properties;
 }
 
 func make_request(route t_request, request js.Value) any {
-  body := make(map[string]any);
-  json.Unmarshal([]byte(request.Get("body").String()), &body);
-
   go_request := Request{
     make_url(request),
-    body,
-    make_dispatcher("path", request),
-    make_dispatcher("query", request),
-    make_dispatcher("cookies", request),
-    make_dispatcher("headers", request),
-    %%REQUEST_MAKE%%
+    deserde(request, "body"),
+    deserde(request, "path"),
+    deserde(request, "query"),
+    deserde(request, "headers"),
+    deserde(request, "cookies"),
   };
 
   response := route(go_request);
