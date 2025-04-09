@@ -4,11 +4,13 @@ import save from "@primate/i18n/save";
 import { getContext } from "svelte";
 import { writable } from "svelte/store";
 
-const store = writable("", set => {
-  const { locale } = getContext<Context>(context_name).i18n;
-  set(locale);
+let init = false;
 
-  return () => undefined;
+const store = writable("en-US", set => {
+  if (!init) {
+    set(getContext<Context>(context_name).i18n.locale);
+    init = true;
+  }
 });
 
 export default {
