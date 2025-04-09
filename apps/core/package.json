@@ -1,0 +1,7 @@
+{
+  "name": "@primate/app/core",
+  "dependencies": {
+    "primate": "workspace:^"
+  },
+  "type": "module"
+}
