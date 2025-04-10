@@ -1,8 +1,8 @@
 {
   "name": "@primate/native",
   "version": "0.1.6",
-  "description": "Native applications in Primate",
-  "homepage": "https://primate.run/misc/native",
+  "description": "Native applications for Primate",
+  "homepage": "https://primate.run/docs/native",
   "bugs": "https://github.com/primate-run/primate/issues",
   "license": "MIT",
   "files": [

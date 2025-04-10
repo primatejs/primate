@@ -2,7 +2,7 @@
   "name": "@primate/python",
   "version": "0.1.5",
   "description": "Python backend for Primate",
-  "homepage": "https://primate.run/backend/python",
+  "homepage": "https://primate.run/docs/backend/python",
   "bugs": "https://github.com/primate-run/primate/issues",
   "license": "MIT",
   "files": [

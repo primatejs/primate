@@ -2,7 +2,7 @@
   "name": "@primate/store",
   "version": "0.27.0",
   "description": "Databases for Primate",
-  "homepage": "https://primate.run/db",
+  "homepage": "https://primate.run/docs/db",
   "bugs": "https://github.com/primate-run/primate/issues",
   "license": "MIT",
   "files": [

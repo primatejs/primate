@@ -2,7 +2,7 @@
   "name": "pema",
   "version": "0.1.0",
   "description": "Runtime validation for Primate",
-  "homepage": "https://primate.run/misc/validation",
+  "homepage": "https://primate.run/docs/validation",
   "bugs": "https://github.com/primate-run/primate/issues",
   "license": "MIT",
   "files": [

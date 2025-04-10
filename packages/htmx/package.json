@@ -2,7 +2,7 @@
   "name": "@primate/htmx",
   "version": "0.19.5",
   "description": "HTMX frontend for Primate",
-  "homepage": "https://primate.run/frontend/htmx",
+  "homepage": "https://primate.run/docs/frontend/htmx",
   "bugs": "https://github.com/primate-run/primate/issues",
   "license": "MIT",
   "files": [

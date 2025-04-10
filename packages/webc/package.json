@@ -2,7 +2,7 @@
   "name": "@primate/webc",
   "version": "0.1.2",
   "description": "Web components frontend for Primate",
-  "homepage": "https://primate.run/frontend/web-components",
+  "homepage": "https://primate.run/docs/frontend/web-components",
   "bugs": "https://github.com/primate-run/primate/issues",
   "license": "MIT",
   "files": [

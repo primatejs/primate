@@ -2,7 +2,7 @@
   "name": "@primate/go",
   "version": "0.1.6",
   "description": "Go backend for Primate",
-  "homepage": "https://primate.run/backend/go",
+  "homepage": "https://primate.run/docs/backend/go",
   "bugs": "https://github.com/primate-run/primate/issues",
   "license": "MIT",
   "files": [

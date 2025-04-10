@@ -2,7 +2,7 @@
   "name": "@primate/mongodb",
   "version": "0.1.3",
   "description": "MongoDB driver for Primate",
-  "homepage": "https://primate.run/db/mongodb",
+  "homepage": "https://primate.run/docs/db/mongodb",
   "bugs": "https://github.com/primate-run/primate/issues",
   "license": "MIT",
   "files": [

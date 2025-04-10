@@ -2,7 +2,7 @@
   "name": "@primate/marko",
   "version": "0.1.4",
   "description": "Marko frontend for Primate",
-  "homepage": "https://primate.run/frontend/marko",
+  "homepage": "https://primate.run/docs/frontend/marko",
   "bugs": "https://github.com/primate-run/primate/issues",
   "license": "MIT",
   "files": [

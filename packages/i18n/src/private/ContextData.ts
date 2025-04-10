@@ -1,4 +1,4 @@
-import Locales from "#Locales";
+import type Locales from "#Locales";
 
 type ContextData = {
   locales: Locales,

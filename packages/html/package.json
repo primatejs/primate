@@ -2,7 +2,7 @@
   "name": "@primate/html",
   "version": "0.10.3",
   "description": "HTML frontend for Primate",
-  "homepage": "https://primate.run/frontend/html",
+  "homepage": "https://primate.run/docs/frontend/html",
   "bugs": "https://github.com/primate-run/primate/issues",
   "license": "MIT",
   "files": [

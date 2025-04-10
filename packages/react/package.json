@@ -2,7 +2,7 @@
   "name": "@primate/react",
   "version": "0.12.5",
   "description": "React frontend for Primate",
-  "homepage": "https://primate.run/frontend/react",
+  "homepage": "https://primate.run/docs/frontend/react",
   "bugs": "https://github.com/primate-run/primate/issues",
   "license": "MIT",
   "files": [

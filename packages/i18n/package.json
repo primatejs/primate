@@ -2,7 +2,7 @@
   "name": "@primate/i18n",
   "version": "0.8.3",
   "description": "I18N for Primate",
-  "homepage": "https://primate.run/misc/i18n",
+  "homepage": "https://primate.run/docs/i18n",
   "bugs": "https://github.com/primate-run/primate/issues",
   "license": "MIT",
   "files": [

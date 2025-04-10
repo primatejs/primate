@@ -2,7 +2,7 @@
   "name": "@primate/ruby",
   "version": "0.1.4",
   "description": "Ruby backend for Primate",
-  "homepage": "https://primate.run/backend/ruby",
+  "homepage": "https://primate.run/docs/backend/ruby",
   "bugs": "https://github.com/primate-run/primate/issues",
   "license": "MIT",
   "files": [
