@@ -105,7 +105,7 @@ export default test => {
       assert(() => r(url)).throws(reason);
     },
     path: (url, result) => {
-      assert(r(url).path.json()).equals(result);
+      assert(r(url).path).equals(result);
     },
     assert,
   }));

@@ -77,7 +77,7 @@ export default test => {
   });
 
   test.case("query", async assert => {
-    assert((await r.get("/")).query.json()).equals({});
+    assert((await r.get("/")).query).equals({});
 
     const r0 = await r.get("/?foo=bar");
     assert(r0.query).equals({ foo: "bar" });
@@ -96,7 +96,7 @@ export default test => {
   });
 
   test.case("cookies", async assert => {
-    assert((await r.get("/")).cookies.json()).equals({});
+    assert((await r.get("/")).cookies).equals({});
 
     const r0 = await r.get("/?key=value", { headers: { cookie: "" } });
     assert(r0.cookies).equals({});
@@ -123,7 +123,7 @@ export default test => {
   });
 
   test.case("headers", async assert => {
-    assert((await r.get("/")).headers.json()).equals({});
+    assert((await r.get("/")).headers).equals({});
 
     const r0 = await r.get("/?key=value", { headers: {
        "x-user": "Donald",
