@@ -15,8 +15,8 @@
     "@primate/tailwind": "workspace:^",
     "pema": "workspace:^",
     "primate": "workspace:^",
-    "react": "^19.2.7",
-    "react-dom": "^19.2.7",
-    "tailwindcss": "^4.3.1"
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "tailwindcss": "^4.3.3"
   }
 }

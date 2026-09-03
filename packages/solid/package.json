@@ -31,7 +31,7 @@
     "@babel/core": "^7.29.7",
     "@primate/core": "workspace:^",
     "@rcompat/runtime": "^0.17.0",
-    "babel-preset-solid": "^1.9.12"
+    "babel-preset-solid": "^1.9.15"
   },
   "peerDependencies": {
     "primate": "workspace:^",

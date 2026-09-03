@@ -26,13 +26,13 @@
   },
   "devDependencies": {
     "@rcompat/type": "^0.18.0",
-    "@types/oracledb": "^7.0.1"
+    "@types/oracledb": "^7.0.3"
   },
   "dependencies": {
     "@primate/core": "workspace:^",
     "@rcompat/assert": "^0.14.0",
     "@rcompat/is": "^0.12.1",
-    "oracledb": "^7.0.0",
+    "oracledb": "^7.0.1",
     "pema": "workspace:^"
   },
   "peerDependencies": {

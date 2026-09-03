@@ -22,11 +22,11 @@
     "@rcompat/env": "^0.23.0",
     "pema": "workspace:^",
     "primate": "workspace:^",
-    "react": "^19.2.7",
-    "react-dom": "^19.2.7"
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
   },
   "devDependencies": {
     "@primate/test": "workspace:^",
-    "@types/react": "^19.2.17"
+    "@types/react": "^19.2.18"
   }
 }

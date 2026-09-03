@@ -41,7 +41,7 @@
     "@rcompat/string": "^0.22.0",
     "@rcompat/symbol": "^0.3.0",
     "@rcompat/type": "^0.18.0",
-    "esbuild": "^0.28.1",
+    "esbuild": "^0.28.2",
     "pema": "workspace:^"
   },
   "imports": {

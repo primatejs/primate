@@ -15,14 +15,14 @@
     "@rcompat/http": "^0.31.0",
     "@rcompat/runtime": "^0.17.0",
     "@rcompat/string": "^0.22.0",
-    "marko": "^6.3.3",
+    "marko": "^6.3.48",
     "pema": "workspace:^",
     "primate": "workspace:^",
-    "shiki": "^4.2.0"
+    "shiki": "^4.4.3"
   },
   "devDependencies": {
-    "@angular/common": "^22.0.6",
-    "@angular/core": "^22.0.6",
+    "@angular/common": "^22.1.5",
+    "@angular/core": "^22.1.5",
     "@primate/angular": "workspace:^",
     "@primate/go": "workspace:^",
     "@primate/mongodb": "workspace:^",
@@ -36,7 +36,7 @@
     "@primate/svelte": "workspace:^",
     "@primate/vue": "workspace:^",
     "@rcompat/fs": "^0.35.1",
-    "marked": "^18.0.5",
+    "marked": "^18.0.11",
     "pema": "workspace:^"
   }
 }

@@ -21,10 +21,10 @@
   },
   "devDependencies": {
     "@rcompat/test": "^0.20.0",
-    "@types/node": "^26.1.1",
+    "@types/node": "^26.4.1",
     "@typescript/native": "npm:typescript@^7.0.2",
     "apekit": "0.0.58",
-    "eslint": "^10.7.0",
+    "eslint": "^10.9.1",
     "proby": "^0.22.1",
     "typescript": "npm:@typescript/typescript6@^6.0.2"
   }
